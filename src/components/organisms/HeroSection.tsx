@@ -4,12 +4,12 @@ import TextRevealSmooth from '../atoms/TextRevealSmooth';
 
 export default function HeroSection() {
   const handleChatClick = () => {
-    const text = 'Halo CHESTADOTCOM, saya tertarik untuk membuat website. Boleh konsultasi?';
+    const text = 'Halo chestaa.com, saya tertarik untuk membuat website. Boleh konsultasi?';
     window.open(`https://wa.me/6282125447232?text=${encodeURIComponent(text)}`, '_blank');
   };
 
   return (
-    <section id="home" className="relative min-h-[100vh] pt-32 lg:pt-48 pb-20 overflow-hidden bg-transparent">
+    <section id="home" className="relative min-h-[90vh] pt-28 lg:pt-36 pb-12 overflow-hidden bg-transparent">
       
       {/* Background Gradients & Grids */}
       <div className="absolute inset-0 pointer-events-none -z-10">
@@ -30,7 +30,7 @@ export default function HeroSection() {
           className="mb-8 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-4 py-2 text-xs font-sans font-medium text-gray-300 backdrop-blur-md"
         >
           <span className="w-2 h-2 rounded-full bg-[#D4FF00] animate-pulse" />
-          CHESTADOTCOM / DIGITAL ARCHITECT 2026
+          chestaa.com / DIGITAL ARCHITECT 2026
         </motion.div>
         
         <div className="text-[3rem] sm:text-[4.5rem] lg:text-[5.5rem] font-display font-medium tracking-tight leading-[1.1] text-white max-w-4xl mb-8 flex justify-center">
@@ -73,7 +73,7 @@ export default function HeroSection() {
            initial={{ opacity: 0, scale: 0.9, y: 20 }}
            animate={{ opacity: 1, scale: 1, y: 0 }}
            transition={{ delay: 0.8, duration: 1, ease: "easeOut" }}
-           className="mt-20 flex gap-8 md:gap-16 justify-center text-left"
+           className="mt-12 flex gap-8 md:gap-16 justify-center text-left"
         >
            <div className="flex flex-col">
              <span className="text-3xl font-display font-medium text-white mb-1 flex items-center gap-2">

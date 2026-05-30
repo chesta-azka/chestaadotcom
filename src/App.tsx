@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { motion } from 'motion/react';
+import { motion, useScroll, useTransform } from 'motion/react';
 import { useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import Lenis from 'lenis';
@@ -13,6 +13,7 @@ import FloatingWhatsAppButton from './components/organisms/FloatingWhatsAppButto
 import LoadingScreen from './components/organisms/LoadingScreen.tsx';
 import ProgressBar from './components/atoms/ProgressBar.tsx';
 import MouseGlow from './components/atoms/MouseGlow.tsx';
+import DynamicLocationMeta from './components/atoms/DynamicLocationMeta.tsx';
 import HomePage from './pages/HomePage.tsx';
 import BlogHubPage from './pages/BlogHubPage.tsx';
 
@@ -42,9 +43,14 @@ export default function App() {
     };
   }, []);
 
+  const { scrollY } = useScroll();
+  // Subtle parallax multiplier of -0.06: the background grid drifts upwards at a slower rate
+  const gridY = useTransform(scrollY, [0, 6000], [0, -360]);
+
   return (
     <Router>
       <ScrollToTop />
+      <DynamicLocationMeta />
       <motion.main 
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -56,12 +62,15 @@ export default function App() {
         {/* Subtle Noise Texture */}
         <div className="pointer-events-none fixed inset-0 z-0 opacity-[0.03] bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
 
-        {/* Global Architectural Grid Lines */}
-        <div className="fixed inset-0 pointer-events-none z-[1] flex justify-center w-full max-w-7xl mx-auto border-x border-white/5">
-          <div className="w-1/3 h-full border-r border-white/5 hidden md:block" />
-          <div className="w-1/3 h-full border-r border-white/5 hidden md:block" />
+        {/* Global Architectural Grid Lines with dynamic parallax depth */}
+        <motion.div 
+          style={{ y: gridY }}
+          className="fixed -top-10 -bottom-40 pointer-events-none z-[1] flex justify-center w-full max-w-7xl mx-auto border-x border-white/5"
+        >
+          <div className="w-1/3 h-full border-r border-white/5 hidden md:block opacity-[0.5]" />
+          <div className="w-1/3 h-full border-r border-white/5 hidden md:block opacity-[0.5]" />
           <div className="w-1/3 h-full" />
-        </div>
+        </motion.div>
         
         <div className="relative z-10 w-full max-w-7xl mx-auto flex flex-col">
           <ProgressBar />
@@ -80,3 +89,4 @@ export default function App() {
     </Router>
   );
 }
+

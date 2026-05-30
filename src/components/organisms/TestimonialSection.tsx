@@ -20,7 +20,7 @@ export default function TestimonialSection() {
   }, []);
 
   return (
-    <section className="py-24 md:py-32 relative overflow-hidden bg-[#0a0b10] text-white w-full border-t border-white/5">
+    <section className="py-16 md:py-20 relative overflow-hidden bg-[#0a0b10] text-white w-full border-t border-white/5">
       <div className="absolute inset-0 bg-[#4F46E5]/5" />
       <div className="mx-auto max-w-4xl px-6 relative z-10 text-center">
         <motion.div

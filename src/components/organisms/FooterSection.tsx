@@ -12,7 +12,7 @@ export default function FooterSection() {
             <MessageCircle size={16} /> 0821-2544-7232
           </a>
         </div>
-        <p className="text-[10px] uppercase tracking-widest font-sans font-medium">© 2026 CHESTADOTCOM. All rights reserved.</p>
+        <p className="text-[10px] uppercase tracking-widest font-sans font-medium">© 2026 chestaa.com. All rights reserved.</p>
       </div>
     </footer>
   );

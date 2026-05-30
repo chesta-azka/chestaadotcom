@@ -22,12 +22,12 @@ export default function ContactSection() {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    const text = `Halo CHESTADOTCOM, saya ${formData.name} dari ${formData.business}. Saya tertarik dengan paket ${formData.package}. Boleh konsultasi lebih lanjut?`;
+    const text = `Halo chestaa.com, saya ${formData.name} dari ${formData.business}. Saya tertarik dengan paket ${formData.package}. Boleh konsultasi lebih lanjut?`;
     window.open(`https://wa.me/6282125447232?text=${encodeURIComponent(text)}`, '_blank');
   };
 
   return (
-    <section id="pricing" className="py-32 md:py-48 relative overflow-hidden bg-[#06080F]">
+    <section id="pricing" className="py-16 md:py-24 relative overflow-hidden bg-[#06080F]">
       <div className="absolute inset-0 bg-[#4F46E5]/10 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-[#4F46E5]/20 via-transparent to-transparent opacity-60 mix-blend-screen" />
       <div className="mx-auto max-w-4xl px-6 relative z-10 text-center">
         <motion.div

@@ -31,18 +31,18 @@ export default function TextRevealSmooth({
     }
   };
 
-  // Simple static fade-in transition with a gentle y-axis shift
+  // Simple scroll-linked blur-to-clear fade animation
   const wordVariants = {
     hidden: { 
       opacity: 0, 
-      y: 6 // Gentle 6px translation
+      filter: "blur(6px)"
     },
     visible: { 
       opacity: 1, 
-      y: 0,
+      filter: "blur(0px)",
       transition: {
-        duration: 0.4, // Fast, normal transition
-        ease: "easeOut" as const // Standard industrial ease interface
+        duration: 0.5, // Smooth and fast blur resolution
+        ease: "easeOut" as const
       }
     }
   };

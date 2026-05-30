@@ -38,7 +38,7 @@ export default function FeaturesSection() {
   ];
 
   return (
-    <section ref={containerRef} className="py-32 relative overflow-hidden bg-[#0D111A] text-white rounded-[2.5rem] md:rounded-[4rem] mx-4 md:mx-6 my-16 shadow-[0_32px_64px_rgba(0,0,0,0.5)] ring-1 ring-white/5">
+    <section ref={containerRef} className="py-16 md:py-20 relative overflow-hidden bg-[#0D111A] text-white rounded-[2.5rem] md:rounded-[4rem] mx-4 md:mx-6 my-8 md:my-10 shadow-[0_32px_64px_rgba(0,0,0,0.5)] ring-1 ring-white/5">
       <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff05_1px,transparent_1px),linear-gradient(to_bottom,#ffffff05_1px,transparent_1px)] bg-[size:64px_64px]" />
       
       <div className="mx-auto max-w-7xl px-6 relative z-10">

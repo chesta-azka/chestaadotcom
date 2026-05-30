@@ -26,8 +26,24 @@ export default function Header() {
           transition={{ type: 'spring', stiffness: 100, damping: 20, delay: 0.2 }}
           className="bg-[#0D111A]/80 backdrop-blur-xl border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.4)] rounded-full px-6 py-3 flex items-center justify-between w-full max-w-5xl pointer-events-auto"
         >
-          <Link to="/" className="font-display text-xl font-bold tracking-tight text-white flex items-center gap-2">
-            CHESTA<span className="w-2 h-2 rounded-full bg-[#D4FF00]"></span>
+          <Link to="/" className="flex items-center gap-2.5 group select-none pointer-events-auto">
+            {/* Elegant Geometric Architectural Emblem */}
+            <div className="relative flex items-center justify-center w-8 h-8 rounded-lg bg-[#131825] border border-white/10 group-hover:border-[#D4FF00]/40 transition-colors duration-300">
+              <svg className="w-4 h-4 text-[#D4FF00] group-hover:scale-110 transition-transform duration-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                <path d="m12 3-8 8 8 8 8-8-8-8z" />
+                <path d="m12 8-4 4 4 4 4-4-4-4z" />
+              </svg>
+              <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-[#D4FF00] to-green-400 opacity-0 group-hover:opacity-10 blur-sm transition-opacity duration-300" />
+            </div>
+            
+            <div className="flex flex-col text-left">
+              <span className="font-display text-base font-extrabold tracking-tight text-white leading-none">
+                chestaa<span className="text-[#D4FF00]">.</span>com
+              </span>
+              <span className="font-mono text-[7px] tracking-[0.2em] text-gray-500 uppercase leading-none mt-1">
+                Digital Architect
+              </span>
+            </div>
           </Link>
           <nav className="hidden md:flex gap-8 items-center absolute left-1/2 -translate-x-1/2">
             {links.map((link) => {

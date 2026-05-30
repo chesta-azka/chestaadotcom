@@ -51,17 +51,27 @@ export default function ProjectsSection() {
   };
 
   const cardVariants = {
-    hidden: { opacity: 0, scale: 0.8, y: 30, filter: 'grayscale(100%)' },
+    hidden: { 
+      opacity: 0, 
+      y: 70, 
+      scale: 0.96,
+      filter: 'blur(8px) grayscale(10%)' 
+    },
     visible: { 
       opacity: 1, 
-      scale: 1,
       y: 0, 
-      filter: 'grayscale(0%)',
-      transition: { type: 'spring', stiffness: 100, damping: 20 }
+      scale: 1,
+      filter: 'blur(0px) grayscale(0%)',
+      transition: { 
+        type: 'spring', 
+        stiffness: 85, 
+        damping: 18, 
+        mass: 0.9 
+      }
     }
   };
   return (
-    <section id="work" className="py-32 md:py-48 relative overflow-hidden bg-transparent">
+    <section id="work" className="py-16 md:py-24 relative overflow-hidden bg-transparent">
       <div className="mx-auto max-w-7xl px-6 relative z-10 w-full">
         <motion.div
           initial={{ opacity: 0, scale: 0.8, y: 30 }}

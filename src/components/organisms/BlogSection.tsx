@@ -2,31 +2,14 @@ import { motion } from 'motion/react';
 import { ArrowRight, ArrowUpRight } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import TextRevealSmooth from '../atoms/TextRevealSmooth';
-
-const articles = [
-  { 
-    title: 'Kenapa Instagram Saja Tidak Cukup untuk Bisnis Kamu di 2026', 
-    cat: 'STRATEGY', 
-    date: '12 MEI 2026', 
-    desc: 'Algoritma Instagram berubah liar. Bisnis yang bertumpu 100% pada media sosial kehilangan kendali atas pelanggan mereka.' 
-  },
-  { 
-    title: 'Website Lemot = Kehilangan 40% Calon Pembeli.', 
-    cat: 'PERFORMANCE', 
-    date: '08 MEI 2026', 
-    desc: 'Google sekarang membunuh peringkat website yang load time-nya di atas 2 detik. Ini cara arsitektur kita mengatasinya.' 
-  },
-  { 
-    title: 'Desain Murahan Membuat Bisnis Terlihat Tidak Profesional', 
-    cat: 'DESIGN', 
-    date: '01 MEI 2026', 
-    desc: 'Kesan pertama menentukan harga. Klien bersedia membayar mahal jika profil digital Anda terlihat seperti perusahaan korporat.' 
-  },
-];
+import { ALL_ARTICLES } from '../../data/blogData';
 
 export default function BlogSection() {
+  // Take 3 articles for the home page showcase (featured + 2 others)
+  const homeArticles = ALL_ARTICLES.slice(0, 3);
+
   return (
-    <section id="blog" className="py-32 md:py-48 relative overflow-hidden bg-transparent border-b border-white/5">
+    <section id="blog" className="py-16 md:py-24 relative overflow-hidden bg-transparent border-b border-white/5">
       <div className="mx-auto max-w-7xl px-6 relative z-10 w-full">
         <motion.div
           initial={{ opacity: 0, scale: 0.8, y: 30 }}
@@ -48,16 +31,16 @@ export default function BlogSection() {
             </div>
           </div>
           <Link to="/blog" className="group relative flex items-center justify-center w-24 h-24 rounded-full bg-[#131825] border border-white/10 hover:bg-white/5 transition-colors shrink-0">
-             <span className="sr-only">Read More</span>
+             <span className="sr-only">Read All Journal</span>
              <ArrowUpRight className="text-white transition-transform group-hover:translate-x-1 group-hover:-translate-y-1" size={28} />
           </Link>
         </motion.div>
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-16 lg:gap-12">
-          {articles.map((art, i) => (
+          {homeArticles.map((art, i) => (
             <motion.article 
-              key={i} 
-              className="group cursor-pointer relative"
+              key={art.slug} 
+              className="group cursor-pointer relative flex flex-col h-full bg-[#131825]/30 p-8 rounded-3xl border border-transparent hover:border-white/5 hover:bg-[#131825]/60 transition-all duration-300"
               initial={{ opacity: 0, scale: 0.8, y: 30 }}
               whileInView={{ opacity: 1, scale: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
@@ -71,16 +54,19 @@ export default function BlogSection() {
                   {art.date}
                 </span>
               </div>
-              <h3 className="text-3xl md:text-4xl font-display font-medium text-white leading-[1.1] mb-6 group-hover:text-purple-400 transition-colors tracking-tight">
+              <h3 className="text-3xl md:text-4xl font-display font-medium text-white leading-[1.1] mb-6 group-hover:text-purple-400 transition-colors tracking-tight line-clamp-2">
                 {art.title}
               </h3>
-              <p className="text-base text-gray-400 leading-relaxed font-sans line-clamp-3">
+              <p className="text-base text-gray-400 leading-relaxed font-sans line-clamp-3 mb-8">
                 {art.desc}
               </p>
               
-              <Link to="/blog" className="mt-8 pt-4 flex items-center gap-2 text-sm font-sans font-semibold tracking-widest uppercase text-[#D4FF00] opacity-0 group-hover:opacity-100 transition-opacity">
+              <Link 
+                to={`/blog?read=${art.slug}`} 
+                className="mt-auto pt-4 flex items-center gap-2 text-sm font-sans font-semibold tracking-widest uppercase text-[#D4FF00] opacity-80 group-hover:opacity-100 transition-opacity"
+              >
                 Baca Selengkapnya
-                <ArrowRight size={16} />
+                <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
               </Link>
             </motion.article>
           ))}
