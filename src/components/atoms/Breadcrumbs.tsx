@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ChevronRight, Home, Compass } from 'lucide-react';
 import { motion } from 'motion/react';
@@ -43,6 +44,9 @@ export default function Breadcrumbs({ items }: BreadcrumbsProps) {
     },
     hover: {
       x: 5,
+      y: -2,
+      rotateX: 10,
+      rotateY: -10,
       color: "#ffffff",
       transition: { type: 'spring' as const, stiffness: 450, damping: 25 }
     }
@@ -55,6 +59,32 @@ export default function Breadcrumbs({ items }: BreadcrumbsProps) {
       transition: { type: 'spring' as const, stiffness: 450, damping: 25 }
     }
   };
+
+  useEffect(() => {
+    const list = document.getElementById('breadcrumbs-list');
+    if (list) {
+      const existingScript = list.querySelector('script[type="application/ld+json"]');
+      if (existingScript) existingScript.remove();
+      
+      const schema = {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": allItems.map((item, idx) => ({
+          "@type": "ListItem",
+          "position": idx + 1,
+          "name": item.label,
+          "item": typeof window !== 'undefined'
+            ? window.location.origin + (item.path || window.location.pathname)
+            : (item.path || '/')
+        }))
+      };
+      
+      const script = document.createElement('script');
+      script.type = 'application/ld+json';
+      script.innerHTML = JSON.stringify(schema);
+      list.appendChild(script);
+    }
+  }, [items]); // Re-run if items change
 
   return (
     <nav 
@@ -81,6 +111,7 @@ export default function Breadcrumbs({ items }: BreadcrumbsProps) {
         initial="hidden"
         animate="visible"
         className="flex flex-wrap items-center gap-1.5 md:gap-2 text-[10px] md:text-xs font-mono font-bold tracking-wider uppercase text-gray-500"
+        style={{ perspective: 1000 }}
         id="breadcrumbs-list"
       >
         {allItems.map((item, index) => {

@@ -17,7 +17,7 @@ export default function HeroSection() {
   ];
 
   return (
-    <section id="home" className="relative min-h-screen pt-32 lg:pt-36 pb-20 overflow-hidden bg-transparent flex flex-col items-center justify-start select-none">
+    <section id="home" className="relative pt-32 lg:pt-36 pb-0 md:pb-12 overflow-hidden bg-transparent flex flex-col items-center justify-start select-none">
       
       {/* 1. Dramatic Cosmic Ceiling Spotlight & Ambient Light Rays (Inspired by high-end minimal grid sites) */}
       <div className="absolute top-0 inset-x-0 h-[700px] pointer-events-none overflow-hidden -z-20">
@@ -217,8 +217,9 @@ export default function HeroSection() {
             </Link>
 
             {/* Rates tag indicator */}
-            <div className="flex items-center gap-2 border-l border-white/10 pl-4 py-2 sm:flex hidden text-left select-none">
-              <span className="text-[9px] font-mono font-bold text-[#D4FF00]/80 bg-[#D4FF00]/10 px-2 py-1 rounded inline-block">START RP450K</span>
+            <div className="flex flex-col items-start gap-1 border-l border-white/10 pl-6 py-1 hidden sm:flex text-left select-none">
+              <span className="text-xs font-mono text-gray-500 line-through decoration-red-500/60 uppercase tracking-widest">Rp 1.250.000</span>
+              <span className="text-sm font-mono font-black text-[#D4FF00] bg-[#D4FF00]/10 px-3 py-1 rounded border border-[#D4FF00]/20 tracking-widest shadow-[0_0_15px_rgba(212,255,0,0.1)]">START Rp 450K</span>
             </div>
           </div>
         </motion.div>
