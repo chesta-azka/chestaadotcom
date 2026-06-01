@@ -123,50 +123,18 @@ export default function TestimonialSection() {
     <section 
       className="py-24 md:py-32 relative overflow-hidden bg-transparent text-white w-full select-none" 
       id="testimonials"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
     >
-      {/* Seamless background blending gradients */}
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/[0.01] to-transparent pointer-events-none" />
-      {/* Background glowing light spots */}
-      <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[500px] bg-[#D4FF00]/3 rounded-full filter blur-[150px] pointer-events-none" />
-      <div className="absolute bottom-1/4 left-1/4 w-[400px] h-[400px] bg-indigo-500/2 rounded-full filter blur-[120px] pointer-events-none" />
-
-      <div className="mx-auto max-w-5xl px-6 relative z-10 w-full">
+      <div className="mx-auto max-w-4xl px-6 relative z-10 w-full">
         
-        {/* Section Header */}
-        <div className="max-w-3xl mb-16 md:mb-20">
-          <div className="flex items-center gap-3 mb-4">
-            <span className="w-8 h-[1px] bg-[#D4FF00]" />
-            <span className="text-[10px] font-mono font-bold tracking-[0.3em] text-[#D4FF00] uppercase pt-0.5">
-              TESTIMONIAL & ULASAN KLIEN
-            </span>
-          </div>
-          
-          <div className="text-3xl sm:text-5xl font-display font-medium tracking-tight leading-tight mb-6">
-            <TextRevealSmooth 
-              text="Ulasan Klien yang Membuktikan Kinerja Nyata." 
-              highlightWords={["Membuktikan", "Kinerja", "Nyata."]}
-              highlightClass="font-serif italic text-transparent bg-clip-text bg-gradient-to-r from-[#D4FF00] to-emerald-300 pl-1"
-            />
-          </div>
-          
-          <p className="text-gray-400 font-sans text-xs sm:text-sm max-w-xl leading-relaxed">
-            Kutipan ulasan & pesan asli yang dikirimkan oleh mitra UMKM dan brand lokal kami sesaat setelah website fungsional mereka resmi diluncurkan secara publik.
-          </p>
+        <div className="mb-16">
+          <h2 className="text-3xl font-display font-medium tracking-tight text-white mb-6">
+            Ulasan Klien
+          </h2>
         </div>
 
-        {/* Premium Core Slider Box */}
-        <div className="relative min-h-[460px] sm:min-h-[380px] lg:min-h-[340px] flex flex-col justify-center bg-gradient-to-b from-[#131825]/40 to-transparent border border-white/5 rounded-3xl p-6 sm:p-10 md:p-12 shadow-[0_24px_80px_rgba(0,0,0,0.6)] backdrop-blur-md overflow-hidden">
+        {/* Slider Box */}
+        <div className="relative min-h-[300px] flex flex-col justify-center bg-white/[0.02] border border-white/5 rounded-3xl p-8 sm:p-12 backdrop-blur-md overflow-hidden">
           
-          {/* Subtle top horizontal highlighting line inside the card */}
-          <div className="absolute top-0 inset-x-12 h-[1px] bg-gradient-to-r from-transparent via-[#D4FF00]/40 to-transparent" />
-          
-          {/* Large aesthetic quotes decoration */}
-          <div className="absolute top-8 right-10 text-[120px] font-serif text-white/[0.02] pointer-events-none leading-none select-none">
-            <Quote size={80} strokeWidth={1} className="text-white/[0.015]" />
-          </div>
-
           <AnimatePresence mode="wait" custom={direction}>
             <motion.div
               key={activeIndex}
@@ -175,72 +143,21 @@ export default function TestimonialSection() {
               initial="enter"
               animate="center"
               exit="exit"
-              className="flex flex-col lg:flex-row gap-8 lg:gap-12 items-start lg:items-center justify-between h-full"
+              className="flex flex-col gap-6"
             >
+              <p className="text-xl sm:text-2xl text-gray-200 leading-relaxed font-light">
+                "{current.comment}"
+              </p>
               
-              {/* Left Column: Testimonial core message & quote context */}
-              <div className="flex-1 space-y-6">
-                
-                {/* Five-Star trust score indicator */}
-                <div className="flex items-center gap-1 text-[#D4FF00]">
-                  {[...Array(5)].map((_, i) => (
-                    <Star key={i} size={13} fill="currentColor" className="stroke-none" />
-                  ))}
-                  <span className="text-[10px] font-mono text-gray-400 ml-2 uppercase tracking-widest bg-white/5 border border-white/10 px-2.5 py-0.5 rounded">
-                    5.0 RATED
-                  </span>
-                </div>
-
-                {/* Main Client Comment */}
-                <p className="text-sm sm:text-lg md:text-xl font-sans text-gray-200 leading-relaxed font-normal tracking-tight">
-                  "{current.comment}"
-                </p>
-
-                {/* User author bio block */}
-                <div className="flex items-center gap-4 pt-2">
-                  <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-[#D4FF00]/30 shrink-0 bg-[#0A0D16]">
-                    <img 
-                      src={current.avatar} 
-                      alt={current.name} 
-                      className="w-full h-full object-cover transition-all duration-300"
-                      referrerPolicy="no-referrer"
-                    />
-                  </div>
-                  <div>
-                    <h4 className="font-display font-bold text-white text-base">
-                      {current.name}
-                    </h4>
-                    <p className="text-xs font-sans text-gray-400">
-                      {current.position} &bull; <span className="text-[#D4FF00] font-sans font-medium">{current.companyName}</span> ({current.industry})
-                    </p>
-                  </div>
-                </div>
-
+              <div className="pt-4">
+                <h4 className="font-bold text-lg text-white">{current.name}</h4>
+                <p className="text-sm text-[#D4FF00]">{current.position} - {current.companyName}</p>
               </div>
-
-              {/* Right Column: Performance Badge metrics box */}
-              <div className="w-full lg:w-auto shrink-0 flex flex-col justify-center items-stretch lg:items-end gap-3 lg:border-l lg:border-white/5 lg:pl-10">
-                <div className="bg-[#131825]/80 border border-[#D4FF00]/20 px-6 py-5 rounded-2xl flex flex-col sm:flex-row lg:flex-col items-start gap-3 shadow-[0_12px_40px_rgba(0,0,0,0.5)]">
-                  <div className="flex items-center gap-2">
-                    <span className="inline-flex items-center justify-center w-5 h-5 rounded-full bg-[#D4FF00]/10 text-[#D4FF00]">
-                      <ShieldCheck size={12} strokeWidth={2.5} />
-                    </span>
-                    <span className="text-[10px] text-emerald-400 font-mono font-bold tracking-widest uppercase">Verified Peak</span>
-                  </div>
-                  <div className="flex flex-col text-left">
-                    <span className="text-3xl font-mono font-black text-[#D4FF00] tracking-tight">{current.metric}</span>
-                    <span className="text-[10px] text-gray-400 uppercase font-mono tracking-wider">{current.metricLabel}</span>
-                  </div>
-                </div>
-              </div>
-
             </motion.div>
           </AnimatePresence>
 
-          {/* Slider bottom controls: Dot Indicators & Prev/Next Arrows */}
-          <div className="mt-8 pt-8 border-t border-white/5 flex items-center justify-between gap-6 relative z-10">
-            
-            {/* Playback dots */}
+          {/* Controls */}
+          <div className="mt-8 pt-8 border-t border-white/10 flex items-center justify-between">
             <div className="flex gap-2">
               {testimonials.map((_, idx) => (
                 <button
@@ -249,57 +166,28 @@ export default function TestimonialSection() {
                     setDirection(idx > activeIndex ? 1 : -1);
                     setActiveIndex(idx);
                   }}
-                  className={`h-2.5 rounded-full transition-all duration-500 hover:bg-[#D4FF00]/60 ${idx === activeIndex ? 'w-8 bg-[#D4FF00]' : 'w-2.5 bg-white/15'}`}
-                  aria-label={`Slide to testimonial ${idx + 1}`}
+                  className={`h-2 rounded-full transition-all duration-300 ${idx === activeIndex ? 'w-8 bg-[#D4FF00]' : 'w-2 bg-white/20'}`}
                 />
               ))}
             </div>
 
-            {/* Nav Arrows */}
             <div className="flex gap-3">
               <button
                 onClick={handlePrev}
-                className="w-10 h-10 rounded-full border border-white/10 bg-white/5 text-gray-300 hover:text-white hover:border-[#D4FF00]/40 hover:bg-white/[0.08] transition-all flex items-center justify-center select-none active:scale-95"
-                aria-label="Previous testimonial"
+                className="p-2 rounded-full border border-white/10 hover:bg-white/10 transition-colors"
+                aria-label="Previous"
               >
-                <ArrowLeft size={16} />
+                <ArrowLeft size={18} />
               </button>
               <button
                 onClick={handleNext}
-                className="w-10 h-10 rounded-full border border-white/10 bg-white/5 text-gray-300 hover:text-white hover:border-[#D4FF00]/40 hover:bg-white/[0.08] transition-all flex items-center justify-center select-none active:scale-95"
-                aria-label="Next testimonial"
+                className="p-2 rounded-full border border-white/10 hover:bg-white/10 transition-colors"
+                aria-label="Next"
               >
-                <ArrowRight size={16} />
+                <ArrowRight size={18} />
               </button>
             </div>
-
           </div>
-
-        </div>
-
-        {/* Dynamic call to action with a mini review badge */}
-        <div className="mt-12 flex flex-col sm:flex-row items-center justify-between gap-6 max-w-5xl border border-white/5 rounded-3xl p-6 sm:p-8 bg-white/[0.01] backdrop-blur-sm relative overflow-hidden">
-          <div className="absolute top-0 right-12 w-24 h-24 bg-[#D4FF00]/5 rounded-full blur-2xl pointer-events-none" />
-          
-          <div className="flex items-center gap-4">
-            <div className="w-10 h-10 rounded-full bg-[#131825] border border-white/10 flex items-center justify-center text-[#D4FF00] shrink-0">
-              <MessageSquare size={16} />
-            </div>
-            <div>
-              <h5 className="font-display font-medium text-white text-sm sm:text-base tracking-tight">Ingin performa bisnis melesat seperti mereka?</h5>
-              <p className="text-gray-400 text-xs sm:text-sm font-sans mt-0.5">Konsultasi gratis lewat obrolan santai WhatsApp sekarang.</p>
-            </div>
-          </div>
-
-          <a
-            href="https://wa.me/6282125447232?text=Halo%2520CHESTADOTCOM%252C%2520saya%2520melihat%2520feedback%2520klien%2520Anda%2520dan%2520tertarik%2520dengan%2520layanan%2520pembuatan%2520website%2520premium."
-            target="_blank"
-            rel="noopener noreferrer"
-            className="group whitespace-nowrap inline-flex items-center gap-2.5 px-6 py-3.5 rounded-full bg-[#D4FF00] text-[#06080F] font-mono font-bold text-xs tracking-wider uppercase shadow-[0_10px_25px_rgba(212,255,0,0.25)] hover:shadow-[0_15px_35px_rgba(212,255,0,0.4)] hover:bg-[#e1ff2a] transition-all duration-300"
-          >
-            <span>HUBUNGI VIA WA</span>
-            <ArrowUpRight size={14} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-          </a>
         </div>
 
       </div>

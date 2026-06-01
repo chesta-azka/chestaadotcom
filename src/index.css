@@ -9,28 +9,27 @@
 }
 
 body {
-  background-color: #05060E;
-  background-image: radial-gradient(circle at 50% 0%, #0c0f2b 0%, #05060e 75%);
+  background-color: #06080A;
   color: #F8FAFC;
   overflow-x: hidden;
 }
 
 ::selection {
   background-color: #D4FF00;
-  color: #05060E;
+  color: #06080A;
 }
 
 ::-webkit-scrollbar {
   width: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #05060E;
+  background: #06080A;
 }
 ::-webkit-scrollbar-thumb {
-  background: #14192b;
+  background: #11141a;
   border-radius: 99px;
   border: 1px solid rgba(255,255,255,0.03);
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #1c233c;
+  background: #1c212a;
 }

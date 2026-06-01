@@ -83,7 +83,6 @@ export default function ProjectDetailPage() {
             {/* Overview */}
             <div className="space-y-4">
               <h3 className="text-lg font-display font-semibold text-white flex items-center gap-2.5">
-                <span className="w-1.5 h-6 bg-[#D4FF00] rounded-full inline-block" />
                 Project Overview
               </h3>
               <p className="text-gray-400 font-sans text-base leading-relaxed">
@@ -93,9 +92,8 @@ export default function ProjectDetailPage() {
 
             {/* Challenges */}
             {project.challenges && (
-              <div className="space-y-4 bg-white/[0.01] border border-white/5 rounded-2xl p-6 sm:p-8">
+              <div className="space-y-4">
                 <h3 className="text-lg font-display font-semibold text-white flex items-center gap-2.5">
-                  <AlertCircle size={18} className="text-amber-500" />
                   The Business Challenges
                 </h3>
                 <p className="text-gray-400 font-sans text-sm sm:text-base leading-relaxed">
@@ -108,7 +106,6 @@ export default function ProjectDetailPage() {
             {project.solution && (
               <div className="space-y-6">
                 <h3 className="text-lg font-display font-semibold text-white flex items-center gap-2.5">
-                  <CheckCircle2 size={18} className="text-[#D4FF00]" />
                   Designed & Coded Solutions
                 </h3>
                 
@@ -117,14 +114,14 @@ export default function ProjectDetailPage() {
                 </p>
 
                 {/* Features Checklist */}
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-4">
+                <ul className="space-y-3 pt-4 text-gray-400">
                   {project.features.map((feature, idx) => (
-                    <div key={idx} className="flex items-start gap-3 bg-white/[0.02] border border-white/5 p-4 rounded-xl">
-                      <span className="inline-flex w-5 h-5 rounded-full bg-[#D4FF00]/10 border border-[#D4FF00]/20 items-center justify-center text-[#D4FF00] font-bold text-xs shrink-0 select-none">✓</span>
-                      <span className="text-xs sm:text-sm text-gray-300 font-sans font-medium">{feature}</span>
-                    </div>
+                    <li key={idx} className="flex items-center gap-3">
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#D4FF00] shrink-0" />
+                      <span className="text-sm sm:text-base font-sans">{feature}</span>
+                    </li>
                   ))}
-                </div>
+                </ul>
               </div>
             )}
 

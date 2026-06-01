@@ -62,13 +62,13 @@ export default function App() {
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ type: 'spring', stiffness: 100, damping: 20 }}
-        className="bg-transparent text-white relative"
+        className="bg-[#06080A] text-white relative min-h-screen"
       >
         <MouseGlow />
         
-        {/* Global Blur Elements */}
-        <div className="fixed top-0 left-1/4 w-[500px] h-[500px] bg-[#D4FF00]/5 rounded-full blur-[120px] pointer-events-none z-[0]" />
-        <div className="fixed bottom-0 right-1/4 w-[600px] h-[600px] bg-[#4F46E5]/5 rounded-full blur-[150px] pointer-events-none z-[0]" />
+        {/* Global Blur Elements - More subtle, neutral white light */}
+        <div className="fixed -top-[20%] left-1/4 w-[800px] h-[800px] bg-white/[0.03] rounded-full blur-[150px] pointer-events-none z-[0]" />
+        <div className="fixed top-[20%] right-0 w-[600px] h-[600px] bg-[#D4FF00]/[0.02] rounded-full blur-[150px] pointer-events-none z-[0]" />
 
         {/* Subtle Noise Texture */}
         <div className="pointer-events-none fixed inset-0 z-[1] opacity-[0.02] bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
