@@ -1,0 +1,6 @@
+# https://chestaadotcom.com/ Robots Rules
+User-agent: *
+Allow: /
+
+# Sitemaps integration for Google, Bing, Yahoo indexations
+Sitemap: https://chestaadotcom.com/sitemap.xml

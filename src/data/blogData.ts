@@ -13,21 +13,39 @@ export interface Article {
 
 export const ALL_ARTICLES: Article[] = [
   {
-    slug: 'kenalan-yuk-aku-chesta-dan-ini-wartegdev',
-    title: 'Kenalan Yuk! Aku Chesta, dan Ini WartegDev 🌱',
-    cat: 'PERSONAL',
-    date: '15 APR 2025',
+    slug: 'jasa-website-premium-cisauk-bsd-gading-serpong',
+    title: 'Jasa Pembuatan Website Premium di Cisauk, BSD, & Gading Serpong',
+    cat: 'SEO & LOCAL',
+    date: '02 JUN 2026',
     readTime: '4 MIN READ',
     readTimeMinutes: 4,
-    desc: 'Kisah dibalik WartegDev oleh Chesta Azka Sofyan, seorang pelajar SMP yang menyukai web development. Visi mendigitalisasikan UMKM Indonesia dengan website berkualitas premium namun ramah kantong.',
+    desc: 'Mencari jasa pembuatan website profesional di area Cisauk, BSD City, atau Gading Serpong? CHESTADOTCOM by Chesta Azka Sofyan hadir menawarkan arsitektur digital kelas atas untuk UMKM.',
     featured: true,
     image: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=1200&auto=format&fit=crop',
     content: [
-      "Halo teman-teman! 👋 Perkenalkan, aku Chesta Azka Sofyan, seorang pelajar SMP yang sangat menyukai dunia web development. Sejak pertama kali mengenal barisan kode, aku langsung jatuh cinta dengan kemampuan teknologi dalam mengubah ide sederhana menjadi produk nyata yang bernilai tinggi.",
-      "Dari kecintaan ini, lahirlah WartegDev 🌱. Nama 'Warteg' sengaja dipilih karena merepresentasikan filosofi warung Tegal yang sangat merakyat: menyajikan makanan yang cepat saji, luar biasa ramah di kantong, namun sangat kaya nutrisi, lezat, dan mengenyangkan. WartegDev memiliki misi serupa di dunia digital — menyajikan source code dan situs web premium berkualitas tinggi, super cepat, dan SEO-ready, namun dengan biaya yang sangat masuk akal bagi UMKM.",
-      "Visi utama WartegDev adalah menjadi jembatan digitalisasi bagi UMKM, kreator, dan brand lokal di Indonesia. Kami ingin menepis stigma bahwa untuk memiliki website sekelas korporat internasional, sebuah bisnis kecil harus merogoh kocek puluhan juta rupiah. Di WartegDev, kami merancang arsitektur web yang solid dari awal menggunakan teknologi modern seperti React, Next.js, dan Tailwind CSS agar performanya sekejap mata.",
-      "Naluri menulis devlog ini muncul karena aku ingin membagikan kisah perjuangan belajarku secara terbuka kepada semua orang. Lewat tulisan-tulisan ini, aku berharap bisa menginspirasi sesama generasi muda untuk terus berkarya, sekaligus mengedukasi para pemilik bisnis lokal mengenai pentingnya mengamankan identitas digital agar usaha mereka terlihat jauh lebih serius dan tepercaya di mata klien global.",
-      "Mari kita bertumbuh bersama! Nantikan postingan edukatif seputar kode, inspirasi desain web, performa ultra-cepat, dan jurus-jurus rahasia SEO hanya di devlog pribadi saya."
+      "Halo para pemilik bisnis lokal! Perkenalkan, saya Chesta Azka Sofyan, founder dari CHESTADOTCOM, sebuah studio arsitektur digital yang mendedikasikan diri untuk merancang website berkinerja tinggi bagi bisnis dan UMKM.",
+      "Jika Anda sedang mencari jasa pembuatan website premium di sekitar wilayah Cisauk, BSD City, hingga Gading Serpong, Anda berada di tempat yang tepat. Di era digital 2026, memiliki sekadar 'halaman web' tidak lagi cukup. Anda membutuhkan aset digital yang dirancang khusus untuk memukau calon klien sejak detik pertama.",
+      "Melalui CHESTADOTCOM, saya membawa standar korporat multinasional ke dalam skala bisnis lokal. Fokus utama kami bukan hanya estetika belaka, melainkan performa esktrem (load time di bawah satu detik), integrasi SEO tingkat lanjut yang patuh pada standar algoritma Google terbaru, serta alur konversi (UX) yang secara psikologis mampu mendatangkan klien berkualitas.",
+      "Mengapa harus memilih layanan kami di area Cisauk dan sekitarnya? Karena komunikasi tatap muka bagi brand lokal terkadang jauh lebih efektif. Namun bagi Anda yang berada di luar daerah, seluruh alur diskusi kami dapat dilakukan 100% online secara profesional tanpa hambatan.",
+      "Jangan biarkan bisnis Anda tertinggal karena representasi visual yang berantakan. Percayakan arsitektur digital Anda kepada Chesta Azka Sofyan dan biarkan nama brand Anda bersinar di halaman pertama mesin pencari."
+    ]
+  },
+  {
+    slug: 'mengenal-chestadotcom-chesta-azka-sofyan',
+    title: 'Mengenal CHESTADOTCOM: Visi Digital Premium Chesta Azka Sofyan',
+    cat: 'PERSONAL',
+    date: '01 JUN 2026',
+    readTime: '5 MIN READ',
+    readTimeMinutes: 5,
+    desc: 'Kisah di balik terbentuknya CHESTADOTCOM. Visi besar Chesta Azka Sofyan dalam mendigitalisasikan bisnis Indonesia dengan arsitektur web berkualitas tinggi namun terjangkau.',
+    featured: true,
+    image: 'https://images.unsplash.com/photo-1555099962-4199c345e5dd?q=80&w=1200&auto=format&fit=crop',
+    content: [
+      "Selamat datang di CHESTADOTCOM. Saya Chesta Azka Sofyan, sosok di balik layar yang merancang pengalaman UI/UX sinematik dan arsitektur kode di setiap baris proyek yang kami kerjakan.",
+      "Visi di balik CHESTADOTCOM sangat sederhana namun fundamental: Saya, Chesta Azka Sofyan, ingin menjembatani para pemilik UMKM, kreator, dan entitas profesional dengan standar teknologi tingkat dunia. Seringkali, pembuatan website kelas korporat membutuhkan biaya puluhan juta. Kami hadir untuk mendisrupsi itu—menyediakan produk super premium dengan aksesibilitas harga yang wajar (mulai dari Rp450K).",
+      "Nama CHESTADOTCOM dibangun atas semangat kerajinan digital (digital craftsmanship). Menggunakan ekosistem web modern (seperti Next.js dan Framer Motion), kami memastikan setiap desain yang diluncurkan tidak hanya cantik di permukaan, namun juga kokoh secara infrastruktur.",
+      "Selain melayani jasa desain UI/UX dan web engineering, devlog ini akan menjadi tempat di mana saya membagikan riset terbaru seputar optimasi SEO, kiat-kiat memaksimalkan performa situs, hingga cara memanfaatkan AI guna mendominasi persaingan di Google pencarian.",
+      "Komitmen saya adalah mengubah bisnis 'biasa' menjadi brand digital yang berwibawa tinggi. Mari berkolaborasi dan mendefinisikan ulang masa depan bisnis Anda bersama CHESTADOTCOM."
     ]
   },
   {

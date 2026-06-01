@@ -17,7 +17,7 @@ export default function PortfolioPage() {
 
 
   return (
-    <div className="pt-24 pb-32 min-h-screen relative bg-transparent select-none">
+    <div className="pt-12 pb-32 min-h-screen relative bg-transparent select-none">
       <MetaTags 
         title="Showcase Portfolio — CHESTADOTCOM" 
         description="Jelajahi portfolio digital masterpieces yang dirancang khusus untuk bisnis modern UMKM Indonesia." 

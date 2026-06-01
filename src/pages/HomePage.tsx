@@ -14,8 +14,8 @@ export default function HomePage() {
   return (
     <>
       <MetaTags 
-        title="Digital Architectural Agency" 
-        description="chestaadotcom - Website Premium untuk UMKM yang Ingin Terlihat Lebih Serius." 
+        title="Jasa Pembuatan Website Premium BSD & Cisauk - Chesta Azka Sofyan" 
+        description="CHESTADOTCOM by Chesta Azka Sofyan - Jasa pembuatan website corporate premium untuk UMKM. Melayani area Cisauk, BSD City, dan Gading Serpong." 
         includeFaq={true}
       />
       <HeroSection />

@@ -4,6 +4,15 @@ import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
 export default function HeroSection() {
+  const [isMobile, setIsMobile] = useState(false);
+  
+  useEffect(() => {
+    const checkMobile = () => setIsMobile(window.innerWidth < 1024);
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
   const handleChatClick = () => {
     const text = 'Halo CHESTADOTCOM, saya sangat tertarik dengan layanan jasa digital premium Anda. Bisa bantu analisis potensi brand saya untuk pasar lokal?';
     window.open(`https://wa.me/6282125447232?text=${encodeURIComponent(text)}`, '_blank');
@@ -18,9 +27,10 @@ export default function HeroSection() {
   ];
 
   return (
-    <section id="home" className="relative pt-32 lg:pt-36 pb-0 overflow-hidden bg-transparent flex flex-col items-center justify-start select-none">
+    <section id="home" className="relative pt-24 lg:pt-36 pb-0 overflow-hidden bg-transparent flex flex-col items-center justify-start select-none">
       
       {/* 1. Dramatic Cosmic Ceiling Spotlight & Ambient Light Rays (Inspired by high-end minimal grid sites) */}
+      {!isMobile && (
       <div className="absolute top-0 inset-x-0 h-[700px] pointer-events-none overflow-hidden -z-20">
         
         {/* Overhead neon laser beam emitter */}
@@ -125,6 +135,7 @@ export default function HeroSection() {
           />
         ))}
       </div>
+      )}
 
       {/* 2. Visual Grid lines (Deep Cosmic High-Fidelity Blueprint System - Dytama Inspired Mixed Grid) */}
       <div className="absolute inset-0 -z-10 pointer-events-none overflow-hidden select-none">
@@ -227,198 +238,42 @@ export default function HeroSection() {
           </div>
         </motion.div>
 
-        {/* 3. Triple Visual Mockup Fan-out layout (Collage representation of design capabilities) */}
-        <motion.div
+        {/* 3. Single Visual Feature Mockup (Rumah Tropis Spotlight) */}
+        <motion.div 
           initial={{ opacity: 0, y: 50, scale: 0.96 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-          className="pt-6 sm:pt-8 w-full max-w-4xl relative mx-auto"
+          className="pt-12 w-full max-w-2xl relative mx-auto flex items-center justify-center pointer-events-auto"
         >
-          {/* Subtle frame glow under college */}
-          <div className="absolute inset-x-20 bottom-10 h-32 bg-indigo-500/10 filter blur-[90px] pointer-events-none -z-10" />
-
-          {/* Collaging Stage Grid */}
-          <div className="relative h-[240px] sm:h-[380px] md:h-[430px] w-full flex items-center justify-center overflow-visible">
-            
-            {/* Back Left Mockup Panel - Angled */}
-            <motion.div 
-              whileHover={{ y: -8, rotate: -6, zIndex: 30 }}
-              className="absolute left-0 bottom-4 w-[45%] md:w-[48%] bg-[#0A0D14] border border-white/10 rounded-2xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.6)] aspect-[16/10] select-none text-left flex flex-col -rotate-[5deg] origin-bottom-left transition-transform z-10"
-            >
-              {/* Top Chrome border */}
-              <div className="bg-[#090D15] px-3 py-2 border-b border-white/5 flex items-center gap-1.5 shrink-0 z-20">
-                <span className="w-1.5 h-1.5 rounded-full bg-red-500/50" />
-                <span className="w-1.5 h-1.5 rounded-full bg-yellow-500/50" />
-                <span className="w-1.5 h-1.5 rounded-full bg-green-500/50" />
-                <span className="text-[6px] sm:text-[8px] font-mono text-gray-500 ml-2">architecture // rumahtropis.co.id</span>
+          <motion.div 
+            whileHover={{ y: -10, scale: 1.01 }}
+            className="w-full bg-[#0D111A] border-2 border-[#D4FF00]/20 rounded-2xl overflow-hidden shadow-[0_30px_70px_rgba(0,0,0,0.85)] aspect-[16/10] select-none text-left flex flex-col z-20"
+          >
+            {/* Interactive Chrome Top Bar */}
+            <div className="bg-[#090D15] px-4 py-3 border-b border-white/5 flex items-center justify-between shrink-0">
+              <div className="flex items-center gap-1.5">
+                <span className="w-2.5 h-2.5 rounded-full bg-red-500/70" />
+                <span className="w-2.5 h-2.5 rounded-full bg-yellow-500/70" />
+                <span className="w-2.5 h-2.5 rounded-full bg-green-500/70" />
               </div>
-              <div className="p-3 sm:p-5 flex-1 relative flex flex-col justify-between">
-                <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=600&auto=format&fit=crop" alt="Interior" className="absolute inset-0 w-full h-full object-cover opacity-40 mix-blend-luminosity grayscale hover:grayscale-0 hover:opacity-80 transition-all duration-700" />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0D111A] via-[#0D111A]/80 to-transparent pointer-events-none" />
-                <div className="space-y-1 relative z-10">
-                  <span className="text-[5px] sm:text-[7px] font-mono text-[#D4FF00] uppercase tracking-wider font-extrabold">CREATIVE STUDIO PRESENCE</span>
-                  <h4 className="text-[10px] sm:text-lg font-serif italic text-white leading-tight">Rumah Tropis Architecture</h4>
-                </div>
-                <div className="relative z-10 w-full mt-2">
-                   <div className="flex justify-between items-center text-[5px] sm:text-[8px] font-mono text-gray-400 pt-2 border-t border-white/10">
-                     <span>99% PERFORMANCE SCORE</span>
-                     <span className="text-[#D4FF00] font-bold">SECURE_LINK</span>
-                   </div>
-                </div>
+              <div className="bg-white/5 px-12 py-1 rounded text-[9px] font-mono text-gray-400 tracking-wider">
+                rumahtropis.co.id/showcase
               </div>
-            </motion.div>
-
-            {/* Back Right Mockup Panel - Angled */}
-            <motion.div 
-              whileHover={{ y: -8, rotate: 6, zIndex: 30 }}
-              className="absolute right-0 bottom-4 w-[45%] md:w-[48%] bg-[#0A0D14]/98 border border-white/10 rounded-2xl overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.6)] aspect-[16/10] select-none text-left flex flex-col rotate-[5deg] origin-bottom-right transition-transform z-10"
-            >
-              {/* Top Chrome border */}
-              <div className="bg-[#090D15] px-3 py-2 border-b border-white/5 flex items-center gap-1.5 shrink-0 z-20">
-                <span className="w-1.5 h-1.5 rounded-full bg-red-500/50" />
-                <span className="w-1.5 h-1.5 rounded-full bg-yellow-500/50" />
-                <span className="w-1.5 h-1.5 rounded-full bg-green-500/50" />
-                <span className="text-[6px] sm:text-[8px] font-mono text-gray-500 ml-2">contractor // dytama.com</span>
+              <div className="flex items-center text-gray-500">
+                <Monitor size={10} />
               </div>
-              <div className="p-3 sm:p-5 flex-1 relative flex flex-col justify-between">
-                <img src="https://images.unsplash.com/photo-1504307651254-35680f356f58?q=80&w=600&auto=format&fit=crop" alt="Contractor" className="absolute inset-0 w-full h-full object-cover opacity-40 mix-blend-luminosity grayscale hover:grayscale-0 hover:opacity-80 transition-all duration-700" />
-                <div className="absolute inset-0 bg-gradient-to-t from-[#0B0D13] via-[#0B0D13]/80 to-transparent pointer-events-none" />
-                <div className="space-y-1 relative z-10">
-                  <span className="text-[5px] sm:text-[7px] font-mono text-teal-400 uppercase tracking-wider font-extrabold">INDUSTRIAL B2B PROFILE</span>
-                  <h4 className="text-[10px] sm:text-lg font-display font-medium text-white leading-snug">MEP General Contractor</h4>
-                </div>
-                <div className="relative z-10 w-full mt-2">
-                   <div className="flex justify-between items-center text-[5px] sm:text-[8px] font-mono text-teal-400 pt-2 border-t border-white/10">
-                     <span>B2B TENDER OPTIMIZED</span>
-                     <span className="text-white font-bold">&bull; LIVE</span>
-                   </div>
-                </div>
-              </div>
-            </motion.div>
+            </div>
 
-            {/* PRIME FRONT CENTER Mockup Panel - Bold High-Fidelity Desktop */}
-            <motion.div 
-              whileHover={{ y: -10, scale: 1.01 }}
-              className="absolute left-1/2 -translate-x-1/2 bottom-0 w-[80%] md:w-[75%] bg-[#0D111A] border-2 border-[#D4FF00]/20 rounded-2xl overflow-hidden shadow-[0_30px_70px_rgba(0,0,0,0.85)] aspect-[16/10] select-none text-left flex flex-col z-20 pointer-events-auto"
-            >
-              {/* Interactive Chrome Top Bar */}
-              <div className="bg-[#090D15] px-3 sm:px-4 py-2 sm:py-3 border-b border-white/5 flex items-center justify-between shrink-0">
-                <div className="flex items-center gap-1.5">
-                  <span className="w-2.5 h-2.5 rounded-full bg-red-500/70" />
-                  <span className="w-2.5 h-2.5 rounded-full bg-yellow-500/70" />
-                  <span className="w-2.5 h-2.5 rounded-full bg-green-500/70" />
-                </div>
-                <div className="bg-white/5 px-6 sm:px-12 py-1 rounded text-[8px] sm:text-[9px] font-mono text-gray-400 tracking-wider">
-                  chestadotcom.io/showcase-applet
-                </div>
-                <div className="flex items-center text-gray-500">
-                  <Monitor size={10} className="sm:inline hidden" />
-                </div>
-              </div>
-
-              {/* Wireframe Mockup UI content */}
-              <div className="p-3 sm:p-5 bg-[#0D111A] flex-1 flex flex-col justify-between overflow-hidden">
-                
-                {/* Simulated Header */}
-                <div className="flex items-center justify-between border-b border-white/5 pb-2.5 shrink-0">
-                  <div className="flex items-center gap-1.5">
-                    <div className="w-4 h-4 rounded bg-[#D4FF00] flex items-center justify-center text-[9px] text-black font-extrabold font-mono">C</div>
-                    <span className="text-[8px] sm:text-[10px] font-mono text-white font-bold uppercase tracking-wider">CHESTADOTCOM</span>
-                  </div>
-                  <div className="flex gap-2 sm:gap-4 font-mono text-[6px] sm:text-[8px] text-gray-500 uppercase tracking-widest">
-                    <span>/ PROJECTS</span>
-                    <span className="text-[#D4FF00] font-bold">/ INQUIRE</span>
-                  </div>
-                </div>
-
-                {/* Simulated Layout Elements block */}
-                <div className="grid grid-cols-12 gap-3 sm:gap-4 my-2.5 sm:my-4 flex-1">
-                  
-                  {/* Left Hero showcase info */}
-                  <div className="col-span-12 sm:col-span-7 bg-[#131825] border border-white/5 rounded-xl flex flex-col justify-between relative overflow-hidden group">
-                    <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=600&auto=format&fit=crop" alt="UI" className="absolute inset-0 w-full h-full object-cover opacity-30 group-hover:opacity-60 transition-opacity duration-500 mix-blend-overlay grayscale group-hover:grayscale-0" />
-                    <div className="absolute inset-0 bg-gradient-to-t from-[#131825] via-[#131825]/80 to-transparent pointer-events-none" />
-                    <div className="absolute top-0 right-0 w-20 h-20 bg-[#D4FF00]/10 rounded-full blur-xl pointer-events-none" />
-                    
-                    <div className="p-3 sm:p-4 relative z-10 space-y-1.5 h-full flex flex-col justify-between">
-                      <div>
-                        <span className="text-[5px] sm:text-[7px] font-mono text-[#D4FF00] uppercase tracking-widest bg-[#D4FF00]/10 px-1.5 py-0.5 rounded border border-[#D4FF00]/20 inline-block font-extrabold">LIVE ARCHITECHTURE 2026</span>
-                        <h5 className="font-display font-medium text-white text-[10px] sm:text-base tracking-tight pt-1 leading-snug">
-                          Cybernetic Operations Hub
-                        </h5>
-                        <p className="text-gray-400 text-[8px] sm:text-[10px] font-sans leading-normal max-w-sm line-clamp-2 mt-1">
-                          Meningkatkan conversion-rate UMKM lokal hingga 4x lipat menggunakan full-custom single-page layout super cepat.
-                        </p>
-                      </div>
-                      <div className="flex items-center gap-3 border-t border-white/10 pt-2.5 shrink-0">
-                        <span className="text-[6px] sm:text-[9px] font-mono text-[#D4FF00] flex items-center gap-1 font-bold">
-                          <Zap size={10} className="animate-pulse text-[#D4FF00]" /> 0.8S AVERAGE LOAD SPEED
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Right metrics element */}
-                  <div className="col-span-12 sm:col-span-5 bg-[#131825]/20 border border-white/5 rounded-xl p-3 sm:p-4 flex flex-col justify-between">
-                    <div className="space-y-0.5">
-                      <span className="text-[6px] sm:text-[8px] font-mono text-gray-500 uppercase tracking-widest block">AUDIENCE GROWTH</span>
-                      <div className="flex items-baseline gap-1">
-                        <span className="text-sm sm:text-2xl font-mono font-black text-white">+315%</span>
-                        <span className="text-emerald-400 text-[5px] sm:text-[8px] font-mono font-semibold">▲ TRUST</span>
-                      </div>
-                    </div>
-                    
-                    {/* Visual Vector Spark Line graph bar */}
-                    <div className="h-6 sm:h-12 w-full flex items-end gap-1 px-0.5 pt-2 shrink-0">
-                      <div className="w-full bg-white/5 rounded h-[20%]" />
-                      <div className="w-full bg-white/5 rounded h-[40%]" />
-                      <div className="w-full bg-white/10 rounded h-[35%]" />
-                      <div className="w-full bg-[#D4FF00]/20 rounded h-[75%] relative overflow-hidden">
-                        <div className="absolute inset-0 bg-[#D4FF00] opacity-40 animate-pulse" />
-                      </div>
-                    </div>
-
-                    <div className="flex items-center justify-between text-[5px] sm:text-[8px] font-mono text-gray-500 pt-2 border-t border-white/5 mt-2">
-                      <span>GOOGLE INDEXED</span>
-                      <span className="text-[#D4FF00] font-black">100% OK</span>
-                    </div>
-                  </div>
-
-                </div>
-
-                {/* Card footer metrics label details */}
-                <div className="flex items-center justify-between text-[5px] sm:text-[8px] font-mono text-gray-500 pt-1 border-t border-white/5 shrink-0">
-                  <span className="text-[7px] text-gray-400 font-bold flex items-center gap-1">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping"></span>
-                    CHESTADOTCOM BRANDING LAB INDONESIA CORP 2026
-                  </span>
-                  <span>PREMIUM WEB ENGINE v3.02</span>
-                </div>
-
-              </div>
-            </motion.div>
-
-            {/* Floating Mobile Mockup (Foreground) */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9, y: 15 }}
-              animate={{ opacity: 1, scale: 1, y: 0 }}
-              transition={{ delay: 0.5, duration: 0.8, ease: "easeOut" }}
-              whileHover={{ scale: 1.05, y: -5 }}
-              className="absolute right-[8%] sm:right-[15%] bottom-[-5%] sm:bottom-[-8%] w-[25%] sm:w-[15%] aspect-[9/19] bg-[#06080A] rounded-[1.25rem] sm:rounded-[2rem] border-[3px] border-[#1A1F2E] shadow-[20px_20px_50px_rgba(0,0,0,0.9)] overflow-hidden z-30 pointer-events-auto"
-            >
-               {/* Mobile Notch */}
-               <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[40%] h-3.5 sm:h-5 bg-[#1A1F2E] rounded-b-[10px] z-20" />
-               <img src="https://images.unsplash.com/photo-1586528116311-ad8dd3c8310d?q=80&w=400&auto=format&fit=crop" alt="Mobile UI" className="absolute inset-0 w-full h-full object-cover opacity-60 grayscale hover:grayscale-0 transition-all duration-700 pointer-events-none" />
-               
-               <div className="absolute inset-x-0 bottom-0 p-2 sm:p-3 bg-gradient-to-t from-[#06080A] via-[#06080A]/90 to-transparent">
-                  <div className="w-full flex items-center justify-between text-[4px] sm:text-[6px] font-mono text-white/70">
-                    <span>SEINO LOGISTICS</span>
-                    <span className="text-[#D4FF00] font-bold">&bull; 0.5s</span>
-                  </div>
+            {/* Rumah Tropis Feature Image */}
+            <div className="flex-1 relative overflow-hidden">
+               <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?q=80&w=1200&auto=format&fit=crop" alt="Rumah Tropis" className="w-full h-full object-cover" />
+               <div className="absolute inset-0 bg-gradient-to-t from-[#0D111A] via-transparent to-transparent" />
+               <div className="absolute bottom-8 left-8">
+                  <h4 className="text-2xl font-serif italic text-white leading-tight">Rumah Tropis Architecture</h4>
+                  <p className="text-[#D4FF00] text-xs font-mono tracking-widest mt-1">BRANDING & AESTHETIC DESIGN</p>
                </div>
-            </motion.div>
-
-          </div>
+            </div>
+          </motion.div>
         </motion.div>
 
       </div>

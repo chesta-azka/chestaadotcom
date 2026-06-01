@@ -40,7 +40,7 @@ export default function BlogHubPage() {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="pt-24 pb-32 min-h-screen relative"
+      className="pt-12 pb-32 min-h-screen relative"
     >
       <AnimatePresence mode="wait">
         {activeArticle ? (
