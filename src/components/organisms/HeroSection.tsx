@@ -4,60 +4,6 @@ import { Link } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 
 export default function HeroSection() {
-  const [clickRipple, setClickRipple] = useState<{x: number, y: number, show: boolean}>({ x: 0, y: 0, show: false });
-  const cursorControls = useAnimation();
-
-  useEffect(() => {
-    // Magic mouse sequence
-    const runMouseSequence = async () => {
-      // Start outside bottom right
-      await cursorControls.set({ x: 300, y: 200, opacity: 0 });
-      
-      // Wait for hero to land
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
-      // Smooth glide to the "CTA button" area
-      await cursorControls.start({ 
-        x: [300, 50, 0], 
-        y: [200, 30, 0],
-        opacity: [0, 1, 1],
-        transition: { duration: 1.5, ease: "easeOut", times: [0, 0.7, 1] } 
-      });
-
-      // Quick dip to simulate "Click"
-      await cursorControls.start({
-        scale: 0.9,
-        transition: { duration: 0.1 }
-      });
-
-      // Trigger ripple
-      setClickRipple({ x: 0, y: 0, show: true });
-
-      // Release dip
-      await cursorControls.start({
-        scale: 1,
-        transition: { duration: 0.1 }
-      });
-
-      await new Promise(resolve => setTimeout(resolve, 300));
-      setClickRipple(prev => ({ ...prev, show: false }));
-
-      // Glide away
-      await cursorControls.start({
-        x: -200,
-        y: 100,
-        opacity: 0,
-        transition: { duration: 1.2, ease: "easeIn" }
-      });
-    };
-
-    runMouseSequence();
-    
-    // Auto repeat every 8 seconds
-    const interval = setInterval(runMouseSequence, 8000);
-    return () => clearInterval(interval);
-  }, [cursorControls]);
-
   const handleChatClick = () => {
     const text = 'Halo CHESTADOTCOM, saya sangat tertarik dengan layanan jasa digital premium Anda. Bisa bantu analisis potensi brand saya untuk pasar lokal?';
     window.open(`https://wa.me/6282125447232?text=${encodeURIComponent(text)}`, '_blank');
@@ -262,29 +208,6 @@ export default function HeroSection() {
                 <span>Mulai Kolaborasi</span>
                 <ArrowRight size={13} className="stroke-[3px] transition-transform group-hover:translate-x-1" />
               </button>
-
-              {/* Simulated Auto-Click Animation Overlay */}
-              {clickRipple.show && (
-                <motion.div 
-                  initial={{ opacity: 1, scale: 0.5 }}
-                  animate={{ opacity: 0, scale: 2 }}
-                  transition={{ duration: 0.5, ease: "easeOut" }}
-                  className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-12 h-12 rounded-full border-2 border-[#D4FF00] pointer-events-none z-50"
-                />
-              )}
-
-              {/* Floating Magic Mouse Cursor */}
-              <motion.div 
-                animate={cursorControls}
-                className="absolute top-1/2 right-[10%] drop-shadow-2xl pointer-events-none z-50 flex items-center justify-center"
-              >
-                <div className="relative">
-                   {/* Clean minimal Mac cursor style */}
-                   <svg width="28" height="28" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" className="absolute -left-1 -top-1">
-                      <path d="M5.5 3L18.5 12L12 12.5L16 20.5L13.5 22L9.5 14L4 18.5V3Z" fill="white" stroke="#06080F" strokeWidth="1.5" strokeLinejoin="round"/>
-                   </svg>
-                </div>
-              </motion.div>
             </div>
             
             {/* Secondary Violet Showcase Button */}
@@ -308,7 +231,7 @@ export default function HeroSection() {
         <motion.div
           initial={{ opacity: 0, y: 50, scale: 0.96 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
-          transition={{ delay: 0.6, duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
           className="pt-6 sm:pt-8 w-full max-w-4xl relative mx-auto"
         >
           {/* Subtle frame glow under college */}
@@ -479,7 +402,7 @@ export default function HeroSection() {
             <motion.div
               initial={{ opacity: 0, scale: 0.9, y: 15 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
-              transition={{ delay: 1.1, duration: 0.8, ease: "easeOut" }}
+              transition={{ delay: 0.5, duration: 0.8, ease: "easeOut" }}
               whileHover={{ scale: 1.05, y: -5 }}
               className="absolute right-[8%] sm:right-[15%] bottom-[-5%] sm:bottom-[-8%] w-[25%] sm:w-[15%] aspect-[9/19] bg-[#06080A] rounded-[1.25rem] sm:rounded-[2rem] border-[3px] border-[#1A1F2E] shadow-[20px_20px_50px_rgba(0,0,0,0.9)] overflow-hidden z-30 pointer-events-auto"
             >
