@@ -19,7 +19,9 @@ const packagesList: ChoicePackage[] = [
       "Responsive Handheld Layout",
       "Struktur Google Search Ready",
       "Satu Layar Desain Premium",
-      "Integrasi Tombol WhatsApp Kontak"
+      "Integrasi Tombol WhatsApp Kontak",
+      "Gratis Domain (.my.id, .biz.id)",
+      "Dapat Gunakan Domain Sendiri"
     ],
     waMessage: "Halo Mas Chesta! Saya tertarik untuk memulai dengan Paket UMKM Starter seharga Rp450K+. Bisa diskusi santai?"
   },

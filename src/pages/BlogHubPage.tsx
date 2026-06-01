@@ -51,7 +51,7 @@ export default function BlogHubPage() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -15 }}
             transition={{ duration: 0.4, ease: "easeOut" }}
-            className="mx-auto max-w-3xl px-6 pt-12 relative z-10"
+            className="mx-auto max-w-4xl px-6 pt-12 relative z-10 flex flex-col items-center"
           >
             <MetaTags 
               title={activeArticle.title} 
@@ -118,7 +118,7 @@ export default function BlogHubPage() {
             </article>
 
             {/* Floating Marquee Between Content and CTA */}
-            <div className="-mx-6 md:-mx-[25vw] my-16">
+            <div className="-mx-6 my-16">
                <CreativityMarquee />
             </div>
 
