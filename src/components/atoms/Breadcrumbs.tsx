@@ -34,18 +34,32 @@ export default function Breadcrumbs({ items }: BreadcrumbsProps) {
     visible: {
       opacity: 1,
       x: 0,
+      color: "rgb(156, 163, 175)", // text-gray-400
       transition: {
         type: 'spring' as const,
         stiffness: 260,
         damping: 20
       }
+    },
+    hover: {
+      x: 5,
+      color: "#ffffff",
+      transition: { type: 'spring' as const, stiffness: 450, damping: 25 }
+    }
+  };
+
+  const lineVariants = {
+    initial: { x: '-101%' },
+    hover: { 
+      x: '0%', 
+      transition: { type: 'spring' as const, stiffness: 450, damping: 25 }
     }
   };
 
   return (
     <nav 
       aria-label="Breadcrumb" 
-      className="inline-flex py-2.5 px-4 rounded-xl bg-white/[0.02] border border-white/5 backdrop-blur-sm shadow-sm mb-6 select-none items-center gap-3"
+      className="flex sm:inline-flex flex-wrap py-2.5 px-3 md:px-4 rounded-xl bg-white/[0.02] border border-white/5 backdrop-blur-sm shadow-sm mb-6 select-none items-center gap-2.5 md:gap-3 w-full max-w-full sm:w-auto"
       id="breadcrumbs-nav"
     >
       {/* Decorative Compass icon at start of navigation UI with a rotating visual */}
@@ -79,11 +93,10 @@ export default function Breadcrumbs({ items }: BreadcrumbsProps) {
             <motion.li 
               key={index} 
               itemProp="itemListElement" 
-              itemScope 
+              itemScope={true}
               itemType="https://schema.org/ListItem"
               variants={itemVariants}
-              whileHover={!isLast ? { x: 5 } : undefined}
-              transition={!isLast ? { type: "spring" as const, stiffness: 450, damping: 25 } : undefined}
+              whileHover={!isLast ? "hover" : undefined}
               className="flex items-center gap-1.5 md:gap-2"
               id={`breadcrumb-item-${index}`}
             >
@@ -99,32 +112,32 @@ export default function Breadcrumbs({ items }: BreadcrumbsProps) {
 
               {isLast ? (
                 // Last item is the current page (non-clickable)
-                <span 
-                  className="text-[#D4FF00] font-sans font-medium hover:text-[#D4FF00] transition-colors relative"
-                >
+                <div className="text-[#D4FF00] font-sans font-medium relative flex items-center">
                   <span itemProp="name">{item.label}</span>
-                  {/* Google SEO schema compliant invisible fully-resolved URL */}
-                  <link itemProp="item" href={absoluteUrl} />
-                </span>
+                </div>
               ) : (
                 // Walkable parent path
-                <div className="flex items-center">
+                <div className="flex items-center group cursor-pointer relative">
                   <Link 
-                    itemProp="item" 
                     to={item.path || '/'} 
-                    className="hover:text-white transition-all flex items-center gap-1.5 text-gray-400 group relative pb-0.5 cursor-pointer"
+                    className="transition-all flex items-center gap-1.5 pb-0.5"
                   >
-                    {index === 0 && <Home size={11} className="text-gray-500 mt-[-2px] transition-transform group-hover:scale-110 group-hover:text-[#D4FF00]" />}
+                    {index === 0 && <Home size={11} className="mt-[-2px] transition-transform group-hover:scale-110" />}
                     <span itemProp="name" className="relative pb-0.5 block overflow-hidden">
                       {item.label}
                       {/* Premium smooth slide-in layout line */}
-                      <span className="absolute bottom-0 left-0 w-full h-[1px] bg-[#D4FF00] -translate-x-[101%] group-hover:translate-x-0 transition-transform duration-300 ease-out" />
+                      <motion.span 
+                        variants={lineVariants}
+                        initial="initial"
+                        className="absolute bottom-0 left-0 w-full h-[1px] bg-[#D4FF00]" 
+                      />
                     </span>
                   </Link>
                 </div>
               )}
 
-              {/* Position metadata required by Schema.org definition */}
+              {/* Explicit SEO metadata for Google Rich Snippets */}
+              <meta itemProp="item" content={absoluteUrl} />
               <meta itemProp="position" content={String(index + 1)} />
 
               {/* Trailing chevron separator */}

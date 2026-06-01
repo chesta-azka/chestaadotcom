@@ -112,15 +112,23 @@ export default function Header() {
         {isOpen && (
           <motion.div
             initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0, x: 0 }}
+            exit={{ opacity: 0, x: typeof window !== 'undefined' && window.innerWidth < 768 ? 100 : 0, y: -20 }}
             transition={{ type: 'spring', stiffness: 120, damping: 18 }}
             onClick={(e) => {
               if (e.target === e.currentTarget) {
                 setIsOpen(false);
               }
             }}
-            className="fixed inset-0 z-40 bg-[#06080F]/98 backdrop-blur-2xl flex flex-col items-center justify-center md:hidden cursor-pointer"
+            drag="x"
+            dragConstraints={{ left: 0, right: 0 }}
+            dragElastic={{ left: 0, right: 0.8 }}
+            onDragEnd={(e, info) => {
+              if (info.offset.x > 80 || info.velocity.x > 300) {
+                setIsOpen(false);
+              }
+            }}
+            className="fixed inset-0 z-40 bg-[#06080F]/98 backdrop-blur-2xl flex flex-col items-center justify-center md:hidden cursor-pointer touch-pan-y"
           >
             {/* Ambient subtle glow light */}
             <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-72 h-72 rounded-full bg-[#D4FF00]/5 blur-[120px] pointer-events-none" />

@@ -23,7 +23,7 @@ export default function ProjectDetailPage() {
   const metricLabel = 'Load Time';
 
   return (
-    <div className="pt-24 pb-32 min-h-screen bg-[#06080F] relative overflow-hidden select-none">
+    <div className="pt-24 pb-32 min-h-screen bg-transparent relative overflow-hidden select-none">
       <MetaTags 
         title={`${project.title} — CHESTADOTCOM`} 
         description={project.description} 

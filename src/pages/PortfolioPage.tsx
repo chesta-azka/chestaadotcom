@@ -1,40 +1,22 @@
 import { useState } from 'react';
 import { motion } from 'motion/react';
 import { ArrowUpRight, CheckCircle2 } from 'lucide-react';
+import { Link } from 'react-router-dom';
 import { PROJECTS } from '../data/projects';
 import MetaTags from '../components/atoms/MetaTags';
-import ProjectDetailModal from '../components/molecules/ProjectDetailModal.tsx';
 
 const CATEGORIES = ['All', 'Website', 'Landing Page', 'Company Profile'];
 
 export default function PortfolioPage() {
   const [filter, setFilter] = useState('All');
-  const [selectedProject, setSelectedProject] = useState<any | null>(null);
 
   const filteredProjects = filter === 'All' 
     ? PROJECTS 
     : PROJECTS.filter(p => p.category === filter);
 
-  // Convert raw PROJECTS structure to ProjectType for ProjectDetailModal
-  const convertProjectForModal = (p: typeof PROJECTS[0]) => {
-    return {
-      id: p.id,
-      title: p.title,
-      category: p.category,
-      color: 'bg-[#1a1c29]',
-      metricValue: '0.8s',
-      metricLabel: 'Load Time',
-      link: p.liveLink,
-      imageUrl: p.thumbnail,
-      duration: p.duration,
-      overview: p.overview || p.description,
-      challenges: p.challenges ? [p.challenges] : [],
-      solutions: p.solution ? [p.solution] : []
-    };
-  };
 
   return (
-    <div className="pt-24 pb-32 min-h-screen relative bg-[#06080F] select-none">
+    <div className="pt-24 pb-32 min-h-screen relative bg-transparent select-none">
       <MetaTags 
         title="Showcase Portfolio — CHESTADOTCOM" 
         description="Jelajahi portfolio digital masterpieces yang dirancang khusus untuk bisnis modern UMKM Indonesia." 
@@ -103,28 +85,32 @@ export default function PortfolioPage() {
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, scale: 0.95 }}
-                  onClick={() => setSelectedProject(convertProjectForModal(project))}
-                  className="bg-[#131825]/30 border border-white/5 hover:border-[#D4FF00]/40 rounded-3xl overflow-hidden group transition-all duration-500 flex flex-col relative cursor-pointer aspect-square sm:aspect-auto sm:h-[450px]"
                 >
-                  {/* Image Block */}
-                  <div className="flex-1 w-full relative overflow-hidden bg-[#0A0D14]">
-                    <img 
-                      src={project.thumbnail} 
-                      alt={project.title} 
-                      className="w-full h-full object-cover grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700 ease-out"
-                    />
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent pointer-events-none" />
-                  </div>
-                  
-                  {/* Card Title (Initial View is STRICTLY just Image & Title as requested) */}
-                  <div className="absolute inset-x-0 bottom-0 p-8 z-20">
-                    <span className="text-[10px] font-sans font-semibold text-[#D4FF00] tracking-widest uppercase mb-2 block">
-                      {project.category}
-                    </span>
-                    <h3 className="text-2xl sm:text-3xl font-display font-medium text-white tracking-tight leading-snug group-hover:text-[#D4FF00] transition-colors">
-                      {project.title}
-                    </h3>
-                  </div>
+                  <Link
+                    to={`/portfolio/${project.id}`}
+                    className="block shadow-sm hover:shadow-2xl bg-[#131825]/30 border border-white/5 hover:border-[#D4FF00]/40 rounded-3xl overflow-hidden group transition-all duration-500 flex flex-col relative cursor-pointer aspect-square sm:aspect-auto sm:h-[450px]"
+                  >
+                    {/* Image Block */}
+                    <div className="flex-1 w-full relative overflow-hidden bg-[#0A0D14]">
+                      <img 
+                        src={project.thumbnail} 
+                        alt={project.title} 
+                        className="w-full h-full object-cover grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700 ease-out"
+                        referrerPolicy="no-referrer"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent pointer-events-none" />
+                    </div>
+                    
+                    {/* Card Title */}
+                    <div className="absolute inset-x-0 bottom-0 p-8 z-20">
+                      <span className="text-[10px] font-sans font-semibold text-[#D4FF00] tracking-widest uppercase mb-2 block">
+                        {project.category}
+                      </span>
+                      <h3 className="text-2xl sm:text-3xl font-display font-medium text-white tracking-tight leading-snug group-hover:text-[#D4FF00] transition-colors">
+                        {project.title}
+                      </h3>
+                    </div>
+                  </Link>
                 </motion.div>
               ))}
             </div>
@@ -160,15 +146,6 @@ export default function PortfolioPage() {
            </div>
         </div>
       </div>
-
-      {/* Render the modal */}
-      {selectedProject && (
-        <ProjectDetailModal 
-          project={selectedProject} 
-          isOpen={!!selectedProject} 
-          onClose={() => setSelectedProject(null)} 
-        />
-      )}
     </div>
   );
 }

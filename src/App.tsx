@@ -4,8 +4,9 @@
  */
 
 import { motion, useScroll, useTransform } from 'motion/react';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { Analytics } from '@vercel/analytics/react';
 import Lenis from 'lenis';
 import Header from './components/organisms/Header.tsx';
 import FooterSection from './components/organisms/FooterSection.tsx';
@@ -33,6 +34,8 @@ function ScrollToTop() {
 }
 
 export default function App() {
+  const [appLoaded, setAppLoaded] = useState(false);
+
   useEffect(() => {
     const lenis = new Lenis();
 
@@ -49,12 +52,12 @@ export default function App() {
   }, []);
 
   const { scrollY } = useScroll();
-  // Subtle parallax multiplier of -0.06: the background grid drifts upwards at a slower rate
   const gridY = useTransform(scrollY, [0, 6000], [0, -360]);
 
   return (
     <Router>
       <ScrollToTop />
+      <Analytics />
       <motion.main 
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -81,21 +84,27 @@ export default function App() {
         
         <div className="relative z-10 w-full max-w-7xl mx-auto flex flex-col">
           <ProgressBar />
-          <LoadingScreen />
-          <Header />
+          <LoadingScreen onComplete={() => setAppLoaded(true)} />
           
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/blog" element={<BlogHubPage />} />
-            <Route path="/services" element={<ServicesPage />} />
-            <Route path="/portfolio" element={<PortfolioPage />} />
-            <Route path="/portfolio/:id" element={<ProjectDetailPage />} />
-            <Route path="/about" element={<AboutPage />} />
-            <Route path="/layanan/:slug" element={<ServiceDetailPage />} />
-            <Route path="/area/:cityName" element={<AreaDetailPage />} />
-          </Routes>
-          
-          <FooterSection />
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={appLoaded ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
+            className="flex flex-col flex-1"
+          >
+            <Header />
+            <Routes>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/blog" element={<BlogHubPage />} />
+              <Route path="/services" element={<ServicesPage />} />
+              <Route path="/portfolio" element={<PortfolioPage />} />
+              <Route path="/portfolio/:id" element={<ProjectDetailPage />} />
+              <Route path="/about" element={<AboutPage />} />
+              <Route path="/layanan/:slug" element={<ServiceDetailPage />} />
+              <Route path="/area/:cityName" element={<AreaDetailPage />} />
+            </Routes>
+            <FooterSection />
+          </motion.div>
           <FloatingWhatsAppButton />
         </div>
       </motion.main>

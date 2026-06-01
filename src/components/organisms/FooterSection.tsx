@@ -3,7 +3,9 @@ import { Instagram, MessageCircle, Mail, MapPin, ArrowRight } from 'lucide-react
 
 export default function FooterSection() {
   return (
-    <footer className="pt-24 pb-12 bg-[#06080F] text-gray-400 border-t border-white/5 relative overflow-hidden">
+    <footer className="pt-24 pb-12 bg-transparent text-gray-400 border-t border-white/5 relative overflow-hidden">
+      {/* Seamless background blending gradients */}
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/[0.008] to-transparent pointer-events-none" />
       {/* Decorative Glow */}
       <div className="absolute top-0 right-1/4 w-[500px] h-[500px] bg-[#D4FF00]/5 rounded-full blur-[120px] pointer-events-none" />
 

@@ -1,7 +1,7 @@
 import { motion, AnimatePresence } from 'motion/react';
 import { useState, useEffect } from 'react';
 
-export default function LoadingScreen() {
+export default function LoadingScreen({ onComplete }: { onComplete?: () => void }) {
   const [visible, setVisible] = useState(true);
   const [progress, setProgress] = useState(0);
   const [isFullyLoaded, setIsFullyLoaded] = useState(false);
@@ -21,6 +21,7 @@ export default function LoadingScreen() {
         // Add a micro-delay for the user to perceive the 100% state, then trigger opening
         setTimeout(() => {
           setIsFullyLoaded(true);
+          if (onComplete) onComplete();
         }, 150);
       } else {
         setProgress(Math.floor(start));
@@ -28,7 +29,7 @@ export default function LoadingScreen() {
     }, intervalTime);
 
     return () => clearInterval(timer);
-  }, []);
+  }, [onComplete]);
 
   if (!visible) return null;
 

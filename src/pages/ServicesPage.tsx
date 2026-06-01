@@ -129,7 +129,13 @@ export default function ServicesPage() {
       </motion.div>
 
       {/* Accordion Layout System */}
-      <div className="border-t border-b border-white/10 bg-white/[0.01] rounded-3xl overflow-hidden backdrop-blur-sm relative z-10">
+      <motion.div 
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: '-50px' }}
+        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+        className="border-t border-b border-white/10 bg-white/[0.01] rounded-3xl overflow-hidden backdrop-blur-sm relative z-10"
+      >
         
         {servicesList.map((service, index) => {
           const isOpen = activeTab === service.id;
@@ -296,10 +302,16 @@ export default function ServicesPage() {
           );
         })}
 
-      </div>
+      </motion.div>
 
       {/* SECTION: Wilayah Jangkauan Kota */}
-      <section className="mt-24 border-t border-white/5 pt-16 relative">
+      <motion.section 
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: '-50px' }}
+        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+        className="mt-24 border-t border-white/5 pt-16 relative"
+      >
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-72 h-72 bg-[#06B6D4]/3 rounded-full blur-[100px] pointer-events-none" />
         
         <div className="mb-12 max-w-2xl text-left">
@@ -346,7 +358,7 @@ export default function ServicesPage() {
             </Link>
           ))}
         </div>
-      </section>
+      </motion.section>
 
       {/* SECTION: High-Performance Conversion Call-To-Action Element underneath with animated high fidelity feedback */}
       <motion.section 
@@ -439,12 +451,18 @@ export default function ServicesPage() {
       </motion.section>
 
       {/* Authority footer notice at the bottom under accordion */}
-      <div className="mt-16 text-center max-w-xl mx-auto border border-white/5 rounded-3xl p-6 bg-gradient-to-r from-transparent via-white/[0.01] to-transparent relative overflow-hidden">
+      <motion.div 
+        initial={{ opacity: 0, y: 30 }}
+        whileInView={{ opacity: 1, y: 0 }}
+        viewport={{ once: true, margin: '-50px' }}
+        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
+        className="mt-16 text-center max-w-xl mx-auto border border-white/5 rounded-3xl p-6 bg-gradient-to-r from-transparent via-white/[0.01] to-transparent relative overflow-hidden"
+      >
         <div className="absolute top-0 right-1/2 translate-x-1/2 w-32 h-32 bg-[#D4FF00]/2 rounded-full blur-xl pointer-events-none" />
         <p className="text-xs text-gray-500 font-mono tracking-wide leading-relaxed">
           Semua pilar di atas dirancang dari awal oleh CHESTADOTCOM (Digital Architect 2026) demi memastikan performa performative serta integritas konversi penuh. Tidak ada template murahan, melainkan murni keunggulan desain estetika premium.
         </p>
-      </div>
+      </motion.div>
     </div>
   );
 }
