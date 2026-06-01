@@ -4,6 +4,7 @@ import { ArrowUpRight, CheckCircle2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { PROJECTS } from '../data/projects';
 import MetaTags from '../components/atoms/MetaTags';
+import CreativityMarquee from '../components/organisms/CreativityMarquee.tsx';
 
 const CATEGORIES = ['All', 'Website', 'Landing Page', 'Company Profile'];
 
@@ -146,6 +147,7 @@ export default function PortfolioPage() {
            </div>
         </div>
       </div>
+      <CreativityMarquee />
     </div>
   );
 }

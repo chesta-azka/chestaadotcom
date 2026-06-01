@@ -2,7 +2,6 @@ import { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion } from 'motion/react';
 import ProjectCard, { ProjectType } from '../molecules/ProjectCard.tsx';
-import ProjectDetailModal from '../molecules/ProjectDetailModal.tsx';
 import TextRevealSmooth from '../atoms/TextRevealSmooth';
 import { PROJECTS } from '../../data/projects.ts';
 
@@ -71,7 +70,6 @@ const projects: ProjectType[] = PROJECTS.map((p, index) => {
 
 export default function ProjectsSection() {
   const navigate = useNavigate();
-  const [selectedProject, setSelectedProject] = useState<null | typeof projects[0]>(null);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -154,7 +152,7 @@ export default function ProjectsSection() {
                 key={project.title} 
                 project={project} 
                 index={i} 
-                onClick={() => setSelectedProject(project)}
+                onClick={() => navigate(`/portfolio/${project.id}`)}
                 variants={cardVariants}
               />
             ))}
@@ -183,13 +181,6 @@ export default function ProjectsSection() {
           </motion.a>
         </motion.div>
       </div>
-      {selectedProject && (
-        <ProjectDetailModal 
-          project={selectedProject as any} 
-          isOpen={!!selectedProject} 
-          onClose={() => setSelectedProject(null)} 
-        />
-      )}
     </section>
   );
 }

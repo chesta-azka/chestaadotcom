@@ -5,6 +5,7 @@ import { PROJECTS } from '../data/projects';
 import { ArrowLeft, CheckCircle2, AlertCircle, Calendar, ExternalLink, Zap } from 'lucide-react';
 import MetaTags from '../components/atoms/MetaTags';
 import Breadcrumbs from '../components/atoms/Breadcrumbs';
+import CreativityMarquee from '../components/organisms/CreativityMarquee.tsx';
 
 export default function ProjectDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -39,16 +40,8 @@ export default function ProjectDetailPage() {
           { label: project.title }
         ]} />
 
-        {/* Back Link */}
-        <Link 
-          to="/portfolio" 
-          className="inline-flex items-center gap-2 text-xs font-mono font-bold tracking-widest uppercase text-gray-500 hover:text-[#D4FF00] transition-colors mb-12 block w-max"
-        >
-          <ArrowLeft size={14} /> Back to Showcase
-        </Link>
-
         {/* Hero Section */}
-        <div className="space-y-6 mb-16">
+        <div className="space-y-6 mb-16 mt-12">
           <div className="flex flex-wrap items-center gap-4 text-xs">
             <span className="px-3.5 py-1.5 rounded-full bg-[#D4FF00]/10 border border-[#D4FF00]/20 text-[10px] font-mono font-bold text-[#D4FF00] uppercase tracking-wider">
               {project.category}
@@ -185,6 +178,41 @@ export default function ProjectDetailPage() {
         </div>
 
       </div>
+
+      {/* Suggested Other Projects Section */}
+      <div className="mx-auto max-w-4xl px-6 relative z-10 w-full mt-24 mb-16">
+        <h3 className="text-xl font-display font-semibold text-white mb-8 border-b border-white/5 pb-4">
+          Lihat Mahakarya Lainnya
+        </h3>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {PROJECTS.filter(p => p.id !== project.id).slice(0, 2).map((other) => (
+            <Link 
+              key={other.id} 
+              to={`/portfolio/${other.id}`}
+              className="group block rounded-2xl overflow-hidden border border-white/5 bg-[#131825]/40 hover:border-[#D4FF00]/30 transition-all duration-300"
+            >
+              <div className="relative aspect-video w-full overflow-hidden bg-[#0A0D14]">
+                <img 
+                  src={other.thumbnail} 
+                  alt={other.title} 
+                  className="w-full h-full object-cover grayscale opacity-60 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700" 
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
+              </div>
+              <div className="p-6">
+                <span className="text-[10px] font-mono font-bold text-[#D4FF00] tracking-widest uppercase block mb-2">
+                  {other.category}
+                </span>
+                <h4 className="text-lg font-display text-white group-hover:text-[#D4FF00] transition-colors line-clamp-1">
+                  {other.title}
+                </h4>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </div>
+
+      <CreativityMarquee />
     </div>
   );
 }
