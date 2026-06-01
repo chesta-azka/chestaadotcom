@@ -2,10 +2,10 @@ export const generateAgencyJsonLd = () => {
   return {
     '@context': 'https://schema.org',
     '@type': 'ProfessionalService',
-    name: 'chestaa.com',
-    image: 'https://chestaa.com/og-image.png',
-    '@id': 'https://chestaa.com/',
-    url: 'https://chestaa.com/',
+    name: 'chestaadotcom',
+    image: 'https://chestaadotcom.com/og-image.png',
+    '@id': 'https://chestaadotcom.com/',
+    url: 'https://chestaadotcom.com/',
     telephone: '+6282125447232',
     address: {
       '@type': 'PostalAddress',
@@ -35,7 +35,7 @@ export const generateAgencyJsonLd = () => {
       closes: '23:59',
     },
     priceRange: 'Rp450.000 - Rp5.000.000',
-    description: 'chestaa.com - Digital Architectural Agency providing premium website services for UMKM and local brands in Cisauk, Bogor, BSD, Gading Serpong, and Kebayoran.',
+    description: 'chestaadotcom - Digital Architectural Agency providing premium website services for UMKM and local brands in Cisauk, Bogor, BSD, Gading Serpong, and Kebayoran.',
   };
 };
 

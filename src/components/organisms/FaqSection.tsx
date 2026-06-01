@@ -58,8 +58,28 @@ export default function FaqSection() {
     });
   };
 
+  const schemaMarkup = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    'mainEntity': faqs.map(faq => ({
+      '@type': 'Question',
+      'name': faq.q,
+      'acceptedAnswer': {
+        '@type': 'Answer',
+        'text': faq.a
+      }
+    }))
+  };
+
   return (
-    <section id="faq" className="py-14 md:py-18 bg-transparent border-t border-white/5">
+    <section id="faq" className="py-14 md:py-18 bg-transparent relative overflow-hidden">
+      {/* Seamless background blending gradients */}
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/[0.015] to-transparent pointer-events-none" />
+      {/* JSON-LD FAQ Schema Markup for Google rich snippet visibility */}
+      <script 
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaMarkup) }}
+      />
       <div className="mx-auto max-w-3xl px-6">
         <motion.div
            initial={{ opacity: 0, scale: 0.8, y: 30 }}

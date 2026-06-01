@@ -1,12 +1,19 @@
 import { motion } from 'motion/react';
 
 export interface ProjectType {
+  id?: string;
   title: string;
   category: string;
   color: string;
   metricLabel: string;
   metricValue: string;
+  link: string;
+  imageUrl: string;
   className?: string;
+  duration?: string;
+  overview?: string;
+  challenges?: string[];
+  solutions?: string[];
 }
 
 interface ProjectCardProps {
@@ -26,6 +33,9 @@ export default function ProjectCard({ project, index, onClick, variants }: Proje
       onClick={onClick}
     >
       <div className={`absolute inset-0 transition-transform duration-700 ease-in-out group-hover:scale-105 ${project.color}`} />
+      
+      {/* Project Image */}
+      <img src={project.imageUrl} alt={project.title} className="absolute inset-0 w-full h-full object-cover opacity-50 group-hover:opacity-100 transition-opacity duration-700" />
       
       {/* Overlay gradient */}
       <div className="absolute inset-0 bg-gradient-to-t from-[#06080F]/90 via-[#06080F]/40 to-transparent opacity-80 transition-opacity duration-500 group-hover:opacity-100" />

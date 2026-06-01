@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { motion, useScroll, useSpring } from 'motion/react';
+import { useState, useEffect, useRef } from 'react';
+import { motion, AnimatePresence, useScroll, useSpring } from 'motion/react';
 import { Menu, X } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 
@@ -8,11 +8,37 @@ export default function Header() {
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, { stiffness: 100, damping: 30, restDelta: 0.001 });
   const location = useLocation();
+  const menuRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const handleDocumentClick = (event: MouseEvent | TouchEvent) => {
+      // If the menu is closed, do nothing
+      if (!isOpen) return;
+
+      // If click target exists and is outside of BOTH the menu and the hamburger button
+      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+        // Safely check if we clicked on the button that triggers/toggles the menu to avoid conflict
+        const isToggleClick = (event.target as HTMLElement).closest('.menu-toggle-btn');
+        if (!isToggleClick) {
+          setIsOpen(false);
+        }
+      }
+    };
+
+    document.addEventListener('mousedown', handleDocumentClick);
+    document.addEventListener('touchstart', handleDocumentClick);
+
+    return () => {
+      document.removeEventListener('mousedown', handleDocumentClick);
+      document.removeEventListener('touchstart', handleDocumentClick);
+    };
+  }, [isOpen]);
 
   const links = [
     { name: 'Home', path: '/' },
-    { name: 'Work', path: '/#work' },
-    { name: 'Pricing', path: '/#pricing' },
+    { name: 'Layanan', path: '/services' },
+    { name: 'Portfolio', path: '/portfolio' },
+    { name: 'Tentang', path: '/about' },
     { name: 'Blog', path: '/blog' }
   ];
 
@@ -38,7 +64,7 @@ export default function Header() {
             
             <div className="flex flex-col text-left">
               <span className="font-display text-base font-extrabold tracking-tight text-white leading-none">
-                chestaa<span className="text-[#D4FF00]">.</span>com
+                chestaa<span className="text-[#D4FF00]">dot</span>com
               </span>
               <span className="font-mono text-[7px] tracking-[0.2em] text-gray-500 uppercase leading-none mt-1">
                 Digital Architect
@@ -76,43 +102,102 @@ export default function Header() {
             </a>
           </div>
 
-          <button onClick={() => setIsOpen(!isOpen)} className="md:hidden text-white p-2 rounded-full hover:bg-white/10 transition-colors">
+          <button onClick={() => setIsOpen(!isOpen)} className="md:hidden text-white p-2 rounded-full hover:bg-white/10 transition-colors menu-toggle-btn">
             {isOpen ? <X size={20} /> : <Menu size={20} />}
           </button>
         </motion.div>
       </header>
 
-      <motion.div
-        initial={{ y: '-100%' }}
-        animate={{ y: isOpen ? 0 : '-100%' }}
-        transition={{ type: 'spring', stiffness: 100, damping: 20 }}
-        className="fixed inset-0 z-40 bg-[#06080F]/95 backdrop-blur-xl flex flex-col items-center justify-center md:hidden"
-      >
-        <nav className="flex flex-col gap-8 text-center">
-          {links.map((link) => {
-             const isAnchor = link.path.startsWith('/#');
-             return isAnchor ? (
-              <a
-                key={link.name}
-                href={link.path}
-                className="font-display text-4xl font-medium text-white tracking-tighter"
-                onClick={() => setIsOpen(false)}
+      <AnimatePresence>
+        {isOpen && (
+          <motion.div
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -20 }}
+            transition={{ type: 'spring', stiffness: 120, damping: 18 }}
+            onClick={(e) => {
+              if (e.target === e.currentTarget) {
+                setIsOpen(false);
+              }
+            }}
+            className="fixed inset-0 z-40 bg-[#06080F]/98 backdrop-blur-2xl flex flex-col items-center justify-center md:hidden cursor-pointer"
+          >
+            {/* Ambient subtle glow light */}
+            <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-72 h-72 rounded-full bg-[#D4FF00]/5 blur-[120px] pointer-events-none" />
+            
+            <motion.nav 
+              ref={menuRef}
+              initial="closed"
+              animate="open"
+              exit="closed"
+              variants={{
+                open: {
+                  transition: { staggerChildren: 0.08, delayChildren: 0.15 }
+                },
+                closed: {
+                  transition: { staggerChildren: 0.04, staggerDirection: -1 }
+                }
+              }}
+              className="flex flex-col gap-6 text-center z-10 cursor-default"
+            >
+              {links.map((link) => {
+                const isAnchor = link.path.startsWith('/#');
+                
+                const itemVariants = {
+                  open: { opacity: 1, y: 0, scale: 1, transition: { type: "spring" as const, stiffness: 120, damping: 14 } },
+                  closed: { opacity: 0, y: 25, scale: 0.95, transition: { duration: 0.2 } }
+                };
+
+                return (
+                  <motion.div
+                    key={link.name}
+                    variants={itemVariants}
+                    className="overflow-hidden py-1"
+                  >
+                    {isAnchor ? (
+                      <a
+                        href={link.path}
+                        className={`font-display text-4xl sm:text-5xl font-medium tracking-tight hover:text-[#D4FF00] transition-colors ${
+                          location.hash === link.path.substring(1) ? 'text-[#D4FF00]' : 'text-gray-300'
+                        }`}
+                        onClick={() => setIsOpen(false)}
+                      >
+                        {link.name}
+                      </a>
+                    ) : (
+                      <Link
+                        to={link.path}
+                        className={`font-display text-3xl sm:text-4xl font-medium tracking-tight hover:text-[#D4FF00] transition-colors ${
+                          location.pathname === link.path ? 'text-[#D4FF00]' : 'text-gray-300'
+                        }`}
+                        onClick={() => setIsOpen(false)}
+                      >
+                        {link.name}
+                      </Link>
+                    )}
+                  </motion.div>
+                );
+              })}
+              
+              <motion.div
+                variants={{
+                  open: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 120, damping: 14, delay: 0.45 } },
+                  closed: { opacity: 0, y: 25 }
+                }}
+                className="mt-8"
               >
-                {link.name}
-              </a>
-             ) : (
-              <Link
-                key={link.name}
-                to={link.path}
-                className="font-display text-4xl font-medium text-white tracking-tighter"
-                onClick={() => setIsOpen(false)}
-              >
-                {link.name}
-              </Link>
-             )
-          })}
-        </nav>
-      </motion.div>
+                <a 
+                  href={location.pathname === '/' ? '#pricing' : '/#pricing'} 
+                  onClick={() => setIsOpen(false)}
+                  className="inline-flex text-xs font-mono font-bold text-[#0A0F1C] bg-[#D4FF00] px-8 py-3.5 rounded-full hover:bg-[#c2e600] transition-colors tracking-wider uppercase"
+                >
+                  Get Started
+                </a>
+              </motion.div>
+            </motion.nav>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </>
   );
 }

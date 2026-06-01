@@ -9,13 +9,13 @@ interface MetaTagsProps {
 }
 
 export default function MetaTags({ title, description, path = '/', includeFaq = false }: MetaTagsProps) {
-  const url = `https://chestaa.com${path}`;
+  const url = `https://chestaadotcom.com${path}`;
   const jsonLd = generateAgencyJsonLd();
   const faqJsonLd = includeFaq ? generateFAQSchema() : null;
 
   return (
     <Helmet>
-      <title>{title} | chestaa.com</title>
+      <title>{title} | chestaadotcom</title>
       <meta name="description" content={description} />
       <meta property="og:title" content={title} />
       <meta property="og:description" content={description} />

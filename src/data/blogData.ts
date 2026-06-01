@@ -8,9 +8,28 @@ export interface Article {
   desc: string;
   featured?: boolean;
   content: string[];
+  image?: string;
 }
 
 export const ALL_ARTICLES: Article[] = [
+  {
+    slug: 'kenalan-yuk-aku-chesta-dan-ini-wartegdev',
+    title: 'Kenalan Yuk! Aku Chesta, dan Ini WartegDev 🌱',
+    cat: 'PERSONAL',
+    date: '15 APR 2025',
+    readTime: '4 MIN READ',
+    readTimeMinutes: 4,
+    desc: 'Kisah dibalik WartegDev oleh Chesta Azka Sofyan, seorang pelajar SMP yang menyukai web development. Visi mendigitalisasikan UMKM Indonesia dengan website berkualitas premium namun ramah kantong.',
+    featured: true,
+    image: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=1200&auto=format&fit=crop',
+    content: [
+      "Halo teman-teman! 👋 Perkenalkan, aku Chesta Azka Sofyan, seorang pelajar SMP yang sangat menyukai dunia web development. Sejak pertama kali mengenal barisan kode, aku langsung jatuh cinta dengan kemampuan teknologi dalam mengubah ide sederhana menjadi produk nyata yang bernilai tinggi.",
+      "Dari kecintaan ini, lahirlah WartegDev 🌱. Nama 'Warteg' sengaja dipilih karena merepresentasikan filosofi warung Tegal yang sangat merakyat: menyajikan makanan yang cepat saji, luar biasa ramah di kantong, namun sangat kaya nutrisi, lezat, dan mengenyangkan. WartegDev memiliki misi serupa di dunia digital — menyajikan source code dan situs web premium berkualitas tinggi, super cepat, dan SEO-ready, namun dengan biaya yang sangat masuk akal bagi UMKM.",
+      "Visi utama WartegDev adalah menjadi jembatan digitalisasi bagi UMKM, kreator, dan brand lokal di Indonesia. Kami ingin menepis stigma bahwa untuk memiliki website sekelas korporat internasional, sebuah bisnis kecil harus merogoh kocek puluhan juta rupiah. Di WartegDev, kami merancang arsitektur web yang solid dari awal menggunakan teknologi modern seperti React, Next.js, dan Tailwind CSS agar performanya sekejap mata.",
+      "Naluri menulis devlog ini muncul karena aku ingin membagikan kisah perjuangan belajarku secara terbuka kepada semua orang. Lewat tulisan-tulisan ini, aku berharap bisa menginspirasi sesama generasi muda untuk terus berkarya, sekaligus mengedukasi para pemilik bisnis lokal mengenai pentingnya mengamankan identitas digital agar usaha mereka terlihat jauh lebih serius dan tepercaya di mata klien global.",
+      "Mari kita bertumbuh bersama! Nantikan postingan edukatif seputar kode, inspirasi desain web, performa ultra-cepat, dan jurus-jurus rahasia SEO hanya di devlog pribadi saya."
+    ]
+  },
   {
     slug: 'framework-seo-2026',
     title: 'Framework SEO 2026: Mengapa Desain UI Mempengaruhi Peringkat Google',
@@ -20,6 +39,7 @@ export const ALL_ARTICLES: Article[] = [
     readTimeMinutes: 7,
     desc: 'Google mulai memberi penalti pada website yang terlihat seperti template. Data menunjukkan desain kustom meningkatkan engagement 300% dan on-page time, faktor utama algoritma baru Google.',
     featured: true,
+    image: 'https://placehold.co/800x400/131825/D4FF00?text=SEO+2026',
     content: [
       "Di tahun 2026, taktik optimasi SEO lawas seperti spamming kata kunci atau penumpukan backlink massal sudah tidak lagi relevan. Algoritma modern Google yang bertenaga AI kini berfokus sepenuhnya pada satu hal krusial: Signal Kepuasan Pengguna Nyata (Real User Engagement Signals).",
       "Perubahan terbesar dalam algoritma pencarian Google tahun ini adalah penalti otomatis terhadap website yang menggunakan template generik yang berulang. Sistem Chrome secara anonim mengumpulkan data perilaku pengguna, mendeteksi elemen 'pola bosan' (dwell fatigue). Website yang tampak identik dengan ribuan situs web lain di internet akan langsung tergeser oleh situs dengan pengalaman visual yang unik dan kustom.",
@@ -42,7 +62,8 @@ export const ALL_ARTICLES: Article[] = [
       "Selain hilangnya kendali jangkauan, media sosial memiliki batasan fungsional yang fatal. Anda tidak dapat mengatur alur navigasi pelanggan Anda secara fleksibel. Mereka akan selalu dikelilingi oleh notifikasi pesan, iklan kompetitor, dan distraksi video menarik lainnya tepat saat mereka melihat halaman profil Instagram Anda.",
       "Kehadiran website kustom premium bertindak sebagai 'Hub Utama' dari bisnis Anda. Di sini, Anda memegang 100% kontrol atas narasi, psikologi, dan alur konversi. Pengunjung tidak akan diganggu oleh kompetitor. Mereka mengalami perjalanan brand yang konsisten, profesional, dan tepercaya dari atas hingga bawah.",
       "Mari jadikan media sosial sebagai 'Spoke' (saluran penarik perhatian) dan website premium sebagai 'Hub' (mesin penutup penjualan). Itulah cara brand papan atas mengamankan stabilitas bisnis jangka panjang mereka di era digital."
-    ]
+    ],
+    image: 'https://placehold.co/800x400/131825/D4FF00?text=Instagram+vs+Website'
   },
   {
     slug: 'website-lemot-kehilangan-pembeli',
@@ -55,10 +76,11 @@ export const ALL_ARTICLES: Article[] = [
     content: [
       "Satu detik pertama menentukan uang Anda. Statistik konversi digital global membuktikan bahwa setiap tambahan delay selama 100 milidetik pada saat loading website, akan langsung memotong tingkat konversi penjualan hingga sebesar 7%.",
       "Jika proses memuat website Anda membutuhkan waktu di atas 3 detik, sekitar 40% calon pelanggan Anda akan langsung menutup tab browser dan berpindah ke website kompetitor yang merespons lebih gesit. Pasar modern tidak memiliki ruang toleransi untuk keterlambatan informasi.",
-      "Di chestaa.com, kami mengadopsi standar performa ekstrem. Kami menolak penggunaan framework berat yang menyisipkan ribuan baris sampah kode CSS dan Javascript yang tidak diperlukan. Dengan arsitektur modern berbasis Vite, aset gambar WebP terkompresi super ringkas, dan hosting CDN tier-1, kami memastikan website Anda tuntas dimuat dalam waktu kurang dari 1 detik.",
+      "Di chestaadotcom, kami mengadopsi standar performa ekstrem. Kami menolak penggunaan framework berat yang menyisipkan ribuan baris sampah kode CSS dan Javascript yang tidak diperlukan. Dengan arsitektur modern berbasis Vite, aset gambar WebP terkompresi super ringkas, dan hosting CDN tier-1, kami memastikan website Anda tuntas dimuat dalam waktu kurang dari 1 detik.",
       "Kecepatan superior ini juga disenangi oleh Google Core Web Vitals (terutama metrik LCP dan INP). Website yang gesit akan diberikan kenaikan prioritas indeks pencarian secara signifikan dibandingkan website milik kompetitor Anda yang lambat dan penuh muatan overhead.",
       "Jangan biarkan konsep penawaran hebat produk Anda terbuang sia-sia hanya karena pengunjung tidak sabar menunggu loading layar kosong website Anda. Kinerja tinggi adalah syarat mutlak profesionalisme."
-    ]
+    ],
+    image: 'https://placehold.co/800x400/131825/D4FF00?text=Website+Performance'
   },
   {
     slug: 'desain-murahan-merusak-profesionalisme',
@@ -73,7 +95,8 @@ export const ALL_ARTICLES: Article[] = [
       "Ketika calon pembeli kelas atas mengunjungi website bisnis yang tampak murahan, menggunakan template asal jadi, dengan kombinasi warna acak, font default, dan tata letak berantakan, mereka akan langsung mengasosiasikan hal tersebut dengan kualitas layanan Anda.",
       "Formula logika pembeli sangat simpel: 'Jika website perusahaannya saja dikerjakan setengah hati, maka produk dan layanannya pun pasti berantakan.' Sebaliknya, desain kustom yang presisi, memiliki harmoni warna yang indah, dan layout yang seimbang memancarkan wibawa bisnis berkelas tinggi.",
       "Klien tidak lagi tawar-menawar harga jika sejak awal mereka disuguhi oleh presentasi digital premium yang berkelas. Investasi pada estetika eksklusif adalah jembatan tercepat mewujudkan positioning harga premium bagi produk UMKM unggulan Anda."
-    ]
+    ],
+    image: 'https://placehold.co/800x400/131825/D4FF00?text=Professional+Design'
   },
   {
     slug: 'micro-interactions-rahasia-konversi',
@@ -89,7 +112,8 @@ export const ALL_ARTICLES: Article[] = [
       "Interaksi ini memicu dopamin positif di otak pengguna. Hal ini menciptakan kepuasan sensorik kecil yang membuat interaksi terasa hidup dan responsif. Pengguna merasa memiliki kendali penuh atas sistem digital yang sedang mereka operasikan.",
       "Selain kepuasan psikologis, micro-interactions bertugas mengalihkan arah mata audiens (eye-gaze control) langsung menuju elemen pemicu aksi (Call-To-Action/CTA) penting seperti tombol checkout atau form konsultasi secara natural.",
       "Kami menyusun animasi ini secara cermat menggunakan mesin performa ultra tinggi (Motion React). Tidak ada stutter, tidak ada pelambatan performa, murni dinamika interaksi kelas premium."
-    ]
+    ],
+    image: 'https://placehold.co/800x400/131825/D4FF00?text=Micro+Interactions'
   },
   {
     slug: 'menulis-copywriting-membujuk',
@@ -105,6 +129,7 @@ export const ALL_ARTICLES: Article[] = [
       "Alih-alih menulis 'Kami menjual hosting 10GB super cepat', tulislah 'Kecepatan loading website kami memastikan calon pembeli Anda tidak akan menutup tab sebelum transaksi selesai.' Kaitkan spesifikasi produk langsung ke hasil akhir emosional dan finansial.",
       "Buatlah audiens merasa dipahami rasa frustrasinya sejak awal paragraf. Ketika mereka merasa empati Anda tulus, rasa waspada mereka akan melunak, digantikan oleh antusiasme alami untuk mengeksplorasi solusi yang Anda tawarkan.",
       "Teknik brand storytelling yang anggun ini tidak memaksa audiens bertindak, tetapi menyodorkan panggung logika rasional yang membuat pembelian terasa seperti keputusan cerdas mereka sendiri."
-    ]
-  }
+    ],
+    image: 'https://placehold.co/800x400/131825/D4FF00?text=Copywriting'
+  },
 ];

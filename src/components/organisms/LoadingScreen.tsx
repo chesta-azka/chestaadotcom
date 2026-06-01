@@ -1,14 +1,15 @@
-import { motion } from 'motion/react';
+import { motion, AnimatePresence } from 'motion/react';
 import { useState, useEffect } from 'react';
 
 export default function LoadingScreen() {
   const [visible, setVisible] = useState(true);
   const [progress, setProgress] = useState(0);
+  const [isFullyLoaded, setIsFullyLoaded] = useState(false);
 
   useEffect(() => {
     let start = 0;
     const end = 100;
-    const duration = 1400; // Reach 100% right before cards slide open
+    const duration = 1200; // Reach 100% smoothly
     const intervalTime = 16; 
     const step = end / (duration / intervalTime);
 
@@ -17,6 +18,10 @@ export default function LoadingScreen() {
       if (start >= end) {
         setProgress(end);
         clearInterval(timer);
+        // Add a micro-delay for the user to perceive the 100% state, then trigger opening
+        setTimeout(() => {
+          setIsFullyLoaded(true);
+        }, 150);
       } else {
         setProgress(Math.floor(start));
       }
@@ -28,14 +33,40 @@ export default function LoadingScreen() {
   if (!visible) return null;
 
   return (
-    <motion.div
-      className="fixed inset-0 z-[100] flex items-center justify-center bg-[#06080F]"
-      initial={{ opacity: 1 }}
-      animate={{ opacity: 0 }}
-      transition={{ delay: 2, duration: 0.4 }}
-      onAnimationComplete={() => setVisible(false)}
-    >
-      <div className="flex flex-col items-center gap-6 z-[110] relative text-center select-none">
+    <div className="fixed inset-0 z-[100] flex items-center justify-center overflow-hidden bg-[#06080F]">
+      
+      {/* 1. Cinematic Shockwave Circle: Expands outward from center upon hitting 100% */}
+      <AnimatePresence>
+        {isFullyLoaded && (
+          <motion.div
+            initial={{ scale: 0.05, opacity: 0 }}
+            animate={{ scale: 4.5, opacity: [0, 0.9, 0] }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1.1, ease: [0.16, 1, 0.3, 1] }}
+            className="absolute w-[200px] h-[200px] rounded-full border-2 border-[#D4FF00] bg-radial-gradient from-[#D4FF40]/15 to-transparent pointer-events-none z-[80] filter blur-[1px]"
+          />
+        )}
+      </AnimatePresence>
+
+      {/* 2. Soft expanding radial ambient light leakage */}
+      <AnimatePresence>
+        {isFullyLoaded && (
+          <motion.div
+            initial={{ scale: 0.1, opacity: 0 }}
+            animate={{ scale: 5, opacity: [0, 0.4, 0] }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1.3, ease: "easeOut", delay: 0.05 }}
+            className="absolute w-[400px] h-[400px] rounded-full bg-emerald-500/10 pointer-events-none z-[79] filter blur-[40px]"
+          />
+        )}
+      </AnimatePresence>
+
+      {/* 3. Center Counter Content Panel: smooth slide & fade away */}
+      <motion.div 
+        className="flex flex-col items-center gap-6 z-[90] relative text-center select-none text-white"
+        animate={isFullyLoaded ? { opacity: 0, scale: 0.85, y: -20 } : { opacity: 1, scale: 1, y: 0 }}
+        transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+      >
         <motion.h1
           className="text-[#D4FF00] text-3xl sm:text-4xl font-display font-extrabold tracking-tight"
           initial={{ opacity: 0, y: 15 }}
@@ -61,21 +92,37 @@ export default function LoadingScreen() {
             INITIALIZING ARCHITECT
           </span>
         </div>
-      </div>
+      </motion.div>
 
+      {/* 4. Horizontal Split-Screen Curtains. Protruding round elements model a splitting circle that widens and disappears */}
+      {/* LEFT PANEL */}
       <motion.div
-        className="absolute top-0 left-0 right-0 h-1/2 bg-[#06080F] z-50 pointer-events-none"
-        initial={{ y: 0 }}
-        animate={{ y: '-100%' }}
-        transition={{ delay: 1.5, duration: 0.8, ease: 'easeInOut' }}
-      />
+        className="absolute top-0 bottom-0 left-0 w-1/2 bg-[#06080F] z-[60] pointer-events-none"
+        initial={{ x: 0 }}
+        animate={isFullyLoaded ? { x: '-101%' } : { x: 0 }}
+        transition={{ duration: 0.95, ease: [0.76, 0, 0.24, 1] }}
+      >
+        {/* Protruding rounded bubble on the dividing edge */}
+        <div className="absolute right-[-100px] sm:right-[-150px] top-1/2 -translate-y-1/2 w-[200px] sm:w-[300px] h-[350px] sm:h-[450px] bg-[#06080F] rounded-full" />
+      </motion.div>
+
+      {/* RIGHT PANEL */}
       <motion.div
-        className="absolute bottom-0 left-0 right-0 h-1/2 bg-[#06080F] z-50 pointer-events-none"
-        initial={{ y: 0 }}
-        animate={{ y: '100%' }}
-        transition={{ delay: 1.5, duration: 0.8, ease: 'easeInOut' }}
-      />
-    </motion.div>
+        className="absolute top-0 bottom-0 right-0 w-1/2 bg-[#06080F] z-[60] pointer-events-none"
+        initial={{ x: 0 }}
+        animate={isFullyLoaded ? { x: '101%' } : { x: 0 }}
+        transition={{ duration: 0.95, ease: [0.76, 0, 0.24, 1] }}
+        onAnimationComplete={() => {
+          if (isFullyLoaded) {
+            setVisible(false);
+          }
+        }}
+      >
+        {/* Protruding rounded bubble on the dividing edge */}
+        <div className="absolute left-[-100px] sm:left-[-150px] top-1/2 -translate-y-1/2 w-[200px] sm:w-[300px] h-[350px] sm:h-[450px] bg-[#06080F] rounded-full" />
+      </motion.div>
+
+    </div>
   );
 }
 

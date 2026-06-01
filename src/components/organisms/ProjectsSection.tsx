@@ -1,46 +1,85 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion } from 'motion/react';
 import ProjectCard, { ProjectType } from '../molecules/ProjectCard.tsx';
 import ProjectDetailModal from '../molecules/ProjectDetailModal.tsx';
 import TextRevealSmooth from '../atoms/TextRevealSmooth';
+import { PROJECTS } from '../../data/projects.ts';
 
-const projects: ProjectType[] = [
-  { 
-    title: 'Kopi Kenangan Skala UMKM', 
-    category: 'F&B E-Commerce', 
-    color: 'bg-[#1a1c29]',
-    metricValue: '0.8s',
-    metricLabel: 'Load Speed',
-    className: 'md:col-span-2 aspect-[16/9] md:aspect-[21/9]'
-  },
-  { 
-    title: 'Studio Arsitek Lokal', 
-    category: 'Corporate Profile', 
-    color: 'bg-[#141521]',
-    metricValue: '+60%',
-    metricLabel: 'Trust Score',
-    className: 'md:col-span-1 aspect-square md:aspect-auto min-h-[400px]'
-  },
-  { 
-    title: 'Brand Kaos Distro', 
-    category: 'E-Commerce', 
-    color: 'bg-[#181926]',
-    metricValue: '+45%',
-    metricLabel: 'Conversion',
-    className: 'md:col-span-1 aspect-square md:aspect-auto min-h-[400px]'
-  },
-  { 
-    title: 'Klinik Gigi Premium', 
-    category: 'Booking System', 
-    color: 'bg-[#13131c]',
-    metricValue: '99%',
-    metricLabel: 'Uptime',
-    className: 'md:col-span-2 aspect-[16/9] md:aspect-[21/9]'
-  },
-];
+const ProjectSkeleton = () => (
+  <div className="relative overflow-hidden rounded-2xl border border-[#D4FF40]/5 min-h-[440px] bg-[#131825]/15 animate-pulse flex flex-col justify-end p-8">
+    <div className="absolute inset-0 bg-gradient-to-t from-[#06080F]/95 via-[#06080F]/30 to-transparent opacity-80" />
+    <div className="absolute inset-x-8 bottom-8 flex flex-col sm:flex-row justify-between items-end sm:items-center gap-4 z-10 w-[calc(100%-4rem)]">
+      <div className="space-y-3 w-full sm:w-2/3 text-left">
+        {/* Category placeholder */}
+        <div className="h-3 w-20 bg-white/10 rounded" />
+        {/* Title placeholder */}
+        <div className="h-6 w-3/4 bg-white/20 rounded" />
+      </div>
+      
+      {/* Metric Badge placeholder */}
+      <div className="px-4 py-2 rounded-xl bg-[#D4FF00]/5 border border-white/10 w-24 h-12 flex flex-col justify-center items-end gap-1.5 shrink-0" />
+    </div>
+  </div>
+);
+
+const projects: ProjectType[] = PROJECTS.map((p, index) => {
+  let metricValue = '99%';
+  let metricLabel = 'Performance';
+  if (p.id === 'seino-indomobil') {
+    metricValue = '0.8s';
+    metricLabel = 'Load Time';
+  } else if (p.id === 'delta-legal') {
+    metricValue = '+85%';
+    metricLabel = 'Trust Score';
+  } else if (p.id === 'griya-cisauk') {
+    metricValue = '+40%';
+    metricLabel = 'Conversion';
+  } else if (p.id === 'pt-prime-well-wireline') {
+    metricValue = '100%';
+    metricLabel = 'HSE Audit';
+  } else if (p.id === 'fortanara-cybersecurity') {
+    metricValue = 'Tier-4';
+    metricLabel = 'Security';
+  } else if (p.id === 'rental-mobil-modern') {
+    metricValue = '+60%';
+    metricLabel = 'Rent Orders';
+  } else if (p.id === 'y-not-tech') {
+    metricValue = '0s';
+    metricLabel = 'IoT Latency';
+  } else if (p.id === 'broka-realestate') {
+    metricValue = '4K';
+    metricLabel = 'Aerial Drone';
+  }
+
+  return {
+    id: p.id,
+    title: p.title,
+    category: p.category,
+    color: index % 2 === 0 ? 'bg-[#1a1c29]' : 'bg-[#141521]',
+    metricValue,
+    metricLabel,
+    link: p.liveLink,
+    imageUrl: p.thumbnail,
+    className: 'aspect-square md:aspect-[4/3]',
+    duration: p.duration,
+    overview: p.overview || p.description,
+    challenges: p.challenges ? [p.challenges] : [],
+    solutions: p.solution ? [p.solution] : []
+  };
+});
 
 export default function ProjectsSection() {
+  const navigate = useNavigate();
   const [selectedProject, setSelectedProject] = useState<null | typeof projects[0]>(null);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1500);
+    return () => clearTimeout(timer);
+  }, []);
   
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -97,22 +136,51 @@ export default function ProjectsSection() {
           </p>
         </motion.div>
         
-        <motion.div 
-          className="grid grid-cols-1 md:grid-cols-3 gap-6"
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
+        {isLoading ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {[...Array(4)].map((_, idx) => (
+              <ProjectSkeleton key={idx} />
+            ))}
+          </div>
+        ) : (
+          <motion.div 
+            className="grid grid-cols-1 md:grid-cols-2 gap-6"
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+          >
+            {projects.map((project, i) => (
+              <ProjectCard 
+                key={project.title} 
+                project={project} 
+                index={i} 
+                onClick={() => setSelectedProject(project)}
+                variants={cardVariants}
+              />
+            ))}
+          </motion.div>
+        )}
+
+        {/* CTA Section */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ delay: 0.5, duration: 0.6 }}
+          className="mt-24 text-center"
         >
-          {projects.map((project, i) => (
-            <ProjectCard 
-              key={project.title} 
-              project={project} 
-              index={i} 
-              onClick={() => setSelectedProject(project)}
-              variants={cardVariants}
-            />
-          ))}
+          <p className="text-gray-400 font-sans mb-8">Punya ide proyek impian?</p>
+          <motion.a 
+            href="https://wa.me/6282125447232?text=Halo%20chestaadotcom%2C%20saya%20melihat%20portfolio%20Anda%20dan%20tertarik%20membuat%20website%20UMKM%20premium%21" 
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-block px-8 py-4 bg-[#D4FF00] text-[#06080F] font-bold rounded-full hover:bg-white transition-all duration-300 text-lg shadow-lg cursor-pointer"
+            whileHover={{ scale: 1.05, y: -2 }}
+            whileTap={{ scale: 0.95 }}
+            transition={{ type: "spring", stiffness: 400, damping: 17 }}
+          >
+            Mulai Proyek Kamu Sekarang
+          </motion.a>
         </motion.div>
       </div>
       {selectedProject && (

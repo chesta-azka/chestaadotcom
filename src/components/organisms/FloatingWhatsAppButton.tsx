@@ -40,7 +40,7 @@ export default function FloatingWhatsAppButton() {
 
   const handleClick = () => {
     // Determine the base message
-    let message = 'Halo chestaa.com, saya tertarik untuk konsultasi pembuatan website premium. Boleh info lebih lanjut?';
+    let message = 'Halo chestaadotcom, saya tertarik untuk konsultasi pembuatan website premium. Boleh info lebih lanjut?';
 
     const queryParams = new URLSearchParams(location.search);
     const readSlug = queryParams.get('read');
@@ -48,16 +48,16 @@ export default function FloatingWhatsAppButton() {
     if (readSlug) {
       const article = ALL_ARTICLES.find(a => a.slug === readSlug);
       if (article) {
-        message = `Halo chestaa.com, saya baru saja selesai membaca artikel "${article.title}" dan ingin berkonsultasi mengenai strategi digital untuk bisnis saya.`;
+        message = `Halo chestaadotcom, saya baru saja selesai membaca artikel "${article.title}" dan ingin berkonsultasi mengenai strategi digital untuk bisnis saya.`;
       }
     } else if (location.pathname.startsWith('/blog')) {
-      message = 'Halo chestaa.com, saya sedang berkunjung di Journal Anda dan sangat menyukai analisis strategi digitalnya. Boleh konsultasi lebih lanjut?';
+      message = 'Halo chestaadotcom, saya sedang berkunjung di Journal Anda dan sangat menyukai analisis strategi digitalnya. Boleh konsultasi lebih lanjut?';
     } else if (activeSection === 'faq') {
-      message = 'Saya butuh bantuan website dari halaman FAQ chestaa.com. Boleh dipandu untuk memilih paket yang sesuai?';
+      message = 'Saya butuh bantuan website dari halaman FAQ chestaadotcom. Boleh dipandu untuk memilih paket yang sesuai?';
     } else if (activeSection === 'lokasi') {
-      message = 'Halo chestaa.com, saya berdomisili di sekitar area layanan Anda (Cisauk / BSD / Gading Serpong / Bogor) dan ingin menjadwalkan konsultasi offline.';
+      message = 'Halo chestaadotcom, saya berdomisili di sekitar area layanan Anda (Cisauk / BSD / Gading Serpong / Bogor) and ingin menjadwalkan konsultasi offline.';
     } else if (activeSection === 'work') {
-      message = 'Halo chestaa.com, saya melihat portofolio Selected Work Anda di website dan tertarik untuk membangun website dengan performa premium serupa.';
+      message = 'Halo chestaadotcom, saya melihat portofolio Selected Work Anda di website dan tertarik untuk membangun website dengan performa premium serupa.';
     }
 
     const encodedMessage = encodeURIComponent(message);

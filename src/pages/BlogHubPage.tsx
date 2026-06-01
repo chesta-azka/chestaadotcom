@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { ArrowLeft, ArrowUpRight, Search, Sparkles, BookOpen, Clock, Calendar } from 'lucide-react';
+import { ArrowLeft, ArrowRight, ArrowUpRight, Search, Sparkles, BookOpen, Clock, Calendar } from 'lucide-react';
 import { useSearchParams } from 'react-router-dom';
 import MetaTags from '../components/atoms/MetaTags.tsx';
 import { ALL_ARTICLES, Article } from '../data/blogData';
+import CreativityMarquee from '../components/organisms/CreativityMarquee.tsx';
 
 export default function BlogHubPage() {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -28,9 +29,11 @@ export default function BlogHubPage() {
   });
 
   const featuredArticle = ALL_ARTICLES.find(a => a.featured);
-  const regularArticles = filteredArticles.filter(a => !a.featured);
+  const regularArticles = (selectedCategory === 'All' && searchQuery.trim() === '')
+    ? filteredArticles.filter(a => !a.featured)
+    : filteredArticles;
 
-  const categories = ['All', 'SEO', 'Strategy', 'Design', 'Performance'];
+  const categories = ['All', 'SEO', 'Strategy', 'Design', 'Performance', 'UI/UX', 'Copywriting'];
 
   return (
     <motion.div 
@@ -58,11 +61,18 @@ export default function BlogHubPage() {
 
             {/* Back Navigation Bar */}
             <button
-              onClick={() => setSearchParams({})}
+              onClick={() => {
+                const origin = searchParams.get('origin');
+                if (origin === 'home') {
+                  window.location.href = '/#blog';
+                } else {
+                  setSearchParams({});
+                }
+              }}
               className="group inline-flex items-center gap-2 text-xs font-sans font-semibold tracking-widest uppercase text-gray-400 hover:text-[#D4FF00] transition-colors mb-12"
             >
               <ArrowLeft size={16} className="transition-transform group-hover:-translate-x-1" />
-              Tutup & Kembali ke Journal
+              {searchParams.get('origin') === 'home' ? 'Kembali ke Home' : 'Tutup & Kembali ke Journal'}
             </button>
 
             {/* Article Header */}
@@ -85,6 +95,10 @@ export default function BlogHubPage() {
                 {activeArticle.title}
               </h1>
 
+              {activeArticle.image && (
+                <img src={activeArticle.image} alt={activeArticle.title} className="w-full h-64 sm:h-96 object-cover rounded-[2rem] mb-8" />
+              )}
+
               {/* Lead Paragraph */}
               <p className="text-xl text-gray-300 font-sans leading-relaxed border-l-2 border-[#D4FF00] pl-6 py-1">
                 {activeArticle.desc}
@@ -103,13 +117,18 @@ export default function BlogHubPage() {
               ))}
             </article>
 
+            {/* Floating Marquee Between Content and CTA */}
+            <div className="-mx-6 md:-mx-[25vw] my-16">
+               <CreativityMarquee />
+            </div>
+
             {/* Elegant Call to Action / Footer of Article */}
             <div className="mt-20 p-8 rounded-[2rem] bg-[#131825] border border-white/5 text-center relative overflow-hidden">
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_left,_var(--tw-gradient-stops))] from-[#D4FF00]/5 via-transparent to-transparent opacity-50 pointer-events-none" />
               <BookOpen size={36} className="text-[#D4FF00] mx-auto mb-4 opacity-80" />
               <h3 className="text-2xl font-display font-medium text-white mb-2">Ingin meningkatkan bisnis digital Anda?</h3>
               <p className="text-sm text-gray-400 max-w-md mx-auto mb-6">
-                chestaa.com mendesain website premium berorientasi hasil khusus untuk UMKM yang serius.
+                chestaadotcom mendesain website premium berorientasi hasil khusus untuk UMKM yang serius.
               </p>
               <button
                 onClick={() => {
@@ -133,11 +152,31 @@ export default function BlogHubPage() {
             {/* Footer Back Link */}
             <div className="mt-16 text-center">
               <button
-                onClick={() => setSearchParams({})}
+                onClick={() => {
+                  const origin = searchParams.get('origin');
+                  if (origin === 'home') {
+                    window.location.href = '/#blog';
+                  } else {
+                    setSearchParams({});
+                  }
+                }}
                 className="text-xs font-sans font-semibold tracking-widest uppercase text-gray-500 hover:text-[#D4FF00] transition-colors"
               >
-                ← Kembali ke daftar tulisan
+                ← Kembali ke {searchParams.get('origin') === 'home' ? 'Home' : 'daftar tulisan'}
               </button>
+            </div>
+
+            {/* Related Articles */}
+            <div className="mt-24 border-t border-white/5 pt-12">
+              <h3 className="text-xl font-display text-white mb-8">Related Insights</h3>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                {ALL_ARTICLES.filter(a => a.slug !== activeArticle.slug).slice(0, 2).map(art => (
+                    <button key={art.slug} onClick={() => setSearchParams({ read: art.slug })} className="p-6 rounded-2xl bg-[#131825] border border-white/5 text-left hover:border-white/10 transition-colors">
+                        <p className="text-[#D4FF00] text-[10px] uppercase tracking-widest font-semibold mb-2">{art.cat}</p>
+                        <h4 className="text-white font-medium line-clamp-2">{art.title}</h4>
+                    </button>
+                ))}
+              </div>
             </div>
           </motion.div>
         ) : (
@@ -150,7 +189,7 @@ export default function BlogHubPage() {
             className="w-full"
           >
             <MetaTags 
-              title="Journal & Insight — chestaa.com" 
+              title="Journal & Insight — chestaadotcom" 
               description="Pelajari strategi digital tier-1 untuk mendominasi pasar Anda. Artikel SEO, Design, dan Bisnis untuk UMKM Indonesia." 
             />
 
@@ -177,7 +216,7 @@ export default function BlogHubPage() {
                         Insight & Perspective
                       </div>
                       
-                      <h1 className="text-[4.5rem] sm:text-[6rem] lg:text-[8.5rem] font-display font-medium tracking-tight leading-[0.85] text-white uppercase mb-8">
+                      <h1 className="text-6xl sm:text-[6rem] lg:text-[8.5rem] font-display font-medium tracking-tight leading-[0.85] text-white uppercase mb-8">
                         The <br />
                         <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#D4FF00] via-green-400 to-indigo-400 font-serif italic pr-4">Journal.</span>
                       </h1>
@@ -294,7 +333,7 @@ export default function BlogHubPage() {
                 {regularArticles.map((art, i) => (
                   <motion.article 
                     key={art.slug} 
-                    className="group cursor-pointer flex flex-col h-full bg-[#131825]/30 p-6 rounded-2xl hover:bg-[#131825]/80 border border-transparent hover:border-white/5 transition-all duration-300"
+                    className="group cursor-pointer flex flex-col h-full bg-[#131825]/30 p-6 md:p-8 rounded-[2rem] border border-transparent hover:border-white/5 hover:bg-[#131825]/60 transition-all duration-300 shadow-sm hover:shadow-xl"
                     initial={{ opacity: 0, y: 15 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, margin: "-50px" }}
@@ -302,22 +341,22 @@ export default function BlogHubPage() {
                     onClick={() => setSearchParams({ read: art.slug })}
                   >
                     <div className="flex gap-4 items-center mb-6">
-                      <span className="text-[10px] font-sans font-semibold text-[#0a0b10] bg-[#D4FF00] px-3 py-1.5 rounded-full uppercase tracking-widest shadow-sm">
+                      <span className="text-[10px] font-sans font-semibold text-[#0a0b10] bg-[#D4FF00] px-3 py-1.5 rounded-full uppercase tracking-widest">
                         {art.cat}
                       </span>
-                      <span className="text-[10px] font-mono text-gray-500 font-medium tracking-widest">
+                      <span className="text-[10px] font-mono text-gray-400 font-medium tracking-widest">
                         {art.readTime}
                       </span>
                     </div>
-                    <h3 className="text-2xl font-display font-medium text-white leading-[1.25] mb-4 group-hover:text-purple-400 transition-colors tracking-tight line-clamp-2">
+                    <h3 className="text-xl md:text-2xl font-display font-medium text-white leading-[1.25] mb-4 group-hover:text-[#D4FF00] transition-colors tracking-tight line-clamp-2">
                       {art.title}
                     </h3>
                     <p className="text-base text-gray-400 leading-relaxed font-sans mb-8 line-clamp-3">
                       {art.desc}
                     </p>
-                    <div className="mt-auto pt-6 border-t border-white/5 flex items-center justify-between text-[11px] font-sans font-semibold tracking-widest uppercase text-gray-500 group-hover:text-[#D4FF00] transition-colors">
-                      <span>Baca Artikel</span>
-                      <ArrowUpRight size={18} className="transform group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+                    <div className="mt-auto pt-6 flex items-center gap-2 text-sm font-sans font-semibold tracking-widest uppercase text-[#D4FF00] opacity-80 group-hover:opacity-100 transition-opacity">
+                      <span>Baca Selengkapnya</span>
+                      <ArrowRight size={16} className="transform group-hover:translate-x-1 transition-transform" />
                     </div>
                   </motion.article>
                 ))}
