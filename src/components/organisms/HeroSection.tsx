@@ -101,23 +101,21 @@ export default function HeroSection() {
         className="w-full max-w-5xl mx-auto px-6 text-center space-y-10 sm:space-y-12 z-10"
       >
         
-        {/* Dynamic Trust Stack (Text + Icon Edition as explicitly requested by user) */}
+        {/* Dynamic Trust Stack */}
         <motion.div 
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ type: "spring", stiffness: 100, damping: 15, delay: 0.2 }}
-          className="inline-flex items-center gap-2.5 px-4.5 py-2.5 rounded-full bg-white/[0.01] border border-white/5 backdrop-blur-md shadow-2xl mx-auto text-[10px] sm:text-xs font-mono tracking-widest text-[#D4FF00] uppercase transition-all duration-300 hover:border-[#D4FF00]/15 hover:bg-white/[0.03]"
+          className="inline-flex items-center gap-3 px-4.5 py-2 rounded-full bg-white/[0.01] border border-white/5 backdrop-blur-md shadow-2xl mx-auto text-[10px] sm:text-xs font-mono tracking-widest text-white uppercase transition-all duration-300 hover:border-[#D4FF00]/15"
         >
-          <div className="flex items-center gap-1.5 font-bold tracking-wider text-gray-200">
-            <Sparkles size={11} className="text-[#D4FF00] animate-pulse" />
-            <span>CHESTADOTCOM</span>
+          <div className="flex items-center -space-x-2">
+            {[1, 2, 3, 4, 5].map((i) => (
+              <img key={i} src={`https://i.pravatar.cc/100?u=${i}`} className="w-6 h-6 rounded-full border-2 border-[#06080F] object-cover" alt="Client" />
+            ))}
           </div>
           <span className="text-white/10 select-none">|</span>
-          <div className="flex items-center gap-1 shrink-0 text-white font-bold flex items-center">
-            {[...Array(5)].map((_, idx) => (
-              <Star key={idx} size={11} className="fill-[#D4FF00] text-[#D4FF00] inline-block" />
-            ))}
-            <span className="font-mono text-[9px] text-[#D4FF00]/90 ml-1">100+ KLIEN PUAS</span>
+          <div className="flex items-center gap-1 shrink-0 text-[#D4FF00] font-bold">
+            <span className="font-mono text-xs">12+ Proyek Selesai</span>
           </div>
         </motion.div>
 
@@ -132,7 +130,7 @@ export default function HeroSection() {
             transition={{ duration: 0.8, ease: "easeOut", delay: 0.4 }}
             className="text-[2.2rem] sm:text-[4rem] lg:text-[5rem] font-display font-medium tracking-tight leading-[1.08] text-white"
           >
-            Seni Digital untuk Branding UMKM Level Korporasi.
+            Website Premium untuk UMKM yang Ingin Terlihat Lebih Serius.
           </motion.h1>
 
           <motion.p 
@@ -141,21 +139,20 @@ export default function HeroSection() {
             transition={{ delay: 0.6, duration: 0.8 }}
             className="text-sm sm:text-base md:text-lg text-gray-400 font-sans max-w-2xl leading-relaxed mx-auto"
           >
-            Website kustom premium yang sangat mementingkan konversi dan kenyamanan visual klien, siap mengalikan prospek digital Anda secara instan.
+            Clean, cepat (0.8s), SEO-optimized, dan terintegrasi langsung ke WhatsApp bisnis Anda.
           </motion.p>
         </motion.div>
 
-        {/* Gorgeous Dual CTA Pill Buttons & Pricing rates indicator */}
+        {/* Gorgeous Dual CTA Buttons */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.8, duration: 0.8 }}
-          className="space-y-6 max-w-3xl mx-auto flex flex-col items-center"
+          className="space-y-6 max-w-xl mx-auto flex flex-col items-center"
         >
-          {/* Action buttons (Precisely mimicking Let's Work Together style and color flow) */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full px-4 sm:px-0">
             {/* Primary Chat Trigger Button */}
-            <div className="relative">
+            <div className="relative w-full sm:w-auto">
               <motion.button
                 ref={ctaRef}
                 style={{ x: springX, y: springY }}
@@ -169,59 +166,14 @@ export default function HeroSection() {
               </motion.button>
             </div>
             
-            {/* Secondary Violet Showcase Button */}
+            {/* Secondary Violet Portfolio Button */}
             <Link
-              to="/portfolio"
-              id="hero-showcase-btn"
+              to="/projects"
               className="w-full sm:w-auto flex items-center justify-center rounded-full bg-[#1e1b4b] border border-indigo-500/20 px-8 py-4.5 font-mono text-xs font-bold uppercase tracking-widest text-indigo-200 hover:text-white hover:bg-indigo-900/40 hover:border-indigo-400/30 transition-all duration-300 hover:scale-[1.03]"
             >
               Lihat Portofolio
             </Link>
-
-            {/* Rates tag indicator */}
-            <div className="flex flex-col flex-wrap sm:flex-nowrap items-start gap-1.5 border-l border-white/15 pl-5 sm:pl-8 py-0.5 sm:flex text-left select-none">
-              <span className="text-xs sm:text-sm font-mono text-gray-400 line-through decoration-red-500/80 uppercase tracking-widest block whitespace-nowrap">Rp 1.250.000</span>
-              <span className="text-[14px] sm:text-[15px] font-mono font-black text-[#0A0D14] bg-[#D4FF00] px-3.5 py-1.5 rounded-md border border-[#D4FF00]/20 tracking-widest shadow-[0_0_25px_rgba(212,255,0,0.4)] whitespace-nowrap">START 550K + FREE .COM</span>
-            </div>
           </div>
-        </motion.div>
-
-        {/* 3. Single Visual Feature Mockup (Rumah Tropis Spotlight) */}
-        <motion.div 
-          initial={{ opacity: 0, y: 50, scale: 0.96 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1] }}
-          className="pt-12 w-full max-w-2xl relative mx-auto flex items-center justify-center pointer-events-auto"
-        >
-          <motion.div 
-            whileHover={{ y: -10, scale: 1.01 }}
-            className="w-full bg-[#0D111A] border-2 border-[#D4FF00]/20 rounded-2xl overflow-hidden shadow-[0_30px_70px_rgba(0,0,0,0.85)] aspect-[16/10] select-none text-left flex flex-col z-20"
-          >
-            {/* Interactive Chrome Top Bar */}
-            <div className="bg-[#090D15] px-4 py-3 border-b border-white/5 flex items-center justify-between shrink-0">
-              <div className="flex items-center gap-1.5">
-                <span className="w-2.5 h-2.5 rounded-full bg-red-500/70" />
-                <span className="w-2.5 h-2.5 rounded-full bg-yellow-500/70" />
-                <span className="w-2.5 h-2.5 rounded-full bg-green-500/70" />
-              </div>
-              <div className="bg-white/5 px-12 py-1 rounded text-[9px] font-mono text-gray-400 tracking-wider">
-                chestadotcom.com/showcase
-              </div>
-              <div className="flex items-center text-gray-500">
-                <Monitor size={10} />
-              </div>
-            </div>
-
-            {/* Earth Feature Image */}
-            <div className="flex-1 relative overflow-hidden">
-               <img src="/src/assets/images/futuristic_digital_earth_1780384278097.png" alt="Futuristic Earth" className="w-full h-full object-cover" />
-               <div className="absolute inset-0 bg-gradient-to-t from-[#0D111A] via-transparent to-transparent" />
-               <div className="absolute bottom-8 left-8">
-                  <h4 className="text-2xl font-serif italic text-white leading-tight">Digital Earth Architecture</h4>
-                  <p className="text-[#D4FF00] text-xs font-mono tracking-widest mt-1">GLOBAL DIGITAL BRANDING</p>
-               </div>
-            </div>
-          </motion.div>
         </motion.div>
 
       </motion.div>

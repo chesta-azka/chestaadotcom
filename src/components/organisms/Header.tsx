@@ -44,12 +44,12 @@ export default function Header() {
   return (
     <>
       {/* Floating Header */}
-      <header className="fixed top-6 left-0 right-0 z-50 flex justify-center px-6 pointer-events-none">
+      <header className="fixed top-6 left-0 right-0 z-[100] flex justify-center px-4 sm:px-6 pointer-events-none">
         <motion.div
           initial={{ y: -20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ type: 'spring', stiffness: 100, damping: 20, delay: 0.2 }}
-          className="bg-white/[0.03] backdrop-blur-2xl border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.2)] rounded-full px-6 py-3 flex items-center justify-between w-full max-w-5xl pointer-events-auto"
+          className="bg-white/[0.03] backdrop-blur-2xl border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.2)] rounded-full px-4 sm:px-6 py-3 flex items-center justify-between w-full max-w-5xl pointer-events-auto"
         >
           <Link to="/" className="flex items-center gap-2.5 group select-none pointer-events-auto">
             {/* Elegant Geometric Architectural Emblem */}
@@ -63,14 +63,8 @@ export default function Header() {
             
             <div className="flex flex-col text-left">
               <span className="font-display text-base font-extrabold tracking-tight text-white leading-none">
-                chestaa<span className="text-[#D4FF00]">dot</span>com
+                chestadotcom
               </span>
-              <div className="flex items-center gap-1.5 mt-1">
-                <span className="w-1 h-1 rounded-full bg-[#D4FF00] animate-pulse" />
-                <span className="font-mono text-[7px] tracking-[0.2em] text-gray-500 uppercase leading-none">
-                  Digital Architect v2.6
-                </span>
-              </div>
             </div>
           </Link>
           <nav className="hidden md:flex gap-8 items-center absolute left-1/2 -translate-x-1/2">
@@ -104,9 +98,16 @@ export default function Header() {
             </a>
           </div>
 
-          <button onClick={() => setIsOpen(!isOpen)} className="md:hidden text-white p-2 rounded-full hover:bg-white/10 transition-colors menu-toggle-btn">
-            {isOpen ? <X size={20} /> : <Menu size={20} />}
-          </button>
+          <motion.button 
+            onClick={() => setIsOpen(!isOpen)} 
+            className="md:hidden text-white p-2 rounded-full hover:bg-white/10 transition-colors menu-toggle-btn pointer-events-auto"
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+          >
+            <motion.div animate={{ rotate: isOpen ? 90 : 0 }}>
+              {isOpen ? <X size={20} /> : <Menu size={20} />}
+            </motion.div>
+          </motion.button>
         </motion.div>
       </header>
 
@@ -130,7 +131,7 @@ export default function Header() {
                 setIsOpen(false);
               }
             }}
-            className="fixed inset-0 z-40 bg-[#06080F]/98 backdrop-blur-2xl flex flex-col items-center justify-center md:hidden cursor-pointer touch-pan-y"
+            className="fixed inset-0 z-[90] bg-[#06080F]/98 backdrop-blur-2xl flex flex-col items-center justify-center md:hidden cursor-pointer touch-pan-y"
           >
             {/* Ambient subtle glow light */}
             <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-72 h-72 rounded-full bg-[#D4FF00]/5 blur-[120px] pointer-events-none" />

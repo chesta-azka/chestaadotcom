@@ -8,6 +8,7 @@ import { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { Analytics } from '@vercel/analytics/react';
 import Lenis from 'lenis';
+import { Toaster } from 'sonner';
 import WebVitalsTracker from './components/atoms/WebVitalsTracker.tsx';
 import Header from './components/organisms/Header.tsx';
 import FooterSection from './components/organisms/FooterSection.tsx';
@@ -67,6 +68,7 @@ export default function App() {
       >
         <MouseGlow />
         <WebVitalsTracker />
+        <Toaster richColors position="top-right" />
         
         {/* Global Blur Elements - More subtle, neutral white light */}
         <div className="fixed -top-[20%] left-1/4 w-[800px] h-[800px] bg-white/[0.03] rounded-full blur-[150px] pointer-events-none z-[0]" />

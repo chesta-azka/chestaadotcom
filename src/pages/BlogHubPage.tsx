@@ -97,6 +97,29 @@ export default function BlogHubPage() {
         )}
       </AnimatePresence>
 
+      {/* Persistent Global Search Bar */}
+      <div className="fixed top-6 right-6 z-[1000] w-full max-w-[340px] group">
+        <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-[#D4FF00] rounded-2xl blur opacity-20 group-hover:opacity-40 transition-opacity duration-500 -z-10" />
+        <div className="relative bg-[#0D111A]/80 backdrop-blur-xl border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.4)] rounded-2xl p-2 flex items-center transition-all duration-300 focus-within:bg-[#131825]">
+          <Search size={20} className="text-gray-500 ml-4 group-focus-within:text-[#D4FF00]" />
+          <input 
+            type="text" 
+            placeholder="Cari insight..."
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="w-full bg-transparent py-2 pl-4 pr-6 text-sm font-sans font-medium placeholder:text-gray-600 text-white focus:outline-none"
+          />
+          {searchQuery && (
+            <button 
+              onClick={() => setSearchQuery('')}
+              className="text-[10px] text-gray-400 hover:text-white px-2 uppercase font-mono mr-2"
+            >
+              clear
+            </button>
+          )}
+        </div>
+      </div>
+
       <AnimatePresence mode="wait">
         {activeArticle ? (
           // FOCUSED PREMIUM ARTICLE VIEW
@@ -117,6 +140,7 @@ export default function BlogHubPage() {
                 { name: 'Blog', item: '/blog' },
                 { name: activeArticle.title, item: `/blog?read=${activeArticle.slug}` },
               ]}
+              ogImage={activeArticle.images && activeArticle.images[0]}
             />
 
             {/* Back Navigation Bar */}
@@ -155,8 +179,17 @@ export default function BlogHubPage() {
                 {activeArticle.title}
               </h1>
 
-              {activeArticle.image && (
-                <img src={activeArticle.image} alt={activeArticle.title} className="w-full h-64 sm:h-96 object-cover rounded-[2rem] mb-8 border border-white/5 shadow-2xl" />
+              {activeArticle.images && activeArticle.images.length > 0 && (
+                <div className={`grid gap-4 mb-8 ${activeArticle.images.length === 1 ? 'grid-cols-1' : 'grid-cols-2 md:grid-cols-3'}`}>
+                  {activeArticle.images.map((img, idx) => (
+                    <img 
+                      key={idx} 
+                      src={img} 
+                      alt={`${activeArticle.title} - ${idx + 1}`} 
+                      className={`w-full h-64 object-cover rounded-[2rem] border border-white/5 shadow-2xl ${idx === 0 && activeArticle.images!.length > 1 ? 'col-span-2 md:col-span-2 row-span-2 h-full' : ''}`} 
+                    />
+                  ))}
+                </div>
               )}
 
               {/* Lead Paragraph */}
@@ -317,27 +350,6 @@ export default function BlogHubPage() {
                     transition={{ delay: 0.3, duration: 0.6, ease: "easeOut" }}
                     className="lg:col-span-4 lg:pb-6 flex flex-col sm:items-end gap-4"
                   >
-                    <div className="relative w-full max-w-[340px] group">
-                      <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-[#D4FF00] rounded-2xl blur opacity-20 group-hover:opacity-40 transition-opacity duration-500 -z-10" />
-                      <div className="relative bg-[#0D111A]/80 backdrop-blur-xl border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.4)] rounded-2xl p-2 flex items-center transition-all duration-300 focus-within:bg-[#131825]">
-                        <Search size={20} className="text-gray-500 ml-4 group-focus-within:text-[#D4FF00]" />
-                        <input 
-                          type="text" 
-                          placeholder="Cari insight..."
-                          value={searchQuery}
-                          onChange={(e) => setSearchQuery(e.target.value)}
-                          className="w-full bg-transparent py-4 pl-4 pr-6 text-base font-sans font-medium placeholder:text-gray-600 text-white focus:outline-none"
-                        />
-                        {searchQuery && (
-                          <button 
-                            onClick={() => setSearchQuery('')}
-                            className="text-xs text-gray-400 hover:text-white px-2 uppercase font-mono mr-2"
-                          >
-                            clear
-                          </button>
-                        )}
-                      </div>
-                    </div>
                   </motion.div>
                 </div>
               </div>
@@ -378,8 +390,8 @@ export default function BlogHubPage() {
                      </div>
                      
                      <div className="md:col-span-5 h-full hidden md:flex items-center justify-center">
-                       {featuredArticle.image ? (
-                         <img src={featuredArticle.image} alt={featuredArticle.title} className="w-full aspect-[4/5] object-cover rounded-[2rem] border border-white/5 shadow-2xl transition-transform duration-700 group-hover:scale-105" />
+                       {featuredArticle.images && featuredArticle.images.length > 0 ? (
+                         <img src={featuredArticle.images[0]} alt={featuredArticle.title} className="w-full aspect-[4/5] object-cover rounded-[2rem] border border-white/5 shadow-2xl transition-transform duration-700 group-hover:scale-105" />
                        ) : (
                          <div className="w-full aspect-[4/5] rounded-[2rem] bg-gradient-to-br from-indigo-500/10 to-transparent border border-white/5 flex items-center justify-center relative overflow-hidden group-hover:scale-105 transition-transform duration-700 shadow-sm">
                             <div className="text-[14rem] font-display font-medium text-white/5 rotate-12 select-none">SEO</div>
@@ -438,9 +450,9 @@ export default function BlogHubPage() {
                       </span>
                     </div>
 
-                    {art.image && (
+                    {art.images && art.images.length > 0 && (
                       <div className="w-full h-48 overflow-hidden rounded-2xl mb-6 relative border border-white/5">
-                        <img src={art.image} alt={art.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
+                        <img src={art.images[0]} alt={art.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
                       </div>
                     )}
 

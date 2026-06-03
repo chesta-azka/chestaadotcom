@@ -92,7 +92,7 @@ export default function BlogSection() {
               >
                 <div className="w-full h-40 overflow-hidden rounded-2xl mb-6 border border-white/5 relative">
                   <img 
-                    src={art.image || "https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=600&auto=format&fit=crop"} 
+                    src={(art.images && art.images[0]) || "https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=600&auto=format&fit=crop"} 
                     alt={art.title} 
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                   />
