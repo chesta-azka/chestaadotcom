@@ -3,7 +3,7 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { motion, useScroll, useTransform } from 'motion/react';
+import { motion, useScroll, useTransform, AnimatePresence } from 'motion/react';
 import { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { Analytics } from '@vercel/analytics/react';
@@ -36,7 +36,16 @@ function ScrollToTop() {
 }
 
 export default function App() {
+  return (
+    <Router>
+      <AppContent />
+    </Router>
+  );
+}
+
+function AppContent() {
   const [appLoaded, setAppLoaded] = useState(false);
+  const location = useLocation();
 
   useEffect(() => {
     const lenis = new Lenis();
@@ -57,9 +66,9 @@ export default function App() {
   const gridY = useTransform(scrollY, [0, 6000], [0, -360]);
 
   return (
-    <Router>
-        <ScrollToTop />
-        <Analytics />
+    <>
+      <ScrollToTop />
+      <Analytics />
       <motion.main 
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -97,21 +106,23 @@ export default function App() {
             className="flex flex-col flex-1"
           >
             <Header />
-            <Routes>
-              <Route path="/" element={<HomePage />} />
-              <Route path="/blog" element={<BlogHubPage />} />
-              <Route path="/services" element={<ServicesPage />} />
-              <Route path="/portfolio" element={<PortfolioPage />} />
-              <Route path="/portfolio/:id" element={<ProjectDetailPage />} />
-              <Route path="/about" element={<AboutPage />} />
-              <Route path="/layanan/:slug" element={<ServiceDetailPage />} />
-              <Route path="/area/:cityName" element={<AreaDetailPage />} />
-            </Routes>
+            <AnimatePresence mode="wait">
+              <Routes location={location} key={location.pathname}>
+                <Route path="/" element={<HomePage />} />
+                <Route path="/blog" element={<BlogHubPage />} />
+                <Route path="/services" element={<ServicesPage />} />
+                <Route path="/portfolio" element={<PortfolioPage />} />
+                <Route path="/portfolio/:id" element={<ProjectDetailPage />} />
+                <Route path="/about" element={<AboutPage />} />
+                <Route path="/layanan/:slug" element={<ServiceDetailPage />} />
+                <Route path="/area/:cityName" element={<AreaDetailPage />} />
+              </Routes>
+            </AnimatePresence>
             <FooterSection />
           </motion.div>
           <FloatingWhatsAppButton />
         </div>
       </motion.main>
-    </Router>
+    </>
   );
 }
