@@ -1,0 +1,79 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // 1. Global Catch-all (Default Deny)
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // --- Helpers ---
+    function isValidId(id) { 
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$'); 
+    }
+    function incoming() { return request.resource.data; }
+    function existing() { return resource.data; }
+    function isSignedIn() { return request.auth != null; }
+    function isOwner(userId) { return isSignedIn() && request.auth.uid == userId; }
+    
+    // Admin check: Requires a lookup to a trusted collection
+    function isAdmin() { 
+      return isSignedIn() && exists(/databases/$(database)/documents/admins/$(request.auth.uid));
+    }
+
+    // --- Validation Helpers ---
+
+    function isValidUser(data) {
+      return data.keys().hasAll(['uid', 'email', 'role', 'createdAt']) &&
+             data.keys().size() <= 6 &&
+             data.uid is string &&
+             data.email is string &&
+             data.role in ['user', 'admin'] &&
+             data.createdAt is string;
+    }
+
+    function isValidPost(data) {
+      return data.keys().hasAll(['id', 'title', 'content', 'authorId', 'status', 'createdAt']) &&
+             data.keys().size() <= 10 &&
+             data.id is string &&
+             data.title is string && data.title.size() <= 200 &&
+             data.content is string && data.content.size() <= 50000 &&
+             data.authorId == request.auth.uid &&
+             data.status in ['draft', 'published', 'rejected'] &&
+             data.createdAt is string;
+    }
+
+    // --- Collection Routes ---
+
+    // USERS
+    match /users/{userId} {
+      allow get: if isOwner(userId) || isAdmin();
+      allow list: if isAdmin();
+      allow create: if isOwner(userId) && isValidUser(incoming()) && incoming().role == 'user';
+      allow update: if (isOwner(userId) || isAdmin()) && (
+        // Only allow certain fields for users (e.g. name)
+        (isOwner(userId) && incoming().diff(existing()).affectedKeys().hasOnly(['name', 'imageUrl'])) ||
+        isAdmin()
+      );
+    }
+
+    // POSTS
+    match /posts/{postId} {
+      allow get: if incoming().status == 'published' || isOwner(existing().authorId) || isAdmin();
+      allow list: if (resource.data.status == 'published') || (isSignedIn() && resource.data.authorId == request.auth.uid) || isAdmin();
+      
+      allow create: if isSignedIn() && isValidPost(incoming()) && incoming().status == 'draft';
+      
+      allow update: if isSignedIn() && (
+        (isOwner(existing().authorId) && existing().status == 'draft' && isValidPost(incoming()) && incoming().status == 'draft') ||
+        isAdmin()
+      );
+      
+      allow delete: if isOwner(existing().authorId) || isAdmin();
+    }
+    
+    // ADMINS (System only)
+    match /admins/{adminId} {
+      allow read: if isSignedIn();
+    }
+  }
+}

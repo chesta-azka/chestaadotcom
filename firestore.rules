@@ -1,0 +1,91 @@
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // 1. Global Catch-all (Default Deny)
+    match /{document=**} {
+      allow read, write: if false;
+    }
+
+    // --- Helpers ---
+    function isValidId(id) { 
+      return id is string && id.size() <= 128 && id.matches('^[a-zA-Z0-9_\\-]+$'); 
+    }
+    function incoming() { return request.resource.data; }
+    function existing() { return resource.data; }
+    function isSignedIn() { return request.auth != null; }
+    function isOwner(userId) { return isSignedIn() && request.auth.uid == userId; }
+    
+    // Hardcoded bootstrap admin to prevent chicken-and-egg problem during initial setup
+    function isEmailAdmin() {
+      return isSignedIn() && request.auth.token.email.lower() == 'chestacode@gmail.com';
+    }
+
+    // Admin check: Look up role in users collection
+    function isAdmin() { 
+      return isEmailAdmin() || (
+        isSignedIn() && 
+        exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+        get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin'
+      );
+    }
+
+    // --- Validation Helpers ---
+
+    function isValidUser(data) {
+      return data.keys().hasAll(['uid', 'email', 'role', 'createdAt']) &&
+             data.keys().size() <= 6 &&
+             data.uid is string &&
+             data.email is string &&
+             data.role in ['user', 'admin'] &&
+             data.createdAt is string;
+    }
+
+    function isValidPost(data) {
+      return data.keys().hasAll(['id', 'title', 'content', 'authorId', 'status', 'createdAt']) &&
+             data.keys().size() <= 10 &&
+             data.id is string &&
+             data.title is string && data.title.size() <= 200 &&
+             data.content is string && data.content.size() <= 50000 &&
+             data.authorId == request.auth.uid &&
+             data.status in ['draft', 'published', 'rejected'] &&
+             data.createdAt is string;
+    }
+
+    // --- Collection Routes ---
+
+    // USERS
+    match /users/{userId} {
+      allow get: if isOwner(userId) || isAdmin();
+      allow list: if isAdmin();
+      allow create: if isOwner(userId) && isValidUser(incoming()) && (
+        incoming().role == 'user' || (incoming().role == 'admin' && isEmailAdmin())
+      );
+      allow update: if (isOwner(userId) || isAdmin()) && (
+        (isOwner(userId) && incoming().diff(existing()).affectedKeys().hasOnly(['name', 'imageUrl', 'mitraRequestStatus']) && 
+         (incoming().mitraRequestStatus == 'pending' || incoming().mitraRequestStatus == existing().mitraRequestStatus)) ||
+        isAdmin()
+      );
+    }
+
+    // POSTS
+    match /posts/{postId} {
+      // allow read if published (public) or owner/admin
+      allow get: if (resource.data.status == 'published') || isOwner(resource.data.authorId) || isAdmin();
+      allow list: if (resource.data.status == 'published') || (isSignedIn() && resource.data.authorId == request.auth.uid) || isAdmin();
+      
+      allow create: if isSignedIn() && isValidPost(incoming()) && (incoming().status == 'draft' || isAdmin());
+      
+      allow update: if isSignedIn() && (
+        (isOwner(existing().authorId) && existing().status == 'draft' && isValidPost(incoming())) ||
+        isAdmin()
+      );
+      
+      allow delete: if isOwner(existing().authorId) || isAdmin();
+    }
+
+    // TEST CONNECTION (as required by SKILL.md)
+    match /test_connection_dummy/{docId} {
+      allow read: if true;
+    }
+  }
+}

@@ -1,0 +1,44 @@
+{
+  "entities": {
+    "User": {
+      "title": "User Profile",
+      "description": "Represents a user in the system with permissions and profile info.",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "Unique identifier for the user." },
+        "email": { "type": "string", "format": "email" },
+        "name": { "type": "string" },
+        "role": { "type": "string", "enum": ["user", "admin"], "description": "Access level of the user." },
+        "createdAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["uid", "email", "role"]
+    },
+    "Post": {
+      "title": "Journal Post",
+      "description": "A blog article vetted by AI and editors.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "content": { "type": "string" },
+        "category": { "type": "string" },
+        "imageUrl": { "type": "string", "format": "uri" },
+        "authorId": { "type": "string" },
+        "status": { "type": "string", "enum": ["draft", "published", "rejected"] },
+        "createdAt": { "type": "string" },
+        "approvedAt": { "type": "string" }
+      },
+      "required": ["id", "title", "content", "authorId", "status"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": "User",
+      "description": "Primary user profiles."
+    },
+    "/posts/{postId}": {
+      "schema": "Post",
+      "description": "Journal articles and drafts."
+    }
+  }
+}
