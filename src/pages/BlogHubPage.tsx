@@ -170,17 +170,28 @@ export default function BlogHubPage() {
 
             {/* Article Content Area */}
             <article className="space-y-8 text-lg font-sans text-gray-300 leading-relaxed w-full">
-              {activeArticle.content && activeArticle.content.map((paragraph, idx) => (
-                <div key={idx} className="w-full">
-                  <p className="first-letter:text-3xl first-letter:font-serif first-letter:text-[#D4FF00] first-letter:mr-2">
-                    {paragraph}
-                  </p>
-                  {/* Insert Ad after every 3 paragraphs */}
-                  {idx > 0 && idx % 3 === 0 && (
-                    <AdUnit slot="ARTICLE_IN_FEED" />
-                  )}
-                </div>
-              ))}
+              {activeArticle.content && activeArticle.content.map((block, idx) => {
+                if (typeof block === 'string') {
+                  return (
+                    <div key={idx} className="w-full">
+                      <p className="first-letter:text-3xl first-letter:font-serif first-letter:text-[#D4FF00] first-letter:mr-2">
+                        {block}
+                      </p>
+                      {/* Insert Ad after every 3 paragraphs */}
+                      {idx > 0 && idx % 3 === 0 && (
+                        <AdUnit slot="ARTICLE_IN_FEED" />
+                      )}
+                    </div>
+                  );
+                } else if (block.type === 'image') {
+                  return (
+                    <div key={idx} className="w-full my-12">
+                      <img src={block.url} alt={block.alt} className="w-full h-auto rounded-3xl shadow-[0_20px_40px_rgba(0,0,0,0.4)] border border-white/5 object-cover" />
+                    </div>
+                  );
+                }
+                return null;
+              })}
             </article>
 
             {/* Floating Marquee Between Content and CTA */}

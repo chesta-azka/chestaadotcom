@@ -5,6 +5,7 @@ import ServicesSection from '../components/organisms/ServicesSection.tsx';
 import ProjectsSection from '../components/organisms/ProjectsSection.tsx';
 import WorkflowSection from '../components/organisms/WorkflowSection.tsx';
 import TestimonialSection from '../components/organisms/TestimonialSection.tsx';
+import PricingSection from '../components/organisms/PricingSection.tsx';
 import BlogSection from '../components/organisms/BlogSection.tsx';
 import CreativityMarquee from '../components/organisms/CreativityMarquee.tsx';
 import ContactSection from '../components/organisms/ContactSection.tsx';
@@ -22,10 +23,11 @@ export default function HomePage() {
       />
       <HeroSection />
       <ScrollingTechTicker />
-      <ServicesSection />
       <ProjectsSection />
       <WorkflowSection />
+      <ServicesSection />
       <TestimonialSection />
+      <PricingSection />
       <BlogSection />
       <CreativityMarquee />
       <ContactSection />

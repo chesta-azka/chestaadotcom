@@ -130,10 +130,9 @@ export default function HeroSection() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: "easeOut", delay: 0.4 }}
-            className="text-[2.2rem] sm:text-[3.8rem] lg:text-[4.8rem] font-display font-medium tracking-tight leading-[1.08] text-white"
+            className="text-[2.2rem] sm:text-[4rem] lg:text-[5rem] font-display font-medium tracking-tight leading-[1.08] text-white"
           >
-            Website Premium UMKM. <br className="hidden sm:inline" />
-            Brand Ekstra <span className="font-serif italic text-transparent bg-clip-text bg-gradient-to-r from-[#D4FF00] via-[#D4FF50] to-[#10B981] drop-shadow-[0_2px_15px_rgba(212,255,0,0.15)] select-none">Serius & Mahal.</span>
+            Seni Digital untuk Branding UMKM Level Korporasi.
           </motion.h1>
 
           <motion.p 
@@ -142,7 +141,7 @@ export default function HeroSection() {
             transition={{ delay: 0.6, duration: 0.8 }}
             className="text-sm sm:text-base md:text-lg text-gray-400 font-sans max-w-2xl leading-relaxed mx-auto"
           >
-            Clean, kilat (0.8s load), siap terindeks mesin Google Search, dan terhubung langsung ke mesin funnel WhatsApp Anda.
+            Website kustom premium yang sangat mementingkan konversi dan kenyamanan visual klien, siap mengalikan prospek digital Anda secara instan.
           </motion.p>
         </motion.div>
 
@@ -151,7 +150,7 @@ export default function HeroSection() {
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.8, duration: 0.8 }}
-          className="space-y-6 max-w-2xl mx-auto flex flex-col items-center"
+          className="space-y-6 max-w-3xl mx-auto flex flex-col items-center"
         >
           {/* Action buttons (Precisely mimicking Let's Work Together style and color flow) */}
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full px-4 sm:px-0">
@@ -172,7 +171,7 @@ export default function HeroSection() {
             
             {/* Secondary Violet Showcase Button */}
             <Link
-              to="/projects"
+              to="/portfolio"
               id="hero-showcase-btn"
               className="w-full sm:w-auto flex items-center justify-center rounded-full bg-[#1e1b4b] border border-indigo-500/20 px-8 py-4.5 font-mono text-xs font-bold uppercase tracking-widest text-indigo-200 hover:text-white hover:bg-indigo-900/40 hover:border-indigo-400/30 transition-all duration-300 hover:scale-[1.03]"
             >
@@ -180,9 +179,9 @@ export default function HeroSection() {
             </Link>
 
             {/* Rates tag indicator */}
-            <div className="flex flex-col items-start gap-1.5 border-l border-white/15 pl-5 sm:pl-8 py-0.5 hidden sm:flex text-left select-none">
-              <span className="text-sm sm:text-base font-mono text-gray-400 line-through decoration-red-500/80 uppercase tracking-widest">Rp 1.250.000</span>
-              <span className="text-base sm:text-lg font-mono font-black text-[#0A0D14] bg-[#D4FF00] px-4 py-1.5 rounded-md border border-[#D4FF00]/20 tracking-widest shadow-[0_0_25px_rgba(212,255,0,0.4)]">START Rp 540K</span>
+            <div className="flex flex-col flex-wrap sm:flex-nowrap items-start gap-1.5 border-l border-white/15 pl-5 sm:pl-8 py-0.5 sm:flex text-left select-none">
+              <span className="text-xs sm:text-sm font-mono text-gray-400 line-through decoration-red-500/80 uppercase tracking-widest block whitespace-nowrap">Rp 1.250.000</span>
+              <span className="text-[14px] sm:text-[15px] font-mono font-black text-[#0A0D14] bg-[#D4FF00] px-3.5 py-1.5 rounded-md border border-[#D4FF00]/20 tracking-widest shadow-[0_0_25px_rgba(212,255,0,0.4)] whitespace-nowrap">START 550K + FREE .COM</span>
             </div>
           </div>
         </motion.div>

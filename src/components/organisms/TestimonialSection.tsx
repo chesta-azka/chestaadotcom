@@ -19,7 +19,7 @@ const testimonials: Testimonial[] = [
   {
     name: "Mas Budi Setiawan",
     position: "Owner",
-    companyName: "Kopi Selasar",
+    companyName: "Local Artisan Cafe",
     industry: "Cafe & Roastery",
     avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=150&auto=format&fit=crop",
     metric: "+300% Leads",
@@ -30,7 +30,7 @@ const testimonials: Testimonial[] = [
   {
     name: "dr. Farah Nabila",
     position: "Founder",
-    companyName: "Selasar Aesthetic",
+    companyName: "Premium Aesthetic Clinic",
     industry: "Klinik Kecantikan Premium",
     avatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=150&auto=format&fit=crop",
     metric: "Page #1 Google",
@@ -41,19 +41,19 @@ const testimonials: Testimonial[] = [
   {
     name: "Pak Hendra Wijaya",
     position: "Director",
-    companyName: "Delta Legal Partners",
+    companyName: "Corporate Law Group",
     industry: "Corporate Law Firm",
     avatar: "https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?q=80&w=150&auto=format&fit=crop",
     metric: "99% Trust Score",
     metricLabel: "Ulasan Klien",
-    comment: "Saya ingin menyampaikan apresiasi tinggi dari tim direksi atas peluncuran website baru Delta Legal. Kualitas penulisan kodenya sangat rapi dan response tim anda sangat tanggap serta solutif dalam menangani revisi konten. Kredibilitas kami di mata klien korporasi baru langsung terangkat secara instan.",
+    comment: "Saya ingin menyampaikan apresiasi tinggi atas peluncuran website baru firma kami. Kualitas penulisan kodenya sangat rapi dan response tim sangat tanggap serta solutif dalam menangani materi. Kredibilitas kami di mata klien korporasi baru langsung terangkat secara instan.",
     highlightText: "Kredibilitas kami di mata klien korporasi baru langsung terangkat secara instan."
   },
   {
     name: "Kak Amanda Putri",
     position: "Founder",
-    companyName: "Bloom & Co Florist",
-    industry: "Artisanal Florist",
+    companyName: "Artisanal Florist",
+    industry: "Floral Design",
     avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=150&auto=format&fit=crop",
     metric: "+240% Order",
     metricLabel: "WhatsApp Booking",
