@@ -10,6 +10,7 @@ import BlogSection from '../components/organisms/BlogSection.tsx';
 import CreativityMarquee from '../components/organisms/CreativityMarquee.tsx';
 import ContactSection from '../components/organisms/ContactSection.tsx';
 import ScrollingTechTicker from '../components/organisms/ScrollingTechTicker.tsx';
+import FaqSection from '../components/organisms/FaqSection.tsx';
 
 export default function HomePage() {
   return (
@@ -28,6 +29,7 @@ export default function HomePage() {
       <ServicesSection />
       <TestimonialSection />
       <PricingSection />
+      <FaqSection />
       <BlogSection />
       <CreativityMarquee />
       <ContactSection />

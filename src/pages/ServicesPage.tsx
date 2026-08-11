@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
+import LazyImage from '../components/atoms/LazyImage.tsx';
 import { ArrowUpRight, Monitor, Sparkles, TrendingUp, ShieldAlert, CheckCircle, ArrowRight, MapPin, MessageCircle } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { CITIES } from '../data/AreasData';
@@ -100,7 +101,7 @@ export default function ServicesPage() {
   };
 
   return (
-    <div className="pt-32 pb-24 px-4 sm:px-6 md:px-8 max-w-5xl mx-auto bg-transparent min-h-screen text-white select-none">
+    <div className="pt-32 pb-24 px-4 sm:px-6 md:px-8 max-w-5xl mx-auto bg-transparent min-h-screen text-gray-900 select-none">
       <MetaTags 
         title="Daftar Layanan Arsitektur - CHESTADOTCOM"
         description="Pilih pilar jasa digital premium kami mulai dari Web Developer kustom Next.js, Desain UI/UX minimalist, Strategi Digital marketing, hingga visual Branding eksklusif untuk UMKM Indonesia."
@@ -114,8 +115,8 @@ export default function ServicesPage() {
         className="mb-16 md:mb-24 max-w-2xl"
       >
         <div className="flex items-center gap-3 mb-4">
-          <span className="w-8 h-[1px] bg-[#D4FF00]" />
-          <span className="text-[10px] font-mono font-bold tracking-[0.3em] text-[#D4FF00] uppercase pt-0.5">
+          <span className="w-8 h-[1px] bg-[#4f46e5]" />
+          <span className="text-[10px] font-mono font-bold tracking-[0.3em] text-[#4f46e5] uppercase pt-0.5">
             OUR BRAND CAPABILITIES
           </span>
         </div>
@@ -123,7 +124,7 @@ export default function ServicesPage() {
           Arsitektur Layanan <br className="hidden sm:block" />
           Kelas Premium.
         </h1>
-        <p className="text-sm md:text-base text-gray-400 font-sans leading-relaxed max-w-xl">
+        <p className="text-sm md:text-base text-gray-600 font-sans leading-relaxed max-w-xl">
           Fokus kami sederhana: menyingkirkan kerumitan teknis digital dan membangun visual bisnis Anda agar terlihat luar biasa meyakinkan.
         </p>
       </motion.div>
@@ -134,7 +135,7 @@ export default function ServicesPage() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: '-50px' }}
         transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-        className="border-t border-b border-white/10 bg-white/[0.01] rounded-3xl overflow-hidden backdrop-blur-sm relative z-10"
+        className="border-t border-b border-gray-200 bg-white/[0.01] rounded-3xl overflow-hidden backdrop-blur-sm relative z-10"
       >
         
         {servicesList.map((service, index) => {
@@ -143,7 +144,7 @@ export default function ServicesPage() {
           return (
             <div 
               key={service.id} 
-              className={`border-b border-white/10 last:border-b-0 transition-colors duration-500 ${isOpen ? 'bg-white/[0.02]/80' : 'hover:bg-white/[0.01]'}`}
+              className={`border-b border-gray-200 last:border-b-0 transition-colors duration-500 ${isOpen ? 'bg-white/[0.02]/80' : 'hover:bg-white/[0.01]'}`}
             >
               {/* Header Accordion Clickable Row */}
               <button
@@ -160,7 +161,7 @@ export default function ServicesPage() {
 
                 <div className="flex items-center gap-4 sm:gap-8 relative z-10">
                   {/* Service Number (01, 02, etc.) */}
-                  <span className={`font-mono text-xs tracking-wider transition-colors pt-0.5 hidden sm:inline ${isOpen ? 'text-[#D4FF00] font-bold' : 'text-gray-600 group-hover:text-gray-400'}`}>
+                  <span className={`font-mono text-xs tracking-wider transition-colors pt-0.5 hidden sm:inline ${isOpen ? 'text-[#4f46e5] font-bold' : 'text-gray-600 group-hover:text-gray-600'}`}>
                     {service.num}
                   </span>
 
@@ -180,19 +181,19 @@ export default function ServicesPage() {
                   </span>
 
                   {/* Accordion Title label */}
-                  <h3 className={`text-xl sm:text-2xl md:text-3xl font-display font-medium tracking-tight transition-all duration-300 ${isOpen ? 'text-white translate-x-1' : 'text-gray-300 group-hover:text-white'}`}>
+                  <h3 className={`text-xl sm:text-2xl md:text-3xl font-display font-medium tracking-tight transition-all duration-300 ${isOpen ? 'text-gray-900 translate-x-1' : 'text-gray-700 group-hover:text-gray-900'}`}>
                     {service.name}
                   </h3>
                 </div>
 
                 {/* Right side status indicator */}
                 <div className="flex items-center gap-4 relative z-10 shrink-0">
-                  <span className="text-[9px] font-mono text-gray-500 uppercase tracking-widest hidden md:inline group-hover:text-[#D4FF00] transition-colors pt-0.5">
+                  <span className="text-[9px] font-mono text-gray-500 uppercase tracking-widest hidden md:inline group-hover:text-[#4f46e5] transition-colors pt-0.5">
                     {isOpen ? 'TAP TO COLLAPSE' : 'TAP TO EXPAND'}
                   </span>
-                  <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full border flex items-center justify-center transition-all duration-300 ${isOpen ? 'bg-[#D4FF00] border-[#D4FF00] rotate-45 shadow-[0_0_20px_rgba(212,255,0,0.3)]' : 'border-white/5 bg-white/[0.01] group-hover:bg-white/5 group-hover:border-white/20'}`}>
+                  <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full border flex items-center justify-center transition-all duration-300 ${isOpen ? 'bg-[#4f46e5] border-[#4f46e5] rotate-45 shadow-[0_0_20px_rgba(79,70,229,0.3)]' : 'border-gray-100 bg-white/[0.01] group-hover:bg-gray-100 group-hover:border-white/20'}`}>
                     <ArrowUpRight 
-                      className={`w-4 h-4 sm:w-5 sm:h-5 transition-transform duration-300 ${isOpen ? 'text-[#06080F]' : 'text-gray-500 group-hover:text-white'}`} 
+                      className={`w-4 h-4 sm:w-5 sm:h-5 transition-transform duration-300 ${isOpen ? 'text-white' : 'text-gray-500 group-hover:text-gray-900'}`} 
                       strokeWidth={1.5}
                     />
                   </div>
@@ -227,36 +228,39 @@ export default function ServicesPage() {
                       
                       {/* 1. Title */}
                       <div className="space-y-2">
-                        <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/5 border border-white/5 text-[10px] font-mono text-gray-400 font-bold uppercase tracking-widest">
+                        <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gray-100 border border-gray-100 text-[10px] font-mono text-gray-600 font-bold uppercase tracking-widest">
                           ⚡ {service.name} Overview Details
                         </span>
                         
-                        <h4 className="text-xl sm:text-2xl md:text-3xl font-display font-medium text-white tracking-tight leading-snug">
+                        <h4 className="text-xl sm:text-2xl md:text-3xl font-display font-medium text-gray-900 tracking-tight leading-snug">
                           {service.title}
                         </h4>
                       </div>
 
                       {/* 2. Gambar (Framed Banner Mockup On Top) */}
-                      <div className="w-full aspect-[21/9] sm:aspect-[24/10] md:aspect-[3/1] rounded-2xl overflow-hidden border border-white/10 relative hover:border-[#D4FF00]/40 transition-colors shadow-2xl bg-[#0A0D16] z-10">
+                      <div className="w-full aspect-[21/9] sm:aspect-[24/10] md:aspect-[3/1] rounded-2xl overflow-hidden border border-gray-200 relative hover:border-[#4f46e5]/40 transition-colors shadow-2xl bg-[#0A0D16] z-10">
                         {/* Outer thin glass overlay mock frame */}
-                        <div className="absolute top-3 left-3 right-3 h-6 bg-black/40 rounded-lg flex items-center px-3 gap-1.5 border border-white/5 z-20">
+                        <div className="absolute top-3 left-3 right-3 h-6 bg-black/40 rounded-lg flex items-center px-3 gap-1.5 border border-gray-100 z-20">
                           <span className="w-1.5 h-1.5 rounded-full bg-red-500/80" />
                           <span className="w-1.5 h-1.5 rounded-full bg-yellow-500/80" />
                           <span className="w-1.5 h-1.5 rounded-full bg-emerald-500/80" />
-                          <span className="text-[8px] text-gray-505 font-mono ml-2 tracking-widest uppercase text-gray-400">browser_preview.app</span>
+                          <span className="text-[8px] text-gray-505 font-mono ml-2 tracking-widest uppercase text-gray-600">browser_preview.app</span>
                         </div>
                         
                         {/* Img background fit */}
                         <div className="absolute top-[38px] inset-x-3 bottom-3 rounded-xl overflow-hidden bg-black/60">
-                          <motion.img 
-                            src={service.image} 
-                            alt={service.name} 
-                            className="w-full h-full object-cover opacity-85 hover:scale-103 hover:opacity-100 transition-all duration-500 grayscale hover:grayscale-0"
-                            referrerPolicy="no-referrer"
+                          <motion.div
                             initial={{ scale: 0.98, opacity: 0.7 }}
                             animate={{ scale: 1, opacity: 0.95 }}
                             transition={{ duration: 0.6 }}
-                          />
+                            className="w-full h-full"
+                          >
+                            <LazyImage 
+                              src={service.image} 
+                              alt={service.name} 
+                              className="w-full h-full object-cover opacity-85 hover:scale-103 hover:opacity-100 transition-all duration-500 grayscale hover:grayscale-0"
+                            />
+                          </motion.div>
                         </div>
 
                         <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
@@ -264,7 +268,7 @@ export default function ServicesPage() {
 
                       {/* 3. Subtitle Description & Features Checklist */}
                       <div className="space-y-6">
-                        <p className="text-sm sm:text-base font-sans text-gray-300 leading-relaxed max-w-4xl">
+                        <p className="text-sm sm:text-base font-sans text-gray-700 leading-relaxed max-w-4xl">
                           {service.subtitle}
                         </p>
 
@@ -272,22 +276,22 @@ export default function ServicesPage() {
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pb-2 max-w-3xl">
                           {service.points.map((pt, pIdx) => (
                             <div key={pIdx} className="flex items-center gap-2.5">
-                              <div className="w-5 h-5 rounded-md bg-white/5 flex items-center justify-center shrink-0 border border-white/5">
-                                <CheckCircle size={12} className="text-[#D4FF00]" strokeWidth={2.5} />
+                              <div className="w-5 h-5 rounded-md bg-gray-100 flex items-center justify-center shrink-0 border border-gray-100">
+                                <CheckCircle size={12} className="text-[#4f46e5]" strokeWidth={2.5} />
                               </div>
-                              <span className="text-[11px] sm:text-xs font-sans text-gray-300 font-medium">{pt}</span>
+                              <span className="text-[11px] sm:text-xs font-sans text-gray-700 font-medium">{pt}</span>
                             </div>
                           ))}
                         </div>
                       </div>
 
                       {/* 4. CTA */}
-                      <div className="pt-6 border-t border-white/5">
+                      <div className="pt-6 border-t border-gray-100">
                         <a
                           href={buildWhatsAppLink(service.name)}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="inline-flex items-center gap-3 px-6 py-4 rounded-full bg-[#D4FF00] text-[#06080F] font-mono font-bold text-xs tracking-wider uppercase transition-all duration-300 hover:bg-[#e1ff2a] hover:shadow-[0_12px_30px_rgba(212,255,0,0.3)] select-none"
+                          className="inline-flex items-center gap-3 px-6 py-4 rounded-full bg-[#4f46e5] text-white font-mono font-bold text-xs tracking-wider uppercase transition-all duration-300 hover:bg-indigo-500 hover:shadow-indigo-500/30 select-none"
                         >
                           <span>{service.ctaText.toUpperCase()}</span>
                           <ArrowUpRight size={14} className="stroke-[2px]" />
@@ -310,7 +314,7 @@ export default function ServicesPage() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: '-50px' }}
         transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-        className="mt-24 border-t border-white/5 pt-16 relative"
+        className="mt-24 border-t border-gray-100 pt-16 relative"
       >
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-72 h-72 bg-[#06B6D4]/3 rounded-full blur-[100px] pointer-events-none" />
         
@@ -321,10 +325,10 @@ export default function ServicesPage() {
               GEOGRAPHIC TARGET AREAS
             </span>
           </div>
-          <h2 className="text-3xl md:text-4xl font-display font-medium tracking-tight text-white mb-4 leading-none">
+          <h2 className="text-3xl md:text-4xl font-display font-medium tracking-tight text-gray-900 mb-4 leading-none">
             Wilayah Jangkauan Layanan Kota.
           </h2>
-          <p className="text-sm text-gray-400 font-sans leading-relaxed">
+          <p className="text-sm text-gray-600 font-sans leading-relaxed">
             Menghadirkan optimasi web modern kustom, riset pasar lokal autentik, dan visibilitas Google Search maksimal untuk kesuksesan brand Anda di kota-kota prioritas Indonesia.
           </p>
         </div>
@@ -335,23 +339,23 @@ export default function ServicesPage() {
             <Link
               key={city}
               to={`/area/${city.toLowerCase()}`}
-              className="group flex flex-col justify-between p-4 bg-[#131825]/20 border border-white/5 rounded-2xl hover:bg-[#131825]/70 hover:border-[#D4FF00]/30 hover:-translate-y-0.5 transition-all duration-300 relative overflow-hidden"
+              className="group flex flex-col justify-between p-4 bg-gray-50 border border-gray-100 rounded-2xl hover:bg-gray-50 hover:border-[#4f46e5]/30 hover:-translate-y-0.5 transition-all duration-300 relative overflow-hidden"
             >
               {/* Subtle top horizontal indicator */}
-              <div className="absolute top-0 inset-x-4 h-[1px] bg-[#D4FF00]/0 group-hover:bg-[#D4FF00]/20 transition-all duration-500" />
+              <div className="absolute top-0 inset-x-4 h-[1px] bg-[#4f46e5]/0 group-hover:bg-[#4f46e5]/20 transition-all duration-500" />
               
               <div className="flex items-center justify-between mb-4">
-                <span className="p-1.5 rounded-lg bg-white/5 text-gray-500 group-hover:text-[#D4FF00] group-hover:bg-[#D4FF00]/10 transition-all">
+                <span className="p-1.5 rounded-lg bg-gray-100 text-gray-500 group-hover:text-[#4f46e5] group-hover:bg-[#4f46e5]/10 transition-all">
                   <MapPin size={12} />
                 </span>
-                <ArrowUpRight size={12} className="text-gray-600 group-hover:text-[#D4FF00] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
+                <ArrowUpRight size={12} className="text-gray-600 group-hover:text-[#4f46e5] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
               </div>
               
               <div>
-                <span className="text-[10px] font-mono tracking-widest text-gray-500 group-hover:text-[#D4FF00]/80 transition-colors uppercase font-bold">
+                <span className="text-[10px] font-mono tracking-widest text-gray-500 group-hover:text-[#4f46e5]/80 transition-colors uppercase font-bold">
                   AREA SERVED
                 </span>
-                <h4 className="text-sm font-sans font-extrabold tracking-tight text-white uppercase mt-0.5 group-hover:tracking-wide transition-all">
+                <h4 className="text-sm font-sans font-extrabold tracking-tight text-gray-900 uppercase mt-0.5 group-hover:tracking-wide transition-all">
                   {city}
                 </h4>
               </div>
@@ -364,24 +368,24 @@ export default function ServicesPage() {
       <motion.section 
         whileHover={{ scale: 1.02 }}
         transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-        className="mt-20 border border-white/5 rounded-3xl p-8 md:p-12 bg-[#131825]/40 hover:bg-[#131825]/60 hover:border-[#D4FF00]/30 transition-all duration-500 relative overflow-hidden text-left mb-6"
+        className="mt-20 border border-gray-100 rounded-3xl p-8 md:p-12 bg-gray-50 hover:bg-gray-50 hover:border-[#4f46e5]/30 transition-all duration-500 relative overflow-hidden text-left mb-6"
       >
-        <div className="absolute -top-12 -right-12 w-64 h-64 bg-[#D4FF00]/4 rounded-full blur-[80px] pointer-events-none" />
+        <div className="absolute -top-12 -right-12 w-64 h-64 bg-[#4f46e5]/4 rounded-full blur-[80px] pointer-events-none" />
         <div className="absolute -bottom-12 -left-12 w-64 h-64 bg-[#06B6D4]/3 rounded-full blur-[80px] pointer-events-none" />
         
         <div className="max-w-3xl relative z-10">
           <div className="flex items-center gap-2.5 mb-4">
-            <span className="w-2 h-2 rounded-full bg-[#D4FF00]" />
-            <span className="text-[10px] font-mono font-bold tracking-[0.2em] text-[#D4FF00] uppercase pt-0.5">
+            <span className="w-2 h-2 rounded-full bg-[#4f46e5]" />
+            <span className="text-[10px] font-mono font-bold tracking-[0.2em] text-[#4f46e5] uppercase pt-0.5">
               100% PERSONALIZED ROADMAP
             </span>
           </div>
           
-          <h3 className="text-2xl md:text-4xl text-white tracking-tight leading-tight mb-4 font-display font-medium">
+          <h3 className="text-2xl md:text-4xl text-gray-900 tracking-tight leading-tight mb-4 font-display font-medium">
             Siap Merevolusi Brand Digital Anda & Mendominasi Kompetisi Lokal?
           </h3>
           
-          <p className="text-sm md:text-base text-gray-400 font-sans leading-relaxed mb-8 max-w-2xl">
+          <p className="text-sm md:text-base text-gray-600 font-sans leading-relaxed mb-8 max-w-2xl">
             Mari diskusikan rancangan website, strategi konversi, serta visualisasi branding terbaik khusus kota Anda secara privat bersama desainer pimpinan CHESTADOTCOM. Tanpa komitmen, tanpa bot perantara.
           </p>
 
@@ -390,7 +394,7 @@ export default function ServicesPage() {
               href="https://wa.me/6282125447232?text=Halo%20CHESTADOTCOM%2C%20saya%20tertarik%20dengan%20layanan%20jasa%20digital%2520premium%2520Anda.%20Bisa%20bantu%20analisis%20potensi%20brand%20saya%20untuk%20pasar%20lokal%3F"
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-3 px-6 py-4 rounded-full bg-[#D4FF00] text-[#06080F] font-mono font-bold text-xs tracking-wider uppercase transition-all duration-300 hover:bg-[#e1ff2a] hover:shadow-[0_12px_35px_rgba(212,255,0,0.3)] select-none shrink-0"
+              className="inline-flex items-center justify-center gap-3 px-6 py-4 rounded-full bg-[#4f46e5] text-white font-mono font-bold text-xs tracking-wider uppercase transition-all duration-300 hover:bg-indigo-500 hover:shadow-indigo-500/30 select-none shrink-0"
             >
               <MessageCircle size={14} className="stroke-[2.5px]" />
               <span>KONSULTASI GRATIS SEKARANG (WA)</span>
@@ -403,9 +407,9 @@ export default function ServicesPage() {
                 onMouseEnter={() => setShowTips(true)}
                 onMouseLeave={() => setShowTips(false)}
                 onClick={() => setShowTips(!showTips)}
-                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full border border-white/10 bg-white/[0.02] hover:bg-white/5 text-gray-400 hover:text-white transition-all text-[9px] font-mono font-bold uppercase tracking-wider cursor-help select-none"
+                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full border border-gray-200 bg-white/[0.02] hover:bg-gray-100 text-gray-600 hover:text-gray-900 transition-all text-[9px] font-mono font-bold uppercase tracking-wider cursor-help select-none"
               >
-                <Sparkles size={11} className="text-[#D4FF00]" />
+                <Sparkles size={11} className="text-[#4f46e5]" />
                 <span>💡 2 TIPS CHAT WA</span>
               </button>
 
@@ -416,19 +420,19 @@ export default function ServicesPage() {
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: 10, scale: 0.95 }}
                     transition={{ duration: 0.2 }}
-                    className="absolute bottom-full left-1/2 sm:left-0 -translate-x-1/2 sm:translate-x-0 mb-3 w-[290px] p-4 rounded-2xl bg-[#090D15]/95 backdrop-blur-md border border-[#D4FF00]/20 shadow-[0_12px_40px_rgba(0,0,0,0.8)] z-50 text-left cursor-default pointer-events-none"
+                    className="absolute bottom-full left-1/2 sm:left-0 -translate-x-1/2 sm:translate-x-0 mb-3 w-[290px] p-4 rounded-2xl bg-white backdrop-blur-md border border-[#4f46e5]/20 shadow-[0_12px_40px_rgba(0,0,0,0.8)] z-50 text-left cursor-default pointer-events-none"
                   >
                     <div className="space-y-2.5 text-[11px] leading-relaxed">
-                      <div className="font-mono text-[9px] text-[#D4FF00] font-black uppercase tracking-wider flex items-center gap-1.5 border-b border-white/5 pb-1.5">
+                      <div className="font-mono text-[9px] text-[#4f46e5] font-black uppercase tracking-wider flex items-center gap-1.5 border-b border-gray-100 pb-1.5">
                         <MessageCircle size={11} />
                         FORMULA CHAT RESPON CEPAT
                       </div>
-                      <div className="space-y-2 font-sans text-gray-400">
+                      <div className="space-y-2 font-sans text-gray-600">
                         <p>
-                          <strong className="text-white">1. Cantumkan Jenis Usaha & Kota:</strong> Membantu kami memetakan referensi pasar lokal unik dengan respons kilat.
+                          <strong className="text-gray-900">1. Cantumkan Jenis Usaha & Kota:</strong> Membantu kami memetakan referensi pasar lokal unik dengan respons kilat.
                         </p>
                         <p>
-                          <strong className="text-white">2. Berikan Inspirasi Web:</strong> Sebutkan 1 kompetitor atau referensi digital global yang sesuai selera Anda.
+                          <strong className="text-gray-900">2. Berikan Inspirasi Web:</strong> Sebutkan 1 kompetitor atau referensi digital global yang sesuai selera Anda.
                         </p>
                       </div>
                     </div>
@@ -441,7 +445,7 @@ export default function ServicesPage() {
             
             <Link
               to="/projects"
-              className="inline-flex items-center justify-center gap-2 px-6 py-4 rounded-full border border-white/10 bg-white/[0.02] text-gray-300 font-mono font-bold text-xs tracking-wider uppercase transition-all duration-300 hover:bg-white/5 hover:border-white/20 select-none"
+              className="inline-flex items-center justify-center gap-2 px-6 py-4 rounded-full border border-gray-200 bg-white/[0.02] text-gray-700 font-mono font-bold text-xs tracking-wider uppercase transition-all duration-300 hover:bg-gray-100 hover:border-white/20 select-none"
             >
               <span>LIHAT SHOWCASE KAMI</span>
               <ArrowRight size={12} />
@@ -456,9 +460,9 @@ export default function ServicesPage() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: '-50px' }}
         transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-        className="mt-16 text-center max-w-xl mx-auto border border-white/5 rounded-3xl p-6 bg-gradient-to-r from-transparent via-white/[0.01] to-transparent relative overflow-hidden"
+        className="mt-16 text-center max-w-xl mx-auto border border-gray-100 rounded-3xl p-6 bg-gradient-to-r from-transparent via-white/[0.01] to-transparent relative overflow-hidden"
       >
-        <div className="absolute top-0 right-1/2 translate-x-1/2 w-32 h-32 bg-[#D4FF00]/2 rounded-full blur-xl pointer-events-none" />
+        <div className="absolute top-0 right-1/2 translate-x-1/2 w-32 h-32 bg-[#4f46e5]/2 rounded-full blur-xl pointer-events-none" />
         <p className="text-xs text-gray-500 font-mono tracking-wide leading-relaxed">
           Semua pilar di atas dirancang dari awal oleh CHESTADOTCOM (Digital Architect 2026) demi memastikan performa performative serta integritas konversi penuh. Tidak ada template murahan, melainkan murni keunggulan desain estetika premium.
         </p>

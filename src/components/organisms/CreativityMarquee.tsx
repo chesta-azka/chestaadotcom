@@ -4,23 +4,23 @@ import { Compass, ArrowDownRight, Sparkles } from 'lucide-react';
 // Real-world high-fidelity copy of the navbar logo double-diamond emblem
 const NavbarLogoIcon = () => (
   <span className="inline-flex items-center justify-center mx-6 sm:mx-10 md:mx-12 shrink-0 select-none">
-    <span className="relative flex items-center justify-center w-14 h-14 md:w-20 md:h-20 rounded-2xl bg-[#131825] border border-white/15 shadow-[0_12px_36px_rgba(0,0,0,0.6)] group-hover:scale-105 transition-transform duration-500">
-      <svg className="w-7 h-7 md:w-10 md:h-10 text-[#D4FF00]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+    <span className="relative flex items-center justify-center w-14 h-14 md:w-20 md:h-20 rounded-2xl bg-gray-50 border border-white/15 shadow-[0_12px_36px_rgba(0,0,0,0.6)] group-hover:scale-105 transition-transform duration-500">
+      <svg className="w-7 h-7 md:w-10 md:h-10 text-[#4f46e5]" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
         <path d="m12 3-8 8 8 8 8-8-8-8z" />
         <path d="m12 8-4 4 4 4 4-4-4-4z" />
       </svg>
       {/* Dynamic breathing neon ring glow without green */}
-      <span className="absolute inset-0 rounded-2xl bg-[#D4FF00]/10 opacity-25 blur-md" />
+      <span className="absolute inset-0 rounded-2xl bg-[#4f46e5]/10 opacity-25 blur-md" />
       
       {/* Decorative corner accents */}
-      <span className="absolute -top-1 -left-1 w-2.5 h-2.5 border-t-2 border-l-2 border-[#D4FF00]/40 rounded-tl-sm" />
-      <span className="absolute -bottom-1 -right-1 w-2.5 h-2.5 border-b-2 border-r-2 border-[#D4FF00]/40 rounded-br-sm" />
+      <span className="absolute -top-1 -left-1 w-2.5 h-2.5 border-t-2 border-l-2 border-[#4f46e5]/40 rounded-tl-sm" />
+      <span className="absolute -bottom-1 -right-1 w-2.5 h-2.5 border-b-2 border-r-2 border-[#4f46e5]/40 rounded-br-sm" />
     </span>
   </span>
 );
 
 const DecorativeDivider = () => (
-  <span className="inline-flex items-center gap-3 px-8 md:px-14 shrink-0 text-[#D4FF00]/20 select-none font-mono text-sm">
+  <span className="inline-flex items-center gap-3 px-8 md:px-14 shrink-0 text-[#4f46e5]/20 select-none font-mono text-sm">
     <span>/</span>
     <span>/</span>
   </span>
@@ -28,16 +28,16 @@ const DecorativeDivider = () => (
 
 const MarqueeTrack = () => (
   <div className="flex items-center shrink-0">
-    <div className="flex items-center font-display font-black uppercase text-5xl sm:text-7xl md:text-[7rem] tracking-tighter text-white shrink-0 leading-none">
+    <div className="flex items-center font-display font-black uppercase text-5xl sm:text-7xl md:text-[7rem] tracking-tighter text-gray-900 shrink-0 leading-none">
       <span>BRING</span>
-      <span className="font-serif italic font-normal text-transparent bg-clip-text bg-gradient-to-r from-[#D4FF00] via-[#E2FF3B] to-emerald-300 ml-4 lowercase tracking-normal">creatifity</span>
+      <span className="font-serif italic font-normal text-transparent bg-clip-text bg-gradient-to-r from-[#4f46e5] via-[#E2FF3B] to-emerald-300 ml-4 lowercase tracking-normal">creatifity</span>
     </div>
 
     <NavbarLogoIcon />
 
-    <div className="flex items-center font-display font-black uppercase text-5xl sm:text-7xl md:text-[7rem] tracking-tighter text-white shrink-0 leading-none">
+    <div className="flex items-center font-display font-black uppercase text-5xl sm:text-7xl md:text-[7rem] tracking-tighter text-gray-900 shrink-0 leading-none">
       <span>TO YOUR</span>
-      <span className="font-serif italic font-normal text-white underline decoration-[#D4FF00] decoration-[4px] underline-offset-8 ml-4 lowercase tracking-normal">business</span>
+      <span className="font-serif italic font-normal text-gray-900 underline decoration-[#4f46e5] decoration-[4px] underline-offset-8 ml-4 lowercase tracking-normal">business</span>
     </div>
 
     <NavbarLogoIcon />
@@ -48,7 +48,7 @@ const MarqueeTrack = () => (
 
 export default function CreativityMarquee() {
   return (
-    <section className="py-16 md:py-24 w-full overflow-hidden bg-transparent border-y border-white/5 relative z-10 select-none">
+    <section className="py-16 md:py-24 w-full overflow-hidden bg-transparent border-y border-gray-100 relative z-10 select-none">
       {/* Absolute clean backdrop grid lines */}
       <div className="absolute top-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent" />
       <div className="absolute bottom-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent" />

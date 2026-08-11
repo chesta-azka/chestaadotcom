@@ -63,7 +63,7 @@ export default function ProgressBar() {
     <>
       {/* Top scroll progress line with custom gradient color accent */}
       <motion.div
-        className="fixed top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#D4FF00] to-green-400 origin-left z-[100] shadow-[0_1px_10px_rgba(212,255,0,0.5)]"
+        className="fixed top-0 left-0 right-0 h-1 bg-gradient-to-r from-[#4f46e5] to-green-400 origin-left z-[100] shadow-[0_1px_10px_rgba(79,70,229,0.5)]"
         style={{ scaleX }}
       />
 
@@ -85,13 +85,13 @@ export default function ProgressBar() {
           opacity: { duration: 0.18 },
           scale: { duration: 0.18 }
         }}
-        className="fixed top-2 z-[101] px-2 py-0.5 rounded-md bg-[#D4FF00] text-[#06080F] font-mono font-extrabold text-[9px] tracking-wider uppercase shadow-[0_4px_16px_rgba(212,255,0,0.35)] flex items-center gap-1 select-none pointer-events-none"
+        className="fixed top-2 z-[101] px-2 py-0.5 rounded-md bg-[#4f46e5] text-white font-mono font-extrabold text-[9px] tracking-wider uppercase shadow-[0_4px_16px_rgba(79,70,229,0.35)] flex items-center gap-1 select-none pointer-events-none"
       >
         {/* Pointer Arrow */}
-        <div className="absolute -top-[3px] left-1/2 -translate-x-1/2 w-1.5 h-1.5 rotate-45 bg-[#D4FF00]" />
+        <div className="absolute -top-[3px] left-1/2 -translate-x-1/2 w-1.5 h-1.5 rotate-45 bg-[#4f46e5]" />
         
         <span className="relative z-10 flex items-center gap-1 px-1">
-          <span className={`w-1 h-1 rounded-full ${isFinished ? 'bg-green-700' : 'bg-[#06080F] animate-pulse'}`} />
+          <span className={`w-1 h-1 rounded-full ${isFinished ? 'bg-green-700' : 'bg-gray-100 animate-pulse'}`} />
           <span>{tooltipLabel}</span>
         </span>
       </motion.div>
@@ -102,14 +102,14 @@ export default function ProgressBar() {
           initial={{ opacity: 0, y: -10 }}
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -10 }}
-          className="fixed top-24 right-6 bg-[#0D111A]/95 backdrop-blur-xl border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.4)] px-4 py-2 rounded-full z-[100] flex items-center gap-2 select-none"
+          className="fixed top-24 right-6 bg-white backdrop-blur-xl border border-gray-200 shadow-[0_8px_32px_rgba(0,0,0,0.4)] px-4 py-2 rounded-full z-[100] flex items-center gap-2 select-none"
         >
-          <span className={`w-2 h-2 rounded-full ${isFinished ? 'bg-green-400' : 'bg-[#D4FF00] animate-pulse'}`} />
-          <span className="font-mono text-[10px] tracking-widest text-gray-400 uppercase">
+          <span className={`w-2 h-2 rounded-full ${isFinished ? 'bg-green-400' : 'bg-[#4f46e5] animate-pulse'}`} />
+          <span className="font-mono text-[10px] tracking-widest text-gray-600 uppercase">
             {isFinished ? (
               <span className="text-green-400 font-semibold">SELESAI MEMBACA ✓</span>
             ) : (
-              <>SISA BACA: <strong className="text-white">{minutesLeft} MENIT</strong></>
+              <>SISA BACA: <strong className="text-gray-900">{minutesLeft} MENIT</strong></>
             )}
           </span>
         </motion.div>

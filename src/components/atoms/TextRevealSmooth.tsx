@@ -13,7 +13,7 @@ export default function TextRevealSmooth({
   text, 
   className = '',
   highlightWords = [],
-  highlightClass = "text-transparent bg-clip-text bg-gradient-to-r from-[#D4FF00] to-green-400 font-serif italic",
+  highlightClass = "text-transparent bg-clip-text bg-gradient-to-r from-[#4f46e5] to-green-400 font-serif italic",
   wordClassName = "",
   once = true
 }: TextRevealSmoothProps) {
@@ -59,7 +59,7 @@ export default function TextRevealSmooth({
         // Find if this word matches any highlight word (strip punctuation)
         const cleanWord = word.toLowerCase().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"");
         const isHighlight = highlightWords.some(hw => cleanWord === hw.toLowerCase());
-        const wordColorClass = isHighlight ? highlightClass : "text-white";
+        const wordColorClass = isHighlight ? highlightClass : "text-gray-900";
 
         return (
           <motion.span

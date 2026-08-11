@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { PROJECTS } from '../data/projects';
 import MetaTags from '../components/atoms/MetaTags';
 import CreativityMarquee from '../components/organisms/CreativityMarquee.tsx';
+import LazyImage from '../components/atoms/LazyImage.tsx';
 
 const CATEGORIES = ['All', 'Website', 'Landing Page', 'Company Profile'];
 
@@ -24,8 +25,8 @@ export default function PortfolioPage() {
       />
 
       {/* Cinematic Hero */}
-      <section className="relative min-h-[45vh] flex flex-col justify-end pt-32 pb-24 border-b border-white/5 mb-20 overflow-hidden">
-        <div className="absolute inset-0 bg-[#D4FF40]/5 rounded-full blur-[120px] pointer-events-none -z-10 mix-blend-screen" />
+      <section className="relative min-h-[45vh] flex flex-col justify-end pt-32 pb-24 border-b border-gray-100 mb-20 overflow-hidden">
+        <div className="absolute inset-0 bg-blue-50/50 rounded-full blur-[120px] pointer-events-none -z-10 mix-blend-multiply" />
         
         <div className="mx-auto max-w-7xl px-6 w-full relative z-10">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-end">
@@ -35,17 +36,17 @@ export default function PortfolioPage() {
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, ease: "easeOut" }}
               >
-                <div className="mb-8 inline-flex items-center gap-3 rounded-full border border-white/10 bg-white/5 backdrop-blur-md px-5 py-2 text-xs font-sans font-semibold tracking-widest text-[#D4FF00] uppercase shadow-sm">
-                  <span className="w-2 h-2 rounded-full bg-[#D4FF00] animate-pulse" />
+                <div className="mb-8 inline-flex items-center gap-3 rounded-full border border-gray-200 bg-gray-1000 backdrop-blur-md px-5 py-2 text-xs font-sans font-semibold tracking-widest text-[#4f46e5] uppercase shadow-sm">
+                  <span className="w-2 h-2 rounded-full bg-[#4f46e5] animate-pulse" />
                   Showcase Portfolio
                 </div>
                 
-                <h1 className="text-4xl sm:text-[6rem] lg:text-[7rem] font-display font-medium tracking-tight leading-[0.85] text-white uppercase mb-8">
+                <h1 className="text-4xl sm:text-[6rem] lg:text-[7rem] font-display font-medium tracking-tight leading-[0.85] text-gray-900 uppercase mb-8">
                   Selected <br />
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#D4FF00] via-green-400 to-indigo-400 font-serif italic pr-4">Works.</span>
+                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 via-blue-500 to-cyan-500 font-serif italic pr-4">Works.</span>
                 </h1>
                 
-                <p className="text-xl md:text-2xl text-gray-400 font-sans max-w-2xl leading-relaxed">
+                <p className="text-xl md:text-2xl text-gray-500 font-sans max-w-2xl leading-relaxed">
                   Awalnya hanya sebuah ide, kini menjadi karya premium penunjang omset UMKM.
                 </p>
               </motion.div>
@@ -58,12 +59,12 @@ export default function PortfolioPage() {
               className="lg:col-span-4 lg:pb-6 flex lg:justify-end"
             >
                <div className="flex gap-2 mb-12 flex-wrap pb-4">
-                  <span className="text-[11px] font-sans font-semibold tracking-widest uppercase text-gray-500 whitespace-nowrap mb-2 w-full">Filter By:</span>
+                  <span className="text-[11px] font-sans font-semibold tracking-widest uppercase text-gray-600 whitespace-nowrap mb-2 w-full">Filter By:</span>
                   {CATEGORIES.map(cat => (
                     <button 
                       key={cat}
                       onClick={() => setFilter(cat)}
-                      className={`px-6 py-2.5 rounded-full font-sans font-semibold text-[11px] uppercase tracking-widest border transition-all duration-300 ${filter === cat ? 'bg-[#D4FF00] text-[#06080F] border-[#D4FF00]' : 'bg-white/5 border border-white/5 text-gray-400 hover:text-white hover:border-white/20 backdrop-blur-sm'}`}
+                      className={`px-6 py-2.5 rounded-full font-sans font-semibold text-[11px] uppercase tracking-widest border transition-all duration-300 ${filter === cat ? 'bg-[#4f46e5] text-white border-[#4f46e5] shadow-md' : 'bg-white border border-gray-200 text-gray-500 hover:text-gray-900 hover:border-gray-300 shadow-sm'}`}
                     >
                       {cat}
                     </button>
@@ -89,25 +90,25 @@ export default function PortfolioPage() {
                 >
                   <Link
                     to={`/portfolio/${project.id}`}
-                    className="block shadow-sm hover:shadow-2xl bg-[#131825]/30 border border-white/5 hover:border-[#D4FF00]/40 rounded-3xl overflow-hidden group transition-all duration-500 flex flex-col relative cursor-pointer aspect-square sm:aspect-auto sm:h-[450px]"
+                    className="block shadow-sm hover:shadow-xl bg-white border border-gray-100 hover:border-indigo-200 rounded-3xl overflow-hidden group transition-all duration-500 flex flex-col relative cursor-pointer aspect-square sm:aspect-auto sm:h-[450px]"
                   >
                     {/* Image Block */}
-                    <div className="flex-1 w-full relative overflow-hidden bg-[#0A0D14]">
-                      <img 
+                    <div className="flex-1 w-full relative overflow-hidden bg-gray-50">
+                      <LazyImage 
                         src={project.thumbnail} 
                         alt={project.title} 
-                        className="w-full h-full object-cover grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700 ease-out"
+                        className="w-full h-full object-cover grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700 ease-out group-hover:scale-105"
                         referrerPolicy="no-referrer"
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/85 via-black/20 to-transparent pointer-events-none" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 via-gray-900/20 to-transparent pointer-events-none transition-opacity duration-500 group-hover:opacity-90" />
                     </div>
                     
                     {/* Card Title */}
                     <div className="absolute inset-x-0 bottom-0 p-8 z-20">
-                      <span className="text-[10px] font-sans font-semibold text-[#D4FF00] tracking-widest uppercase mb-2 block">
+                      <span className="text-[10px] font-sans font-semibold text-indigo-300 tracking-widest uppercase mb-2 block group-hover:text-indigo-400 transition-colors">
                         {project.category}
                       </span>
-                      <h3 className="text-2xl sm:text-3xl font-display font-medium text-white tracking-tight leading-snug group-hover:text-[#D4FF00] transition-colors">
+                      <h3 className="text-2xl sm:text-3xl font-display font-medium text-gray-900 tracking-tight leading-snug group-hover:text-gray-900 transition-colors">
                         {project.title}
                       </h3>
                     </div>
@@ -117,29 +118,29 @@ export default function PortfolioPage() {
             </div>
             
             {filteredProjects.length === 0 && (
-               <div className="py-24 text-center border border-dashed border-white/10 rounded-[2rem] bg-white/[0.01]">
-                  <p className="text-gray-400 font-sans tracking-widest uppercase text-xs">Tidak ada project untuk kategori ini.</p>
+               <div className="py-24 text-center border border-dashed border-gray-200 rounded-[2rem] bg-gray-50">
+                  <p className="text-gray-600 font-sans tracking-widest uppercase text-xs">Tidak ada project untuk kategori ini.</p>
                </div>
             )}
         </div>
 
         {/* Sticky Conversion Sidebar */}
         <div className="md:col-span-4 lg:col-span-3">
-           <div className="sticky top-32 p-8 rounded-[2rem] bg-gradient-to-br from-[#12141D] to-[#06080F] border border-white/10 shadow-[0_0_50px_rgba(212,255,0,0.03)] relative overflow-hidden group">
-              <div className="absolute inset-0 bg-[#D4FF00]/5 rounded-full blur-[80px] pointer-events-none" />
+           <div className="sticky top-32 p-8 rounded-[2rem] bg-white border border-gray-100 shadow-xl relative overflow-hidden group">
+              <div className="absolute inset-0 bg-blue-50/50 rounded-full blur-[80px] pointer-events-none mix-blend-multiply" />
               
               <div className="relative z-10">
-                 <div className="w-12 h-12 rounded-xl bg-[#D4FF00]/10 flex items-center justify-center mb-6">
-                    <CheckCircle2 size={24} className="text-[#D4FF00]" />
+                 <div className="w-12 h-12 rounded-xl bg-indigo-50 flex items-center justify-center mb-6">
+                    <CheckCircle2 size={24} className="text-[#4f46e5]" />
                  </div>
-                 <h4 className="text-2xl font-display font-medium text-white mb-2 leading-tight">Tertarik dengan kinerja website kami?</h4>
-                 <p className="text-sm font-sans text-gray-400 mb-8 leading-relaxed">Konsultasikan kebutuhan spesifik bisnis Anda dengan tim kami sekarang juga secara gratis.</p>
+                 <h4 className="text-2xl font-display font-medium text-gray-900 mb-2 leading-tight">Tertarik dengan kinerja website kami?</h4>
+                 <p className="text-sm font-sans text-gray-500 mb-8 leading-relaxed">Konsultasikan kebutuhan spesifik bisnis Anda dengan tim kami sekarang juga secara gratis.</p>
                  
                  <a 
                    href="https://wa.me/6282125447232" 
                    target="_blank" 
                    rel="noopener noreferrer" 
-                   className="flex items-center justify-center gap-2 w-full py-4 bg-[#D4FF00] text-[#06080F] font-sans font-bold rounded-xl text-sm hover:scale-[1.02] transition-transform duration-300 shadow-[0_0_20px_rgba(212,255,0,0.3)]"
+                   className="flex items-center justify-center gap-2 w-full py-4 bg-[#4f46e5] text-white font-sans font-bold rounded-xl text-sm hover:scale-[1.02] transition-transform duration-300 shadow-md hover:shadow-lg hover:bg-indigo-700"
                  >
                     Chat via WhatsApp <ArrowUpRight size={16} />
                  </a>

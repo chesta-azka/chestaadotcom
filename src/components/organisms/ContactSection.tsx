@@ -74,11 +74,11 @@ export default function ContactSection() {
   };
 
   return (
-    <section id="pricing" className="py-24 md:py-32 relative overflow-hidden bg-transparent select-none text-white">
+    <section id="pricing" className="py-24 md:py-32 relative overflow-hidden bg-transparent select-none text-gray-900">
       {/* Seamless background blending gradients */}
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/[0.012] to-transparent pointer-events-none" />
       {/* Absolute lighting visual glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[550px] h-[550px] bg-[#D4FF00]/2 rounded-full filter blur-[150px] pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[550px] h-[550px] bg-[#4f46e5]/2 rounded-full filter blur-[150px] pointer-events-none" />
       
       <div className="mx-auto max-w-6xl px-4 sm:px-6 relative z-10">
         
@@ -91,18 +91,18 @@ export default function ContactSection() {
             transition={{ duration: 0.6 }}
             className="space-y-4"
           >
-            <span className="text-[#D4FF00] font-mono text-[10px] uppercase tracking-[0.2em] inline-flex items-center gap-2 bg-white/5 px-3 py-1 rounded-full border border-white/10">
-              <Sparkles size={10} className="text-[#D4FF00] animate-pulse" />
+            <span className="text-[#4f46e5] font-mono text-[10px] uppercase tracking-[0.2em] inline-flex items-center gap-2 bg-gray-100 px-3 py-1 rounded-full border border-gray-200">
+              <Sparkles size={10} className="text-[#4f46e5] animate-pulse" />
               Saling Sapa Tanpa Friksi
             </span>
-            <div className="text-3xl sm:text-5xl font-display font-medium tracking-tight leading-tight text-white px-2">
+            <div className="text-3xl sm:text-5xl font-display font-medium tracking-tight leading-tight text-gray-900 px-2">
               <TextRevealSmooth 
                 text="Inisiasi Bisnis Anda Baru & Keren." 
                 highlightWords={["Indonesia", "Keren."]}
-                highlightClass="font-serif italic text-transparent bg-clip-text bg-gradient-to-r from-[#D4FF00] to-teal-300"
+                highlightClass="font-serif italic text-transparent bg-clip-text bg-gradient-to-r from-[#4f46e5] to-teal-300"
               />
             </div>
-            <p className="text-xs sm:text-sm font-sans text-gray-400 max-w-xl mx-auto leading-relaxed mt-4">
+            <p className="text-xs sm:text-sm font-sans text-gray-600 max-w-xl mx-auto leading-relaxed mt-4">
               Sederhanakan peluncuran web Anda secara transparan. Tidak perlu mengisi formulir panjang yang kaku—cukup pilih paket yang menarik minat Anda untuk langsung terhubung di WhatsApp secara manusiawi.
             </p>
           </motion.div>
@@ -122,33 +122,33 @@ export default function ContactSection() {
                 onClick={() => openWhatsApp(pkg.waMessage)}
                 className={`p-6 sm:p-8 rounded-3xl border text-left cursor-pointer transition-all duration-300 group relative overflow-hidden flex flex-col justify-between ${
                   isMedium 
-                    ? 'bg-[#0f1424]/90 border-[#D4FF00]/30 shadow-[0_15px_40px_rgba(212,255,0,0.04)] hover:border-[#D4FF00]/60' 
-                    : 'bg-white/[0.01] border-white/5 hover:border-white/20 hover:bg-[#0b0e17]'
+                    ? 'bg-[#0f1424]/90 border-[#4f46e5]/30 shadow-[0_15px_40px_rgba(79,70,229,0.04)] hover:border-[#4f46e5]/60' 
+                    : 'bg-white/[0.01] border-gray-100 hover:border-white/20 hover:bg-[#0b0e17]'
                 }`}
               >
                 {/* Subtle highlight label */}
                 {isMedium && (
-                  <span className="absolute top-4 right-4 bg-[#D4FF00] text-black text-[9px] font-mono uppercase font-extrabold px-2 py-0.5 rounded-full tracking-wider shadow">
+                  <span className="absolute top-4 right-4 bg-[#4f46e5] text-black text-[9px] font-mono uppercase font-extrabold px-2 py-0.5 rounded-full tracking-wider shadow">
                     Paling Diminati
                   </span>
                 )}
 
                 <div>
-                  <h3 className="text-gray-400 text-xs font-mono uppercase tracking-widest mb-1">{pkg.title}</h3>
+                  <h3 className="text-gray-600 text-xs font-mono uppercase tracking-widest mb-1">{pkg.title}</h3>
                   <div className="flex items-baseline gap-1.5 mb-4">
-                    <span className="text-3xl sm:text-4xl font-display font-bold text-white tracking-tight">{pkg.price}</span>
+                    <span className="text-3xl sm:text-4xl font-display font-bold text-gray-900 tracking-tight">{pkg.price}</span>
                     <span className="text-xs text-gray-500 font-sans">investasi</span>
                   </div>
-                  <p className="text-xs font-sans text-gray-400 leading-relaxed mb-6 group-hover:text-gray-350 transition-colors">
+                  <p className="text-xs font-sans text-gray-600 leading-relaxed mb-6 group-hover:text-gray-350 transition-colors">
                     {pkg.description}
                   </p>
 
                   {/* Bullet features */}
-                  <div className="space-y-2.5 mb-8 border-t border-white/5 pt-6">
+                  <div className="space-y-2.5 mb-8 border-t border-gray-100 pt-6">
                     {pkg.features.map((feat) => (
                       <div key={feat} className="flex items-center gap-2">
-                        <Check size={12} className="text-[#D4FF00] shrink-0" />
-                        <span className="text-[11px] font-sans text-gray-300 tracking-wide">{feat}</span>
+                        <Check size={12} className="text-[#4f46e5] shrink-0" />
+                        <span className="text-[11px] font-sans text-gray-700 tracking-wide">{feat}</span>
                       </div>
                     ))}
                   </div>
@@ -157,8 +157,8 @@ export default function ContactSection() {
                 {/* Simulated Custom Button inside the card to trigger action */}
                 <div className={`mt-auto w-full py-3 px-4 rounded-xl font-mono text-[10px] uppercase font-bold tracking-widest flex items-center justify-between transition-all ${
                   isMedium 
-                    ? 'bg-[#D4FF00] text-black font-extrabold group-hover:bg-[#c2e600]' 
-                    : 'bg-white/5 text-gray-300 group-hover:bg-[#D4FF00] group-hover:text-black border border-white/10 group-hover:border-transparent'
+                    ? 'bg-[#4f46e5] text-black font-extrabold group-hover:bg-[#c2e600]' 
+                    : 'bg-gray-100 text-gray-700 group-hover:bg-[#4f46e5] group-hover:text-black border border-gray-200 group-hover:border-transparent'
                 }`}>
                   <span>Klaim Awal Paket Ini</span>
                   <ArrowUpRight size={13} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
@@ -173,22 +173,22 @@ export default function ContactSection() {
           initial={{ opacity: 0, scale: 0.98 }}
           whileInView={{ opacity: 1, scale: 1 }}
           viewport={{ once: true }}
-          className="max-w-xl mx-auto rounded-3xl bg-[#090D18] border border-white/5 p-6 sm:p-8 text-center relative overflow-hidden"
+          className="max-w-xl mx-auto rounded-3xl bg-[#090D18] border border-gray-100 p-6 sm:p-8 text-center relative overflow-hidden"
         >
           {/* Subtle green aesthetic background blur */}
           <div className="absolute top-0 right-0 w-24 h-24 bg-emerald-500/5 filter blur-2xl rounded-full" />
           
-          <h4 className="text-sm font-display font-semibold text-white mb-2 flex items-center justify-center gap-2">
-            <MessageSquare size={14} className="text-[#D4FF00]" />
+          <h4 className="text-sm font-display font-semibold text-gray-900 mb-2 flex items-center justify-center gap-2">
+            <MessageSquare size={14} className="text-[#4f46e5]" />
             Masih Ragu / Mau Tanya-Tanya Dulu?
           </h4>
-          <p className="text-xs font-sans text-gray-400 leading-relaxed mb-6">
+          <p className="text-xs font-sans text-gray-600 leading-relaxed mb-6">
             Kirimkan coretan sketsa kotor, tautan referensi visual luar negeri, atau bagikan ide bisnis lokal kasar Anda langsung via WhatsApp. Kami berjanji akan memberi tanggapan yang tulus, bernilai tinggi, dan bersahabat tanpa biaya sama sekali.
           </p>
 
           <button
             onClick={() => openWhatsApp("Halo Mas Chesta! Saya mau konsultasi awal dulu kak untuk ide bisnis saya secara santai. Boleh discuss?")}
-            className="inline-flex items-center justify-center gap-2 py-4 px-8 bg-[#D4FF00]/10 text-[#D4FF00] border border-[#D4FF00]/20 font-sans font-bold text-xs uppercase tracking-widest rounded-full hover:bg-[#D4FF00] hover:text-black hover:border-transparent transition-all cursor-pointer w-full sm:w-auto"
+            className="inline-flex items-center justify-center gap-2 py-4 px-8 bg-[#4f46e5]/10 text-[#4f46e5] border border-[#4f46e5]/20 font-sans font-bold text-xs uppercase tracking-widest rounded-full hover:bg-[#4f46e5] hover:text-black hover:border-transparent transition-all cursor-pointer w-full sm:w-auto"
             id="btn-consultation-direct"
           >
             <span>Obrolan Konsultasi Bebas</span>

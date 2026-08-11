@@ -35,7 +35,7 @@ export default function Breadcrumbs({ items }: BreadcrumbsProps) {
     visible: {
       opacity: 1,
       x: 0,
-      color: "rgb(156, 163, 175)", // text-gray-400
+      color: "rgb(156, 163, 175)", // text-gray-600
       transition: {
         type: 'spring' as const,
         stiffness: 260,
@@ -89,17 +89,17 @@ export default function Breadcrumbs({ items }: BreadcrumbsProps) {
   return (
     <nav 
       aria-label="Breadcrumb" 
-      className="flex sm:inline-flex flex-wrap py-2.5 px-3 md:px-4 rounded-xl bg-white/[0.02] border border-white/5 backdrop-blur-sm shadow-sm mb-6 select-none items-center gap-2.5 md:gap-3 w-full max-w-full sm:w-auto"
+      className="flex sm:inline-flex flex-wrap py-2.5 px-3 md:px-4 rounded-xl bg-white/[0.02] border border-gray-100 backdrop-blur-sm shadow-sm mb-6 select-none items-center gap-2.5 md:gap-3 w-full max-w-full sm:w-auto"
       id="breadcrumbs-nav"
     >
       {/* Decorative Compass icon at start of navigation UI with a rotating visual */}
-      <div className="flex items-center gap-1.5 border-r border-[#ffffff0a] pr-3 mr-0.5 shrink-0 text-[#D4FF00]">
+      <div className="flex items-center gap-1.5 border-r border-[#ffffff0a] pr-3 mr-0.5 shrink-0 text-[#4f46e5]">
         <motion.div
           animate={{ rotate: 360 }}
           transition={{ repeat: Infinity, duration: 32, ease: "linear" }}
           className="flex items-center justify-center shrink-0"
         >
-          <Compass size={13} className="text-[#D4FF00]" />
+          <Compass size={13} className="text-[#4f46e5]" />
         </motion.div>
         <span className="text-[8px] font-mono tracking-widest text-gray-500 uppercase">LOCATION</span>
       </div>
@@ -135,15 +135,15 @@ export default function Breadcrumbs({ items }: BreadcrumbsProps) {
               {index === 0 && (
                 <div className="flex items-center justify-center mr-0.5 shrink-0" id="breadcrumbs-anchor-dot">
                   <span className="relative flex h-1.5 w-1.5">
-                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#D4FF00]/55 opacity-80"></span>
-                    <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-[#D4FF00]"></span>
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#4f46e5]/55 opacity-80"></span>
+                    <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-[#4f46e5]"></span>
                   </span>
                 </div>
               )}
 
               {isLast ? (
                 // Last item is the current page (non-clickable)
-                <div className="text-[#D4FF00] font-sans font-medium relative flex items-center">
+                <div className="text-[#4f46e5] font-sans font-medium relative flex items-center">
                   <span itemProp="name">{item.label}</span>
                 </div>
               ) : (
@@ -160,7 +160,7 @@ export default function Breadcrumbs({ items }: BreadcrumbsProps) {
                       <motion.span 
                         variants={lineVariants}
                         initial="initial"
-                        className="absolute bottom-0 left-0 w-full h-[1px] bg-[#D4FF00]" 
+                        className="absolute bottom-0 left-0 w-full h-[1px] bg-[#4f46e5]" 
                       />
                     </span>
                   </Link>
@@ -175,7 +175,7 @@ export default function Breadcrumbs({ items }: BreadcrumbsProps) {
               {!isLast && (
                 <ChevronRight 
                   size={12} 
-                  className="text-white/10 shrink-0 mx-0.5" 
+                  className="text-gray-900/10 shrink-0 mx-0.5" 
                   aria-hidden="true" 
                 />
               )}

@@ -11,7 +11,7 @@ export default function PainPointReveal({
   text = "Website lambat dan desain berantakan", 
   className = '',
   highlightWords = ["lambat", "berantakan"],
-  highlightClass = "text-transparent bg-clip-text bg-gradient-to-r from-red-400 via-orange-400 to-[#D4FF00]"
+  highlightClass = "text-transparent bg-clip-text bg-gradient-to-r from-red-400 via-orange-400 to-[#4f46e5]"
 }: PainPointRevealProps) {
   const words = text.split(" ");
 
@@ -55,7 +55,7 @@ export default function PainPointReveal({
         // Find if the word contains any of the target highlight words (ignoring punctuation if any)
         const cleanWord = word.toLowerCase().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"");
         const isHighlight = highlightWords.some(hw => cleanWord === hw.toLowerCase());
-        const wordColorClass = isHighlight ? highlightClass : "text-white";
+        const wordColorClass = isHighlight ? highlightClass : "text-gray-900";
 
         return (
           <motion.span

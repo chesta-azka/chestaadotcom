@@ -14,7 +14,7 @@ export const AdUnit = ({ slot }: AdUnitProps) => {
   }, [slot]);
 
   return (
-    <div className="my-8 flex justify-center overflow-hidden border border-white/5 rounded-2xl bg-white/[0.02]">
+    <div className="my-8 flex justify-center overflow-hidden border border-gray-100 rounded-2xl bg-white/[0.02]">
       <ins
         className="adsbygoogle"
         style={{ display: 'block' }}

@@ -74,7 +74,7 @@ export default function FaqSection() {
   return (
     <section id="faq" className="py-14 md:py-18 bg-transparent relative overflow-hidden">
       {/* Seamless background blending gradients */}
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/[0.015] to-transparent pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-black/[0.015] to-transparent pointer-events-none" />
       {/* JSON-LD FAQ Schema Markup for Google rich snippet visibility */}
       <script 
         type="application/ld+json"
@@ -88,10 +88,10 @@ export default function FaqSection() {
            transition={{ duration: 0.6, ease: "easeOut" }}
            className="mb-16 text-center"
         >
-          <span className="text-[#D4FF00] font-sans font-medium text-sm uppercase tracking-widest block mb-4">
+          <span className="text-[#4f46e5] font-sans font-bold text-sm uppercase tracking-widest block mb-4">
             07 — F.A.Q
           </span>
-          <h2 className="text-4xl md:text-5xl font-display font-medium tracking-tight text-white animate-fade-in">
+          <h2 className="text-4xl md:text-5xl font-display font-medium tracking-tight text-gray-900 animate-fade-in">
             Pertanyaan Umum
           </h2>
         </motion.div>
@@ -111,25 +111,25 @@ export default function FaqSection() {
                 transition={{ duration: 0.5, delay: i * 0.1 }}
                 className={`border rounded-2xl overflow-hidden transition-all duration-300 ${
                   isOpen 
-                    ? 'border-[#D4FF00]/40 bg-[#131825]/80 shadow-[0_4px_24px_rgba(212,255,0,0.03)]'
-                    : 'border-white/10 bg-[#131825]'
+                    ? 'border-indigo-200 bg-indigo-50/30 shadow-[0_4px_24px_rgba(99,102,241,0.05)]'
+                    : 'border-gray-200 bg-white'
                 }`}
               >
                 <div
                   onClick={() => toggleFaq(i)}
-                  className="flex w-full items-center justify-between py-5 px-6 text-left cursor-pointer transition-colors hover:bg-white/5 group"
+                  className="flex w-full items-center justify-between py-5 px-6 text-left cursor-pointer transition-colors hover:bg-gray-50 group"
                 >
-                  <span className={`text-lg font-medium transition-colors ${isOpen ? 'text-[#D4FF00]' : 'text-white group-hover:text-white/90'}`}>{faq.q}</span>
+                  <span className={`text-lg font-medium transition-colors ${isOpen ? 'text-[#4f46e5]' : 'text-gray-900 group-hover:text-gray-700'}`}>{faq.q}</span>
                   
                   <div className="flex items-center gap-3">
                     {/* Share Link Button */}
                     <button
                       onClick={(e) => handleCopyLink(e, faq.id)}
                       title="Salin tautan langsung"
-                      className="p-1.5 rounded-lg border border-white/5 bg-white/5 text-gray-400 hover:text-[#D4FF00] hover:border-[#D4FF00]/20 transition-all cursor-pointer relative"
+                      className="p-1.5 rounded-lg border border-gray-200 bg-white text-gray-600 hover:text-[#4f46e5] hover:border-indigo-200 transition-all cursor-pointer relative"
                     >
                       {isCopied ? (
-                        <Check size={14} className="text-[#D4FF00]" />
+                        <Check size={14} className="text-[#4f46e5]" />
                       ) : (
                         <LinkIcon size={14} />
                       )}
@@ -141,7 +141,7 @@ export default function FaqSection() {
                             initial={{ opacity: 0, y: 10, scale: 0.8 }}
                             animate={{ opacity: 1, y: -28, scale: 1 }}
                             exit={{ opacity: 0, y: 5, scale: 0.8 }}
-                            className="absolute left-1/2 -translate-x-1/2 bg-[#0D111A] border border-[#D4FF00]/30 text-[#D4FF00] font-mono text-[9px] font-bold py-1 px-2 rounded-md whitespace-nowrap shadow-lg pointer-events-none"
+                            className="absolute left-1/2 -translate-x-1/2 bg-gray-900 border border-gray-700 text-gray-900 font-mono text-[9px] font-bold py-1 px-2 rounded-md whitespace-nowrap shadow-lg pointer-events-none"
                           >
                             LINK TERSALIN!
                           </motion.span>
@@ -151,7 +151,7 @@ export default function FaqSection() {
 
                     {/* Chevron toggler */}
                     <motion.div animate={{ rotate: isOpen ? 180 : 0 }}>
-                      <ChevronDown className="text-gray-400" />
+                      <ChevronDown className="text-gray-600" />
                     </motion.div>
                   </div>
                 </div>
@@ -164,7 +164,7 @@ export default function FaqSection() {
                       exit={{ height: 0, opacity: 0 }}
                       className="overflow-hidden"
                     >
-                      <p className="px-6 pb-6 text-gray-400 leading-relaxed font-sans border-t border-white/5 pt-4">{faq.a}</p>
+                      <p className="px-6 pb-6 text-gray-600 leading-relaxed font-sans border-t border-gray-100 pt-4">{faq.a}</p>
                     </motion.div>
                   )}
                 </AnimatePresence>

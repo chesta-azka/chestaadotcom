@@ -91,7 +91,7 @@ export default function BlogHubPage() {
             initial={{ scaleX: 0, opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed top-0 left-0 right-0 h-[3px] bg-[#D4FF00] origin-left z-[9999]"
+            className="fixed top-0 left-0 right-0 h-[3px] bg-[#4f46e5] origin-left z-[9999]"
             style={{ scaleX }}
           />
         )}
@@ -129,7 +129,7 @@ export default function BlogHubPage() {
                   setSearchParams({});
                 }
               }}
-              className="group inline-flex items-center gap-2 text-xs font-sans font-semibold tracking-widest uppercase text-gray-400 hover:text-[#D4FF00] transition-colors mb-12"
+              className="group inline-flex items-center gap-2 text-xs font-sans font-semibold tracking-widest uppercase text-gray-600 hover:text-[#4f46e5] transition-colors mb-12"
             >
               <ArrowLeft size={16} className="transition-transform group-hover:-translate-x-1" />
               {searchParams.get('origin') === 'home' ? 'Kembali ke Home' : 'Tutup & Kembali ke Journal'}
@@ -138,29 +138,29 @@ export default function BlogHubPage() {
             {/* Article Header */}
             <header className="mb-12 w-full text-left">
               <div className="flex flex-wrap gap-4 items-center mb-6">
-                <span className="text-[10px] font-sans font-semibold text-[#0a0b10] bg-[#D4FF00] px-4 py-2 rounded-full uppercase tracking-widest shadow-sm">
+                <span className="text-[10px] font-sans font-semibold text-[#0a0b10] bg-[#4f46e5] px-4 py-2 rounded-full uppercase tracking-widest shadow-sm">
                   {activeArticle.cat}
                 </span>
                 <div className="flex items-center gap-1.5 text-xs font-mono text-gray-500">
                   <Calendar size={12} />
                   <span>{activeArticle.date}</span>
                 </div>
-                <div className="flex items-center gap-1.5 text-xs font-mono text-gray-400">
-                  <Clock size={12} className="text-[#D4FF00]" />
+                <div className="flex items-center gap-1.5 text-xs font-mono text-gray-600">
+                  <Clock size={12} className="text-[#4f46e5]" />
                   <span>{activeArticle.readTime}</span>
                 </div>
               </div>
 
-              <h1 className="text-4xl sm:text-5xl md:text-[3.8rem] font-serif font-medium text-white tracking-tight leading-[1.05] mb-8 italic">
+              <h1 className="text-4xl sm:text-5xl md:text-[3.8rem] font-serif font-medium text-gray-900 tracking-tight leading-[1.05] mb-8 italic">
                 {activeArticle.title}
               </h1>
 
               {activeArticle.image && (
-                <img src={activeArticle.image} alt={activeArticle.title} className="w-full h-64 sm:h-96 object-cover rounded-[2rem] mb-8 border border-white/5 shadow-2xl" />
+                <img src={activeArticle.image} alt={activeArticle.title} className="w-full h-64 sm:h-96 object-cover rounded-[2rem] mb-8 border border-gray-100 shadow-2xl" />
               )}
 
               {/* Lead Paragraph */}
-              <p className="text-lg sm:text-xl text-gray-300 font-sans leading-relaxed border-l-2 border-[#D4FF00] pl-6 py-1">
+              <p className="text-lg sm:text-xl text-gray-700 font-sans leading-relaxed border-l-2 border-[#4f46e5] pl-6 py-1">
                 {activeArticle.desc}
               </p>
             </header>
@@ -169,12 +169,12 @@ export default function BlogHubPage() {
             <div className="w-full h-px bg-gradient-to-r from-transparent via-white/10 to-transparent my-12" />
 
             {/* Article Content Area */}
-            <article className="space-y-8 text-lg font-sans text-gray-300 leading-relaxed w-full">
+            <article className="space-y-8 text-lg font-sans text-gray-700 leading-relaxed w-full">
               {activeArticle.content && activeArticle.content.map((block, idx) => {
                 if (typeof block === 'string') {
                   return (
                     <div key={idx} className="w-full">
-                      <p className="first-letter:text-3xl first-letter:font-serif first-letter:text-[#D4FF00] first-letter:mr-2">
+                      <p className="first-letter:text-3xl first-letter:font-serif first-letter:text-[#4f46e5] first-letter:mr-2">
                         {block}
                       </p>
                       {/* Insert Ad after every 3 paragraphs */}
@@ -186,7 +186,7 @@ export default function BlogHubPage() {
                 } else if (block.type === 'image') {
                   return (
                     <div key={idx} className="w-full my-12">
-                      <img src={block.url} alt={block.alt} className="w-full h-auto rounded-3xl shadow-[0_20px_40px_rgba(0,0,0,0.4)] border border-white/5 object-cover" />
+                      <img src={block.url} alt={block.alt} className="w-full h-auto rounded-3xl shadow-[0_20px_40px_rgba(0,0,0,0.4)] border border-gray-100 object-cover" />
                     </div>
                   );
                 }
@@ -200,13 +200,13 @@ export default function BlogHubPage() {
             </div>
 
             {/* Elegant Call to Action / Footer of Article */}
-            <div className="mt-20 p-8 rounded-[2rem] bg-[#131825] border border-white/5 text-center relative overflow-hidden w-full">
-              <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/10 via-transparent to-[#D4FF00]/5 pointer-events-none" />
+            <div className="mt-20 p-8 rounded-[2rem] bg-gray-50 border border-gray-100 text-center relative overflow-hidden w-full">
+              <div className="absolute inset-0 bg-gradient-to-br from-indigo-500/10 via-transparent to-[#4f46e5]/5 pointer-events-none" />
               
               <div className="relative z-10">
-                <BookOpen size={42} className="text-[#D4FF00] mx-auto mb-6 opacity-80" />
-                <h3 className="text-3xl font-serif italic font-medium text-white mb-3">Elevate Your Presence.</h3>
-                <p className="text-base text-gray-400 max-w-lg mx-auto mb-8 font-sans leading-relaxed">
+                <BookOpen size={42} className="text-[#4f46e5] mx-auto mb-6 opacity-80" />
+                <h3 className="text-3xl font-serif italic font-medium text-gray-900 mb-3">Elevate Your Presence.</h3>
+                <p className="text-base text-gray-600 max-w-lg mx-auto mb-8 font-sans leading-relaxed">
                   CHESTADOTCOM mengkurasi pengalaman digital yang memadukan estetika murni dengan teknologi performa tinggi untuk bisnis visioner.
                 </p>
                 <button
@@ -221,7 +221,7 @@ export default function BlogHubPage() {
                       }
                     }, 150);
                   }}
-                  className="group inline-flex items-center gap-3 rounded-full bg-[#D4FF00] px-8 py-4 font-sans text-xs font-bold text-[#06080F] hover:bg-white transition-all duration-300 uppercase tracking-widest"
+                  className="group inline-flex items-center gap-3 rounded-full bg-[#4f46e5] px-8 py-4 font-sans text-xs font-bold text-white hover:bg-white transition-all duration-300 uppercase tracking-widest"
                 >
                   <span>Mulai Kolaborasi</span>
                   <ArrowUpRight size={16} className="group-hover:rotate-45 transition-transform" />
@@ -240,20 +240,20 @@ export default function BlogHubPage() {
                     setSearchParams({});
                   }
                 }}
-                className="text-xs font-sans font-semibold tracking-widest uppercase text-gray-500 hover:text-[#D4FF00] transition-colors"
+                className="text-xs font-sans font-semibold tracking-widest uppercase text-gray-500 hover:text-[#4f46e5] transition-colors"
               >
                 ← Kembali ke {searchParams.get('origin') === 'home' ? 'Home' : 'daftar tulisan'}
               </button>
             </div>
 
             {/* Related Articles */}
-            <div className="mt-24 border-t border-white/5 pt-12 w-full">
-              <h3 className="text-xl font-display text-white mb-8">Related Insights</h3>
+            <div className="mt-24 border-t border-gray-100 pt-12 w-full">
+              <h3 className="text-xl font-display text-gray-900 mb-8">Related Insights</h3>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 {combinedAllArticles.filter(a => a.slug !== activeArticle.slug).slice(0, 2).map(art => (
-                    <button key={art.slug} onClick={() => setSearchParams({ read: art.slug })} className="p-6 rounded-2xl bg-[#131825] border border-white/5 text-left hover:border-white/10 transition-colors w-full">
-                        <p className="text-[#D4FF00] text-[10px] uppercase tracking-widest font-semibold mb-2">{art.cat}</p>
-                        <h4 className="text-white font-medium line-clamp-2">{art.title}</h4>
+                    <button key={art.slug} onClick={() => setSearchParams({ read: art.slug })} className="p-6 rounded-2xl bg-gray-50 border border-gray-100 text-left hover:border-gray-200 transition-colors w-full">
+                        <p className="text-[#4f46e5] text-[10px] uppercase tracking-widest font-semibold mb-2">{art.cat}</p>
+                        <h4 className="text-gray-900 font-medium line-clamp-2">{art.title}</h4>
                     </button>
                 ))}
               </div>
@@ -278,7 +278,7 @@ export default function BlogHubPage() {
             />
 
             {/* Cinematic Hero */}
-            <section className="relative min-h-[70vh] flex flex-col justify-end pt-32 pb-24 border-b border-white/5 mb-12 overflow-hidden">
+            <section className="relative min-h-[70vh] flex flex-col justify-end pt-32 pb-24 border-b border-gray-100 mb-12 overflow-hidden">
               <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_var(--tw-gradient-stops))] from-indigo-500/10 via-transparent to-transparent -z-10 mix-blend-screen" />
               
               {/* Background Grids */}
@@ -295,17 +295,17 @@ export default function BlogHubPage() {
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.6, ease: "easeOut" }}
                     >
-                      <div className="mb-8 inline-flex items-center gap-3 rounded-full border border-white/10 bg-white/5 backdrop-blur-md px-5 py-2 text-xs font-sans font-semibold tracking-widest text-[#D4FF00] uppercase shadow-sm">
-                        <Sparkles size={14} className="text-[#D4FF00]" />
+                      <div className="mb-8 inline-flex items-center gap-3 rounded-full border border-gray-200 bg-gray-100 backdrop-blur-md px-5 py-2 text-xs font-sans font-semibold tracking-widest text-[#4f46e5] uppercase shadow-sm">
+                        <Sparkles size={14} className="text-[#4f46e5]" />
                         Insight & Perspective
                       </div>
                       
-                      <h1 className="text-7xl sm:text-[8rem] lg:text-[10rem] font-serif italic font-medium tracking-tighter leading-[0.8] text-white pr-4">
+                      <h1 className="text-7xl sm:text-[8rem] lg:text-[10rem] font-serif italic font-medium tracking-tighter leading-[0.8] text-gray-900 pr-4">
                         The <br />
-                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-[#D4FF00] to-gray-500 not-italic pr-4">Journal.</span>
+                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-[#4f46e5] to-gray-500 not-italic pr-4">Journal.</span>
                       </h1>
                       
-                      <p className="text-lg md:text-xl text-gray-400 font-sans max-w-xl leading-relaxed mt-10 border-l border-white/10 pl-6">
+                      <p className="text-lg md:text-xl text-gray-600 font-sans max-w-xl leading-relaxed mt-10 border-l border-gray-200 pl-6">
                         Kurasi wawasan digital eksklusif. Kami membedah algoritma, arsitektur code, dan psikologi desain untuk mendominasi lanskap modern. 
                       </p>
                     </motion.div>
@@ -318,20 +318,20 @@ export default function BlogHubPage() {
                     className="lg:col-span-4 lg:pb-6 flex flex-col sm:items-end gap-4"
                   >
                     <div className="relative w-full max-w-[340px] group">
-                      <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-[#D4FF00] rounded-2xl blur opacity-20 group-hover:opacity-40 transition-opacity duration-500 -z-10" />
-                      <div className="relative bg-[#0D111A]/80 backdrop-blur-xl border border-white/10 shadow-[0_8px_32px_rgba(0,0,0,0.4)] rounded-2xl p-2 flex items-center transition-all duration-300 focus-within:bg-[#131825]">
-                        <Search size={20} className="text-gray-500 ml-4 group-focus-within:text-[#D4FF00]" />
+                      <div className="absolute inset-0 bg-gradient-to-r from-purple-500 to-[#4f46e5] rounded-2xl blur opacity-20 group-hover:opacity-40 transition-opacity duration-500 -z-10" />
+                      <div className="relative bg-white backdrop-blur-xl border border-gray-200 shadow-[0_8px_32px_rgba(0,0,0,0.4)] rounded-2xl p-2 flex items-center transition-all duration-300 focus-within:bg-gray-50">
+                        <Search size={20} className="text-gray-500 ml-4 group-focus-within:text-[#4f46e5]" />
                         <input 
                           type="text" 
                           placeholder="Cari insight..."
                           value={searchQuery}
                           onChange={(e) => setSearchQuery(e.target.value)}
-                          className="w-full bg-transparent py-4 pl-4 pr-6 text-base font-sans font-medium placeholder:text-gray-600 text-white focus:outline-none"
+                          className="w-full bg-transparent py-4 pl-4 pr-6 text-base font-sans font-medium placeholder:text-gray-600 text-gray-900 focus:outline-none"
                         />
                         {searchQuery && (
                           <button 
                             onClick={() => setSearchQuery('')}
-                            className="text-xs text-gray-400 hover:text-white px-2 uppercase font-mono mr-2"
+                            className="text-xs text-gray-600 hover:text-gray-900 px-2 uppercase font-mono mr-2"
                           >
                             clear
                           </button>
@@ -352,37 +352,37 @@ export default function BlogHubPage() {
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.1, duration: 0.6, ease: "easeOut" }}
                   onClick={() => setSearchParams({ read: featuredArticle.slug })}
-                  className="group relative bg-[#131825] border border-white/5 rounded-[2.5rem] p-8 md:p-16 mb-24 hover:bg-[#1a2133] transition-all duration-500 cursor-pointer overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.5)] hover:shadow-[0_16px_64px_rgba(0,0,0,0.8)] hover:border-white/10"
+                  className="group relative bg-gray-50 border border-gray-100 rounded-[2.5rem] p-8 md:p-16 mb-24 hover:bg-[#1a2133] transition-all duration-500 cursor-pointer overflow-hidden shadow-[0_8px_32px_rgba(0,0,0,0.5)] hover:shadow-[0_16px_64px_rgba(0,0,0,0.8)] hover:border-gray-200"
                 >
                    <div className="absolute top-0 right-0 p-10 opacity-5 group-hover:opacity-10 transition-opacity translate-x-4 -translate-y-4 group-hover:translate-x-0 group-hover:translate-y-0 duration-500">
-                     <ArrowUpRight size={120} className="text-white" />
+                     <ArrowUpRight size={120} className="text-gray-900" />
                    </div>
                    
                    <div className="relative z-10 grid grid-cols-1 md:grid-cols-12 gap-8 md:gap-16 items-center">
                      <div className="md:col-span-7">
                        <div className="flex gap-4 items-center mb-10">
-                          <span className="text-[10px] font-sans font-semibold text-[#06080F] bg-[#D4FF00] px-5 py-2.5 rounded-full uppercase tracking-widest shadow-lg shadow-[#D4FF00]/10 flex items-center gap-2 relative">
-                            <div className="w-1.5 h-1.5 rounded-full bg-[#06080F] animate-pulse" />
+                          <span className="text-[10px] font-sans font-semibold text-white bg-[#4f46e5] px-5 py-2.5 rounded-full uppercase tracking-widest shadow-lg shadow-[#4f46e5]/10 flex items-center gap-2 relative">
+                            <div className="w-1.5 h-1.5 rounded-full bg-gray-100 animate-pulse" />
                             {featuredArticle.cat}
                           </span>
-                          <span className="text-xs font-mono text-gray-400 font-medium tracking-widest border border-white/10 bg-white/5 px-5 py-2.5 rounded-full backdrop-blur-sm">
+                          <span className="text-xs font-mono text-gray-600 font-medium tracking-widest border border-gray-200 bg-gray-100 px-5 py-2.5 rounded-full backdrop-blur-sm">
                             {featuredArticle.readTime}
                           </span>
                        </div>
-                       <h2 className="text-4xl md:text-5xl lg:text-[4.5rem] font-serif font-medium text-white leading-[1] mb-8 tracking-tighter group-hover:text-[#D4FF00] transition-all duration-500 italic">
+                       <h2 className="text-4xl md:text-5xl lg:text-[4.5rem] font-serif font-medium text-gray-900 leading-[1] mb-8 tracking-tighter group-hover:text-[#4f46e5] transition-all duration-500 italic">
                          {featuredArticle.title}
                        </h2>
-                       <p className="text-lg md:text-xl text-gray-400 leading-relaxed font-sans max-w-2xl">
+                       <p className="text-lg md:text-xl text-gray-600 leading-relaxed font-sans max-w-2xl">
                          {featuredArticle.desc}
                        </p>
                      </div>
                      
                      <div className="md:col-span-5 h-full hidden md:flex items-center justify-center">
                        {featuredArticle.image ? (
-                         <img src={featuredArticle.image} alt={featuredArticle.title} className="w-full aspect-[4/5] object-cover rounded-[2rem] border border-white/5 shadow-2xl transition-transform duration-700 group-hover:scale-105" />
+                         <img src={featuredArticle.image} alt={featuredArticle.title} className="w-full aspect-[4/5] object-cover rounded-[2rem] border border-gray-100 shadow-2xl transition-transform duration-700 group-hover:scale-105" />
                        ) : (
-                         <div className="w-full aspect-[4/5] rounded-[2rem] bg-gradient-to-br from-indigo-500/10 to-transparent border border-white/5 flex items-center justify-center relative overflow-hidden group-hover:scale-105 transition-transform duration-700 shadow-sm">
-                            <div className="text-[14rem] font-display font-medium text-white/5 rotate-12 select-none">SEO</div>
+                         <div className="w-full aspect-[4/5] rounded-[2rem] bg-gradient-to-br from-indigo-500/10 to-transparent border border-gray-100 flex items-center justify-center relative overflow-hidden group-hover:scale-105 transition-transform duration-700 shadow-sm">
+                            <div className="text-[14rem] font-display font-medium text-gray-900/5 rotate-12 select-none">SEO</div>
                          </div>
                        )}
                      </div>
@@ -391,7 +391,7 @@ export default function BlogHubPage() {
               )}
 
               {/* Categories Bar */}
-              <div className="flex items-center gap-4 border-b border-white/5 pb-6 mb-16 overflow-x-auto no-scrollbar">
+              <div className="flex items-center gap-4 border-b border-gray-100 pb-6 mb-16 overflow-x-auto no-scrollbar">
                 <span className="text-[11px] font-sans font-semibold tracking-widest uppercase text-gray-500 whitespace-nowrap">Filter:</span>
                 {categories.map((cat) => (
                   <button 
@@ -399,8 +399,8 @@ export default function BlogHubPage() {
                     onClick={() => setSelectedCategory(cat)}
                     className={`px-6 py-2.5 rounded-full text-[11px] font-sans font-semibold uppercase tracking-widest whitespace-nowrap transition-colors ${
                       (selectedCategory === 'All' && cat === 'All') || selectedCategory.toLowerCase() === cat.toLowerCase()
-                      ? 'bg-[#D4FF00] text-[#06080F]' 
-                      : 'text-gray-400 hover:text-white border border-white/5 hover:border-white/20 bg-white/5 backdrop-blur-sm'
+                      ? 'bg-[#4f46e5] text-white' 
+                      : 'text-gray-600 hover:text-gray-900 border border-gray-100 hover:border-white/20 bg-gray-100 backdrop-blur-sm'
                     }`}
                   >
                     {cat === 'All' ? 'All Insights' : cat}
@@ -410,9 +410,9 @@ export default function BlogHubPage() {
 
               {/* Dynamic Empty State */}
               {displayArticles.length === 0 && (
-                <div className="text-center py-24 border border-dashed border-white/5 rounded-[2rem] bg-white/[0.01]">
+                <div className="text-center py-24 border border-dashed border-gray-100 rounded-[2rem] bg-white/[0.01]">
                    <BookOpen size={36} className="text-gray-600 mx-auto mb-4" />
-                   <h3 className="text-xl font-display text-white mb-2">Tidak ada artikel kebetulan</h3>
+                   <h3 className="text-xl font-display text-gray-900 mb-2">Tidak ada artikel kebetulan</h3>
                    <p className="text-sm text-gray-500">Coba ubah filter atau kata pencarian Anda.</p>
                 </div>
               )}
@@ -422,7 +422,7 @@ export default function BlogHubPage() {
                 {displayArticles.map((art, i) => (
                   <motion.article 
                     key={art.slug} 
-                    className="group cursor-pointer flex flex-col h-full bg-[#131825]/30 p-6 md:p-8 rounded-[2rem] border border-transparent hover:border-white/5 hover:bg-[#131825]/60 transition-all duration-300 shadow-sm hover:shadow-xl"
+                    className="group cursor-pointer flex flex-col h-full bg-gray-50 p-6 md:p-8 rounded-[2rem] border border-transparent hover:border-gray-100 hover:bg-gray-50 transition-all duration-300 shadow-sm hover:shadow-xl"
                     initial={{ opacity: 0, y: 15 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, margin: "-50px" }}
@@ -430,27 +430,27 @@ export default function BlogHubPage() {
                     onClick={() => setSearchParams({ read: art.slug })}
                   >
                     <div className="flex gap-4 items-center mb-6">
-                      <span className="text-[10px] font-sans font-semibold text-[#0a0b10] bg-[#D4FF00] px-3 py-1.5 rounded-full uppercase tracking-widest">
+                      <span className="text-[10px] font-sans font-semibold text-[#0a0b10] bg-[#4f46e5] px-3 py-1.5 rounded-full uppercase tracking-widest">
                         {art.cat}
                       </span>
-                      <span className="text-[10px] font-mono text-gray-400 font-medium tracking-widest">
+                      <span className="text-[10px] font-mono text-gray-600 font-medium tracking-widest">
                         {art.readTime}
                       </span>
                     </div>
 
                     {art.image && (
-                      <div className="w-full h-48 overflow-hidden rounded-2xl mb-6 relative border border-white/5">
+                      <div className="w-full h-48 overflow-hidden rounded-2xl mb-6 relative border border-gray-100">
                         <img src={art.image} alt={art.title} className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" />
                       </div>
                     )}
 
-                    <h3 className="text-xl md:text-2xl font-display font-medium text-white leading-[1.25] mb-4 group-hover:text-[#D4FF00] transition-colors tracking-tight line-clamp-2">
+                    <h3 className="text-xl md:text-2xl font-display font-medium text-gray-900 leading-[1.25] mb-4 group-hover:text-[#4f46e5] transition-colors tracking-tight line-clamp-2">
                       {art.title}
                     </h3>
-                    <p className="text-base text-gray-400 leading-relaxed font-sans mb-8 line-clamp-3">
+                    <p className="text-base text-gray-600 leading-relaxed font-sans mb-8 line-clamp-3">
                       {art.desc}
                     </p>
-                    <div className="mt-auto pt-6 flex items-center gap-2 text-sm font-sans font-semibold tracking-widest uppercase text-[#D4FF00] opacity-80 group-hover:opacity-100 transition-opacity">
+                    <div className="mt-auto pt-6 flex items-center gap-2 text-sm font-sans font-semibold tracking-widest uppercase text-[#4f46e5] opacity-80 group-hover:opacity-100 transition-opacity">
                       <span>Baca Selengkapnya</span>
                       <ArrowRight size={16} className="transform group-hover:translate-x-1 transition-transform" />
                     </div>
@@ -463,10 +463,10 @@ export default function BlogHubPage() {
                 <div className="mt-20 flex justify-center">
                   <button
                     onClick={handleLoadMore}
-                    className="group flex flex-col items-center gap-4 text-gray-500 hover:text-white transition-colors"
+                    className="group flex flex-col items-center gap-4 text-gray-500 hover:text-gray-900 transition-colors"
                   >
                     <span className="text-[10px] font-mono uppercase tracking-[0.3em]">Expand Archive</span>
-                    <div className="w-px h-12 bg-gradient-to-b from-[#D4FF00] to-transparent group-hover:h-16 transition-all duration-500" />
+                    <div className="w-px h-12 bg-gradient-to-b from-[#4f46e5] to-transparent group-hover:h-16 transition-all duration-500" />
                   </button>
                 </div>
               )}

@@ -121,19 +121,19 @@ export default function TestimonialSection() {
 
   return (
     <section 
-      className="py-24 md:py-32 relative overflow-hidden bg-transparent text-white w-full select-none" 
+      className="py-24 md:py-32 relative overflow-hidden bg-transparent text-gray-900 w-full select-none" 
       id="testimonials"
     >
       <div className="mx-auto max-w-4xl px-6 relative z-10 w-full">
         
         <div className="mb-16">
-          <h2 className="text-3xl font-display font-medium tracking-tight text-white mb-6">
+          <h2 className="text-3xl font-display font-medium tracking-tight text-gray-900 mb-6">
             Ulasan Klien
           </h2>
         </div>
 
         {/* Slider Box */}
-        <div className="relative min-h-[300px] flex flex-col justify-center bg-white/[0.02] border border-white/5 rounded-3xl p-8 sm:p-12 backdrop-blur-md overflow-hidden">
+        <div className="relative min-h-[300px] flex flex-col justify-center bg-white/[0.02] border border-gray-100 rounded-3xl p-8 sm:p-12 backdrop-blur-md overflow-hidden">
           
           <AnimatePresence mode="wait" custom={direction}>
             <motion.div
@@ -150,14 +150,14 @@ export default function TestimonialSection() {
               </p>
               
               <div className="pt-4">
-                <h4 className="font-bold text-lg text-white">{current.name}</h4>
-                <p className="text-sm text-[#D4FF00]">{current.position} - {current.companyName}</p>
+                <h4 className="font-bold text-lg text-gray-900">{current.name}</h4>
+                <p className="text-sm text-[#4f46e5]">{current.position} - {current.companyName}</p>
               </div>
             </motion.div>
           </AnimatePresence>
 
           {/* Controls */}
-          <div className="mt-8 pt-8 border-t border-white/10 flex items-center justify-between">
+          <div className="mt-8 pt-8 border-t border-gray-200 flex items-center justify-between">
             <div className="flex gap-2">
               {testimonials.map((_, idx) => (
                 <button
@@ -166,7 +166,7 @@ export default function TestimonialSection() {
                     setDirection(idx > activeIndex ? 1 : -1);
                     setActiveIndex(idx);
                   }}
-                  className={`h-2 rounded-full transition-all duration-300 ${idx === activeIndex ? 'w-8 bg-[#D4FF00]' : 'w-2 bg-white/20'}`}
+                  className={`h-2 rounded-full transition-all duration-300 ${idx === activeIndex ? 'w-8 bg-[#4f46e5]' : 'w-2 bg-white/20'}`}
                 />
               ))}
             </div>
@@ -174,14 +174,14 @@ export default function TestimonialSection() {
             <div className="flex gap-3">
               <button
                 onClick={handlePrev}
-                className="p-2 rounded-full border border-white/10 hover:bg-white/10 transition-colors"
+                className="p-2 rounded-full border border-gray-200 hover:bg-gray-200 transition-colors"
                 aria-label="Previous"
               >
                 <ArrowLeft size={18} />
               </button>
               <button
                 onClick={handleNext}
-                className="p-2 rounded-full border border-white/10 hover:bg-white/10 transition-colors"
+                className="p-2 rounded-full border border-gray-200 hover:bg-gray-200 transition-colors"
                 aria-label="Next"
               >
                 <ArrowRight size={18} />
