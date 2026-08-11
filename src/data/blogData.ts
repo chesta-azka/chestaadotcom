@@ -8,7 +8,7 @@ export interface Article {
   desc: string;
   featured?: boolean;
   content: (string | { type: 'image'; url: string; alt: string })[];
-  images?: string[];
+  image?: string;
 }
 
 export const ALL_ARTICLES: Article[] = [
@@ -21,11 +21,7 @@ export const ALL_ARTICLES: Article[] = [
     readTimeMinutes: 4,
     desc: 'Mencari jasa pembuatan website profesional di area Cisauk, BSD City, atau Gading Serpong? CHESTADOTCOM by Chesta Azka Sofyan hadir menawarkan arsitektur digital kelas atas untuk UMKM.',
     featured: true,
-    images: [
-      'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=1200&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1200&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1522542550221-31fd19575a2d?q=80&w=1200&auto=format&fit=crop'
-    ],
+    image: 'https://images.unsplash.com/photo-1517694712202-14dd9538aa97?q=80&w=1200&auto=format&fit=crop',
     content: [
       "Halo para pemilik bisnis lokal! Perkenalkan, saya Chesta Azka Sofyan, founder dari CHESTADOTCOM, sebuah studio arsitektur digital yang mendedikasikan diri untuk merancang website berkinerja tinggi bagi bisnis dan UMKM.",
       "Jika Anda sedang mencari jasa pembuatan website premium di sekitar wilayah Cisauk, BSD City, hingga Gading Serpong, Anda berada di tempat yang tepat. Di era digital 2026, memiliki sekadar 'halaman web' tidak lagi cukup. Anda membutuhkan aset digital yang dirancang khusus untuk memukau calon klien sejak detik pertama.",
@@ -45,11 +41,7 @@ export const ALL_ARTICLES: Article[] = [
     readTimeMinutes: 5,
     desc: 'Kisah di balik terbentuknya CHESTADOTCOM. Visi besar Chesta Azka Sofyan dalam mendigitalisasikan bisnis Indonesia dengan arsitektur web berkualitas tinggi namun terjangkau.',
     featured: true,
-    images: [
-      'https://images.unsplash.com/photo-1555099962-4199c345e5dd?q=80&w=1200&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=1200&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=1200&auto=format&fit=crop'
-    ],
+    image: 'https://images.unsplash.com/photo-1555099962-4199c345e5dd?q=80&w=1200&auto=format&fit=crop',
     content: [
       "Selamat datang di CHESTADOTCOM. Saya Chesta Azka Sofyan, sosok di balik layar yang merancang pengalaman UI/UX sinematik dan arsitektur kode di setiap baris proyek yang kami kerjakan.",
       "Visi di balik CHESTADOTCOM sangat sederhana namun fundamental: Saya, Chesta Azka Sofyan, ingin menjembatani para pemilik UMKM, kreator, dan entitas profesional dengan standar teknologi tingkat dunia. Seringkali, pembuatan website kelas korporat membutuhkan biaya puluhan juta. Kami hadir untuk mendisrupsi itu—menyediakan produk super premium dengan aksesibilitas harga yang wajar (mulai dari Rp540K).",
@@ -69,10 +61,7 @@ export const ALL_ARTICLES: Article[] = [
     readTimeMinutes: 7,
     desc: 'Google mulai memberi penalti pada website yang terlihat seperti template. Data menunjukkan desain kustom meningkatkan engagement 300% dan on-page time, faktor utama algoritma baru Google.',
     featured: true,
-    images: [
-      'https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1200&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1200&auto=format&fit=crop'
-    ],
+    image: 'https://placehold.co/800x400/131825/D4FF00?text=SEO+2026',
     content: [
       "Di tahun 2026, taktik optimasi SEO lawas seperti spamming kata kunci atau penumpukan backlink massal sudah tidak lagi relevan. Algoritma modern Google yang bertenaga AI kini berfokus sepenuhnya pada satu hal krusial: Signal Kepuasan Pengguna Nyata (Real User Engagement Signals).",
       "Perubahan terbesar dalam algoritma pencarian Google tahun ini adalah penalti otomatis terhadap website yang menggunakan template generik yang berulang. Sistem Chrome secara anonim mengumpulkan data perilaku pengguna, mendeteksi elemen 'pola bosan' (dwell fatigue). Website yang tampak identik dengan ribuan situs web lain di internet akan langsung tergeser oleh situs dengan pengalaman visual yang unik dan kustom.",
@@ -91,10 +80,6 @@ export const ALL_ARTICLES: Article[] = [
     readTime: '5 MIN READ',
     readTimeMinutes: 5,
     desc: 'Algoritma Instagram berubah liar. Bisnis yang bertumpu 100% pada media sosial kehilangan kendali atas pelanggan mereka.',
-    images: [
-      'https://images.unsplash.com/photo-1611162617474-5b21e879e113?q=80&w=1200&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1432888498266-38ffec3eaf0a?q=80&w=1200&auto=format&fit=crop'
-    ],
     content: [
       "Media sosial adalah rumah kontrakan. Menggantungkan seluruh masa depan bisnis Anda pada Instagram atau TikTok berarti Anda siap menghadapi risiko digusur kapan saja tanpa peringatan terlebih dahulu.",
       "Dalam setahun terakhir, jangkauan organik (organic reach) Instagram kembali menyusut drastis demi memaksa pemilik bisnis membelanjakan lebih banyak uang untuk iklan Meta Ads. Postingan produk yang biasanya dilihat oleh ribuan pengikut kini hanya sampai ke layar segelintir orang. Perubahan algoritma secara tiba-tiba dapat langsung menghentikan arus masuk prospek bisnis Anda dalam semalam.",
@@ -103,7 +88,8 @@ export const ALL_ARTICLES: Article[] = [
       "Kehadiran website kustom premium bertindak sebagai 'Hub Utama' dari bisnis Anda. Di sini, Anda memegang 100% kontrol atas narasi, psikologi, dan alur konversi. Pengunjung tidak akan diganggu oleh kompetitor. Mereka mengalami perjalanan brand yang konsisten, profesional, dan tepercaya dari atas hingga bawah.",
       { type: 'image', url: 'https://images.unsplash.com/photo-1432888498266-38ffec3eaf0a?q=80&w=1200&auto=format&fit=crop', alt: 'Professional Workspace' },
       "Mari jadikan media sosial sebagai 'Spoke' (saluran penarik perhatian) dan website premium sebagai 'Hub' (mesin penutup penjualan). Itulah cara brand papan atas mengamankan stabilitas bisnis jangka panjang mereka di era digital."
-    ]
+    ],
+    image: 'https://placehold.co/800x400/131825/D4FF00?text=Instagram+vs+Website'
   },
   {
     slug: 'website-lemot-kehilangan-pembeli',
@@ -113,10 +99,6 @@ export const ALL_ARTICLES: Article[] = [
     readTime: '4 MIN READ',
     readTimeMinutes: 4,
     desc: 'Google sekarang membunuh peringkat website yang load time-nya di atas 2 detik. Ini arsitektur modern kita mengatasinya.',
-    images: [
-      'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?q=80&w=1200&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=1200&auto=format&fit=crop'
-    ],
     content: [
       "Satu detik pertama menentukan uang Anda. Statistik konversi digital global membuktikan bahwa setiap tambahan delay selama 100 milidetik pada saat loading website, akan langsung memotong tingkat konversi penjualan hingga sebesar 7%.",
       "Jika proses memuat website Anda membutuhkan waktu di atas 3 detik, sekitar 40% calon pelanggan Anda akan langsung menutup tab browser dan berpindah ke website kompetitor yang merespons lebih gesit. Pasar modern tidak memiliki ruang toleransi untuk keterlambatan informasi.",
@@ -125,7 +107,8 @@ export const ALL_ARTICLES: Article[] = [
       { type: 'image', url: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=1200&auto=format&fit=crop', alt: 'High Performance Tech' },
       "Kecepatan superior ini juga disenangi oleh Google Core Web Vitals (terutama metrik LCP dan INP). Website yang gesit akan diberikan kenaikan prioritas indeks pencarian secara signifikan dibandingkan website milik kompetitor Anda yang lambat dan penuh muatan overhead.",
       "Jangan biarkan konsep penawaran hebat produk Anda terbuang sia-sia hanya karena pengunjung tidak sabar menunggu loading layar kosong website Anda. Kinerja tinggi adalah syarat mutlak profesionalisme."
-    ]
+    ],
+    image: 'https://placehold.co/800x400/131825/D4FF00?text=Website+Performance'
   },
   {
     slug: 'desain-murahan-merusak-profesionalisme',
@@ -135,16 +118,13 @@ export const ALL_ARTICLES: Article[] = [
     readTime: '3 MIN READ',
     readTimeMinutes: 3,
     desc: 'Kesan pertama menentukan harga. Klien bersedia membayar mahal jika profil digital Anda terlihat sangat serius.',
-    images: [
-      'https://images.unsplash.com/photo-1555099962-4199c345e5dd?q=80&w=1200&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=1200&auto=format&fit=crop'
-    ],
     content: [
       "UI/UX yang buruk adalah pengusir prospek terandalkan. Psikologi konsumen menunjukkan bahwa keputusan pembelian bernilai tinggi (high-ticket sales) selalu dilandasi oleh rasa aman dan tingkat kepercayaan (trust).",
       "Ketika calon pembeli kelas atas mengunjungi website bisnis yang tampak murahan, menggunakan template asal jadi, dengan kombinasi warna acak, font default, dan tata letak berantakan, mereka akan langsung mengasosiasikan hal tersebut dengan kualitas layanan Anda.",
       "Formula logika pembeli sangat simpel: 'Jika website perusahaannya saja dikerjakan setengah hati, maka produk dan layanannya pun pasti berantakan.' Sebaliknya, desain kustom yang presisi, memiliki harmoni warna yang indah, dan layout yang seimbang memancarkan wibawa bisnis berkelas tinggi.",
       "Klien tidak lagi tawar-menawar harga jika sejak awal mereka disuguhi oleh presentasi digital premium yang berkelas. Investasi pada estetika eksklusif adalah jembatan tercepat mewujudkan positioning harga premium bagi produk UMKM unggulan Anda."
-    ]
+    ],
+    image: 'https://placehold.co/800x400/131825/D4FF00?text=Professional+Design'
   },
   {
     slug: 'micro-interactions-rahasia-konversi',
@@ -154,17 +134,14 @@ export const ALL_ARTICLES: Article[] = [
     readTime: '6 MIN READ',
     readTimeMinutes: 6,
     desc: 'Bukan sekadar hiasan. Animasi kecil yang tepat dapat membimbing mata audiens langsung ke tombol checkout.',
-    images: [
-      'https://images.unsplash.com/photo-1555099962-4199c345e5dd?q=80&w=1200&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=1200&auto=format&fit=crop'
-    ],
     content: [
       "Banyak desainer mengira animasi adalah sarana kosmetik belaka untuk mempercantik tampilan luar halaman. Padahal, animasi fungsional berskala mikro (micro-interactions) adalah asisten pemandu bawah sadar yang sangat tepercaya.",
       "Saat pengguna menggerakkan kursor atau menyentuh layar, umpan balik (feedback) visual langsung harus diberikan secara instan namun berkelas. Misalnya, perubahan warna tombol yang halus, glow samar di tepian form aktif, atau gerakan ikon panah yang maju perlahan saat di-hover.",
       "Interaksi ini memicu dopamin positif di otak pengguna. Hal ini menciptakan kepuasan sensorik kecil yang membuat interaksi terasa hidup dan responsif. Pengguna merasa memiliki kendali penuh atas sistem digital yang sedang mereka operasikan.",
       "Selain kepuasan psikologis, micro-interactions bertugas mengalihkan arah mata audiens (eye-gaze control) langsung menuju elemen pemicu aksi (Call-To-Action/CTA) penting seperti tombol checkout atau form konsultasi secara natural.",
       "Kami menyusun animasi ini secara cermat menggunakan mesin performa ultra tinggi (Motion React). Tidak ada stutter, tidak ada pelambatan performa, murni dinamika interaksi kelas premium."
-    ]
+    ],
+    image: 'https://placehold.co/800x400/131825/D4FF00?text=Micro+Interactions'
   },
   {
     slug: 'menulis-copywriting-membujuk',
@@ -174,17 +151,13 @@ export const ALL_ARTICLES: Article[] = [
     readTime: '5 MIN READ',
     readTimeMinutes: 5,
     desc: 'Orang benci dijual, tapi suka membeli. Cara menggunakan brand storytelling untuk memicu keputusan emosional.',
-    images: [
-      'https://images.unsplash.com/photo-1555099962-4199c345e5dd?q=80&w=1200&auto=format&fit=crop',
-      'https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=1200&auto=format&fit=crop'
-    ],
     content: [
       "Di saat kotak masuk surel dan lini masa penuh dengan kepungan kata 'Beli Sekarang' atau 'Promo Terbatas', audiens Anda telah mengembangkan imunitas bawah sadar terhadap pesan promosi yang agresif.",
       "Strategi penulisan naskah (copywriting) modern beralih total ke arah penyelesaian masalah (problem-solving copywriting). Fokuslah pada transformasi hidup pelanggan Anda, bukan sekadar menjabarkan daftar panjang fitur teknis yang membosankan.",
       "Alih-alih menulis 'Kami menjual hosting 10GB super cepat', tulislah 'Kecepatan loading website kami memastikan calon pembeli Anda tidak akan menutup tab sebelum transaksi selesai.' Kaitkan spesifikasi produk langsung ke hasil akhir emosional dan finansial.",
       "Buatlah audiens merasa dipahami rasa frustrasinya sejak awal paragraf. Ketika mereka merasa empati Anda tulus, rasa waspada mereka akan melunak, digantikan oleh antusiasme alami untuk mengeksplorasi solusi yang Anda tawarkan.",
       "Teknik brand storytelling yang anggun ini tidak memaksa audiens bertindak, tetapi menyodorkan panggung logika rasional yang membuat pembelian terasa seperti keputusan cerdas mereka sendiri."
-    ]
+    ],
+    image: 'https://placehold.co/800x400/131825/D4FF00?text=Copywriting'
   },
 ];
-

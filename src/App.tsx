@@ -3,12 +3,11 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { motion, useScroll, useTransform, AnimatePresence } from 'motion/react';
+import { motion, useScroll, useTransform } from 'motion/react';
 import { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { Analytics } from '@vercel/analytics/react';
 import Lenis from 'lenis';
-import { Toaster } from 'sonner';
 import WebVitalsTracker from './components/atoms/WebVitalsTracker.tsx';
 import Header from './components/organisms/Header.tsx';
 import FooterSection from './components/organisms/FooterSection.tsx';
@@ -36,16 +35,7 @@ function ScrollToTop() {
 }
 
 export default function App() {
-  return (
-    <Router>
-      <AppContent />
-    </Router>
-  );
-}
-
-function AppContent() {
   const [appLoaded, setAppLoaded] = useState(false);
-  const location = useLocation();
 
   useEffect(() => {
     const lenis = new Lenis();
@@ -66,9 +56,9 @@ function AppContent() {
   const gridY = useTransform(scrollY, [0, 6000], [0, -360]);
 
   return (
-    <>
-      <ScrollToTop />
-      <Analytics />
+    <Router>
+        <ScrollToTop />
+        <Analytics />
       <motion.main 
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -77,7 +67,6 @@ function AppContent() {
       >
         <MouseGlow />
         <WebVitalsTracker />
-        <Toaster richColors position="top-right" />
         
         {/* Global Blur Elements - More subtle, neutral white light */}
         <div className="fixed -top-[20%] left-1/4 w-[800px] h-[800px] bg-white/[0.03] rounded-full blur-[150px] pointer-events-none z-[0]" />
@@ -106,23 +95,21 @@ function AppContent() {
             className="flex flex-col flex-1"
           >
             <Header />
-            <AnimatePresence mode="wait">
-              <Routes location={location} key={location.pathname}>
-                <Route path="/" element={<HomePage />} />
-                <Route path="/blog" element={<BlogHubPage />} />
-                <Route path="/services" element={<ServicesPage />} />
-                <Route path="/portfolio" element={<PortfolioPage />} />
-                <Route path="/portfolio/:id" element={<ProjectDetailPage />} />
-                <Route path="/about" element={<AboutPage />} />
-                <Route path="/layanan/:slug" element={<ServiceDetailPage />} />
-                <Route path="/area/:cityName" element={<AreaDetailPage />} />
-              </Routes>
-            </AnimatePresence>
+            <Routes>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/blog" element={<BlogHubPage />} />
+              <Route path="/services" element={<ServicesPage />} />
+              <Route path="/portfolio" element={<PortfolioPage />} />
+              <Route path="/portfolio/:id" element={<ProjectDetailPage />} />
+              <Route path="/about" element={<AboutPage />} />
+              <Route path="/layanan/:slug" element={<ServiceDetailPage />} />
+              <Route path="/area/:cityName" element={<AreaDetailPage />} />
+            </Routes>
             <FooterSection />
           </motion.div>
           <FloatingWhatsAppButton />
         </div>
       </motion.main>
-    </>
+    </Router>
   );
 }

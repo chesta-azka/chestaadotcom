@@ -1,13 +1,9 @@
 import { motion } from 'motion/react';
-import { Check, ArrowRight, Zap, Target, Star, Globe, Info } from 'lucide-react';
-import { useState } from 'react';
-import ComparePlansModal from './ComparePlansModal';
+import { Check, ArrowRight, Zap, Target, Star, Globe } from 'lucide-react';
 
 export default function PricingSection() {
-  const [isModalOpen, setIsModalOpen] = useState(false);
   return (
     <section className="py-24 md:py-32 relative overflow-hidden bg-transparent z-10" id="pricing">
-      <ComparePlansModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
       <div className="absolute inset-0 pointer-events-none -z-10">
         <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[#D4FF00]/5 rounded-full blur-[100px]" />
       </div>
@@ -35,17 +31,10 @@ export default function PricingSection() {
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-gray-400 font-sans max-w-2xl mx-auto text-lg leading-relaxed mb-8"
+            className="text-gray-400 font-sans max-w-2xl mx-auto text-lg leading-relaxed"
           >
             Kami membenci kerumitan paket berjenjang. Anda mendapatkan semua fitur enterprise grade yang Anda butuhkan untuk mendominasi pasar, tanpa biaya tersembunyi.
           </motion.p>
-          <button 
-            onClick={() => setIsModalOpen(true)}
-            className="inline-flex items-center gap-2 text-indigo-400 hover:text-white font-mono text-sm underline transition-colors"
-          >
-            <Info size={16} />
-            Bandingkan dengan layanan lain
-          </button>
         </div>
 
         <div className="max-w-4xl mx-auto">
@@ -53,42 +42,74 @@ export default function PricingSection() {
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="bg-[#0D111A] border border-white/5 rounded-3xl p-8 md:p-12"
+            className="relative bg-[#0D111A]/80 backdrop-blur-xl border border-white/10 rounded-[2.5rem] p-8 md:p-12 overflow-hidden shadow-2xl"
           >
-            <div className="flex flex-col md:flex-row justify-between items-center gap-6 mb-12">
+            {/* Glow accent */}
+            <div className="absolute top-0 right-0 w-64 h-64 bg-[#D4FF00]/10 blur-[80px] pointer-events-none" />
+
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-center">
               <div>
-                <h3 className="text-2xl font-display text-white mb-1">UMKM Dominance</h3>
-                <span className="text-[#D4FF00] font-mono text-sm">Paket All-In satu harga</span>
+                <div className="mb-8">
+                  <div className="flex items-center gap-4 mb-4">
+                     <h3 className="text-2xl font-serif italic text-white">UMKM Dominance</h3>
+                     <span className="bg-[#D4FF00] text-[#0A0D14] font-mono text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest">Paling Laris</span>
+                  </div>
+                  <div className="flex flex-col gap-1 items-start">
+                    <div className="flex items-baseline gap-2 text-white">
+                      <span className="text-6xl md:text-7xl font-display font-black tracking-tighter">Rp 550K</span>
+                      <span className="text-gray-400 font-mono text-sm mb-2">/ flat</span>
+                    </div>
+                    <p className="text-red-400/80 font-mono text-xs line-through uppercase tracking-wide">Harga Normal Rp 1.250.000</p>
+                  </div>
+                </div>
+                
+                <p className="text-gray-300 font-sans leading-relaxed mb-8 text-lg">
+                  Dapatkan arsitektur website premium yang sama dengan klien korporasi kami. Dirancang ekstrem untuk loading cepat, SEO maksimal, dan konversi tinggi.
+                </p>
+
+                <button 
+                  onClick={() => window.open('https://wa.me/6282125447232?text=Halo%20CHESTADOTCOM,%20saya%20tertarik%20dengan%20paket%20Website%20Premium%20Rp%20550K.', '_blank')}
+                  className="group flex flex-col items-center justify-center gap-1 w-full rounded-2xl bg-[#D4FF00] px-6 py-5 font-mono text-sm font-bold uppercase tracking-widest text-[#06080F] hover:bg-[#e2ff34] transition-all hover:scale-[1.02] active:scale-[0.98]"
+                >
+                  <span className="flex items-center gap-2">
+                    <Globe size={18} />
+                    Klaim .COM Gratis Sekarang
+                  </span>
+                  <span className="text-[10px] opacity-70">Terbatas untuk 10 slot pertama</span>
+                </button>
               </div>
-              <div className="text-right">
-                <div className="text-4xl font-bold text-white">Rp 550K</div>
-                <div className="text-gray-500 font-mono text-xs line-through">Rp 1.250.000</div>
+
+              <div className="lg:border-l lg:border-white/10 lg:pl-12">
+                <ul className="space-y-4">
+                  {[
+                    { text: "Gratis Domain .COM (Tahun Pertama)", highlight: true },
+                    { text: "Desain UI/UX Premium Kustom (Bukan Template)", highlight: false },
+                    { text: "Performa Ekstrem (Load time < 1 detik)", highlight: false },
+                    { text: "SEO Setup Google Standard 2026", highlight: false },
+                    { text: "Integrasi Langsung ke WhatsApp Bisnis", highlight: false },
+                    { text: "Akses Revisi Desain", highlight: false },
+                    { text: "Hosting High-Speed CDN", highlight: false },
+                    { text: "Dukungan Teknis Prioritas", highlight: false }
+                  ].map((benefit, i) => (
+                    <motion.li 
+                      key={i}
+                      initial={{ opacity: 0, x: -10 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true }}
+                      transition={{ delay: i * 0.1 }}
+                      className="flex items-start gap-3"
+                    >
+                      <div className={`mt-1 flex-shrink-0 w-5 h-5 rounded-full ${benefit.highlight ? 'bg-[#D4FF00]' : 'bg-[#D4FF00]/10'} flex items-center justify-center`}>
+                        <Check size={12} className={benefit.highlight ? 'text-[#06080F]' : 'text-[#D4FF00]'} />
+                      </div>
+                      <span className={`${benefit.highlight ? 'text-white font-bold' : 'text-gray-200'} font-sans text-sm md:text-base`}>
+                        {benefit.text}
+                      </span>
+                    </motion.li>
+                  ))}
+                </ul>
               </div>
             </div>
-
-            <div className="grid md:grid-cols-2 gap-6 mb-10">
-              <ul className="space-y-3">
-                {[ "Gratis Domain .COM", "Desain UI/UX Kustom", "Performa < 1 detik", "SEO Optimized" ].map((item) => (
-                   <li key={item} className="flex items-center gap-3 text-gray-300 text-sm">
-                      <Check size={16} className="text-[#D4FF00]" /> {item}
-                   </li>
-                ))}
-              </ul>
-              <ul className="space-y-3">
-                {[ "Integrasi WhatsApp", "Dukungan Prioritas", "Revisi Desain", "Hosting High-Speed" ].map((item) => (
-                   <li key={item} className="flex items-center gap-3 text-gray-300 text-sm">
-                      <Check size={16} className="text-[#D4FF00]" /> {item}
-                   </li>
-                ))}
-              </ul>
-            </div>
-
-            <button 
-              onClick={() => window.open('https://wa.me/6282125447232?text=Halo%20CHESTADOTCOM,%20saya%20tertarik%20dengan%20paket%20Website%20Premium%20Rp%20550K.', '_blank')}
-              className="w-full py-4 rounded-xl bg-[#D4FF00] text-[#06080F] font-bold uppercase tracking-widest text-sm hover:scale-[1.01] transition-transform"
-            >
-              Pesan Paket UMKM
-            </button>
           </motion.div>
         </div>
       </div>

@@ -28,7 +28,6 @@ export default function ProjectDetailPage() {
       <MetaTags 
         title={`${project.title} — CHESTADOTCOM`} 
         description={project.description} 
-        ogImage={project.thumbnail}
       />
 
       {/* Cinematic Aura Effect */}

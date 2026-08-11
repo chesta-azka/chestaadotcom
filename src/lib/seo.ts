@@ -2,8 +2,8 @@ export const generateLocalBusinessSchema = () => {
   return {
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
-    "name": "Chestadotcom - Digital Architect",
-    "image": "https://chestadotcom.com/favicon.svg",
+    "name": "Chestaa.com - Digital Architect",
+    "image": "https://chestaa.com/favicon.svg",
     "description": "Jasa website premium kilat di Cisauk, BSD, Gading Serpong.",
     "address": {
       "@type": "PostalAddress",
@@ -17,13 +17,13 @@ export const generateLocalBusinessSchema = () => {
       "latitude": -6.299,
       "longitude": 106.657
     },
-    "url": "https://chestadotcom.com",
+    "url": "https://chestaa.com",
     "priceRange": "$$",
     "openingHours": "Mo-Fr 09:00-18:00",
     "contactPoint": {
       "@type": "ContactPoint",
       "contactType": "customer service",
-      "email": "hello@chestadotcom.com",
+      "email": "hello@chestaa.com",
       "areaServed": "Cisauk, BSD, Gading Serpong"
     },
     "sameAs": [
@@ -42,10 +42,10 @@ export const generateWebSiteSchema = () => {
   return {
     "@context": "https://schema.org",
     "@type": "WebSite",
-    "url": "https://chestadotcom.com",
+    "url": "https://chestaa.com",
     "potentialAction": {
       "@type": "SearchAction",
-      "target": "https://chestadotcom.com/search?q={search_term_string}",
+      "target": "https://chestaa.com/search?q={search_term_string}",
       "query-input": "required name=search_term_string"
     }
   };
@@ -59,39 +59,11 @@ export const generateSiteNavigationElement = () => {
     "about": {
       "@type": "ItemList",
       "itemListElement": [
-        { "@type": "ListItem", "position": 1, "name": "Layanan Website", "item": "https://chestadotcom.com/services" },
-        { "@type": "ListItem", "position": 2, "name": "Portfolio Proyek", "item": "https://chestadotcom.com/projects" },
-        { "@type": "ListItem", "position": 3, "name": "Blog & SEO", "item": "https://chestadotcom.com/blog" },
-        { "@type": "ListItem", "position": 4, "name": "Kontak Kami", "item": "https://chestadotcom.com/contact" }
+        { "@type": "ListItem", "position": 1, "name": "Layanan Website", "item": "https://chestaa.com/services" },
+        { "@type": "ListItem", "position": 2, "name": "Portfolio Proyek", "item": "https://chestaa.com/projects" },
+        { "@type": "ListItem", "position": 3, "name": "Blog & SEO", "item": "https://chestaa.com/blog" },
+        { "@type": "ListItem", "position": 4, "name": "Kontak Kami", "item": "https://chestaa.com/contact" }
       ]
-    }
-  };
-};
-
-export const generateServiceSchema = (name: string, description: string) => {
-  return {
-    "@context": "https://schema.org",
-    "@type": "Service",
-    "serviceType": name,
-    "description": description,
-    "provider": {
-      "@type": "LocalBusiness",
-      "name": "Chestadotcom"
-    }
-  };
-};
-
-export const generateProjectSchema = (name: string, description: string, image: string, url: string) => {
-  return {
-    "@context": "https://schema.org",
-    "@type": "CreativeWork",
-    "name": name,
-    "description": description,
-    "image": image,
-    "url": url,
-    "author": {
-      "@type": "LocalBusiness",
-      "name": "Chestadotcom"
     }
   };
 };
