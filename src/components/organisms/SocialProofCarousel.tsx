@@ -31,7 +31,7 @@ export default function SocialProofCarousel() {
   }, []);
 
   return (
-    <div className="w-full max-w-lg mx-auto bg-gray-1000 backdrop-blur-sm border border-gray-200 rounded-2xl p-6 mt-12 shadow-sm">
+    <div className="w-full max-w-lg mx-auto bg-slate-1000 backdrop-blur-sm border border-slate-200 rounded-2xl p-6 mt-12 shadow-sm">
       <div className="flex items-center justify-center gap-1 mb-4">
         {[...Array(5)].map((_, i) => (
           <Star key={i} size={14} className="fill-indigo-500 text-indigo-500" />

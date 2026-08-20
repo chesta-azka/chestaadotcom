@@ -1,4 +1,4 @@
-import { Component, ErrorInfo, ReactNode } from 'react';
+import React, { Component, ErrorInfo, ReactNode } from 'react';
 
 interface Props {
   children: ReactNode;
@@ -8,7 +8,7 @@ interface State {
   hasError: boolean;
 }
 
-export class ErrorBoundary extends Component<Props, State> {
+export class ErrorBoundary extends React.Component<Props, State> {
   public state: State = {
     hasError: false
   };
@@ -24,11 +24,11 @@ export class ErrorBoundary extends Component<Props, State> {
   public render() {
     if (this.state.hasError) {
       return (
-        <div className="flex h-screen w-full flex-col items-center justify-center bg-gray-100 p-6 text-center">
-          <h1 className="font-sans text-2xl font-medium tracking-tight text-gray-900">
+        <div className="flex h-screen w-full flex-col items-center justify-center bg-slate-100 p-6 text-center">
+          <h1 className="font-sans text-2xl font-medium tracking-tight text-slate-900">
             Terjadi Kesalahan
           </h1>
-          <p className="mt-2 font-sans text-gray-600">
+          <p className="mt-2 font-sans text-slate-600">
             Mohon maaf, sistem kami sedang mengalami gangguan.
           </p>
           <button
@@ -41,6 +41,6 @@ export class ErrorBoundary extends Component<Props, State> {
       );
     }
 
-    return this.props.children;
+    return (this as any).props.children;
   }
 }

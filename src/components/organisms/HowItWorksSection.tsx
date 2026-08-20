@@ -21,7 +21,7 @@ export default function HowItWorksSection() {
           <span className="text-[#4f46e5] font-sans font-medium text-sm uppercase tracking-widest block mb-6">
             03 — The Workflow
           </span>
-          <div className="text-6xl md:text-6xl font-display font-medium tracking-tight text-gray-900 leading-[1.05] flex flex-wrap">
+          <div className="text-6xl md:text-6xl font-display font-medium tracking-tight text-slate-900 leading-[1.05] flex flex-wrap">
             <TextRevealSmooth 
               text="Proses Terukur, Konversi Maksimal." 
               highlightWords={["Konversi", "Maksimal."]}
@@ -43,8 +43,8 @@ export default function HowItWorksSection() {
               <div className="text-7xl md:text-[6rem] lg:text-[7.5rem] font-display font-medium text-transparent bg-clip-text bg-gradient-to-b from-white/10 to-transparent mb-8 leading-none">
                 {s.num}
               </div>
-              <h3 className="text-2xl lg:text-3xl font-display font-medium tracking-tight text-gray-900 mb-4">{s.title}</h3>
-              <p className="text-gray-600 font-sans leading-relaxed text-base">{s.desc}</p>
+              <h3 className="text-2xl lg:text-3xl font-display font-medium tracking-tight text-slate-900 mb-4">{s.title}</h3>
+              <p className="text-slate-600 font-sans leading-relaxed text-base">{s.desc}</p>
               
               {/* Animated Progress bar */}
               <motion.div 
@@ -54,7 +54,7 @@ export default function HowItWorksSection() {
                 viewport={{ once: true }}
                 transition={{ duration: 1.5, ease: "easeOut", delay: i * 0.2 }}
               />
-              <div className="absolute top-0 left-0 w-full h-[2px] bg-gray-100 -z-10" />
+              <div className="absolute top-0 left-0 w-full h-[2px] bg-slate-100 -z-10" />
             </motion.div>
           ))}
         </div>

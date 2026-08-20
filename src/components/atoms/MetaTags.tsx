@@ -1,21 +1,23 @@
 import { Helmet } from 'react-helmet-async';
-import { generateLocalBusinessSchema, generateWebSiteSchema, generateSiteNavigationElement, generateBreadcrumbs } from '../../lib/seo';
+import { generateLocalBusinessSchema, generateWebSiteSchema, generateSiteNavigationElement, generateBreadcrumbs, generateServiceSchema } from '../../lib/seo';
 
 interface MetaTagsProps {
   title: string;
   description: string;
   path?: string;
   breadcrumbs?: { name: string; item: string }[];
+  serviceName?: string;
 }
 
-export default function MetaTags({ title, description, path = '/', breadcrumbs }: MetaTagsProps) {
-  const finalTitle = title.includes('chestaa') ? title : `${title} | chestaa`;
+export default function MetaTags({ title, description, path = '/', breadcrumbs, serviceName }: MetaTagsProps) {
+  const finalTitle = title.includes('CHESTADOTCOM') || title.includes('chestaa') ? title : `${title} | CHESTADOTCOM`;
   const url = `https://chestaa.com${path}`;
   
   const localBusinessLd = generateLocalBusinessSchema();
   const websiteLd = generateWebSiteSchema();
   const siteNavLd = generateSiteNavigationElement();
   const breadcrumbLd = breadcrumbs ? generateBreadcrumbs(breadcrumbs) : null;
+  const serviceLd = serviceName ? generateServiceSchema(serviceName, description, url) : null;
 
   const ogImage = 'https://chestaa.com/og-preview-image.jpg';
 
@@ -31,7 +33,7 @@ export default function MetaTags({ title, description, path = '/', breadcrumbs }
       <meta property="og:description" content={description} />
       <meta property="og:url" content={url} />
       <meta property="og:image" content={ogImage} />
-      <meta property="og:site_name" content="chestaa" />
+      <meta property="og:site_name" content="CHESTADOTCOM" />
       
       {/* Twitter */}
       <meta name="twitter:card" content="summary_large_image" />
@@ -44,6 +46,7 @@ export default function MetaTags({ title, description, path = '/', breadcrumbs }
       <script type="application/ld+json">{JSON.stringify(websiteLd)}</script>
       <script type="application/ld+json">{JSON.stringify(siteNavLd)}</script>
       {breadcrumbLd && <script type="application/ld+json">{JSON.stringify(breadcrumbLd)}</script>}
+      {serviceLd && <script type="application/ld+json">{JSON.stringify(serviceLd)}</script>}
     </Helmet>
   );
 }

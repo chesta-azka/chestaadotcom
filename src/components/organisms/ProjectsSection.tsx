@@ -6,18 +6,18 @@ import TextRevealSmooth from '../atoms/TextRevealSmooth';
 import { PROJECTS } from '../../data/projects.ts';
 
 const ProjectSkeleton = () => (
-  <div className="relative overflow-hidden rounded-2xl border border-[#4f46e5]/5 min-h-[440px] bg-gray-50 animate-pulse flex flex-col justify-end p-8">
+  <div className="relative overflow-hidden rounded-2xl border border-[#4f46e5]/5 min-h-[440px] bg-slate-50 animate-pulse flex flex-col justify-end p-8">
     <div className="absolute inset-0 bg-gradient-to-t from-[#06080F]/95 via-[#06080F]/30 to-transparent opacity-80" />
     <div className="absolute inset-x-8 bottom-8 flex flex-col sm:flex-row justify-between items-end sm:items-center gap-4 z-10 w-[calc(100%-4rem)]">
       <div className="space-y-3 w-full sm:w-2/3 text-left">
         {/* Category placeholder */}
-        <div className="h-3 w-20 bg-gray-200 rounded" />
+        <div className="h-3 w-20 bg-slate-200 rounded" />
         {/* Title placeholder */}
         <div className="h-6 w-3/4 bg-white/20 rounded" />
       </div>
       
       {/* Metric Badge placeholder */}
-      <div className="px-4 py-2 rounded-xl bg-[#4f46e5]/5 border border-gray-200 w-24 h-12 flex flex-col justify-center items-end gap-1.5 shrink-0" />
+      <div className="px-4 py-2 rounded-xl bg-[#4f46e5]/5 border border-slate-200 w-24 h-12 flex flex-col justify-center items-end gap-1.5 shrink-0" />
     </div>
   </div>
 );
@@ -118,10 +118,7 @@ export default function ProjectsSection() {
           className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-24"
         >
           <div>
-            <span className="text-[#4f46e5] font-sans font-medium text-sm uppercase tracking-widest block mb-6">
-              02 — Proof of Capability
-            </span>
-            <div className="text-5xl md:text-[6.5rem] font-display font-medium tracking-tight text-gray-900 leading-[1.0] mb-2 flex flex-wrap">
+            <div className="text-5xl md:text-[6.5rem] font-display font-medium tracking-tight text-slate-900 leading-[1.0] mb-2 flex flex-wrap">
               <TextRevealSmooth 
                 text="Selected Work." 
                 highlightWords={["Work."]}
@@ -129,7 +126,7 @@ export default function ProjectsSection() {
               />
             </div>
           </div>
-          <p className="max-w-sm text-gray-600 font-sans pb-4 text-lg leading-relaxed">
+          <p className="max-w-sm text-slate-600 font-sans pb-4 text-lg leading-relaxed">
             Bukti nyata performa premium untuk berbagai industri lokal. Desain yang berbicara, data yang membuktikan.
           </p>
         </motion.div>
@@ -167,7 +164,7 @@ export default function ProjectsSection() {
           transition={{ delay: 0.5, duration: 0.6 }}
           className="mt-24 text-center"
         >
-          <p className="text-gray-600 font-sans mb-8">Punya ide proyek impian?</p>
+          <p className="text-slate-600 font-sans mb-8">Punya ide proyek impian?</p>
           <motion.a 
             href="https://wa.me/6282125447232?text=Halo%20chestaadotcom%2C%20saya%20melihat%20portfolio%20Anda%20dan%20tertarik%20membuat%20website%20UMKM%20premium%21" 
             target="_blank"

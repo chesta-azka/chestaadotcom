@@ -46,23 +46,23 @@ export default function ProjectDetailPage() {
             <span className="px-3.5 py-1.5 rounded-full bg-[#4f46e5]/10 border border-[#4f46e5]/20 text-[10px] font-mono font-bold text-[#4f46e5] uppercase tracking-wider">
               {project.category}
             </span>
-            <span className="text-gray-500 flex items-center gap-1.5 font-mono">
+            <span className="text-slate-500 flex items-center gap-1.5 font-mono">
               <Calendar size={13} /> {project.duration || '1 Minggu'}
             </span>
           </div>
 
-          <h1 className="text-3xl sm:text-5xl font-display font-medium text-gray-900 tracking-tight leading-[1.1] max-w-3xl">
+          <h1 className="text-3xl sm:text-5xl font-display font-medium text-slate-900 tracking-tight leading-[1.1] max-w-3xl">
             {project.title}
           </h1>
 
           <div className="flex gap-4 items-center pt-2">
-            <span className="text-xs font-mono text-gray-500">Client:</span>
-            <span className="text-xs font-sans text-gray-700 font-bold">{project.client || 'Corporate Partner'}</span>
+            <span className="text-xs font-mono text-slate-500">Client:</span>
+            <span className="text-xs font-sans text-slate-700 font-bold">{project.client || 'Corporate Partner'}</span>
           </div>
         </div>
 
         {/* Premium Framed Asset Header */}
-        <div className="relative aspect-[16/9] w-full rounded-2xl md:rounded-3xl overflow-hidden border border-gray-200 shadow-2xl mb-16 bg-white">
+        <div className="relative aspect-[16/9] w-full rounded-2xl md:rounded-3xl overflow-hidden border border-slate-200 shadow-2xl mb-16 bg-white">
           <picture>
             <img 
               src={project.thumbnail} 
@@ -75,17 +75,17 @@ export default function ProjectDetailPage() {
         </div>
 
         {/* Detailed Layout Container (No Interactive Garbage) */}
-        <div className="grid grid-cols-1 md:grid-cols-12 gap-12 border-t border-gray-100 pt-16">
+        <div className="grid grid-cols-1 md:grid-cols-12 gap-12 border-t border-slate-100 pt-16">
           
           {/* Left Block - Detailed Description & Bullet Points */}
           <div className="md:col-span-8 space-y-12">
             
             {/* Overview */}
             <div className="space-y-4">
-              <h3 className="text-lg font-display font-semibold text-gray-900 flex items-center gap-2.5">
+              <h3 className="text-lg font-display font-semibold text-slate-900 flex items-center gap-2.5">
                 Project Overview
               </h3>
-              <p className="text-gray-600 font-sans text-base leading-relaxed">
+              <p className="text-slate-600 font-sans text-base leading-relaxed">
                 {project.overview || project.description}
               </p>
             </div>
@@ -93,10 +93,10 @@ export default function ProjectDetailPage() {
             {/* Challenges */}
             {project.challenges && (
               <div className="space-y-4">
-                <h3 className="text-lg font-display font-semibold text-gray-900 flex items-center gap-2.5">
+                <h3 className="text-lg font-display font-semibold text-slate-900 flex items-center gap-2.5">
                   The Business Challenges
                 </h3>
-                <p className="text-gray-600 font-sans text-sm sm:text-base leading-relaxed">
+                <p className="text-slate-600 font-sans text-sm sm:text-base leading-relaxed">
                   {project.challenges}
                 </p>
               </div>
@@ -105,16 +105,16 @@ export default function ProjectDetailPage() {
             {/* Solutions & Core Features */}
             {project.solution && (
               <div className="space-y-6">
-                <h3 className="text-lg font-display font-semibold text-gray-900 flex items-center gap-2.5">
+                <h3 className="text-lg font-display font-semibold text-slate-900 flex items-center gap-2.5">
                   Designed & Coded Solutions
                 </h3>
                 
-                <p className="text-gray-600 font-sans text-base leading-relaxed">
+                <p className="text-slate-600 font-sans text-base leading-relaxed">
                   {project.solution}
                 </p>
 
                 {/* Features Checklist */}
-                <ul className="space-y-3 pt-4 text-gray-600">
+                <ul className="space-y-3 pt-4 text-slate-600">
                   {project.features.map((feature, idx) => (
                     <li key={idx} className="flex items-center gap-3">
                       <span className="w-1.5 h-1.5 rounded-full bg-[#4f46e5] shrink-0" />
@@ -131,23 +131,23 @@ export default function ProjectDetailPage() {
           <div className="md:col-span-4 space-y-8">
             
             {/* Minimal Stat Badge */}
-            <div className="bg-gray-50 border border-gray-200 rounded-2xl p-6 relative overflow-hidden group">
+            <div className="bg-slate-50 border border-slate-200 rounded-2xl p-6 relative overflow-hidden group">
               <div className="absolute top-0 right-0 w-24 h-24 bg-[#4f46e5]/5 rounded-full blur-2xl pointer-events-none" />
               <div className="flex flex-col items-start space-y-1">
-                <span className="text-[10px] font-mono text-gray-500 uppercase tracking-widest">PERFORMANCE TARGET</span>
+                <span className="text-[10px] font-mono text-slate-500 uppercase tracking-widest">PERFORMANCE TARGET</span>
                 <span className="text-5xl font-mono font-bold text-[#4f46e5] tracking-tight">{metricValue}</span>
-                <span className="text-[10px] font-sans text-gray-600 font-medium">{metricLabel} optimized with perfect score</span>
+                <span className="text-[10px] font-sans text-slate-600 font-medium">{metricLabel} optimized with perfect score</span>
               </div>
             </div>
 
             {/* Tech Stack Card */}
-            <div className="bg-white/[0.01] border border-gray-100 rounded-2xl p-6 space-y-4">
-              <span className="text-[10px] font-mono text-gray-500 uppercase tracking-widest block">TECH STACK ARCHITECTURE</span>
+            <div className="bg-white/[0.01] border border-slate-100 rounded-2xl p-6 space-y-4">
+              <span className="text-[10px] font-mono text-slate-500 uppercase tracking-widest block">TECH STACK ARCHITECTURE</span>
               <div className="flex flex-wrap gap-2">
                 {project.techStack.map((tech) => (
                   <span 
                     key={tech} 
-                    className="px-3 py-1.5 rounded-lg bg-gray-100 border border-gray-200 text-xs font-mono font-bold text-gray-700"
+                    className="px-3 py-1.5 rounded-lg bg-slate-100 border border-slate-200 text-xs font-mono font-bold text-slate-700"
                   >
                     {tech}
                   </span>
@@ -156,9 +156,9 @@ export default function ProjectDetailPage() {
             </div>
 
             {/* Sticky WhatsApp Conversion Button */}
-            <div className="bg-gradient-to-br from-[#131825] to-[#0A0D14] border border-gray-200 rounded-2xl p-6 space-y-4">
-              <h4 className="text-gray-900 font-display font-medium text-lg leading-tight">Yakin ingin brand Anda tertinggal?</h4>
-              <p className="text-xs text-gray-500 font-sans leading-relaxed">Dapatkan website interaktif super kencang seperti ini untuk menunjang branding bisnis Anda.</p>
+            <div className="bg-gradient-to-br from-[#131825] to-[#0A0D14] border border-slate-200 rounded-2xl p-6 space-y-4">
+              <h4 className="text-slate-900 font-display font-medium text-lg leading-tight">Yakin ingin brand Anda tertinggal?</h4>
+              <p className="text-xs text-slate-500 font-sans leading-relaxed">Dapatkan website interaktif super kencang seperti ini untuk menunjang branding bisnis Anda.</p>
               
               <a 
                 href={`https://wa.me/6282125447232?text=${encodeURIComponent(`Halo CHESTADOTCOM, saya tertarik memodifikasi layout eksklusif seperti pada project ${project.title}. Boleh minta penawaran harganya?`)}`}
@@ -178,7 +178,7 @@ export default function ProjectDetailPage() {
 
       {/* Suggested Other Projects Section */}
       <div className="mx-auto max-w-4xl px-6 relative z-10 w-full mt-24 mb-16">
-        <h3 className="text-xl font-display font-semibold text-gray-900 mb-8 border-b border-gray-100 pb-4">
+        <h3 className="text-xl font-display font-semibold text-slate-900 mb-8 border-b border-slate-100 pb-4">
           Lihat Mahakarya Lainnya
         </h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
@@ -186,7 +186,7 @@ export default function ProjectDetailPage() {
             <Link 
               key={other.id} 
               to={`/portfolio/${other.id}`}
-              className="group block rounded-2xl overflow-hidden border border-gray-100 bg-gray-50 hover:border-[#4f46e5]/30 transition-all duration-300"
+              className="group block rounded-2xl overflow-hidden border border-slate-100 bg-slate-50 hover:border-[#4f46e5]/30 transition-all duration-300"
             >
               <div className="relative aspect-video w-full overflow-hidden bg-white">
                 <img 
@@ -200,7 +200,7 @@ export default function ProjectDetailPage() {
                 <span className="text-[10px] font-mono font-bold text-[#4f46e5] tracking-widest uppercase block mb-2">
                   {other.category}
                 </span>
-                <h4 className="text-lg font-display text-gray-900 group-hover:text-[#4f46e5] transition-colors line-clamp-1">
+                <h4 className="text-lg font-display text-slate-900 group-hover:text-[#4f46e5] transition-colors line-clamp-1">
                   {other.title}
                 </h4>
               </div>

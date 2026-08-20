@@ -1,6 +1,7 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 
 interface LazyImageProps extends React.ImgHTMLAttributes<HTMLImageElement> {
+  referrerPolicy?: React.HTMLAttributeReferrerPolicy;
   src: string;
   alt: string;
   blurSrc?: string;
@@ -32,7 +33,7 @@ export default function LazyImage({ src, alt, blurSrc, className = '', ...props 
         {...props}
         src={src}
         alt={alt}
-        className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ease-in-out ${isLoaded ? 'opacity-100' : 'opacity-0'} ${props.className || ''}`}
+        className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-700 ease-in-out ${isLoaded ? 'opacity-100' : 'opacity-0'} ${(props as any).className || ''}`}
         loading="lazy"
       />
     </div>

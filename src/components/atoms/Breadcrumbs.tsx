@@ -35,7 +35,7 @@ export default function Breadcrumbs({ items }: BreadcrumbsProps) {
     visible: {
       opacity: 1,
       x: 0,
-      color: "rgb(156, 163, 175)", // text-gray-600
+      color: "rgb(156, 163, 175)", // text-slate-600
       transition: {
         type: 'spring' as const,
         stiffness: 260,
@@ -89,7 +89,7 @@ export default function Breadcrumbs({ items }: BreadcrumbsProps) {
   return (
     <nav 
       aria-label="Breadcrumb" 
-      className="flex sm:inline-flex flex-wrap py-2.5 px-3 md:px-4 rounded-xl bg-white/[0.02] border border-gray-100 backdrop-blur-sm shadow-sm mb-6 select-none items-center gap-2.5 md:gap-3 w-full max-w-full sm:w-auto"
+      className="flex sm:inline-flex flex-wrap py-2.5 px-3 md:px-4 rounded-xl bg-white/[0.02] border border-slate-100 backdrop-blur-sm shadow-sm mb-6 select-none items-center gap-2.5 md:gap-3 w-full max-w-full sm:w-auto"
       id="breadcrumbs-nav"
     >
       {/* Decorative Compass icon at start of navigation UI with a rotating visual */}
@@ -101,7 +101,7 @@ export default function Breadcrumbs({ items }: BreadcrumbsProps) {
         >
           <Compass size={13} className="text-[#4f46e5]" />
         </motion.div>
-        <span className="text-[8px] font-mono tracking-widest text-gray-500 uppercase">LOCATION</span>
+        <span className="text-[8px] font-mono tracking-widest text-slate-500 uppercase">LOCATION</span>
       </div>
 
       <motion.ol 
@@ -110,7 +110,7 @@ export default function Breadcrumbs({ items }: BreadcrumbsProps) {
         variants={containerVariants}
         initial="hidden"
         animate="visible"
-        className="flex flex-wrap items-center gap-1.5 md:gap-2 text-[10px] md:text-xs font-mono font-bold tracking-wider uppercase text-gray-500"
+        className="flex flex-wrap items-center gap-1.5 md:gap-2 text-[10px] md:text-xs font-mono font-bold tracking-wider uppercase text-slate-500"
         style={{ perspective: 1000 }}
         id="breadcrumbs-list"
       >
@@ -175,7 +175,7 @@ export default function Breadcrumbs({ items }: BreadcrumbsProps) {
               {!isLast && (
                 <ChevronRight 
                   size={12} 
-                  className="text-gray-900/10 shrink-0 mx-0.5" 
+                  className="text-slate-900/10 shrink-0 mx-0.5" 
                   aria-hidden="true" 
                 />
               )}

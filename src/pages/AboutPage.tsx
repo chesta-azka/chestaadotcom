@@ -30,7 +30,7 @@ export default function AboutPage() {
   const tools = ["Next.js 15", "React 19", "TypeScript", "Tailwind CSS", "Framer Motion", "Vite Engine", "SEO Semantics", "WhatsApp API"];
 
   return (
-    <div className="pt-24 pb-32 min-h-screen relative bg-transparent text-gray-900 overflow-hidden">
+    <div className="pt-24 pb-32 min-h-screen relative bg-transparent text-slate-900 overflow-hidden">
       <MetaTags 
         title="Tentang Studio Kami — Arsitektur Digital Premium" 
         description="Mengenal CHESTADOTCOM (2026) - Studio perancangan digital yang berdedikasi menaikkan kelas UMKM Indonesia melalui website minimalis premium berstandar dunia."
@@ -42,7 +42,7 @@ export default function AboutPage() {
       />
 
       {/* Hero Header */}
-      <section className="relative pt-20 pb-16 border-b border-gray-100 mb-16">
+      <section className="relative pt-20 pb-16 border-b border-slate-100 mb-16">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-indigo-500/5 via-transparent to-transparent -z-10" />
 
         <div className="max-w-5xl mx-auto px-6">
@@ -52,12 +52,12 @@ export default function AboutPage() {
             transition={{ duration: 0.6 }}
             className="space-y-6 text-center md:text-left"
           >
-            <span className="text-[#4f46e5] font-mono text-[10px] uppercase tracking-[0.2em] inline-flex items-center gap-2 bg-gray-100 px-3 py-1 rounded-full border border-gray-200">
+            <span className="text-[#4f46e5] font-mono text-[10px] uppercase tracking-[0.2em] inline-flex items-center gap-2 bg-slate-100 px-3 py-1 rounded-full border border-slate-200">
               <span className="w-1.5 h-1.5 rounded-full bg-[#4f46e5] animate-pulse" />
               CHESTADOTCOM STUDIO 2026
             </span>
             
-            <h1 className="text-4xl sm:text-6xl md:text-7xl font-display font-medium tracking-tight leading-[1.05] text-gray-900">
+            <h1 className="text-4xl sm:text-6xl md:text-7xl font-display font-medium tracking-tight leading-[1.05] text-slate-900">
               <TextRevealSmooth 
                 text="Menaikkan Kelas Kredibilitas UMKM Indonesia." 
                 highlightWords={["Menaikkan", "Kelas"]}
@@ -65,7 +65,7 @@ export default function AboutPage() {
               />
             </h1>
 
-            <p className="text-base sm:text-lg md:text-xl text-gray-600 font-sans max-w-3xl leading-relaxed mt-4">
+            <p className="text-base sm:text-lg md:text-xl text-slate-600 font-sans max-w-3xl leading-relaxed mt-4">
               Kami percaya bahwa bisnis lokal Indonesia layak tampil profesional setara korporasi global. Dari situlah studio personal ini lahir: menawarkan layanan digital berkualitas tinggi tanpa harga yang melambung tinggi.
             </p>
           </motion.div>
@@ -83,7 +83,7 @@ export default function AboutPage() {
               whileInView={{ opacity: 1, scale: 1 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6 }}
-              className="bg-[#0B0F19] border border-gray-200 rounded-2xl p-6 shadow-2xl relative overflow-hidden group"
+              className="bg-[#0B0F19] border border-slate-200 rounded-2xl p-6 shadow-2xl relative overflow-hidden group"
             >
               {/* Inner Decorative Grid */}
               <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:20px_20px] opacity-20 pointer-events-none" />
@@ -102,36 +102,36 @@ export default function AboutPage() {
                       />
                     </div>
                     <div>
-                      <h3 className="font-display font-black text-gray-900 text-sm tracking-widest">FOUNDER_IDENT</h3>
+                      <h3 className="font-display font-black text-slate-900 text-sm tracking-widest">FOUNDER_IDENT</h3>
                       <span className="font-mono text-[8px] text-[#4f46e5] uppercase tracking-[0.25em] font-bold">Member Level 01</span>
                     </div>
                   </div>
                   <div className="flex flex-col items-end">
-                    <span className="font-mono text-[8px] text-gray-600 uppercase tracking-widest leading-none mb-1">ARCH_CODE</span>
-                    <span className="font-mono text-[10px] text-gray-900 font-bold leading-none">CD-2026.XX</span>
+                    <span className="font-mono text-[8px] text-slate-600 uppercase tracking-widest leading-none mb-1">ARCH_CODE</span>
+                    <span className="font-mono text-[10px] text-slate-900 font-bold leading-none">CD-2026.XX</span>
                   </div>
                 </div>
 
-                <div className="space-y-3 border-t border-b border-gray-100 py-4 text-xs font-mono">
+                <div className="space-y-3 border-t border-b border-slate-100 py-4 text-xs font-mono">
                   <div className="flex justify-between items-center group/row">
-                    <span className="text-gray-500 group-hover/row:text-gray-600 transition-colors uppercase text-[9px] tracking-widest">Penugasan_</span>
-                    <span className="text-gray-900 text-right">Tangerang / Remote</span>
+                    <span className="text-slate-500 group-hover/row:text-slate-600 transition-colors uppercase text-[9px] tracking-widest">Penugasan_</span>
+                    <span className="text-slate-900 text-right">Tangerang / Remote</span>
                   </div>
                   <div className="flex justify-between items-center group/row">
-                    <span className="text-gray-500 group-hover/row:text-gray-600 transition-colors uppercase text-[9px] tracking-widest">Entry_Rates_</span>
+                    <span className="text-slate-500 group-hover/row:text-slate-600 transition-colors uppercase text-[9px] tracking-widest">Entry_Rates_</span>
                     <span className="text-[#4f46e5] font-bold">Start Rp540K</span>
                   </div>
                   <div className="flex justify-between items-center group/row">
-                    <span className="text-gray-500 group-hover/row:text-gray-600 transition-colors uppercase text-[9px] tracking-widest">Protocol_</span>
-                    <span className="text-gray-900 text-right font-semibold">"Zero-Lag Aesthetics"</span>
+                    <span className="text-slate-500 group-hover/row:text-slate-600 transition-colors uppercase text-[9px] tracking-widest">Protocol_</span>
+                    <span className="text-slate-900 text-right font-semibold">"Zero-Lag Aesthetics"</span>
                   </div>
                 </div>
 
                 <div className="space-y-3">
-                  <span className="text-[9px] font-mono text-gray-500 block uppercase tracking-widest">Tech_Stack_Approved:</span>
+                  <span className="text-[9px] font-mono text-slate-500 block uppercase tracking-widest">Tech_Stack_Approved:</span>
                   <div className="flex flex-wrap gap-1.5">
                     {tools.map((t) => (
-                      <span key={t} className="text-[8px] font-mono border border-gray-200 bg-gray-100 px-2 py-0.5 rounded text-gray-600 group-hover:border-[#4f46e5]/20 group-hover:text-gray-900 transition-all">
+                      <span key={t} className="text-[8px] font-mono border border-slate-200 bg-slate-100 px-2 py-0.5 rounded text-slate-600 group-hover:border-[#4f46e5]/20 group-hover:text-slate-900 transition-all">
                         {t}
                       </span>
                     ))}
@@ -141,11 +141,11 @@ export default function AboutPage() {
             </motion.div>
 
             <div className="space-y-4">
-              <h3 className="text-lg font-display font-medium text-gray-900 flex items-center gap-2">
+              <h3 className="text-lg font-display font-medium text-slate-900 flex items-center gap-2">
                 <Sparkles size={16} className="text-[#4f46e5]" />
                 Filosofi Studio
               </h3>
-              <p className="text-xs text-gray-600 font-sans leading-relaxed">
+              <p className="text-xs text-slate-600 font-sans leading-relaxed">
                 Di CHESTADOTCOM, kami membenci desain web membosankan yang lambat dibuka. Setiap aset visual diseimbangkan dengan sempurna agar ramah mesin pencari (SEO) sekaligus menakjubkan bagi mata audiens potensial Anda.
               </p>
             </div>
@@ -169,14 +169,14 @@ export default function AboutPage() {
                       whileInView={{ opacity: 1, x: 0 }}
                       viewport={{ once: true }}
                       transition={{ delay: idx * 0.1, duration: 0.5 }}
-                      className="p-5 rounded-xl border border-gray-100 bg-[#0C101B]/40 hover:border-gray-200 transition-colors flex gap-4 text-left"
+                      className="p-5 rounded-xl border border-slate-100 bg-[#0C101B]/40 hover:border-slate-200 transition-colors flex gap-4 text-left"
                     >
-                      <div className="p-3 bg-gray-100 rounded-lg h-fit text-[#4f46e5] shrink-0">
+                      <div className="p-3 bg-slate-100 rounded-lg h-fit text-[#4f46e5] shrink-0">
                         <Icon size={18} />
                       </div>
                       <div className="space-y-1.5">
-                        <h4 className="font-display font-bold text-gray-900 text-sm sm:text-base">{belief.title}</h4>
-                        <p className="text-[11px] sm:text-xs text-gray-600 leading-relaxed font-sans">{belief.desc}</p>
+                        <h4 className="font-display font-bold text-slate-900 text-sm sm:text-base">{belief.title}</h4>
+                        <p className="text-[11px] sm:text-xs text-slate-600 leading-relaxed font-sans">{belief.desc}</p>
                       </div>
                     </motion.div>
                   );
@@ -188,8 +188,8 @@ export default function AboutPage() {
             <div className="p-8 rounded-2xl bg-gradient-to-br from-[#121A2D] to-[#0A0D14] border border-[#4f46e5]/10 flex flex-col sm:flex-row items-center justify-between gap-6 relative overflow-hidden text-left">
               <div className="absolute inset-0 bg-[#4f46e5]/1 pointer-events-none" />
               <div className="space-y-2 max-w-md">
-                <h4 className="text-xl font-display font-medium text-gray-900 tracking-tight">Siap membuat bisnis Anda terlihat handal?</h4>
-                <p className="text-xs text-gray-600 font-sans leading-relaxed">Kami menyederhanakan rute digital Anda secara transparan. Konsultasi awal 100% gratis.</p>
+                <h4 className="text-xl font-display font-medium text-slate-900 tracking-tight">Siap membuat bisnis Anda terlihat handal?</h4>
+                <p className="text-xs text-slate-600 font-sans leading-relaxed">Kami menyederhanakan rute digital Anda secara transparan. Konsultasi awal 100% gratis.</p>
               </div>
               <button
                 onClick={handleContactClick}

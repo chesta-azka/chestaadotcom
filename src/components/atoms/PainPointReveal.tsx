@@ -55,7 +55,7 @@ export default function PainPointReveal({
         // Find if the word contains any of the target highlight words (ignoring punctuation if any)
         const cleanWord = word.toLowerCase().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"");
         const isHighlight = highlightWords.some(hw => cleanWord === hw.toLowerCase());
-        const wordColorClass = isHighlight ? highlightClass : "text-gray-900";
+        const wordColorClass = isHighlight ? highlightClass : "text-slate-900";
 
         return (
           <motion.span

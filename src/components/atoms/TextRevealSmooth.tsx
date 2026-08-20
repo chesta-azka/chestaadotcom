@@ -59,7 +59,7 @@ export default function TextRevealSmooth({
         // Find if this word matches any highlight word (strip punctuation)
         const cleanWord = word.toLowerCase().replace(/[.,\/#!$%\^&\*;:{}=\-_`~()]/g,"");
         const isHighlight = highlightWords.some(hw => cleanWord === hw.toLowerCase());
-        const wordColorClass = isHighlight ? highlightClass : "text-gray-900";
+        const wordColorClass = isHighlight ? highlightClass : "text-slate-900";
 
         return (
           <motion.span

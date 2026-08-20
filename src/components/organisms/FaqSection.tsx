@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ChevronDown, Link as LinkIcon, Check } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -91,7 +91,7 @@ export default function FaqSection() {
           <span className="text-[#4f46e5] font-sans font-bold text-sm uppercase tracking-widest block mb-4">
             07 — F.A.Q
           </span>
-          <h2 className="text-4xl md:text-5xl font-display font-medium tracking-tight text-gray-900 animate-fade-in">
+          <h2 className="text-fluid-h2 font-display font-medium tracking-tight text-slate-900 animate-fade-in">
             Pertanyaan Umum
           </h2>
         </motion.div>
@@ -112,21 +112,21 @@ export default function FaqSection() {
                 className={`border rounded-2xl overflow-hidden transition-all duration-300 ${
                   isOpen 
                     ? 'border-indigo-200 bg-indigo-50/30 shadow-[0_4px_24px_rgba(99,102,241,0.05)]'
-                    : 'border-gray-200 bg-white'
+                    : 'border-slate-200 bg-white'
                 }`}
               >
                 <div
                   onClick={() => toggleFaq(i)}
-                  className="flex w-full items-center justify-between py-5 px-6 text-left cursor-pointer transition-colors hover:bg-gray-50 group"
+                  className="flex w-full items-center justify-between py-5 px-6 text-left cursor-pointer transition-colors hover:bg-slate-50 group"
                 >
-                  <span className={`text-lg font-medium transition-colors ${isOpen ? 'text-[#4f46e5]' : 'text-gray-900 group-hover:text-gray-700'}`}>{faq.q}</span>
+                  <span className={`text-lg font-medium transition-colors ${isOpen ? 'text-[#4f46e5]' : 'text-slate-900 group-hover:text-gray-700'}`}>{faq.q}</span>
                   
                   <div className="flex items-center gap-3">
                     {/* Share Link Button */}
                     <button
                       onClick={(e) => handleCopyLink(e, faq.id)}
                       title="Salin tautan langsung"
-                      className="p-1.5 rounded-lg border border-gray-200 bg-white text-gray-600 hover:text-[#4f46e5] hover:border-indigo-200 transition-all cursor-pointer relative"
+                      className="p-1.5 rounded-lg border border-slate-200 bg-white text-slate-600 hover:text-[#4f46e5] hover:border-indigo-200 transition-all cursor-pointer relative"
                     >
                       {isCopied ? (
                         <Check size={14} className="text-[#4f46e5]" />
@@ -141,7 +141,7 @@ export default function FaqSection() {
                             initial={{ opacity: 0, y: 10, scale: 0.8 }}
                             animate={{ opacity: 1, y: -28, scale: 1 }}
                             exit={{ opacity: 0, y: 5, scale: 0.8 }}
-                            className="absolute left-1/2 -translate-x-1/2 bg-gray-900 border border-gray-700 text-gray-900 font-mono text-[9px] font-bold py-1 px-2 rounded-md whitespace-nowrap shadow-lg pointer-events-none"
+                            className="absolute left-1/2 -translate-x-1/2 bg-slate-900 border border-slate-700 text-slate-900 font-mono text-[9px] font-bold py-1 px-2 rounded-md whitespace-nowrap shadow-lg pointer-events-none"
                           >
                             LINK TERSALIN!
                           </motion.span>
@@ -151,7 +151,7 @@ export default function FaqSection() {
 
                     {/* Chevron toggler */}
                     <motion.div animate={{ rotate: isOpen ? 180 : 0 }}>
-                      <ChevronDown className="text-gray-600" />
+                      <ChevronDown className="text-slate-600" />
                     </motion.div>
                   </div>
                 </div>
@@ -164,7 +164,7 @@ export default function FaqSection() {
                       exit={{ height: 0, opacity: 0 }}
                       className="overflow-hidden"
                     >
-                      <p className="px-6 pb-6 text-gray-600 leading-relaxed font-sans border-t border-gray-100 pt-4">{faq.a}</p>
+                      <p className="px-6 pb-6 text-slate-600 leading-relaxed font-sans border-t border-slate-100 pt-4">{faq.a}</p>
                     </motion.div>
                   )}
                 </AnimatePresence>

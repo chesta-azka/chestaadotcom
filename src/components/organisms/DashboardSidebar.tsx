@@ -42,10 +42,10 @@ export default function DashboardSidebar({ activeTab, setActiveTab, isAdmin, onL
         ))}
       </div>
       
-      <div className="pt-8 border-t border-gray-100 mt-8">
+      <div className="pt-8 border-t border-slate-100 mt-8">
         <button
           onClick={onLogout}
-          className="w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-gray-500 hover:text-red-400 hover:bg-red-400/5 transition-all duration-300"
+          className="w-full flex items-center gap-3 px-4 py-3 rounded-2xl text-slate-500 hover:text-red-400 hover:bg-red-400/5 transition-all duration-300"
         >
           <LogOut size={18} />
           <span className="text-xs font-sans font-bold tracking-wider uppercase">Log Out System</span>

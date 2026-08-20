@@ -1,14 +1,14 @@
 export const generateLocalBusinessSchema = () => {
   return {
     "@context": "https://schema.org",
-    "@type": "LocalBusiness",
-    "name": "Chestaa.com - Digital Architect",
+    "@type": "ProfessionalService",
+    "name": "CHESTADOTCOM - Digital Architect",
     "image": "https://chestaa.com/favicon.svg",
-    "description": "Jasa website premium kilat di Cisauk, BSD, Gading Serpong.",
+    "description": "Jasa pembuatan website premium dan implementasi Agentic AI untuk otomasi bisnis.",
     "address": {
       "@type": "PostalAddress",
       "streetAddress": "BSD Green Office Park",
-      "addressLocality": "Cisauk/BSD",
+      "addressLocality": "Tangerang",
       "addressRegion": "Banten",
       "addressCountry": "ID"
     },
@@ -24,17 +24,26 @@ export const generateLocalBusinessSchema = () => {
       "@type": "ContactPoint",
       "contactType": "customer service",
       "email": "hello@chestaa.com",
-      "areaServed": "Cisauk, BSD, Gading Serpong"
+      "telephone": "+6282125447232"
+    }
+  };
+};
+
+export const generateServiceSchema = (serviceName: string, serviceDescription: string, url: string) => {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "serviceType": serviceName,
+    "provider": {
+      "@type": "ProfessionalService",
+      "name": "CHESTADOTCOM"
     },
-    "sameAs": [
-      "https://www.google.com/maps/place/Chestaa",
-      "https://instagram.com/chestadotcom",
-      "https://linkedin.com/company/chestadotcom",
-      "https://github.com/chestadotcom",
-      "https://twitter.com/chestadotcom",
-      "https://facebook.com/chestadotcom",
-      "https://tiktok.com/@chestadotcom"
-    ]
+    "description": serviceDescription,
+    "url": url,
+    "areaServed": {
+      "@type": "Country",
+      "name": "Indonesia"
+    }
   };
 };
 

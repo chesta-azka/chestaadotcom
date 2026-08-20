@@ -121,19 +121,29 @@ export default function TestimonialSection() {
 
   return (
     <section 
-      className="py-24 md:py-32 relative overflow-hidden bg-transparent text-gray-900 w-full select-none" 
+      className="py-24 md:py-32 relative overflow-hidden bg-transparent text-slate-900 w-full select-none" 
       id="testimonials"
     >
       <div className="mx-auto max-w-4xl px-6 relative z-10 w-full">
         
         <div className="mb-16">
-          <h2 className="text-3xl font-display font-medium tracking-tight text-gray-900 mb-6">
-            Ulasan Klien
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-slate-200 shadow-sm mb-6">
+            <span className="flex h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>
+            <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-slate-600">
+              SOCIAL PROOF
+            </span>
+          </div>
+          <h2 className="text-4xl md:text-5xl font-display font-medium tracking-tight text-slate-900 mb-6">
+            Dipercaya oleh Bisnis Terkemuka.
           </h2>
         </div>
 
         {/* Slider Box */}
-        <div className="relative min-h-[300px] flex flex-col justify-center bg-white/[0.02] border border-gray-100 rounded-3xl p-8 sm:p-12 backdrop-blur-md overflow-hidden">
+        <div 
+          className="relative min-h-[300px] flex flex-col justify-center bg-white/60 border border-slate-200/60 rounded-[2.5rem] p-8 sm:p-12 backdrop-blur-xl shadow-[0_20px_60px_rgba(0,0,0,0.03)] overflow-hidden"
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
+        >
           
           <AnimatePresence mode="wait" custom={direction}>
             <motion.div
@@ -143,21 +153,38 @@ export default function TestimonialSection() {
               initial="enter"
               animate="center"
               exit="exit"
-              className="flex flex-col gap-6"
+              className="flex flex-col gap-8 relative z-10"
             >
-              <p className="text-xl sm:text-2xl text-gray-200 leading-relaxed font-light">
+              <Quote className="w-12 h-12 text-indigo-100 absolute -top-4 -left-4 opacity-50" />
+              
+              <p className="text-xl sm:text-2xl md:text-3xl text-slate-700 leading-relaxed font-display font-medium relative z-10 tracking-tight">
                 "{current.comment}"
               </p>
               
-              <div className="pt-4">
-                <h4 className="font-bold text-lg text-gray-900">{current.name}</h4>
-                <p className="text-sm text-[#4f46e5]">{current.position} - {current.companyName}</p>
+              <div className="pt-6 flex flex-col sm:flex-row sm:items-center justify-between gap-6 border-t border-slate-200/60">
+                <div className="flex items-center gap-4">
+                  <img 
+                    src={current.avatar} 
+                    alt={current.name} 
+                    className="w-14 h-14 rounded-full object-cover shadow-sm ring-4 ring-white" 
+                    loading="lazy"
+                  />
+                  <div>
+                    <h4 className="font-bold text-lg text-slate-900">{current.name}</h4>
+                    <p className="text-sm font-medium text-indigo-600">{current.position} di {current.companyName}</p>
+                  </div>
+                </div>
+                
+                <div className="bg-slate-50 border border-slate-100 rounded-2xl p-4 flex flex-col items-end">
+                  <span className="text-2xl font-bold font-display tracking-tight text-slate-900">{current.metric}</span>
+                  <span className="text-xs font-mono tracking-widest text-slate-500 uppercase">{current.metricLabel}</span>
+                </div>
               </div>
             </motion.div>
           </AnimatePresence>
 
           {/* Controls */}
-          <div className="mt-8 pt-8 border-t border-gray-200 flex items-center justify-between">
+          <div className="mt-8 pt-8 flex items-center justify-between relative z-10 border-t border-slate-200/40">
             <div className="flex gap-2">
               {testimonials.map((_, idx) => (
                 <button
@@ -166,7 +193,7 @@ export default function TestimonialSection() {
                     setDirection(idx > activeIndex ? 1 : -1);
                     setActiveIndex(idx);
                   }}
-                  className={`h-2 rounded-full transition-all duration-300 ${idx === activeIndex ? 'w-8 bg-[#4f46e5]' : 'w-2 bg-white/20'}`}
+                  className={`h-2 rounded-full transition-all duration-300 ${idx === activeIndex ? 'w-8 bg-indigo-600' : 'w-2 bg-slate-300 hover:bg-slate-400'}`}
                 />
               ))}
             </div>
@@ -174,14 +201,14 @@ export default function TestimonialSection() {
             <div className="flex gap-3">
               <button
                 onClick={handlePrev}
-                className="p-2 rounded-full border border-gray-200 hover:bg-gray-200 transition-colors"
+                className="w-10 h-10 rounded-full border border-slate-200 flex items-center justify-center hover:bg-white hover:text-indigo-600 transition-colors shadow-sm bg-slate-50 text-slate-600"
                 aria-label="Previous"
               >
                 <ArrowLeft size={18} />
               </button>
               <button
                 onClick={handleNext}
-                className="p-2 rounded-full border border-gray-200 hover:bg-gray-200 transition-colors"
+                className="w-10 h-10 rounded-full border border-slate-200 flex items-center justify-center hover:bg-white hover:text-indigo-600 transition-colors shadow-sm bg-slate-50 text-slate-600"
                 aria-label="Next"
               >
                 <ArrowRight size={18} />

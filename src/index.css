@@ -6,30 +6,52 @@
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
   --font-display: "Plus Jakarta Sans", sans-serif;
   --font-serif: "Playfair Display", ui-serif, Georgia, serif;
+  
+  --text-fluid-h1: clamp(2.5rem, 5vw + 1rem, 5rem);
+  --text-fluid-h2: clamp(2rem, 4vw + 1rem, 4rem);
+  --text-fluid-h3: clamp(1.5rem, 3vw + 1rem, 2.5rem);
+}
+
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-snap-type: y proximity;
 }
 
 body {
-  background-color: #06080A;
-  color: #F8FAFC;
+  background-color: #FFFFFF;
+  color: #0f172a;
   overflow-x: hidden;
+  line-height: 1.75;
+  letter-spacing: 0.015em;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  letter-spacing: -0.025em;
+  line-height: 1.2;
 }
 
 ::selection {
-  background-color: #D4FF00;
-  color: #06080A;
+  background-color: #C7D2FE;
+  color: #1E1B4B;
 }
 
 ::-webkit-scrollbar {
   width: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #06080A;
+  background: #F9FAFB;
 }
 ::-webkit-scrollbar-thumb {
-  background: #11141a;
+  background: #D1D5DB;
   border-radius: 99px;
-  border: 1px solid rgba(255,255,255,0.03);
+  border: 1px solid rgba(0,0,0,0.03);
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #1c212a;
+  background: #9CA3AF;
 }

@@ -18,10 +18,10 @@ export default function DashboardCard({ title, value, icon, children, trend, cla
     <motion.div
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
-      className={`bg-white/[0.02] border border-gray-100 rounded-3xl p-6 hover:bg-white/[0.04] transition-all duration-300 group ${className}`}
+      className={`bg-white/[0.02] border border-slate-100 rounded-3xl p-6 hover:bg-white/[0.04] transition-all duration-300 group ${className}`}
     >
       <div className="flex justify-between items-start mb-4">
-        <div className="p-3 rounded-2xl bg-gray-100 border border-gray-100 text-[#4f46e5] group-hover:bg-[#4f46e5] group-hover:text-black transition-colors duration-300">
+        <div className="p-3 rounded-2xl bg-slate-100 border border-slate-100 text-[#4f46e5] group-hover:bg-[#4f46e5] group-hover:text-black transition-colors duration-300">
           {icon}
         </div>
         {trend && (
@@ -32,9 +32,9 @@ export default function DashboardCard({ title, value, icon, children, trend, cla
       </div>
       
       <div>
-        <p className="text-[10px] font-mono uppercase tracking-widest text-gray-500 mb-1">{title}</p>
+        <p className="text-[10px] font-mono uppercase tracking-widest text-slate-500 mb-1">{title}</p>
         {value !== undefined && (
-          <p className="text-2xl font-display font-bold text-gray-900 tracking-tight">{value}</p>
+          <p className="text-2xl font-display font-bold text-slate-900 tracking-tight">{value}</p>
         )}
       </div>
       

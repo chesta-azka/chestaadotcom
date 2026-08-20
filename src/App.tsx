@@ -9,11 +9,11 @@ import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-route
 import { Analytics } from '@vercel/analytics/react';
 import Lenis from 'lenis';
 import WebVitalsTracker from './components/atoms/WebVitalsTracker.tsx';
+import CommandPalette from './components/organisms/CommandPalette.tsx';
 import Header from './components/organisms/Header.tsx';
 import FooterSection from './components/organisms/FooterSection.tsx';
 import FloatingWhatsAppButton from './components/organisms/FloatingWhatsAppButton.tsx';
 import LoadingScreen from './components/organisms/LoadingScreen.tsx';
-import ProgressBar from './components/atoms/ProgressBar.tsx';
 import MouseGlow from './components/atoms/MouseGlow.tsx';
 import HomePage from './pages/HomePage.tsx';
 import BlogHubPage from './pages/BlogHubPage.tsx';
@@ -67,6 +67,7 @@ export default function App() {
       >
         <MouseGlow />
         <WebVitalsTracker />
+        <CommandPalette />
         
         {/* Global Blur Elements - More subtle, neutral white light */}
         <div className="fixed -top-[20%] left-1/4 w-[800px] h-[800px] bg-black/[0.02] rounded-full blur-[150px] pointer-events-none z-[0]" />
@@ -85,7 +86,6 @@ export default function App() {
         />
         
         <div className="relative z-10 w-full max-w-7xl mx-auto flex flex-col">
-          <ProgressBar />
           <LoadingScreen onComplete={() => setAppLoaded(true)} />
           
           <motion.div

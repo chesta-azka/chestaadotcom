@@ -5,6 +5,10 @@ import { ArrowUpRight, Monitor, Sparkles, TrendingUp, ShieldAlert, CheckCircle, 
 import { Link } from 'react-router-dom';
 import { CITIES } from '../data/AreasData';
 import MetaTags from '../components/atoms/MetaTags';
+import AISolutionsSection from '../components/organisms/AISolutionsSection.tsx';
+import Breadcrumbs from '../components/atoms/Breadcrumbs';
+import ServiceComparisonTable from '../components/organisms/ServiceComparisonTable';
+import FloatingQuoteTrigger from '../components/organisms/FloatingQuoteTrigger';
 
 interface ServiceItem {
   id: string;
@@ -101,7 +105,7 @@ export default function ServicesPage() {
   };
 
   return (
-    <div className="pt-32 pb-24 px-4 sm:px-6 md:px-8 max-w-5xl mx-auto bg-transparent min-h-screen text-gray-900 select-none">
+    <div className="pt-32 pb-24 px-4 sm:px-6 md:px-8 max-w-5xl mx-auto bg-transparent min-h-screen text-slate-900 select-none">
       <MetaTags 
         title="Daftar Layanan Arsitektur - CHESTADOTCOM"
         description="Pilih pilar jasa digital premium kami mulai dari Web Developer kustom Next.js, Desain UI/UX minimalist, Strategi Digital marketing, hingga visual Branding eksklusif untuk UMKM Indonesia."
@@ -114,17 +118,23 @@ export default function ServicesPage() {
         animate={{ opacity: 1, y: 0 }}
         className="mb-16 md:mb-24 max-w-2xl"
       >
-        <div className="flex items-center gap-3 mb-4">
+        <Breadcrumbs 
+          items={[
+            { label: 'Layanan', path: '/services' }
+          ]} 
+        />
+        <div className="flex items-center gap-3 mb-4 mt-6">
           <span className="w-8 h-[1px] bg-[#4f46e5]" />
           <span className="text-[10px] font-mono font-bold tracking-[0.3em] text-[#4f46e5] uppercase pt-0.5">
             OUR BRAND CAPABILITIES
           </span>
-        </div>
+          <FloatingQuoteTrigger />
+    </div>
         <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-medium tracking-tight mb-5 leading-none">
           Arsitektur Layanan <br className="hidden sm:block" />
           Kelas Premium.
         </h1>
-        <p className="text-sm md:text-base text-gray-600 font-sans leading-relaxed max-w-xl">
+        <p className="text-sm md:text-base text-slate-600 font-sans leading-relaxed max-w-xl">
           Fokus kami sederhana: menyingkirkan kerumitan teknis digital dan membangun visual bisnis Anda agar terlihat luar biasa meyakinkan.
         </p>
       </motion.div>
@@ -135,7 +145,7 @@ export default function ServicesPage() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: '-50px' }}
         transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-        className="border-t border-b border-gray-200 bg-white/[0.01] rounded-3xl overflow-hidden backdrop-blur-sm relative z-10"
+        className="border-t border-b border-slate-200 bg-white/[0.01] rounded-3xl overflow-hidden backdrop-blur-sm relative z-10"
       >
         
         {servicesList.map((service, index) => {
@@ -144,7 +154,7 @@ export default function ServicesPage() {
           return (
             <div 
               key={service.id} 
-              className={`border-b border-gray-200 last:border-b-0 transition-colors duration-500 ${isOpen ? 'bg-white/[0.02]/80' : 'hover:bg-white/[0.01]'}`}
+              className={`border-b border-slate-200 last:border-b-0 transition-colors duration-500 ${isOpen ? 'bg-white/[0.02]/80' : 'hover:bg-white/[0.01]'}`}
             >
               {/* Header Accordion Clickable Row */}
               <button
@@ -161,7 +171,7 @@ export default function ServicesPage() {
 
                 <div className="flex items-center gap-4 sm:gap-8 relative z-10">
                   {/* Service Number (01, 02, etc.) */}
-                  <span className={`font-mono text-xs tracking-wider transition-colors pt-0.5 hidden sm:inline ${isOpen ? 'text-[#4f46e5] font-bold' : 'text-gray-600 group-hover:text-gray-600'}`}>
+                  <span className={`font-mono text-xs tracking-wider transition-colors pt-0.5 hidden sm:inline ${isOpen ? 'text-[#4f46e5] font-bold' : 'text-slate-600 group-hover:text-slate-600'}`}>
                     {service.num}
                   </span>
 
@@ -181,23 +191,26 @@ export default function ServicesPage() {
                   </span>
 
                   {/* Accordion Title label */}
-                  <h3 className={`text-xl sm:text-2xl md:text-3xl font-display font-medium tracking-tight transition-all duration-300 ${isOpen ? 'text-gray-900 translate-x-1' : 'text-gray-700 group-hover:text-gray-900'}`}>
+                  <h3 className={`text-xl sm:text-2xl md:text-3xl font-display font-medium tracking-tight transition-all duration-300 ${isOpen ? 'text-slate-900 translate-x-1' : 'text-slate-700 group-hover:text-slate-900'}`}>
                     {service.name}
                   </h3>
-                </div>
+                  <FloatingQuoteTrigger />
+    </div>
 
                 {/* Right side status indicator */}
                 <div className="flex items-center gap-4 relative z-10 shrink-0">
-                  <span className="text-[9px] font-mono text-gray-500 uppercase tracking-widest hidden md:inline group-hover:text-[#4f46e5] transition-colors pt-0.5">
+                  <span className="text-[9px] font-mono text-slate-500 uppercase tracking-widest hidden md:inline group-hover:text-[#4f46e5] transition-colors pt-0.5">
                     {isOpen ? 'TAP TO COLLAPSE' : 'TAP TO EXPAND'}
                   </span>
-                  <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full border flex items-center justify-center transition-all duration-300 ${isOpen ? 'bg-[#4f46e5] border-[#4f46e5] rotate-45 shadow-[0_0_20px_rgba(79,70,229,0.3)]' : 'border-gray-100 bg-white/[0.01] group-hover:bg-gray-100 group-hover:border-white/20'}`}>
+                  <div className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full border flex items-center justify-center transition-all duration-300 ${isOpen ? 'bg-[#4f46e5] border-[#4f46e5] rotate-45 shadow-[0_0_20px_rgba(79,70,229,0.3)]' : 'border-slate-100 bg-white/[0.01] group-hover:bg-slate-100 group-hover:border-white/20'}`}>
                     <ArrowUpRight 
-                      className={`w-4 h-4 sm:w-5 sm:h-5 transition-transform duration-300 ${isOpen ? 'text-white' : 'text-gray-500 group-hover:text-gray-900'}`} 
+                      className={`w-4 h-4 sm:w-5 sm:h-5 transition-transform duration-300 ${isOpen ? 'text-white' : 'text-slate-500 group-hover:text-slate-900'}`} 
                       strokeWidth={1.5}
                     />
-                  </div>
-                </div>
+                    <FloatingQuoteTrigger />
+    </div>
+                  <FloatingQuoteTrigger />
+    </div>
               </button>
 
               {/* Collapsed/Expanded Content Row */}
@@ -228,24 +241,26 @@ export default function ServicesPage() {
                       
                       {/* 1. Title */}
                       <div className="space-y-2">
-                        <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-gray-100 border border-gray-100 text-[10px] font-mono text-gray-600 font-bold uppercase tracking-widest">
+                        <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-slate-100 border border-slate-100 text-[10px] font-mono text-slate-600 font-bold uppercase tracking-widest">
                           ⚡ {service.name} Overview Details
                         </span>
                         
-                        <h4 className="text-xl sm:text-2xl md:text-3xl font-display font-medium text-gray-900 tracking-tight leading-snug">
+                        <h4 className="text-xl sm:text-2xl md:text-3xl font-display font-medium text-slate-900 tracking-tight leading-snug">
                           {service.title}
                         </h4>
-                      </div>
+                        <FloatingQuoteTrigger />
+    </div>
 
                       {/* 2. Gambar (Framed Banner Mockup On Top) */}
-                      <div className="w-full aspect-[21/9] sm:aspect-[24/10] md:aspect-[3/1] rounded-2xl overflow-hidden border border-gray-200 relative hover:border-[#4f46e5]/40 transition-colors shadow-2xl bg-[#0A0D16] z-10">
+                      <div className="w-full aspect-[21/9] sm:aspect-[24/10] md:aspect-[3/1] rounded-2xl overflow-hidden border border-slate-200 relative hover:border-[#4f46e5]/40 transition-colors shadow-2xl bg-[#0A0D16] z-10">
                         {/* Outer thin glass overlay mock frame */}
-                        <div className="absolute top-3 left-3 right-3 h-6 bg-black/40 rounded-lg flex items-center px-3 gap-1.5 border border-gray-100 z-20">
+                        <div className="absolute top-3 left-3 right-3 h-6 bg-black/40 rounded-lg flex items-center px-3 gap-1.5 border border-slate-100 z-20">
                           <span className="w-1.5 h-1.5 rounded-full bg-red-500/80" />
                           <span className="w-1.5 h-1.5 rounded-full bg-yellow-500/80" />
                           <span className="w-1.5 h-1.5 rounded-full bg-emerald-500/80" />
-                          <span className="text-[8px] text-gray-505 font-mono ml-2 tracking-widest uppercase text-gray-600">browser_preview.app</span>
-                        </div>
+                          <span className="text-[8px] text-gray-505 font-mono ml-2 tracking-widest uppercase text-slate-600">browser_preview.app</span>
+                          <FloatingQuoteTrigger />
+    </div>
                         
                         {/* Img background fit */}
                         <div className="absolute top-[38px] inset-x-3 bottom-3 rounded-xl overflow-hidden bg-black/60">
@@ -261,14 +276,16 @@ export default function ServicesPage() {
                               className="w-full h-full object-cover opacity-85 hover:scale-103 hover:opacity-100 transition-all duration-500 grayscale hover:grayscale-0"
                             />
                           </motion.div>
-                        </div>
+                          <FloatingQuoteTrigger />
+    </div>
 
                         <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
-                      </div>
+                        <FloatingQuoteTrigger />
+    </div>
 
                       {/* 3. Subtitle Description & Features Checklist */}
                       <div className="space-y-6">
-                        <p className="text-sm sm:text-base font-sans text-gray-700 leading-relaxed max-w-4xl">
+                        <p className="text-sm sm:text-base font-sans text-slate-700 leading-relaxed max-w-4xl">
                           {service.subtitle}
                         </p>
 
@@ -276,17 +293,21 @@ export default function ServicesPage() {
                         <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pb-2 max-w-3xl">
                           {service.points.map((pt, pIdx) => (
                             <div key={pIdx} className="flex items-center gap-2.5">
-                              <div className="w-5 h-5 rounded-md bg-gray-100 flex items-center justify-center shrink-0 border border-gray-100">
+                              <div className="w-5 h-5 rounded-md bg-slate-100 flex items-center justify-center shrink-0 border border-slate-100">
                                 <CheckCircle size={12} className="text-[#4f46e5]" strokeWidth={2.5} />
-                              </div>
-                              <span className="text-[11px] sm:text-xs font-sans text-gray-700 font-medium">{pt}</span>
-                            </div>
+                                <FloatingQuoteTrigger />
+    </div>
+                              <span className="text-[11px] sm:text-xs font-sans text-slate-700 font-medium">{pt}</span>
+                              <FloatingQuoteTrigger />
+    </div>
                           ))}
-                        </div>
-                      </div>
+                          <FloatingQuoteTrigger />
+    </div>
+                        <FloatingQuoteTrigger />
+    </div>
 
                       {/* 4. CTA */}
-                      <div className="pt-6 border-t border-gray-100">
+                      <div className="pt-6 border-t border-slate-100">
                         <a
                           href={buildWhatsAppLink(service.name)}
                           target="_blank"
@@ -296,17 +317,23 @@ export default function ServicesPage() {
                           <span>{service.ctaText.toUpperCase()}</span>
                           <ArrowUpRight size={14} className="stroke-[2px]" />
                         </a>
-                      </div>
+                        <FloatingQuoteTrigger />
+    </div>
 
-                    </div>
+                      <FloatingQuoteTrigger />
+    </div>
                   </motion.div>
                 )}
               </AnimatePresence>
-            </div>
+              <FloatingQuoteTrigger />
+    </div>
           );
         })}
 
       </motion.div>
+
+      {/* SECTION: AI Solutions Section */}
+      <AISolutionsSection />
 
       {/* SECTION: Wilayah Jangkauan Kota */}
       <motion.section 
@@ -314,7 +341,7 @@ export default function ServicesPage() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: '-50px' }}
         transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-        className="mt-24 border-t border-gray-100 pt-16 relative"
+        className="mt-24 border-t border-slate-100 pt-16 relative"
       >
         <div className="absolute top-0 left-1/2 -translate-x-1/2 w-72 h-72 bg-[#06B6D4]/3 rounded-full blur-[100px] pointer-events-none" />
         
@@ -324,14 +351,16 @@ export default function ServicesPage() {
             <span className="text-[10px] font-mono font-bold tracking-[0.3em] text-[#06B6D4] uppercase pt-0.5">
               GEOGRAPHIC TARGET AREAS
             </span>
-          </div>
-          <h2 className="text-3xl md:text-4xl font-display font-medium tracking-tight text-gray-900 mb-4 leading-none">
+            <FloatingQuoteTrigger />
+    </div>
+          <h2 className="text-3xl md:text-4xl font-display font-medium tracking-tight text-slate-900 mb-4 leading-none">
             Wilayah Jangkauan Layanan Kota.
           </h2>
-          <p className="text-sm text-gray-600 font-sans leading-relaxed">
+          <p className="text-sm text-slate-600 font-sans leading-relaxed">
             Menghadirkan optimasi web modern kustom, riset pasar lokal autentik, dan visibilitas Google Search maksimal untuk kesuksesan brand Anda di kota-kota prioritas Indonesia.
           </p>
-        </div>
+          <FloatingQuoteTrigger />
+    </div>
 
         {/* City navigation grid links */}
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-5 gap-3.5 mt-8">
@@ -339,36 +368,39 @@ export default function ServicesPage() {
             <Link
               key={city}
               to={`/area/${city.toLowerCase()}`}
-              className="group flex flex-col justify-between p-4 bg-gray-50 border border-gray-100 rounded-2xl hover:bg-gray-50 hover:border-[#4f46e5]/30 hover:-translate-y-0.5 transition-all duration-300 relative overflow-hidden"
+              className="group flex flex-col justify-between p-4 bg-slate-50 border border-slate-100 rounded-2xl hover:bg-slate-50 hover:border-[#4f46e5]/30 hover:-translate-y-0.5 transition-all duration-300 relative overflow-hidden"
             >
               {/* Subtle top horizontal indicator */}
               <div className="absolute top-0 inset-x-4 h-[1px] bg-[#4f46e5]/0 group-hover:bg-[#4f46e5]/20 transition-all duration-500" />
               
               <div className="flex items-center justify-between mb-4">
-                <span className="p-1.5 rounded-lg bg-gray-100 text-gray-500 group-hover:text-[#4f46e5] group-hover:bg-[#4f46e5]/10 transition-all">
+                <span className="p-1.5 rounded-lg bg-slate-100 text-slate-500 group-hover:text-[#4f46e5] group-hover:bg-[#4f46e5]/10 transition-all">
                   <MapPin size={12} />
                 </span>
-                <ArrowUpRight size={12} className="text-gray-600 group-hover:text-[#4f46e5] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
-              </div>
+                <ArrowUpRight size={12} className="text-slate-600 group-hover:text-[#4f46e5] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
+                <FloatingQuoteTrigger />
+    </div>
               
               <div>
-                <span className="text-[10px] font-mono tracking-widest text-gray-500 group-hover:text-[#4f46e5]/80 transition-colors uppercase font-bold">
+                <span className="text-[10px] font-mono tracking-widest text-slate-500 group-hover:text-[#4f46e5]/80 transition-colors uppercase font-bold">
                   AREA SERVED
                 </span>
-                <h4 className="text-sm font-sans font-extrabold tracking-tight text-gray-900 uppercase mt-0.5 group-hover:tracking-wide transition-all">
+                <h4 className="text-sm font-sans font-extrabold tracking-tight text-slate-900 uppercase mt-0.5 group-hover:tracking-wide transition-all">
                   {city}
                 </h4>
-              </div>
+                <FloatingQuoteTrigger />
+    </div>
             </Link>
           ))}
-        </div>
+          <FloatingQuoteTrigger />
+    </div>
       </motion.section>
 
       {/* SECTION: High-Performance Conversion Call-To-Action Element underneath with animated high fidelity feedback */}
       <motion.section 
         whileHover={{ scale: 1.02 }}
         transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-        className="mt-20 border border-gray-100 rounded-3xl p-8 md:p-12 bg-gray-50 hover:bg-gray-50 hover:border-[#4f46e5]/30 transition-all duration-500 relative overflow-hidden text-left mb-6"
+        className="mt-20 border border-slate-100 rounded-3xl p-8 md:p-12 bg-slate-50 hover:bg-slate-50 hover:border-[#4f46e5]/30 transition-all duration-500 relative overflow-hidden text-left mb-6"
       >
         <div className="absolute -top-12 -right-12 w-64 h-64 bg-[#4f46e5]/4 rounded-full blur-[80px] pointer-events-none" />
         <div className="absolute -bottom-12 -left-12 w-64 h-64 bg-[#06B6D4]/3 rounded-full blur-[80px] pointer-events-none" />
@@ -379,13 +411,14 @@ export default function ServicesPage() {
             <span className="text-[10px] font-mono font-bold tracking-[0.2em] text-[#4f46e5] uppercase pt-0.5">
               100% PERSONALIZED ROADMAP
             </span>
-          </div>
+            <FloatingQuoteTrigger />
+    </div>
           
-          <h3 className="text-2xl md:text-4xl text-gray-900 tracking-tight leading-tight mb-4 font-display font-medium">
+          <h3 className="text-2xl md:text-4xl text-slate-900 tracking-tight leading-tight mb-4 font-display font-medium">
             Siap Merevolusi Brand Digital Anda & Mendominasi Kompetisi Lokal?
           </h3>
           
-          <p className="text-sm md:text-base text-gray-600 font-sans leading-relaxed mb-8 max-w-2xl">
+          <p className="text-sm md:text-base text-slate-600 font-sans leading-relaxed mb-8 max-w-2xl">
             Mari diskusikan rancangan website, strategi konversi, serta visualisasi branding terbaik khusus kota Anda secara privat bersama desainer pimpinan CHESTADOTCOM. Tanpa komitmen, tanpa bot perantara.
           </p>
 
@@ -407,7 +440,7 @@ export default function ServicesPage() {
                 onMouseEnter={() => setShowTips(true)}
                 onMouseLeave={() => setShowTips(false)}
                 onClick={() => setShowTips(!showTips)}
-                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full border border-gray-200 bg-white/[0.02] hover:bg-gray-100 text-gray-600 hover:text-gray-900 transition-all text-[9px] font-mono font-bold uppercase tracking-wider cursor-help select-none"
+                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full border border-slate-200 bg-white/[0.02] hover:bg-slate-100 text-slate-600 hover:text-slate-900 transition-all text-[9px] font-mono font-bold uppercase tracking-wider cursor-help select-none"
               >
                 <Sparkles size={11} className="text-[#4f46e5]" />
                 <span>💡 2 TIPS CHAT WA</span>
@@ -423,36 +456,44 @@ export default function ServicesPage() {
                     className="absolute bottom-full left-1/2 sm:left-0 -translate-x-1/2 sm:translate-x-0 mb-3 w-[290px] p-4 rounded-2xl bg-white backdrop-blur-md border border-[#4f46e5]/20 shadow-[0_12px_40px_rgba(0,0,0,0.8)] z-50 text-left cursor-default pointer-events-none"
                   >
                     <div className="space-y-2.5 text-[11px] leading-relaxed">
-                      <div className="font-mono text-[9px] text-[#4f46e5] font-black uppercase tracking-wider flex items-center gap-1.5 border-b border-gray-100 pb-1.5">
+                      <div className="font-mono text-[9px] text-[#4f46e5] font-black uppercase tracking-wider flex items-center gap-1.5 border-b border-slate-100 pb-1.5">
                         <MessageCircle size={11} />
                         FORMULA CHAT RESPON CEPAT
-                      </div>
-                      <div className="space-y-2 font-sans text-gray-600">
+                        <FloatingQuoteTrigger />
+    </div>
+                      <div className="space-y-2 font-sans text-slate-600">
                         <p>
-                          <strong className="text-gray-900">1. Cantumkan Jenis Usaha & Kota:</strong> Membantu kami memetakan referensi pasar lokal unik dengan respons kilat.
+                          <strong className="text-slate-900">1. Cantumkan Jenis Usaha & Kota:</strong> Membantu kami memetakan referensi pasar lokal unik dengan respons kilat.
                         </p>
                         <p>
-                          <strong className="text-gray-900">2. Berikan Inspirasi Web:</strong> Sebutkan 1 kompetitor atau referensi digital global yang sesuai selera Anda.
+                          <strong className="text-slate-900">2. Berikan Inspirasi Web:</strong> Sebutkan 1 kompetitor atau referensi digital global yang sesuai selera Anda.
                         </p>
-                      </div>
-                    </div>
+                        <FloatingQuoteTrigger />
+    </div>
+                      <FloatingQuoteTrigger />
+    </div>
                     {/* Tooltip triangle indicator */}
                     <div className="absolute top-full left-1/2 sm:left-6 -translate-x-1/2 border-8 border-transparent border-t-[#090D15] -mt-[1px]" />
                   </motion.div>
                 )}
               </AnimatePresence>
-            </div>
+              <FloatingQuoteTrigger />
+    </div>
             
             <Link
               to="/projects"
-              className="inline-flex items-center justify-center gap-2 px-6 py-4 rounded-full border border-gray-200 bg-white/[0.02] text-gray-700 font-mono font-bold text-xs tracking-wider uppercase transition-all duration-300 hover:bg-gray-100 hover:border-white/20 select-none"
+              className="inline-flex items-center justify-center gap-2 px-6 py-4 rounded-full border border-slate-200 bg-white/[0.02] text-slate-700 font-mono font-bold text-xs tracking-wider uppercase transition-all duration-300 hover:bg-slate-100 hover:border-white/20 select-none"
             >
               <span>LIHAT SHOWCASE KAMI</span>
               <ArrowRight size={12} />
             </Link>
-          </div>
-        </div>
+            <FloatingQuoteTrigger />
+    </div>
+          <FloatingQuoteTrigger />
+    </div>
       </motion.section>
+
+      <ServiceComparisonTable />
 
       {/* Authority footer notice at the bottom under accordion */}
       <motion.div 
@@ -460,13 +501,14 @@ export default function ServicesPage() {
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: '-50px' }}
         transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-        className="mt-16 text-center max-w-xl mx-auto border border-gray-100 rounded-3xl p-6 bg-gradient-to-r from-transparent via-white/[0.01] to-transparent relative overflow-hidden"
+        className="mt-16 text-center max-w-xl mx-auto border border-slate-100 rounded-3xl p-6 bg-gradient-to-r from-transparent via-white/[0.01] to-transparent relative overflow-hidden"
       >
         <div className="absolute top-0 right-1/2 translate-x-1/2 w-32 h-32 bg-[#4f46e5]/2 rounded-full blur-xl pointer-events-none" />
-        <p className="text-xs text-gray-500 font-mono tracking-wide leading-relaxed">
+        <p className="text-xs text-slate-500 font-mono tracking-wide leading-relaxed">
           Semua pilar di atas dirancang dari awal oleh CHESTADOTCOM (Digital Architect 2026) demi memastikan performa performative serta integritas konversi penuh. Tidak ada template murahan, melainkan murni keunggulan desain estetika premium.
         </p>
       </motion.div>
+      <FloatingQuoteTrigger />
     </div>
   );
 }
