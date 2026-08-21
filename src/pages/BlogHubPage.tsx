@@ -208,7 +208,7 @@ export default function BlogHubPage() {
               url={`https://chestadotcom.com/blog?read=${activeArticle.slug}`}
               image={activeArticle.image || 'https://chestadotcom.com/default-og.png'}
               type="article"
-              authorName={activeArticle.author || 'Chesta Azka Sofyan'}
+              authorName={typeof activeArticle.author === 'string' ? activeArticle.author : activeArticle.author?.name || 'Chesta Azka Sofyan'}
               publishedTime={activeArticle.date ? new Date(activeArticle.date).toISOString() : undefined}
             />
 

@@ -1,5 +1,6 @@
 import { motion } from 'motion/react';
 import { Diamond } from 'lucide-react';
+import React from 'react';
 
 export default function SectionSeparator() {
   const scrollToNext = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -22,7 +23,7 @@ export default function SectionSeparator() {
   };
 
   return (
-    <div className="w-full max-w-7xl mx-auto flex items-center justify-center py-16 opacity-50 px-6 separator-container">
+    <div className="w-full max-w-7xl mx-auto flex items-center justify-center py-12 md:py-16 opacity-50 px-6 separator-container">
       <div className="flex-1 h-px bg-gradient-to-r from-transparent via-slate-300 to-transparent"></div>
       <motion.div 
         animate={{ opacity: [0.5, 1, 0.5] }}

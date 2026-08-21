@@ -1,4 +1,6 @@
-import React, { useEffect, useRef } from 'react';
+const fs = require('fs');
+
+const code = `import React, { useEffect, useRef } from 'react';
 import { motion, animate, useInView } from 'motion/react';
 import { Sparkles, Zap, Cpu, ArrowRight, Layers, Target, Code2 } from 'lucide-react';
 import MetaTags from '../components/atoms/MetaTags';
@@ -58,7 +60,7 @@ function AnimatedCounter({ to, suffix = "", duration = 2.5 }: { to: number, suff
 export default function AboutPage() {
   const handleContactClick = () => {
     const text = 'Halo chestaadotcom, saya tertarik dengan profil agensi Anda. Bisa diskusi lebih lanjut?';
-    window.open(`https://wa.me/6282125447232?text=${encodeURIComponent(text)}`, '_blank');
+    window.open(\`https://wa.me/6282125447232?text=\${encodeURIComponent(text)}\`, '_blank');
   };
 
   return (
@@ -223,3 +225,7 @@ export default function AboutPage() {
     </div>
   );
 }
+`
+
+fs.writeFileSync('src/pages/AboutPage.tsx', code);
+console.log("Patched AboutPage v3");

@@ -84,7 +84,7 @@ const Counter = ({ value, decimals = 0 }: { value: number, decimals?: number }) 
 
 export default function StatsCounter() {
   return (
-    <section className="py-16 md:py-24 bg-white relative overflow-hidden border-b border-slate-100">
+    <section className="py-24 md:py-32 bg-white relative overflow-hidden border-b border-slate-100">
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-indigo-50/50 via-transparent to-transparent pointer-events-none" />
       
       <div className="max-w-7xl mx-auto px-6 relative z-10">

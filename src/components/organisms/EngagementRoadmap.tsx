@@ -91,15 +91,47 @@ export default function EngagementRoadmap() {
                   <div className={`relative z-10 w-12 h-12 lg:w-12 lg:h-12 rounded-xl flex items-center justify-center shrink-0 transition-all duration-300 ${
                     activeStep === idx 
                       ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-500/40 scale-110 ring-4 ring-indigo-50' 
-                      : 'bg-white text-slate-400 border border-slate-200 group-hover:border-indigo-200 group-hover:text-indigo-500'
+                      : idx < activeStep
+                        ? 'bg-emerald-50 text-emerald-500 border border-emerald-200'
+                        : 'bg-white text-slate-400 border border-slate-200 group-hover:border-indigo-200 group-hover:text-indigo-500'
                   }`}>
                     {activeStep === idx && (
-                      <motion.div 
-                        layoutId="activeGlow" 
-                        className="absolute inset-0 bg-indigo-500 blur-xl opacity-40 rounded-xl" 
-                      />
+                      <>
+                        <motion.div 
+                          layoutId="activeGlow" 
+                          className="absolute inset-0 bg-indigo-500 blur-xl opacity-40 rounded-xl"
+                        />
+                        <motion.div
+                          className="absolute inset-0 rounded-xl border-2 border-indigo-400"
+                          animate={{ scale: [1, 1.25, 1], opacity: [0.8, 0, 0.8] }}
+                          transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+                        />
+                      </>
                     )}
-                    <step.icon size={20} className="relative z-10" />
+                    <AnimatePresence mode="wait">
+                      {idx < activeStep ? (
+                        <motion.div
+                          key="completed"
+                          initial={{ scale: 0, rotate: -45 }}
+                          animate={{ scale: 1, rotate: 0 }}
+                          exit={{ scale: 0, rotate: 45 }}
+                          transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                          className="relative z-10"
+                        >
+                          <CheckCircle2 size={20} />
+                        </motion.div>
+                      ) : (
+                        <motion.div
+                          key="incomplete"
+                          initial={{ opacity: 0 }}
+                          animate={{ opacity: 1 }}
+                          exit={{ opacity: 0 }}
+                          className="relative z-10 flex items-center justify-center"
+                        >
+                          <step.icon size={20} />
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
                   </div>
                   <div>
                     <h3 className={`font-display font-semibold transition-colors ${

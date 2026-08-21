@@ -1,11 +1,12 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence, useScroll, useSpring } from 'motion/react';
-import { Menu, X } from 'lucide-react';
+import { Menu, X, Search, ChevronDown } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, { stiffness: 100, damping: 30, restDelta: 0.001 });
   const location = useLocation();
@@ -147,45 +148,45 @@ export default function Header() {
             })}
           </nav>
           
-          <div className="hidden md:flex items-center gap-4">
-            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+          <div className="hidden md:flex items-center gap-2">
+            <button
+              onClick={() => window.dispatchEvent(new Event('open-command-palette'))}
+              className="p-2 text-slate-500 hover:text-indigo-600 hover:bg-slate-100 rounded-full transition-colors flex items-center justify-center"
+              aria-label="Search"
+            >
+              <Search size={18} />
+            </button>
+            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="ml-2">
               <a href={location.pathname === '/' ? '#pricing' : '/#pricing'} className="text-sm font-sans font-medium text-white bg-slate-900 px-5 py-2.5 rounded-full hover:bg-indigo-600 transition-colors shadow-sm inline-block">
                 Get Started
               </a>
             </motion.div>
           </div>
 
-          <button onClick={() => setIsOpen(!isOpen)} className="md:hidden text-slate-900 p-2 rounded-full hover:bg-slate-200 transition-colors menu-toggle-btn">
-            {isOpen ? <X size={20} /> : <Menu size={20} />}
-          </button>
+          <div className="md:hidden flex items-center gap-1">
+            <button
+              onClick={() => window.dispatchEvent(new Event('open-command-palette'))}
+              className="p-2 text-slate-600 hover:bg-slate-100 rounded-full transition-colors flex items-center justify-center"
+              aria-label="Search"
+            >
+              <Search size={18} />
+            </button>
+            <button onClick={() => setIsOpen(!isOpen)} className="text-slate-900 p-2 rounded-full hover:bg-slate-200 transition-colors menu-toggle-btn">
+              {isOpen ? <X size={20} /> : <Menu size={20} />}
+            </button>
+          </div>
         </motion.div>
       </header>
 
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0, x: 0 }}
-            exit={{ opacity: 0, x: typeof window !== 'undefined' && window.innerWidth < 768 ? 100 : 0, y: -20 }}
-            transition={{ type: 'spring', stiffness: 120, damping: 18 }}
-            onClick={(e) => {
-              if (e.target === e.currentTarget) {
-                setIsOpen(false);
-              }
-            }}
-            drag="x"
-            dragConstraints={{ left: 0, right: 0 }}
-            dragElastic={{ left: 0, right: 0.8 }}
-            onDragEnd={(e, info) => {
-              if (info.offset.x > 80 || info.velocity.x > 300) {
-                setIsOpen(false);
-              }
-            }}
-            className="fixed inset-0 z-40 bg-slate-100 backdrop-blur-2xl flex flex-col items-center justify-center md:hidden cursor-pointer touch-pan-y"
+            initial={{ opacity: 0, y: -10, scale: 0.95 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            exit={{ opacity: 0, y: -10, scale: 0.95 }}
+            transition={{ type: 'spring', stiffness: 200, damping: 20 }}
+            className="fixed top-24 right-6 left-6 z-40 bg-white/90 backdrop-blur-2xl border border-slate-200 shadow-2xl rounded-3xl p-6 flex flex-col md:hidden transform origin-top"
           >
-            {/* Ambient subtle glow light */}
-            <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-72 h-72 rounded-full bg-[#4f46e5]/5 blur-[120px] pointer-events-none" />
-            
             <motion.nav 
               ref={menuRef}
               initial="closed"
@@ -193,43 +194,72 @@ export default function Header() {
               exit="closed"
               variants={{
                 open: {
-                  transition: { staggerChildren: 0.08, delayChildren: 0.15 }
+                  transition: { staggerChildren: 0.05, delayChildren: 0.1 }
                 },
                 closed: {
-                  transition: { staggerChildren: 0.04, staggerDirection: -1 }
+                  transition: { staggerChildren: 0.03, staggerDirection: -1 }
                 }
               }}
-              className="flex flex-col gap-6 text-center z-10 cursor-default"
+              className="flex flex-col gap-4 text-left z-10"
             >
               {links.map((link) => {
                 const isAnchor = link.path.startsWith('/#');
                 
                 const itemVariants = {
-                  open: { opacity: 1, y: 0, scale: 1, transition: { type: "spring" as const, stiffness: 120, damping: 14 } },
-                  closed: { opacity: 0, y: 25, scale: 0.95, transition: { duration: 0.2 } }
+                  open: { opacity: 1, x: 0, transition: { type: "spring" as const, stiffness: 200, damping: 20 } },
+                  closed: { opacity: 0, x: -10, transition: { duration: 0.2 } }
                 };
 
                 return (
                   <motion.div
                     key={link.name}
                     variants={itemVariants}
-                    className="overflow-hidden py-1"
+                    className="overflow-hidden"
                   >
                     {isAnchor ? (
                       <a
-                        href={link.path}
-                        className={`font-display text-4xl sm:text-5xl font-medium tracking-tight hover:text-[#4f46e5] transition-colors ${
-                          location.hash === link.path.substring(1) ? 'text-[#4f46e5]' : 'text-gray-700'
+                        href={location.pathname === '/' ? link.path.substring(1) : link.path}
+                        className={`block font-display text-2xl font-semibold tracking-tight hover:text-[#4f46e5] transition-colors ${
+                          location.hash === link.path.substring(1) ? 'text-[#4f46e5]' : 'text-slate-800'
                         }`}
                         onClick={() => setIsOpen(false)}
                       >
                         {link.name}
                       </a>
+                    ) : link.name === 'Layanan' ? (
+                      <div className="flex flex-col">
+                        <button
+                          className={`block font-display text-2xl font-semibold tracking-tight hover:text-[#4f46e5] transition-colors flex items-center justify-between w-full text-left ${
+                            location.pathname === link.path || location.pathname.startsWith('/services') ? 'text-[#4f46e5]' : 'text-slate-800'
+                          }`}
+                          onClick={(e) => {
+                            e.preventDefault();
+                            setMobileServicesOpen(!mobileServicesOpen);
+                          }}
+                        >
+                          {link.name}
+                          <ChevronDown className={`w-6 h-6 text-slate-400 transition-transform duration-300 ${mobileServicesOpen ? 'rotate-180' : ''}`} />
+                        </button>
+                        <AnimatePresence>
+                          {mobileServicesOpen && (
+                            <motion.div
+                              initial={{ height: 0, opacity: 0 }}
+                              animate={{ height: 'auto', opacity: 1 }}
+                              exit={{ height: 0, opacity: 0 }}
+                              className="overflow-hidden mt-4 pl-4 border-l-2 border-indigo-100 flex flex-col gap-4"
+                            >
+                              <Link to="/services#web" onClick={() => setIsOpen(false)} className="text-lg font-medium text-slate-600 hover:text-indigo-600">Web Development</Link>
+                              <Link to="/services#ai" onClick={() => setIsOpen(false)} className="text-lg font-medium text-slate-600 hover:text-indigo-600 flex items-center gap-2">AI Solutions <span className="bg-indigo-600/10 text-indigo-600 border border-indigo-600/20 text-[9px] px-2 py-0.5 rounded-full uppercase tracking-widest font-bold">New</span></Link>
+                              <Link to="/services#transformation" onClick={() => setIsOpen(false)} className="text-lg font-medium text-slate-600 hover:text-indigo-600">Digital Transformation</Link>
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                      </div>
                     ) : (
                       <Link
                         to={link.path}
-                        className={`font-display text-3xl sm:text-4xl font-medium tracking-tight hover:text-[#4f46e5] transition-colors ${
-                          location.pathname === link.path ? 'text-[#4f46e5]' : 'text-gray-700'
+                        className={`block font-display text-2xl font-semibold tracking-tight hover:text-[#4f46e5] transition-colors flex items-center justify-between ${
+                          location.pathname === link.path ? 'text-[#4f46e5]' : 'text-slate-800'
                         }`}
                         onClick={() => setIsOpen(false)}
                       >
@@ -239,21 +269,19 @@ export default function Header() {
                   </motion.div>
                 );
               })}
-              
-              <motion.div
+              <motion.div 
                 variants={{
-                  open: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 120, damping: 14, delay: 0.45 } },
-                  closed: { opacity: 0, y: 25 }
+                  open: { opacity: 1, y: 0 },
+                  closed: { opacity: 0, y: 10 }
                 }}
-                className="mt-8 flex flex-col items-center gap-4"
+                className="pt-4 mt-2 border-t border-slate-100"
               >
-                
                 <a 
                   href={location.pathname === '/' ? '#pricing' : '/#pricing'} 
                   onClick={() => setIsOpen(false)}
-                  className="inline-flex text-[10px] font-mono font-bold text-[#0A0F1C] bg-[#4f46e5] px-8 py-3.5 rounded-full hover:bg-[#c2e600] transition-colors tracking-wider uppercase w-full justify-center"
+                  className="w-full flex items-center justify-center font-sans font-semibold text-white bg-indigo-600 px-6 py-4 rounded-xl hover:bg-slate-900 transition-colors shadow-sm"
                 >
-                  Get Started
+                  Mulai Konsultasi Enterprise
                 </a>
               </motion.div>
             </motion.nav>

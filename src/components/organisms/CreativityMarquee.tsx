@@ -48,7 +48,7 @@ const MarqueeTrack = () => (
 
 export default function CreativityMarquee() {
   return (
-    <section className="py-16 md:py-24 w-full overflow-hidden bg-transparent border-y border-slate-100 relative z-10 select-none">
+    <section className="py-24 md:py-32 w-full overflow-hidden bg-transparent border-y border-slate-100 relative z-10 select-none">
       {/* Absolute clean backdrop grid lines */}
       <div className="absolute top-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent" />
       <div className="absolute bottom-0 inset-x-0 h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent" />

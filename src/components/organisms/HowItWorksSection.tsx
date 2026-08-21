@@ -9,7 +9,7 @@ export default function HowItWorksSection() {
   ];
 
   return (
-    <section className="py-16 md:py-24 bg-transparent relative overflow-hidden">
+    <section className="py-24 md:py-32 bg-transparent relative overflow-hidden">
       <div className="mx-auto max-w-7xl px-6">
         <motion.div
           initial={{ opacity: 0, scale: 0.8, y: 30 }}

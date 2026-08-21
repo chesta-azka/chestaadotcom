@@ -12,7 +12,7 @@ import WebVitalsTracker from './components/atoms/WebVitalsTracker.tsx';
 import CommandPalette from './components/organisms/CommandPalette.tsx';
 import Header from './components/organisms/Header.tsx';
 import FooterSection from './components/organisms/FooterSection.tsx';
-import FloatingWhatsAppButton from './components/organisms/FloatingWhatsAppButton.tsx';
+import FloatingAIAssistant from './components/organisms/FloatingAIAssistant.tsx';
 import LoadingScreen from './components/organisms/LoadingScreen.tsx';
 import InteractiveBackground from './components/atoms/InteractiveBackground.tsx';
 import HomePage from './pages/HomePage.tsx';
@@ -93,7 +93,7 @@ export default function App() {
             </Routes>
             <FooterSection />
           </motion.div>
-          <FloatingWhatsAppButton />
+          <FloatingAIAssistant />
         </div>
       </motion.main>
     </Router>

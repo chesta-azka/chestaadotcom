@@ -44,7 +44,7 @@ export function getMetaTagsForUrl(url: string) {
       return {
         title: `${project.title} - ${project.category} | CHESTADOTCOM`,
         description: project.description || `Lihat portofolio ${project.title} oleh CHESTADOTCOM.`,
-        image: project.image || defaultMeta.image,
+        image: project.thumbnail || defaultMeta.image,
         url: defaultMeta.url,
         type: 'website'
       };

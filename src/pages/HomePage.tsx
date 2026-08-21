@@ -4,7 +4,8 @@ import HeroSection from '../components/organisms/HeroSection.tsx';
 import ServicesSection from '../components/organisms/ServicesSection.tsx';
 import AISolutionsSection from '../components/organisms/AISolutionsSection.tsx';
 import ProjectsSection from '../components/organisms/ProjectsSection.tsx';
-import EngagementRoadmap from '../components/organisms/EngagementRoadmap.tsx';
+import WorkflowSection from '../components/organisms/WorkflowSection.tsx';
+import WorkflowAutomation from '../components/organisms/WorkflowAutomation.tsx';
 import TestimonialSection from '../components/organisms/TestimonialSection.tsx';
 import PricingSection from '../components/organisms/PricingSection.tsx';
 import BlogSection from '../components/organisms/BlogSection.tsx';
@@ -34,7 +35,7 @@ export default function HomePage() {
         <HeroSection />
       </div>
       <div className="snap-start"><ScrollingTechTicker /></div>
-      <FadeInSection className="snap-start mb-24 mt-12"><StatsCounter /></FadeInSection>
+      <FadeInSection className="snap-start"><StatsCounter /></FadeInSection>
       
       <SectionSeparator />
       <SectionGlassCard index={0} metaLabel="AI CAPABILITIES" className="snap-start" serviceType="ai">
@@ -47,8 +48,14 @@ export default function HomePage() {
       </SectionGlassCard>
 
       <SectionSeparator />
-      <SectionGlassCard index={2} metaLabel="ENGAGEMENT ROADMAP" className="snap-start">
-        <EngagementRoadmap />
+      <SectionGlassCard index={2} metaLabel="ENTERPRISE WORKFLOW" className="snap-start">
+        <WorkflowSection />
+      </SectionGlassCard>
+      
+      <SectionSeparator />
+      
+      <SectionGlassCard index={2} metaLabel="AI ROADMAP SIMULATOR" className="snap-start">
+        <WorkflowAutomation />
       </SectionGlassCard>
 
       <SectionSeparator />

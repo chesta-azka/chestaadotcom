@@ -17,7 +17,7 @@ export default function SectionGlassCard({ children, metaLabel, className = '', 
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-10%" }}
       transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: index * 0.15 }}
-      className={`relative border border-slate-200/60 rounded-[2.5rem] overflow-hidden shadow-[0_15px_40px_rgba(0,0,0,0.03)] p-8 sm:p-12 md:p-16 mb-24 mx-auto max-w-7xl ${className}`}
+      className={`@container relative border border-slate-200/60 rounded-[2.5rem] overflow-hidden shadow-[0_15px_40px_rgba(0,0,0,0.03)] p-6 @md:p-12 @lg:p-16 mx-4 xl:mx-auto max-w-7xl ${className}`}
     >
       {/* Background Blur and Noise Texture Layer */}
       <div className="absolute inset-0 z-0 bg-white/60 backdrop-blur-xl" />

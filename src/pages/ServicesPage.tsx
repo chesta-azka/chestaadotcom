@@ -27,70 +27,70 @@ interface ServiceItem {
 const servicesList: ServiceItem[] = [
   {
     id: "web-dev",
-    name: "Web Developer",
-    title: "Website Kustom Super Cepat & SEO-Friendly",
-    subtitle: "Rancang bangun website modular menggunakan engine Next.js/React kelas premium. Kami singkirkan template murahan lambat yang merusak nama baik bisnis Anda, digantikan dengan arsitektur kode clean yang memuat di bawah 0.8 detik serta optimal nangkring di Google Search.",
+    name: "Cloud Architecture",
+    title: "High-Performance Enterprise Development",
+    subtitle: "Arsitektur perangkat lunak skalabel menggunakan ekosistem React/Node.js kelas premium. Kami mengeliminasi limitasi legacy system dengan infrastruktur cloud modern yang menjamin latensi sangat rendah, keamanan tinggi, dan kemampuan manuver bisnis tanpa batas.",
     image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=850&auto=format&fit=crop",
-    ctaText: "Konsultasi Jasa Web Dev",
-    color: "#E11D48", // Rose Red
-    glow: "rgba(225, 29, 72, 0.35)",
+    ctaText: "Konsultasi Infrastruktur Cloud",
+    color: "#4f46e5", // Indigo
+    glow: "rgba(79, 70, 229, 0.35)",
     num: "01",
     points: [
-      "Teknologi modern Next.js/Vite",
-      "Sempurna & responsif di layar HP",
-      "Kecepatan loading di bawah 0.8 detik",
-      "Terintegrasi form prospek langsung ke WhatsApp"
+      "Arsitektur modern React, Node.js, & Next.js",
+      "Skalabilitas infrastruktur berbasis Cloud (Serverless/Containers)",
+      "Optimasi performa & latensi di bawah 0.8 detik",
+      "Sistem keamanan berlapis standar enterprise"
     ]
   },
   {
     id: "ui-ux",
-    name: "UI/UX Design",
-    title: "Interface Elegan Berstandar Minimalisme Apple",
-    subtitle: "Desain sistem antarmuka berkelas dunia yang memadukan keindahan visual, fungsionalitas intuitif, serta penekanan pada micro-interaction. Kami mendesain visualisasi web Anda di Figma secara kustom agar brand lokal terlihat seperti brand internasional premium bernilai jual tinggi.",
+    name: "Intelligent UX",
+    title: "Data-Driven Interface Design",
+    subtitle: "Desain sistem antarmuka berkelas dunia yang memadukan fungsionalitas intuitif, psikologi kognitif, dan arsitektur informasi. Kami merancang visualisasi enterprise untuk memastikan adopsi pengguna maksimal dan retensi tinggi di seluruh ekosistem digital.",
     image: "https://images.unsplash.com/photo-1581291518633-83b4ebd1d83e?q=80&w=850&auto=format&fit=crop",
-    ctaText: "Mulai Diskusi Desain UI/UX",
+    ctaText: "Mulai Diskusi Desain Produk",
     color: "#06B6D4", // Teal-cyan
     glow: "rgba(6, 182, 212, 0.35)",
     num: "02",
     points: [
-      "Prototipe interaktif fungsional Figma",
-      "Penerapan asas psikologi warna & konversi",
-      "Desain adaptif mobile, tablet & desktop",
-      "Sistem komponen desain modular (Design System)"
+      "Prototyping interaktif & fungsional (Figma)",
+      "Penerapan sistem komponen modular (Design System)",
+      "Responsivitas adaptif (Mobile, Tablet, Desktop)",
+      "Validasi alur kerja berdasarkan data empiris"
     ]
   },
   {
     id: "digital-strat",
-    name: "Digital Strategy",
-    title: "Strategi Kampanye Digital Berorientasi Omset",
-    subtitle: "Tidak sekadar punya website, kami menyusun corong konversi (sales funnel) digital yang berakar dari data empiris bisnis Anda. Optimasi pemasangan Google Analytics, Meta Pixel, penulisan sales copy persuasif, hingga pengaturan strategi ads untuk melipatgandakan return of investment.",
+    name: "AI Automation",
+    title: "Agentic AI & Business Automation",
+    subtitle: "Integrasi kecerdasan buatan (AI) terdepan untuk mengotomatisasi operasional kompleks. Dari pemrosesan bahasa alami (NLP) hingga autonomous agent, kami mentransformasi alur kerja manual menjadi sistem cerdas yang berjalan 24/7 dengan presisi absolut.",
     image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=850&auto=format&fit=crop",
-    ctaText: "Susun Rencana Strategi Digital",
+    ctaText: "Implementasi Solusi AI",
     color: "#F97316", // Warm Orange
     glow: "rgba(249, 115, 22, 0.35)",
     num: "03",
     points: [
-      "Setup pelacakan pixel Meta & Google G4",
-      "Penulisan copywriting emosional-persuasif",
-      "Analisis riset kata kunci kompetitor lokal",
-      "Arsitektur landing page tinggi CTR (Click-Through-Rate)"
+      "Integrasi LLM & Agentic AI Workflow",
+      "Automasi layanan pelanggan cerdas (Autonomous Bot)",
+      "Analisis data real-time & pelaporan otomatis",
+      "Optimasi alur kerja bisnis secara proaktif"
     ]
   },
   {
     id: "branding",
-    name: "Branding",
-    title: "Rancang Wajah Merek Eksklusif & Autentik",
-    subtitle: "Transformasi bisnis biasa menjadi digital brand premium yang disegani klien. Kami merumuskan identitas visual yang kohesif mulai dari desain logo ikonik, panduan palet warna esensial, pemilihan tipografi, hingga standar media promosi sosial untuk meyakinkan calon pelanggan Anda secara instan.",
+    name: "Corporate Identity",
+    title: "Premium Enterprise Branding",
+    subtitle: "Formulasi identitas korporat premium yang kohesif dan otoritatif. Kami merancang aset visual esensial yang merepresentasikan inovasi teknis dan reputasi enterprise Anda secara meyakinkan kepada pemangku kepentingan dan target pasar global.",
     image: "https://images.unsplash.com/photo-1522542550221-31fd19575a2d?q=80&w=850&auto=format&fit=crop",
-    ctaText: "Mulai Desain Paket Branding",
+    ctaText: "Rancang Identitas Korporat",
     color: "#22C55E", // Green
     glow: "rgba(34, 197, 110, 0.35)",
     num: "04",
     points: [
-      "Rancangan logo vektor resolusi ultra-tinggi",
-      "Panduan manual identitas brand (Brand Guidelines PDF)",
-      "Desain kop surat, amplop, & layout kartu nama",
-      "Aset visual siap rilis untuk pendaftaran merek HAKI"
+      "Rancangan logo korporat resolusi ultra-tinggi",
+      "Penyusunan Brand Guidelines komprehensif",
+      "Standardisasi aset visual digital & cetak",
+      "Pembangunan arsitektur merek jangka panjang"
     ]
   }
 ];
@@ -132,22 +132,20 @@ export default function ServicesPage() {
         description="Fokus kami sederhana: menyingkirkan kerumitan teknis digital dan membangun visual bisnis Anda agar terlihat luar biasa meyakinkan."
       />
 
-      {/* Accordion Layout System */}
-      <motion.div 
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: '-50px' }}
-        transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-        className="border-t border-b border-slate-200 bg-white/[0.01] rounded-3xl overflow-hidden backdrop-blur-sm relative z-10"
-      >
+      {/* Accordion Layout System (Cards) */}
+      <div className="space-y-6 relative z-10">
         
         {servicesList.map((service, index) => {
           const isOpen = activeTab === service.id;
           
           return (
-            <div 
-              key={service.id} 
-              className={`border-b border-slate-200 last:border-b-0 transition-colors duration-500 ${isOpen ? 'bg-white/[0.02]/80' : 'hover:bg-white/[0.01]'}`}
+            <motion.div 
+              key={service.id}
+              initial={{ opacity: 0, y: 30 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: '-50px' }}
+              transition={{ duration: 0.6, delay: index * 0.1, ease: [0.16, 1, 0.3, 1] }}
+              className={`border rounded-[2.5rem] overflow-hidden transition-all duration-500 transform hover:scale-[1.015] hover:shadow-[0_20px_60px_-15px_rgba(79,70,229,0.15)] hover:border-[#4f46e5]/20 hover:z-20 relative ${isOpen ? 'bg-white shadow-xl border-[#4f46e5]/30' : 'border-slate-200 bg-white/70 backdrop-blur-md hover:bg-white'}`}
             >
               {/* Header Accordion Clickable Row */}
               <button
@@ -187,7 +185,7 @@ export default function ServicesPage() {
                   <h3 className={`text-xl sm:text-2xl md:text-3xl font-display font-medium tracking-tight transition-all duration-300 ${isOpen ? 'text-slate-900 translate-x-1' : 'text-slate-700 group-hover:text-slate-900'}`}>
                     {service.name}
                   </h3>
-                  <FloatingQuoteTrigger />
+                  
     </div>
 
                 {/* Right side status indicator */}
@@ -200,9 +198,9 @@ export default function ServicesPage() {
                       className={`w-4 h-4 sm:w-5 sm:h-5 transition-transform duration-300 ${isOpen ? 'text-white' : 'text-slate-500 group-hover:text-slate-900'}`} 
                       strokeWidth={1.5}
                     />
-                    <FloatingQuoteTrigger />
+                    
     </div>
-                  <FloatingQuoteTrigger />
+                  
     </div>
               </button>
 
@@ -241,7 +239,7 @@ export default function ServicesPage() {
                         <h4 className="text-xl sm:text-2xl md:text-3xl font-display font-medium text-slate-900 tracking-tight leading-snug">
                           {service.title}
                         </h4>
-                        <FloatingQuoteTrigger />
+                        
     </div>
 
                       {/* 2. Gambar (Framed Banner Mockup On Top) */}
@@ -252,7 +250,7 @@ export default function ServicesPage() {
                           <span className="w-1.5 h-1.5 rounded-full bg-yellow-500/80" />
                           <span className="w-1.5 h-1.5 rounded-full bg-emerald-500/80" />
                           <span className="text-[8px] text-gray-505 font-mono ml-2 tracking-widest uppercase text-slate-600">browser_preview.app</span>
-                          <FloatingQuoteTrigger />
+                          
     </div>
                         
                         {/* Img background fit */}
@@ -269,11 +267,11 @@ export default function ServicesPage() {
                               className="w-full h-full object-cover opacity-85 hover:scale-103 hover:opacity-100 transition-all duration-500 grayscale hover:grayscale-0"
                             />
                           </motion.div>
-                          <FloatingQuoteTrigger />
+                          
     </div>
 
                         <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent pointer-events-none" />
-                        <FloatingQuoteTrigger />
+                        
     </div>
 
                       {/* 3. Subtitle Description & Features Checklist */}
@@ -288,15 +286,15 @@ export default function ServicesPage() {
                             <div key={pIdx} className="flex items-center gap-2.5">
                               <div className="w-5 h-5 rounded-md bg-slate-100 flex items-center justify-center shrink-0 border border-slate-100">
                                 <CheckCircle size={12} className="text-[#4f46e5]" strokeWidth={2.5} />
-                                <FloatingQuoteTrigger />
+                                
     </div>
                               <span className="text-[11px] sm:text-xs font-sans text-slate-700 font-medium">{pt}</span>
-                              <FloatingQuoteTrigger />
+                              
     </div>
                           ))}
-                          <FloatingQuoteTrigger />
+                          
     </div>
-                        <FloatingQuoteTrigger />
+                        
     </div>
 
                       {/* 4. CTA */}
@@ -310,20 +308,20 @@ export default function ServicesPage() {
                           <span>{service.ctaText.toUpperCase()}</span>
                           <ArrowUpRight size={14} className="stroke-[2px]" />
                         </a>
-                        <FloatingQuoteTrigger />
+                        
     </div>
 
-                      <FloatingQuoteTrigger />
+                      
     </div>
                   </motion.div>
                 )}
               </AnimatePresence>
-              <FloatingQuoteTrigger />
-    </div>
+              
+    </motion.div>
           );
         })}
 
-      </motion.div>
+      </div>
 
       {/* SECTION: AI Solutions Section */}
       <AISolutionsSection />
@@ -344,7 +342,7 @@ export default function ServicesPage() {
             <span className="text-[10px] font-mono font-bold tracking-[0.3em] text-[#06B6D4] uppercase pt-0.5">
               GEOGRAPHIC TARGET AREAS
             </span>
-            <FloatingQuoteTrigger />
+            
     </div>
           <h2 className="text-3xl md:text-4xl font-display font-medium tracking-tight text-slate-900 mb-4 leading-none">
             Wilayah Jangkauan Layanan Kota.
@@ -352,7 +350,7 @@ export default function ServicesPage() {
           <p className="text-sm text-slate-600 font-sans leading-relaxed">
             Menghadirkan optimasi web modern kustom, riset pasar lokal autentik, dan visibilitas Google Search maksimal untuk kesuksesan brand Anda di kota-kota prioritas Indonesia.
           </p>
-          <FloatingQuoteTrigger />
+          
     </div>
 
         {/* City navigation grid links */}
@@ -361,7 +359,7 @@ export default function ServicesPage() {
             <Link
               key={city}
               to={`/area/${city.toLowerCase()}`}
-              className="group flex flex-col justify-between p-4 bg-slate-50 border border-slate-100 rounded-2xl hover:bg-slate-50 hover:border-[#4f46e5]/30 hover:-translate-y-0.5 transition-all duration-300 relative overflow-hidden"
+              className="group flex flex-col justify-between p-4 bg-slate-50 border border-slate-100 rounded-2xl hover:bg-white hover:border-[#4f46e5]/30 transition-all duration-500 transform hover:scale-[1.03] hover:shadow-[0_10px_30px_-10px_rgba(79,70,229,0.2)] relative overflow-hidden"
             >
               {/* Subtle top horizontal indicator */}
               <div className="absolute top-0 inset-x-4 h-[1px] bg-[#4f46e5]/0 group-hover:bg-[#4f46e5]/20 transition-all duration-500" />
@@ -371,7 +369,7 @@ export default function ServicesPage() {
                   <MapPin size={12} />
                 </span>
                 <ArrowUpRight size={12} className="text-slate-600 group-hover:text-[#4f46e5] group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-all" />
-                <FloatingQuoteTrigger />
+                
     </div>
               
               <div>
@@ -381,11 +379,11 @@ export default function ServicesPage() {
                 <h4 className="text-sm font-sans font-extrabold tracking-tight text-slate-900 uppercase mt-0.5 group-hover:tracking-wide transition-all">
                   {city}
                 </h4>
-                <FloatingQuoteTrigger />
+                
     </div>
             </Link>
           ))}
-          <FloatingQuoteTrigger />
+          
     </div>
       </motion.section>
 
@@ -404,7 +402,7 @@ export default function ServicesPage() {
             <span className="text-[10px] font-mono font-bold tracking-[0.2em] text-[#4f46e5] uppercase pt-0.5">
               100% PERSONALIZED ROADMAP
             </span>
-            <FloatingQuoteTrigger />
+            
     </div>
           
           <h3 className="text-2xl md:text-4xl text-slate-900 tracking-tight leading-tight mb-4 font-display font-medium">
@@ -452,7 +450,7 @@ export default function ServicesPage() {
                       <div className="font-mono text-[9px] text-[#4f46e5] font-black uppercase tracking-wider flex items-center gap-1.5 border-b border-slate-100 pb-1.5">
                         <MessageCircle size={11} />
                         FORMULA CHAT RESPON CEPAT
-                        <FloatingQuoteTrigger />
+                        
     </div>
                       <div className="space-y-2 font-sans text-slate-600">
                         <p>
@@ -461,16 +459,16 @@ export default function ServicesPage() {
                         <p>
                           <strong className="text-slate-900">2. Berikan Inspirasi Web:</strong> Sebutkan 1 kompetitor atau referensi digital global yang sesuai selera Anda.
                         </p>
-                        <FloatingQuoteTrigger />
+                        
     </div>
-                      <FloatingQuoteTrigger />
+                      
     </div>
                     {/* Tooltip triangle indicator */}
                     <div className="absolute top-full left-1/2 sm:left-6 -translate-x-1/2 border-8 border-transparent border-t-[#090D15] -mt-[1px]" />
                   </motion.div>
                 )}
               </AnimatePresence>
-              <FloatingQuoteTrigger />
+              
     </div>
             
             <Link
@@ -480,9 +478,9 @@ export default function ServicesPage() {
               <span>LIHAT SHOWCASE KAMI</span>
               <ArrowRight size={12} />
             </Link>
-            <FloatingQuoteTrigger />
+            
     </div>
-          <FloatingQuoteTrigger />
+          
     </div>
       </motion.section>
 

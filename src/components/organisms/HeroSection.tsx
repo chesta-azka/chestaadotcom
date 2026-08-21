@@ -49,7 +49,7 @@ export default function HeroSection() {
   return (
     <section 
       id="home" 
-      className="relative pt-32 md:pt-40 pb-20 md:pb-32 overflow-hidden bg-transparent flex flex-col items-center justify-center select-none min-h-[100svh]"
+      className="relative pt-32 md:pt-40 pb-24 md:pb-32 overflow-hidden bg-transparent flex flex-col items-center justify-center select-none min-h-[100svh]"
     >
       
       {/* Clean Background with Subtle Grid & Right-Edge Gradient Glow */}
@@ -61,36 +61,36 @@ export default function HeroSection() {
         <div className="absolute top-0 right-0 w-[300px] h-[300px] md:w-[500px] md:h-[500px] bg-gradient-to-bl from-indigo-500/10 via-purple-500/5 to-transparent blur-2xl md:blur-3xl rounded-full pointer-events-none" />
       </div>
 
-      <div className="w-full max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center z-10">
+      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center z-10 overflow-hidden lg:overflow-visible">
         
         {/* Left Column - Typography & CTAs */}
         <motion.div 
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 0.6 }}
-          className="lg:col-span-7 flex flex-col items-start text-left gap-y-8"
+          className="lg:col-span-7 flex flex-col items-start text-left gap-y-6 sm:gap-y-8 max-w-full"
         >
           {/* Minimal Pill with Subtle Gradient Accent */}
           <motion.div 
             initial={{ opacity: 0, y: yOffset }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, ease: "easeOut", delay: 0.1 }}
-            className="inline-flex items-center gap-2.5 px-4 py-2 sm:px-5 sm:py-2.5 rounded-full bg-white/90 backdrop-blur-md border border-indigo-100/80 shadow-sm text-[10px] sm:text-xs font-mono tracking-widest uppercase"
+            className="inline-flex items-center gap-2 sm:gap-2.5 px-4 py-2 sm:px-5 sm:py-2.5 rounded-full bg-white/90 backdrop-blur-md border border-indigo-100/80 shadow-sm text-[9px] sm:text-[10px] lg:text-xs font-mono tracking-widest uppercase shrink-0 max-w-full"
           >
-            <Sparkles size={12} className="text-indigo-500 animate-[pulse_3s_ease-in-out_infinite]" />
-            <span className="font-bold tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600">ENTERPRISE DIGITAL ARCHITECT</span>
+            <Sparkles size={12} className="text-indigo-500 animate-[pulse_3s_ease-in-out_infinite] shrink-0" />
+            <span className="font-bold tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600 truncate">ENTERPRISE DIGITAL ARCHITECT</span>
           </motion.div>
 
           {/* Master Typographic Headline */}
           <motion.div 
             style={{ y: headlineY }}
-            className="space-y-6 w-full"
+            className="space-y-4 sm:space-y-6 w-full"
           >
             <motion.h1 
               initial={{ opacity: 0, y: yOffset }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
-              className="text-[2.75rem] sm:text-[3.5rem] md:text-[4.5rem] lg:text-[5.25rem] xl:text-[6rem] font-display font-medium tracking-tight leading-[1.05] text-slate-900 text-balance"
+              className="text-[2.25rem] min-[400px]:text-[2.75rem] sm:text-[3.5rem] md:text-[4.5rem] lg:text-[5.25rem] xl:text-[6rem] font-display font-medium tracking-tight leading-[1.05] text-slate-900 text-balance break-words"
             >
               Intelligent Digital <br className="hidden sm:block"/>
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-indigo-500 to-purple-600">
@@ -102,9 +102,9 @@ export default function HeroSection() {
               initial={{ opacity: 0, y: yOffset }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.3 }}
-              className="text-base sm:text-lg lg:text-xl text-slate-600 font-sans max-w-xl leading-relaxed font-light"
+              className="text-sm sm:text-base md:text-lg lg:text-xl text-slate-600 font-sans max-w-xl leading-relaxed font-light"
             >
-              Kemitraan strategis untuk modern enterprises. Kami merancang arsitektur IT premium dan ekosistem Agentic AI untuk memastikan Enterprise Scalability tanpa batas.
+              Kemitraan strategis untuk korporasi modern. Kami membangun Scalable Cloud Architecture dan menerapkan Agentic AI Integration untuk mengakselerasi ekspansi dan automasi proses bisnis.
             </motion.p>
           </motion.div>
 
@@ -113,9 +113,9 @@ export default function HeroSection() {
             initial={{ opacity: 0, y: yOffset }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.4 }}
-            className="flex flex-col sm:flex-row items-center justify-start gap-4 w-full pt-2"
+            className="flex flex-col sm:flex-row items-center justify-start gap-3 sm:gap-4 w-full pt-2"
           >
-            <div className="relative group w-full sm:w-auto">
+            <div className="relative group w-full sm:w-auto shrink-0">
               <motion.button
                 ref={ctaRef}
                 style={isMobile ? {} : { x: springX, y: springY }}
@@ -124,21 +124,21 @@ export default function HeroSection() {
                 onClick={handleChatClick}
                 whileHover={isMobile ? {} : { scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="relative w-full sm:w-auto flex items-center justify-center gap-3.5 rounded-full bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 px-6 sm:px-8 py-4 sm:py-4.5 font-mono text-[11px] sm:text-xs font-bold uppercase tracking-widest text-white transition-all duration-300 hover:from-indigo-600 hover:via-indigo-500 hover:to-purple-600 shadow-xl cursor-pointer z-10 overflow-hidden"
+                className="relative w-full sm:w-auto flex items-center justify-center gap-3.5 rounded-full bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 px-6 sm:px-8 py-3.5 sm:py-4.5 font-mono text-[10px] sm:text-[11px] lg:text-xs font-bold uppercase tracking-widest text-white transition-all duration-300 hover:from-indigo-600 hover:via-indigo-500 hover:to-purple-600 shadow-xl cursor-pointer z-10 overflow-hidden"
               >
-                <span className="relative z-10">Mulai Kolaborasi</span>
-                <ArrowRight size={14} className="transition-transform group-hover:translate-x-1 relative z-10" />
+                <span className="relative z-10 whitespace-nowrap">Mulai Kolaborasi</span>
+                <ArrowRight size={14} className="transition-transform group-hover:translate-x-1 relative z-10 shrink-0" />
               </motion.button>
             </div>
             
             <motion.div
               whileHover={isMobile ? {} : { scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="w-full sm:w-auto"
+              className="w-full sm:w-auto shrink-0"
             >
               <Link
                 to="/projects"
-                className="w-full sm:w-auto flex items-center justify-center rounded-full bg-white border border-slate-200 px-6 sm:px-8 py-4 sm:py-4.5 font-mono text-[11px] sm:text-xs font-bold uppercase tracking-widest text-slate-600 hover:text-slate-900 hover:bg-slate-50 transition-all duration-300 shadow-sm"
+                className="w-full sm:w-auto flex items-center justify-center rounded-full bg-white border border-slate-200 px-6 sm:px-8 py-3.5 sm:py-4.5 font-mono text-[10px] sm:text-[11px] lg:text-xs font-bold uppercase tracking-widest text-slate-600 hover:text-slate-900 hover:bg-slate-50 transition-all duration-300 shadow-sm whitespace-nowrap"
               >
                 Lihat Portofolio
               </Link>

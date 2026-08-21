@@ -108,7 +108,7 @@ export default function ProjectsSection() {
     }
   };
   return (
-    <section id="work" className="py-16 md:py-24 relative overflow-hidden bg-transparent">
+    <section id="work" className="py-24 md:py-32 relative overflow-hidden bg-transparent">
       <div className="mx-auto max-w-7xl px-6 relative z-10 w-full">
         <motion.div
           initial={{ opacity: 0, scale: 0.8, y: 30 }}

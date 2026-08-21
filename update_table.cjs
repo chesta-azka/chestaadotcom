@@ -1,4 +1,6 @@
-import React from 'react';
+const fs = require('fs');
+
+const code = `import React from 'react';
 import { Check, Minus } from 'lucide-react';
 
 const features = [
@@ -147,3 +149,6 @@ export default function ServiceComparisonTable() {
     </section>
   );
 }
+`;
+
+fs.writeFileSync('src/components/organisms/ServiceComparisonTable.tsx', code);

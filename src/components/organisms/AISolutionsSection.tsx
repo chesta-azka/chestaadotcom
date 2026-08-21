@@ -66,7 +66,7 @@ export default function AISolutionsSection() {
   };
 
   return (
-    <section className="py-24 relative overflow-hidden min-h-screen flex items-center justify-center">
+    <section className="py-24 md:py-32 relative overflow-hidden min-h-screen flex items-center justify-center">
       {/* Background Decorative */}
       <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-gray-200 to-transparent" />
       <div className="absolute -left-32 top-32 w-96 h-96 bg-indigo-50/50 rounded-full blur-[100px] pointer-events-none" />
