@@ -9,6 +9,8 @@ import CreativityMarquee from '../components/organisms/CreativityMarquee.tsx';
 import AICaseStudies from '../components/organisms/AICaseStudies.tsx';
 import LazyImage from '../components/atoms/LazyImage.tsx';
 
+import SectionHeader from '../components/organisms/SectionHeader';
+
 const CATEGORIES = ['All', 'Website', 'Landing Page', 'Company Profile'];
 
 export default function PortfolioPage() {
@@ -34,25 +36,16 @@ export default function PortfolioPage() {
           <Breadcrumbs items={[{ label: 'Portfolio' }]} />
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-end mt-8">
             <div className="lg:col-span-8">
-              <motion.div
-                initial={{ opacity: 0, y: 15 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.6, ease: "easeOut" }}
-              >
-                <div className="mb-8 inline-flex items-center gap-3 rounded-full border border-slate-200 bg-slate-1000 backdrop-blur-md px-5 py-2 text-xs font-sans font-semibold tracking-widest text-[#4f46e5] uppercase shadow-sm">
-                  <span className="w-2 h-2 rounded-full bg-[#4f46e5] animate-pulse" />
-                  Showcase Portfolio
-                </div>
-                
-                <h1 className="text-4xl sm:text-[6rem] lg:text-[7rem] font-display font-medium tracking-tight leading-[0.85] text-slate-900 uppercase mb-8">
-                  Selected <br />
-                  <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 via-blue-500 to-cyan-500 font-serif italic pr-4">Works.</span>
-                </h1>
-                
-                <p className="text-xl md:text-2xl text-slate-500 font-sans max-w-2xl leading-relaxed">
-                  Mengubah ide menjadi karya arsitektur digital premium yang mendorong konversi dan pertumbuhan omset UMKM secara nyata.
-                </p>
-              </motion.div>
+              <SectionHeader 
+                metaTag="SHOWCASE PORTFOLIO"
+                title={
+                  <>
+                    Selected <br />
+                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 via-blue-500 to-cyan-500 font-serif italic pr-4">Works.</span>
+                  </>
+                }
+                description="Mengubah ide menjadi karya arsitektur digital premium yang mendorong konversi dan pertumbuhan omset bisnis Anda secara nyata."
+              />
             </div>
             
             <motion.div 

@@ -14,7 +14,7 @@ import Header from './components/organisms/Header.tsx';
 import FooterSection from './components/organisms/FooterSection.tsx';
 import FloatingWhatsAppButton from './components/organisms/FloatingWhatsAppButton.tsx';
 import LoadingScreen from './components/organisms/LoadingScreen.tsx';
-import MouseGlow from './components/atoms/MouseGlow.tsx';
+import InteractiveBackground from './components/atoms/InteractiveBackground.tsx';
 import HomePage from './pages/HomePage.tsx';
 import BlogHubPage from './pages/BlogHubPage.tsx';
 import ServicesPage from './pages/ServicesPage.tsx';
@@ -23,6 +23,7 @@ import ProjectDetailPage from './pages/ProjectDetailPage.tsx';
 import AboutPage from './pages/AboutPage.tsx';
 import ServiceDetailPage from './pages/ServiceDetailPage.tsx';
 import AreaDetailPage from './pages/AreaDetailPage.tsx';
+import NotFoundPage from './pages/NotFoundPage.tsx';
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -65,25 +66,9 @@ export default function App() {
         transition={{ type: 'spring', stiffness: 100, damping: 20 }}
         className="bg-white text-gray-900 relative min-h-screen"
       >
-        <MouseGlow />
+        <InteractiveBackground />
         <WebVitalsTracker />
         <CommandPalette />
-        
-        {/* Global Blur Elements - More subtle, neutral white light */}
-        <div className="fixed -top-[20%] left-1/4 w-[800px] h-[800px] bg-black/[0.02] rounded-full blur-[150px] pointer-events-none z-[0]" />
-        <div className="fixed top-[20%] right-0 w-[600px] h-[600px] bg-black/[0.02] rounded-full blur-[150px] pointer-events-none z-[0]" />
-
-        {/* Subtle Noise Texture */}
-        <div className="pointer-events-none fixed inset-0 z-[1] opacity-[0.03] mix-blend-multiply bg-[url('https://grainy-gradients.vercel.app/noise.svg')]" />
-
-        {/* Global Architectural Grid Lines */}
-        <div 
-          className="fixed inset-0 pointer-events-none z-[2] opacity-10"
-          style={{ 
-            backgroundImage: 'linear-gradient(to right, rgba(0, 0, 0, 0.05) 1px, transparent 1px), linear-gradient(to bottom, rgba(0, 0, 0, 0.05) 1px, transparent 1px)', 
-            backgroundSize: '40px 40px' 
-          }}
-        />
         
         <div className="relative z-10 w-full max-w-7xl mx-auto flex flex-col">
           <LoadingScreen onComplete={() => setAppLoaded(true)} />
@@ -104,6 +89,7 @@ export default function App() {
               <Route path="/about" element={<AboutPage />} />
               <Route path="/layanan/:slug" element={<ServiceDetailPage />} />
               <Route path="/area/:cityName" element={<AreaDetailPage />} />
+              <Route path="*" element={<NotFoundPage />} />
             </Routes>
             <FooterSection />
           </motion.div>

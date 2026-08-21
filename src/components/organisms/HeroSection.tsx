@@ -1,14 +1,13 @@
-import React from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { motion, useScroll, useTransform, useMotionValue, useSpring } from 'motion/react';
-import { ArrowRight, Sparkles, Zap, Globe, ShieldCheck } from 'lucide-react';
+import { ArrowRight, Sparkles, Zap, Globe, ShieldCheck, Cpu } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import { useEffect, useState, useRef } from 'react';
 
 export default function HeroSection() {
   const [isMobile, setIsMobile] = useState(false);
   
   const { scrollY } = useScroll();
-  const headlineY = useTransform(scrollY, [0, 500], [0, -50]);
+  const headlineY = useTransform(scrollY, [0, 500], [0, -30]);
   
   const ctaRef = useRef<HTMLButtonElement>(null);
   const x = useMotionValue(0);
@@ -18,7 +17,7 @@ export default function HeroSection() {
   const springY = useSpring(y, springConfig);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLButtonElement>) => {
-    if (!ctaRef.current) return;
+    if (isMobile || !ctaRef.current) return;
     const { left, top, width, height } = ctaRef.current.getBoundingClientRect();
     const centerX = left + width / 2;
     const centerY = top + height / 2;
@@ -27,6 +26,7 @@ export default function HeroSection() {
   };
 
   const ctaMouseLeave = () => {
+    if (isMobile) return;
     x.set(0);
     y.set(0);
   };
@@ -43,10 +43,13 @@ export default function HeroSection() {
     window.open(`https://wa.me/6282125447232?text=${encodeURIComponent(text)}`, '_blank');
   };
 
+  // Compact animation offset for mobile to prevent large layout shifts
+  const yOffset = isMobile ? 15 : 30;
+
   return (
     <section 
       id="home" 
-      className="relative pt-40 pb-32 overflow-hidden bg-transparent flex flex-col items-center justify-center select-none min-h-[90vh]"
+      className="relative pt-32 md:pt-40 pb-20 md:pb-32 overflow-hidden bg-transparent flex flex-col items-center justify-center select-none min-h-[100svh]"
     >
       
       {/* Clean Background with Subtle Grid & Right-Edge Gradient Glow */}
@@ -55,110 +58,146 @@ export default function HeroSection() {
         <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:32px_32px] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_40%,#000_70%,transparent_100%)]" />
         
         {/* Tasteful Soft Gradient on Right Edge Only */}
-        <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-gradient-to-bl from-indigo-500/10 via-purple-500/5 to-transparent blur-3xl rounded-full pointer-events-none" />
+        <div className="absolute top-0 right-0 w-[300px] h-[300px] md:w-[500px] md:h-[500px] bg-gradient-to-bl from-indigo-500/10 via-purple-500/5 to-transparent blur-2xl md:blur-3xl rounded-full pointer-events-none" />
       </div>
 
-      <motion.div 
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ duration: 0.6 }}
-        className="w-full max-w-4xl mx-auto px-6 text-center flex flex-col items-center justify-center gap-y-10 z-10"
-      >
+      <div className="w-full max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-center z-10">
         
-        {/* Minimal Pill with Subtle Gradient Accent */}
+        {/* Left Column - Typography & CTAs */}
         <motion.div 
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: "easeOut", delay: 0.1 }}
-          className="inline-flex items-center gap-2.5 px-5 py-2.5 rounded-full bg-white/90 backdrop-blur-md border border-indigo-100/80 shadow-sm mx-auto text-[10px] sm:text-xs font-mono tracking-widest uppercase"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.6 }}
+          className="lg:col-span-7 flex flex-col items-start text-left gap-y-8"
         >
-          <Sparkles size={12} className="text-indigo-500 animate-pulse" />
-          <span className="font-bold tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600">Digital Architect 2026</span>
-        </motion.div>
-
-        {/* Master Typographic Headline with Staggered Entrance */}
-        <motion.div 
-          style={{ y: headlineY }}
-          className="space-y-6 max-w-4xl mx-auto"
-        >
-          <motion.h1 
-            initial={{ opacity: 0, y: 35 }}
+          {/* Minimal Pill with Subtle Gradient Accent */}
+          <motion.div 
+            initial={{ opacity: 0, y: yOffset }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.25 }}
-            className="text-[3.5rem] md:text-[5.5rem] lg:text-[6.5rem] font-display font-medium tracking-tight leading-[1.05] text-slate-900"
+            transition={{ duration: 0.6, ease: "easeOut", delay: 0.1 }}
+            className="inline-flex items-center gap-2.5 px-4 py-2 sm:px-5 sm:py-2.5 rounded-full bg-white/90 backdrop-blur-md border border-indigo-100/80 shadow-sm text-[10px] sm:text-xs font-mono tracking-widest uppercase"
           >
-            Akselerasi Skala <br className="hidden md:block"/>
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-indigo-500 to-purple-600">
-              Bisnis Anda.
-            </span>
-          </motion.h1>
+            <Sparkles size={12} className="text-indigo-500 animate-[pulse_3s_ease-in-out_infinite]" />
+            <span className="font-bold tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600">ENTERPRISE DIGITAL ARCHITECT</span>
+          </motion.div>
 
-          <motion.p 
-            initial={{ opacity: 0, y: 25 }}
+          {/* Master Typographic Headline */}
+          <motion.div 
+            style={{ y: headlineY }}
+            className="space-y-6 w-full"
+          >
+            <motion.h1 
+              initial={{ opacity: 0, y: yOffset }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
+              className="text-[2.75rem] sm:text-[3.5rem] md:text-[4.5rem] lg:text-[5.25rem] xl:text-[6rem] font-display font-medium tracking-tight leading-[1.05] text-slate-900 text-balance"
+            >
+              Intelligent Digital <br className="hidden sm:block"/>
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-indigo-500 to-purple-600">
+                Transformation.
+              </span>
+            </motion.h1>
+
+            <motion.p 
+              initial={{ opacity: 0, y: yOffset }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.3 }}
+              className="text-base sm:text-lg lg:text-xl text-slate-600 font-sans max-w-xl leading-relaxed font-light"
+            >
+              Kemitraan strategis untuk modern enterprises. Kami merancang arsitektur IT premium dan ekosistem Agentic AI untuk memastikan Enterprise Scalability tanpa batas.
+            </motion.p>
+          </motion.div>
+
+          {/* Minimalist Dual CTA */}
+          <motion.div
+            initial={{ opacity: 0, y: yOffset }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.4 }}
-            className="text-base md:text-xl text-slate-600 font-sans max-w-2xl leading-relaxed mx-auto font-light"
+            className="flex flex-col sm:flex-row items-center justify-start gap-4 w-full pt-2"
           >
-            Kami merancang ekosistem teknologi berperforma tinggi—memadukan otomatisasi Agentic AI dengan arsitektur web yang mengonversi secara optimal.
-          </motion.p>
-        </motion.div>
-
-        {/* Value Proposition Icons with Staggered Delay */}
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, ease: "easeOut", delay: 0.55 }}
-          className="flex items-center justify-center gap-6 md:gap-10 pt-2"
-        >
-          <div className="p-4 rounded-full border border-indigo-100 bg-gradient-to-b from-white to-indigo-50/40 flex items-center justify-center shadow-sm hover:border-indigo-300 transition-colors">
-            <Zap size={24} strokeWidth={1.5} className="text-indigo-600" />
-          </div>
-          <div className="p-4 rounded-full border border-purple-100 bg-gradient-to-b from-white to-purple-50/40 flex items-center justify-center shadow-sm hover:border-purple-300 transition-colors">
-            <Globe size={24} strokeWidth={1.5} className="text-purple-600" />
-          </div>
-          <div className="p-4 rounded-full border border-blue-100 bg-gradient-to-b from-white to-blue-50/40 flex items-center justify-center shadow-sm hover:border-blue-300 transition-colors">
-            <ShieldCheck size={24} strokeWidth={1.5} className="text-blue-600" />
-          </div>
-        </motion.div>
-
-        {/* Minimalist Dual CTA with Staggered Delay */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.7 }}
-          className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full pt-2"
-        >
-          <div className="relative group w-full sm:w-auto">
-            <motion.button
-              ref={ctaRef}
-              style={{ x: springX, y: springY }}
-              onMouseMove={handleMouseMove}
-              onMouseLeave={ctaMouseLeave}
-              onClick={handleChatClick}
-              whileHover={{ scale: 1.05 }}
+            <div className="relative group w-full sm:w-auto">
+              <motion.button
+                ref={ctaRef}
+                style={isMobile ? {} : { x: springX, y: springY }}
+                onMouseMove={handleMouseMove}
+                onMouseLeave={ctaMouseLeave}
+                onClick={handleChatClick}
+                whileHover={isMobile ? {} : { scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                className="relative w-full sm:w-auto flex items-center justify-center gap-3.5 rounded-full bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 px-6 sm:px-8 py-4 sm:py-4.5 font-mono text-[11px] sm:text-xs font-bold uppercase tracking-widest text-white transition-all duration-300 hover:from-indigo-600 hover:via-indigo-500 hover:to-purple-600 shadow-xl cursor-pointer z-10 overflow-hidden"
+              >
+                <span className="relative z-10">Mulai Kolaborasi</span>
+                <ArrowRight size={14} className="transition-transform group-hover:translate-x-1 relative z-10" />
+              </motion.button>
+            </div>
+            
+            <motion.div
+              whileHover={isMobile ? {} : { scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="relative w-full sm:w-auto flex items-center justify-center gap-3.5 rounded-full bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 px-8 py-4.5 font-mono text-xs font-bold uppercase tracking-widest text-white transition-all duration-300 hover:from-indigo-600 hover:via-indigo-500 hover:to-purple-600 shadow-xl cursor-pointer z-10 overflow-hidden"
+              className="w-full sm:w-auto"
             >
-              <span className="relative z-10">Mulai Kolaborasi</span>
-              <ArrowRight size={14} className="transition-transform group-hover:translate-x-1 relative z-10" />
-            </motion.button>
-          </div>
-          
-          <motion.div
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            className="w-full sm:w-auto"
-          >
-            <Link
-              to="/projects"
-              className="w-full sm:w-auto flex items-center justify-center rounded-full bg-white border border-slate-200 px-8 py-4.5 font-mono text-xs font-bold uppercase tracking-widest text-slate-600 hover:text-slate-900 hover:bg-slate-50 transition-all duration-300 shadow-sm"
-            >
-              Lihat Portofolio
-            </Link>
+              <Link
+                to="/projects"
+                className="w-full sm:w-auto flex items-center justify-center rounded-full bg-white border border-slate-200 px-6 sm:px-8 py-4 sm:py-4.5 font-mono text-[11px] sm:text-xs font-bold uppercase tracking-widest text-slate-600 hover:text-slate-900 hover:bg-slate-50 transition-all duration-300 shadow-sm"
+              >
+                Lihat Portofolio
+              </Link>
+            </motion.div>
           </motion.div>
         </motion.div>
 
-      </motion.div>
+        {/* Right Column - Architectural Visual Elements */}
+        <motion.div 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 1, delay: 0.5 }}
+          className="lg:col-span-5 hidden lg:flex relative h-[500px] w-full"
+        >
+          {/* Glass Card 1 */}
+          <motion.div 
+            initial={{ opacity: 0, x: 20, y: -20 }}
+            animate={{ opacity: 1, x: 0, y: 0 }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.6 }}
+            className="absolute top-[10%] right-[10%] w-[280px] p-6 rounded-3xl bg-white/60 backdrop-blur-xl border border-white shadow-[0_10px_30px_rgba(0,0,0,0.05)] z-20"
+          >
+            <div className="w-10 h-10 rounded-xl bg-indigo-50 flex items-center justify-center mb-4 text-indigo-600 border border-indigo-100">
+              <Cpu size={20} strokeWidth={1.5} />
+            </div>
+            <h3 className="font-sans font-bold text-slate-900 text-lg mb-2">Agentic Automation</h3>
+            <p className="text-sm text-slate-500 font-sans leading-relaxed">Ekosistem AI cerdas untuk memangkas redundansi operasional.</p>
+          </motion.div>
+
+          {/* Glass Card 2 */}
+          <motion.div 
+            initial={{ opacity: 0, x: -20, y: 20 }}
+            animate={{ opacity: 1, x: 0, y: 0 }}
+            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.8 }}
+            className="absolute bottom-[10%] left-[5%] w-[280px] p-6 rounded-3xl bg-white/70 backdrop-blur-lg border border-white shadow-[0_15px_40px_rgba(0,0,0,0.06)] z-30"
+          >
+            <div className="w-10 h-10 rounded-xl bg-slate-900 flex items-center justify-center mb-4 text-white">
+              <ShieldCheck size={20} strokeWidth={1.5} />
+            </div>
+            <h3 className="font-sans font-bold text-slate-900 text-lg mb-2">Enterprise Security</h3>
+            <p className="text-sm text-slate-500 font-sans leading-relaxed">Arsitektur berlapis memastikan data dan sistem Anda terlindungi maksimal.</p>
+          </motion.div>
+
+          {/* Decorative Wireframe Ring */}
+          <motion.div 
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 1.5, ease: "easeOut", delay: 0.4 }}
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[350px] h-[350px] rounded-full border border-slate-200/50 border-dashed z-10"
+          />
+          <motion.div 
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            transition={{ duration: 1.5, ease: "easeOut", delay: 0.5 }}
+            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[250px] h-[250px] rounded-full border border-indigo-100 bg-indigo-50/20 z-10"
+          />
+        </motion.div>
+
+      </div>
     </section>
   );
 }
+

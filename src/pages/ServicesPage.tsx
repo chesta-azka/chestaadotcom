@@ -9,6 +9,7 @@ import AISolutionsSection from '../components/organisms/AISolutionsSection.tsx';
 import Breadcrumbs from '../components/atoms/Breadcrumbs';
 import ServiceComparisonTable from '../components/organisms/ServiceComparisonTable';
 import FloatingQuoteTrigger from '../components/organisms/FloatingQuoteTrigger';
+import SectionHeader from '../components/organisms/SectionHeader';
 
 interface ServiceItem {
   id: string;
@@ -113,31 +114,23 @@ export default function ServicesPage() {
       />
       
       {/* Editorial Title Header */}
-      <motion.div 
-        initial={{ opacity: 0, y: 15 }}
-        animate={{ opacity: 1, y: 0 }}
-        className="mb-16 md:mb-24 max-w-2xl"
-      >
+      <div className="mb-6">
         <Breadcrumbs 
           items={[
             { label: 'Layanan', path: '/services' }
           ]} 
         />
-        <div className="flex items-center gap-3 mb-4 mt-6">
-          <span className="w-8 h-[1px] bg-[#4f46e5]" />
-          <span className="text-[10px] font-mono font-bold tracking-[0.3em] text-[#4f46e5] uppercase pt-0.5">
-            OUR BRAND CAPABILITIES
-          </span>
-          <FloatingQuoteTrigger />
-    </div>
-        <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-medium tracking-tight mb-5 leading-none">
-          Arsitektur Layanan <br className="hidden sm:block" />
-          Kelas Premium.
-        </h1>
-        <p className="text-sm md:text-base text-slate-600 font-sans leading-relaxed max-w-xl">
-          Fokus kami sederhana: menyingkirkan kerumitan teknis digital dan membangun visual bisnis Anda agar terlihat luar biasa meyakinkan.
-        </p>
-      </motion.div>
+      </div>
+      <SectionHeader 
+        metaTag="OUR BRAND CAPABILITIES"
+        title={
+          <>
+            Arsitektur Layanan <br className="hidden sm:block" />
+            Kelas Premium.
+          </>
+        }
+        description="Fokus kami sederhana: menyingkirkan kerumitan teknis digital dan membangun visual bisnis Anda agar terlihat luar biasa meyakinkan."
+      />
 
       {/* Accordion Layout System */}
       <motion.div 

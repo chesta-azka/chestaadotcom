@@ -5,10 +5,19 @@ import { Link, useLocation } from 'react-router-dom';
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const { scrollYProgress } = useScroll();
   const scaleX = useSpring(scrollYProgress, { stiffness: 100, damping: 30, restDelta: 0.001 });
   const location = useLocation();
   const menuRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
 
   useEffect(() => {
     const handleDocumentClick = (event: MouseEvent | TouchEvent) => {
@@ -50,7 +59,7 @@ export default function Header() {
           initial={{ y: -20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ type: 'spring', stiffness: 100, damping: 20, delay: 0.2 }}
-          className="bg-white/[0.03] backdrop-blur-2xl border border-slate-200 shadow-[0_8px_32px_rgba(0,0,0,0.2)] rounded-full px-6 py-3 flex items-center justify-between w-full max-w-5xl pointer-events-auto"
+          className={`bg-white/80 backdrop-blur-2xl border border-slate-200 rounded-full px-6 py-3 flex items-center justify-between w-full max-w-5xl pointer-events-auto transition-shadow duration-300 ${scrolled ? 'shadow-[0_8px_32px_rgba(0,0,0,0.12)]' : 'shadow-none'}`}
         >
           <Link to="/" className="flex items-center gap-2.5 group select-none pointer-events-auto">
             {/* Elegant Geometric Architectural Emblem */}
@@ -78,7 +87,7 @@ export default function Header() {
                   {isAnchor ? (
                     <a
                       href={location.pathname === '/' ? link.path.substring(1) : link.path}
-                      className="font-sans text-sm font-medium text-slate-700 transition-colors group-hover:text-indigo-600 flex items-center gap-1"
+                      className="font-sans text-sm font-medium text-slate-700 transition-colors group-hover:text-indigo-600 flex items-center gap-1 py-4"
                     >
                       {link.name}
                       {isLayanan && <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>}
@@ -86,7 +95,7 @@ export default function Header() {
                   ) : (
                     <Link
                       to={link.path}
-                      className="font-sans text-sm font-medium text-slate-700 transition-colors group-hover:text-indigo-600 flex items-center gap-1"
+                      className="font-sans text-sm font-medium text-slate-700 transition-colors group-hover:text-indigo-600 flex items-center gap-1 py-4"
                     >
                       {link.name}
                       {isLayanan && <svg className="w-4 h-4 transition-transform group-hover:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>}
@@ -94,36 +103,42 @@ export default function Header() {
                   )}
                   
                   {isLayanan && (
-                    <div className="absolute top-full left-1/2 -translate-x-1/2 pt-6 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 w-[340px] pointer-events-none group-hover:pointer-events-auto z-50">
-                      <div className="bg-white rounded-3xl shadow-xl shadow-slate-900/10 border border-slate-100 p-3 flex flex-col gap-1 relative before:absolute before:-top-2 before:left-1/2 before:-translate-x-1/2 before:w-4 before:h-4 before:bg-white before:border-l before:border-t before:border-slate-100 before:rotate-45">
-                        
-                        <div className="px-3 py-2 text-[10px] font-mono font-bold tracking-widest text-slate-400 uppercase">
-                          Arsitektur Digital
+                    <div className="absolute top-full left-1/2 -translate-x-1/2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 w-[560px] pointer-events-none group-hover:pointer-events-auto z-50">
+                      <div className="bg-white rounded-3xl shadow-xl shadow-slate-900/10 border border-slate-100 p-4 relative before:absolute before:-top-2 before:left-1/2 before:-translate-x-1/2 before:w-4 before:h-4 before:bg-white before:border-l before:border-t before:border-slate-100 before:rotate-45">
+                        <div className="grid grid-cols-2 gap-x-6 gap-y-4">
+                          {/* Column 1 */}
+                          <div>
+                            <div className="px-3 py-2 text-[10px] font-mono font-bold tracking-widest text-slate-400 uppercase">
+                              Arsitektur Digital
+                            </div>
+                            <Link to="/services#web" className="relative z-10 px-3 py-3 hover:bg-slate-50 rounded-2xl transition-colors text-sm font-medium text-slate-800 flex flex-col group/item mb-1">
+                              <span>Web Development</span>
+                              <span className="text-xs text-slate-500 font-normal mt-1 leading-relaxed">Website premium, e-commerce & corporate portal</span>
+                            </Link>
+                          </div>
+                          
+                          {/* Column 2 */}
+                          <div>
+                            <div className="px-3 py-2 text-[10px] font-mono font-bold tracking-widest text-slate-400 uppercase">
+                              Otomasi Cerdas
+                            </div>
+                            <Link to="/services#ai" className="relative z-10 px-3 py-3 hover:bg-indigo-50/50 rounded-2xl transition-colors text-sm font-medium text-slate-800 flex flex-col group/item mb-1">
+                              <span className="flex items-center gap-2">AI Solutions <span className="bg-indigo-600/10 text-indigo-600 border border-indigo-600/20 text-[9px] px-2 py-0.5 rounded-full uppercase tracking-widest font-bold">New</span></span>
+                              <span className="text-xs text-slate-500 font-normal mt-1 leading-relaxed">Agentic AI, customer service bot & analisis data</span>
+                            </Link>
+                          </div>
+                          
+                          {/* Column 3 (Spanning) */}
+                          <div className="col-span-2 pt-2 border-t border-slate-100 mt-1">
+                            <div className="px-3 py-2 text-[10px] font-mono font-bold tracking-widest text-slate-400 uppercase">
+                              Ekspansi Bisnis
+                            </div>
+                            <Link to="/services#transformation" className="relative z-10 px-3 py-3 hover:bg-slate-50 rounded-2xl transition-colors text-sm font-medium text-slate-800 flex flex-col group/item">
+                              <span>Digital Transformation</span>
+                              <span className="text-xs text-slate-500 font-normal mt-1 leading-relaxed">Konsultasi strategi, cloud infrastructure & optimasi proses bisnis</span>
+                            </Link>
+                          </div>
                         </div>
-                        <Link to="/services#web" className="relative z-10 px-4 py-3 hover:bg-slate-50 rounded-2xl transition-colors text-sm font-medium text-slate-800 flex flex-col group/item">
-                          <span>Web Development</span>
-                          <span className="text-xs text-slate-500 font-normal mt-1 leading-relaxed">Website premium, e-commerce & corporate portal</span>
-                        </Link>
-                        
-                        <div className="w-full h-px bg-slate-50 my-1"></div>
-                        
-                        <div className="px-3 py-2 text-[10px] font-mono font-bold tracking-widest text-slate-400 uppercase">
-                          Otomasi Cerdas
-                        </div>
-                        <Link to="/services#ai" className="relative z-10 px-4 py-3 hover:bg-indigo-50/50 rounded-2xl transition-colors text-sm font-medium text-slate-800 flex flex-col group/item">
-                          <span className="flex items-center gap-2">AI Solutions <span className="bg-indigo-600/10 text-indigo-600 border border-indigo-600/20 text-[9px] px-2 py-0.5 rounded-full uppercase tracking-widest font-bold">New</span></span>
-                          <span className="text-xs text-slate-500 font-normal mt-1 leading-relaxed">Agentic AI, customer service bot & analisis data</span>
-                        </Link>
-
-                        <div className="w-full h-px bg-slate-50 my-1"></div>
-                        
-                        <div className="px-3 py-2 text-[10px] font-mono font-bold tracking-widest text-slate-400 uppercase">
-                          Ekspansi Bisnis
-                        </div>
-                        <Link to="/services#transformation" className="relative z-10 px-4 py-3 hover:bg-slate-50 rounded-2xl transition-colors text-sm font-medium text-slate-800 flex flex-col group/item">
-                          <span>Digital Transformation</span>
-                          <span className="text-xs text-slate-500 font-normal mt-1 leading-relaxed">Konsultasi strategi, cloud infrastructure & SEO</span>
-                        </Link>
                       </div>
                     </div>
                   )}

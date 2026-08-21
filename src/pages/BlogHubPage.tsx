@@ -19,6 +19,7 @@ import {
 } from 'lucide-react';
 import { useSearchParams, Link } from 'react-router-dom';
 import MetaTags from '../components/atoms/MetaTags.tsx';
+import BlogSEO from '../components/atoms/BlogSEO.tsx';
 import { ALL_ARTICLES, Article } from '../data/blogData';
 import CreativityMarquee from '../components/organisms/CreativityMarquee.tsx';
 
@@ -83,7 +84,7 @@ export default function BlogHubPage() {
   const postsPerPage = 6;
 
   // Categories list
-  const categories = ['All', 'Web Development', 'Design', 'SEO', 'AI Solutions', 'Strategy', 'Copywriting', 'Personal'];
+  const categories = ['All', 'Web Development', 'AI Solutions', 'Digital Transformation', 'Design', 'SEO', 'Strategy'];
 
   // Trending tags list
   const popularTags = ['Agentic AI', 'Local SEO', 'Core Web Vitals', 'Conversion', 'Automation', 'WhatsApp Bot', 'Micro-Interactions'];
@@ -199,6 +200,16 @@ export default function BlogHubPage() {
                 { name: 'Insight', item: '/blog' },
                 { name: activeArticle.title, item: `/blog?read=${activeArticle.slug}` },
               ]}
+            />
+            
+            <BlogSEO 
+              title={activeArticle.title}
+              description={activeArticle.desc}
+              url={`https://chestadotcom.com/blog?read=${activeArticle.slug}`}
+              image={activeArticle.image || 'https://chestadotcom.com/default-og.png'}
+              type="article"
+              authorName={activeArticle.author || 'Chesta Azka Sofyan'}
+              publishedTime={activeArticle.date ? new Date(activeArticle.date).toISOString() : undefined}
             />
 
             {/* Top Navigation & Share Bar */}
@@ -329,54 +340,54 @@ export default function BlogHubPage() {
               <CreativityMarquee />
             </div>
 
-            {/* Smart Recommendations Section (Rekomendasi Berdasarkan Topik Ini) */}
-            <div className="mt-12 border-t border-slate-100 pt-12 w-full">
+            {/* Related Articles Section */}
+            <div className="mt-16 border-t border-slate-100 pt-12 w-full">
               <div className="flex items-center justify-between mb-8">
                 <div>
-                  <span className="text-[10px] font-mono uppercase tracking-widest text-[#4f46e5] font-bold block mb-1">
-                    Smart Recommendations
+                  <span className="text-[10px] font-mono uppercase tracking-widest text-[#4f46e5] font-bold block mb-2">
+                    Keep Reading
                   </span>
-                  <h3 className="text-2xl font-serif font-medium text-slate-900">
-                    Rekomendasi Insight Untuk Anda
+                  <h3 className="text-2xl font-display font-medium text-slate-900 tracking-tight">
+                    Related Articles
                   </h3>
                 </div>
                 <button
                   onClick={() => setSearchParams({})}
                   className="text-xs font-sans font-semibold text-[#4f46e5] hover:underline inline-flex items-center gap-1"
                 >
-                  Lihat Semua Insight <ArrowRight size={12} />
+                  Lihat Semua Artikel <ArrowRight size={14} />
                 </button>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
                 {relatedArticles.map(art => (
                   <button
                     key={art.slug}
                     onClick={() => setSearchParams({ read: art.slug })}
-                    className="p-6 rounded-2xl bg-white border border-slate-200/80 hover:border-[#4f46e5]/40 hover:shadow-lg transition-all duration-300 text-left flex flex-col justify-between group h-full shadow-sm"
+                    className="p-6 rounded-3xl bg-slate-50 border border-slate-100 hover:border-indigo-200 hover:bg-white hover:shadow-xl transition-all duration-300 text-left flex flex-col justify-between group h-full shadow-sm"
                   >
                     <div>
-                      <div className="flex items-center gap-2 mb-3">
-                        <span className="text-[#4f46e5] text-[10px] font-mono uppercase tracking-widest font-bold">
+                      <div className="flex items-center gap-2.5 mb-4">
+                        <span className="text-[#4f46e5] text-[10px] font-mono uppercase tracking-widest font-bold bg-indigo-50 px-2.5 py-1 rounded-full">
                           {art.cat}
                         </span>
                         {art.recommended && (
-                          <span className="flex items-center gap-0.5 text-[9px] font-mono text-amber-700 bg-amber-50 px-2 py-0.5 rounded-full border border-amber-200">
-                            <Star size={9} className="fill-amber-500 text-amber-500" /> Pick
+                          <span className="flex items-center gap-1 text-[10px] font-mono font-bold text-amber-700 bg-amber-50 px-2.5 py-1 rounded-full border border-amber-200/50">
+                            <Star size={10} className="fill-amber-500 text-amber-500" /> Rekomendasi
                           </span>
                         )}
                       </div>
-                      <h4 className="text-slate-900 font-display font-medium text-base line-clamp-2 group-hover:text-[#4f46e5] transition-colors mb-2">
+                      <h4 className="text-slate-900 font-display font-medium text-lg line-clamp-2 group-hover:text-[#4f46e5] transition-colors mb-3 tracking-tight">
                         {art.title}
                       </h4>
-                      <p className="text-xs text-slate-500 line-clamp-2 mb-4 leading-relaxed">
+                      <p className="text-xs sm:text-sm text-slate-500 line-clamp-2 mb-6 leading-relaxed font-sans">
                         {art.desc}
                       </p>
                     </div>
-                    <div className="flex items-center justify-between text-[10px] font-mono text-slate-400 pt-4 border-t border-slate-100">
+                    <div className="flex items-center justify-between text-[10px] font-mono text-slate-400 pt-4 border-t border-slate-200/60">
                       <span>{art.readTime}</span>
                       <span className="text-[#4f46e5] font-semibold group-hover:translate-x-1 transition-transform flex items-center gap-1">
-                        Baca <ArrowRight size={10} />
+                        Baca Artikel <ArrowRight size={12} />
                       </span>
                     </div>
                   </button>

@@ -1,5 +1,7 @@
+import { useState } from 'react';
 import { motion } from 'motion/react';
-import { Bot, Network, Zap, Lock, ChevronRight, Workflow } from 'lucide-react';
+import { Bot, Network, Zap, ChevronRight, Workflow, ExternalLink } from 'lucide-react';
+import QuickViewModal, { QuickViewData } from '../molecules/QuickViewModal';
 
 const AI_CAPABILITIES = [
   {
@@ -8,7 +10,14 @@ const AI_CAPABILITIES = [
     description: "Bukan sekadar chatbot menu statis. Agen cerdas kami memahami konteks, melakukan kualifikasi prospek, dan menutup penjualan 24/7 secara mandiri.",
     icon: Bot,
     color: "bg-indigo-50",
-    iconColor: "text-indigo-600"
+    iconColor: "text-indigo-600",
+    benefits: [
+      "Respons instan di bawah 3 detik, meminimalisir bounce rate prospek",
+      "Kualifikasi prospek otomatis sebelum diteruskan ke tim sales",
+      "Konektivitas dengan WhatsApp & CRM untuk sinkronisasi seketika"
+    ],
+    ctaText: "Mulai Konsultasi Agen Support",
+    ctaLink: "https://wa.me/6282125447232?text=Halo%20saya%20ingin%20berdiskusi%20tentang%20pembuatan%20Autonomous%20Sales%20Bot."
   },
   {
     id: "ai-agentic",
@@ -16,7 +25,14 @@ const AI_CAPABILITIES = [
     description: "Tingkatkan kapasitas operasional tanpa penambahan headcount. Agen AI kami mengeksekusi riset pasar, pelaporan komprehensif, dan manajemen data seketika.",
     icon: Network,
     color: "bg-emerald-50",
-    iconColor: "text-emerald-600"
+    iconColor: "text-emerald-600",
+    benefits: [
+      "Eksekusi multi-langkah (Agentic) untuk riset kompetitor mingguan",
+      "Ekstraksi data invoice & dokumen secara otomatis dengan OCR AI",
+      "Sistem pemantauan bisnis proaktif via notifikasi instan"
+    ],
+    ctaText: "Mulai Konsultasi Agen Operasional",
+    ctaLink: "https://wa.me/6282125447232?text=Halo%20saya%20ingin%20berdiskusi%20tentang%20implementasi%20Strategic%20Agentic%20Operations."
   },
   {
     id: "ai-workflow",
@@ -24,11 +40,31 @@ const AI_CAPABILITIES = [
     description: "Integrasi mulus antara WhatsApp, CRM, dan sistem backend Anda. Menghapus bottleneck input manual untuk mengakselerasi siklus bisnis secara eksponensial.",
     icon: Workflow,
     color: "bg-amber-50",
-    iconColor: "text-amber-600"
+    iconColor: "text-amber-600",
+    benefits: [
+      "Penghapusan total beban entry data manual antar departemen",
+      "Sistem notifikasi follow-up klien otomatis",
+      "Arsitektur Webhook/API custom untuk menghubungkan ekosistem lama"
+    ],
+    ctaText: "Rancang Workflow Otomasi",
+    ctaLink: "https://wa.me/6282125447232?text=Halo%20saya%20ingin%20berdiskusi%20tentang%20Omnichannel%20Workflow%20Automation."
   }
 ];
 
 export default function AISolutionsSection() {
+  const [modalData, setModalData] = useState<QuickViewData | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const openModal = (data: any) => {
+    setModalData(data);
+    setIsModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setIsModalOpen(false);
+    setTimeout(() => setModalData(null), 300); // clear after animation
+  };
+
   return (
     <section className="py-24 relative overflow-hidden min-h-screen flex items-center justify-center">
       {/* Background Decorative */}
@@ -93,13 +129,19 @@ export default function AISolutionsSection() {
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.5, delay: idx * 0.1 }}
-                  className="p-6 md:p-8 rounded-3xl bg-white border border-slate-100 shadow-sm hover:shadow-xl hover:border-indigo-100 transition-all duration-300 group flex items-start gap-6 cursor-default"
+                  onClick={() => openModal(cap)}
+                  className="p-6 md:p-8 rounded-3xl bg-white border border-slate-100 shadow-sm hover:shadow-xl hover:border-indigo-100 transition-all duration-300 group flex items-start gap-6 cursor-pointer"
                 >
                   <div className={`w-14 h-14 rounded-2xl ${cap.color} flex items-center justify-center shrink-0 border border-white group-hover:scale-110 group-hover:shadow-md transition-all duration-500`}>
                     <cap.icon size={24} className={cap.iconColor} />
                   </div>
-                  <div>
-                    <h3 className="text-xl font-display font-semibold text-slate-900 mb-2 group-hover:text-indigo-600 transition-colors">{cap.title}</h3>
+                  <div className="flex-1">
+                    <h3 className="text-xl font-display font-semibold text-slate-900 mb-2 group-hover:text-indigo-600 transition-colors flex items-center justify-between">
+                      {cap.title}
+                      <span className="opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all text-indigo-500">
+                        <ExternalLink size={16} />
+                      </span>
+                    </h3>
                     <p className="text-slate-600 font-sans leading-relaxed text-sm font-light">{cap.description}</p>
                   </div>
                 </motion.div>
@@ -109,6 +151,12 @@ export default function AISolutionsSection() {
           
         </div>
       </div>
+      
+      <QuickViewModal 
+        isOpen={isModalOpen} 
+        onClose={closeModal} 
+        data={modalData} 
+      />
     </section>
   );
 }

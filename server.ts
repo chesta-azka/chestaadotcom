@@ -1,7 +1,9 @@
 import express from "express";
 import path from "path";
+import fs from "fs/promises";
 import { createServer as createViteServer } from "vite";
 import { GoogleGenAI } from "@google/genai";
+import { injectSocialMeta } from "./src/lib/social-meta";
 
 const app = express();
 app.use(express.json());
@@ -184,12 +186,26 @@ app.post("/api/ai/generate-blog", async (req, res) => {
       server: { middlewareMode: true },
       appType: "spa",
     });
+    // Use vite's connect instance as middleware
     app.use(vite.middlewares);
+    
+    // In dev, the index.html is mostly served by vite.middlewares automatically, 
+    // but if we want to inject meta, it's a bit complex with vite middlewares.
+    // For social sharing, dev mode doesn't matter much.
   } else {
     const distPath = path.join(process.cwd(), 'dist');
-    app.use(express.static(distPath));
-    app.get('*', (req, res) => {
-      res.sendFile(path.join(distPath, 'index.html'));
+    // Important: DO NOT serve index.html statically, otherwise it overrides our wildcard
+    app.use(express.static(distPath, { index: false }));
+    
+    app.get('*', async (req, res) => {
+      try {
+        let html = await fs.readFile(path.join(distPath, 'index.html'), 'utf-8');
+        html = injectSocialMeta(html, req.originalUrl);
+        res.status(200).set({ 'Content-Type': 'text/html' }).end(html);
+      } catch (err) {
+        console.error("Error rendering HTML:", err);
+        res.status(500).end("Internal Server Error");
+      }
     });
   }
 
