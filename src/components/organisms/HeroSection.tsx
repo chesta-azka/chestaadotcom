@@ -49,7 +49,7 @@ export default function HeroSection() {
   return (
     <section 
       id="home" 
-      className="relative pt-32 md:pt-40 pb-24 md:pb-32 overflow-hidden bg-transparent flex flex-col items-center justify-center select-none min-h-[100svh]"
+      className="relative pt-44 md:pt-56 pb-24 md:pb-32 overflow-hidden bg-transparent flex flex-col items-center justify-center select-none min-h-[100svh]"
     >
       
       {/* Clean Background with Subtle Grid & Right-Edge Gradient Glow */}
@@ -77,7 +77,7 @@ export default function HeroSection() {
             transition={{ duration: 0.6, ease: "easeOut", delay: 0.1 }}
             className="inline-flex items-center gap-2 sm:gap-2.5 px-4 py-2 sm:px-5 sm:py-2.5 rounded-full bg-white/90 backdrop-blur-md border border-indigo-100/80 shadow-sm text-[9px] sm:text-[10px] lg:text-xs font-mono tracking-widest uppercase shrink-0 max-w-full"
           >
-            <Sparkles size={12} className="text-indigo-500 animate-[pulse_3s_ease-in-out_infinite] shrink-0" />
+            <Sparkles strokeWidth={1} size={12} className="text-indigo-500 animate-[pulse_3s_ease-in-out_infinite] shrink-0" />
             <span className="font-bold tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600 truncate">ENTERPRISE DIGITAL ARCHITECT</span>
           </motion.div>
 
@@ -127,7 +127,7 @@ export default function HeroSection() {
                 className="relative w-full sm:w-auto flex items-center justify-center gap-3.5 rounded-full bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 px-6 sm:px-8 py-3.5 sm:py-4.5 font-mono text-[10px] sm:text-[11px] lg:text-xs font-bold uppercase tracking-widest text-white transition-all duration-300 hover:from-indigo-600 hover:via-indigo-500 hover:to-purple-600 shadow-xl cursor-pointer z-10 overflow-hidden"
               >
                 <span className="relative z-10 whitespace-nowrap">Mulai Kolaborasi</span>
-                <ArrowRight size={14} className="transition-transform group-hover:translate-x-1 relative z-10 shrink-0" />
+                <ArrowRight strokeWidth={1} size={14} className="transition-transform group-hover:translate-x-1 relative z-10 shrink-0" />
               </motion.button>
             </div>
             
@@ -161,7 +161,7 @@ export default function HeroSection() {
             className="absolute top-[10%] right-[10%] w-[280px] p-6 rounded-3xl bg-white/60 backdrop-blur-xl border border-white shadow-[0_10px_30px_rgba(0,0,0,0.05)] z-20"
           >
             <div className="w-10 h-10 rounded-xl bg-indigo-50 flex items-center justify-center mb-4 text-indigo-600 border border-indigo-100">
-              <Cpu size={20} strokeWidth={1.5} />
+              <Cpu strokeWidth={1} size={20} />
             </div>
             <h3 className="font-sans font-bold text-slate-900 text-lg mb-2">Agentic Automation</h3>
             <p className="text-sm text-slate-500 font-sans leading-relaxed">Ekosistem AI cerdas untuk memangkas redundansi operasional.</p>
@@ -175,7 +175,7 @@ export default function HeroSection() {
             className="absolute bottom-[10%] left-[5%] w-[280px] p-6 rounded-3xl bg-white/70 backdrop-blur-lg border border-white shadow-[0_15px_40px_rgba(0,0,0,0.06)] z-30"
           >
             <div className="w-10 h-10 rounded-xl bg-slate-900 flex items-center justify-center mb-4 text-white">
-              <ShieldCheck size={20} strokeWidth={1.5} />
+              <ShieldCheck strokeWidth={1} size={20} />
             </div>
             <h3 className="font-sans font-bold text-slate-900 text-lg mb-2">Enterprise Security</h3>
             <p className="text-sm text-slate-500 font-sans leading-relaxed">Arsitektur berlapis memastikan data dan sistem Anda terlindungi maksimal.</p>

@@ -23,6 +23,7 @@ import ProjectDetailPage from './pages/ProjectDetailPage.tsx';
 import AboutPage from './pages/AboutPage.tsx';
 import ServiceDetailPage from './pages/ServiceDetailPage.tsx';
 import AreaDetailPage from './pages/AreaDetailPage.tsx';
+import AdminPage from './pages/AdminPage.tsx';
 import NotFoundPage from './pages/NotFoundPage.tsx';
 
 function ScrollToTop() {
@@ -89,6 +90,7 @@ export default function App() {
               <Route path="/about" element={<AboutPage />} />
               <Route path="/layanan/:slug" element={<ServiceDetailPage />} />
               <Route path="/area/:cityName" element={<AreaDetailPage />} />
+              <Route path="/admin" element={<AdminPage />} />
               <Route path="*" element={<NotFoundPage />} />
             </Routes>
             <FooterSection />

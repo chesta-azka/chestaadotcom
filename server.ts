@@ -179,6 +179,117 @@ app.post("/api/ai/generate-blog", async (req, res) => {
   }
 });
 
+
+// 3. API: AI Insights with Search Grounding (with Fallback for Rate Limits)
+app.get("/api/ai/insights", async (req, res) => {
+  const fallbackInsights = [
+    {
+      title: "Adopsi AI Tingkatkan Efisiensi UMKM",
+      description: "Penggunaan alat AI generatif untuk pemasaran dan layanan pelanggan terbukti memangkas biaya operasional UMKM hingga 30% di kuartal terakhir.",
+      link: "https://chestaa.com/services",
+      date: "Tren Terkini"
+    },
+    {
+      title: "Dominasi Local SEO di 2026",
+      description: "Google semakin memprioritaskan hasil pencarian berbasis lokasi. Optimasi presisi pada profil bisnis lokal menjadi kunci akuisisi pelanggan baru.",
+      link: "https://chestaa.com/blog",
+      date: "Tren Terkini"
+    },
+    {
+      title: "Arsitektur Web Mobile-First",
+      description: "Lebih dari 80% traksi digital UMKM Indonesia berasal dari perangkat mobile. Kecepatan muat (Core Web Vitals) kini menjadi faktor konversi utama.",
+      link: "https://chestaa.com/projects",
+      date: "Tren Terkini"
+    }
+  ];
+
+  if (!genAI) {
+    console.warn("AI not initialized, using fallback insights.");
+    return res.json({ insights: fallbackInsights });
+  }
+
+  try {
+    const prompt = 'Berikan 3 wawasan (insight) atau tren teknologi digital terbaru yang sangat relevan untuk UMKM di Indonesia (seputar adopsi AI, Web, Digital Marketing, atau SEO). Gunakan Google Search. Kembalikan HARUS berformat JSON array of objects: [{ "title": "Judul Insight", "description": "Deskripsi singkat 2 kalimat", "link": "URL referensi/berita", "date": "Tanggal atau Bulan Tahun" }]. PENTING: JANGAN BERIKAN TEKS PENGANTAR. HANYA KEMBALIKAN JSON MURNI.';
+    const response = await genAI.models.generateContent({
+      model: "gemini-2.5-flash",
+      contents: prompt,
+      config: {
+        tools: [{ googleSearch: {} }],
+      }
+    });
+    
+    let insights = [];
+    try {
+      let responseText = response.text || "";
+      const match = responseText.match(/\[\s*\{[\s\S]*\}\s*\]/);
+      
+      if (match) {
+        insights = JSON.parse(match[0]);
+      } else {
+        if (responseText.includes("```json")) {
+          responseText = responseText.replace(/```json/g, "").replace(/```/g, "").trim();
+        } else if (responseText.includes("```")) {
+          responseText = responseText.replace(/```/g, "").trim();
+        }
+        insights = JSON.parse(responseText);
+      }
+    } catch(e) {
+      console.error("Failed to parse insights JSON:", e);
+      return res.json({ insights: fallbackInsights });
+    }
+    
+    // Extract grounding chunks
+    const chunks = response.candidates?.[0]?.groundingMetadata?.groundingChunks;
+    const urls = chunks ? chunks.map((c) => c.web?.uri).filter(Boolean) : [];
+    
+    // Enrich links if empty
+    insights.forEach((insight, i) => {
+      if ((!insight.link || insight.link === "") && urls.length > 0) {
+        insight.link = urls[i % urls.length];
+      }
+    });
+
+    res.json({ insights });
+  } catch (error) {
+    console.warn("Insights generation failed (Quota/Network). Using fallback data.", error.message);
+    res.json({ insights: fallbackInsights });
+  }
+});
+
+
+// 4. API: SEO Audit Tool
+app.post("/api/ai/seo-audit", async (req, res) => {
+  const { content } = req.body;
+  if (!content) return res.status(400).json({ error: "Content is required" });
+  if (!genAI) return res.status(500).json({ error: "AI not initialized" });
+
+  try {
+    const prompt = `Anda adalah ahli SEO Lokal di Indonesia. Lakukan audit SEO singkat pada konten berikut dan berikan saran optimasi keyword, meta description, dan perbaikan struktur H1/H2 untuk visibilitas pencarian lokal (khususnya untuk UMKM di daerah).
+
+Konten:
+"""
+${content}
+"""
+
+Berikan respons dalam format Markdown dengan struktur berikut:
+1. **Skor SEO Awal** (perkiraan 1-100)
+2. **Kekuatan Konten**
+3. **Kelemahan & Area Perbaikan**
+4. **Saran Keyword Lokal** (misal: jasa web di tangerang, dll)
+5. **Rekomendasi Meta Title & Description**`;
+
+    const response = await genAI.models.generateContent({
+      model: "gemini-2.5-flash",
+      contents: prompt
+    });
+    
+    res.json({ auditResult: response.text });
+  } catch (error) {
+    console.error("SEO Audit failed:", error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
 // Vite middleware for development / Production Static Fallback
 (async () => {
   if (process.env.NODE_ENV !== "production") {

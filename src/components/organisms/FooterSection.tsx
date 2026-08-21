@@ -13,7 +13,7 @@ export default function FooterSection() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 lg:gap-8 mb-24">
           
           {/* Column 1: Brand */}
-          <div className="lg:col-span-5 space-y-8 pr-8">
+          <div className="lg:col-span-4 space-y-8 pr-8">
             <Link to="/" onClick={() => window.scrollTo(0,0)} className="inline-flex items-center gap-3 group">
               <div className="w-12 h-12 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-center group-hover:border-[#4f46e5]/40 transition-colors duration-300 shadow-[0_4px_20px_rgba(0,0,0,0.3)]">
                 <svg className="w-6 h-6 text-[#4f46e5] group-hover:scale-110 transition-transform duration-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -42,7 +42,7 @@ export default function FooterSection() {
           </div>
 
           {/* Column 2: Navigation */}
-          <div className="lg:col-span-2 lg:col-start-7">
+          <div className="lg:col-span-2 lg:col-start-6">
             <h4 className="text-slate-900 font-sans font-bold tracking-widest uppercase text-[11px] mb-8">Layanan Utama</h4>
             <ul className="space-y-4 text-sm font-sans text-slate-600">
               <li><Link to="/layanan/website-company-profile" onClick={() => window.scrollTo(0,0)} className="hover:text-[#4f46e5] transition-colors">Web Development</Link></li>

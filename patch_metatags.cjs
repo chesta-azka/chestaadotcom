@@ -1,4 +1,6 @@
-import { Helmet } from 'react-helmet-async';
+const fs = require('fs');
+
+const code = `import { Helmet } from 'react-helmet-async';
 import { 
   generateLocalBusinessSchema, 
   generateWebSiteSchema, 
@@ -18,8 +20,8 @@ interface MetaTagsProps {
 }
 
 export default function MetaTags({ title, description, path = '/', breadcrumbs, serviceName, cityName }: MetaTagsProps) {
-  const finalTitle = title.includes('CHESTADOTCOM') || title.includes('chestaa') ? title : `${title} | CHESTADOTCOM`;
-  const url = `https://chestaa.com${path}`;
+  const finalTitle = title.includes('CHESTADOTCOM') || title.includes('chestaa') ? title : \`\${title} | CHESTADOTCOM\`;
+  const url = \`https://chestaa.com\${path}\`;
   
   const localBusinessLd = generateLocalBusinessSchema();
   const websiteLd = generateWebSiteSchema();
@@ -51,13 +53,6 @@ export default function MetaTags({ title, description, path = '/', breadcrumbs, 
       <meta name="twitter:description" content={description} />
       <meta name="twitter:image" content={ogImage} />
 
-      {/* Local SEO / Geo Tags */}
-      <meta name="geo.region" content="ID-BT" />
-      <meta name="geo.placename" content={cityName || "Tangerang"} />
-      <meta name="geo.position" content="-6.299;106.657" />
-      <meta name="ICBM" content="-6.299, 106.657" />
-
-
       <script type="application/ld+json">{JSON.stringify(localBusinessLd)}</script>
       <script type="application/ld+json">{JSON.stringify(websiteLd)}</script>
       <script type="application/ld+json">{JSON.stringify(siteNavLd)}</script>
@@ -67,3 +62,7 @@ export default function MetaTags({ title, description, path = '/', breadcrumbs, 
     </Helmet>
   );
 }
+\`;
+
+fs.writeFileSync('src/components/atoms/MetaTags.tsx', code);
+console.log('Patched MetaTags.tsx');

@@ -76,8 +76,8 @@ export default function ServicesSection() {
   return (
     <section className="py-24 md:py-32 bg-transparent text-slate-900 relative overflow-hidden select-none min-h-screen flex items-center justify-center">
       {/* Seamless background blending gradients */}
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/[0.01] to-transparent pointer-events-none" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(79,70,229,0.02),transparent_40%)] pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-indigo-50/30 to-transparent pointer-events-none" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(79,70,229,0.08),transparent_40%),radial-gradient(circle_at_bottom_left,rgba(6,182,212,0.05),transparent_40%)] pointer-events-none" />
       
       <div className="mx-auto max-w-5xl px-6 relative z-10 w-full py-12">
         
@@ -114,7 +114,7 @@ export default function ServicesSection() {
               <Link
                 to={`/layanan/${service.slug}`}
                 onClick={() => window.scrollTo(0, 0)}
-                className="relative flex flex-col md:flex-row md:items-center justify-between py-8 px-8 sm:px-12 bg-white/60 border border-slate-200/80 rounded-[2.5rem] hover:bg-white hover:border-[#4f46e5]/30 transition-all duration-500 overflow-hidden transform hover:scale-[1.02] hover:shadow-[0_20px_60px_-15px_rgba(79,70,229,0.15)] hover:z-20"
+                className="relative flex flex-col md:flex-row md:items-center justify-between py-8 px-8 sm:px-12 bg-white/40 backdrop-blur-md border border-white shadow-sm rounded-[2.5rem] hover:bg-white hover:border-[#4f46e5]/30 transition-all duration-500 overflow-hidden transform hover:scale-[1.02] hover:shadow-[0_20px_60px_-15px_rgba(79,70,229,0.15)] hover:z-20"
               >
                 {/* Visual hover color ripple overlay */}
                 <div 
@@ -160,9 +160,9 @@ export default function ServicesSection() {
                     LIHAT SKENARIO
                   </span>
                   <div className="w-12 h-12 rounded-full border border-slate-200 flex items-center justify-center bg-white group-hover:bg-indigo-600 group-hover:border-indigo-600 shadow-sm transition-all duration-300">
-                    <ArrowUpRight 
+                    <ArrowUpRight strokeWidth={1} 
                       className="w-5 h-5 text-slate-400 group-hover:text-white group-hover:rotate-45 transition-all duration-300" 
-                      strokeWidth={1.5}
+                     
                     />
                   </div>
                 </div>
@@ -182,9 +182,9 @@ export default function ServicesSection() {
               <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-[#4f46e5]" />
             </span>
             <span>{showOtherServices ? 'TUTUP LAYANAN LAINNYA' : 'TAMPILKAN LAYANAN LAINNYA'}</span>
-            <ChevronDown 
+            <ChevronDown strokeWidth={1} 
               className={`w-4 h-4 text-slate-600 group-hover:text-[#4f46e5] transition-transform duration-500 ${showOtherServices ? 'rotate-180' : ''}`} 
-              strokeWidth={2}
+             
             />
           </button>
         </div>
@@ -237,14 +237,14 @@ export default function ServicesSection() {
                       <Link
                         to={`/layanan/${o.slug}`}
                         onClick={() => window.scrollTo(0,0)}
-                        className="flex items-center justify-between p-5 border border-slate-100 rounded-2xl bg-slate-50 hover:border-[#4f46e5]/30 hover:bg-slate-50 transition-all duration-300 group"
+                        className="flex items-center justify-between p-5 border border-white/60 rounded-2xl bg-white/30 backdrop-blur-md hover:border-white hover:bg-white/50 shadow-sm transition-all duration-300 group"
                       >
                         <div className="flex flex-col gap-1 pr-4">
                           <span className="text-sm font-sans font-bold text-gray-700 group-hover:text-[#4f46e5] transition-colors">{o.title}</span>
                           <span className="text-[11px] font-sans text-slate-500">{o.desc}</span>
                         </div>
                         <div className="w-8 h-8 rounded-full border border-slate-200 flex items-center justify-center shrink-0 bg-slate-100 group-hover:bg-[#4f46e5] group-hover:border-[#4f46e5] transition-colors">
-                          <ArrowUpRight size={14} className="text-slate-600 group-hover:text-white transition-colors" />
+                          <ArrowUpRight strokeWidth={1} size={14} className="text-slate-600 group-hover:text-white transition-colors" />
                         </div>
                       </Link>
                     </motion.div>
@@ -280,7 +280,7 @@ export default function ServicesSection() {
               {features.map((f, i) => (
                 <div key={i} className="flex gap-4 sm:gap-6 lg:flex-col lg:gap-4 relative group">
                   <div className="w-12 h-12 shrink-0 rounded-xl bg-white border border-[#4f46e5]/20 flex items-center justify-center text-[#4f46e5] group-hover:bg-[#4f46e5] group-hover:text-white transition-colors duration-300 shadow-sm">
-                    <f.icon size={22} strokeWidth={1.5} />
+                    <f.icon size={22} />
                   </div>
                   <div>
                     <h4 className="text-sm sm:text-base font-bold font-sans tracking-tight mb-1.5 text-slate-900 group-hover:text-[#4f46e5] transition-colors">

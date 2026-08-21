@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence, useScroll, useSpring } from 'motion/react';
 import { Menu, X, Search, ChevronDown } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
+import LocalSEOBanner from '../molecules/LocalSEOBanner.tsx';
 
 export default function Header() {
   const [isOpen, setIsOpen] = useState(false);
@@ -55,12 +56,21 @@ export default function Header() {
   return (
     <>
       {/* Floating Header */}
-      <header className="fixed top-6 left-0 right-0 z-50 flex justify-center px-6 pointer-events-none">
+      {/* Floating Header Container */}
+      <header className="fixed top-0 left-0 right-0 z-50 flex flex-col items-center pointer-events-none">
+        
+        {/* The Banner takes full width at the very top, and has pointer events enabled */}
+        <div className="w-full pointer-events-auto">
+          <LocalSEOBanner />
+        </div>
+
+        {/* The Floating Pill is slightly pushed down from the banner or the top */}
+        <div className="flex justify-center px-6 mt-4 sm:mt-6 w-full">
         <motion.div
           initial={{ y: -20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ type: 'spring', stiffness: 100, damping: 20, delay: 0.2 }}
-          className={`bg-white/80 backdrop-blur-2xl border border-slate-200 rounded-full px-6 py-3 flex items-center justify-between w-full max-w-5xl pointer-events-auto transition-shadow duration-300 ${scrolled ? 'shadow-[0_8px_32px_rgba(0,0,0,0.12)]' : 'shadow-none'}`}
+          className={`transition-all duration-500 ease-out rounded-full px-6 flex items-center justify-between w-full max-w-5xl pointer-events-auto ${scrolled ? 'bg-white/80 backdrop-blur-2xl border border-slate-200 shadow-[0_8px_32px_rgba(0,0,0,0.12)] py-3' : 'bg-white/0 backdrop-blur-none border border-transparent shadow-none py-4'}`}
         >
           <Link to="/" className="flex items-center gap-2.5 group select-none pointer-events-auto">
             {/* Elegant Geometric Architectural Emblem */}
@@ -84,7 +94,7 @@ export default function Header() {
               const isLayanan = link.name === 'Layanan';
               
               return (
-                <motion.div key={link.name} className="relative group" whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                <motion.div key={link.name} className="relative group" whileHover={{ y: -2, scale: 1.05 }} whileTap={{ scale: 0.95 }} transition={{ type: "spring", stiffness: 400, damping: 17 }}>
                   {isAnchor ? (
                     <a
                       href={location.pathname === '/' ? link.path.substring(1) : link.path}
@@ -156,7 +166,7 @@ export default function Header() {
             >
               <Search size={18} />
             </button>
-            <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }} className="ml-2">
+            <motion.div whileHover={{ y: -2, scale: 1.05 }} whileTap={{ scale: 0.95 }} transition={{ type: "spring", stiffness: 400, damping: 17 }} className="ml-2">
               <a href={location.pathname === '/' ? '#pricing' : '/#pricing'} className="text-sm font-sans font-medium text-white bg-slate-900 px-5 py-2.5 rounded-full hover:bg-indigo-600 transition-colors shadow-sm inline-block">
                 Get Started
               </a>
@@ -176,6 +186,7 @@ export default function Header() {
             </button>
           </div>
         </motion.div>
+      </div>
       </header>
 
       <AnimatePresence>

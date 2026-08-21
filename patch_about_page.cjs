@@ -1,4 +1,6 @@
-import React, { useEffect, useRef } from 'react';
+const fs = require('fs');
+
+const aboutContent = `import React, { useEffect, useRef } from 'react';
 import { motion, animate, useInView } from 'motion/react';
 import { Layers, Zap, Cpu, Target, Code2, ArrowRight, CheckCircle2, ShieldCheck, Fingerprint, Activity } from 'lucide-react';
 import LocalWeatherWidget from '../components/atoms/LocalWeatherWidget';
@@ -59,7 +61,7 @@ function AnimatedCounter({ to, suffix = "", duration = 2.5 }: { to: number, suff
 export default function AboutPage() {
   const handleContactClick = () => {
     const text = 'Halo Mas Chesta, saya tertarik untuk mendiskusikan visi proyek digital saya lebih lanjut.';
-    window.open(`https://wa.me/6282125447232?text=${encodeURIComponent(text)}`, '_blank');
+    window.open(\`https://wa.me/6282125447232?text=\${encodeURIComponent(text)}\`, '_blank');
   };
 
   return (
@@ -251,3 +253,7 @@ export default function AboutPage() {
     </div>
   );
 }
+`;
+
+fs.writeFileSync('src/pages/AboutPage.tsx', aboutContent);
+console.log('Successfully updated AboutPage.tsx');

@@ -8,6 +8,7 @@ import WorkflowSection from '../components/organisms/WorkflowSection.tsx';
 import WorkflowAutomation from '../components/organisms/WorkflowAutomation.tsx';
 import TestimonialSection from '../components/organisms/TestimonialSection.tsx';
 import PricingSection from '../components/organisms/PricingSection.tsx';
+import InsightsSection from '../components/organisms/InsightsSection.tsx';
 import BlogSection from '../components/organisms/BlogSection.tsx';
 import CreativityMarquee from '../components/organisms/CreativityMarquee.tsx';
 import ContactSection from '../components/organisms/ContactSection.tsx';
@@ -84,8 +85,13 @@ export default function HomePage() {
       </SectionGlassCard>
 
       <SectionSeparator />
-      <SectionGlassCard index={8} metaLabel="INSIGHTS">
+      <SectionGlassCard index={8} metaLabel="INSIGHTS & BLOG">
         <BlogSection />
+      </SectionGlassCard>
+
+      <SectionSeparator />
+      <SectionGlassCard index={9} metaLabel="TECH TRENDS">
+        <InsightsSection />
       </SectionGlassCard>
 
       <SectionSeparator />

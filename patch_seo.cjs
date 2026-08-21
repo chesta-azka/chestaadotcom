@@ -1,4 +1,6 @@
-export const generateLocalBusinessSchema = () => {
+const fs = require('fs');
+
+const code = `export const generateLocalBusinessSchema = () => {
   return {
     "@context": "https://schema.org",
     "@type": "ProfessionalService",
@@ -29,13 +31,13 @@ export const generateLocalBusinessSchema = () => {
   };
 };
 
-export const generateCityGeoSchema = (cityName: string) => {
+export const generateCityGeoSchema = (cityName) => {
   return {
     "@context": "https://schema.org",
     "@type": "ProfessionalService",
-    "name": `Jasa Pembuatan Website ${cityName} | CHESTADOTCOM`,
+    "name": \`Jasa Pembuatan Website \${cityName} | CHESTADOTCOM\`,
     "image": "https://chestaa.com/favicon.svg",
-    "description": `Mitra transformasi digital dan jasa pembuatan website premium terbaik untuk bisnis Anda di ${cityName}. Tingkatkan SEO lokal dan konversi penjualan dengan arsitektur web modern.`,
+    "description": \`Mitra transformasi digital dan jasa pembuatan website premium terbaik untuk bisnis Anda di \${cityName}. Tingkatkan SEO lokal dan konversi penjualan dengan arsitektur web modern.\`,
     "areaServed": {
       "@type": "City",
       "name": cityName
@@ -44,11 +46,11 @@ export const generateCityGeoSchema = (cityName: string) => {
       "@type": "ProfessionalService",
       "name": "CHESTADOTCOM - Digital Architect"
     },
-    "url": `https://chestaa.com/area/${cityName.toLowerCase()}`
+    "url": \`https://chestaa.com/area/\${cityName.toLowerCase()}\`
   };
 };
 
-export const generateServiceSchema = (serviceName: string, serviceDescription: string, url: string) => {
+export const generateServiceSchema = (serviceName, serviceDescription, url) => {
   return {
     "@context": "https://schema.org",
     "@type": "Service",
@@ -96,7 +98,7 @@ export const generateSiteNavigationElement = () => {
   };
 };
 
-export const generateBreadcrumbs = (breadcrumbs: { name: string; item: string }[]) => {
+export const generateBreadcrumbs = (breadcrumbs) => {
   return {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -108,3 +110,7 @@ export const generateBreadcrumbs = (breadcrumbs: { name: string; item: string }[
     }))
   };
 };
+\`;
+
+fs.writeFileSync('src/lib/seo.ts', code);
+console.log('Patched seo.ts');

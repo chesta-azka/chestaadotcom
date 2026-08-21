@@ -1,7 +1,7 @@
 import { useParams, Link, Navigate } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { useState } from 'react';
-import { MessageCircle, Shield, Sparkles, MapPin, Search, ArrowRight, Star, Quote, CheckCircle, Globe, Zap, ArrowUpRight } from 'lucide-react';
+import { MessageCircle, Shield, Sparkles, MapPin, Search, ArrowRight, Target, Star, Quote, CheckCircle, Globe, Zap, ArrowUpRight } from 'lucide-react';
 import { CITIES } from '../data/AreasData';
 import { SERVICES_DATA } from '../data/ServicesData';
 import MetaTags from '../components/atoms/MetaTags';
