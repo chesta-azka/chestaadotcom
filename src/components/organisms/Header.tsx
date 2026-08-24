@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence, useScroll, useSpring } from 'motion/react';
 import { Menu, X, Search, ChevronDown } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
+import { SERVICE_DEFINITIONS } from '../../data/ServiceDefinition';
 import LocalSEOBanner from '../molecules/LocalSEOBanner.tsx';
 
 export default function Header() {
@@ -46,10 +47,10 @@ export default function Header() {
   }, [isOpen]);
 
   const links = [
-    { name: 'Home', path: '/' },
+    { name: 'Beranda', path: '/' },
     { name: 'Layanan', path: '/services' },
-    { name: 'Portfolio', path: '/portfolio' },
-    { name: 'Insight', path: '/blog' },
+    { name: 'Portofolio', path: '/portfolio' },
+    { name: 'Wawasan', path: '/blog' },
     { name: 'Tentang', path: '/about' }
   ];
 
@@ -168,7 +169,7 @@ export default function Header() {
             </button>
             <motion.div whileHover={{ y: -2, scale: 1.05 }} whileTap={{ scale: 0.95 }} transition={{ type: "spring", stiffness: 400, damping: 17 }} className="ml-2">
               <a href={location.pathname === '/' ? '#pricing' : '/#pricing'} className="text-sm font-sans font-medium text-white bg-slate-900 px-5 py-2.5 rounded-full hover:bg-indigo-600 transition-colors shadow-sm inline-block">
-                Get Started
+                Mulai Proyek
               </a>
             </motion.div>
           </div>

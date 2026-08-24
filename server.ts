@@ -3,12 +3,37 @@ import path from "path";
 import fs from "fs/promises";
 import { createServer as createViteServer } from "vite";
 import { GoogleGenAI } from "@google/genai";
+import { initializeApp, getApps } from 'firebase-admin/app';
+import { getAuth } from 'firebase-admin/auth';
+if (getApps().length === 0) { initializeApp({ projectId: 'core-lambda-wcf5x' }); }
+
+import Groq from "groq-sdk";
 import { injectSocialMeta } from "./src/lib/social-meta";
 
 const app = express();
+
+// Middleware to verify Firebase ID Token
+const verifyFirebaseToken = async (req, res, next) => {
+  const authHeader = req.headers.authorization;
+  if (!authHeader || !authHeader.startsWith('Bearer ')) {
+    return res.status(401).json({ error: 'Unauthorized: Missing or invalid Authorization header' });
+  }
+  const token = authHeader.split('Bearer ')[1];
+  try {
+    const decodedToken = await getAuth().verifyIdToken(token);
+    req.user = decodedToken;
+    next();
+  } catch (error) {
+    console.error("Token verification failed:", error);
+    return res.status(401).json({ error: 'Unauthorized: Invalid token' });
+  }
+};
+
 app.use(express.json());
 
 const PORT = 3000;
+
+const groq = process.env.GROK_API_KEY ? new Groq({ apiKey: process.env.GROK_API_KEY }) : null;
 
 // Gemini initialization (optional fallback)
 let genAI: any = null;
@@ -128,6 +153,55 @@ app.post("/api/posts/validate", async (req, res) => {
   }
 });
 
+
+// Chat Assistant Route (Groq API)
+app.post("/api/chat", async (req, res) => {
+  const { messages } = req.body;
+  
+  if (!messages || !Array.isArray(messages)) {
+    return res.status(400).json({ error: "Messages array is required." });
+  }
+  
+  if (!genAI) {
+    return res.status(500).json({ error: "Google Gemini AI not initialized." });
+  }
+
+  try {
+    const systemPrompt = "Anda adalah Konsultan AI Eksklusif dari CHESTADOTCOM. Jawab dengan ramah, cerdas, dan natural.";
+    
+    let geminiContents = messages.map((m: any) => ({
+      role: m.role === 'assistant' ? 'model' : 'user',
+      parts: [{ text: m.content }]
+    }));
+
+    // Setup streaming
+    res.setHeader('Content-Type', 'text/event-stream');
+    res.setHeader('Cache-Control', 'no-cache');
+    res.setHeader('Connection', 'keep-alive');
+
+    const responseStream = await genAI.models.generateContentStream({
+      model: "gemini-1.5-flash",
+      systemInstruction: systemPrompt,
+      contents: geminiContents,
+    });
+    
+    for await (const chunk of responseStream) {
+      if (chunk.text) {
+        res.write(`data: ${JSON.stringify({ text: chunk.text })}\n\n`);
+      }
+    }
+    res.write('data: [DONE]\n\n');
+    res.end();
+  } catch (error: any) {
+    console.error("Gemini chat failed:", error);
+    if (!res.headersSent) {
+      res.status(500).json({ error: error.message });
+    } else {
+      res.end();
+    }
+  }
+});
+
 // AI Blog Generation Route
 app.post("/api/ai/generate-blog", async (req, res) => {
   const { prompt } = req.body;
@@ -174,13 +248,17 @@ app.post("/api/ai/generate-blog", async (req, res) => {
 
     res.json({ success: true, blog });
   } catch (error: any) {
-    console.error("AI Generation failed:", error);
+    console.log("AI Generation failed.");
     res.status(500).json({ success: false, error: error.message });
   }
 });
 
 
 // 3. API: AI Insights with Search Grounding (with Fallback for Rate Limits)
+let cachedInsights = null;
+let lastInsightsFetch = 0;
+const CACHE_DURATION_MS = 1000 * 60 * 60 * 12; // 12 hours
+
 app.get("/api/ai/insights", async (req, res) => {
   const fallbackInsights = [
     {
@@ -208,10 +286,16 @@ app.get("/api/ai/insights", async (req, res) => {
     return res.json({ insights: fallbackInsights });
   }
 
+  // Use cached data if available and fresh
+  const now = Date.now();
+  if (cachedInsights && (now - lastInsightsFetch < CACHE_DURATION_MS)) {
+    return res.json({ insights: cachedInsights });
+  }
+
   try {
     const prompt = 'Berikan 3 wawasan (insight) atau tren teknologi digital terbaru yang sangat relevan untuk UMKM di Indonesia (seputar adopsi AI, Web, Digital Marketing, atau SEO). Gunakan Google Search. Kembalikan HARUS berformat JSON array of objects: [{ "title": "Judul Insight", "description": "Deskripsi singkat 2 kalimat", "link": "URL referensi/berita", "date": "Tanggal atau Bulan Tahun" }]. PENTING: JANGAN BERIKAN TEKS PENGANTAR. HANYA KEMBALIKAN JSON MURNI.';
     const response = await genAI.models.generateContent({
-      model: "gemini-2.5-flash",
+      model: "gemini-1.5-flash",
       contents: prompt,
       config: {
         tools: [{ googleSearch: {} }],
@@ -249,16 +333,21 @@ app.get("/api/ai/insights", async (req, res) => {
       }
     });
 
+    cachedInsights = insights;
+    lastInsightsFetch = Date.now();
     res.json({ insights });
-  } catch (error) {
-    console.warn("Insights generation failed (Quota/Network). Using fallback data.", error.message);
+  } catch (error: any) {
+    console.log("Insights generation fallback triggered due to API limits.");
+    // Cache the fallback to prevent spamming the failing API
+    cachedInsights = fallbackInsights;
+    lastInsightsFetch = Date.now(); // wait 12 hours before trying again, or server restart
     res.json({ insights: fallbackInsights });
   }
 });
 
 
 // 4. API: SEO Audit Tool
-app.post("/api/ai/seo-audit", async (req, res) => {
+app.post("/api/ai/seo-audit", verifyFirebaseToken, async (req, res) => {
   const { content } = req.body;
   if (!content) return res.status(400).json({ error: "Content is required" });
   if (!genAI) return res.status(500).json({ error: "AI not initialized" });
@@ -279,13 +368,13 @@ Berikan respons dalam format Markdown dengan struktur berikut:
 5. **Rekomendasi Meta Title & Description**`;
 
     const response = await genAI.models.generateContent({
-      model: "gemini-2.5-flash",
+      model: "gemini-1.5-flash",
       contents: prompt
     });
     
     res.json({ auditResult: response.text });
   } catch (error) {
-    console.error("SEO Audit failed:", error);
+    console.log("SEO Audit failed.");
     res.status(500).json({ error: error.message });
   }
 });

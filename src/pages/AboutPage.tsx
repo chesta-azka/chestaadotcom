@@ -3,6 +3,7 @@ import { motion, animate, useInView } from 'motion/react';
 import { Layers, Zap, Cpu, Target, Code2, ArrowRight, CheckCircle2, ShieldCheck, Fingerprint, Activity } from 'lucide-react';
 import LocalWeatherWidget from '../components/atoms/LocalWeatherWidget';
 import MetaTags from '../components/atoms/MetaTags';
+import FaqSection from '../components/organisms/FaqSection';
 
 const strengths = [
   {
@@ -213,6 +214,11 @@ export default function AboutPage() {
               </motion.div>
             ))}
           </div>
+        </div>
+
+        {/* FAQ Section Included Here */}
+        <div className="mb-32">
+          <FaqSection />
         </div>
 
         {/* Premium Philosophy Section */}

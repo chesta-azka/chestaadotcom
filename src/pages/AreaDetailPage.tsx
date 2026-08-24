@@ -1,15 +1,23 @@
 import { useParams, Link, Navigate } from 'react-router-dom';
 import { motion } from 'motion/react';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { MessageCircle, Shield, Sparkles, MapPin, Search, ArrowRight, Target, Star, Quote, CheckCircle, Globe, Zap, ArrowUpRight } from 'lucide-react';
 import { CITIES } from '../data/AreasData';
-import { SERVICES_DATA } from '../data/ServicesData';
+import { SERVICE_DEFINITIONS } from '../data/ServiceDefinition';
 import MetaTags from '../components/atoms/MetaTags';
 import TextRevealSmooth from '../components/atoms/TextRevealSmooth';
+import { Skeleton } from '../components/atoms/Skeleton';
 import Breadcrumbs from '../components/atoms/Breadcrumbs';
 
 export default function AreaDetailPage() {
   const { cityName } = useParams<{ cityName: string }>();
+  const [loading, setLoading] = useState(true);
+  
+  useEffect(() => {
+    setLoading(true);
+    const timer = setTimeout(() => setLoading(false), 500);
+    return () => clearTimeout(timer);
+  }, [cityName]);
 
   // Validate city name
   const upperCity = cityName?.toUpperCase() || '';
@@ -40,6 +48,19 @@ export default function AreaDetailPage() {
   };
 
   const currentStats = cityStats[upperCity] || defaultStats;
+
+  if (loading) {
+    return (
+      <div className="pt-24 pb-20 min-h-screen font-sans bg-transparent">
+        <div className="max-w-[1400px] mx-auto px-6 md:px-12 mt-12 flex flex-col items-center">
+          <Skeleton className="w-64 h-8 rounded-full mb-6" />
+          <Skeleton className="w-full max-w-3xl h-24 rounded-2xl mb-8" />
+          <Skeleton className="w-96 h-12 rounded-full mb-16" />
+          <Skeleton className="w-full h-[400px] rounded-3xl" />
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="pt-24 pb-28 min-h-screen relative bg-transparent text-slate-900 overflow-hidden">
@@ -217,7 +238,7 @@ export default function AreaDetailPage() {
         </div>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-          {SERVICES_DATA.map((service, idx) => (
+          {SERVICE_DEFINITIONS.map((service, idx) => (
             <motion.div
               key={service.slug}
               initial={{ opacity: 0, y: 15 }}
@@ -228,8 +249,8 @@ export default function AreaDetailPage() {
             >
               <div>
                 <span className="font-mono text-[8px] text-slate-500 tracking-widest uppercase block mb-1.5">LAYANAN UTAMA</span>
-                <h3 className="font-display font-bold text-base text-slate-900 mb-1.5">{service.name}</h3>
-                <p className="text-xs text-slate-600 font-sans leading-relaxed line-clamp-2 mb-4">{service.desc}</p>
+                <h3 className="font-display font-bold text-base text-slate-900 mb-1.5">{service.title}</h3>
+                <p className="text-xs text-slate-600 font-sans leading-relaxed line-clamp-2 mb-4">{service.description}</p>
               </div>
 
               <div className="pt-3 border-t border-slate-100 flex items-center justify-between">

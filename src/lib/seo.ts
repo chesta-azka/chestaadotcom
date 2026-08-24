@@ -1,10 +1,10 @@
 export const generateLocalBusinessSchema = () => {
   return {
     "@context": "https://schema.org",
-    "@type": "ProfessionalService",
-    "name": "CHESTADOTCOM - Digital Architect",
+    "@type": ["Organization", "LocalBusiness", "ProfessionalService"],
+    "name": "chestaa.com - Arsitek Web & AI Automation",
     "image": "https://chestaa.com/favicon.svg",
-    "description": "Jasa pembuatan website premium dan implementasi Agentic AI untuk otomasi bisnis.",
+    "description": "Elite B2B Software House specializing in High-Performance Web Development and AI Automation.",
     "address": {
       "@type": "PostalAddress",
       "streetAddress": "BSD Green Office Park",
@@ -14,8 +14,8 @@ export const generateLocalBusinessSchema = () => {
     },
     "geo": {
       "@type": "GeoCoordinates",
-      "latitude": -6.299,
-      "longitude": 106.657
+      "latitude": -6.3042,
+      "longitude": 106.6439
     },
     "url": "https://chestaa.com",
     "priceRange": "$$",
@@ -25,7 +25,17 @@ export const generateLocalBusinessSchema = () => {
       "contactType": "customer service",
       "email": "hello@chestaa.com",
       "telephone": "+6282125447232"
-    }
+    },
+    "areaServed": [
+      { "@type": "City", "name": "BSD City" },
+      { "@type": "City", "name": "Cisauk" }
+    ],
+    "knowsAbout": [
+      "Next.js Web Development",
+      "AI Agents",
+      "Groq API",
+      "Bot Automation"
+    ]
   };
 };
 

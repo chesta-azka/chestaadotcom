@@ -20,6 +20,7 @@ import {
 import { useSearchParams, Link } from 'react-router-dom';
 import MetaTags from '../components/atoms/MetaTags.tsx';
 import BlogSEO from '../components/atoms/BlogSEO.tsx';
+import Breadcrumbs from '../components/atoms/Breadcrumbs';
 import { ALL_ARTICLES, Article } from '../data/blogData';
 import CreativityMarquee from '../components/organisms/CreativityMarquee.tsx';
 
@@ -84,7 +85,7 @@ export default function BlogHubPage() {
   const postsPerPage = 6;
 
   // Categories list
-  const categories = ['All', 'Web Development', 'AI Solutions', 'Digital Transformation', 'Design', 'SEO', 'Strategy'];
+  const categories = ['All', 'AI Trends', 'Web Development', 'SEO', 'Strategy', 'Design', 'Copywriting', 'Personal'];
 
   // Trending tags list
   const popularTags = ['Agentic AI', 'Local SEO', 'Core Web Vitals', 'Conversion', 'Automation', 'WhatsApp Bot', 'Micro-Interactions'];
@@ -191,6 +192,7 @@ export default function BlogHubPage() {
             transition={{ duration: 0.4, ease: "easeOut" }}
             className="mx-auto max-w-4xl px-6 pt-8 relative z-10 flex flex-col items-center"
           >
+            <Breadcrumbs items={[{ label: 'Insight', path: '/blog' }, { label: activeArticle.title }]} />
             <MetaTags 
               title={`${activeArticle.title} — CHESTADOTCOM Journal`} 
               description={activeArticle.desc} 
@@ -441,7 +443,8 @@ export default function BlogHubPage() {
               <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-gradient-to-bl from-indigo-500/10 via-purple-500/5 to-transparent blur-3xl rounded-full pointer-events-none" />
 
               <div className="mx-auto max-w-7xl px-6 w-full relative z-10">
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-end">
+                <Breadcrumbs items={[{ label: 'Insight', path: '/blog' }]} />
+                <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-end mt-4">
                   <div className="lg:col-span-7">
                     <motion.div
                       initial={{ opacity: 0, y: 15 }}

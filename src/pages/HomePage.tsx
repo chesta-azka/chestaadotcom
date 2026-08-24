@@ -39,58 +39,58 @@ export default function HomePage() {
       <FadeInSection className="snap-start"><StatsCounter /></FadeInSection>
       
       <SectionSeparator />
-      <SectionGlassCard index={0} metaLabel="AI CAPABILITIES" className="snap-start" serviceType="ai">
+      <SectionGlassCard index={0} metaLabel="KAPABILITAS AI" className="snap-start" serviceType="ai">
         <AISolutionsSection />
       </SectionGlassCard>
 
       <SectionSeparator />
-      <SectionGlassCard index={1} metaLabel="OUR SERVICES" className="snap-start" serviceType="software">
+      <SectionGlassCard index={1} metaLabel="LAYANAN KAMI" className="snap-start" serviceType="software">
         <ServicesSection />
       </SectionGlassCard>
 
       <SectionSeparator />
-      <SectionGlassCard index={2} metaLabel="ENTERPRISE WORKFLOW" className="snap-start">
+      <SectionGlassCard index={2} metaLabel="ALUR KERJA KORPORASI" className="snap-start">
         <WorkflowSection />
       </SectionGlassCard>
       
       <SectionSeparator />
       
-      <SectionGlassCard index={2} metaLabel="AI ROADMAP SIMULATOR" className="snap-start">
+      <SectionGlassCard index={2} metaLabel="SIMULATOR ROADMAP AI" className="snap-start">
         <WorkflowAutomation />
       </SectionGlassCard>
 
       <SectionSeparator />
-      <SectionGlassCard index={3} metaLabel="CLIENT SUCCESS" className="snap-start">
+      <SectionGlassCard index={3} metaLabel="KESUKSESAN KLIEN" className="snap-start">
         <TestimonialSection />
       </SectionGlassCard>
 
       <SectionSeparator />
-      <SectionGlassCard index={4} metaLabel="PROJECT GALLERY">
+      <SectionGlassCard index={4} metaLabel="GALERI PROYEK">
         <ProjectsSection />
       </SectionGlassCard>
 
       <SectionSeparator />
-      <SectionGlassCard index={5} metaLabel="INVESTMENT">
+      <SectionGlassCard index={5} metaLabel="INVESTASI">
         <PricingSection />
       </SectionGlassCard>
 
       <SectionSeparator />
-      <SectionGlassCard index={6} metaLabel="FAQ">
+      <SectionGlassCard index={6} metaLabel="TANYA JAWAB (FAQ)">
         <FaqSection />
       </SectionGlassCard>
 
       <SectionSeparator />
-      <SectionGlassCard index={7} metaLabel="GET IN TOUCH">
+      <SectionGlassCard index={7} metaLabel="HUBUNGI KAMI">
         <ContactSection />
       </SectionGlassCard>
 
       <SectionSeparator />
-      <SectionGlassCard index={8} metaLabel="INSIGHTS & BLOG">
+      <SectionGlassCard index={8} metaLabel="WAWASAN & ARTIKEL">
         <BlogSection />
       </SectionGlassCard>
 
       <SectionSeparator />
-      <SectionGlassCard index={9} metaLabel="TECH TRENDS">
+      <SectionGlassCard index={9} metaLabel="TREN TEKNOLOGI">
         <InsightsSection />
       </SectionGlassCard>
 

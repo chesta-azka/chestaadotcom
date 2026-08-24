@@ -1,9 +1,11 @@
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Search, Home, Briefcase, FileText, Phone, Zap, ChevronRight, LayoutGrid, Moon, BookOpen, Sparkles, MessageCircle } from 'lucide-react';
+import { Search, Home, MapPin, Briefcase, FileText, Phone, Zap, ChevronRight, LayoutGrid, Moon, BookOpen, Sparkles, MessageCircle } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { ALL_ARTICLES } from '../../data/blogData';
 import { PROJECTS } from '../../data/projects';
+import { SERVICE_DEFINITIONS } from '../../data/ServiceDefinition';
+import { CITIES } from '../../data/AreasData';
 
 type ActionItem = {
   id: string;
@@ -120,13 +122,25 @@ export default function CommandPalette() {
     category: 'Projects'
   }));
 
-  const SERVICE_ACTIONS: ActionItem[] = [
-    { id: 'srv-web', title: 'Web Development', subtitle: 'Layanan Pembuatan Website Premium', icon: Zap, path: '/services#web', category: 'Services' },
-    { id: 'srv-ai', title: 'AI Solutions', subtitle: 'Integrasi AI & Automasi Bisnis', icon: Zap, path: '/services#ai', category: 'Services' },
-    { id: 'srv-seo', title: 'SEO Optimization', subtitle: 'Optimasi Mesin Pencari Google', icon: Zap, path: '/services#seo', category: 'Services' }
-  ];
+  const SERVICE_ACTIONS: ActionItem[] = SERVICE_DEFINITIONS.map(srv => ({
+    id: `srv-${srv.slug}`,
+    title: srv.title,
+    subtitle: srv.description,
+    icon: srv.icon || Zap,
+    path: `/layanan/${srv.slug}`,
+    category: 'Services'
+  }));
 
-  const ALL_ACTIONS = [...STATIC_ACTIONS, ...SERVICE_ACTIONS, ...PROJECT_ACTIONS, ...ARTICLE_ACTIONS];
+  const AREA_ACTIONS: ActionItem[] = CITIES.map(city => ({
+    id: `area-${city.toLowerCase()}`,
+    title: `Layanan di ${city}`,
+    subtitle: `Solusi digital premium untuk area ${city}`,
+    icon: MapPin,
+    path: `/area/${city.toLowerCase()}`,
+    category: 'Areas'
+  }));
+
+  const ALL_ACTIONS = [...STATIC_ACTIONS, ...SERVICE_ACTIONS, ...AREA_ACTIONS, ...PROJECT_ACTIONS, ...ARTICLE_ACTIONS];
 
   const displayedActions = searchQuery.trim() === ''
     ? SUGGESTED_ACTIONS

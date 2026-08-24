@@ -98,7 +98,7 @@ export default function WorkflowAutomation() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
         <SectionHeader 
           metaTag="AI WORKFLOW"
-          title="Interactive Project Roadmap"
+          title="Interactive Peta Jalan Proyek"
           description="Konsultasikan ide proyek Anda secara instan. Agentic AI kami akan merumuskan blueprint dan milestone pengembangan (Roadmap) secara real-time."
           align="center"
         />
@@ -119,7 +119,7 @@ export default function WorkflowAutomation() {
                   </div>
                   <div>
                     <h3 className="font-display font-semibold text-lg text-slate-900">AI Project Architect</h3>
-                    <p className="text-xs font-sans text-slate-500">Powered by Gemini</p>
+                    <p className="text-xs font-sans text-slate-500">Didukung oleh Gemini</p>
                   </div>
                 </div>
 
@@ -170,7 +170,7 @@ export default function WorkflowAutomation() {
               <div className="flex items-center justify-between mb-8 pb-4 border-b border-slate-200">
                 <h3 className="font-display font-semibold text-xl text-slate-900 flex items-center gap-2">
                   <GitMerge className="text-indigo-600" size={24} />
-                  Project Roadmap
+                  Peta Jalan Proyek
                 </h3>
                 {generated && (
                   <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-100 text-emerald-700 text-xs font-medium font-sans">

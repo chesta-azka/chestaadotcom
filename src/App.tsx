@@ -1,13 +1,13 @@
-/**
- * @license
- * SPDX-License-Identifier: Apache-2.0
- */
+import { Toaster } from 'react-hot-toast';
+import React from "react";
+import { AuthProvider } from './contexts/AuthContext';
 
-import { motion, useScroll, useTransform } from 'motion/react';
+import { motion, useScroll, useTransform, AnimatePresence } from 'motion/react';
 import { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { Analytics } from '@vercel/analytics/react';
 import Lenis from 'lenis';
+
 import WebVitalsTracker from './components/atoms/WebVitalsTracker.tsx';
 import CommandPalette from './components/organisms/CommandPalette.tsx';
 import Header from './components/organisms/Header.tsx';
@@ -15,6 +15,7 @@ import FooterSection from './components/organisms/FooterSection.tsx';
 import FloatingAIAssistant from './components/organisms/FloatingAIAssistant.tsx';
 import LoadingScreen from './components/organisms/LoadingScreen.tsx';
 import InteractiveBackground from './components/atoms/InteractiveBackground.tsx';
+
 import HomePage from './pages/HomePage.tsx';
 import BlogHubPage from './pages/BlogHubPage.tsx';
 import ServicesPage from './pages/ServicesPage.tsx';
@@ -36,68 +37,111 @@ function ScrollToTop() {
   return null;
 }
 
+// Inner component to use location for AnimatePresence
+function AppContent({ appLoaded }: { appLoaded: boolean }) {
+  const location = useLocation();
+  
+  return (
+    <div className="relative z-10 w-full max-w-7xl mx-auto flex flex-col">
+      <LoadingScreen onComplete={() => {}} />
+      
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={appLoaded ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
+        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
+        className="flex flex-col flex-1"
+      >
+        <Header />
+        
+        <AnimatePresence mode="wait">
+          <Routes location={location} >
+            <Route path="/" element={<PageWrapper><HomePage /></PageWrapper>} />
+            <Route path="/blog" element={<PageWrapper><BlogHubPage /></PageWrapper>} />
+            <Route path="/services" element={<PageWrapper><ServicesPage /></PageWrapper>} />
+            <Route path="/portfolio" element={<PageWrapper><PortfolioPage /></PageWrapper>} />
+            <Route path="/portfolio/:id" element={<PageWrapper><ProjectDetailPage /></PageWrapper>} />
+            <Route path="/about" element={<PageWrapper><AboutPage /></PageWrapper>} />
+            <Route path="/layanan/:slug" element={<PageWrapper><ServiceDetailPage /></PageWrapper>} />
+            <Route path="/area/:cityName" element={<PageWrapper><AreaDetailPage /></PageWrapper>} />
+            <Route path="/admin" element={<PageWrapper><AdminPage /></PageWrapper>} />
+            <Route path="*" element={<PageWrapper><NotFoundPage /></PageWrapper>} />
+          </Routes>
+        </AnimatePresence>
+        
+        <FooterSection />
+      </motion.div>
+      <FloatingAIAssistant />
+    </div>
+  );
+}
+
+// Simple page transition wrapper
+function PageWrapper({ children }: { children: React.ReactNode }) {
+  return (
+    <>
+      <motion.div
+        initial={{ opacity: 0, y: 10 }}
+        animate={{ opacity: 1, y: 0 }}
+        exit={{ opacity: 0 }}
+        transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+        className="flex flex-col flex-1"
+      >
+        {children}
+      </motion.div>
+      <motion.div
+        className="fixed top-0 left-0 w-full h-full bg-white z-50 origin-bottom pointer-events-none"
+        initial={{ scaleY: 1 }}
+        animate={{ scaleY: 0 }}
+        exit={{ scaleY: 1 }}
+        transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+      />
+      <motion.div
+        className="fixed top-0 left-0 w-full h-full bg-black z-50 origin-bottom pointer-events-none"
+        initial={{ scaleY: 1 }}
+        animate={{ scaleY: 0 }}
+        exit={{ scaleY: 1 }}
+        transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
+      />
+    </>
+  );
+}
+
 export default function App() {
   const [appLoaded, setAppLoaded] = useState(false);
 
   useEffect(() => {
+    // Initial hydration signal
+    const timer = setTimeout(() => {
+      setAppLoaded(true);
+    }, 800);
+    
     const lenis = new Lenis();
-
     function raf(time: number) {
       lenis.raf(time);
       requestAnimationFrame(raf);
     }
-
     requestAnimationFrame(raf);
     
     return () => {
       lenis.destroy();
+      clearTimeout(timer);
     };
   }, []);
 
-  const { scrollY } = useScroll();
-  const gridY = useTransform(scrollY, [0, 6000], [0, -360]);
-
   return (
     <Router>
-        <ScrollToTop />
-        <Analytics />
-      <motion.main 
-        initial={{ opacity: 0 }}
-        animate={{ opacity: 1 }}
-        transition={{ type: 'spring', stiffness: 100, damping: 20 }}
-        className="bg-white text-gray-900 relative min-h-screen"
-      >
+      <AuthProvider>
+      <ScrollToTop />
+      <Analytics />
+      <main className="bg-[#fbfbfd] text-gray-900 relative min-h-screen">
         <InteractiveBackground />
         <WebVitalsTracker />
         <CommandPalette />
         
-        <div className="relative z-10 w-full max-w-7xl mx-auto flex flex-col">
-          <LoadingScreen onComplete={() => setAppLoaded(true)} />
-          
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={appLoaded ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
-            className="flex flex-col flex-1"
-          >
-            <Header />
-            <Routes>
-              <Route path="/" element={<HomePage />} />
-              <Route path="/blog" element={<BlogHubPage />} />
-              <Route path="/services" element={<ServicesPage />} />
-              <Route path="/portfolio" element={<PortfolioPage />} />
-              <Route path="/portfolio/:id" element={<ProjectDetailPage />} />
-              <Route path="/about" element={<AboutPage />} />
-              <Route path="/layanan/:slug" element={<ServiceDetailPage />} />
-              <Route path="/area/:cityName" element={<AreaDetailPage />} />
-              <Route path="/admin" element={<AdminPage />} />
-              <Route path="*" element={<NotFoundPage />} />
-            </Routes>
-            <FooterSection />
-          </motion.div>
-          <FloatingAIAssistant />
-        </div>
-      </motion.main>
+        <AppContent appLoaded={appLoaded} />
+        <Toaster position="bottom-left" toastOptions={{ style: { background: "#1e293b", color: "#fff", fontSize: "14px", borderRadius: "12px", fontFamily: "sans-serif" } }} />
+      </main>
+    </AuthProvider>
     </Router>
   );
 }

@@ -2,187 +2,313 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://chestaa.com/</loc>
-    <lastmod>2026-08-21T14:53:23.218Z</lastmod>
+    <lastmod>2026-08-24T11:34:38.612Z</lastmod>
     <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://chestaa.com/services</loc>
-    <lastmod>2026-08-21T14:53:23.218Z</lastmod>
+    <lastmod>2026-08-24T11:34:38.612Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://chestaa.com/projects</loc>
-    <lastmod>2026-08-21T14:53:23.218Z</lastmod>
+    <lastmod>2026-08-24T11:34:38.612Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://chestaa.com/blog</loc>
-    <lastmod>2026-08-21T14:53:23.218Z</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://chestaa.com/contact</loc>
-    <lastmod>2026-08-21T14:53:23.218Z</lastmod>
+    <lastmod>2026-08-24T11:34:38.612Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://chestaa.com/about</loc>
-    <lastmod>2026-08-21T14:53:23.218Z</lastmod>
+    <lastmod>2026-08-24T11:34:38.612Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
     <loc>https://chestaa.com/area/jakarta</loc>
-    <lastmod>2026-08-21T14:53:23.218Z</lastmod>
+    <lastmod>2026-08-24T11:34:38.612Z</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.85</priority>
   </url>
   <url>
     <loc>https://chestaa.com/area/bandung</loc>
-    <lastmod>2026-08-21T14:53:23.218Z</lastmod>
+    <lastmod>2026-08-24T11:34:38.612Z</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.85</priority>
   </url>
   <url>
     <loc>https://chestaa.com/area/bekasi</loc>
-    <lastmod>2026-08-21T14:53:23.218Z</lastmod>
+    <lastmod>2026-08-24T11:34:38.612Z</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.85</priority>
   </url>
   <url>
     <loc>https://chestaa.com/area/surabaya</loc>
-    <lastmod>2026-08-21T14:53:23.218Z</lastmod>
+    <lastmod>2026-08-24T11:34:38.612Z</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.85</priority>
   </url>
   <url>
     <loc>https://chestaa.com/area/medan</loc>
-    <lastmod>2026-08-21T14:53:23.218Z</lastmod>
+    <lastmod>2026-08-24T11:34:38.612Z</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.85</priority>
   </url>
   <url>
     <loc>https://chestaa.com/area/depok</loc>
-    <lastmod>2026-08-21T14:53:23.218Z</lastmod>
+    <lastmod>2026-08-24T11:34:38.612Z</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.85</priority>
   </url>
   <url>
     <loc>https://chestaa.com/area/tangerang</loc>
-    <lastmod>2026-08-21T14:53:23.218Z</lastmod>
+    <lastmod>2026-08-24T11:34:38.612Z</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.85</priority>
   </url>
   <url>
     <loc>https://chestaa.com/area/semarang</loc>
-    <lastmod>2026-08-21T14:53:23.218Z</lastmod>
+    <lastmod>2026-08-24T11:34:38.612Z</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.85</priority>
   </url>
   <url>
     <loc>https://chestaa.com/area/palembang</loc>
-    <lastmod>2026-08-21T14:53:23.218Z</lastmod>
+    <lastmod>2026-08-24T11:34:38.612Z</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.85</priority>
   </url>
   <url>
     <loc>https://chestaa.com/area/makassar</loc>
-    <lastmod>2026-08-21T14:53:23.218Z</lastmod>
+    <lastmod>2026-08-24T11:34:38.612Z</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.85</priority>
   </url>
   <url>
     <loc>https://chestaa.com/area/bogor</loc>
-    <lastmod>2026-08-21T14:53:23.218Z</lastmod>
+    <lastmod>2026-08-24T11:34:38.612Z</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.85</priority>
   </url>
   <url>
     <loc>https://chestaa.com/area/malang</loc>
-    <lastmod>2026-08-21T14:53:23.218Z</lastmod>
+    <lastmod>2026-08-24T11:34:38.612Z</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.85</priority>
   </url>
   <url>
     <loc>https://chestaa.com/area/jogja</loc>
-    <lastmod>2026-08-21T14:53:23.218Z</lastmod>
+    <lastmod>2026-08-24T11:34:38.612Z</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.85</priority>
   </url>
   <url>
     <loc>https://chestaa.com/area/bali</loc>
-    <lastmod>2026-08-21T14:53:23.218Z</lastmod>
+    <lastmod>2026-08-24T11:34:38.612Z</lastmod>
     <changefreq>weekly</changefreq>
-    <priority>0.9</priority>
+    <priority>0.85</priority>
   </url>
   <url>
     <loc>https://chestaa.com/area/denpasar</loc>
-    <lastmod>2026-08-21T14:53:23.218Z</lastmod>
+    <lastmod>2026-08-24T11:34:38.612Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://chestaa.com/layanan/web-development</loc>
+    <lastmod>2026-08-24T11:34:38.612Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://chestaa.com/layanan/ai-agents</loc>
+    <lastmod>2026-08-24T11:34:38.612Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://chestaa.com/layanan/shopify-optimization</loc>
+    <lastmod>2026-08-24T11:34:38.612Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://chestaa.com/layanan/cloud-infrastructure</loc>
+    <lastmod>2026-08-24T11:34:38.612Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://chestaa.com/layanan/landing-page-conversion</loc>
+    <lastmod>2026-08-24T11:34:38.612Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://chestaa.com/layanan/seo-auditing</loc>
+    <lastmod>2026-08-24T11:34:38.612Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://chestaa.com/layanan/bot-automation</loc>
+    <lastmod>2026-08-24T11:34:38.612Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://chestaa.com/layanan/api-integration</loc>
+    <lastmod>2026-08-24T11:34:38.612Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://chestaa.com/layanan/performance-tuning</loc>
+    <lastmod>2026-08-24T11:34:38.612Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://chestaa.com/layanan/ui-ux-prototyping</loc>
+    <lastmod>2026-08-24T11:34:38.612Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://chestaa.com/area/bsd</loc>
+    <lastmod>2026-08-24T11:34:38.612Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://chestaa.com/area/bsd/web-development</loc>
+    <lastmod>2026-08-24T11:34:38.612Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://chestaa.com/layanan/0</loc>
-    <lastmod>2026-08-21T14:53:23.218Z</lastmod>
+    <loc>https://chestaa.com/area/bsd/ai-agents</loc>
+    <lastmod>2026-08-24T11:34:38.612Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://chestaa.com/layanan/1</loc>
-    <lastmod>2026-08-21T14:53:23.218Z</lastmod>
+    <loc>https://chestaa.com/area/bsd/shopify-optimization</loc>
+    <lastmod>2026-08-24T11:34:38.612Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://chestaa.com/layanan/2</loc>
-    <lastmod>2026-08-21T14:53:23.218Z</lastmod>
+    <loc>https://chestaa.com/area/bsd/cloud-infrastructure</loc>
+    <lastmod>2026-08-24T11:34:38.612Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://chestaa.com/layanan/3</loc>
-    <lastmod>2026-08-21T14:53:23.218Z</lastmod>
+    <loc>https://chestaa.com/area/bsd/landing-page-conversion</loc>
+    <lastmod>2026-08-24T11:34:38.612Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://chestaa.com/layanan/4</loc>
-    <lastmod>2026-08-21T14:53:23.218Z</lastmod>
+    <loc>https://chestaa.com/area/bsd/seo-auditing</loc>
+    <lastmod>2026-08-24T11:34:38.612Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://chestaa.com/layanan/5</loc>
-    <lastmod>2026-08-21T14:53:23.218Z</lastmod>
+    <loc>https://chestaa.com/area/bsd/bot-automation</loc>
+    <lastmod>2026-08-24T11:34:38.612Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://chestaa.com/layanan/6</loc>
-    <lastmod>2026-08-21T14:53:23.218Z</lastmod>
+    <loc>https://chestaa.com/area/bsd/api-integration</loc>
+    <lastmod>2026-08-24T11:34:38.612Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://chestaa.com/layanan/7</loc>
-    <lastmod>2026-08-21T14:53:23.218Z</lastmod>
+    <loc>https://chestaa.com/area/bsd/performance-tuning</loc>
+    <lastmod>2026-08-24T11:34:38.612Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://chestaa.com/layanan/8</loc>
-    <lastmod>2026-08-21T14:53:23.218Z</lastmod>
+    <loc>https://chestaa.com/area/bsd/ui-ux-prototyping</loc>
+    <lastmod>2026-08-24T11:34:38.612Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://chestaa.com/layanan/9</loc>
-    <lastmod>2026-08-21T14:53:23.218Z</lastmod>
+    <loc>https://chestaa.com/area/cisauk</loc>
+    <lastmod>2026-08-24T11:34:38.612Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.85</priority>
+  </url>
+  <url>
+    <loc>https://chestaa.com/area/cisauk/web-development</loc>
+    <lastmod>2026-08-24T11:34:38.612Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://chestaa.com/area/cisauk/ai-agents</loc>
+    <lastmod>2026-08-24T11:34:38.612Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://chestaa.com/area/cisauk/shopify-optimization</loc>
+    <lastmod>2026-08-24T11:34:38.612Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://chestaa.com/area/cisauk/cloud-infrastructure</loc>
+    <lastmod>2026-08-24T11:34:38.612Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://chestaa.com/area/cisauk/landing-page-conversion</loc>
+    <lastmod>2026-08-24T11:34:38.612Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://chestaa.com/area/cisauk/seo-auditing</loc>
+    <lastmod>2026-08-24T11:34:38.612Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://chestaa.com/area/cisauk/bot-automation</loc>
+    <lastmod>2026-08-24T11:34:38.612Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://chestaa.com/area/cisauk/api-integration</loc>
+    <lastmod>2026-08-24T11:34:38.612Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://chestaa.com/area/cisauk/performance-tuning</loc>
+    <lastmod>2026-08-24T11:34:38.612Z</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url>
+    <loc>https://chestaa.com/area/cisauk/ui-ux-prototyping</loc>
+    <lastmod>2026-08-24T11:34:38.612Z</lastmod>
     <changefreq>weekly</changefreq>
     <priority>0.9</priority>
   </url>

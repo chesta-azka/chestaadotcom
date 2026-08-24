@@ -22,7 +22,7 @@ export const ALL_ARTICLES: Article[] = [
   {
     slug: 'agentic-ai-otomasi-bisnis-umkm-2026',
     title: 'Agentic AI: Revolusi Otomasi Customer Service & Sales untuk UMKM 2026',
-    cat: 'AI SOLUTIONS',
+    cat: 'AI TRENDS',
     date: '10 JUN 2026',
     readTime: '6 MIN READ',
     readTimeMinutes: 6,

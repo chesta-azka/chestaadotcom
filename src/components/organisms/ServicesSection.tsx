@@ -105,10 +105,10 @@ export default function ServicesSection() {
           {mainServices.map((service, index) => (
             <motion.div
               key={service.slug}
-              initial={{ opacity: 0, y: 15 }}
+              initial={{ opacity: 0, y: 50 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.5, delay: index * 0.08 }}
+              transition={{ type: "spring", stiffness: 100, damping: 20, delay: index * 0.1 }}
               className="group block"
             >
               <Link
@@ -268,7 +268,7 @@ export default function ServicesSection() {
           <div className="p-8 md:p-12">
             <div className="text-center mb-12 md:mb-16">
               <span className="text-[#4f46e5] font-sans font-medium text-[10px] uppercase tracking-[0.25em] block mb-4">
-                TECHNICAL SUPERIORITY
+                KEUNGGULAN TEKNIS
               </span>
               <h3 className="text-2xl sm:text-3xl md:text-4xl font-display font-medium tracking-tight mb-5">Keunggulan Arsitektur Kami.</h3>
               <p className="text-slate-600 font-sans text-xs md:text-sm max-w-xl mx-auto leading-relaxed font-light">
@@ -278,7 +278,14 @@ export default function ServicesSection() {
             
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-10">
               {features.map((f, i) => (
-                <div key={i} className="flex gap-4 sm:gap-6 lg:flex-col lg:gap-4 relative group">
+                <motion.div 
+                  key={i} 
+                  className="flex gap-4 sm:gap-6 lg:flex-col lg:gap-4 relative group"
+                  initial={{ opacity: 0, y: 30 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true, margin: "-50px" }}
+                  transition={{ type: "spring", stiffness: 100, damping: 20, delay: i * 0.1 }}
+                >
                   <div className="w-12 h-12 shrink-0 rounded-xl bg-white border border-[#4f46e5]/20 flex items-center justify-center text-[#4f46e5] group-hover:bg-[#4f46e5] group-hover:text-white transition-colors duration-300 shadow-sm">
                     <f.icon size={22} />
                   </div>
@@ -290,7 +297,7 @@ export default function ServicesSection() {
                       {f.desc}
                     </p>
                   </div>
-                </div>
+                </motion.div>
               ))}
             </div>
           </div>

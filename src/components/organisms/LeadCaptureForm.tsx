@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import toast from 'react-hot-toast';
 import { motion, AnimatePresence } from 'motion/react';
 import { ArrowRight, ArrowLeft, CheckCircle2, ChevronRight } from 'lucide-react';
 
@@ -56,6 +57,7 @@ export default function LeadCaptureForm() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setIsSubmitted(true);
+    toast.success('Formulir berhasil diproses! Mengarahkan ke WhatsApp...');
     // In a real app, send data to backend or CRM here
     const message = `Halo CHESTADOTCOM, saya tertarik untuk kolaborasi:%0A%0A*Tujuan Proyek:* ${formData.project_type}%0A*Estimasi Budget:* ${formData.budget}%0A*Nama:* ${formData.name}%0A*Perusahaan:* ${formData.company}%0A*Email:* ${formData.email}`;
     window.open(`https://wa.me/6282125447232?text=${message}`, '_blank');

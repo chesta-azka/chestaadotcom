@@ -78,7 +78,7 @@ export default function HeroSection() {
             className="inline-flex items-center gap-2 sm:gap-2.5 px-4 py-2 sm:px-5 sm:py-2.5 rounded-full bg-white/90 backdrop-blur-md border border-indigo-100/80 shadow-sm text-[9px] sm:text-[10px] lg:text-xs font-mono tracking-widest uppercase shrink-0 max-w-full"
           >
             <Sparkles strokeWidth={1} size={12} className="text-indigo-500 animate-[pulse_3s_ease-in-out_infinite] shrink-0" />
-            <span className="font-bold tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600 truncate">ENTERPRISE DIGITAL ARCHITECT</span>
+            <span className="font-bold tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600 truncate">AGENCY WEB DEVELOPMENT</span>
           </motion.div>
 
           {/* Master Typographic Headline */}
@@ -92,9 +92,9 @@ export default function HeroSection() {
               transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
               className="text-[2.25rem] min-[400px]:text-[2.75rem] sm:text-[3.5rem] md:text-[4.5rem] lg:text-[5.25rem] xl:text-[6rem] font-display font-medium tracking-tight leading-[1.05] text-slate-900 text-balance break-words"
             >
-              Intelligent Digital <br className="hidden sm:block"/>
+              Jasa Pembuatan Website <br className="hidden sm:block"/>
               <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-indigo-500 to-purple-600">
-                Transformation.
+                Premium & Profesional.
               </span>
             </motion.h1>
 
@@ -104,7 +104,7 @@ export default function HeroSection() {
               transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.3 }}
               className="text-sm sm:text-base md:text-lg lg:text-xl text-slate-600 font-sans max-w-xl leading-relaxed font-light"
             >
-              Kemitraan strategis untuk korporasi modern. Kami membangun Scalable Cloud Architecture dan menerapkan Agentic AI Integration untuk mengakselerasi ekspansi dan automasi proses bisnis.
+              Kemitraan strategis untuk korporasi modern. Kami merancang arsitektur cloud berkinerja tinggi dan mengintegrasikan kecerdasan buatan (AI) terdepan untuk mempercepat ekspansi serta otomatisasi bisnis Anda.
             </motion.p>
           </motion.div>
 
@@ -163,7 +163,7 @@ export default function HeroSection() {
             <div className="w-10 h-10 rounded-xl bg-indigo-50 flex items-center justify-center mb-4 text-indigo-600 border border-indigo-100">
               <Cpu strokeWidth={1} size={20} />
             </div>
-            <h3 className="font-sans font-bold text-slate-900 text-lg mb-2">Agentic Automation</h3>
+            <h3 className="font-sans font-bold text-slate-900 text-lg mb-2">Otomatisasi Cerdas</h3>
             <p className="text-sm text-slate-500 font-sans leading-relaxed">Ekosistem AI cerdas untuk memangkas redundansi operasional.</p>
           </motion.div>
 
@@ -177,7 +177,7 @@ export default function HeroSection() {
             <div className="w-10 h-10 rounded-xl bg-slate-900 flex items-center justify-center mb-4 text-white">
               <ShieldCheck strokeWidth={1} size={20} />
             </div>
-            <h3 className="font-sans font-bold text-slate-900 text-lg mb-2">Enterprise Security</h3>
+            <h3 className="font-sans font-bold text-slate-900 text-lg mb-2">Keamanan Korporasi</h3>
             <p className="text-sm text-slate-500 font-sans leading-relaxed">Arsitektur berlapis memastikan data dan sistem Anda terlindungi maksimal.</p>
           </motion.div>
 
