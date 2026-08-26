@@ -1,4 +1,8 @@
 import { Helmet } from 'react-helmet-async';
+import { useEffect, useState } from 'react';
+import { doc, getDoc } from 'firebase/firestore';
+import { db } from '../../lib/firebase';
+
 import SchemaMarkup from './SchemaMarkup';
 import { 
   generateLocalBusinessSchema, 
@@ -23,12 +27,42 @@ export default function MetaTags({ title, description, path = '/', breadcrumbs, 
   const defaultDesc = "Solusi B2B Software House elit. Tingkatkan skala bisnis Enterprise dan Tech Startup Anda dengan High-Performance Web Development dan AI Automation di BSD City & Cisauk.";
   
   // Enforce high-density local keywords dynamically across all routes
-  let finalTitle = title ? (title.includes('CHESTADOTCOM') || title.includes('chestaa') ? title : `${title} | CHESTADOTCOM`) : defaultTitle;
+  
+  const [dynamicSeo, setDynamicSeo] = useState<{title?: string, description?: string}>({});
+
+  useEffect(() => {
+    const fetchSeo = async () => {
+      try {
+        const docId = path === '/' ? 'home' : path.replace(/\//g, '_');
+        const docRef = doc(db, 'seo_settings', docId);
+        const docSnap = await getDoc(docRef);
+        if (docSnap.exists()) {
+          const data = docSnap.data();
+          setDynamicSeo({
+            title: data.title || undefined,
+            description: data.description || undefined
+          });
+        }
+      } catch (e: any) {
+        if (e.message && e.message.includes('offline')) {
+          console.warn("Firestore is offline. Using default MetaTags.");
+        } else {
+          console.warn("Failed to fetch dynamic SEO (using defaults):", e.message);
+        }
+      }
+    };
+    fetchSeo();
+  }, [path]);
+
+  let finalTitle = dynamicSeo.title || title;
+  finalTitle = finalTitle ? (finalTitle.includes('CHESTADOTCOM') || finalTitle.includes('chestaa') ? finalTitle : `${finalTitle} | CHESTADOTCOM`) : defaultTitle;
+
+  // (title.includes('CHESTADOTCOM') || title.includes('chestaa') ? title : `${title} | CHESTADOTCOM`) : defaultTitle;
   if (!finalTitle.includes('BSD') && !finalTitle.includes('Cisauk')) {
       finalTitle = `${finalTitle} - BSD City & Cisauk`;
   }
   
-  let finalDesc = description || defaultDesc;
+  let finalDesc = dynamicSeo.description || description || defaultDesc;
   if (!finalDesc.includes('BSD City') && !finalDesc.includes('Cisauk')) {
       finalDesc = `${finalDesc} Kami melayani area BSD City, Cisauk, dan sekitarnya.`;
   }

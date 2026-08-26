@@ -12,6 +12,8 @@ import { injectSocialMeta } from "./src/lib/social-meta";
 
 const app = express();
 
+
+
 // Middleware to verify Firebase ID Token
 const verifyFirebaseToken = async (req, res, next) => {
   const authHeader = req.headers.authorization;
@@ -29,11 +31,17 @@ const verifyFirebaseToken = async (req, res, next) => {
   }
 };
 
+// API: Admin Verification
+app.get("/api/admin/verify", verifyFirebaseToken, (req, res) => {
+  res.status(200).json({ success: true, user: req.user });
+});
+
+
 app.use(express.json());
 
 const PORT = 3000;
 
-const groq = process.env.GROK_API_KEY ? new Groq({ apiKey: process.env.GROK_API_KEY }) : null;
+const groq = process.env.GROQ_API_KEY ? new Groq({ apiKey: process.env.GROQ_API_KEY }) : null;
 
 // Gemini initialization (optional fallback)
 let genAI: any = null;
@@ -59,9 +67,10 @@ app.post("/api/posts/validate", async (req, res) => {
     return res.status(400).json({ approved: false, reason: "Judul dan konten tidak boleh kosong." });
   }
 
-  const groqApiKey = process.env.GROK_API_KEY;
+  const groqApiKey = process.env.GROQ_API_KEY;
   if (!groqApiKey) {
-    throw new Error("GROK_API_KEY is not defined");
+    // Silently skip to fallback if no key
+    throw new Error("SKIP_GROQ");
   }
 
   try {
@@ -113,7 +122,9 @@ app.post("/api/posts/validate", async (req, res) => {
       throw new Error(`Groq API returned status ${response.status}`);
     }
   } catch (groqError) {
-    console.warn("Groq API call failed, falling back to Gemini API...", groqError);
+    if (groqError.message !== "SKIP_GROQ") {
+      console.warn("Groq API call failed, falling back to Gemini API...", groqError.message);
+    }
 
     // Fallback to Gemini if Groq is unavailable
     if (genAI) {
@@ -124,7 +135,7 @@ app.post("/api/posts/validate", async (req, res) => {
         Format JSON: { "approved": boolean, "reason": "Alasan singkat" }`;
 
         const result = await genAI.models.generateContent({
-          model: "gemini-3.5-flash",
+          model: "gemini-3.6-flash",
           contents: prompt
         });
         const text = result.text || "";
@@ -161,48 +172,80 @@ app.post("/api/chat", async (req, res) => {
   if (!messages || !Array.isArray(messages)) {
     return res.status(400).json({ error: "Messages array is required." });
   }
-  
-  if (!genAI) {
-    return res.status(500).json({ error: "Google Gemini AI not initialized." });
-  }
 
   try {
-    const systemPrompt = "Anda adalah Konsultan AI Eksklusif dari CHESTADOTCOM. Jawab dengan ramah, cerdas, dan natural.";
+    const groqKey = process.env.GROQ_API_KEY;
+    if (!groqKey) throw new Error("SKIP_GROQ");
+    const groq = new Groq({ apiKey: groqKey });
     
-    let geminiContents = messages.map((m: any) => ({
-      role: m.role === 'assistant' ? 'model' : 'user',
-      parts: [{ text: m.content }]
-    }));
+    const systemPrompt = "Anda adalah Konsultan AI Eksklusif dari CHESTADOTCOM. Jawab dengan ramah, cerdas, dan natural. DILARANG KERAS memberikan pertanyaan di akhir jawaban (seperti 'Ada yang bisa dibantu?', 'Bagaimana menurut Anda?'). Jika memberikan pilihan, selalu akhiri jawaban dengan opsi untuk diklik user (contoh: 'Ketik 1 untuk A, 2 untuk B, atau Ya/Lanjut untuk melihat lebih detail') lalu berhenti.";
+    
+    let groqMessages = [
+      { role: 'system', content: systemPrompt },
+      ...messages.map((m) => ({
+        role: m.role === 'assistant' ? 'assistant' : 'user',
+        content: m.content
+      }))
+    ];
 
-    // Setup streaming
-    res.setHeader('Content-Type', 'text/event-stream');
-    res.setHeader('Cache-Control', 'no-cache');
-    res.setHeader('Connection', 'keep-alive');
-
-    const responseStream = await genAI.models.generateContentStream({
-      model: "gemini-1.5-flash",
-      systemInstruction: systemPrompt,
-      contents: geminiContents,
+    const completion = await groq.chat.completions.create({
+      messages: groqMessages,
+      model: "llama3-8b-8192",
     });
     
-    for await (const chunk of responseStream) {
-      if (chunk.text) {
-        res.write(`data: ${JSON.stringify({ text: chunk.text })}\n\n`);
-      }
+    res.json({ reply: completion.choices[0]?.message?.content || "" });
+  } catch (error) {
+    if (error.message !== "SKIP_GROQ") {
+      console.warn("Groq chat fallback triggered.");
     }
-    res.write('data: [DONE]\n\n');
-    res.end();
-  } catch (error: any) {
-    console.error("Gemini chat failed:", error);
-    if (!res.headersSent) {
-      res.status(500).json({ error: error.message });
-    } else {
-      res.end();
+    // Fallback to Gemini if Groq fails
+    try {
+      if (!genAI) throw new Error("Gemini AI not initialized.");
+      const geminiContents = messages.map((m) => ({
+        role: m.role === 'assistant' ? 'model' : 'user',
+        parts: [{ text: m.content }]
+      }));
+      const response = await genAI.models.generateContent({
+        model: "gemini-3.6-flash",
+        config: { systemInstruction: "Anda adalah Konsultan AI Eksklusif dari CHESTADOTCOM. Jawab dengan ramah, cerdas, dan natural. DILARANG KERAS memberikan pertanyaan di akhir jawaban (seperti 'Ada yang bisa dibantu?', 'Bagaimana menurut Anda?'). Jika memberikan pilihan, selalu akhiri jawaban dengan opsi untuk diklik user (contoh: 'Ketik 1 untuk A, 2 untuk B, atau Ya/Lanjut untuk melihat lebih detail') lalu berhenti." },
+        contents: geminiContents,
+      });
+      res.json({ reply: response.text });
+    } catch (fallbackErr) {
+      console.error("Gemini fallback also failed:", fallbackErr);
+      if (!res.headersSent) {
+        res.status(500).json({ error: "Mohon maaf, layanan AI sedang mengalami gangguan jaringan atau melebihi batas kuota. Silakan coba beberapa saat lagi." });
+      }
     }
   }
 });
 
+
+// AI Did You Know Generation
+app.post("/api/ai/did-you-know", async (req, res) => {
+  const { serviceTitle } = req.body;
+  if (!serviceTitle || !genAI) {
+    return res.status(400).json({ success: false, error: "serviceTitle required" });
+  }
+  
+  try {
+    const prompt = `Berikan 1 kalimat fakta menarik ("Tahukah Anda?") atau statistik industri yang sangat spesifik dan relevan dengan layanan: "${serviceTitle}". Kalimat harus singkat, padat, profesional, berfokus pada manfaat atau metrik (seperti efisiensi, ROI, dll), dan cocok untuk audiens B2B/UMKM di Indonesia. HANYA KEMBALIKAN KALIMAT TERSEBUT.`;
+    
+    const response = await genAI.models.generateContent({
+      model: "gemini-3.6-flash",
+      contents: prompt,
+    });
+    
+    const text = response.text ? response.text.trim() : "";
+    res.json({ fact: text.replace(/^"|"$/g, '') });
+  } catch (error) {
+    console.log("Did-you-know generation failed:", error.message);
+    res.status(500).json({ error: error.message });
+  }
+});
+
 // AI Blog Generation Route
+
 app.post("/api/ai/generate-blog", async (req, res) => {
   const { prompt } = req.body;
   if (!prompt || !genAI) {
@@ -211,7 +254,7 @@ app.post("/api/ai/generate-blog", async (req, res) => {
 
   try {
     const response = await genAI.models.generateContent({
-      model: "gemini-1.5-flash",
+      model: "gemini-3.6-flash",
       contents: `Buatlah draf artikel blog profesional, mendalam, dan modern dalam Bahasa Indonesia berdasarkan topik ini: ${prompt}. 
       Artikel harus memiliki Judul yang futuristik dan Konten yang berbobot (minimal 4 paragraf).
       Gunakan gaya penulisan "Digital Architect": minimalis, teknis namun elegan, dan futuristik.
@@ -295,7 +338,7 @@ app.get("/api/ai/insights", async (req, res) => {
   try {
     const prompt = 'Berikan 3 wawasan (insight) atau tren teknologi digital terbaru yang sangat relevan untuk UMKM di Indonesia (seputar adopsi AI, Web, Digital Marketing, atau SEO). Gunakan Google Search. Kembalikan HARUS berformat JSON array of objects: [{ "title": "Judul Insight", "description": "Deskripsi singkat 2 kalimat", "link": "URL referensi/berita", "date": "Tanggal atau Bulan Tahun" }]. PENTING: JANGAN BERIKAN TEKS PENGANTAR. HANYA KEMBALIKAN JSON MURNI.';
     const response = await genAI.models.generateContent({
-      model: "gemini-1.5-flash",
+      model: "gemini-3.6-flash",
       contents: prompt,
       config: {
         tools: [{ googleSearch: {} }],
@@ -368,7 +411,7 @@ Berikan respons dalam format Markdown dengan struktur berikut:
 5. **Rekomendasi Meta Title & Description**`;
 
     const response = await genAI.models.generateContent({
-      model: "gemini-1.5-flash",
+      model: "gemini-3.6-flash",
       contents: prompt
     });
     

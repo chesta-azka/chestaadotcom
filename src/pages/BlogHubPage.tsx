@@ -1,3 +1,4 @@
+import SEOProvider from '../components/atoms/SEOProvider';
 import { useEffect, useState, useMemo } from 'react';
 import { motion, AnimatePresence, useScroll, useSpring } from 'motion/react';
 import { 
@@ -62,7 +63,8 @@ export default function BlogHubPage() {
       setIsLoading(false);
     }, 600);
     return () => clearTimeout(timer);
-  }, [selectedCategory, searchQuery, selectedTag]);
+  }, [selectedCategory, searchQuery, selectedTag, onlyRecommended]);
+
   
   // Reading progress scroll tracking
   const { scrollYProgress } = useScroll();
@@ -162,6 +164,11 @@ export default function BlogHubPage() {
   }, [activeArticle, combinedAllArticles]);
 
   return (
+    <>
+      <SEOProvider 
+        title="Insights & AI Engineering Blog | CHESTADOTCOM"
+        description="Deep dives into digital architecture, AI implementations, and enterprise solutions."
+      />
     <motion.div 
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
@@ -439,7 +446,7 @@ export default function BlogHubPage() {
             />
 
             {/* Header Hero Section */}
-            <section className="relative pt-24 pb-16 border-b border-slate-100 mb-12 overflow-hidden">
+            <section className="relative pt-32 pb-16 border-b border-slate-100 mb-12 overflow-hidden">
               <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-gradient-to-bl from-indigo-500/10 via-purple-500/5 to-transparent blur-3xl rounded-full pointer-events-none" />
 
               <div className="mx-auto max-w-7xl px-6 w-full relative z-10">
@@ -770,5 +777,6 @@ export default function BlogHubPage() {
 
       </AnimatePresence>
     </motion.div>
+    </>
   );
 }

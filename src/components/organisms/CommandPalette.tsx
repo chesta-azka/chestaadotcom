@@ -1,6 +1,7 @@
+import { usePerformance } from '../../contexts/PerformanceContext.tsx';
 import { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { Search, Home, MapPin, Briefcase, FileText, Phone, Zap, ChevronRight, LayoutGrid, Moon, BookOpen, Sparkles, MessageCircle } from 'lucide-react';
+import { Search, Home, MapPin, Briefcase, FileText, Phone, Zap, ChevronRight, LayoutGrid, Moon, BookOpen, Sparkles, MessageCircle, Activity, } from "lucide-react";
 import { useNavigate } from 'react-router-dom';
 import { ALL_ARTICLES } from '../../data/blogData';
 import { PROJECTS } from '../../data/projects';
@@ -16,11 +17,13 @@ type ActionItem = {
   path?: string;
   action?: () => void;
   shortcut?: string;
+  content?: string; // For deep search indexing
 };
 
 export default function CommandPalette() {
   const [isOpen, setIsOpen] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
+  const { performanceMode, togglePerformanceMode } = usePerformance();
   const navigate = useNavigate();
 
   const toggleTheme = () => {
@@ -36,6 +39,7 @@ export default function CommandPalette() {
 
   const STATIC_ACTIONS: ActionItem[] = [
     { id: 'theme', title: 'Toggle Dark/Light Mode', subtitle: 'Ubah tema tampilan', icon: Moon, action: toggleTheme, category: 'General', shortcut: 't' },
+    { id: 'performance', title: performanceMode ? 'Disable Performance Mode' : 'Enable Performance Mode', subtitle: 'Kurangi animasi', icon: Activity, action: togglePerformanceMode, category: 'General', shortcut: 'm' },
     { id: 'home', title: 'Beranda', subtitle: 'Kembali ke halaman utama', icon: Home, path: '/', category: 'Pages', shortcut: 'h' },
     { id: 'services', title: 'Layanan', subtitle: 'Jasa pembuatan website & AI', icon: Zap, path: '/services', category: 'Pages', shortcut: 's' },
     { id: 'portfolio', title: 'Portofolio', subtitle: 'Lihat hasil karya kami', icon: Briefcase, path: '/portfolio', category: 'Pages', shortcut: 'p' },
@@ -110,7 +114,8 @@ export default function CommandPalette() {
     subtitle: `Insight • ${art.cat}`,
     icon: BookOpen,
     path: `/blog?read=${art.slug}`,
-    category: 'Articles'
+    category: 'Articles',
+    content: art.content.join(' ')
   }));
 
   const PROJECT_ACTIONS: ActionItem[] = PROJECTS.map(proj => ({
@@ -119,7 +124,8 @@ export default function CommandPalette() {
     subtitle: `Portofolio • ${proj.category}`,
     icon: Briefcase,
     path: `/portfolio/${proj.id}`,
-    category: 'Projects'
+    category: 'Projects',
+    content: proj.description + ' ' + (proj.tags ? proj.tags.join(' ') : '')
   }));
 
   const SERVICE_ACTIONS: ActionItem[] = SERVICE_DEFINITIONS.map(srv => ({
@@ -128,7 +134,8 @@ export default function CommandPalette() {
     subtitle: srv.description,
     icon: srv.icon || Zap,
     path: `/layanan/${srv.slug}`,
-    category: 'Services'
+    category: 'Services',
+    content: srv.description + ' ' + srv.benefits.join(' ')
   }));
 
   const AREA_ACTIONS: ActionItem[] = CITIES.map(city => ({
@@ -181,9 +188,9 @@ export default function CommandPalette() {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
             transition={{ duration: 0.2, ease: "easeOut" }}
-            className="fixed top-24 left-1/2 -translate-x-1/2 w-full max-w-lg bg-white rounded-2xl shadow-2xl border border-slate-100 z-[101] overflow-hidden flex flex-col max-h-[70vh]"
+            className="fixed top-24 left-1/2 -translate-x-1/2 w-full max-w-lg bg-white/5 backdrop-blur-2xl rounded-3xl shadow-[0_20px_60px_-15px_rgba(0,0,0,0.15)] border border-white/30 ring-1 ring-white/20 z-[101] overflow-hidden flex flex-col max-h-[70vh]"
           >
-            <div className="flex items-center px-4 py-4 border-b border-slate-100">
+            <div className="flex items-center px-4 py-4 border-b border-white/40">
               <Search size={18} className="text-gray-400 mr-3" />
               <input
                 autoFocus

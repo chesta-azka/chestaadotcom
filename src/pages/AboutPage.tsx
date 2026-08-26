@@ -1,3 +1,4 @@
+import SEOProvider from '../components/atoms/SEOProvider';
 import React, { useEffect, useRef } from 'react';
 import { motion, animate, useInView } from 'motion/react';
 import { Layers, Zap, Cpu, Target, Code2, ArrowRight, CheckCircle2, ShieldCheck, Fingerprint, Activity } from 'lucide-react';
@@ -50,7 +51,8 @@ function AnimatedCounter({ to, suffix = "", duration = 2.5 }: { to: number, suff
           }
         }
       });
-      return () => controls.stop();
+      return () =>
+       controls.stop();
     }
   }, [to, inView, duration, suffix]);
 
@@ -65,6 +67,10 @@ export default function AboutPage() {
 
   return (
     <div className="flex flex-col w-full min-h-screen bg-slate-50 relative">
+      <SEOProvider 
+        title="About Us | CHESTADOTCOM"
+        description="Learn about our engineering culture and the people building the future of enterprise software."
+      />
       <LocalWeatherWidget />
       <MetaTags 
         title="Tentang - Profil & Core Competencies | CHESTADOTCOM"

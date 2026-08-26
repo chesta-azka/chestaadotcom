@@ -71,7 +71,7 @@ export default function Header() {
           initial={{ y: -20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
           transition={{ type: 'spring', stiffness: 100, damping: 20, delay: 0.2 }}
-          className={`transition-all duration-500 ease-out rounded-full px-6 flex items-center justify-between w-full max-w-5xl pointer-events-auto ${scrolled ? 'bg-white/80 backdrop-blur-2xl border border-slate-200 shadow-[0_8px_32px_rgba(0,0,0,0.12)] py-3' : 'bg-white/0 backdrop-blur-none border border-transparent shadow-none py-4'}`}
+          className={`transition-all duration-500 ease-out rounded-full px-6 flex items-center justify-between w-full max-w-5xl pointer-events-auto ${scrolled ? 'bg-white/5 backdrop-blur-xl border border-white/30 shadow-[0_8px_32px_rgba(30,41,59,0.1)] ring-1 ring-white/50 py-3' : 'bg-white/0 backdrop-blur-none border border-transparent shadow-none py-4'}`}
         >
           <Link to="/" className="flex items-center gap-2.5 group select-none pointer-events-auto">
             {/* Elegant Geometric Architectural Emblem */}
@@ -115,41 +115,22 @@ export default function Header() {
                   )}
                   
                   {isLayanan && (
-                    <div className="absolute top-full left-1/2 -translate-x-1/2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 w-[560px] pointer-events-none group-hover:pointer-events-auto z-50">
-                      <div className="bg-white rounded-3xl shadow-xl shadow-slate-900/10 border border-slate-100 p-4 relative before:absolute before:-top-2 before:left-1/2 before:-translate-x-1/2 before:w-4 before:h-4 before:bg-white before:border-l before:border-t before:border-slate-100 before:rotate-45">
-                        <div className="grid grid-cols-2 gap-x-6 gap-y-4">
-                          {/* Column 1 */}
-                          <div>
-                            <div className="px-3 py-2 text-[10px] font-mono font-bold tracking-widest text-slate-400 uppercase">
-                              Arsitektur Digital
-                            </div>
-                            <Link to="/services#web" className="relative z-10 px-3 py-3 hover:bg-slate-50 rounded-2xl transition-colors text-sm font-medium text-slate-800 flex flex-col group/item mb-1">
-                              <span>Web Development</span>
-                              <span className="text-xs text-slate-500 font-normal mt-1 leading-relaxed">Website premium, e-commerce & corporate portal</span>
+                    <div className="absolute top-full left-1/2 -translate-x-1/2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 w-[650px] pointer-events-none group-hover:pointer-events-auto z-50">
+                      <div className="bg-white/10 backdrop-blur-xl rounded-3xl shadow-[0_8px_32px_rgba(0,0,0,0.1)] border border-white/30 ring-1 ring-white/20 p-4 relative before:absolute before:-top-2 before:left-1/2 before:-translate-x-1/2 before:w-4 before:h-4 before:bg-white/10 before:backdrop-blur-xl before:border-l before:border-t before:border-white/80 before:rotate-45">
+                        <div className="grid grid-cols-2 gap-x-4 gap-y-2 max-h-[60vh] overflow-y-auto pr-2 [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-slate-300/50 hover:[&::-webkit-scrollbar-thumb]:bg-slate-400/50 [&::-webkit-scrollbar-thumb]:rounded-full">
+                          {SERVICE_DEFINITIONS.map(service => (
+                            <Link 
+                              key={service.slug} 
+                              to={`/layanan/${service.slug}`} 
+                              className="relative z-10 px-3 py-3 hover:bg-white/30 rounded-2xl transition-colors text-sm font-medium text-slate-800 flex flex-col group/item"
+                            >
+                              <span className="flex items-center gap-2 font-semibold transition-transform duration-300 group-hover/item:translate-x-1">
+                                <service.icon size={16} className="text-indigo-600 transition-transform duration-300 group-hover/item:scale-110" />
+                                {service.title}
+                              </span>
+                              <span className="text-xs text-slate-500 font-normal mt-1 leading-relaxed line-clamp-1 transition-transform duration-300 group-hover/item:translate-x-1">{service.description}</span>
                             </Link>
-                          </div>
-                          
-                          {/* Column 2 */}
-                          <div>
-                            <div className="px-3 py-2 text-[10px] font-mono font-bold tracking-widest text-slate-400 uppercase">
-                              Otomasi Cerdas
-                            </div>
-                            <Link to="/services#ai" className="relative z-10 px-3 py-3 hover:bg-indigo-50/50 rounded-2xl transition-colors text-sm font-medium text-slate-800 flex flex-col group/item mb-1">
-                              <span className="flex items-center gap-2">AI Solutions <span className="bg-indigo-600/10 text-indigo-600 border border-indigo-600/20 text-[9px] px-2 py-0.5 rounded-full uppercase tracking-widest font-bold">New</span></span>
-                              <span className="text-xs text-slate-500 font-normal mt-1 leading-relaxed">Agentic AI, customer service bot & analisis data</span>
-                            </Link>
-                          </div>
-                          
-                          {/* Column 3 (Spanning) */}
-                          <div className="col-span-2 pt-2 border-t border-slate-100 mt-1">
-                            <div className="px-3 py-2 text-[10px] font-mono font-bold tracking-widest text-slate-400 uppercase">
-                              Ekspansi Bisnis
-                            </div>
-                            <Link to="/services#transformation" className="relative z-10 px-3 py-3 hover:bg-slate-50 rounded-2xl transition-colors text-sm font-medium text-slate-800 flex flex-col group/item">
-                              <span>Digital Transformation</span>
-                              <span className="text-xs text-slate-500 font-normal mt-1 leading-relaxed">Konsultasi strategi, cloud infrastructure & optimasi proses bisnis</span>
-                            </Link>
-                          </div>
+                          ))}
                         </div>
                       </div>
                     </div>
@@ -197,7 +178,7 @@ export default function Header() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: -10, scale: 0.95 }}
             transition={{ type: 'spring', stiffness: 200, damping: 20 }}
-            className="fixed top-24 right-6 left-6 z-40 bg-white/90 backdrop-blur-2xl border border-slate-200 shadow-2xl rounded-3xl p-6 flex flex-col md:hidden transform origin-top"
+            className="fixed top-24 right-6 left-6 z-40 bg-white/10 backdrop-blur-2xl border border-white/80 ring-1 ring-white/50 shadow-[0_8px_32px_rgba(0,0,0,0.1)] rounded-3xl p-6 flex flex-col md:hidden transform origin-top"
           >
             <motion.nav 
               ref={menuRef}
@@ -260,9 +241,17 @@ export default function Header() {
                               exit={{ height: 0, opacity: 0 }}
                               className="overflow-hidden mt-4 pl-4 border-l-2 border-indigo-100 flex flex-col gap-4"
                             >
-                              <Link to="/services#web" onClick={() => setIsOpen(false)} className="text-lg font-medium text-slate-600 hover:text-indigo-600">Web Development</Link>
-                              <Link to="/services#ai" onClick={() => setIsOpen(false)} className="text-lg font-medium text-slate-600 hover:text-indigo-600 flex items-center gap-2">AI Solutions <span className="bg-indigo-600/10 text-indigo-600 border border-indigo-600/20 text-[9px] px-2 py-0.5 rounded-full uppercase tracking-widest font-bold">New</span></Link>
-                              <Link to="/services#transformation" onClick={() => setIsOpen(false)} className="text-lg font-medium text-slate-600 hover:text-indigo-600">Digital Transformation</Link>
+                              {SERVICE_DEFINITIONS.map(service => (
+                                <Link 
+                                  key={service.slug} 
+                                  to={`/layanan/${service.slug}`} 
+                                  onClick={() => setIsOpen(false)} 
+                                  className="group/mobile text-lg font-medium text-slate-600 hover:text-indigo-600 flex items-center gap-3 transition-all duration-300 hover:translate-x-2"
+                                >
+                                  <service.icon size={20} className="text-indigo-500 transition-transform duration-300 group-hover/mobile:scale-110" />
+                                  {service.title}
+                                </Link>
+                              ))}
                             </motion.div>
                           )}
                         </AnimatePresence>

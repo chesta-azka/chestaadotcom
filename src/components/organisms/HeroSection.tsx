@@ -158,7 +158,7 @@ export default function HeroSection() {
             initial={{ opacity: 0, x: 20, y: -20 }}
             animate={{ opacity: 1, x: 0, y: 0 }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.6 }}
-            className="absolute top-[10%] right-[10%] w-[280px] p-6 rounded-3xl bg-white/60 backdrop-blur-xl border border-white shadow-[0_10px_30px_rgba(0,0,0,0.05)] z-20"
+            className="absolute top-[10%] right-[10%] w-[280px] p-6 rounded-3xl bg-white/60 backdrop-blur-xl border border-white shadow-[0_10px_30px_rgba(0,0,0,0.05)] z-208424 glass-panel"
           >
             <div className="w-10 h-10 rounded-xl bg-indigo-50 flex items-center justify-center mb-4 text-indigo-600 border border-indigo-100">
               <Cpu strokeWidth={1} size={20} />
@@ -172,7 +172,7 @@ export default function HeroSection() {
             initial={{ opacity: 0, x: -20, y: 20 }}
             animate={{ opacity: 1, x: 0, y: 0 }}
             transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.8 }}
-            className="absolute bottom-[10%] left-[5%] w-[280px] p-6 rounded-3xl bg-white/70 backdrop-blur-lg border border-white shadow-[0_15px_40px_rgba(0,0,0,0.06)] z-30"
+            className="absolute bottom-[10%] left-[5%] w-[280px] p-6 rounded-3xl bg-white/70 backdrop-blur-lg border border-white shadow-[0_15px_40px_rgba(0,0,0,0.06)] z-309335 glass-panel"
           >
             <div className="w-10 h-10 rounded-xl bg-slate-900 flex items-center justify-center mb-4 text-white">
               <ShieldCheck strokeWidth={1} size={20} />

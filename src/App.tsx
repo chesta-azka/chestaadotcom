@@ -1,9 +1,12 @@
+import { PerformanceProvider } from "./contexts/PerformanceContext.tsx";
 import { Toaster } from 'react-hot-toast';
 import React from "react";
 import { AuthProvider } from './contexts/AuthContext';
 
 import { motion, useScroll, useTransform, AnimatePresence } from 'motion/react';
 import { useEffect, useState } from 'react';
+import { Helmet, HelmetProvider } from 'react-helmet-async';
+import { ROUTE_METADATA } from './data/seo-metadata';
 import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
 import { Analytics } from '@vercel/analytics/react';
 import Lenis from 'lenis';
@@ -26,6 +29,7 @@ import ServiceDetailPage from './pages/ServiceDetailPage.tsx';
 import AreaDetailPage from './pages/AreaDetailPage.tsx';
 import AdminPage from './pages/AdminPage.tsx';
 import NotFoundPage from './pages/NotFoundPage.tsx';
+import KeyboardShortcutsModal from './components/organisms/KeyboardShortcutsModal.tsx';
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -77,8 +81,22 @@ function AppContent({ appLoaded }: { appLoaded: boolean }) {
 
 // Simple page transition wrapper
 function PageWrapper({ children }: { children: React.ReactNode }) {
+  const location = useLocation();
+  const currentMeta = ROUTE_METADATA[location.pathname] || {
+    title: 'ChestaCode | Premium Digital Solutions',
+    description: 'Bespoke web applications, AI integration, and enterprise software.'
+  };
+
   return (
     <>
+      <Helmet>
+        <title>{currentMeta.title}</title>
+        <meta name="description" content={currentMeta.description} />
+        <meta property="og:title" content={currentMeta.title} />
+        <meta property="og:description" content={currentMeta.description} />
+        <meta property="twitter:title" content={currentMeta.title} />
+        <meta property="twitter:description" content={currentMeta.description} />
+      </Helmet>
       <motion.div
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
@@ -106,6 +124,8 @@ function PageWrapper({ children }: { children: React.ReactNode }) {
   );
 }
 
+import { PerformanceProvider } from './contexts/PerformanceContext.tsx';
+
 export default function App() {
   const [appLoaded, setAppLoaded] = useState(false);
 
@@ -129,7 +149,9 @@ export default function App() {
   }, []);
 
   return (
+    <HelmetProvider>
     <Router>
+      <PerformanceProvider>
       <AuthProvider>
       <ScrollToTop />
       <Analytics />
@@ -139,9 +161,12 @@ export default function App() {
         <CommandPalette />
         
         <AppContent appLoaded={appLoaded} />
+        <KeyboardShortcutsModal />
         <Toaster position="bottom-left" toastOptions={{ style: { background: "#1e293b", color: "#fff", fontSize: "14px", borderRadius: "12px", fontFamily: "sans-serif" } }} />
       </main>
-    </AuthProvider>
+      </AuthProvider>
+      </PerformanceProvider>
     </Router>
+    </HelmetProvider>
   );
 }

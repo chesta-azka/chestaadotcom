@@ -47,7 +47,7 @@ export default function Breadcrumbs({ items }: BreadcrumbsProps) {
       y: -2,
       rotateX: 10,
       rotateY: -10,
-      color: "#ffffff",
+      color: "#4f46e5",
       transition: { type: 'spring' as const, stiffness: 450, damping: 25 }
     }
   };
@@ -89,11 +89,11 @@ export default function Breadcrumbs({ items }: BreadcrumbsProps) {
   return (
     <nav 
       aria-label="Breadcrumb" 
-      className="flex sm:inline-flex flex-wrap py-2.5 px-3 md:px-4 rounded-xl bg-white/[0.02] border border-slate-100 backdrop-blur-sm shadow-sm mb-6 select-none items-center gap-2.5 md:gap-3 w-full max-w-full sm:w-auto"
+      className="flex sm:inline-flex flex-wrap py-2.5 px-3 md:px-4 rounded-xl bg-white/10 backdrop-blur-xl border border-white/30 shadow-[0_8px_32px_-8px_rgba(0,0,0,0.1)] ring-1 ring-white/20 mb-10 select-none items-center gap-2.5 md:gap-3 w-full max-w-full sm:w-auto"
       id="breadcrumbs-nav"
     >
       {/* Decorative Compass icon at start of navigation UI with a rotating visual */}
-      <div className="flex items-center gap-1.5 border-r border-[#ffffff0a] pr-3 mr-0.5 shrink-0 text-[#4f46e5]">
+      <div className="flex items-center gap-1.5 border-r border-slate-200 pr-3 mr-0.5 shrink-0 text-[#4f46e5]">
         <motion.div
           animate={{ rotate: 360 }}
           transition={{ repeat: Infinity, duration: 32, ease: "linear" }}

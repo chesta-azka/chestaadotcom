@@ -1,3 +1,4 @@
+import SEOProvider from '../components/atoms/SEOProvider';
 import { useEffect } from 'react';
 import MetaTags from '../components/atoms/MetaTags.tsx';
 import HeroSection from '../components/organisms/HeroSection.tsx';
@@ -22,6 +23,11 @@ import SectionSeparator from '../components/atoms/SectionSeparator.tsx';
 export default function HomePage() {
   return (
     <div className="flex flex-col w-full">
+      <SEOProvider 
+        title="Enterprise Digital Agency | CHESTADOTCOM"
+        description="Empowering businesses with intelligent digital architecture and AI solutions."
+      />
+      
       <MetaTags 
         title="Jasa Pembuatan Website Premium & AI Agentic - CHESTADOTCOM" 
         description="CHESTADOTCOM by Chesta Azka Sofyan - Jasa pembuatan website corporate premium dan otomasi bisnis dengan Agentic AI." 

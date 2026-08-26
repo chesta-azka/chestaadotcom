@@ -93,7 +93,7 @@ const MemoizedChatMessage = memo(({
       <div className={`group relative max-w-[85%] break-words [word-break:break-word] overflow-hidden rounded-2xl px-4 py-3 text-[13px] font-sans leading-relaxed shadow-sm border ${
         msg.role === 'user' 
           ? 'bg-slate-900 text-white border-slate-800 rounded-br-sm' 
-          : 'bg-white text-slate-700 border-slate-200/60 rounded-bl-sm'
+          : 'bg-white/40 backdrop-blur-md text-slate-700 border-white/80 shadow-sm rounded-bl-sm'
       }`}>
         {msg.role === 'ai' ? (
           isTyping ? (
@@ -124,7 +124,31 @@ const MemoizedChatMessage = memo(({
 
 export default function FloatingAIAssistant() {
   const [isOpen, setIsOpen] = useState(false);
-  const [isExpanded, setIsExpanded] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
+  const [isHovered, setIsHovered] = useState(false);
+
+  useEffect(() => {
+    let lastScrollY = window.scrollY;
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      setIsScrolled(currentScrollY > 50);
+      
+      // New: Toggle bubble based on scroll direction
+      if (currentScrollY > lastScrollY && currentScrollY > 100) {
+        // Scrolling down - hide
+        document.getElementById('ai-assistant-bubble')?.classList.add('translate-y-20', 'opacity-0');
+      } else {
+        // Scrolling up - show
+        document.getElementById('ai-assistant-bubble')?.classList.remove('translate-y-20', 'opacity-0');
+      }
+      lastScrollY = currentScrollY;
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll();
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const isExpanded = !isOpen && (!isScrolled || isHovered);
   const [message, setMessage] = useState('');
   const defaultHistory: ChatMessage[] = [{
     role: 'ai',
@@ -144,6 +168,7 @@ export default function FloatingAIAssistant() {
   const [isTyping, setIsTyping] = useState(false);
   const [showPricing, setShowPricing] = useState(false);
   const [typewriterIndex, setTypewriterIndex] = useState<number | null>(null);
+  const isBusy = isTyping || typewriterIndex !== null;
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const location = useLocation();
@@ -162,17 +187,6 @@ export default function FloatingAIAssistant() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, []);
 
-  useEffect(() => {
-    let scrollTimeout: any;
-    if (!isOpen) {
-      scrollTimeout = setTimeout(() => {
-        setIsExpanded(true);
-      }, 3000);
-    } else {
-      setIsExpanded(false);
-    }
-    return () => clearTimeout(scrollTimeout);
-  }, [isOpen]);
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
@@ -239,10 +253,10 @@ export default function FloatingAIAssistant() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 20, scale: 0.95 }}
             transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-            className="fixed bottom-24 right-4 sm:right-8 w-[calc(100vw-32px)] sm:w-[380px] h-[600px] max-h-[calc(100vh-120px)] bg-white rounded-3xl shadow-[0_20px_60px_-15px_rgba(0,0,0,0.1)] border border-slate-100 flex flex-col z-50 overflow-hidden"
+            className="fixed bottom-24 right-4 sm:right-8 w-[calc(100vw-32px)] sm:w-[380px] h-[600px] max-h-[calc(100vh-120px)] bg-white/10 backdrop-blur-2xl rounded-3xl shadow-[0_20px_60px_-15px_rgba(0,0,0,0.15)] border border-white/30 ring-1 ring-white/20 flex flex-col z-50 overflow-hidden9115 glass-panel"
           >
             {/* Header */}
-            <div className="flex items-center justify-between p-4 border-b border-slate-100 bg-white shrink-0">
+            <div className="flex items-center justify-between p-4 border-b border-white/20 bg-white/5 backdrop-blur-xl shrink-09469 glass-panel">
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-full bg-indigo-50 flex items-center justify-center text-indigo-600">
                   <Bot size={20} />
@@ -264,7 +278,7 @@ export default function FloatingAIAssistant() {
 
             {/* Chat Area / Pricing Logic */}
             {showPricing ? (
-              <div className="flex-1 overflow-y-auto bg-slate-50/50 p-4">
+              <div className="flex-1 overflow-y-auto bg-transparent p-4">
                 <AutomatedPricingLogic 
                   onCancel={() => setShowPricing(false)}
                   onEstimateGenerated={(price, details) => {
@@ -274,7 +288,7 @@ export default function FloatingAIAssistant() {
                 />
               </div>
             ) : (
-            <div className="flex-1 overflow-y-auto p-5 space-y-5 bg-slate-50/50 scroll-smooth custom-scrollbar">
+            <div className="flex-1 overflow-y-auto p-5 space-y-5 bg-transparent scroll-smooth [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-slate-300/50 hover:[&::-webkit-scrollbar-thumb]:bg-slate-400/50 [&::-webkit-scrollbar-thumb]:rounded-full">
               {chatHistory.map((msg, i) => (
                 <MemoizedChatMessage 
                   key={i} 
@@ -289,7 +303,7 @@ export default function FloatingAIAssistant() {
                   animate={{ opacity: 1, y: 0 }}
                   className="flex justify-start"
                 >
-                  <div className="bg-white border border-slate-200/60 shadow-sm rounded-2xl rounded-bl-sm px-4 py-3 flex items-center gap-1.5">
+                  <div className="bg-white/40 backdrop-blur-md border border-white/30 shadow-sm rounded-2xl rounded-bl-sm px-4 py-3 flex items-center gap-1.5">
                     <span className="w-1.5 h-1.5 bg-indigo-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
                     <span className="w-1.5 h-1.5 bg-indigo-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
                     <span className="w-1.5 h-1.5 bg-indigo-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
@@ -301,32 +315,50 @@ export default function FloatingAIAssistant() {
             )}
 
             {/* Input Area */}
-            {!showPricing && (<div className="p-4 bg-white border-t border-slate-100 flex flex-col gap-3 shrink-0">
+            {!showPricing && (<div className="p-4 bg-white/5 backdrop-blur-xl border-t border-white/20 flex flex-col gap-3 shrink-012587 glass-panel">
               {/* Quick Actions */}
               <div className="flex items-center gap-2 overflow-x-auto pb-1 -mx-1 px-1 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
                 <AnimatePresence mode="popLayout">
                   {(() => {
                     const path = location.pathname;
-                    if (path === '/') return [
-                      { label: "Bahas Harga", icon: Code2 },
-                      { label: "Lihat Portofolio", icon: TrendingUp }, 
-                      { label: "Kalkulator Harga", icon: Calculator, action: "pricing" }
+                    
+                    const quickReplies = [
+                      { label: "Ya", icon: MessageCircle, action: "send" },
+                      { label: "Tidak", icon: X, action: "send" },
+                      { label: "Lanjut", icon: TrendingUp, action: "send" },
+                      { label: "1", icon: Code2, action: "send" },
+                      { label: "2", icon: Code2, action: "send" },
+                      { label: "3", icon: Code2, action: "send" }
                     ];
-                    if (path === '/portfolio') return [
-                      { label: "Proses Pengerjaan?", icon: Clock },
-                      { label: "Bahas Harga", icon: Code2 },
-                      { label: "Kalkulator Harga", icon: Calculator, action: "pricing" }
-                    ];
-                    if (path === '/services') return [
-                      { label: "Katalog Harga", icon: TrendingUp },
-                      { label: "Hubungi Admin", icon: MessageCircle },
-                      { label: "Kalkulator Harga", icon: Calculator, action: "pricing" }
-                    ];
-                    return [
-                      { label: "Bahas Harga", icon: Code2 },
-                      { label: "Hubungi Admin", icon: MessageCircle },
-                      { label: "Kalkulator Harga", icon: Calculator, action: "pricing" }
-                    ];
+
+                    let contextual = [];
+                    if (path === '/') {
+                      contextual = [
+                        { label: "Bahas Harga", icon: Code2, action: "send" },
+                        { label: "Lihat Portofolio", icon: TrendingUp, action: "send" }, 
+                        { label: "Kalkulator Harga", icon: Calculator, action: "pricing" }
+                      ];
+                    } else if (path === '/portfolio') {
+                      contextual = [
+                        { label: "Proses Pengerjaan?", icon: Clock, action: "send" },
+                        { label: "Bahas Harga", icon: Code2, action: "send" },
+                        { label: "Kalkulator Harga", icon: Calculator, action: "pricing" }
+                      ];
+                    } else if (path === '/services') {
+                      contextual = [
+                        { label: "Katalog Harga", icon: TrendingUp, action: "send" },
+                        { label: "Hubungi Admin", icon: MessageCircle, action: "send" },
+                        { label: "Kalkulator Harga", icon: Calculator, action: "pricing" }
+                      ];
+                    } else {
+                      contextual = [
+                        { label: "Bahas Harga", icon: Code2, action: "send" },
+                        { label: "Hubungi Admin", icon: MessageCircle, action: "send" },
+                        { label: "Kalkulator Harga", icon: Calculator, action: "pricing" }
+                      ];
+                    }
+                    
+                    return [...quickReplies, ...contextual];
                   })().map((action, i) => (
                     <motion.button
                       key={action.label}
@@ -337,7 +369,8 @@ export default function FloatingAIAssistant() {
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                       onClick={() => action.action === "pricing" ? setShowPricing(true) : handleSendMessage(undefined, action.label)}
-                      className="flex-shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-50 border border-slate-200 text-[11px] font-sans font-medium text-slate-600 hover:text-indigo-600 hover:bg-indigo-50 hover:border-indigo-200 transition-colors"
+                      disabled={isBusy}
+                      className="flex-shrink-0 inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-50 border border-slate-200 text-[11px] font-sans font-medium text-slate-600 hover:text-indigo-600 hover:bg-indigo-50 hover:border-indigo-200 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                     >
                       <action.icon size={12} />
                       {action.label}
@@ -350,14 +383,15 @@ export default function FloatingAIAssistant() {
                 <input
                   ref={inputRef}
                   type="text"
+                  disabled={isBusy}
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
                   placeholder="Tanyakan sesuatu..."
-                  className="w-full bg-slate-50 border border-slate-200 rounded-full pl-5 pr-12 py-3 text-sm font-sans text-slate-900 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 transition-all"
+                  className="w-full bg-slate-50 border border-slate-200 rounded-full pl-5 pr-12 py-3 text-sm font-sans text-slate-900 focus:outline-none focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 disabled:bg-slate-100 disabled:text-slate-400 disabled:cursor-not-allowed transition-all"
                 />
                 <button 
                   type="submit"
-                  disabled={!message.trim()}
+                  disabled={!message.trim() || isBusy}
                   className="absolute right-2 top-1/2 -translate-y-1/2 w-8 h-8 flex items-center justify-center rounded-full bg-indigo-600 text-white disabled:bg-slate-300 disabled:text-slate-500 transition-colors"
                 >
                   <Send size={14} className={message.trim() ? "translate-x-[1px]" : ""} />
@@ -371,11 +405,12 @@ export default function FloatingAIAssistant() {
       <AnimatePresence>
         {!isOpen && chatHistory.length === 1 && (
           <motion.div
+            id="ai-assistant-bubble"
             initial={{ opacity: 0, y: 10, scale: 0.9 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 10, scale: 0.9 }}
             transition={{ delay: 2, duration: 0.5, type: 'spring' }}
-            className="fixed bottom-24 right-6 sm:right-8 z-40 bg-white border border-slate-200 shadow-xl rounded-2xl p-4 max-w-[250px] cursor-pointer"
+            className="fixed bottom-24 right-6 sm:right-8 z-40 bg-white/10 backdrop-blur-xl border border-white/30 ring-1 ring-white/20 shadow-xl rounded-2xl p-4 max-w-[250px] cursor-pointer transition-all duration-300"
             onClick={() => setIsOpen(true)}
           >
             <div className="flex items-start gap-3">
@@ -388,7 +423,7 @@ export default function FloatingAIAssistant() {
                 </p>
               </div>
             </div>
-            <div className="absolute -bottom-2 right-6 w-4 h-4 bg-white border-b border-r border-slate-200 rotate-45"></div>
+            <div className="absolute -bottom-2 right-6 w-4 h-4 bg-white border-b border-r border-white/80 rotate-45"></div>
           </motion.div>
         )}
       </AnimatePresence>
@@ -428,6 +463,8 @@ export default function FloatingAIAssistant() {
           className="relative flex items-center justify-center rounded-full bg-slate-900 p-4 text-white shadow-[0_10px_30px_rgba(15,23,42,0.3)] hover:shadow-[0_10px_40px_rgba(79,70,229,0.4)] transition-all duration-300 group"
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
+          onMouseEnter={() => setIsHovered(true)}
+          onMouseLeave={() => setIsHovered(false)}
         >
           <div className="relative">
             {isOpen ? <X size={24} /> : <Bot size={24} className="group-hover:text-indigo-400 transition-colors" />}

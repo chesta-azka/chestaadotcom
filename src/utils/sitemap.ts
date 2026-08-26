@@ -2,6 +2,8 @@ import fs from 'fs';
 import path from 'path';
 import { CITIES } from '../data/AreasData';
 import { SERVICE_DEFINITIONS } from '../data/ServiceDefinition';
+import { PROJECTS } from '../data/projects';
+import { ALL_ARTICLES } from '../data/blogData';
 
 const baseRoutes = [
   '/',
@@ -13,6 +15,8 @@ const baseRoutes = [
 
 const areaRoutes = CITIES.map(city => `/area/${city.toLowerCase()}`);
 const serviceRoutes = SERVICE_DEFINITIONS.map(service => `/layanan/${service.slug}`);
+const projectRoutes = PROJECTS.map(p => `/portfolio/${p.id}`);
+const articleRoutes = ALL_ARTICLES.map(a => `/blog?read=${a.slug}`);
 
 // Generate combined Area + Service geo-targeted routes
 const localGeoRoutes = [];
@@ -27,7 +31,7 @@ geoTargets.forEach(area => {
   });
 });
 
-const allRoutes = [...baseRoutes, ...areaRoutes, ...serviceRoutes, ...localGeoRoutes];
+const allRoutes = [...baseRoutes, ...areaRoutes, ...serviceRoutes, ...localGeoRoutes, ...projectRoutes, ...articleRoutes];
 
 const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">

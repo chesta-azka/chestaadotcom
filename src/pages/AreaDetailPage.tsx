@@ -51,7 +51,7 @@ export default function AreaDetailPage() {
 
   if (loading) {
     return (
-      <div className="pt-24 pb-20 min-h-screen font-sans bg-transparent">
+      <div className="pt-32 pb-20 min-h-screen font-sans bg-transparent">
         <div className="max-w-[1400px] mx-auto px-6 md:px-12 mt-12 flex flex-col items-center">
           <Skeleton className="w-64 h-8 rounded-full mb-6" />
           <Skeleton className="w-full max-w-3xl h-24 rounded-2xl mb-8" />
@@ -63,7 +63,7 @@ export default function AreaDetailPage() {
   }
 
   return (
-    <div className="pt-24 pb-28 min-h-screen relative bg-transparent text-slate-900 overflow-hidden">
+    <div className="pt-32 pb-28 min-h-screen relative bg-transparent text-slate-900 overflow-hidden">
       <MetaTags 
         title={`Jasa Pembuatan Website ${formattedCityName} Premium — CHESTADOTCOM`} 
         description={`Arsitek digital 2026 pembuatan website profesional, cepat, SEO-ready, dan mobile-first untuk UMKM & brand lokal di ${formattedCityName} mulai Rp540K.`}

@@ -55,3 +55,48 @@ h1, h2, h3, h4, h5, h6 {
 ::-webkit-scrollbar-thumb:hover {
   background: #9CA3AF;
 }
+
+/* react-calendar-heatmap custom colors */
+.react-calendar-heatmap .color-empty { fill: #f1f5f9; }
+.react-calendar-heatmap .color-scale-1 { fill: #c7d2fe; }
+.react-calendar-heatmap .color-scale-2 { fill: #818cf8; }
+.react-calendar-heatmap .color-scale-3 { fill: #4f46e5; }
+.react-calendar-heatmap .color-scale-4 { fill: #312e81; }
+
+.react-calendar-heatmap .color-empty {
+  fill: #f1f5f9;
+}
+.react-calendar-heatmap .color-scale-1 {
+  fill: #c7d2fe;
+}
+.react-calendar-heatmap .color-scale-2 {
+  fill: #818cf8;
+}
+.react-calendar-heatmap .color-scale-3 {
+  fill: #4f46e5;
+}
+.react-calendar-heatmap .color-scale-4 {
+  fill: #312e81;
+}
+.react-calendar-heatmap text {
+  font-size: 10px;
+  fill: #94a3b8;
+  font-family: monospace;
+}
+
+@layer components {
+  .glass-panel {
+    background-color: rgba(255, 255, 255, 0.7);
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.4);
+    box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.07), inset 0 0 0 1px rgba(255, 255, 255, 0.5);
+  }
+  .glass-panel-dark {
+    background-color: rgba(9, 13, 24, 0.7);
+    backdrop-filter: blur(16px) saturate(180%);
+    -webkit-backdrop-filter: blur(16px) saturate(180%);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3), inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+  }
+}

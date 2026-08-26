@@ -1,16 +1,33 @@
 import { initializeApp, getApps, getApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
+import { getAnalytics, isSupported } from 'firebase/analytics';
+import config from '../../firebase-applet-config.json';
 
 const firebaseConfig = {
-  apiKey: "AIzaSyCcqgaoqt1IXxXFSpg4DcrVmSHaqqIefCM",
-  authDomain: "core-lambda-wcf5x.firebaseapp.com",
-  projectId: "core-lambda-wcf5x",
-  storageBucket: "core-lambda-wcf5x.firebasestorage.app",
-  messagingSenderId: "768492514929",
-  appId: "1:768492514929:web:38f5fba77ab247c592f5d0"
+  apiKey: config.apiKey,
+  authDomain: config.authDomain,
+  projectId: config.projectId,
+  storageBucket: config.storageBucket,
+  messagingSenderId: config.messagingSenderId,
+  appId: config.appId,
 };
 
 const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
+console.log('Firebase Config loaded:', config);
+
 export const auth = getAuth(app);
-export const db = getFirestore(app, "ai-studio-07319849-f721-4705-badf-87d9debdf6a5");
+export const db = getFirestore(app, config.firestoreDatabaseId);
+
+export const logAnalyticsEvent = async (eventName: string, eventParams?: any) => {
+  try {
+    const supported = await isSupported();
+    if (supported) {
+      const { logEvent } = await import('firebase/analytics');
+      const analytics = getAnalytics(app);
+      logEvent(analytics, eventName, eventParams);
+    }
+  } catch (error) {
+    console.warn("Analytics error:", error);
+  }
+};

@@ -3,8 +3,9 @@ import { useParams, Link, Navigate } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { PROJECTS } from '../data/projects';
 import { ArrowLeft, CheckCircle2, AlertCircle, Calendar, ExternalLink, Zap } from 'lucide-react';
-import MetaTags from '../components/atoms/MetaTags';
+import SEOProvider from '../components/atoms/SEOProvider';
 import Breadcrumbs from '../components/atoms/Breadcrumbs';
+import ShareButton from '../components/atoms/ShareButton';
 import CreativityMarquee from '../components/organisms/CreativityMarquee.tsx';
 
 export default function ProjectDetailPage() {
@@ -24,8 +25,8 @@ export default function ProjectDetailPage() {
   const metricLabel = 'Load Time';
 
   return (
-    <div className="pt-24 pb-32 min-h-screen bg-transparent relative overflow-hidden select-none">
-      <MetaTags 
+    <div className="pt-32 pb-32 min-h-screen bg-transparent relative overflow-hidden select-none">
+      <SEOProvider 
         title={`${project.title} — CHESTADOTCOM`} 
         description={project.description} 
       />
@@ -35,10 +36,13 @@ export default function ProjectDetailPage() {
 
       <div className="mx-auto max-w-4xl px-6 relative z-10 w-full mt-12">
         {/* Breadcrumb Navigation */}
-        <Breadcrumbs items={[
-          { label: 'Showcase', path: '/portfolio' },
-          { label: project.title }
-        ]} />
+        <div className="flex justify-between items-center mt-12 mb-8">
+          <Breadcrumbs items={[
+            { label: 'Showcase', path: '/portfolio' },
+            { label: project.title }
+          ]} />
+          <ShareButton title={project.title} text={project.description} className="text-slate-500 hover:text-indigo-600 bg-white shadow-sm border border-slate-200 px-4 py-2 rounded-full transition-colors" />
+        </div>
 
         {/* Hero Section */}
         <div className="space-y-6 mb-16 mt-12">
