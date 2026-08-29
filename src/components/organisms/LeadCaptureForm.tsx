@@ -59,12 +59,12 @@ export default function LeadCaptureForm() {
     setIsSubmitted(true);
     toast.success('Formulir berhasil diproses! Mengarahkan ke WhatsApp...');
     // In a real app, send data to backend or CRM here
-    const message = `Halo CHESTADOTCOM, saya tertarik untuk kolaborasi:%0A%0A*Tujuan Proyek:* ${formData.project_type}%0A*Estimasi Budget:* ${formData.budget}%0A*Nama:* ${formData.name}%0A*Perusahaan:* ${formData.company}%0A*Email:* ${formData.email}`;
+    const message = `Halo CHESTAADOTCOM, saya tertarik untuk kolaborasi:%0A%0A*Tujuan Proyek:* ${formData.project_type}%0A*Estimasi Budget:* ${formData.budget}%0A*Nama:* ${formData.name}%0A*Perusahaan:* ${formData.company}%0A*Email:* ${formData.email}`;
     window.open(`https://wa.me/6282125447232?text=${message}`, '_blank');
   };
 
   return (
-    <div className="bg-white rounded-3xl shadow-xl shadow-indigo-900/5 border border-slate-100 overflow-hidden w-full max-w-2xl mx-auto">
+    <div className="bg-white rounded-3xl shadow-xl shadow-purple-900/5 border border-slate-100 overflow-hidden w-full max-w-2xl mx-auto">
       {/* Header Progress */}
       <div className="bg-slate-50/80 p-6 border-b border-slate-100 flex items-center justify-between">
         <div>
@@ -76,7 +76,7 @@ export default function LeadCaptureForm() {
             {FORM_STEPS.map((_, idx) => (
               <div 
                 key={idx} 
-                className={`w-2.5 h-2.5 rounded-full transition-colors duration-300 ${idx === currentStep ? 'bg-indigo-600' : idx < currentStep ? 'bg-indigo-200' : 'bg-slate-200'}`}
+                className={`w-2.5 h-2.5 rounded-full transition-colors duration-300 ${idx === currentStep ? 'bg-purple-600' : idx < currentStep ? 'bg-purple-200' : 'bg-slate-200'}`}
               />
             ))}
           </div>
@@ -105,7 +105,7 @@ export default function LeadCaptureForm() {
                   setCurrentStep(0);
                   setFormData({ project_type: '', budget: '', name: '', email: '', phone: '', company: '' });
                 }}
-                className="mt-8 text-indigo-600 font-medium text-sm hover:underline"
+                className="mt-8 text-purple-600 font-medium text-sm hover:underline"
               >
                 Mulai Ulang
               </button>
@@ -132,15 +132,15 @@ export default function LeadCaptureForm() {
                         onClick={() => handleOptionSelect(FORM_STEPS[currentStep].id, option)}
                         className={`text-left px-5 py-4 rounded-xl border transition-all duration-200 ${
                           isSelected 
-                            ? 'border-indigo-600 bg-indigo-50/50 shadow-sm' 
-                            : 'border-slate-200 bg-white hover:border-indigo-300 hover:bg-slate-50'
+                            ? 'border-purple-600 bg-purple-50/50 shadow-sm' 
+                            : 'border-slate-200 bg-white hover:border-purple-300 hover:bg-slate-50'
                         }`}
                       >
                         <div className="flex items-center justify-between">
-                          <span className={`font-sans font-medium ${isSelected ? 'text-indigo-900' : 'text-gray-700'}`}>
+                          <span className={`font-sans font-medium ${isSelected ? 'text-purple-900' : 'text-gray-700'}`}>
                             {option}
                           </span>
-                          {isSelected && <CheckCircle2 size={18} className="text-indigo-600" />}
+                          {isSelected && <CheckCircle2 size={18} className="text-purple-600" />}
                         </div>
                       </button>
                     );
@@ -157,7 +157,7 @@ export default function LeadCaptureForm() {
                         name="name"
                         value={formData.name}
                         onChange={handleInputChange}
-                        className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-white focus:outline-none focus:ring-2 focus:ring-indigo-600/20 focus:border-indigo-600 transition-colors"
+                        className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-white focus:outline-none focus:ring-2 focus:ring-purple-600/20 focus:border-purple-600 transition-colors"
                         placeholder="John Doe"
                       />
                     </div>
@@ -168,7 +168,7 @@ export default function LeadCaptureForm() {
                         name="company"
                         value={formData.company}
                         onChange={handleInputChange}
-                        className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-white focus:outline-none focus:ring-2 focus:ring-indigo-600/20 focus:border-indigo-600 transition-colors"
+                        className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-white focus:outline-none focus:ring-2 focus:ring-purple-600/20 focus:border-purple-600 transition-colors"
                         placeholder="PT XYZ"
                       />
                     </div>
@@ -182,7 +182,7 @@ export default function LeadCaptureForm() {
                         name="email"
                         value={formData.email}
                         onChange={handleInputChange}
-                        className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-white focus:outline-none focus:ring-2 focus:ring-indigo-600/20 focus:border-indigo-600 transition-colors"
+                        className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-white focus:outline-none focus:ring-2 focus:ring-purple-600/20 focus:border-purple-600 transition-colors"
                         placeholder="john@example.com"
                       />
                     </div>
@@ -194,7 +194,7 @@ export default function LeadCaptureForm() {
                         name="phone"
                         value={formData.phone}
                         onChange={handleInputChange}
-                        className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-white focus:outline-none focus:ring-2 focus:ring-indigo-600/20 focus:border-indigo-600 transition-colors"
+                        className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-white focus:outline-none focus:ring-2 focus:ring-purple-600/20 focus:border-purple-600 transition-colors"
                         placeholder="0812..."
                       />
                     </div>
@@ -221,7 +221,7 @@ export default function LeadCaptureForm() {
             <button
               onClick={handleSubmit}
               disabled={!formData.name || !formData.email || !formData.phone}
-              className="flex items-center gap-2 px-6 py-2.5 rounded-full bg-indigo-600 text-white font-medium text-sm hover:bg-indigo-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="flex items-center gap-2 px-6 py-2.5 rounded-full bg-purple-600 text-white font-medium text-sm hover:bg-purple-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               Kirim & Lanjutkan ke WA <ChevronRight size={16} />
             </button>

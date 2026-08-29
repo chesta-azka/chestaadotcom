@@ -30,7 +30,7 @@ export default function QuickQuoteModal({ isOpen, onClose, serviceInterest = '' 
     e.preventDefault();
     logAnalyticsEvent('quick_quote_submit', { service_interest: formData.interest });
     
-    const message = `Halo CHESTADOTCOM, saya tertarik untuk cepat diskusi mengenai:%0A%0A*Layanan:* ${formData.interest}%0A*Nama:* ${formData.name}%0A*Kontak:* ${formData.contact}`;
+    const message = `Halo CHESTAADOTCOM, saya tertarik untuk cepat diskusi mengenai:%0A%0A*Layanan:* ${formData.interest}%0A*Nama:* ${formData.name}%0A*Kontak:* ${formData.contact}`;
     window.open(`https://wa.me/6282125447232?text=${message}`, '_blank');
     onClose();
   };
@@ -70,7 +70,7 @@ export default function QuickQuoteModal({ isOpen, onClose, serviceInterest = '' 
                   type="text" 
                   value={formData.interest}
                   onChange={(e) => setFormData({...formData, interest: e.target.value})}
-                  className="w-full px-4 py-3 rounded-xl border border-white/30 bg-white/10 backdrop-blur-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-600/20 focus:border-indigo-600 transition-colors text-slate-800"
+                  className="w-full px-4 py-3 rounded-xl border border-white/30 bg-white/10 backdrop-blur-md shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-600/20 focus:border-purple-600 transition-colors text-slate-800"
                   placeholder="Misal: Web Development / AI Agentic"
                 />
               </div>
@@ -82,7 +82,7 @@ export default function QuickQuoteModal({ isOpen, onClose, serviceInterest = '' 
                   type="text" 
                   value={formData.name}
                   onChange={(e) => setFormData({...formData, name: e.target.value})}
-                  className="w-full px-4 py-3 rounded-xl border border-white/30 bg-white/10 backdrop-blur-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-600/20 focus:border-indigo-600 transition-colors text-slate-800"
+                  className="w-full px-4 py-3 rounded-xl border border-white/30 bg-white/10 backdrop-blur-md shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-600/20 focus:border-purple-600 transition-colors text-slate-800"
                   placeholder="John Doe"
                 />
               </div>
@@ -94,7 +94,7 @@ export default function QuickQuoteModal({ isOpen, onClose, serviceInterest = '' 
                   type="text" 
                   value={formData.contact}
                   onChange={(e) => setFormData({...formData, contact: e.target.value})}
-                  className="w-full px-4 py-3 rounded-xl border border-white/30 bg-white/10 backdrop-blur-md shadow-sm focus:outline-none focus:ring-2 focus:ring-indigo-600/20 focus:border-indigo-600 transition-colors text-slate-800"
+                  className="w-full px-4 py-3 rounded-xl border border-white/30 bg-white/10 backdrop-blur-md shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-600/20 focus:border-purple-600 transition-colors text-slate-800"
                   placeholder="0812... / john@company.com"
                 />
               </div>
@@ -103,7 +103,7 @@ export default function QuickQuoteModal({ isOpen, onClose, serviceInterest = '' 
                 <button
                   type="submit"
                   disabled={!formData.name || !formData.contact}
-                  className="w-full flex items-center justify-center gap-2 px-6 py-4 rounded-xl bg-indigo-600 text-white font-mono text-xs font-bold uppercase tracking-widest hover:bg-indigo-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed group shadow-lg shadow-indigo-600/20"
+                  className="w-full flex items-center justify-center gap-2 px-6 py-4 rounded-xl bg-purple-600 text-white font-mono text-xs font-bold uppercase tracking-widest hover:bg-purple-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed group shadow-lg shadow-purple-600/20"
                 >
                   <MessageSquare size={16} />
                   Kirim via WhatsApp

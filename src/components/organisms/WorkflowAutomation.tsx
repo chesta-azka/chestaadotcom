@@ -92,7 +92,7 @@ export default function WorkflowAutomation() {
   return (
     <section ref={sectionRef} className="relative overflow-hidden w-full transition-all duration-1000">
       {/* Background elements */}
-      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-indigo-50/50 rounded-full blur-3xl pointer-events-none transform translate-x-1/3 -translate-y-1/3" />
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-purple-50/50 rounded-full blur-3xl pointer-events-none transform translate-x-1/3 -translate-y-1/3" />
       <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-purple-50/50 rounded-full blur-3xl pointer-events-none transform -translate-x-1/3 translate-y-1/3" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
@@ -107,14 +107,14 @@ export default function WorkflowAutomation() {
           
           {/* Left Column: AI Input Form */}
           <div className="lg:col-span-5 w-full">
-            <div className="bg-white border border-slate-200/80 rounded-3xl p-6 sm:p-8 shadow-xl shadow-indigo-900/5 relative overflow-hidden">
+            <div className="bg-white border border-slate-200/80 rounded-3xl p-6 sm:p-8 shadow-xl shadow-purple-900/5 relative overflow-hidden">
               <div className="absolute top-0 right-0 p-6 opacity-10">
                 <Bot size={120} />
               </div>
               
               <div className="relative z-10">
                 <div className="flex items-center gap-3 mb-6">
-                  <div className="w-10 h-10 rounded-full bg-indigo-100 flex items-center justify-center text-indigo-600">
+                  <div className="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center text-purple-600">
                     <Sparkles size={20} />
                   </div>
                   <div>
@@ -134,7 +134,7 @@ export default function WorkflowAutomation() {
                       value={projectInput}
                       onChange={(e) => setProjectInput(e.target.value)}
                       placeholder="Contoh: Saya ingin membangun platform e-commerce B2B dengan fitur integrasi ERP dan sistem rekomendasi berbasis AI..."
-                      className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:ring-2 focus:ring-indigo-500/20 focus:border-indigo-500 transition-colors resize-none text-sm font-sans"
+                      className="w-full px-4 py-3 rounded-xl border border-slate-200 bg-slate-50 focus:bg-white focus:ring-2 focus:ring-purple-500/20 focus:border-purple-500 transition-colors resize-none text-sm font-sans"
                       disabled={isGenerating}
                     />
                   </div>
@@ -142,7 +142,7 @@ export default function WorkflowAutomation() {
                   <button
                     type="submit"
                     disabled={isGenerating || !projectInput.trim()}
-                    className="w-full flex items-center justify-center gap-2 bg-slate-900 hover:bg-indigo-600 text-white px-6 py-4 rounded-xl font-mono text-xs font-bold uppercase tracking-widest transition-all disabled:opacity-50 disabled:cursor-not-allowed group"
+                    className="w-full flex items-center justify-center gap-2 bg-slate-900 hover:bg-purple-600 text-white px-6 py-4 rounded-xl font-mono text-xs font-bold uppercase tracking-widest transition-all disabled:opacity-50 disabled:cursor-not-allowed group"
                   >
                     {isGenerating ? (
                       <>
@@ -165,11 +165,11 @@ export default function WorkflowAutomation() {
           {/* Right Column: Dynamic Roadmap Board */}
           <div className="lg:col-span-7 w-full">
             <div className={`bg-slate-50 border rounded-3xl p-6 sm:p-8 h-full min-h-[400px] transition-all duration-1000 ${
-              highlightGlow ? "border-indigo-400 shadow-[0_0_30px_rgba(99,102,241,0.2)]" : "border-slate-200/60"
+              highlightGlow ? "border-purple-400 shadow-[0_0_30px_rgba(99,102,241,0.2)]" : "border-slate-200/60"
             }`}>
               <div className="flex items-center justify-between mb-8 pb-4 border-b border-slate-200">
                 <h3 className="font-display font-semibold text-xl text-slate-900 flex items-center gap-2">
-                  <GitMerge className="text-indigo-600" size={24} />
+                  <GitMerge className="text-purple-600" size={24} />
                   Peta Jalan Proyek
                 </h3>
                 {generated && (
@@ -223,7 +223,7 @@ export default function WorkflowAutomation() {
                                 <CheckCircle2 size={14} />
                               </div>
                             ) : milestone.status === 'active' ? (
-                              <div className="w-8 h-8 rounded-full bg-indigo-600 border-4 border-slate-50 flex items-center justify-center text-white shadow-sm">
+                              <div className="w-8 h-8 rounded-full bg-purple-600 border-4 border-slate-50 flex items-center justify-center text-white shadow-sm">
                                 <span className="w-2 h-2 rounded-full bg-white animate-ping absolute" />
                                 <span className="w-2 h-2 rounded-full bg-white relative z-10" />
                               </div>

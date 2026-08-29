@@ -1,4 +1,5 @@
 import { useEffect } from 'react';
+import { parseDateToISOString } from '../../utils/dateUtils';
 
 interface SEOProps {
   title: string;
@@ -14,7 +15,7 @@ export default function BlogSEO({
   title,
   description,
   url,
-  image = 'https://chestadotcom.com/default-og.png', // Replace with your actual default OG image
+  image = 'https://chestaadotcom.com/default-og.png', // Replace with your actual default OG image
   type = 'article',
   publishedTime,
   authorName = 'Chesta Azka Sofyan'
@@ -38,17 +39,18 @@ export default function BlogSEO({
         },
         publisher: {
           '@type': 'Organization',
-          name: 'CHESTADOTCOM',
+          name: 'CHESTAADOTCOM',
           logo: {
             '@type': 'ImageObject',
-            url: 'https://chestadotcom.com/logo.png', // Replace with your actual logo
+            url: 'https://chestaadotcom.com/logo.png', // Replace with your actual logo
           },
         },
       };
 
-      if (publishedTime) {
-        schema.datePublished = new Date(publishedTime).toISOString();
-        schema.dateModified = new Date(publishedTime).toISOString();
+      const isoDate = parseDateToISOString(publishedTime);
+      if (isoDate) {
+        schema.datePublished = isoDate;
+        schema.dateModified = isoDate;
       }
 
       return JSON.stringify(schema);

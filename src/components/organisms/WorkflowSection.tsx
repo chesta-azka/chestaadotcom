@@ -21,15 +21,15 @@ export default function WorkflowSection() {
     const scaleY = useTransform(scrollYProgress, [0, 1], [0, 1]);
 
     return (
-        <section className="py-24 md:py-32 bg-slate-50/50 text-slate-900 relative overflow-hidden" ref={containerRef}>
+        <section className="py-4 sm:py-8 text-slate-900 relative overflow-hidden" ref={containerRef}>
             {/* Background Accents */}
             <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-slate-200 to-transparent" />
             <div className="absolute bottom-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-slate-200 to-transparent" />
-            <div className="absolute -left-40 top-20 w-96 h-96 bg-indigo-100/40 rounded-full blur-3xl pointer-events-none" />
+            <div className="absolute -left-40 top-20 w-96 h-96 bg-purple-100/40 rounded-full blur-3xl pointer-events-none" />
             <div className="absolute -right-40 bottom-20 w-96 h-96 bg-purple-100/40 rounded-full blur-3xl pointer-events-none" />
 
-            <div className="mx-auto max-w-7xl px-6 relative z-10">
-                <div className="flex flex-col items-center justify-center text-center mb-16 md:mb-20">
+            <div className="w-full relative z-10">
+                <div className="flex flex-col items-center justify-center text-center mb-10 sm:mb-14">
                     <SectionHeader 
                         metaTag="ENTERPRISE WORKFLOW"
                         title="Metodologi Eksekusi."
@@ -42,7 +42,7 @@ export default function WorkflowSection() {
                     {/* Scroll-triggered progress bar track (Desktop) */}
                     <div className="hidden @4xl:block absolute top-[60px] left-[12.5%] right-[12.5%] h-1 bg-slate-200/50 rounded-full overflow-hidden z-0">
                         <motion.div 
-                            className="absolute inset-y-0 left-0 bg-indigo-600 rounded-full origin-left"
+                            className="absolute inset-y-0 left-0 bg-purple-600 rounded-full origin-left"
                             style={{ scaleX }}
                         />
                     </div>
@@ -50,7 +50,7 @@ export default function WorkflowSection() {
                     {/* Scroll-triggered progress bar track (Mobile & Tablet) */}
                     <div className="block @4xl:hidden absolute left-[60px] top-[12.5%] bottom-[12.5%] w-1 bg-slate-200/50 rounded-full overflow-hidden z-0">
                         <motion.div 
-                            className="absolute inset-x-0 top-0 bg-indigo-600 rounded-full origin-top"
+                            className="absolute inset-x-0 top-0 bg-purple-600 rounded-full origin-top"
                             style={{ scaleY }}
                         />
                     </div>
@@ -63,7 +63,7 @@ export default function WorkflowSection() {
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true, margin: "-50px" }}
                                 transition={{ delay: i * 0.15, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                                className="relative flex flex-col h-full bg-white/90 backdrop-blur-sm rounded-3xl p-8 border border-slate-200/80 shadow-sm hover:shadow-xl hover:shadow-indigo-500/5 hover:-translate-y-1 transition-all duration-300 group"
+                                className="relative flex flex-col h-full bg-white/40 backdrop-blur-2xl rounded-3xl p-8 border border-white/60 shadow-xl shadow-purple-900/5 hover:shadow-2xl hover:shadow-purple-500/10 hover:bg-white/60 hover:-translate-y-1 transition-all duration-300 group"
                             >
                                     {/* Number Badge */}
                                     <div className="absolute -top-4 -right-4 w-12 h-12 bg-slate-900 text-white font-mono font-bold text-sm rounded-2xl flex items-center justify-center shadow-lg transform rotate-3 group-hover:rotate-6 group-hover:scale-110 transition-transform duration-300">
@@ -71,12 +71,12 @@ export default function WorkflowSection() {
                                     </div>
 
                                     {/* Icon Container */}
-                                    <div className="w-14 h-14 rounded-2xl bg-indigo-50 border border-indigo-100 flex items-center justify-center mb-6 text-indigo-600 group-hover:bg-indigo-600 group-hover:text-white transition-colors duration-300">
+                                    <div className="w-14 h-14 rounded-2xl bg-purple-50 border border-purple-100 flex items-center justify-center mb-6 text-purple-600 group-hover:bg-purple-600 group-hover:text-white transition-colors duration-300">
                                         <step.icon size={24} strokeWidth={1.5} />
                                     </div>
 
                                     {/* Content */}
-                                    <h3 className="text-xl font-display font-bold tracking-tight mb-3 text-slate-900 group-hover:text-indigo-600 transition-colors duration-300">
+                                    <h3 className="text-xl font-display font-bold tracking-tight mb-3 text-slate-900 group-hover:text-purple-600 transition-colors duration-300">
                                         {step.title}
                                     </h3>
                                     <p className="text-slate-600 text-sm md:text-base font-sans leading-relaxed flex-grow">

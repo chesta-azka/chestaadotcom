@@ -34,7 +34,7 @@ export default function AICaseStudies() {
     <section className="py-24 border-t border-slate-100 bg-slate-50/50">
       <div className="mx-auto max-w-7xl px-6">
         <div className="mb-16 md:mb-24 text-center">
-          <div className="inline-flex items-center gap-2 px-4.5 py-2.5 rounded-full bg-indigo-50 border border-indigo-100 mx-auto text-xs font-mono tracking-widest text-[#4f46e5] uppercase mb-6 shadow-sm">
+          <div className="inline-flex items-center gap-2 px-4.5 py-2.5 rounded-full bg-purple-50 border border-purple-100 mx-auto text-xs font-mono tracking-widest text-[#6b21a8] uppercase mb-6 shadow-sm">
             <Bot size={14} />
             <span>AI Agentic Transformation</span>
           </div>
@@ -75,9 +75,9 @@ export default function AICaseStudies() {
 
                 <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                   {study.metrics.map((metric, idx) => (
-                    <div key={idx} className="bg-white rounded-2xl p-5 border border-slate-100 shadow-sm hover:shadow-md transition-shadow relative overflow-hidden group">
-                      <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-indigo-100 to-indigo-500 opacity-0 group-hover:opacity-100 transition-opacity" />
-                      <metric.icon size={18} className="text-[#4f46e5] mb-4" />
+                    <div key={idx} className="bg-white/40 backdrop-blur-xl rounded-2xl p-5 border border-white/60 shadow-xl shadow-purple-900/5 hover:bg-white/60 transition-all relative overflow-hidden group">
+                      <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-purple-100 to-purple-500 opacity-0 group-hover:opacity-100 transition-opacity" />
+                      <metric.icon size={18} className="text-[#6b21a8] mb-4" />
                       <p className="text-xs font-mono text-slate-500 uppercase tracking-wider mb-2">{metric.label}</p>
                       <div className="flex flex-col gap-1">
                         <span className="text-sm text-gray-400 line-through decoration-red-400/50">Before: {metric.before}</span>
@@ -89,10 +89,10 @@ export default function AICaseStudies() {
                 
                 <div>
                   <a 
-                    href="https://wa.me/6282125447232?text=Halo%20CHESTADOTCOM%2C%20saya%20tertarik%20dengan%20solusi%20AI%20seperti%20studi%20kasus%20di%20portfolio."
+                    href="https://wa.me/6282125447232?text=Halo%20CHESTAADOTCOM%2C%20saya%20tertarik%20dengan%20solusi%20AI%20seperti%20studi%20kasus%20di%20portfolio."
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#4f46e5] text-white font-sans font-bold text-sm hover:bg-indigo-700 transition-colors shadow-md"
+                    className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#6b21a8] text-white font-sans font-bold text-sm hover:bg-purple-700 transition-colors shadow-md"
                   >
                     Terapkan AI di Bisnis Anda <ArrowRight size={16} />
                   </a>

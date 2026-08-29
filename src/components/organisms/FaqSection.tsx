@@ -26,7 +26,7 @@ const faqs = [
   },
   { 
     id: 'layanan-maintenance', 
-    q: 'Apakah CHESTADOTCOM menyediakan layanan pemeliharaan proaktif?', 
+    q: 'Apakah CHESTAADOTCOM menyediakan layanan pemeliharaan proaktif?', 
     a: 'Tentu. Kami menyediakan dukungan proaktif pasca-peluncuran. Ini mencakup pemantauan uptime 24/7, pembaruan keamanan, optimasi performa berkelanjutan, serta fine-tuning alur kerja AI agar infrastruktur bisnis digital Anda selalu beroperasi pada performa puncak.' 
   },
 ];
@@ -88,9 +88,9 @@ export default function FaqSection() {
   };
 
   return (
-    <section id="faq" className="py-14 md:py-18 bg-transparent relative overflow-hidden flex justify-center items-center">
+    <section id="faq" className="py-8 sm:py-12 md:py-16 bg-transparent relative overflow-hidden flex justify-center items-center w-full">
       {/* Seamless background blending gradients for glassmorphism pop */}
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-indigo-50/20 to-transparent pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-purple-50/20 to-transparent pointer-events-none" />
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-slate-200/40 rounded-full blur-[100px] pointer-events-none" />
 
       {/* JSON-LD FAQ Schema Markup for Google rich snippet visibility */}
@@ -99,26 +99,26 @@ export default function FaqSection() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaMarkup) }}
       />
 
-      <div className="mx-auto max-w-4xl px-6 relative z-10 w-full">
+      <div className="mx-auto max-w-4xl px-3 sm:px-6 relative z-10 w-full">
         <motion.div 
            initial={{ opacity: 0, scale: 0.95, y: 30 }}
            whileInView={{ opacity: 1, scale: 1, y: 0 }}
            viewport={{ once: true, margin: "-50px" }}
            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-           className="mb-16 text-center"
+           className="mb-8 sm:mb-14 text-center"
         >
-          <span className="text-indigo-600 font-mono font-bold text-xs uppercase tracking-widest block mb-4">
-            07 — F.A.Q
+          <span className="text-purple-600 font-mono font-bold text-xs uppercase tracking-widest block mb-3">
+            07 — F.A.Q & JAWABAN TEKNIS
           </span>
-          <h2 className="text-3xl md:text-5xl font-display font-semibold tracking-tight text-slate-900 mb-6">
+          <h2 className="text-2xl sm:text-4xl md:text-5xl font-display font-semibold tracking-tight text-slate-900 mb-4">
             Pertanyaan Umum
           </h2>
-          <p className="text-slate-500 font-sans text-lg max-w-2xl mx-auto">
+          <p className="text-slate-500 font-sans text-sm sm:text-base max-w-2xl mx-auto">
             Resolusi strategis atas pertimbangan teknis seputar arsitektur website performa tinggi dan implementasi otomasi AI B2B.
           </p>
         </motion.div>
         
-        <div className="space-y-4">
+        <div className="space-y-3 sm:space-y-4">
           {faqs.map((faq, i) => {
             const isCopied = copiedId === faq.id;
             const isOpen = openIndex === i;
@@ -131,31 +131,31 @@ export default function FaqSection() {
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true, margin: "-50px" }}
                 transition={{ duration: 0.6, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
-                className={`border rounded-3xl overflow-hidden transition-all duration-500 ${
+                className={`border rounded-2xl sm:rounded-3xl overflow-hidden transition-all duration-300 ${
                   isOpen 
-                    ? 'bg-white/60 backdrop-blur-xl border-white/80 shadow-[0_8px_30px_-12px_rgba(0,0,0,0.12)]'
-                    : 'bg-white/40 backdrop-blur-md border-white/50 hover:bg-white/50 hover:border-white/70 shadow-[0_4px_20px_-10px_rgba(0,0,0,0.05)]'
+                    ? 'bg-white/40 backdrop-blur-2xl border-white/60 shadow-xl shadow-purple-900/5'
+                    : 'bg-white/20 backdrop-blur-xl border-white/40 hover:bg-white/40 hover:border-white/60 shadow-sm'
                 }`}
               >
                 <div
                   onClick={() => toggleFaq(i)}
-                  className="flex w-full items-center justify-between py-6 px-8 text-left cursor-pointer group"
+                  className="flex flex-wrap sm:flex-nowrap w-full items-center justify-between py-4 sm:py-5 md:py-6 px-4 sm:px-6 md:px-8 text-left cursor-pointer group gap-3"
                 >
-                  <span className={`text-lg font-display font-medium transition-colors ${isOpen ? 'text-indigo-600' : 'text-slate-900 group-hover:text-indigo-500'}`}>
+                  <span className={`text-base sm:text-lg font-display font-medium transition-colors flex-1 ${isOpen ? 'text-purple-800 font-semibold' : 'text-slate-900 group-hover:text-purple-600'}`}>
                     {faq.q}
                   </span>
                   
-                  <div className="flex items-center gap-3 shrink-0 ml-4">
+                  <div className="flex items-center gap-2 sm:gap-3 shrink-0 self-end sm:self-center ml-auto">
                     {/* Share Link Button */}
                     <button
                       onClick={(e) => handleCopyLink(e, faq.id)}
                       title="Salin tautan langsung"
-                      className="p-2 rounded-full border border-slate-200/50 bg-white/50 text-slate-500 hover:text-indigo-600 hover:bg-white transition-all cursor-pointer relative"
+                      className="p-1.5 sm:p-2 rounded-full border border-slate-200/70 bg-white/70 text-slate-500 hover:text-purple-600 hover:bg-white transition-all cursor-pointer relative"
                     >
                       {isCopied ? (
-                        <Check strokeWidth={1.5} size={16} className="text-indigo-600" />
+                        <Check strokeWidth={1.5} size={15} className="text-purple-600" />
                       ) : (
-                        <LinkIcon strokeWidth={1.5} size={16} />
+                        <LinkIcon strokeWidth={1.5} size={15} />
                       )}
                       
                       {/* Copied tooltip overlay */}
@@ -174,8 +174,8 @@ export default function FaqSection() {
                     </button>
 
                     {/* Chevron toggler */}
-                    <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-colors duration-500 ${isOpen ? 'bg-indigo-600 text-white shadow-md shadow-indigo-600/20' : 'bg-white text-slate-500 shadow-sm'}`}>
-                      <ChevronDown strokeWidth={1.5} size={18} className={`transition-transform duration-500 ${isOpen ? 'rotate-180' : ''}`} />
+                    <div className={`w-8 h-8 sm:w-10 sm:h-10 rounded-full flex items-center justify-center transition-colors duration-300 ${isOpen ? 'bg-purple-600 text-white shadow-2xs' : 'bg-slate-100/80 text-slate-600 shadow-2xs'}`}>
+                      <ChevronDown strokeWidth={1.5} size={16} className={`transition-transform duration-300 ${isOpen ? 'rotate-180' : ''}`} />
                     </div>
                   </div>
                 </div>
@@ -189,7 +189,7 @@ export default function FaqSection() {
                       transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
                       className="overflow-hidden"
                     >
-                      <div className="px-8 pb-8 text-slate-600 leading-relaxed font-sans text-[15px] pt-2">
+                      <div className="px-4 sm:px-6 md:px-8 pb-5 sm:pb-7 text-slate-600 leading-relaxed font-sans text-xs sm:text-sm md:text-[15px] pt-1 border-t border-slate-100">
                         {faq.a}
                       </div>
                     </motion.div>

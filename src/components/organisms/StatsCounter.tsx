@@ -85,7 +85,7 @@ const Counter = ({ value, decimals = 0 }: { value: number, decimals?: number }) 
 export default function StatsCounter() {
   return (
     <section className="py-24 md:py-32 bg-white relative overflow-hidden border-b border-slate-100">
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-indigo-50/50 via-transparent to-transparent pointer-events-none" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-purple-50/50 via-transparent to-transparent pointer-events-none" />
       
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-12">
@@ -102,14 +102,14 @@ export default function StatsCounter() {
                 {stat.prefix && (
                   <span className="text-2xl font-display font-medium text-slate-400">{stat.prefix}</span>
                 )}
-                <h4 className="text-5xl md:text-6xl font-display font-bold tracking-tight text-slate-900 group-hover:text-indigo-600 transition-colors">
+                <h4 className="text-5xl md:text-6xl font-display font-bold tracking-tight text-slate-900 group-hover:text-purple-600 transition-colors">
                   <Counter value={stat.value} decimals={stat.decimals} />
                 </h4>
                 {stat.suffix && (
-                  <span className="text-3xl font-display font-medium text-indigo-600">{stat.suffix}</span>
+                  <span className="text-3xl font-display font-medium text-purple-600">{stat.suffix}</span>
                 )}
               </div>
-              <div className="w-12 h-1 bg-indigo-100 rounded-full mb-4 group-hover:w-full group-hover:bg-indigo-600 transition-all duration-500" />
+              <div className="w-12 h-1 bg-purple-100 rounded-full mb-4 group-hover:w-full group-hover:bg-purple-600 transition-all duration-500" />
               <h5 className="text-lg font-display font-semibold text-slate-900 mb-2">{stat.label}</h5>
               <p className="text-sm font-sans text-slate-600 leading-relaxed">
                 {stat.description}

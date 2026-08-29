@@ -7,12 +7,12 @@ import { useLocation } from 'react-router-dom';
  * Utility hook to dynamically fetch SEO metadata from Firestore
  * mapping the current path to a Firestore document id.
  */
-export function useDynamicSEO(defaultTitle: string, defaultDesc: string) {
+export function useDynamicSEO(defaultTitle: string, defaultDesc: string, defaultOgImage: string = 'https://chestaadotcom.com/default-og.png') {
   const location = useLocation();
   const [seo, setSeo] = useState({
     title: defaultTitle,
     description: defaultDesc,
-    ogImage: 'https://chestaa.com/og-preview-image.jpg'
+    ogImage: defaultOgImage
   });
 
   useEffect(() => {
@@ -20,7 +20,7 @@ export function useDynamicSEO(defaultTitle: string, defaultDesc: string) {
     setSeo({
       title: defaultTitle,
       description: defaultDesc,
-      ogImage: 'https://chestaa.com/og-preview-image.jpg'
+      ogImage: defaultOgImage
     });
     
     const fetchDynamicSEO = async () => {

@@ -5,7 +5,15 @@ import { createServer as createViteServer } from "vite";
 import { GoogleGenAI } from "@google/genai";
 import { initializeApp, getApps } from 'firebase-admin/app';
 import { getAuth } from 'firebase-admin/auth';
-if (getApps().length === 0) { initializeApp({ projectId: 'core-lambda-wcf5x' }); }
+
+import { getFirestore } from 'firebase-admin/firestore';
+import fsSync from 'fs';
+const firebaseConfig = JSON.parse(fsSync.readFileSync('./firebase-applet-config.json', 'utf8'));
+
+if (getApps().length === 0) { 
+  initializeApp({ projectId: firebaseConfig.projectId }); 
+}
+
 
 import Groq from "groq-sdk";
 import { injectSocialMeta } from "./src/lib/social-meta";
@@ -15,7 +23,7 @@ const app = express();
 
 
 // Middleware to verify Firebase ID Token
-const verifyFirebaseToken = async (req, res, next) => {
+const verifyFirebaseToken = async (req: any, res: any, next: any) => {
   const authHeader = req.headers.authorization;
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
     return res.status(401).json({ error: 'Unauthorized: Missing or invalid Authorization header' });
@@ -31,8 +39,32 @@ const verifyFirebaseToken = async (req, res, next) => {
   }
 };
 
+
+// API: Get prunable messages count
+app.get("/api/admin/prunable-count", verifyFirebaseToken, async (req, res) => {
+  try {
+    const db = getFirestore(getApps()[0], firebaseConfig.firestoreDatabaseId);
+    const workspacesSnap = await db.collection('workspaces').get();
+    let prunableCount = 0;
+    
+    const oneMonthAgo = new Date();
+    oneMonthAgo.setDate(oneMonthAgo.getDate() - 30);
+
+    for (const docSnap of workspacesSnap.docs) {
+      if (docSnap.data().neverDelete === true) continue; // Skip protected workspaces
+      const countSnap = await docSnap.ref.collection('chat_messages').where('timestamp', '<', oneMonthAgo).count().get();
+      prunableCount += countSnap.data().count;
+    }
+    
+    res.json({ count: prunableCount });
+  } catch (error) {
+    console.error("Prunable count error:", error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
 // API: Admin Verification
-app.get("/api/admin/verify", verifyFirebaseToken, (req, res) => {
+app.get("/api/admin/verify", verifyFirebaseToken, (req: any, res: any) => {
   res.status(200).json({ success: true, user: req.user });
 });
 
@@ -167,61 +199,105 @@ app.post("/api/posts/validate", async (req, res) => {
 
 // Chat Assistant Route (Groq API)
 app.post("/api/chat", async (req, res) => {
-  const { messages } = req.body;
-  
+  const { messages, pagePath, pageTitle, systemContext } = req.body;
   if (!messages || !Array.isArray(messages)) {
     return res.status(400).json({ error: "Messages array is required." });
   }
 
-  try {
-    const groqKey = process.env.GROQ_API_KEY;
-    if (!groqKey) throw new Error("SKIP_GROQ");
-    const groq = new Groq({ apiKey: groqKey });
-    
-    const systemPrompt = "Anda adalah Konsultan AI Eksklusif dari CHESTADOTCOM. Jawab dengan ramah, cerdas, dan natural. DILARANG KERAS memberikan pertanyaan di akhir jawaban (seperti 'Ada yang bisa dibantu?', 'Bagaimana menurut Anda?'). Jika memberikan pilihan, selalu akhiri jawaban dengan opsi untuk diklik user (contoh: 'Ketik 1 untuk A, 2 untuk B, atau Ya/Lanjut untuk melihat lebih detail') lalu berhenti.";
-    
-    let groqMessages = [
-      { role: 'system', content: systemPrompt },
-      ...messages.map((m) => ({
-        role: m.role === 'assistant' ? 'assistant' : 'user',
-        content: m.content
-      }))
-    ];
+  // Set headers for plain text streaming
+  res.setHeader('Content-Type', 'text/plain; charset=utf-8');
+  res.setHeader('Transfer-Encoding', 'chunked');
+  res.setHeader('Cache-Control', 'no-cache');
+  res.setHeader('Connection', 'keep-alive');
 
-    const completion = await groq.chat.completions.create({
-      messages: groqMessages,
-      model: "llama3-8b-8192",
+  try {
+    // Fetch dynamic pricing & business config from Firestore
+    let dynamicPricing = '';
+    let businessConfig = null;
+    try {
+      const db = getFirestore(getApps()[0], firebaseConfig.firestoreDatabaseId);
+      
+      const configDoc = await db.collection('system_config').doc('business_variables').get();
+      if (configDoc.exists) {
+        businessConfig = configDoc.data();
+      }
+
+      const pricingDoc = await db.collection('page_content').doc('pricing_config').get();
+      if (pricingDoc.exists) {
+        dynamicPricing = pricingDoc.data()?.content || '';
+      }
+    } catch(e) {
+      console.log('Error fetching pricing config:', e);
+    }
+    
+    // Construct Business Data Injection
+    let businessDataInjection = dynamicPricing;
+    if (businessConfig) {
+       businessDataInjection = `Data Harga Bisnis Utama (Sumber Valid dari Sistem Admin):
+- Starting Price / Landing Page: Rp ${(businessConfig.starting_price || 2500000).toLocaleString('id-ID')}
+- Paket UMKM Starter: Rp ${(businessConfig.umkm_price || 5000000).toLocaleString('id-ID')}
+- E-Commerce Web: Rp ${(businessConfig.ecommerce_price || 10000000).toLocaleString('id-ID')}
+- Custom Website (Enterprise/Premium): Rp ${(businessConfig.enterprise_price || 15000000).toLocaleString('id-ID')}
+
+PENTING: Selalu tekankan bahwa harga kita sangat terjangkau, mulai dari Rp ${(businessConfig.starting_price || 2500000).toLocaleString('id-ID')}!`;
+    } else if (!dynamicPricing) {
+       businessDataInjection = `Data Harga Bisnis Utama (Sumber Valid dari Sistem Admin):
+- Starting Price / Landing Page: Rp 2.500.000
+- Paket UMKM Starter: Rp 5.000.000
+- E-Commerce Web: Rp 10.000.000
+- Custom Website (Enterprise/Premium): Rp 15.000.000`;
+    }
+
+    const systemPrompt = `Anda adalah Konsultan AI Eksklusif dari CHESTADOTCOM. Jawab dengan ramah, cerdas, dan natural. Saat ini user sedang berada di halaman "${pageTitle || 'Beranda'}" (Path: ${pagePath || '/'}). Gunakan konteks halaman ini untuk memberikan jawaban.
+
+${systemContext ? 'Konteks Tambahan (Wajib Diperhatikan):\n' + systemContext : ''}
+
+${businessDataInjection}
+
+ATURAN CONFIDENCE SCORE:
+- Jika user bertanya HANYA berdasarkan daftar harga pasti di atas (tanpa permintaan custom berlebihan), Anda WAJIB memberikan harga sesuai data dan tambahkan string ini di akhir response: [CONFIDENCE:HIGH]
+- Jika user meminta estimasi fitur yang tidak ada di daftar, dan Anda menebak atau memberikan estimasi kasar (hallucination), Anda WAJIB memberikan string ini di akhir response: [CONFIDENCE:LOW]
+
+PENTING:
+1. Jika ditanya tentang harga terkini pasar, tren, atau layanan kompetitor, HANYA gunakan Google Search untuk memverifikasi dan berikan informasi mengenai tren teknologi *real-time* atau berita bisnis spesifik BSD City/Cisauk yang relevan untuk klien enterprise.
+2. Jika memberikan informasi harga, estimasi, atau bisnis, Anda WAJIB menyertakan rujukan di akhir kalimat (misal: [Lihat Detail Harga](/services) atau [Konsultasi WhatsApp](https://wa.me/6282125447232)).
+3. Jika Anda ingin memberikan saran pertanyaan lanjutan (opsi) kepada user, JANGAN menyuruh mereka mengetik angka. Sebagai gantinya, WAJIB sertakan opsi tersebut di baris paling bawah dari jawaban Anda dengan format persis seperti ini (harus menggunakan tag <opsi>):
+<opsi>Pertanyaan atau pilihan 1</opsi>
+<opsi>Pertanyaan atau pilihan 2</opsi>
+`;
+
+    if (!genAI) throw new Error("Gemini AI not initialized.");
+
+    const geminiContents = messages.map((m) => ({
+      role: m.role === 'assistant' ? 'model' : 'user',
+      parts: [{ text: m.content }]
+    }));
+
+    const streamResponse = await genAI.models.generateContentStream({
+      model: "gemini-2.5-flash",
+      config: {
+        systemInstruction: systemPrompt,
+        tools: [{ googleSearch: {} }], // Enable Google Search grounding
+      },
+      contents: geminiContents,
     });
     
-    res.json({ reply: completion.choices[0]?.message?.content || "" });
-  } catch (error) {
-    if (error.message !== "SKIP_GROQ") {
-      console.warn("Groq chat fallback triggered.");
-    }
-    // Fallback to Gemini if Groq fails
-    try {
-      if (!genAI) throw new Error("Gemini AI not initialized.");
-      const geminiContents = messages.map((m) => ({
-        role: m.role === 'assistant' ? 'model' : 'user',
-        parts: [{ text: m.content }]
-      }));
-      const response = await genAI.models.generateContent({
-        model: "gemini-3.6-flash",
-        config: { systemInstruction: "Anda adalah Konsultan AI Eksklusif dari CHESTADOTCOM. Jawab dengan ramah, cerdas, dan natural. DILARANG KERAS memberikan pertanyaan di akhir jawaban (seperti 'Ada yang bisa dibantu?', 'Bagaimana menurut Anda?'). Jika memberikan pilihan, selalu akhiri jawaban dengan opsi untuk diklik user (contoh: 'Ketik 1 untuk A, 2 untuk B, atau Ya/Lanjut untuk melihat lebih detail') lalu berhenti." },
-        contents: geminiContents,
-      });
-      res.json({ reply: response.text });
-    } catch (fallbackErr) {
-      console.error("Gemini fallback also failed:", fallbackErr);
-      if (!res.headersSent) {
-        res.status(500).json({ error: "Mohon maaf, layanan AI sedang mengalami gangguan jaringan atau melebihi batas kuota. Silakan coba beberapa saat lagi." });
+    for await (const chunk of streamResponse) {
+      if (chunk.text) {
+        res.write(chunk.text);
       }
+    }
+    res.end();
+  } catch (error) {
+    console.error("Chat API failed:", error);
+    if (!res.headersSent) {
+      res.status(500).json({ error: "Mohon maaf, layanan AI sedang mengalami gangguan jaringan atau melebihi batas kuota. Silakan coba beberapa saat lagi." });
+    } else {
+      res.end();
     }
   }
 });
 
-
-// AI Did You Know Generation
 app.post("/api/ai/did-you-know", async (req, res) => {
   const { serviceTitle } = req.body;
   if (!serviceTitle || !genAI) {
@@ -241,6 +317,36 @@ app.post("/api/ai/did-you-know", async (req, res) => {
   } catch (error) {
     console.log("Did-you-know generation failed:", error.message);
     res.status(500).json({ error: error.message });
+  }
+});
+
+app.post("/api/ai/categorize-feedback", async (req, res) => {
+  const { userContext, aiResponse } = req.body;
+  if (!userContext || !aiResponse) return res.status(400).json({ error: "Missing data" });
+
+  try {
+    const prompt = `Anda adalah penganalisis feedback AI. Kategorikan alasan mengapa jawaban AI berikut mendapatkan rating "thumbs down" (negatif) dari user.
+Pilih SALAH SATU dari kategori berikut (berikan HANYA nama kategorinya):
+- Price Accuracy
+- Helpfulness
+- Response Tone
+- Irrelevant
+- Out of Context
+- Other
+
+Konteks User: "${userContext}"
+Jawaban AI: "${aiResponse}"`;
+    
+    if (!genAI) throw new Error("GenAI not initialized");
+    const response = await genAI.models.generateContent({
+      model: "gemini-2.5-flash",
+      contents: prompt
+    });
+    
+    const category = response.text ? response.text.trim().replace(/^"|"$/g, '') : "Other";
+    res.json({ category });
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 });
 
@@ -418,6 +524,162 @@ Berikan respons dalam format Markdown dengan struktur berikut:
     res.json({ auditResult: response.text });
   } catch (error) {
     console.log("SEO Audit failed.");
+    res.status(500).json({ error: error.message });
+  }
+});
+
+
+
+app.post("/api/score-lead", async (req, res) => {
+  const { leadId } = req.body;
+  if (!leadId) {
+    return res.status(400).json({ error: "Missing leadId" });
+  }
+
+  try {
+    const db = getFirestore(getApps()[0], firebaseConfig.firestoreDatabaseId);
+    const sessionDoc = await db.collection('ai_chat_sessions').doc(leadId).get();
+    
+    if (!sessionDoc.exists) {
+      return res.status(404).json({ error: "Session not found" });
+    }
+
+    const sessionData = sessionDoc.data() || {};
+    const messages = sessionData.messages || [];
+    const transcript = messages.map((m: any) => `${m.role}: ${m.content}`).join('\\n');
+
+    const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
+    
+    const prompt = `You are a B2B sales lead analyst. Evaluate the following chat transcript between a user and an AI assistant.
+Determine the lead score/category for this user.
+Choose EXACTLY ONE from:
+- Hot (Very interested, asking for pricing, wants contact, ready to buy)
+- Warm (Interested, asking about features, exploring)
+- Cold (Just browsing, short conversation, no clear intent)
+
+Return ONLY the category word (Hot, Warm, or Cold).
+
+Transcript:
+${transcript}`;
+
+    const chatCompletion = await groq.chat.completions.create({
+      messages: [{ role: "user", content: prompt }],
+      model: "llama3-8b-8192",
+      temperature: 0.1,
+      max_tokens: 10,
+    });
+
+    let score = chatCompletion.choices[0]?.message?.content?.trim() || "Cold";
+    if (score.toLowerCase().includes("hot")) score = "Hot";
+    else if (score.toLowerCase().includes("warm")) score = "Warm";
+    else score = "Cold";
+
+    await db.collection('ai_leads').doc(leadId).set({
+      sessionId: leadId,
+      score: score,
+      createdAt: new Date(),
+      messageCount: messages.length,
+      userId: sessionData.userId || 'anonymous'
+    });
+
+    await db.collection('ai_chat_sessions').doc(leadId).update({ leadScored: true });
+
+    res.json({ success: true, ai_score: score });
+  } catch (error: any) {
+    console.error("Lead scoring failed:", error);
+    res.status(500).json({ error: error.message });
+  }
+});
+
+
+
+// API: AI-Driven Workspace Pruning
+app.post("/api/ai/prune-workspace", async (req, res) => {
+  const { workspaceId, archiveMode } = req.body;
+  if (!workspaceId) return res.status(400).json({ error: "Missing workspaceId" });
+
+  try {
+    const db = getFirestore(getApps()[0], firebaseConfig.firestoreDatabaseId);
+    
+    // Admin Override Check
+    const workspaceDoc = await db.collection('workspaces').doc(workspaceId).get();
+    if (workspaceDoc.exists && workspaceDoc.data().neverDelete === true) {
+      return res.json({ success: true, pruned: 0, reason: "Skipped: Workspace is protected by admin (Keep Forever)." });
+    }
+
+    const messagesRef = db.collection('workspaces').doc(workspaceId).collection('chat_messages');
+    
+    // Check if there are messages older than 30 days
+    const oneMonthAgo = new Date();
+    oneMonthAgo.setDate(oneMonthAgo.getDate() - 30);
+    
+    const oldMessagesSnapshot = await messagesRef.where('timestamp', '<', oneMonthAgo).get();
+    if (oldMessagesSnapshot.empty) {
+      return res.json({ success: true, pruned: 0, reason: "No old messages found." });
+    }
+
+    // There are old messages. Evaluate lead probability score using AI.
+    const recentSnapshot = await messagesRef.orderBy('timestamp', 'desc').limit(30).get();
+    const messages = [];
+    recentSnapshot.forEach(doc => {
+      const data = doc.data();
+      messages.push(`${data.sender}: ${data.text || (data.fileUrl ? "File uploaded" : "Audio uploaded")}`);
+    });
+    
+    // Check for low engagement (fewer than 5 messages total in recent context could mean low engagement)
+    if (messages.length < 2) {
+        // Very low engagement, prune directly
+    } else {
+        const transcript = messages.reverse().join('\n');
+        let probabilityScore = 100; // Default to high to avoid accidental deletion
+        
+        if (genAI) {
+          try {
+            const prompt = `You are an AI sales analyst. Review the following chat transcript between a client and admin/system.
+Calculate a 'lead probability score' from 0 to 100 representing the likelihood that this client will purchase, subscribe, or engage meaningfully.
+Reply ONLY with the integer number (0-100), nothing else.
+
+Transcript:
+${transcript}`;
+            
+            const response = await genAI.models.generateContent({
+              model: "gemini-3.6-flash",
+              contents: prompt
+            });
+            
+            const aiText = response.text?.trim() || "100";
+            const parsedScore = parseInt(aiText.replace(/[^0-9]/g, ''), 10);
+            if (!isNaN(parsedScore)) {
+              probabilityScore = parsedScore;
+            }
+          } catch (aiErr) {
+            console.error("AI intent evaluation failed, defaulting to 100:", aiErr);
+          }
+        }
+
+        // If score is >= 15%, we DO NOT delete.
+        if (probabilityScore >= 15) {
+          return res.json({ success: true, pruned: 0, reason: `Skipped pruning: AI determined high purchase intent (Score: ${probabilityScore}%).` });
+        }
+    }
+
+    // If intent is < 15%, proceed with pruning
+    const batch = db.batch();
+    let count = 0;
+    oldMessagesSnapshot.forEach(docSnap => {
+      if (archiveMode) {
+        batch.update(docSnap.ref, { archived: true });
+      } else {
+        batch.delete(docSnap.ref);
+      }
+      count++;
+    });
+
+    await batch.commit();
+    res.json({ success: true, pruned: count, reason: "Pruned due to low engagement & probability score < 15%." });
+
+  } catch (error) {
+    console.error("Prune workspace error:", error);
     res.status(500).json({ error: error.message });
   }
 });

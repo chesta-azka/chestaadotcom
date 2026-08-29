@@ -43,7 +43,7 @@ export const generateCityGeoSchema = (cityName: string) => {
   return {
     "@context": "https://schema.org",
     "@type": "ProfessionalService",
-    "name": `Jasa Pembuatan Website ${cityName} | CHESTADOTCOM`,
+    "name": `Jasa Pembuatan Website ${cityName} | CHESTAADOTCOM`,
     "image": "https://chestaa.com/favicon.svg",
     "description": `Mitra transformasi digital dan jasa pembuatan website premium terbaik untuk bisnis Anda di ${cityName}. Tingkatkan SEO lokal dan konversi penjualan dengan arsitektur web modern.`,
     "areaServed": {
@@ -52,7 +52,7 @@ export const generateCityGeoSchema = (cityName: string) => {
     },
     "provider": {
       "@type": "ProfessionalService",
-      "name": "CHESTADOTCOM - Digital Architect"
+      "name": "CHESTAADOTCOM - Digital Architect"
     },
     "url": `https://chestaa.com/area/${cityName.toLowerCase()}`
   };
@@ -65,7 +65,7 @@ export const generateServiceSchema = (serviceName: string, serviceDescription: s
     "serviceType": serviceName,
     "provider": {
       "@type": "ProfessionalService",
-      "name": "CHESTADOTCOM"
+      "name": "CHESTAADOTCOM"
     },
     "description": serviceDescription,
     "url": url,

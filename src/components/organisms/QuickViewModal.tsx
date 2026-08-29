@@ -60,7 +60,7 @@ export default function QuickViewModal({ isOpen, onClose, data }: QuickViewModal
 
             <div className={`p-6 sm:p-8 overflow-y-auto ${!data.image ? 'pt-12' : ''}`}>
               <div className="flex items-center gap-2 mb-3">
-                <span className="px-2.5 py-1 rounded-full text-xs font-semibold bg-indigo-100 dark:bg-indigo-900/50 text-indigo-700 dark:text-indigo-300 uppercase tracking-wider">
+                <span className="px-2.5 py-1 rounded-full text-xs font-semibold bg-purple-100 dark:bg-purple-900/50 text-purple-700 dark:text-purple-300 uppercase tracking-wider">
                   {data.type}
                 </span>
                 {data.subtitle && (
@@ -96,7 +96,7 @@ export default function QuickViewModal({ isOpen, onClose, data }: QuickViewModal
                 <Link 
                   to={data.link}
                   onClick={onClose}
-                  className="w-full sm:w-auto flex items-center justify-center gap-2 bg-indigo-600 text-white px-6 py-3 rounded-xl font-medium hover:bg-indigo-700 transition-colors"
+                  className="w-full sm:w-auto flex items-center justify-center gap-2 bg-purple-600 text-white px-6 py-3 rounded-xl font-medium hover:bg-purple-700 transition-colors"
                 >
                   Lihat Detail Penuh
                   <ArrowRight size={18} />

@@ -30,17 +30,17 @@ export default function RelatedServices({ currentSlug }: Props) {
               className="group block p-6 rounded-3xl bg-white/70 backdrop-blur-[16px] backdrop-saturate-[180%] border border-white/40 shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] hover:bg-white hover:shadow-lg transition-all"
             >
               <div className="flex items-center gap-4 mb-3">
-                <div className="w-10 h-10 rounded-xl bg-indigo-50 flex items-center justify-center text-indigo-600">
+                <div className="w-10 h-10 rounded-xl bg-purple-50 flex items-center justify-center text-purple-600">
                   <service.icon size={20} strokeWidth={1.5} />
                 </div>
-                <h4 className="font-display font-medium text-lg text-slate-900 group-hover:text-indigo-600 transition-colors">
+                <h4 className="font-display font-medium text-lg text-slate-900 group-hover:text-purple-600 transition-colors">
                   {service.title}
                 </h4>
               </div>
               <p className="text-sm text-slate-500 font-light line-clamp-2 mb-4">
                 {service.description}
               </p>
-              <span className="inline-flex items-center gap-2 text-xs font-medium text-indigo-600 group-hover:gap-3 transition-all">
+              <span className="inline-flex items-center gap-2 text-xs font-medium text-purple-600 group-hover:gap-3 transition-all">
                 Explore <ArrowRight size={14} />
               </span>
             </Link>

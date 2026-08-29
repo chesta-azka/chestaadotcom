@@ -52,7 +52,7 @@ export default function QuickViewModal({ isOpen, onClose, data }: QuickViewModal
           >
             {/* Header */}
             <div className="flex items-center justify-between p-6 border-b border-slate-100 relative">
-              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-indigo-500 to-cyan-400" />
+              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-purple-500 to-cyan-400" />
               <h3 className="text-xl font-display font-semibold text-slate-900 tracking-tight">
                 {data.title}
               </h3>
@@ -71,7 +71,7 @@ export default function QuickViewModal({ isOpen, onClose, data }: QuickViewModal
               </p>
               
               <div className="mb-2">
-                <h4 className="text-[10px] font-mono font-bold tracking-widest text-indigo-600 uppercase mb-4">
+                <h4 className="text-[10px] font-mono font-bold tracking-widest text-purple-600 uppercase mb-4">
                   Core Benefits
                 </h4>
                 <ul className="space-y-3">
@@ -91,7 +91,7 @@ export default function QuickViewModal({ isOpen, onClose, data }: QuickViewModal
                 href={data.ctaLink}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="w-full flex items-center justify-center gap-2 py-3.5 px-4 rounded-xl bg-slate-900 text-white font-sans font-bold text-sm tracking-wide transition-all hover:bg-indigo-600 shadow-sm"
+                className="w-full flex items-center justify-center gap-2 py-3.5 px-4 rounded-xl bg-slate-900 text-white font-sans font-bold text-sm tracking-wide transition-all hover:bg-purple-600 shadow-sm"
               >
                 <MessageCircle size={16} />
                 {data.ctaText}

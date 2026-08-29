@@ -5,30 +5,152 @@
       "description": "Represents a user in the system with permissions and profile info.",
       "type": "object",
       "properties": {
-        "uid": { "type": "string", "description": "Unique identifier for the user." },
-        "email": { "type": "string", "format": "email" },
-        "name": { "type": "string" },
-        "role": { "type": "string", "enum": ["user", "admin"], "description": "Access level of the user." },
-        "createdAt": { "type": "string", "format": "date-time" }
+        "uid": {
+          "type": "string",
+          "description": "Unique identifier for the user."
+        },
+        "email": {
+          "type": "string",
+          "format": "email"
+        },
+        "name": {
+          "type": "string"
+        },
+        "role": {
+          "type": "string",
+          "enum": [
+            "user",
+            "admin"
+          ],
+          "description": "Access level of the user."
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
       },
-      "required": ["uid", "email", "role"]
+      "required": [
+        "uid",
+        "email",
+        "role"
+      ]
     },
     "Post": {
       "title": "Journal Post",
       "description": "A blog article vetted by AI and editors.",
       "type": "object",
       "properties": {
-        "id": { "type": "string" },
-        "title": { "type": "string" },
-        "content": { "type": "string" },
-        "category": { "type": "string" },
-        "imageUrl": { "type": "string", "format": "uri" },
-        "authorId": { "type": "string" },
-        "status": { "type": "string", "enum": ["draft", "published", "rejected"] },
-        "createdAt": { "type": "string" },
-        "approvedAt": { "type": "string" }
+        "id": {
+          "type": "string"
+        },
+        "title": {
+          "type": "string"
+        },
+        "content": {
+          "type": "string"
+        },
+        "category": {
+          "type": "string"
+        },
+        "imageUrl": {
+          "type": "string",
+          "format": "uri"
+        },
+        "authorId": {
+          "type": "string"
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "draft",
+            "published",
+            "rejected"
+          ]
+        },
+        "createdAt": {
+          "type": "string"
+        },
+        "approvedAt": {
+          "type": "string"
+        }
       },
-      "required": ["id", "title", "content", "authorId", "status"]
+      "required": [
+        "id",
+        "title",
+        "content",
+        "authorId",
+        "status"
+      ]
+    },
+    "BlogInteraction": {
+      "title": "Blog Interaction Stats",
+      "type": "object",
+      "properties": {
+        "likes": {
+          "type": "number"
+        },
+        "viewCount": {
+          "type": "number"
+        }
+      }
+    },
+    "Comment": {
+      "title": "Blog Comment",
+      "type": "object",
+      "properties": {
+        "authorName": {
+          "type": "string",
+          "maxLength": 50
+        },
+        "content": {
+          "type": "string",
+          "maxLength": 500
+        },
+        "createdAt": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "authorName",
+        "content",
+        "createdAt"
+      ]
+    },
+    "FAQ": {
+      "title": "Service FAQ",
+      "type": "object",
+      "properties": {
+        "question": {
+          "type": "string"
+        },
+        "answer": {
+          "type": "string"
+        },
+        "serviceSlug": {
+          "type": "string"
+        },
+        "order": {
+          "type": "number"
+        }
+      }
+    },
+    "NewsletterSubscriber": {
+      "title": "Newsletter Subscriber",
+      "type": "object",
+      "properties": {
+        "email": {
+          "type": "string",
+          "format": "email"
+        },
+        "createdAt": {
+          "type": "string",
+          "format": "date-time"
+        }
+      },
+      "required": [
+        "email",
+        "createdAt"
+      ]
     }
   },
   "firestore": {
@@ -39,6 +161,22 @@
     "/posts/{postId}": {
       "schema": "Post",
       "description": "Journal articles and drafts."
+    },
+    "/blog_interactions/{slug}": {
+      "schema": "BlogInteraction",
+      "description": "Stats like likes and views for a blog post"
+    },
+    "/blog_interactions/{slug}/comments/{commentId}": {
+      "schema": "Comment",
+      "description": "Comments on a blog post"
+    },
+    "/faqs/{faqId}": {
+      "schema": "FAQ",
+      "description": "FAQs for services"
+    },
+    "/newsletter_subscribers/{docId}": {
+      "schema": "NewsletterSubscriber",
+      "description": "Newsletter email subscriptions"
     }
   }
 }

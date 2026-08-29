@@ -11,7 +11,7 @@ interface PricingParams {
   customDesign: boolean;
 }
 
-const BASE_PRICE = 550000;
+const BASE_PRICE = 2500000;
 
 interface AutomatedPricingLogicProps {
   onEstimateGenerated: (estimate: string, details: string) => void;
@@ -64,10 +64,10 @@ export default function AutomatedPricingLogic({ onEstimateGenerated, onCancel }:
   };
 
   return (
-    <div className="flex flex-col h-full bg-white text-slate-800 font-sans">
+    <div className="flex flex-col h-full bg-white/40 backdrop-blur-2xl text-slate-800 font-sans border border-white/60 shadow-xl shadow-purple-900/5 rounded-3xl overflow-hidden">
       <div className="p-4 border-b border-slate-100 flex items-center gap-2">
-        <Calculator size={18} className="text-[#4f46e5]" />
-        <h3 className="font-semibold text-sm">Estimasi Otomatis (Mulai Rp550.000)</h3>
+        <Calculator size={18} className="text-[#6b21a8]" />
+        <h3 className="font-semibold text-sm">Estimasi Otomatis (Mulai Rp2.500.000)</h3>
       </div>
       
       <div className="flex-1 overflow-y-auto p-4 space-y-5">
@@ -80,7 +80,7 @@ export default function AutomatedPricingLogic({ onEstimateGenerated, onCancel }:
               min="1" max="15" 
               value={params.pages} 
               onChange={(e) => setParams({ ...params, pages: parseInt(e.target.value) })}
-              className="w-full accent-[#4f46e5]"
+              className="w-full accent-[#6b21a8]"
             />
             <span className="text-sm font-bold bg-slate-100 px-2.5 py-1 rounded-md">{params.pages}</span>
           </div>
@@ -94,7 +94,7 @@ export default function AutomatedPricingLogic({ onEstimateGenerated, onCancel }:
               <button
                 key={level}
                 onClick={() => setParams({ ...params, complexity: level as any })}
-                className={`py-2 text-[11px] font-bold uppercase rounded-lg border transition-all ${params.complexity === level ? 'bg-[#4f46e5] text-white border-[#4f46e5]' : 'bg-white text-slate-500 border-slate-200 hover:border-slate-300'}`}
+                className={`py-2 text-[11px] font-bold uppercase rounded-lg border transition-all ${params.complexity === level ? 'bg-[#6b21a8] text-white border-[#6b21a8]' : 'bg-white text-slate-500 border-slate-200 hover:border-slate-300'}`}
               >
                 {level}
               </button>
@@ -111,7 +111,7 @@ export default function AutomatedPricingLogic({ onEstimateGenerated, onCancel }:
                 type="checkbox" 
                 checked={params.hasEcommerce} 
                 onChange={(e) => setParams({ ...params, hasEcommerce: e.target.checked })}
-                className="w-4 h-4 text-[#4f46e5] rounded border-slate-300 focus:ring-[#4f46e5]"
+                className="w-4 h-4 text-[#6b21a8] rounded border-slate-300 focus:ring-[#6b21a8]"
               />
               <span className="group-hover:text-slate-900 transition-colors">Toko Online (E-Commerce)</span>
             </label>
@@ -120,7 +120,7 @@ export default function AutomatedPricingLogic({ onEstimateGenerated, onCancel }:
                 type="checkbox" 
                 checked={params.needsSEO} 
                 onChange={(e) => setParams({ ...params, needsSEO: e.target.checked })}
-                className="w-4 h-4 text-[#4f46e5] rounded border-slate-300 focus:ring-[#4f46e5]"
+                className="w-4 h-4 text-[#6b21a8] rounded border-slate-300 focus:ring-[#6b21a8]"
               />
               <span className="group-hover:text-slate-900 transition-colors">Optimasi SEO Lanjutan</span>
             </label>
@@ -129,16 +129,16 @@ export default function AutomatedPricingLogic({ onEstimateGenerated, onCancel }:
                 type="checkbox" 
                 checked={params.customDesign} 
                 onChange={(e) => setParams({ ...params, customDesign: e.target.checked })}
-                className="w-4 h-4 text-[#4f46e5] rounded border-slate-300 focus:ring-[#4f46e5]"
+                className="w-4 h-4 text-[#6b21a8] rounded border-slate-300 focus:ring-[#6b21a8]"
               />
               <span className="group-hover:text-slate-900 transition-colors">Desain Visual Custom/Premium</span>
             </label>
           </div>
         </div>
 
-        <div className="p-4 bg-indigo-50 rounded-xl border border-indigo-100 flex items-center justify-between">
-          <span className="text-xs font-semibold text-indigo-800 uppercase">Estimasi</span>
-          <span className="text-lg font-display font-bold text-[#4f46e5]">
+        <div className="p-4 bg-purple-50 rounded-xl border border-purple-100 flex items-center justify-between">
+          <span className="text-xs font-semibold text-purple-800 uppercase">Estimasi</span>
+          <span className="text-lg font-display font-bold text-[#6b21a8]">
             {new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(totalPrice)}
           </span>
         </div>
@@ -154,7 +154,7 @@ export default function AutomatedPricingLogic({ onEstimateGenerated, onCancel }:
         <button 
           onClick={handleGenerate}
           disabled={isCalculating}
-          className="flex-[2] py-2.5 text-sm font-semibold text-white bg-[#4f46e5] rounded-xl hover:bg-indigo-700 transition-colors flex items-center justify-center gap-2"
+          className="flex-[2] py-2.5 text-sm font-semibold text-white bg-[#6b21a8] rounded-xl hover:bg-purple-700 transition-colors flex items-center justify-center gap-2"
         >
           {isCalculating ? (
             <RefreshCcw size={16} className="animate-spin" />

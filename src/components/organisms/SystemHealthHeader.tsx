@@ -47,7 +47,7 @@ export default function SystemHealthHeader() {
   };
 
   return (
-    <div className="flex items-center gap-4 bg-white/70 backdrop-blur-[16px] backdrop-saturate-[180%] border border-white/40 shadow-[0_8px_32px_0_rgba(31,38,135,0.07)] rounded-2xl px-5 py-3 ml-auto w-fit">
+    <div className="flex items-center gap-4 bg-white/40 backdrop-blur-2xl backdrop-saturate-[180%] border border-white/60 shadow-xl shadow-purple-900/5 rounded-2xl px-5 py-3 ml-auto w-fit">
       <div className="flex items-center gap-3 pr-4 border-r border-slate-200">
         <span className="relative flex h-3 w-3">
           {health.status === 'healthy' && <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>}

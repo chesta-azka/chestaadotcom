@@ -32,18 +32,18 @@ export default function LocalSEOBanner() {
         initial={{ y: -50, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         exit={{ y: -50, opacity: 0 }}
-        className="w-full bg-indigo-600 text-white px-4 py-3 relative z-50 flex items-center justify-center text-sm font-sans"
+        className="w-full bg-purple-600 text-white px-4 py-3 relative z-50 flex items-center justify-center text-sm font-sans"
       >
-        <MapPin className="w-4 h-4 mr-2 text-indigo-200" />
+        <MapPin className="w-4 h-4 mr-2 text-purple-200" />
         <span className="text-center">
           Kabar Gembira! Kini layanan <strong>Digital Architect & AI Agentic</strong> kami beroperasi lebih dekat untuk bisnis di <strong>{locationName}</strong>.
         </span>
         <button 
           onClick={() => setIsVisible(false)}
-          className="absolute right-4 top-1/2 -translate-y-1/2 p-1 hover:bg-indigo-500 rounded-full transition-colors"
+          className="absolute right-4 top-1/2 -translate-y-1/2 p-1 hover:bg-purple-500 rounded-full transition-colors"
           aria-label="Tutup Banner"
         >
-          <X className="w-4 h-4 text-indigo-200" />
+          <X className="w-4 h-4 text-purple-200" />
         </button>
       </motion.div>
     </AnimatePresence>

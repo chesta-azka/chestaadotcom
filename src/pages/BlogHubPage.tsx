@@ -1,6 +1,7 @@
 import SEOProvider from '../components/atoms/SEOProvider';
 import { useEffect, useState, useMemo } from 'react';
 import { motion, AnimatePresence, useScroll, useSpring } from 'motion/react';
+import ReactMarkdown from 'react-markdown';
 import { 
   ArrowLeft, 
   ArrowRight, 
@@ -23,13 +24,19 @@ import MetaTags from '../components/atoms/MetaTags.tsx';
 import BlogSEO from '../components/atoms/BlogSEO.tsx';
 import Breadcrumbs from '../components/atoms/Breadcrumbs';
 import { ALL_ARTICLES, Article } from '../data/blogData';
+import { parseDateToISOString } from '../utils/dateUtils';
 import CreativityMarquee from '../components/organisms/CreativityMarquee.tsx';
+import NewsletterForm from '../components/organisms/NewsletterForm';
+import RecentPostsWidget from '../components/organisms/RecentPostsWidget';
+import SocialShareWidget from '../components/organisms/SocialShareWidget';
+import BlogInteractions from '../components/organisms/BlogInteractions';
+import TableOfContents, { TOCItem } from '../components/molecules/TableOfContents';
 
 const BlogHubSkeleton = () => (
   <div className="relative flex flex-col h-full bg-white p-6 rounded-3xl border border-slate-100 animate-pulse text-left shadow-sm">
     <div className="w-full h-44 bg-slate-100 rounded-2xl mb-5" />
     <div className="flex gap-2.5 items-center mb-3">
-      <div className="h-5 w-16 bg-[#4f46e5]/10 rounded-full" />
+      <div className="h-5 w-16 bg-[#6b21a8]/10 rounded-full" />
       <div className="h-3 w-16 bg-slate-100 rounded" />
     </div>
     <div className="space-y-2 mb-4">
@@ -42,7 +49,7 @@ const BlogHubSkeleton = () => (
       <div className="h-3.5 w-3/4 bg-slate-100 rounded" />
     </div>
     <div className="mt-auto pt-4 border-t border-slate-100 flex items-center justify-between">
-      <div className="h-4 w-28 bg-[#4f46e5]/10 rounded" />
+      <div className="h-4 w-28 bg-[#6b21a8]/10 rounded" />
       <div className="h-4 w-4 bg-slate-100 rounded-full" />
     </div>
   </div>
@@ -78,6 +85,39 @@ export default function BlogHubPage() {
   const readSlug = searchParams.get('read');
   const activeArticle = combinedAllArticles.find(a => a.slug === readSlug);
 
+  const generateHeadingId = (text: string) => {
+    return 'section-' + text
+      .toLowerCase()
+      .replace(/[*_~`#[\]()]/g, '')
+      .replace(/[^a-z0-9]+/g, '-')
+      .replace(/^-+|-+$/g, '');
+  };
+
+  const tocItems = useMemo(() => {
+    if (!activeArticle || !activeArticle.content) return [];
+    const items: TOCItem[] = [];
+    activeArticle.content.forEach((block) => {
+      if (typeof block === 'string') {
+        const lines = block.split('\n');
+        lines.forEach((line) => {
+          const trimmed = line.trim();
+          if (trimmed.startsWith('### ')) {
+            const rawText = trimmed.replace('### ', '').trim();
+            const cleanText = rawText.replace(/[*_`]/g, '');
+            const id = generateHeadingId(cleanText);
+            items.push({ id, text: cleanText, level: 3 });
+          } else if (trimmed.startsWith('## ')) {
+            const rawText = trimmed.replace('## ', '').trim();
+            const cleanText = rawText.replace(/[*_`]/g, '');
+            const id = generateHeadingId(cleanText);
+            items.push({ id, text: cleanText, level: 2 });
+          }
+        });
+      }
+    });
+    return items;
+  }, [activeArticle]);
+
   // Handle scroll reset when article is opened or closed
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -87,7 +127,7 @@ export default function BlogHubPage() {
   const postsPerPage = 6;
 
   // Categories list
-  const categories = ['All', 'AI Trends', 'Web Development', 'SEO', 'Strategy', 'Design', 'Copywriting', 'Personal'];
+  const categories = ['All', 'Tech', 'AI', 'Business', 'SEO', 'Design', 'Copywriting', 'Personal'];
 
   // Trending tags list
   const popularTags = ['Agentic AI', 'Local SEO', 'Core Web Vitals', 'Conversion', 'Automation', 'WhatsApp Bot', 'Micro-Interactions'];
@@ -166,7 +206,7 @@ export default function BlogHubPage() {
   return (
     <>
       <SEOProvider 
-        title="Insights & AI Engineering Blog | CHESTADOTCOM"
+        title="Insights & AI Engineering Blog | CHESTAADOTCOM"
         description="Deep dives into digital architecture, AI implementations, and enterprise solutions."
       />
     <motion.div 
@@ -182,7 +222,7 @@ export default function BlogHubPage() {
             initial={{ scaleX: 0, opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed top-0 left-0 right-0 h-[3px] bg-[#4f46e5] origin-left z-[9999]"
+            className="fixed top-0 left-0 right-0 h-[3px] bg-[#6b21a8] origin-left z-[9999]"
             style={{ scaleX }}
           />
         )}
@@ -197,11 +237,11 @@ export default function BlogHubPage() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -15 }}
             transition={{ duration: 0.4, ease: "easeOut" }}
-            className="mx-auto max-w-4xl px-6 pt-8 relative z-10 flex flex-col items-center"
+            className="mx-auto max-w-4xl px-6 pt-40 md:pt-48 pb-20 relative z-10 flex flex-col items-center"
           >
             <Breadcrumbs items={[{ label: 'Insight', path: '/blog' }, { label: activeArticle.title }]} />
             <MetaTags 
-              title={`${activeArticle.title} — CHESTADOTCOM Journal`} 
+              title={`${activeArticle.title} — CHESTAADOTCOM Journal`} 
               description={activeArticle.desc} 
               path={`/blog?read=${activeArticle.slug}`}
               breadcrumbs={[
@@ -214,11 +254,11 @@ export default function BlogHubPage() {
             <BlogSEO 
               title={activeArticle.title}
               description={activeArticle.desc}
-              url={`https://chestadotcom.com/blog?read=${activeArticle.slug}`}
-              image={activeArticle.image || 'https://chestadotcom.com/default-og.png'}
+              url={`https://chestaadotcom.com/blog?read=${activeArticle.slug}`}
+              image={activeArticle.image || 'https://chestaadotcom.com/default-og.png'}
               type="article"
               authorName={typeof activeArticle.author === 'string' ? activeArticle.author : activeArticle.author?.name || 'Chesta Azka Sofyan'}
-              publishedTime={activeArticle.date ? new Date(activeArticle.date).toISOString() : undefined}
+              publishedTime={parseDateToISOString(activeArticle.date)}
             />
 
             {/* Top Navigation & Share Bar */}
@@ -232,25 +272,19 @@ export default function BlogHubPage() {
                     setSearchParams({});
                   }
                 }}
-                className="group inline-flex items-center gap-2 text-xs font-mono font-semibold tracking-widest uppercase text-slate-600 hover:text-[#4f46e5] transition-colors"
+                className="group inline-flex items-center gap-2 text-xs font-mono font-semibold tracking-widest uppercase text-slate-600 hover:text-[#6b21a8] transition-colors"
               >
                 <ArrowLeft size={16} className="transition-transform group-hover:-translate-x-1" />
                 <span>{searchParams.get('origin') === 'home' ? 'Kembali ke Home' : 'Kembali ke Semua Insight'}</span>
               </button>
 
-              <button
-                onClick={handleCopyShare}
-                className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full border border-slate-200 bg-white hover:bg-slate-50 text-xs font-sans font-medium text-slate-700 transition-colors shadow-sm"
-              >
-                {copied ? <Check size={14} className="text-emerald-600" /> : <Share2 size={14} />}
-                <span>{copied ? 'Link Disalin!' : 'Copy Link'}</span>
-              </button>
+              <SocialShareWidget title={activeArticle.title} url={`https://chestaadotcom.com/blog?read=${activeArticle.slug}`} />
             </div>
 
             {/* Article Header */}
             <header className="mb-12 w-full text-left">
               <div className="flex flex-wrap gap-3 items-center mb-6">
-                <span className="text-[10px] font-mono font-bold text-white bg-[#4f46e5] px-3.5 py-1.5 rounded-full uppercase tracking-widest shadow-sm">
+                <span className="text-[10px] font-mono font-bold text-white bg-[#6b21a8] px-3.5 py-1.5 rounded-full uppercase tracking-widest shadow-sm">
                   {activeArticle.cat}
                 </span>
 
@@ -266,7 +300,7 @@ export default function BlogHubPage() {
                   <span>{activeArticle.date}</span>
                 </div>
                 <div className="flex items-center gap-1.5 text-xs font-mono text-slate-600">
-                  <Clock size={12} className="text-[#4f46e5]" />
+                  <Clock size={12} className="text-[#6b21a8]" />
                   <span>{activeArticle.readTime}</span>
                 </div>
               </div>
@@ -277,13 +311,35 @@ export default function BlogHubPage() {
 
               {/* Author Strip */}
               {activeArticle.author && (
-                <div className="flex items-center gap-3 py-3 px-4 rounded-2xl bg-slate-50 border border-slate-100 mb-8 max-w-max">
-                  <div className="w-9 h-9 rounded-full bg-gradient-to-tr from-[#4f46e5] to-purple-600 text-white font-mono text-xs font-bold flex items-center justify-center shadow-sm">
-                    CA
+                <div className="flex flex-wrap items-center justify-between gap-4 py-3 px-4 rounded-2xl bg-slate-50 border border-slate-100 mb-8 w-full">
+                  <div className="flex items-center gap-3">
+                    <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-purple-600 to-purple-600 text-white font-mono text-xs font-bold flex items-center justify-center shadow-sm">
+                      CA
+                    </div>
+                    <div className="text-left">
+                      <div className="text-sm font-sans font-bold text-slate-900">{activeArticle.author.name}</div>
+                      <div className="text-[10px] font-mono text-slate-500 uppercase tracking-wider">{activeArticle.author.role}</div>
+                    </div>
                   </div>
-                  <div className="text-left">
-                    <div className="text-xs font-sans font-bold text-slate-900">{activeArticle.author.name}</div>
-                    <div className="text-[10px] font-mono text-slate-500 uppercase tracking-wider">{activeArticle.author.role}</div>
+
+                  {/* Social Handles */}
+                  <div className="flex items-center gap-2">
+                    <a
+                      href="https://instagram.com/chestaadotcom"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 text-[11px] font-mono font-medium px-3 py-1 rounded-full bg-pink-50 hover:bg-pink-100 text-pink-700 border border-pink-200 transition-colors"
+                    >
+                      <span>IG: @chestaadotcom</span>
+                    </a>
+                    <a
+                      href="https://tiktok.com/@chesta_azka"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 text-[11px] font-mono font-medium px-3 py-1 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-800 border border-slate-300 transition-colors"
+                    >
+                      <span>TikTok: @chesta_azka</span>
+                    </a>
                   </div>
                 </div>
               )}
@@ -295,20 +351,114 @@ export default function BlogHubPage() {
               )}
 
               {/* Lead Paragraph */}
-              <p className="text-lg sm:text-xl text-slate-700 font-sans leading-relaxed border-l-3 border-[#4f46e5] pl-6 py-2 bg-indigo-50/20 rounded-r-2xl">
+              <p className="text-lg sm:text-xl text-slate-700 font-sans leading-relaxed border-l-3 border-[#6b21a8] pl-6 py-2 bg-purple-50/20 rounded-r-2xl">
                 {activeArticle.desc}
               </p>
             </header>
 
+            {/* Table of Contents for Long-Form Articles */}
+            {tocItems.length > 0 && (
+              <div className="mb-10 w-full">
+                <TableOfContents items={tocItems} />
+              </div>
+            )}
+
             {/* Article Content Area */}
-            <article className="space-y-8 text-lg font-sans text-slate-700 leading-relaxed w-full">
+            <article className="space-y-6 text-lg font-sans text-slate-700 leading-relaxed w-full">
               {activeArticle.content && activeArticle.content.map((block, idx) => {
                 if (typeof block === 'string') {
                   return (
                     <div key={idx} className="w-full">
-                      <p className="text-slate-800 leading-relaxed">
+                      <ReactMarkdown
+                        components={{
+                          h2: ({ children }) => {
+                            const plainText = typeof children === 'string'
+                              ? children
+                              : Array.isArray(children)
+                                ? children.map(c => typeof c === 'string' ? c : '').join('')
+                                : String(children || '');
+                            const id = generateHeadingId(plainText);
+                            return (
+                              <h2 
+                                id={id} 
+                                className="text-3xl sm:text-4xl font-display font-bold text-slate-900 mt-14 mb-6 pt-4 border-t-2 border-purple-100 scroll-mt-28 flex items-center gap-3 group tracking-tight"
+                              >
+                                <span className="w-3 h-8 rounded-full bg-purple-700 inline-block shrink-0 shadow-sm shadow-purple-500/20" />
+                                <span>{children}</span>
+                              </h2>
+                            );
+                          },
+                          h3: ({ children }) => {
+                            const plainText = typeof children === 'string'
+                              ? children
+                              : Array.isArray(children)
+                                ? children.map(c => typeof c === 'string' ? c : '').join('')
+                                : String(children || '');
+                            const id = generateHeadingId(plainText);
+                            return (
+                              <h3 
+                                id={id} 
+                                className="text-2xl sm:text-3xl font-display font-semibold text-slate-900 mt-10 mb-4 pt-2 scroll-mt-28 flex items-center gap-2 group tracking-tight"
+                              >
+                                <span className="w-2.5 h-2.5 rounded-full bg-purple-600 inline-block shrink-0 opacity-80 group-hover:opacity-100 shadow-sm" />
+                                <span>{children}</span>
+                              </h3>
+                            );
+                          },
+                          p: ({ children }) => (
+                            <p className="text-slate-700 leading-[1.8] text-[1.05rem] sm:text-lg mb-6 font-sans">
+                              {children}
+                            </p>
+                          ),
+                          strong: ({ children }) => (
+                            <strong className="font-bold text-slate-900 bg-purple-50/80 px-1.5 py-0.5 rounded text-purple-900 font-sans shadow-sm border border-purple-100/50">
+                              {children}
+                            </strong>
+                          ),
+                          em: ({ children }) => (
+                            <em className="italic text-slate-700 font-medium font-serif text-[1.1rem]">
+                              {children}
+                            </em>
+                          ),
+                          a: ({ href, children }) => (
+                            <a
+                              href={href}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-purple-700 hover:text-purple-900 font-semibold underline underline-offset-4 decoration-purple-300 hover:decoration-purple-600 transition-colors inline-flex items-center gap-1"
+                            >
+                              {children}
+                            </a>
+                          ),
+                          ul: ({ children }) => (
+                            <ul className="space-y-3 my-6 pl-8 list-disc marker:text-purple-600 text-slate-700 leading-[1.8] text-[1.05rem] sm:text-lg">
+                              {children}
+                            </ul>
+                          ),
+                          ol: ({ children }) => (
+                            <ol className="space-y-3 my-6 pl-8 list-decimal marker:text-purple-700 marker:font-bold text-slate-700 leading-[1.8] text-[1.05rem] sm:text-lg">
+                              {children}
+                            </ol>
+                          ),
+                          li: ({ children }) => (
+                            <li className="leading-[1.8] pl-2">
+                              {children}
+                            </li>
+                          ),
+                          blockquote: ({ children }) => (
+                            <blockquote className="border-l-4 border-purple-600 bg-gradient-to-r from-purple-50/80 to-transparent rounded-r-2xl px-6 py-5 my-8 italic text-slate-800 text-[1.1rem] sm:text-xl font-serif leading-relaxed shadow-sm">
+                              {children}
+                            </blockquote>
+                          ),
+                          code: ({ children }) => (
+                            <code className="px-2 py-0.5 rounded-md bg-slate-900 font-mono text-sm text-purple-200 border border-purple-900/50 font-semibold shadow-inner">
+                              {children}
+                            </code>
+                          )
+                        }}
+                      >
                         {block}
-                      </p>
+                      </ReactMarkdown>
                     </div>
                   );
                 } else if (block.type === 'image') {
@@ -336,14 +486,19 @@ export default function BlogHubPage() {
                       setSelectedTag(t);
                       setSearchParams({});
                     }}
-                    className="text-xs font-sans px-3 py-1 rounded-full bg-slate-100 hover:bg-indigo-50 hover:text-[#4f46e5] text-slate-600 transition-colors border border-slate-200"
+                    className="text-xs font-sans px-3 py-1 rounded-full bg-slate-100 hover:bg-purple-50 hover:text-[#6b21a8] text-slate-600 transition-colors border border-slate-200"
                   >
                     #{t}
                   </button>
                 ))}
               </div>
             )}
+            
+            <BlogInteractions slug={activeArticle.slug} />
 
+                        <div className="-mx-6 my-12 w-full">
+              <NewsletterForm />
+            </div>
             {/* Floating Marquee */}
             <div className="-mx-6 my-12 w-full">
               <CreativityMarquee />
@@ -353,7 +508,7 @@ export default function BlogHubPage() {
             <div className="mt-16 border-t border-slate-100 pt-12 w-full">
               <div className="flex items-center justify-between mb-8">
                 <div>
-                  <span className="text-[10px] font-mono uppercase tracking-widest text-[#4f46e5] font-bold block mb-2">
+                  <span className="text-[10px] font-mono uppercase tracking-widest text-[#6b21a8] font-bold block mb-2">
                     Keep Reading
                   </span>
                   <h3 className="text-2xl font-display font-medium text-slate-900 tracking-tight">
@@ -362,7 +517,7 @@ export default function BlogHubPage() {
                 </div>
                 <button
                   onClick={() => setSearchParams({})}
-                  className="text-xs font-sans font-semibold text-[#4f46e5] hover:underline inline-flex items-center gap-1"
+                  className="text-xs font-sans font-semibold text-[#6b21a8] hover:underline inline-flex items-center gap-1"
                 >
                   Lihat Semua Artikel <ArrowRight size={14} />
                 </button>
@@ -373,11 +528,11 @@ export default function BlogHubPage() {
                   <button
                     key={art.slug}
                     onClick={() => setSearchParams({ read: art.slug })}
-                    className="p-6 rounded-3xl bg-slate-50 border border-slate-100 hover:border-indigo-200 hover:bg-white hover:shadow-xl transition-all duration-300 text-left flex flex-col justify-between group h-full shadow-sm"
+                    className="p-6 rounded-3xl bg-slate-50 border border-slate-100 hover:border-purple-200 hover:bg-white hover:shadow-xl transition-all duration-300 text-left flex flex-col justify-between group h-full shadow-sm"
                   >
                     <div>
                       <div className="flex items-center gap-2.5 mb-4">
-                        <span className="text-[#4f46e5] text-[10px] font-mono uppercase tracking-widest font-bold bg-indigo-50 px-2.5 py-1 rounded-full">
+                        <span className="text-[#6b21a8] text-[10px] font-mono uppercase tracking-widest font-bold bg-purple-50 px-2.5 py-1 rounded-full">
                           {art.cat}
                         </span>
                         {art.recommended && (
@@ -386,7 +541,7 @@ export default function BlogHubPage() {
                           </span>
                         )}
                       </div>
-                      <h4 className="text-slate-900 font-display font-medium text-lg line-clamp-2 group-hover:text-[#4f46e5] transition-colors mb-3 tracking-tight">
+                      <h4 className="text-slate-900 font-display font-medium text-lg line-clamp-2 group-hover:text-[#6b21a8] transition-colors mb-3 tracking-tight">
                         {art.title}
                       </h4>
                       <p className="text-xs sm:text-sm text-slate-500 line-clamp-2 mb-6 leading-relaxed font-sans">
@@ -395,7 +550,7 @@ export default function BlogHubPage() {
                     </div>
                     <div className="flex items-center justify-between text-[10px] font-mono text-slate-400 pt-4 border-t border-slate-200/60">
                       <span>{art.readTime}</span>
-                      <span className="text-[#4f46e5] font-semibold group-hover:translate-x-1 transition-transform flex items-center gap-1">
+                      <span className="text-[#6b21a8] font-semibold group-hover:translate-x-1 transition-transform flex items-center gap-1">
                         Baca Artikel <ArrowRight size={12} />
                       </span>
                     </div>
@@ -406,9 +561,9 @@ export default function BlogHubPage() {
 
             {/* Bottom Collaboration CTA */}
             <div className="mt-16 p-8 md:p-12 rounded-3xl bg-slate-900 text-white text-center relative overflow-hidden w-full shadow-2xl">
-              <div className="absolute top-0 right-0 w-64 h-64 bg-[#4f46e5]/20 rounded-full blur-3xl pointer-events-none" />
+              <div className="absolute top-0 right-0 w-64 h-64 bg-[#6b21a8]/20 rounded-full blur-3xl pointer-events-none" />
               <div className="relative z-10 max-w-xl mx-auto">
-                <BookOpen size={36} className="text-[#4f46e5] mx-auto mb-4" />
+                <BookOpen size={36} className="text-[#6b21a8] mx-auto mb-4" />
                 <h3 className="text-2xl sm:text-3xl font-serif font-medium mb-3">
                   Wujudkan Arsitektur Digital Bisnis Anda
                 </h3>
@@ -416,10 +571,10 @@ export default function BlogHubPage() {
                   Konsultasikan kebutuhan website dan solusi otomatisasi AI bersama Chesta Azka Sofyan untuk meningkatkan konversi brand Anda.
                 </p>
                 <a
-                  href="https://wa.me/6282125447232?text=Halo%20CHESTADOTCOM,%20saya%20tertarik%20berdiskusi%20setelah%20membaca%20insight%20Anda."
+                  href="https://wa.me/6282125447232?text=Halo%20CHESTAADOTCOM,%20saya%20tertarik%20berdiskusi%20setelah%20membaca%20insight%20Anda."
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 rounded-full bg-[#4f46e5] px-8 py-4 font-mono text-xs font-bold uppercase tracking-widest text-white hover:bg-white hover:text-slate-900 transition-all duration-300 shadow-lg cursor-pointer"
+                  className="inline-flex items-center gap-2 rounded-full bg-[#6b21a8] px-8 py-4 font-mono text-xs font-bold uppercase tracking-widest text-white hover:bg-white hover:text-slate-900 transition-all duration-300 shadow-lg cursor-pointer"
                 >
                   <span>Mulai Diskusi WhatsApp</span>
                   <ArrowUpRight size={14} />
@@ -437,7 +592,7 @@ export default function BlogHubPage() {
             className="w-full"
           >
             <MetaTags 
-              title="Journal & Insight — CHESTADOTCOM Digital Strategy" 
+              title="Journal & Insight — CHESTAADOTCOM Digital Strategy" 
               description="Kurasi strategi digital tier-1: Otomasi Agentic AI, Framework SEO 2026, Psikologi Konversi, dan Arsitektur Web Berperforma Tinggi." 
               breadcrumbs={[
                 { name: 'Home', item: '/' },
@@ -446,8 +601,8 @@ export default function BlogHubPage() {
             />
 
             {/* Header Hero Section */}
-            <section className="relative pt-32 pb-16 border-b border-slate-100 mb-12 overflow-hidden">
-              <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-gradient-to-bl from-indigo-500/10 via-purple-500/5 to-transparent blur-3xl rounded-full pointer-events-none" />
+            <section className="relative pt-40 md:pt-48 pb-16 border-b border-slate-100 mb-12 overflow-hidden">
+              <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-gradient-to-bl from-purple-500/10 via-purple-500/5 to-transparent blur-3xl rounded-full pointer-events-none" />
 
               <div className="mx-auto max-w-7xl px-6 w-full relative z-10">
                 <Breadcrumbs items={[{ label: 'Insight', path: '/blog' }]} />
@@ -458,16 +613,16 @@ export default function BlogHubPage() {
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ duration: 0.6, ease: "easeOut" }}
                     >
-                      <div className="mb-6 inline-flex items-center gap-2.5 rounded-full border border-indigo-100 bg-white px-4 py-2 text-xs font-mono font-semibold tracking-widest text-[#4f46e5] uppercase shadow-sm">
-                        <Sparkles size={13} className="text-[#4f46e5] animate-pulse" />
+                      <div className="mb-6 inline-flex items-center gap-2.5 rounded-full border border-purple-100 bg-white px-4 py-2 text-xs font-mono font-semibold tracking-widest text-[#6b21a8] uppercase shadow-sm">
+                        <Sparkles size={13} className="text-[#6b21a8] animate-pulse" />
                         Digital Insights & Strategies 2026
                       </div>
                       
                       <h1 className="text-5xl sm:text-6xl lg:text-7xl font-serif font-medium tracking-tight leading-[1.05] text-slate-900">
-                        The <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-[#4f46e5] to-purple-600 italic">Journal.</span>
+                        The <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 via-[#6b21a8] to-purple-600 italic">Journal.</span>
                       </h1>
                       
-                      <p className="text-base sm:text-lg text-slate-600 font-sans max-w-xl leading-relaxed mt-6 border-l-2 border-indigo-200 pl-5">
+                      <p className="text-base sm:text-lg text-slate-600 font-sans max-w-xl leading-relaxed mt-6 border-l-2 border-purple-200 pl-5">
                         Eksplorasi wawasan mendalam seputar inovasi Agentic AI, optimasi SEO terkini, arsitektur web performa tinggi, dan psikologi konversi digital.
                       </p>
                     </motion.div>
@@ -481,7 +636,7 @@ export default function BlogHubPage() {
                     className="lg:col-span-5 flex flex-col gap-4"
                   >
                     <div className="relative w-full">
-                      <div className="relative bg-white border border-slate-200 shadow-md rounded-2xl p-1.5 flex items-center transition-all duration-300 focus-within:border-[#4f46e5] focus-within:shadow-indigo-100">
+                      <div className="relative bg-white border border-slate-200 shadow-md rounded-2xl p-1.5 flex items-center transition-all duration-300 focus-within:border-[#6b21a8] focus-within:shadow-purple-100">
                         <Search size={20} className="text-slate-400 ml-3 shrink-0" />
                         <input 
                           type="text" 
@@ -519,8 +674,8 @@ export default function BlogHubPage() {
                           }}
                           className={`text-[10px] font-mono px-2.5 py-1 rounded-full border transition-colors ${
                             selectedTag === tag
-                              ? 'bg-[#4f46e5] text-white border-[#4f46e5]'
-                              : 'bg-slate-50 text-slate-600 border-slate-200 hover:border-indigo-200 hover:text-[#4f46e5]'
+                              ? 'bg-[#6b21a8] text-white border-[#6b21a8]'
+                              : 'bg-slate-50 text-slate-600 border-slate-200 hover:border-purple-200 hover:text-[#6b21a8]'
                           }`}
                         >
                           #{tag}
@@ -571,7 +726,7 @@ export default function BlogHubPage() {
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.1, duration: 0.6, ease: "easeOut" }}
                       onClick={() => setSearchParams({ read: featuredArticle.slug })}
-                      className="group relative bg-white border border-slate-200/90 rounded-3xl p-6 md:p-10 hover:border-indigo-300 hover:shadow-2xl transition-all duration-500 cursor-pointer overflow-hidden shadow-sm"
+                      className="group relative bg-white border border-slate-200/90 rounded-3xl p-6 md:p-10 hover:border-purple-300 hover:shadow-2xl transition-all duration-500 cursor-pointer overflow-hidden shadow-sm"
                     >
                       <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity">
                         <ArrowUpRight size={100} className="text-slate-900" />
@@ -580,7 +735,7 @@ export default function BlogHubPage() {
                       <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
                         <div className="lg:col-span-7">
                           <div className="flex flex-wrap gap-2.5 items-center mb-6">
-                            <span className="text-[10px] font-mono font-bold text-white bg-[#4f46e5] px-3.5 py-1.5 rounded-full uppercase tracking-widest shadow-sm">
+                            <span className="text-[10px] font-mono font-bold text-white bg-[#6b21a8] px-3.5 py-1.5 rounded-full uppercase tracking-widest shadow-sm">
                               {featuredArticle.cat}
                             </span>
                             <span className="inline-flex items-center gap-1 text-[10px] font-mono font-bold text-amber-700 bg-amber-50 border border-amber-200 px-3 py-1 rounded-full uppercase tracking-wider">
@@ -591,7 +746,7 @@ export default function BlogHubPage() {
                             </span>
                           </div>
 
-                          <h3 className="text-2xl sm:text-3xl lg:text-4xl font-serif font-medium text-slate-900 leading-snug mb-4 group-hover:text-[#4f46e5] transition-colors tracking-tight">
+                          <h3 className="text-2xl sm:text-3xl lg:text-4xl font-serif font-medium text-slate-900 leading-snug mb-4 group-hover:text-[#6b21a8] transition-colors tracking-tight">
                             {featuredArticle.title}
                           </h3>
 
@@ -599,7 +754,7 @@ export default function BlogHubPage() {
                             {featuredArticle.desc}
                           </p>
 
-                          <div className="flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-widest text-[#4f46e5]">
+                          <div className="flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-widest text-[#6b21a8]">
                             <span>Baca Ulasan Lengkap</span>
                             <ArrowRight size={14} className="transform group-hover:translate-x-1.5 transition-transform" />
                           </div>
@@ -615,8 +770,8 @@ export default function BlogHubPage() {
                               />
                             </div>
                           ) : (
-                            <div className="w-full h-56 rounded-2xl bg-gradient-to-br from-indigo-500/10 to-purple-500/10 flex items-center justify-center">
-                              <BookOpen size={48} className="text-indigo-400" />
+                            <div className="w-full h-56 rounded-2xl bg-gradient-to-br from-purple-500/10 to-purple-500/10 flex items-center justify-center">
+                              <BookOpen size={48} className="text-purple-400" />
                             </div>
                           )}
                         </div>
@@ -639,7 +794,7 @@ export default function BlogHubPage() {
                       }}
                       className={`px-4 py-2 rounded-full text-xs font-sans font-medium whitespace-nowrap transition-colors ${
                         (selectedCategory === 'All' && cat === 'All') || selectedCategory.toLowerCase() === cat.toLowerCase()
-                        ? 'bg-[#4f46e5] text-white shadow-sm' 
+                        ? 'bg-[#6b21a8] text-white shadow-sm' 
                         : 'text-slate-600 hover:text-slate-900 border border-slate-200 bg-white hover:bg-slate-50'
                       }`}
                     >
@@ -659,7 +814,7 @@ export default function BlogHubPage() {
                         setSearchQuery('');
                         setOnlyRecommended(false);
                       }}
-                      className="text-indigo-600 hover:underline font-semibold"
+                      className="text-purple-600 hover:underline font-semibold"
                     >
                       (Reset Filter)
                     </button>
@@ -684,22 +839,24 @@ export default function BlogHubPage() {
                       setSelectedTag(null);
                       setOnlyRecommended(false);
                     }}
-                    className="px-6 py-2.5 rounded-full bg-[#4f46e5] text-white text-xs font-mono uppercase tracking-wider hover:bg-indigo-700 transition-colors"
+                    className="px-6 py-2.5 rounded-full bg-[#6b21a8] text-white text-xs font-mono uppercase tracking-wider hover:bg-purple-700 transition-colors"
                   >
                     Reset Pencarian
                   </button>
                 </div>
               )}
 
-              {/* Regular Posts Grid */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-                {isLoading ? (
-                  [...Array(6)].map((_, idx) => <BlogHubSkeleton key={idx} />)
-                ) : (
-                  displayArticles.map((art, i) => (
-                    <motion.article 
+              {/* Regular Posts Grid with Sidebar */}
+              <div className="flex flex-col lg:flex-row gap-10">
+                <div className="flex-1 w-full">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    {isLoading ? (
+                      [...Array(6)].map((_, idx) => <BlogHubSkeleton key={idx} />)
+                    ) : (
+                      displayArticles.map((art, i) => (
+                        <motion.article 
                       key={art.slug} 
-                      className="group cursor-pointer flex flex-col h-full bg-white p-6 rounded-3xl border border-slate-200/80 hover:border-indigo-300 hover:shadow-xl transition-all duration-300 shadow-sm"
+                      className="group cursor-pointer flex flex-col h-full bg-white p-6 rounded-3xl border border-slate-200/80 hover:border-purple-300 hover:shadow-xl transition-all duration-300 shadow-sm"
                       initial={{ opacity: 0, y: 15 }}
                       whileInView={{ opacity: 1, y: 0 }}
                       viewport={{ once: true, margin: "-50px" }}
@@ -723,7 +880,7 @@ export default function BlogHubPage() {
                       )}
 
                       <div className="flex gap-2.5 items-center mb-3">
-                        <span className="text-[10px] font-mono font-bold text-indigo-700 bg-indigo-50 px-2.5 py-1 rounded-full uppercase tracking-wider">
+                        <span className="text-[10px] font-mono font-bold text-purple-700 bg-purple-50 px-2.5 py-1 rounded-full uppercase tracking-wider">
                           {art.cat}
                         </span>
                         <span className="text-[10px] font-mono text-slate-400">
@@ -731,7 +888,7 @@ export default function BlogHubPage() {
                         </span>
                       </div>
 
-                      <h3 className="text-lg md:text-xl font-display font-medium text-slate-900 leading-snug mb-3 group-hover:text-[#4f46e5] transition-colors tracking-tight line-clamp-2 text-left">
+                      <h3 className="text-lg md:text-xl font-display font-medium text-slate-900 leading-snug mb-3 group-hover:text-[#6b21a8] transition-colors tracking-tight line-clamp-2 text-left">
                         {art.title}
                       </h3>
                       
@@ -750,7 +907,7 @@ export default function BlogHubPage() {
                         </div>
                       )}
 
-                      <div className="pt-4 border-t border-slate-100 flex items-center justify-between text-xs font-mono font-semibold tracking-wider text-[#4f46e5]">
+                      <div className="pt-4 border-t border-slate-100 flex items-center justify-between text-xs font-mono font-semibold tracking-wider text-[#6b21a8]">
                         <span>Baca Selengkapnya</span>
                         <ArrowRight size={14} className="transform group-hover:translate-x-1 transition-transform" />
                       </div>
@@ -760,16 +917,27 @@ export default function BlogHubPage() {
               </div>
 
               {/* Load More Control */}
-              {hasMore && (
-                <div className="mt-16 flex justify-center">
-                  <button
-                    onClick={handleLoadMore}
-                    className="px-8 py-3.5 rounded-full bg-slate-900 text-white hover:bg-[#4f46e5] text-xs font-mono font-bold uppercase tracking-widest transition-colors shadow-sm"
-                  >
-                    Muat Lebih Banyak Insight
-                  </button>
+                  {hasMore && (
+                    <div className="mt-16 flex justify-center">
+                      <button
+                        onClick={handleLoadMore}
+                        className="px-8 py-3.5 rounded-full bg-slate-900 text-white hover:bg-[#6b21a8] text-xs font-mono font-bold uppercase tracking-widest transition-colors shadow-sm"
+                      >
+                        Muat Lebih Banyak Insight
+                      </button>
+                    </div>
+                  )}
                 </div>
-              )}
+                
+                {/* Sidebar */}
+                <aside className="w-full lg:w-[320px] shrink-0 lg:sticky lg:top-32 h-max">
+                  <RecentPostsWidget />
+                </aside>
+              </div>
+              
+              <div className="mt-24">
+                <NewsletterForm />
+              </div>
               
             </div>
           </motion.div>

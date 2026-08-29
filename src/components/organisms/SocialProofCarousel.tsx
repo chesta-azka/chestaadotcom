@@ -34,7 +34,7 @@ export default function SocialProofCarousel() {
     <div className="w-full max-w-lg mx-auto bg-slate-1000 backdrop-blur-sm border border-slate-200 rounded-2xl p-6 mt-12 shadow-sm">
       <div className="flex items-center justify-center gap-1 mb-4">
         {[...Array(5)].map((_, i) => (
-          <Star key={i} size={14} className="fill-indigo-500 text-indigo-500" />
+          <Star key={i} size={14} className="fill-purple-500 text-purple-500" />
         ))}
       </div>
       
@@ -51,7 +51,7 @@ export default function SocialProofCarousel() {
             <p className="text-sm font-sans font-medium text-gray-700 italic mb-2">
               "{TESTIMONIALS[currentIndex].text}"
             </p>
-            <p className="text-[10px] font-mono tracking-widest text-[#4f46e5] font-bold uppercase">
+            <p className="text-[10px] font-mono tracking-widest text-[#6b21a8] font-bold uppercase">
               {TESTIMONIALS[currentIndex].name} • {TESTIMONIALS[currentIndex].role}
             </p>
           </motion.div>

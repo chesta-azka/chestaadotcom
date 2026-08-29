@@ -1,13 +1,10 @@
 import React, { useEffect, useState, useRef } from 'react';
-import { motion, useScroll, useTransform, useMotionValue, useSpring } from 'motion/react';
-import { ArrowRight, Sparkles, Zap, Globe, ShieldCheck, Cpu } from 'lucide-react';
+import { motion, useMotionValue, useSpring, Variants } from 'motion/react';
+import { ArrowRight, Sparkles, MessageCircle, ExternalLink, Zap, ShieldCheck, Bot, Cpu, CheckCircle2, Terminal } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export default function HeroSection() {
   const [isMobile, setIsMobile] = useState(false);
-  
-  const { scrollY } = useScroll();
-  const headlineY = useTransform(scrollY, [0, 500], [0, -30]);
   
   const ctaRef = useRef<HTMLButtonElement>(null);
   const x = useMotionValue(0);
@@ -39,165 +36,246 @@ export default function HeroSection() {
   }, []);
 
   const handleChatClick = () => {
-    const text = 'Halo CHESTADOTCOM, saya sangat tertarik dengan layanan jasa digital premium Anda. Bisa bantu analisis potensi brand saya untuk pasar lokal?';
+    const text = 'Halo CHESTAADOTCOM, saya tertarik untuk berkonsultasi mengenai pembuatan website & arsitektur digital untuk bisnis saya.';
     window.open(`https://wa.me/6282125447232?text=${encodeURIComponent(text)}`, '_blank');
   };
 
-  // Compact animation offset for mobile to prevent large layout shifts
-  const yOffset = isMobile ? 15 : 30;
+  // Sophisticated Staggered Motion Sequence Variants
+  const containerVariants: Variants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.12,
+        delayChildren: 0.05,
+      },
+    },
+  };
+
+  const fadeInUpVariants: Variants = {
+    hidden: { opacity: 0, y: 30, filter: 'blur(6px)' },
+    visible: {
+      opacity: 1,
+      y: 0,
+      filter: 'blur(0px)',
+      transition: {
+        duration: 0.85,
+        ease: "easeOut",
+      },
+    },
+  };
+
+  const ctaGroupVariants: Variants = {
+    hidden: { opacity: 0, y: 25 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: {
+        duration: 0.8,
+        ease: "easeOut",
+        delay: 0.25, // Deliberate slight delay for CTA button to draw user focus
+      },
+    },
+  };
+
+  const floatingIllustrationVariants: Variants = {
+    hidden: { opacity: 0, scale: 0.92 },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      transition: {
+        duration: 1,
+        ease: "easeOut",
+        delay: 0.4,
+      },
+    },
+  };
 
   return (
     <section 
       id="home" 
-      className="relative pt-44 md:pt-56 pb-24 md:pb-32 overflow-hidden bg-transparent flex flex-col items-center justify-center select-none min-h-[100svh]"
+      className="relative min-h-[90svh] pt-32 md:pt-44 pb-16 md:pb-24 overflow-hidden flex flex-col items-center justify-center text-center select-none"
     >
-      
-      {/* Clean Background with Subtle Grid & Right-Edge Gradient Glow */}
-      <div className="absolute inset-0 -z-10 pointer-events-none bg-slate-50 overflow-hidden">
-        {/* Subtle Grid Pattern */}
-        <div className="absolute inset-0 bg-[linear-gradient(to_right,#80808012_1px,transparent_1px),linear-gradient(to_bottom,#80808012_1px,transparent_1px)] bg-[size:32px_32px] [mask-image:radial-gradient(ellipse_60%_60%_at_50%_40%,#000_70%,transparent_100%)]" />
+      {/* Background Decor - Focused Purple & Slate Atmosphere */}
+      <div className="absolute inset-0 -z-10 pointer-events-none overflow-hidden bg-slate-50/60">
+        {/* Central Purple Ambient Radial Glow */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] sm:w-[900px] md:w-[1200px] h-[500px] sm:h-[700px] bg-gradient-to-b from-purple-800/15 via-purple-900/10 to-transparent blur-[100px] sm:blur-[130px] rounded-full" />
         
-        {/* Tasteful Soft Gradient on Right Edge Only */}
-        <div className="absolute top-0 right-0 w-[300px] h-[300px] md:w-[500px] md:h-[500px] bg-gradient-to-bl from-indigo-500/10 via-purple-500/5 to-transparent blur-2xl md:blur-3xl rounded-full pointer-events-none" />
+        {/* Top-Right Soft Violet Ambient Sphere */}
+        <div className="absolute -top-24 right-1/4 w-[500px] h-[350px] bg-purple-900/12 blur-[110px] rounded-full" />
+        
+        {/* Top-Left Indigo Accent */}
+        <div className="absolute -top-20 left-1/4 w-[450px] h-[300px] bg-purple-800/10 blur-[100px] rounded-full" />
+
+        {/* Minimal Subtle Grid Overlay */}
+        <div className="absolute inset-0 bg-[linear-gradient(to_right,#581c870a_1px,transparent_1px),linear-gradient(to_bottom,#581c870a_1px,transparent_1px)] bg-[size:40px_40px] [mask-image:radial-gradient(ellipse_75%_70%_at_50%_45%,#000_70%,transparent_100%)]" />
       </div>
 
-      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center z-10 overflow-hidden lg:overflow-visible">
+      <motion.div 
+        variants={containerVariants}
+        initial="hidden"
+        animate="visible"
+        className="w-full max-w-5xl mx-auto px-4 sm:px-6 flex flex-col items-center justify-center z-10"
+      >
         
-        {/* Left Column - Typography & CTAs */}
+        {/* Purple Pill Badge (Indonesian) */}
         <motion.div 
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.6 }}
-          className="lg:col-span-7 flex flex-col items-start text-left gap-y-6 sm:gap-y-8 max-w-full"
+          variants={fadeInUpVariants}
+          className="inline-flex flex-wrap items-center justify-center gap-1.5 sm:gap-2 px-3 sm:px-4 py-1.5 sm:py-2 rounded-full bg-purple-50/90 backdrop-blur-md border border-purple-200/90 shadow-2xs text-[10px] sm:text-xs font-mono tracking-wider sm:tracking-widest uppercase mb-5 sm:mb-8 text-purple-800 hover:border-purple-300 transition-colors max-w-full"
         >
-          {/* Minimal Pill with Subtle Gradient Accent */}
-          <motion.div 
-            initial={{ opacity: 0, y: yOffset }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: "easeOut", delay: 0.1 }}
-            className="inline-flex items-center gap-2 sm:gap-2.5 px-4 py-2 sm:px-5 sm:py-2.5 rounded-full bg-white/90 backdrop-blur-md border border-indigo-100/80 shadow-sm text-[9px] sm:text-[10px] lg:text-xs font-mono tracking-widest uppercase shrink-0 max-w-full"
-          >
-            <Sparkles strokeWidth={1} size={12} className="text-indigo-500 animate-[pulse_3s_ease-in-out_infinite] shrink-0" />
-            <span className="font-bold tracking-wider text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-purple-600 truncate">AGENCY WEB DEVELOPMENT</span>
-          </motion.div>
+          <span className="w-2 h-2 rounded-full bg-purple-600 animate-pulse shrink-0" />
+          <span className="font-bold">CHESTAADOTCOM &bull; ARSITEKTUR DIGITAL & OTOMASI AI</span>
+        </motion.div>
 
-          {/* Master Typographic Headline */}
-          <motion.div 
-            style={{ y: headlineY }}
-            className="space-y-4 sm:space-y-6 w-full"
-          >
-            <motion.h1 
-              initial={{ opacity: 0, y: yOffset }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
-              className="text-[2.25rem] min-[400px]:text-[2.75rem] sm:text-[3.5rem] md:text-[4.5rem] lg:text-[5.25rem] xl:text-[6rem] font-display font-medium tracking-tight leading-[1.05] text-slate-900 text-balance break-words"
+        {/* High-Impact Headline (Indonesian) */}
+        <motion.h1 
+          variants={fadeInUpVariants}
+          className="text-3xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-display font-extrabold tracking-tight leading-[1.1] sm:leading-[1.08] text-slate-900 max-w-4xl text-balance break-words"
+        >
+          Arsitektur Website & <br className="hidden sm:block" />
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-900 via-purple-800 to-purple-950">
+            Solusi AI Korporat.
+          </span>
+        </motion.h1>
+
+        {/* Compelling Sub-Headline (Indonesian) */}
+        <motion.p 
+          variants={fadeInUpVariants}
+          className="mt-4 sm:mt-6 md:mt-8 text-sm sm:text-base md:text-lg lg:text-xl text-slate-600 font-sans max-w-2xl leading-relaxed font-normal text-balance px-2 sm:px-0"
+        >
+          Membantu bisnis, korporasi, dan UMKM mendominasi pasar digital dengan website berkecepatan tinggi, estetika UI/UX premium, dan sistem Agentic AI cerdas yang mengonversi pengunjung menjadi klien setia.
+        </motion.p>
+
+        {/* Staggered Interactive Call-To-Actions (Slightly Delayed) */}
+        <motion.div
+          variants={ctaGroupVariants}
+          className="mt-6 sm:mt-8 md:mt-10 flex flex-wrap sm:flex-row items-center justify-center gap-3 sm:gap-4 w-full max-w-md sm:max-w-none"
+        >
+          {/* Primary Purple Button */}
+          <div className="w-full sm:w-auto">
+            <motion.button
+              ref={ctaRef}
+              style={isMobile ? {} : { x: springX, y: springY }}
+              onMouseMove={handleMouseMove}
+              onMouseLeave={ctaMouseLeave}
+              onClick={handleChatClick}
+              whileHover={isMobile ? {} : { scale: 1.04 }}
+              whileTap={{ scale: 0.96 }}
+              className="group w-full sm:w-auto inline-flex items-center justify-center gap-2.5 sm:gap-3 px-6 sm:px-8 py-3.5 sm:py-4 rounded-full bg-gradient-to-r from-purple-900 via-purple-800 to-purple-950 hover:from-purple-950 hover:to-purple-900 text-white font-mono text-xs sm:text-sm font-bold uppercase tracking-wider shadow-lg shadow-purple-900/25 hover:shadow-purple-900/40 transition-all cursor-pointer border border-purple-700/30"
             >
-              Jasa Pembuatan Website <br className="hidden sm:block"/>
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 via-indigo-500 to-purple-600">
-                Premium & Profesional.
-              </span>
-            </motion.h1>
-
-            <motion.p 
-              initial={{ opacity: 0, y: yOffset }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.3 }}
-              className="text-sm sm:text-base md:text-lg lg:text-xl text-slate-600 font-sans max-w-xl leading-relaxed font-light"
-            >
-              Kemitraan strategis untuk korporasi modern. Kami merancang arsitektur cloud berkinerja tinggi dan mengintegrasikan kecerdasan buatan (AI) terdepan untuk mempercepat ekspansi serta otomatisasi bisnis Anda.
-            </motion.p>
-          </motion.div>
-
-          {/* Minimalist Dual CTA */}
-          <motion.div
-            initial={{ opacity: 0, y: yOffset }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.4 }}
-            className="flex flex-col sm:flex-row items-center justify-start gap-3 sm:gap-4 w-full pt-2"
-          >
-            <div className="relative group w-full sm:w-auto shrink-0">
-              <motion.button
-                ref={ctaRef}
-                style={isMobile ? {} : { x: springX, y: springY }}
-                onMouseMove={handleMouseMove}
-                onMouseLeave={ctaMouseLeave}
-                onClick={handleChatClick}
-                whileHover={isMobile ? {} : { scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="relative w-full sm:w-auto flex items-center justify-center gap-3.5 rounded-full bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 px-6 sm:px-8 py-3.5 sm:py-4.5 font-mono text-[10px] sm:text-[11px] lg:text-xs font-bold uppercase tracking-widest text-white transition-all duration-300 hover:from-indigo-600 hover:via-indigo-500 hover:to-purple-600 shadow-xl cursor-pointer z-10 overflow-hidden"
-              >
-                <span className="relative z-10 whitespace-nowrap">Mulai Kolaborasi</span>
-                <ArrowRight strokeWidth={1} size={14} className="transition-transform group-hover:translate-x-1 relative z-10 shrink-0" />
-              </motion.button>
-            </div>
-            
+              <span>Konsultasi Proyek</span>
+              <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
+            </motion.button>
+          </div>
+          
+          {/* Secondary Outline Button */}
+          <div className="w-full sm:w-auto">
             <motion.div
-              whileHover={isMobile ? {} : { scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="w-full sm:w-auto shrink-0"
+              whileHover={isMobile ? {} : { scale: 1.04 }}
+              whileTap={{ scale: 0.96 }}
+              className="w-full sm:w-auto"
             >
               <Link
                 to="/projects"
-                className="w-full sm:w-auto flex items-center justify-center rounded-full bg-white border border-slate-200 px-6 sm:px-8 py-3.5 sm:py-4.5 font-mono text-[10px] sm:text-[11px] lg:text-xs font-bold uppercase tracking-widest text-slate-600 hover:text-slate-900 hover:bg-slate-50 transition-all duration-300 shadow-sm whitespace-nowrap"
+                className="w-full sm:w-auto inline-flex items-center justify-center gap-2 sm:gap-2.5 px-6 sm:px-8 py-3.5 sm:py-4 rounded-full bg-white/95 backdrop-blur-md border border-purple-200 hover:border-purple-300 hover:bg-purple-50/60 text-slate-800 font-mono text-xs sm:text-sm font-bold uppercase tracking-wider transition-all shadow-xs"
               >
-                Lihat Portofolio
+                <span>Lihat Portofolio</span>
+                <ExternalLink size={15} className="text-purple-800" />
               </Link>
             </motion.div>
-          </motion.div>
+          </div>
         </motion.div>
 
-        {/* Right Column - Architectural Visual Elements */}
-        <motion.div 
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 0.5 }}
-          className="lg:col-span-5 hidden lg:flex relative h-[500px] w-full"
+        {/* Subtle AI-Generated Abstract Geometric & Glass-morphism Illustration */}
+        <motion.div
+          variants={floatingIllustrationVariants}
+          className="mt-8 sm:mt-12 md:mt-14 w-full max-w-3xl px-1 sm:px-0"
         >
-          {/* Glass Card 1 */}
-          <motion.div 
-            initial={{ opacity: 0, x: 20, y: -20 }}
-            animate={{ opacity: 1, x: 0, y: 0 }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.6 }}
-            className="absolute top-[10%] right-[10%] w-[280px] p-6 rounded-3xl bg-white/60 backdrop-blur-xl border border-white shadow-[0_10px_30px_rgba(0,0,0,0.05)] z-208424 glass-panel"
-          >
-            <div className="w-10 h-10 rounded-xl bg-indigo-50 flex items-center justify-center mb-4 text-indigo-600 border border-indigo-100">
-              <Cpu strokeWidth={1} size={20} />
-            </div>
-            <h3 className="font-sans font-bold text-slate-900 text-lg mb-2">Otomatisasi Cerdas</h3>
-            <p className="text-sm text-slate-500 font-sans leading-relaxed">Ekosistem AI cerdas untuk memangkas redundansi operasional.</p>
-          </motion.div>
+          <div className="relative p-1 rounded-2xl sm:rounded-3xl bg-gradient-to-b from-purple-200/60 via-purple-100/30 to-transparent shadow-sm">
+            <div className="bg-white/40 backdrop-blur-2xl rounded-[18px] sm:rounded-[22px] border border-white/60 p-3.5 sm:p-6 shadow-xl shadow-purple-900/5">
+              
+              {/* Top Glass Header Indicator */}
+              <div className="flex flex-wrap items-center justify-between gap-2 sm:gap-3 pb-3 sm:pb-4 mb-3 sm:mb-4 border-b border-purple-50">
+                <div className="flex items-center gap-2">
+                  <div className="flex gap-1.5 shrink-0">
+                    <div className="w-2.5 h-2.5 rounded-full bg-rose-400" />
+                    <div className="w-2.5 h-2.5 rounded-full bg-amber-400" />
+                    <div className="w-2.5 h-2.5 rounded-full bg-emerald-400" />
+                  </div>
+                  <span className="text-[10px] sm:text-[11px] font-mono text-slate-500 flex items-center gap-1.5 pl-2 border-l border-slate-200 truncate">
+                    <Terminal size={12} className="text-purple-800 shrink-0" />
+                    chestaadotcom-core-v2.6.sh
+                  </span>
+                </div>
 
-          {/* Glass Card 2 */}
-          <motion.div 
-            initial={{ opacity: 0, x: -20, y: 20 }}
-            animate={{ opacity: 1, x: 0, y: 0 }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.8 }}
-            className="absolute bottom-[10%] left-[5%] w-[280px] p-6 rounded-3xl bg-white/70 backdrop-blur-lg border border-white shadow-[0_15px_40px_rgba(0,0,0,0.06)] z-309335 glass-panel"
-          >
-            <div className="w-10 h-10 rounded-xl bg-slate-900 flex items-center justify-center mb-4 text-white">
-              <ShieldCheck strokeWidth={1} size={20} />
-            </div>
-            <h3 className="font-sans font-bold text-slate-900 text-lg mb-2">Keamanan Korporasi</h3>
-            <p className="text-sm text-slate-500 font-sans leading-relaxed">Arsitektur berlapis memastikan data dan sistem Anda terlindungi maksimal.</p>
-          </motion.div>
+                <div className="flex items-center gap-2 shrink-0">
+                  <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-purple-50 border border-purple-200/70 text-[9px] sm:text-[10px] font-mono text-purple-800 font-bold uppercase">
+                    <Cpu size={12} className="text-purple-800" />
+                    Agentic AI Aktif
+                  </span>
+                </div>
+              </div>
 
-          {/* Decorative Wireframe Ring */}
-          <motion.div 
-            initial={{ scale: 0.8, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 1.5, ease: "easeOut", delay: 0.4 }}
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[350px] h-[350px] rounded-full border border-slate-200/50 border-dashed z-10"
-          />
-          <motion.div 
-            initial={{ scale: 0.8, opacity: 0 }}
-            animate={{ scale: 1, opacity: 1 }}
-            transition={{ duration: 1.5, ease: "easeOut", delay: 0.5 }}
-            className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[250px] h-[250px] rounded-full border border-indigo-100 bg-indigo-50/20 z-10"
-          />
+              {/* 3 Metric Glass Pills Grid */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-2.5 sm:gap-3 text-left">
+                {/* Metric 1 */}
+                <div className="p-3 sm:p-3.5 rounded-xl bg-purple-50/40 border border-purple-100/70 hover:border-purple-200 transition-colors">
+                  <div className="flex items-center gap-1.5 sm:gap-2 text-purple-800 font-mono text-[11px] sm:text-xs font-bold mb-1">
+                    <Zap size={13} className="text-purple-800 shrink-0" />
+                    <span>&lt; 0.8s Load Time</span>
+                  </div>
+                  <p className="text-[10px] sm:text-[11px] font-sans text-slate-500 leading-snug">
+                    Arsitektur ringan & lulus uji Core Web Vitals 100%.
+                  </p>
+                </div>
+
+                {/* Metric 2 */}
+                <div className="p-3 sm:p-3.5 rounded-xl bg-purple-50/40 border border-purple-100/70 hover:border-purple-200 transition-colors">
+                  <div className="flex items-center gap-1.5 sm:gap-2 text-purple-700 font-mono text-[11px] sm:text-xs font-bold mb-1">
+                    <ShieldCheck size={13} className="text-purple-800 shrink-0" />
+                    <span>SEO Organik 2026</span>
+                  </div>
+                  <p className="text-[10px] sm:text-[11px] font-sans text-slate-500 leading-snug">
+                    Struktur ramah algoritma Google berbasis Dwell-Time.
+                  </p>
+                </div>
+
+                {/* Metric 3 */}
+                <div className="p-3 sm:p-3.5 rounded-xl bg-purple-50/40 border border-purple-100/70 hover:border-purple-200 transition-colors">
+                  <div className="flex items-center gap-1.5 sm:gap-2 text-purple-700 font-mono text-[11px] sm:text-xs font-bold mb-1">
+                    <Bot size={13} className="text-purple-800 shrink-0" />
+                    <span>Otomasi WhatsApp</span>
+                  </div>
+                  <p className="text-[10px] sm:text-[11px] font-sans text-slate-500 leading-snug">
+                    AI merespon dan memproses prospek 24/7 otomatis.
+                  </p>
+                </div>
+              </div>
+
+            </div>
+          </div>
         </motion.div>
 
-      </div>
+        {/* Subtle Bottom Trust Badges */}
+        <motion.div
+          variants={fadeInUpVariants}
+          className="mt-6 sm:mt-8 flex flex-wrap items-center justify-center gap-3 sm:gap-6 md:gap-10 text-[11px] sm:text-xs font-mono text-slate-500"
+        >
+          <div className="flex items-center gap-1.5 sm:gap-2">
+            <CheckCircle2 size={13} className="text-purple-800 shrink-0" />
+            <span>Kustomisasi Penuh (No Template)</span>
+          </div>
+          <div className="flex items-center gap-1.5 sm:gap-2">
+            <CheckCircle2 size={13} className="text-purple-800 shrink-0" />
+            <span>Garansi Performa & Support</span>
+          </div>
+          <div className="flex items-center gap-1.5 sm:gap-2">
+            <CheckCircle2 size={13} className="text-purple-800 shrink-0" />
+            <span>WhatsApp Direct Sync</span>
+          </div>
+        </motion.div>
+
+      </motion.div>
     </section>
   );
 }
-

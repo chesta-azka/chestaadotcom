@@ -3,15 +3,23 @@ import { User, onAuthStateChanged } from 'firebase/auth';
 import { doc, getDoc, setDoc } from 'firebase/firestore';
 import { auth, db } from '../lib/firebase';
 import toast from 'react-hot-toast';
+import { Navigate, Outlet, useParams } from 'react-router-dom';
 
 interface AuthContextType {
   user: User | null;
   role: string | null;
   loading: boolean;
   makeMeAdmin: () => Promise<void>;
+  verifyPasscode: (slug: string, passcode: string) => Promise<boolean>;
 }
 
-const AuthContext = createContext<AuthContextType>({ user: null, role: null, loading: true, makeMeAdmin: async () => {} });
+const AuthContext = createContext<AuthContextType>({ 
+  user: null, 
+  role: null, 
+  loading: true, 
+  makeMeAdmin: async () => {},
+  verifyPasscode: async () => false
+});
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
@@ -19,21 +27,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    console.log("[AuthContext] Setting up onAuthStateChanged listener...");
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
-      console.log("[AuthContext] Auth state changed. User:", currentUser ? currentUser.email : 'null');
       setUser(currentUser);
       if (currentUser) {
         try {
-          console.log(`[AuthContext] Fetching role for UID: ${currentUser.uid}`);
           const userDocRef = doc(db, 'users', currentUser.uid);
           const userDoc = await getDoc(userDocRef);
           if (userDoc.exists()) {
-            const currentRole = userDoc.data().role || 'user';
-            console.log(`[AuthContext] Role found in Firestore: ${currentRole}`);
-            setRole(currentRole);
+            setRole(userDoc.data().role || 'user');
           } else {
-            console.log(`[AuthContext] No role found. Creating default 'user' document for ${currentUser.email}`);
             await setDoc(userDocRef, {
               email: currentUser.email,
               role: 'user',
@@ -42,20 +44,15 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             setRole('user');
           }
         } catch (error) {
-          console.error("[AuthContext] Error fetching user role from Firestore:", error);
           setRole('user');
         }
       } else {
-        console.log("[AuthContext] User is logged out. Clearing role state.");
         setRole(null);
       }
       setLoading(false);
     });
     
-    return () => {
-      console.log("[AuthContext] Cleaning up onAuthStateChanged listener...");
-      unsubscribe();
-    };
+    return () => unsubscribe();
   }, []);
 
   const makeMeAdmin = async () => {
@@ -69,13 +66,27 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       setRole('admin');
       toast.success("Successfully upgraded to Admin role!");
     } catch (err) {
-      console.error("Failed to upgrade role:", err);
       toast.error("Failed to upgrade role. Check permissions.");
     }
   };
 
+  const verifyPasscode = async (slug: string, passcode: string) => {
+    try {
+      const workspaceRef = doc(db, 'workspaces', slug);
+      const snap = await getDoc(workspaceRef);
+      if (snap.exists() && snap.data().passcode === passcode) {
+        // Store verification in session storage to persist across reloads
+        sessionStorage.setItem(`workspace_auth_${slug}`, 'true');
+        return true;
+      }
+      return false;
+    } catch (e) {
+      return false;
+    }
+  }
+
   return (
-    <AuthContext.Provider value={{ user, role, loading, makeMeAdmin }}>
+    <AuthContext.Provider value={{ user, role, loading, makeMeAdmin, verifyPasscode }}>
       {children}
     </AuthContext.Provider>
   );
@@ -83,4 +94,32 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
 export function useAuth() {
   return useContext(AuthContext);
+}
+
+// ---------------------------------------------
+// ROUTE PROTECTORS
+// ---------------------------------------------
+
+export function AdminRoute() {
+  const { user, role, loading } = useAuth();
+  
+  if (loading) return <div className="h-screen w-screen flex items-center justify-center bg-slate-50"><span className="animate-pulse">Loading Admin...</span></div>;
+  
+  if (!user || role !== 'admin') {
+    return <Navigate to="/" replace />;
+  }
+  
+  return <Outlet />;
+}
+
+export function ClientRoute() {
+  const { slug } = useParams();
+  const isAuthenticated = sessionStorage.getItem(`workspace_auth_${slug}`) === 'true';
+  
+  if (!isAuthenticated) {
+    // If they haven't verified passcode yet, send them to a login prompt for this workspace
+    return <Navigate to={`/client-login/${slug}`} replace />;
+  }
+  
+  return <Outlet />;
 }

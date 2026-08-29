@@ -42,7 +42,7 @@ export default function AuthGuard({ children, fallback }: { children: React.Reac
   if (loading || !isValidated) {
     return (
       <div className="flex-1 flex items-center justify-center min-h-[60vh]">
-        <Loader2 size={32} className="text-indigo-600 animate-spin" />
+        <Loader2 size={32} className="text-purple-600 animate-spin" />
       </div>
     );
   }

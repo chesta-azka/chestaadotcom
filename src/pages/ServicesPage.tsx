@@ -123,7 +123,7 @@ function CyclingPropositions() {
           animate={{ opacity: 1, y: 0, filter: 'blur(0px)' }}
           exit={{ opacity: 0, y: -15, filter: 'blur(4px)' }}
           transition={{ duration: 0.6, ease: "easeInOut" as any }}
-          className="text-lg md:text-xl text-indigo-300 font-light max-w-2xl mx-auto leading-relaxed"
+          className="text-lg md:text-xl text-purple-400 font-light max-w-2xl mx-auto leading-relaxed"
         >
           {CYCLING_TEXT[index]}
         </motion.p>
@@ -228,23 +228,23 @@ function DidYouKnowSnippet({ sectionTitle, delay = 0.2, dark = false }: { sectio
     <motion.div variants={itemVariants}
       className={`mt-12 mx-auto max-w-2xl border rounded-2xl p-4 flex items-start gap-4 relative overflow-hidden group ${
         dark 
-          ? 'bg-indigo-900/20 border-indigo-500/30' 
-          : 'bg-indigo-50/50 border-indigo-100'
+          ? 'bg-purple-900/20 border-purple-700/30' 
+          : 'bg-purple-50/50 border-purple-100'
       }`}
     >
-      <div className="absolute inset-0 bg-gradient-to-r from-indigo-500/0 via-indigo-500/10 to-indigo-500/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000 ease-in-out" />
+      <div className="absolute inset-0 bg-gradient-to-r from-purple-700/0 via-purple-700/10 to-purple-700/0 translate-x-[-100%] group-hover:translate-x-[100%] transition-transform duration-1000 ease-in-out" />
       <div className={`w-8 h-8 rounded-full flex items-center justify-center shrink-0 ${
-        dark ? 'bg-indigo-900/50' : 'bg-indigo-100'
+        dark ? 'bg-purple-900/50' : 'bg-purple-100'
       }`}>
         {loading ? (
-           <div className="w-4 h-4 border-2 border-indigo-500 border-t-transparent rounded-full animate-spin" />
+           <div className="w-4 h-4 border-2 border-purple-700 border-t-transparent rounded-full animate-spin" />
         ) : (
-           <Sparkles size={16} className={dark ? 'text-indigo-400' : 'text-indigo-600'} />
+           <Sparkles size={16} className={dark ? 'text-purple-500' : 'text-purple-800'} />
         )}
       </div>
       <div className="text-left">
         <span className={`text-[10px] font-bold uppercase tracking-widest mb-1 block ${
-          dark ? 'text-indigo-400' : 'text-indigo-600'
+          dark ? 'text-purple-500' : 'text-purple-800'
         }`}>Did you know? (AI Generated)</span>
         <p className={`text-sm leading-relaxed ${
           dark ? 'text-slate-300' : 'text-slate-700'
@@ -302,7 +302,7 @@ function VerticalDotNav({ sectionIds, activeSection }: { sectionIds: string[], a
             }
             document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' });
           }}
-          className={`w-3 h-3 rounded-full transition-all duration-300 ${activeSection === index ? 'bg-indigo-600 scale-125 shadow-[0_0_10px_rgba(79,70,229,0.5)]' : 'bg-slate-300 hover:bg-indigo-400'}`}
+          className={`w-3 h-3 rounded-full transition-all duration-300 ${activeSection === index ? 'bg-purple-800 scale-125 shadow-[0_0_10px_rgba(107,33,168,0.5)]' : 'bg-slate-300 hover:bg-purple-500'}`}
           title={`Go to ${id}`}
         />
       ))}
@@ -409,7 +409,7 @@ function QuickActionBar() {
         }}
         className="flex items-center gap-2 px-4 py-2 rounded-full hover:bg-white/10 text-slate-200 transition-colors text-sm font-medium"
       >
-        <PhoneCall size={16} className="text-indigo-400" />
+        <PhoneCall size={16} className="text-purple-500" />
         <span className="hidden sm:inline">Contact Us</span>
       </button>
       <div className="w-px h-6 bg-white/20" />
@@ -431,13 +431,81 @@ function QuickActionBar() {
         }}
         className="flex items-center gap-2 px-4 py-2 rounded-full hover:bg-white/10 text-slate-200 transition-colors text-sm font-medium"
       >
-        <HelpCircle size={16} className="text-blue-400" />
+        <HelpCircle size={16} className="text-purple-500" />
         <span className="hidden sm:inline">View FAQ</span>
       </button>
     </motion.div>
   );
 }
 
+
+function ServiceCardHoverOverlay({ service }: { service: any }) {
+  const [isHovered, setIsHovered] = useState(false);
+  return (
+    <div 
+      className="absolute inset-0 z-30" 
+      onMouseEnter={() => setIsHovered(true)} 
+      onMouseLeave={() => setIsHovered(false)}
+      style={{ pointerEvents: 'none' }}
+    >
+      <AnimatePresence>
+        {isHovered && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 10 }}
+            transition={{ duration: 0.3, ease: 'easeOut' }}
+            className="absolute inset-0 bg-white/95 backdrop-blur-md p-8 flex flex-col justify-center border border-purple-100 rounded-3xl"
+            style={{ pointerEvents: 'auto' }}
+          >
+            <motion.h5 
+              initial={{ opacity: 0, x: -10 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.1 }}
+              className="font-bold text-slate-900 mb-4"
+            >
+              Key Benefits
+            </motion.h5>
+            <ul className="space-y-3 mb-6">
+              {service.benefits.map((benefit: string, idx: number) => (
+                <motion.li 
+                  key={idx}
+                  initial={{ opacity: 0, x: -10 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: 0.15 + (idx * 0.05) }}
+                  className="flex items-start gap-3 text-sm text-slate-700 font-medium"
+                >
+                  <span className="text-purple-700 mt-0.5">•</span>
+                  {benefit}
+                </motion.li>
+              ))}
+            </ul>
+            <motion.div 
+              initial={{ opacity: 0, y: 10 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ delay: 0.3 }}
+              className="flex items-center justify-between mt-auto"
+            >
+              <div>
+                <div className="text-[10px] text-slate-500 font-mono uppercase tracking-widest mb-1">Mulai Dari</div>
+                <div className="font-bold text-slate-900 text-lg">Custom Quote</div>
+              </div>
+              <button 
+                onClick={(e) => {
+                  e.stopPropagation();
+                  window.location.href = `/layanan/${service.slug}`;
+                }}
+                className="px-6 py-2.5 bg-slate-900 text-white text-sm font-medium rounded-full hover:bg-purple-800 transition-colors shadow-lg hover:shadow-purple-700/25 flex items-center gap-2"
+              >
+                Pelajari Detail
+              </button>
+            </motion.div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+    </div>
+  );
+}
 
 function ServiceCard({ service, i, compareMode, selectedForCompare, toggleCompare, setHoveredService, setQuickViewData, containerRef, performanceMode }: any) {
   const cardRef = useRef<HTMLDivElement>(null);
@@ -471,30 +539,30 @@ function ServiceCard({ service, i, compareMode, selectedForCompare, toggleCompar
       onMouseEnter={() => setHoveredService(service.slug)}
       onMouseLeave={() => setHoveredService(null)}
       id={service.slug}
-      className={`bg-white p-8 rounded-3xl border transition-all duration-300 relative group flex flex-col overflow-hidden ${compareMode && selectedForCompare.includes(service.slug) ? 'border-indigo-500 ring-2 ring-indigo-500/20 shadow-xl' : 'border-slate-200 hover:border-indigo-300 hover:shadow-2xl shadow-sm'}`}
+      className={`bg-white p-8 rounded-3xl border transition-all duration-300 relative group flex flex-col overflow-hidden ${compareMode && selectedForCompare.includes(service.slug) ? 'border-purple-700 ring-2 ring-purple-700/20 shadow-xl' : 'border-slate-200 hover:border-purple-400 hover:shadow-2xl shadow-sm'}`}
       onClick={() => compareMode ? toggleCompare(service.slug) : window.location.href = `/layanan/${service.slug}`}
     >
       {/* Decorative Parallax Background */}
       <motion.div 
         style={{ y: yParallax, scale: scaleParallax }}
-        className="absolute -top-24 -right-24 w-64 h-64 bg-indigo-50/50 rounded-full blur-3xl pointer-events-none group-hover:bg-indigo-100/50 transition-colors duration-500"
+        className="absolute -top-24 -right-24 w-64 h-64 bg-purple-50/50 rounded-full blur-3xl pointer-events-none group-hover:bg-purple-100/50 transition-colors duration-500"
       />
       <motion.div 
         style={{ y: useTransform(scrollYProgress, [0, 1], performanceMode ? [0, 0] : [-30, 30]) }}
-        className="absolute -bottom-12 -left-12 w-40 h-40 bg-blue-50/50 rounded-full blur-2xl pointer-events-none group-hover:bg-blue-100/50 transition-colors duration-500"
+        className="absolute -bottom-12 -left-12 w-40 h-40 bg-purple-50/50 rounded-full blur-2xl pointer-events-none group-hover:bg-purple-100/50 transition-colors duration-500"
       />
 
       <div className="relative z-10 flex justify-between items-start mb-6">
         <div className="flex gap-4 items-center">
-          <div className="w-12 h-12 rounded-xl bg-slate-50 flex items-center justify-center text-indigo-600 group-hover:bg-indigo-600 group-hover:text-white transition-colors">
+          <div className="w-12 h-12 rounded-xl bg-slate-50 flex items-center justify-center text-purple-800 group-hover:bg-purple-800 group-hover:text-white transition-colors">
             {service.icon ? <service.icon size={24} /> : <Code2 size={24} />}
           </div>
           <div>
-            <h4 className="text-xl font-medium text-slate-900">{service.title}</h4>
+            <h4 className="text-xl font-medium text-slate-900 group-hover:text-purple-800 transition-colors">{service.title}</h4>
             <div className="text-xs font-mono text-slate-500 mt-1 uppercase tracking-wider">{service.benefits.slice(0,2).join(' • ')}</div>
           </div>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 relative z-20">
           <button 
             onClick={(e) => {
               e.stopPropagation();
@@ -507,33 +575,30 @@ function ServiceCard({ service, i, compareMode, selectedForCompare, toggleCompar
               navigator.clipboard.writeText(url);
               toast.success("Tautan layanan disalin!");
             }}
-            className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 hover:bg-indigo-600 hover:text-white transition-colors tooltip-trigger"
+            className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 hover:bg-purple-800 hover:text-white transition-colors tooltip-trigger"
             title="Copy Deep Link"
           >
             <LinkIcon size={18} />
           </button>
-          <button 
-            onClick={(e) => {
-              e.stopPropagation();
-              setQuickViewData({ id: service.slug, type: 'service', title: service.title, description: service.description, tags: service.benefits, link: `/layanan/${service.slug}` });
-            }}
-            className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 hover:bg-slate-200 transition-colors tooltip-trigger"
-            title="Quick View"
-          >
-            <Eye size={18} />
-          </button>
         </div>
       </div>
-      <div className="relative z-10 mb-6 flex-1">
+      <div className="relative z-10 mb-6 flex-1 transition-opacity duration-300 group-hover:opacity-0">
         <p className="text-slate-600 leading-relaxed text-sm line-clamp-2">{service.description}</p>
         {compareMode && (
-          <div className="mt-4 text-xs font-bold uppercase tracking-widest text-indigo-600 bg-indigo-50 inline-block px-3 py-1.5 rounded-full">
+          <div className="mt-4 text-xs font-bold uppercase tracking-widest text-purple-800 bg-purple-50 inline-block px-3 py-1.5 rounded-full">
             {selectedForCompare.includes(service.slug) ? 'Terpilih' : 'Pilih untuk Bandingkan'}
           </div>
         )}
         {!compareMode && <ExpertInsightBox serviceSlug={service.slug} />}
       </div>
-      <TechStackCarousel slug={service.slug} />
+      <div className="transition-opacity duration-300 group-hover:opacity-0">
+        <TechStackCarousel slug={service.slug} />
+      </div>
+
+      {/* Hover Overlay with Framer Motion */}
+      {/* We use a state mapped to the card hover event which is already hooked to setHoveredService, but we need to track local hover state for AnimatePresence to work well independently if needed. But actually, group-hover works fine if we combine it with motion. Or we can just use AnimatePresence with local state. Since setHoveredService is from parent, let's just use CSS group-hover trigger to conditionally render motion inside? No, conditional rendering requires state. */}
+      {/* Let's just track local hover state inside the component */}
+      <ServiceCardHoverOverlay service={service} />
     </motion.div>
   );
 }
@@ -744,7 +809,7 @@ export default function ServicesPage() {
   };
 
   const copyEmail = () => {
-    navigator.clipboard.writeText('hello@chestadotcom.com');
+    navigator.clipboard.writeText('hello@chestaadotcom.com');
     toast.success('Email disalin ke clipboard!');
   };
 
@@ -766,12 +831,12 @@ export default function ServicesPage() {
             placeholder="Cari layanan, teknologi, atau fitur..."
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
-            className="w-full bg-white/90 backdrop-blur-xl border border-slate-200 shadow-2xl rounded-full py-4 pl-14 pr-6 text-slate-900 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 font-medium placeholder:text-slate-400 placeholder:font-normal transition-all"
+            className="w-full bg-white/90 backdrop-blur-xl border border-slate-200 shadow-2xl rounded-full py-4 pl-14 pr-6 text-slate-900 focus:outline-none focus:ring-2 focus:ring-purple-700 focus:border-purple-700 font-medium placeholder:text-slate-400 placeholder:font-normal transition-all"
           />
         </motion.div>
       </div>
       <Helmet>
-        <title>Layanan & Solusi Digital | CHESTADOTCOM</title>
+        <title>Layanan & Solusi Digital | CHESTAADOTCOM</title>
         <meta name="description" content="Eksplorasi katalog layanan digital komprehensif kami, mulai dari pengembangan web hingga solusi AI khusus." />
       </Helmet>
       
@@ -793,7 +858,7 @@ export default function ServicesPage() {
           
           <button 
             onClick={() => setIsPlaying(!isPlaying)}
-            className={`w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 ${isPlaying ? 'bg-indigo-500 text-white shadow-[0_0_15px_rgba(99,102,241,0.5)]' : 'bg-transparent text-white hover:bg-white/20'}`}
+            className={`w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 ${isPlaying ? 'bg-purple-700 text-white shadow-[0_0_15px_rgba(99,102,241,0.5)]' : 'bg-transparent text-white hover:bg-white/20'}`}
             title={isPlaying ? "Pause Presentation" : "Start Auto-Presentation"}
           >
             {isPlaying ? <Pause size={14} className="text-white" /> : <Play size={14} className="ml-0.5 text-white" />}
@@ -812,7 +877,7 @@ export default function ServicesPage() {
                 <select 
                   value={playDelay} 
                   onChange={(e) => setPlayDelay(Number(e.target.value))}
-                  className="bg-transparent text-[10px] text-center font-mono text-white outline-none appearance-none cursor-pointer hover:text-indigo-300 transition-colors text-center w-full"
+                  className="bg-transparent text-[10px] text-center font-mono text-white outline-none appearance-none cursor-pointer hover:text-purple-400 transition-colors text-center w-full"
                   title="Configurable Delay"
                 >
                   <option value={3000} className="text-slate-900">3s</option>
@@ -841,7 +906,7 @@ export default function ServicesPage() {
         </div>
       </div>
 
-      <div ref={containerRef} className="relative h-screen w-full overflow-y-auto overflow-x-hidden snap-y snap-mandatory bg-[#fbfbfd] scroll-smooth">
+      <div ref={containerRef} className="relative h-screen w-full overflow-y-auto overflow-x-hidden snap-y snap-mandatory bg-transparent scroll-smooth">
         
         
         {/* 1. HERO SECTION */}
@@ -849,12 +914,12 @@ export default function ServicesPage() {
           <GlassReveal dark />
           <SectionPin sectionId="hero" />
           <motion.div style={{ y: heroDescY }} className="absolute inset-0 overflow-hidden">
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-indigo-600/30 blur-[120px] rounded-full pointer-events-none" />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-purple-800/30 blur-[120px] rounded-full pointer-events-none" />
             <motion.div animate={{ y: [0, -30, 0], rotate: [0, 10, 0] }} transition={{ repeat: Infinity, duration: 8, ease: "easeInOut" }} className="absolute top-1/4 left-1/4 w-32 h-32 border border-white/10 rounded-full pointer-events-none" />
-            <motion.div animate={{ y: [0, 40, 0], x: [0, 20, 0], rotate: [0, -15, 0] }} transition={{ repeat: Infinity, duration: 12, ease: "easeInOut" }} className="absolute bottom-1/4 right-1/4 w-64 h-64 border border-indigo-400/10 rounded-full pointer-events-none" />
+            <motion.div animate={{ y: [0, 40, 0], x: [0, 20, 0], rotate: [0, -15, 0] }} transition={{ repeat: Infinity, duration: 12, ease: "easeInOut" }} className="absolute bottom-1/4 right-1/4 w-64 h-64 border border-purple-500/10 rounded-full pointer-events-none" />
             <motion.div animate={{ scale: [1, 1.1, 1], rotate: [0, 90, 0] }} transition={{ repeat: Infinity, duration: 15, ease: "easeInOut" }} className="absolute top-1/3 right-1/3 w-24 h-24 border border-white/5 rotate-45 pointer-events-none" />
             <motion.div animate={{ y: [0, -50, 0], x: [0, -30, 0] }} transition={{ repeat: Infinity, duration: 20, ease: "easeInOut" }} className="absolute bottom-1/3 left-1/3 w-48 h-48 border border-cyan-400/10 rounded-full blur-sm pointer-events-none" />
-            <motion.div animate={{ y: [0, 20, 0], x: [0, 40, 0], rotate: [0, 45, 0] }} transition={{ repeat: Infinity, duration: 25, ease: "easeInOut" }} className="absolute top-1/2 left-1/10 w-40 h-40 border border-purple-400/10 rounded-lg rotate-12 pointer-events-none" />
+            <motion.div animate={{ y: [0, 20, 0], x: [0, 40, 0], rotate: [0, 45, 0] }} transition={{ repeat: Infinity, duration: 25, ease: "easeInOut" }} className="absolute top-1/2 left-1/10 w-40 h-40 border border-purple-500/10 rounded-lg rotate-12 pointer-events-none" />
           </motion.div>
           <motion.div style={{ opacity: heroOpacity, rotateX: heroRotateX, rotateY: heroRotateY, x: heroTranslateX, y: heroTranslateY, transformStyle: "preserve-3d" }} className="relative z-10 max-w-4xl mx-auto">
             <motion.div variants={itemVariants}>
@@ -863,7 +928,7 @@ export default function ServicesPage() {
               </motion.span>
               <motion.h1 style={{ y: heroTitleY, scale: heroTitleScale }} className="text-6xl md:text-8xl font-display font-medium tracking-tight mb-8 leading-tight">
                 Arsitektur Digital <br/>
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 via-purple-400 to-cyan-400 italic font-serif pr-4">Masa Depan.</span>
+                <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 via-purple-500 to-cyan-400 italic font-serif pr-4">Masa Depan.</span>
               </motion.h1>
               <motion.div style={{ y: heroDescY }}>
                 <CyclingPropositions />
@@ -899,7 +964,7 @@ export default function ServicesPage() {
                 variants={itemVariants}
                 key={i} className="bg-white rounded-3xl p-8 shadow-xl shadow-slate-200/40 border border-slate-100 hover:-translate-y-2 transition-transform duration-500"
               >
-                <div className="w-14 h-14 bg-indigo-50 rounded-2xl flex items-center justify-center mb-6 text-indigo-600">
+                <div className="w-14 h-14 bg-purple-50 rounded-2xl flex items-center justify-center mb-6 text-purple-800">
                   <phil.icon size={28} />
                 </div>
                 <h3 className="text-2xl font-medium text-slate-900 mb-4">{phil.title}</h3>
@@ -934,7 +999,7 @@ export default function ServicesPage() {
               <span className="text-sm font-medium text-slate-600">Mode Bandingkan</span>
               <button 
                 onClick={() => { setCompareMode(!compareMode); setSelectedForCompare([]); }}
-                className={`w-12 h-6 rounded-full transition-colors relative ${compareMode ? 'bg-indigo-600' : 'bg-slate-200'}`}
+                className={`w-12 h-6 rounded-full transition-colors relative ${compareMode ? 'bg-purple-800' : 'bg-slate-200'}`}
               >
                 <motion.div className="w-4 h-4 bg-white rounded-full absolute top-1 shadow-sm" animate={{ left: compareMode ? '26px' : '6px' }} />
               </button>
@@ -949,12 +1014,12 @@ export default function ServicesPage() {
                 onMouseEnter={() => setHoveredService(service.slug)}
                 onMouseLeave={() => setHoveredService(null)}
                 id={service.slug}
-                className={`bg-white p-8 rounded-3xl border transition-all duration-300 relative group flex flex-col ${compareMode && selectedForCompare.includes(service.slug) ? 'border-indigo-500 ring-2 ring-indigo-500/20 shadow-xl' : 'border-slate-200 hover:border-indigo-300 hover:shadow-2xl shadow-sm'}`}
+                className={`bg-white p-8 rounded-3xl border transition-all duration-300 relative group flex flex-col ${compareMode && selectedForCompare.includes(service.slug) ? 'border-purple-700 ring-2 ring-purple-700/20 shadow-xl' : 'border-slate-200 hover:border-purple-400 hover:shadow-2xl shadow-sm'}`}
                 onClick={() => compareMode ? toggleCompare(service.slug) : window.location.href = `/layanan/${service.slug}`}
               >
                 <div className="flex justify-between items-start mb-6">
                   <div className="flex gap-4 items-center">
-                    <div className="w-12 h-12 rounded-xl bg-slate-50 flex items-center justify-center text-indigo-600 group-hover:bg-indigo-600 group-hover:text-white transition-colors">
+                    <div className="w-12 h-12 rounded-xl bg-slate-50 flex items-center justify-center text-purple-800 group-hover:bg-purple-800 group-hover:text-white transition-colors">
                       {service.icon ? <service.icon size={24} /> : <Code2 size={24} />}
                     </div>
                     <div>
@@ -975,7 +1040,7 @@ export default function ServicesPage() {
                         navigator.clipboard.writeText(url);
                         toast.success("Tautan layanan disalin!");
                       }}
-                      className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 hover:bg-indigo-600 hover:text-white transition-colors tooltip-trigger"
+                      className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 hover:bg-purple-800 hover:text-white transition-colors tooltip-trigger"
                       title="Copy Deep Link"
                     >
                       <LinkIcon size={18} />
@@ -990,14 +1055,14 @@ export default function ServicesPage() {
                     >
                       <Eye size={18} />
                     </button>
-                    <button className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 group-hover:bg-indigo-600 group-hover:text-white transition-colors">
+                    <button className="w-10 h-10 rounded-full bg-slate-100 flex items-center justify-center text-slate-500 group-hover:bg-purple-800 group-hover:text-white transition-colors">
                       <ArrowUpRight size={18} />
                     </button>
                   </div>
                 </div>
                 <p className="text-slate-600 leading-relaxed text-sm line-clamp-2">{service.description}</p>
                 {compareMode && (
-                  <div className="mt-4 text-xs font-bold uppercase tracking-widest text-indigo-600 bg-indigo-50 inline-block px-3 py-1.5 rounded-full">
+                  <div className="mt-4 text-xs font-bold uppercase tracking-widest text-purple-800 bg-purple-50 inline-block px-3 py-1.5 rounded-full">
                     {selectedForCompare.includes(service.slug) ? 'Terpilih' : 'Pilih untuk Bandingkan'}
                   </div>
                 )}
@@ -1018,7 +1083,7 @@ export default function ServicesPage() {
                 <button 
                   disabled={selectedForCompare.length !== 2}
                   onClick={() => document.getElementById('compare-modal-trigger')?.click()}
-                  className="bg-indigo-600 text-white px-6 py-2 rounded-full font-medium text-sm disabled:opacity-50 disabled:cursor-not-allowed hover:bg-indigo-700 transition-colors"
+                  className="bg-purple-800 text-white px-6 py-2 rounded-full font-medium text-sm disabled:opacity-50 disabled:cursor-not-allowed hover:bg-purple-700 transition-colors"
                 >
                   Bandingkan Sekarang
                 </button>
@@ -1055,7 +1120,7 @@ export default function ServicesPage() {
                   return (
                     <div key={slug} className="space-y-8 pt-8 md:pt-0 md:px-8 first:md:pl-0 last:md:pr-0">
                       <div>
-                        <div className="w-12 h-12 bg-indigo-50 text-indigo-600 rounded-xl flex items-center justify-center mb-4">
+                        <div className="w-12 h-12 bg-purple-50 text-purple-800 rounded-xl flex items-center justify-center mb-4">
                           {svc?.icon ? <svc.icon size={24} /> : <Code2 size={24} />}
                         </div>
                         <h4 className="text-2xl font-medium text-slate-900 mb-2">{svc?.title}</h4>
@@ -1072,7 +1137,7 @@ export default function ServicesPage() {
                         <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100">
                           <span className="text-xs font-bold text-slate-400 uppercase tracking-widest block mb-1">Tingkat Kompleksitas</span>
                           <span className="text-lg font-medium text-slate-900 flex items-center gap-2">
-                            <Layers size={18} className="text-blue-500" /> {complexity}
+                            <Layers size={18} className="text-purple-700" /> {complexity}
                           </span>
                         </div>
                         <div className="bg-slate-50 p-4 rounded-2xl border border-slate-100">
@@ -1096,18 +1161,18 @@ export default function ServicesPage() {
         <motion.section id="ai-scope" variants={sectionVariants} initial="hidden" whileInView="visible" viewport={{ amount: 0.1, margin: "-100px" }} className="snap-start min-h-screen flex flex-col justify-center max-w-[1400px] mx-auto px-6 md:px-12 py-24 relative">
           <GlassReveal dark />
           <SectionPin sectionId="ai-scope" />
-          <div className="bg-gradient-to-br from-indigo-900 to-slate-900 rounded-[3rem] p-8 md:p-16 relative overflow-hidden shadow-2xl border border-indigo-500/20">
-            <div className="absolute top-0 right-0 w-96 h-96 bg-indigo-500/20 blur-[100px] rounded-full pointer-events-none" />
+          <div className="bg-gradient-to-br from-purple-900 to-slate-900 rounded-[3rem] p-8 md:p-16 relative overflow-hidden shadow-2xl border border-purple-700/20">
+            <div className="absolute top-0 right-0 w-96 h-96 bg-purple-700/20 blur-[100px] rounded-full pointer-events-none" />
             
             <div className="relative z-10 max-w-3xl mx-auto text-center">
               <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 text-white border border-white/20 text-sm font-medium mb-8 backdrop-blur-md">
-                <Sparkles size={16} className="text-indigo-400" />
+                <Sparkles size={16} className="text-purple-500" />
                 AI-Powered Scoping
               </div>
               <h2 className="text-4xl md:text-5xl font-display font-medium text-white mb-6">Ceritakan Kebutuhan Anda</h2>
-              <p className="text-indigo-200 mb-10 text-lg">AI kami akan menganalisis request Anda dan secara instan merekomendasikan tumpukan teknologi, estimasi waktu, dan solusi layanan yang tepat.</p>
+              <p className="text-purple-200 mb-10 text-lg">AI kami akan menganalisis request Anda dan secara instan merekomendasikan tumpukan teknologi, estimasi waktu, dan solusi layanan yang tepat.</p>
               
-              <div className="bg-white p-2 rounded-2xl md:rounded-full shadow-2xl flex flex-col md:flex-row items-center gap-2 focus-within:ring-4 focus-within:ring-indigo-500/30 transition-all">
+              <div className="bg-white p-2 rounded-2xl md:rounded-full shadow-2xl flex flex-col md:flex-row items-center gap-2 focus-within:ring-4 focus-within:ring-purple-700/30 transition-all">
                 <input
                   type="text"
                   value={requestText}
@@ -1119,7 +1184,7 @@ export default function ServicesPage() {
                 <button
                   onClick={handleQuickRequest}
                   disabled={isGenerating || !requestText.trim()}
-                  className="w-full md:w-auto flex items-center justify-center gap-2 bg-indigo-600 text-white px-8 py-4 rounded-xl md:rounded-full font-medium hover:bg-indigo-700 transition-colors disabled:opacity-50 shrink-0"
+                  className="w-full md:w-auto flex items-center justify-center gap-2 bg-purple-800 text-white px-8 py-4 rounded-xl md:rounded-full font-medium hover:bg-purple-700 transition-colors disabled:opacity-50 shrink-0"
                 >
                   {isGenerating ? <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : <><Send size={18} /> Analisis Sekarang</>}
                 </button>
@@ -1155,7 +1220,7 @@ export default function ServicesPage() {
                   key={tech.name}
                   className="flex flex-col items-center gap-4 p-8 rounded-3xl bg-white border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all w-40"
                 >
-                  <div className="w-16 h-16 rounded-2xl bg-indigo-50 flex items-center justify-center text-indigo-600">
+                  <div className="w-16 h-16 rounded-2xl bg-purple-50 flex items-center justify-center text-purple-800">
                     <tech.icon size={32} />
                   </div>
                   <span className="text-sm font-bold text-slate-800">{tech.name}</span>
@@ -1179,11 +1244,11 @@ export default function ServicesPage() {
                 variants={itemVariants}
                 key={i} className="bg-white p-8 rounded-3xl border border-slate-100 shadow-xl shadow-slate-200/50 relative overflow-hidden group"
               >
-                <div className="text-6xl font-display font-bold text-slate-50 absolute -right-4 -bottom-4 pointer-events-none group-hover:text-indigo-50 transition-colors duration-500">
+                <div className="text-6xl font-display font-bold text-slate-50 absolute -right-4 -bottom-4 pointer-events-none group-hover:text-purple-50 transition-colors duration-500">
                   0{i+1}
                 </div>
                 <div className="relative z-10">
-                  <step.icon size={32} className="text-indigo-600 mb-6" />
+                  <step.icon size={32} className="text-purple-800 mb-6" />
                   <h3 className="text-xl font-medium mb-3 text-slate-900">{step.title}</h3>
                   <p className="text-slate-500 text-sm leading-relaxed">{step.desc}</p>
                 </div>
@@ -1197,7 +1262,7 @@ export default function ServicesPage() {
         <motion.section id="metrics" variants={sectionVariants} initial="hidden" whileInView="visible" viewport={{ amount: 0.1, margin: "-100px" }} className="snap-start min-h-screen flex flex-col justify-center bg-slate-900 text-white max-w-[1400px] mx-auto px-6 md:px-12 py-24 rounded-[3rem] my-12 relative overflow-hidden">
           <GlassReveal dark />
           <SectionPin sectionId="metrics" />
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_right,_var(--tw-gradient-stops))] from-indigo-600/20 via-slate-900 to-slate-900 pointer-events-none" />
+          <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_right,_var(--tw-gradient-stops))] from-purple-800/20 via-slate-900 to-slate-900 pointer-events-none" />
           <motion.div variants={itemVariants} className="text-center mb-16 relative z-10">
             <h2 className="text-4xl md:text-5xl font-display font-medium mb-6">Dampak Nyata</h2>
             <p className="text-slate-400 max-w-2xl mx-auto">Kami tidak hanya menulis kode, kami membangun metrik yang mendorong kesuksesan bisnis Anda.</p>
@@ -1208,7 +1273,7 @@ export default function ServicesPage() {
                 variants={itemVariants}
                 key={i} className="flex flex-col items-center text-center p-6 border border-white/10 bg-white/5 rounded-3xl backdrop-blur-sm"
               >
-                <metric.icon size={28} className="text-indigo-400 mb-4" />
+                <metric.icon size={28} className="text-purple-500 mb-4" />
                 <div className="text-4xl md:text-5xl font-display font-bold text-white mb-2">{metric.value}</div>
                 <div className="text-sm text-slate-400 uppercase tracking-widest font-medium">{metric.label}</div>
               </motion.div>
@@ -1234,19 +1299,19 @@ export default function ServicesPage() {
           <DidYouKnowSnippet sectionTitle="Customer Support & Project Guarantees" />
         </motion.section>
 
-        <motion.section id="contact" variants={sectionVariants} initial="hidden" whileInView="visible" viewport={{ amount: 0.1, margin: "-100px" }} className="snap-start min-h-[50vh] flex flex-col justify-center items-center text-center p-12 bg-indigo-600 text-white">
+        <motion.section id="contact" variants={sectionVariants} initial="hidden" whileInView="visible" viewport={{ amount: 0.1, margin: "-100px" }} className="snap-start min-h-[50vh] flex flex-col justify-center items-center text-center p-12 bg-purple-800 text-white">
           <GlassReveal dark />
           <motion.div variants={itemVariants} className="max-w-2xl">
             <h2 className="text-5xl md:text-7xl font-display font-medium mb-8">Ready to Build?</h2>
-            <p className="text-xl text-indigo-100 mb-12 font-light">Mari diskusikan visi digital Anda bersama tim ahli kami sekarang juga.</p>
+            <p className="text-xl text-purple-100 mb-12 font-light">Mari diskusikan visi digital Anda bersama tim ahli kami sekarang juga.</p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
               <button 
                 onClick={copyEmail}
-                className="group flex items-center gap-3 bg-white text-indigo-600 px-8 py-4 rounded-full font-medium hover:bg-indigo-50 transition-all duration-300 shadow-xl hover:shadow-2xl hover:-translate-y-1"
+                className="group flex items-center gap-3 bg-white text-purple-800 px-8 py-4 rounded-full font-medium hover:bg-purple-50 transition-all duration-300 shadow-xl hover:shadow-2xl hover:-translate-y-1"
               >
                 <Mail size={20} />
-                <span>hello@chestadotcom.com</span>
-                <Copy size={16} className="text-indigo-400 group-hover:text-indigo-600 transition-colors ml-2" />
+                <span>hello@chestaadotcom.com</span>
+                <Copy size={16} className="text-purple-500 group-hover:text-purple-800 transition-colors ml-2" />
               </button>
             </div>
           </motion.div>

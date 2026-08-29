@@ -121,26 +121,29 @@ export default function TestimonialSection() {
 
   return (
     <section 
-      className="py-24 md:py-32 relative overflow-hidden bg-transparent text-slate-900 w-full select-none" 
+      className="py-4 sm:py-8 md:py-12 relative overflow-hidden bg-transparent text-slate-900 w-full select-none" 
       id="testimonials"
     >
-      <div className="mx-auto max-w-4xl px-6 relative z-10 w-full">
+      <div className="mx-auto max-w-4xl px-3 sm:px-6 relative z-10 w-full">
         
-        <div className="mb-16">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-slate-200 shadow-sm mb-6">
+        <div className="mb-8 sm:mb-12">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-slate-200 shadow-2xs mb-4">
             <span className="flex h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>
             <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-slate-600">
-              SOCIAL PROOF
+              SOCIAL PROOF & REPUTASI
             </span>
           </div>
-          <h2 className="text-4xl md:text-5xl font-display font-medium tracking-tight text-slate-900 mb-6">
+          <h2 className="text-2xl sm:text-4xl md:text-5xl font-display font-bold tracking-tight text-slate-900 mb-3">
             Dipercaya oleh Bisnis Terkemuka.
           </h2>
+          <p className="text-slate-500 text-sm sm:text-base font-sans">
+            Testimoni otentik dari pemilik bisnis, founder startup, dan pimpinan korporasi.
+          </p>
         </div>
 
         {/* Slider Box */}
         <div 
-          className="relative min-h-[300px] flex flex-col justify-center bg-white/60 border border-slate-200/60 rounded-[2.5rem] p-8 sm:p-12 backdrop-blur-xl shadow-[0_20px_60px_rgba(0,0,0,0.03)] overflow-hidden"
+          className="relative min-h-[280px] flex flex-col justify-center bg-white/40 border border-white/60 rounded-2xl sm:rounded-3xl p-5 sm:p-8 md:p-10 backdrop-blur-2xl shadow-xl shadow-purple-900/5 overflow-hidden"
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
         >
@@ -153,38 +156,39 @@ export default function TestimonialSection() {
               initial="enter"
               animate="center"
               exit="exit"
-              className="flex flex-col gap-8 relative z-10"
+              className="flex flex-col gap-6 relative z-10"
             >
-              <Quote className="w-12 h-12 text-indigo-100 absolute -top-4 -left-4 opacity-50" />
+              <Quote className="w-10 sm:w-12 h-10 sm:h-12 text-purple-100 absolute -top-4 -left-4 opacity-50" />
               
-              <p className="text-xl sm:text-2xl md:text-3xl text-slate-700 leading-relaxed font-display font-medium relative z-10 tracking-tight">
+              <p className="text-base sm:text-xl md:text-2xl text-slate-700 leading-relaxed font-display font-medium relative z-10 tracking-tight">
                 "{current.comment}"
               </p>
               
-              <div className="pt-6 flex flex-col sm:flex-row sm:items-center justify-between gap-6 border-t border-slate-200/60">
-                <div className="flex items-center gap-4">
+              <div className="pt-4 sm:pt-6 flex flex-wrap items-center justify-between gap-4 border-t border-slate-200/70">
+                <div className="flex items-center gap-3.5 min-w-[200px]">
                   <img 
                     src={current.avatar} 
                     alt={current.name} 
-                    className="w-14 h-14 rounded-full object-cover shadow-sm ring-4 ring-white" 
+                    className="w-11 sm:w-14 h-11 sm:h-14 rounded-full object-cover shadow-2xs ring-2 ring-white shrink-0" 
                     loading="lazy"
                   />
                   <div>
-                    <h4 className="font-bold text-lg text-slate-900">{current.name}</h4>
-                    <p className="text-sm font-medium text-indigo-600">{current.position} di {current.companyName}</p>
+                    <h4 className="font-bold text-sm sm:text-base text-slate-900">{current.name}</h4>
+                    <p className="text-xs sm:text-sm font-medium text-purple-600">{current.position} di {current.companyName}</p>
+                    <span className="text-[10px] font-mono text-slate-400 block">{current.industry}</span>
                   </div>
                 </div>
                 
-                <div className="bg-slate-50 border border-slate-100 rounded-2xl p-4 flex flex-col items-end">
-                  <span className="text-2xl font-bold font-display tracking-tight text-slate-900">{current.metric}</span>
-                  <span className="text-xs font-mono tracking-widest text-slate-500 uppercase">{current.metricLabel}</span>
+                <div className="bg-purple-50/80 border border-purple-100 rounded-xl sm:rounded-2xl p-2.5 sm:p-4 flex flex-col items-start sm:items-end">
+                  <span className="text-lg sm:text-2xl font-bold font-display tracking-tight text-purple-950">{current.metric}</span>
+                  <span className="text-[10px] sm:text-xs font-mono tracking-widest text-purple-800 uppercase font-semibold">{current.metricLabel}</span>
                 </div>
               </div>
             </motion.div>
           </AnimatePresence>
 
           {/* Controls */}
-          <div className="mt-8 pt-8 flex items-center justify-between relative z-10 border-t border-slate-200/40">
+          <div className="mt-6 pt-4 sm:pt-6 flex flex-wrap items-center justify-between gap-3 relative z-10 border-t border-slate-200/50">
             <div className="flex gap-2">
               {testimonials.map((_, idx) => (
                 <button
@@ -193,25 +197,25 @@ export default function TestimonialSection() {
                     setDirection(idx > activeIndex ? 1 : -1);
                     setActiveIndex(idx);
                   }}
-                  className={`h-2 rounded-full transition-all duration-300 ${idx === activeIndex ? 'w-8 bg-indigo-600' : 'w-2 bg-slate-300 hover:bg-slate-400'}`}
+                  className={`h-2 rounded-full transition-all duration-300 ${idx === activeIndex ? 'w-8 bg-purple-600' : 'w-2 bg-slate-300 hover:bg-slate-400'}`}
                 />
               ))}
             </div>
 
-            <div className="flex gap-3">
+            <div className="flex gap-2 sm:gap-3">
               <button
                 onClick={handlePrev}
-                className="w-10 h-10 rounded-full border border-slate-200 flex items-center justify-center hover:bg-white hover:text-indigo-600 transition-colors shadow-sm bg-slate-50 text-slate-600"
+                className="w-9 h-9 sm:w-10 sm:h-10 rounded-full border border-slate-200 flex items-center justify-center hover:bg-white hover:text-purple-600 transition-colors shadow-xs bg-slate-50 text-slate-600 cursor-pointer"
                 aria-label="Previous"
               >
-                <ArrowLeft size={18} />
+                <ArrowLeft size={16} />
               </button>
               <button
                 onClick={handleNext}
-                className="w-10 h-10 rounded-full border border-slate-200 flex items-center justify-center hover:bg-white hover:text-indigo-600 transition-colors shadow-sm bg-slate-50 text-slate-600"
+                className="w-9 h-9 sm:w-10 sm:h-10 rounded-full border border-slate-200 flex items-center justify-center hover:bg-white hover:text-purple-600 transition-colors shadow-xs bg-slate-50 text-slate-600 cursor-pointer"
                 aria-label="Next"
               >
-                <ArrowRight size={18} />
+                <ArrowRight size={16} />
               </button>
             </div>
           </div>

@@ -1,26 +1,27 @@
 export const ROUTE_METADATA: Record<string, { title: string; description: string; ogImage?: string }> = {
   '/': {
-    title: 'ChestaCode | Enterprise Software Agency',
-    description: 'Transforming businesses with custom software, AI integrations, and scalable cloud solutions.',
+    title: 'CHESTAADOTCOM | Jasa Website Premium Cisauk & BSD City — Chesta Azka Sofyan',
+    description: 'Jasa pembuatan website premium, kilat, dan terjangkau di Cisauk, BSD City, Serpong & Tangerang. Desain kustom berkelas Apple, SEO ranking #1 Google & Agentic AI.',
   },
   '/blog': {
-    title: 'Insights & Blog | ChestaCode',
-    description: 'Read the latest thoughts on software engineering, AI, and digital transformation.',
+    title: 'Insights & Blog Arsitektur Digital | CHESTAADOTCOM',
+    description: 'Kumpulan artikel seputar SEO lokal Cisauk/BSD, optimasi Google Maps, tech stack modern, dan filosofi coding Chesta Azka Sofyan.',
   },
   '/services': {
-    title: 'Our Services | ChestaCode',
-    description: 'Explore our premium digital services including Web Development, AI Automation, and Cloud Infrastructure.',
+    title: 'Layanan Pembuatan Website & AI | CHESTAADOTCOM Cisauk & BSD',
+    description: 'Layanan website company profile, landing page konversi, toko online e-commerce, dan integrasi WhatsApp bot AI cerdas.',
   },
-  '/portfolio': {
-    title: 'Portfolio & Work | ChestaCode',
-    description: 'Discover our recent enterprise projects and success stories.',
+  '/projects': {
+    title: 'Showcase Portofolio Proyek | CHESTAADOTCOM',
+    description: 'Portofolio karya desain website bespoke dan solusi sistem digital karya Chesta Azka Sofyan.',
   },
   '/about': {
-    title: 'About Us | ChestaCode',
-    description: 'Learn about our mission, philosophy, and the engineering team behind ChestaCode.',
+    title: 'Tentang Chesta Azka Sofyan | Founder CHESTAADOTCOM',
+    description: 'Mengenal Chesta Azka Sofyan — programmer muda dengan visi menghadirkan website mewah sekelas korporat multinasional dengan harga ramah untuk UMKM.',
   },
   '/admin': {
     title: 'Admin Dashboard',
     description: 'Secure admin portal.',
   },
 };
+

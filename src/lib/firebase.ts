@@ -1,33 +1,30 @@
 import { initializeApp, getApps, getApp } from 'firebase/app';
 import { getAuth } from 'firebase/auth';
 import { getFirestore } from 'firebase/firestore';
-import { getAnalytics, isSupported } from 'firebase/analytics';
-import config from '../../firebase-applet-config.json';
-
-const firebaseConfig = {
-  apiKey: config.apiKey,
-  authDomain: config.authDomain,
-  projectId: config.projectId,
-  storageBucket: config.storageBucket,
-  messagingSenderId: config.messagingSenderId,
-  appId: config.appId,
-};
+import { getStorage } from 'firebase/storage';
+import { getAnalytics, logEvent, isSupported } from 'firebase/analytics';
+import firebaseConfig from '../../firebase-applet-config.json';
 
 const app = !getApps().length ? initializeApp(firebaseConfig) : getApp();
-console.log('Firebase Config loaded:', config);
-
+export const db = getFirestore(app, firebaseConfig.firestoreDatabaseId);
 export const auth = getAuth(app);
-export const db = getFirestore(app, config.firestoreDatabaseId);
+export const storage = getStorage(app);
 
-export const logAnalyticsEvent = async (eventName: string, eventParams?: any) => {
-  try {
-    const supported = await isSupported();
+let analytics: any = null;
+
+// Ensure this only runs in the browser
+if (typeof window !== 'undefined') {
+  isSupported().then(supported => {
     if (supported) {
-      const { logEvent } = await import('firebase/analytics');
-      const analytics = getAnalytics(app);
-      logEvent(analytics, eventName, eventParams);
+      analytics = getAnalytics(app);
     }
-  } catch (error) {
-    console.warn("Analytics error:", error);
+  }).catch(console.error);
+}
+
+export const logAnalyticsEvent = (eventName: string, eventParams?: any) => {
+  if (analytics) {
+    logEvent(analytics, eventName, eventParams);
+  } else {
+    console.log(`[Analytics Mock] ${eventName}`, eventParams);
   }
 };

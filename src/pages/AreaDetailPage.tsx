@@ -31,7 +31,11 @@ export default function AreaDetailPage() {
   const formattedCityName = upperCity.charAt(0) + upperCity.slice(1).toLowerCase();
 
   // Localized statistics mockup based on city
-  const cityStats: { [key: string]: { searchVolume: string, businessGrowth: string, localNiche: string } } = {
+  const cityStats: { [key: string]: { searchVolume: string, businessGrowth: string, localNiche: string, areaFaq?: string } } = {
+    'CISAUK': { searchVolume: '450 Ribu+', businessGrowth: '+34.8%', localNiche: 'UMKM Mandiri, Toko Online, Kuliner Lokal, Properti & Homestay', areaFaq: 'Tersedia layanan meeting tatap muka langsung di area Stasiun Cisauk, Intermoda, Pasar Modern, dan Suradita.' },
+    'BSD-CITY': { searchVolume: '1.2 Juta+', businessGrowth: '+38.5%', localNiche: 'Tech Startup, Digital Hub, Restoran & Cafe Aesthetic, Corporate Agency', areaFaq: 'Siap meeting langsung di Green Office Park (GOP), The Breeze, QBIG, atau Digital Hub BSD.' },
+    'GADING-SERPONG': { searchVolume: '980 Ribu+', businessGrowth: '+35.2%', localNiche: 'F&B Franchise, Lifestyle Studio, Klinik Kecantikan, Coworking', areaFaq: 'Siap diskusi offline di area Summarecon Mall Serpong, Ruko Aniva, atau Pisa Grande.' },
+    'TANGERANG-SELATAN': { searchVolume: '1.5 Juta+', businessGrowth: '+33.1%', localNiche: 'Agency Kreatif, Brand Fashion Lokal, Jasa Profesional, Klinik', areaFaq: 'Meliputi seluruh area Tangsel: BSD, Serpong, Pamulang, Ciputat, hingga Bintaro.' },
     'JAKARTA': { searchVolume: '2.4 Juta+', businessGrowth: '+32.4%', localNiche: 'Startup, Kuliner, Fashion & Corporate Service' },
     'BANDUNG': { searchVolume: '960 Ribu+', businessGrowth: '+28.1%', localNiche: 'Creative Studio, Kuliner Aesthetic, Fashion Brand' },
     'BEKASI': { searchVolume: '780 Ribu+', businessGrowth: '+26.4%', localNiche: 'E-commerce, Manufaktur, Jasa Logistik' },
@@ -63,16 +67,16 @@ export default function AreaDetailPage() {
   }
 
   return (
-    <div className="pt-32 pb-28 min-h-screen relative bg-transparent text-slate-900 overflow-hidden">
+    <div className="pt-48 pb-28 min-h-screen relative bg-transparent text-slate-900 overflow-hidden">
       <MetaTags 
-        title={`Jasa Pembuatan Website ${formattedCityName} Premium — CHESTADOTCOM`} 
+        title={`Jasa Pembuatan Website ${formattedCityName} Premium — CHESTAADOTCOM`} 
         description={`Arsitek digital 2026 pembuatan website profesional, cepat, SEO-ready, dan mobile-first untuk UMKM & brand lokal di ${formattedCityName} mulai Rp540K.`}
         path={`/area/${cityName.toLowerCase()}`}
       />
 
       {/* Hero Section */}
       <section className="relative pt-16 pb-12 mb-12">
-        <div className="absolute top-0 inset-x-0 h-[400px] bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-[#4f46e5]/4 via-transparent to-transparent -z-10 pointer-events-none" />
+        <div className="absolute top-0 inset-x-0 h-[400px] bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-[#6b21a8]/4 via-transparent to-transparent -z-10 pointer-events-none" />
 
         <div className="max-w-5xl mx-auto px-6">
           {/* Breadcrumb Navigation for SEO with City Scope */}
@@ -89,8 +93,8 @@ export default function AreaDetailPage() {
             transition={{ duration: 0.6 }}
             className="space-y-6 text-center md:text-left"
           >
-            <span className="text-[#4f46e5] font-mono text-[9px] font-bold uppercase tracking-[0.2em] inline-flex items-center gap-2 bg-white/[0.02] px-3.5 py-1.5 rounded-full border border-slate-200">
-              <MapPin size={9} className="text-[#4f46e5] animate-pulse" />
+            <span className="text-[#6b21a8] font-mono text-[9px] font-bold uppercase tracking-[0.2em] inline-flex items-center gap-2 bg-white/[0.02] px-3.5 py-1.5 rounded-full border border-slate-200">
+              <MapPin size={9} className="text-[#6b21a8] animate-pulse" />
               PRIORITY SERVICE REGION: {upperCity}
             </span>
             
@@ -98,7 +102,7 @@ export default function AreaDetailPage() {
               <TextRevealSmooth 
                 text={`Website Premium untuk UMKM di ${formattedCityName} yang Ingin Terlihat Lebih Serius.`} 
                 highlightWords={[formattedCityName, "Serius."]}
-                highlightClass="text-transparent bg-clip-text bg-gradient-to-r from-[#4f46e5] to-green-400 font-serif italic pl-1"
+                highlightClass="text-transparent bg-clip-text bg-gradient-to-r from-[#6b21a8] to-green-400 font-serif italic pl-1"
               />
             </h1>
 
@@ -109,7 +113,7 @@ export default function AreaDetailPage() {
             <div className="pt-2 flex flex-col sm:flex-row gap-3 justify-center md:justify-start">
               <a
                 href="#consultation-box"
-                className="flex items-center justify-center gap-2 rounded-full bg-[#4f46e5] text-black px-6 py-3.5 font-mono text-[10px] font-bold uppercase tracking-wider hover:bg-[#c2e600] active:scale-95 transition-all cursor-pointer shadow-lg shadow-[#4f46e5]/5"
+                className="flex items-center justify-center gap-2 rounded-full bg-[#6b21a8] text-black px-6 py-3.5 font-mono text-[10px] font-bold uppercase tracking-wider hover:bg-[#c2e600] active:scale-95 transition-all cursor-pointer shadow-lg shadow-[#6b21a8]/5"
               >
                 <span>Mulai Konsultasi Gratis</span>
                 <ArrowRight size={12} className="stroke-[2.5px]" />
@@ -136,7 +140,7 @@ export default function AreaDetailPage() {
             viewport={{ once: true }}
             className="p-6 rounded-2xl bg-white/[0.01] border border-slate-100 flex flex-col justify-between text-left relative overflow-hidden"
           >
-            <span className="font-mono text-[8px] text-[#4f46e5] font-black tracking-widest uppercase">🔍 SEARCH VOLUME</span>
+            <span className="font-mono text-[8px] text-[#6b21a8] font-black tracking-widest uppercase">🔍 SEARCH VOLUME</span>
             <div className="mt-4">
               <span className="block text-3xl font-mono font-black text-slate-900">{currentStats.searchVolume}</span>
               <span className="text-[11px] text-slate-600 font-sans mt-1.5 block leading-normal">
@@ -152,7 +156,7 @@ export default function AreaDetailPage() {
             transition={{ delay: 0.1 }}
             className="p-6 rounded-2xl bg-white/[0.01] border border-slate-100 flex flex-col justify-between text-left"
           >
-            <span className="font-mono text-[8px] text-[#4f46e5] font-black tracking-widest uppercase">📈 MARKET PENETRATION</span>
+            <span className="font-mono text-[8px] text-[#6b21a8] font-black tracking-widest uppercase">📈 MARKET PENETRATION</span>
             <div className="mt-4">
               <span className="block text-3xl font-mono font-black text-slate-900">{currentStats.businessGrowth}</span>
               <span className="text-[11px] text-slate-600 font-sans mt-1.5 block leading-normal">
@@ -166,9 +170,9 @@ export default function AreaDetailPage() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.2 }}
-            className="p-6 rounded-2xl bg-[#4f46e5]/[0.02] border border-[#4f46e5]/10 flex flex-col justify-between text-left relative"
+            className="p-6 rounded-2xl bg-[#6b21a8]/[0.02] border border-[#6b21a8]/10 flex flex-col justify-between text-left relative"
           >
-            <span className="font-mono text-[8px] text-[#4f46e5] font-black tracking-widest uppercase">🎯 KEY LOCAL SECTOR</span>
+            <span className="font-mono text-[8px] text-[#6b21a8] font-black tracking-widest uppercase">🎯 KEY LOCAL SECTOR</span>
             <div className="mt-4">
               <span className="block text-md font-display font-bold text-gray-100">{currentStats.localNiche}</span>
               <span className="text-[11px] text-slate-600 font-sans mt-2 block leading-normal">
@@ -181,24 +185,24 @@ export default function AreaDetailPage() {
 
         {/* Why high performance website matters in this specific city */}
         <div className="p-6 sm:p-10 rounded-2xl border border-slate-100 bg-gradient-to-b from-white/[0.01] to-transparent text-left relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-72 h-72 bg-[#4f46e5]/2 rounded-full filter blur-3xl pointer-events-none" />
+          <div className="absolute top-0 right-0 w-72 h-72 bg-[#6b21a8]/2 rounded-full filter blur-3xl pointer-events-none" />
           
           <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-center relative z-10">
             <div className="md:col-span-6 space-y-3">
               <h3 className="text-xl md:text-2xl font-display font-medium text-slate-900 tracking-tight leading-snug">
-                Instagram saja tidak cukup untuk memenangkan pasar <span className="text-[#4f46e5]">{formattedCityName}</span>.
+                Instagram saja tidak cukup untuk memenangkan pasar <span className="text-[#6b21a8]">{formattedCityName}</span>.
               </h3>
               <p className="text-xs text-slate-600 font-sans leading-relaxed">
                 Platform sosial luar biasa untuk menaikkan awareness. Namun, untuk meyakinkan pembeli premium bermoninal transaksi tinggi, bisnis Anda membutuhkan kredibilitas digital mandiri yang mapan dan solid.
               </p>
               <p className="text-xs text-slate-500 font-sans leading-relaxed">
-                Website premium CHESTADOTCOM memberi Anda kendali penuh atas database konsumen, bebas dari ancaman suspend akun, serta menjamin peringkat teratas Google Pencarian.
+                Website premium CHESTAADOTCOM memberi Anda kendali penuh atas database konsumen, bebas dari ancaman suspend akun, serta menjamin peringkat teratas Google Pencarian.
               </p>
             </div>
 
             <div className="md:col-span-6 space-y-3.5 border-t md:border-t-0 md:border-l border-slate-100 pt-6 md:pt-0 md:pl-8">
               <div className="flex gap-2.5 items-start">
-                <span className="p-1 h-max rounded bg-[#4f46e5]/10 text-[#4f46e5] shrink-0 mt-0.5">
+                <span className="p-1 h-max rounded bg-[#6b21a8]/10 text-[#6b21a8] shrink-0 mt-0.5">
                   <CheckCircle size={11} strokeWidth={2.5} />
                 </span>
                 <div>
@@ -207,7 +211,7 @@ export default function AreaDetailPage() {
                 </div>
               </div>
               <div className="flex gap-2.5 items-start">
-                <span className="p-1 h-max rounded bg-[#4f46e5]/10 text-[#4f46e5] shrink-0 mt-0.5">
+                <span className="p-1 h-max rounded bg-[#6b21a8]/10 text-[#6b21a8] shrink-0 mt-0.5">
                   <CheckCircle size={11} strokeWidth={2.5} />
                 </span>
                 <div>
@@ -216,7 +220,7 @@ export default function AreaDetailPage() {
                 </div>
               </div>
               <div className="flex gap-2.5 items-start">
-                <span className="p-1 h-max rounded bg-[#4f46e5]/10 text-[#4f46e5] shrink-0 mt-0.5">
+                <span className="p-1 h-max rounded bg-[#6b21a8]/10 text-[#6b21a8] shrink-0 mt-0.5">
                   <CheckCircle size={11} strokeWidth={2.5} />
                 </span>
                 <div>
@@ -233,7 +237,7 @@ export default function AreaDetailPage() {
       <section className="mb-20 max-w-5xl mx-auto px-6">
         <div className="flex items-center gap-4 mb-8">
           <div className="h-[1px] flex-grow bg-slate-100" />
-          <h2 className="text-[9px] font-mono font-bold tracking-[0.25em] text-[#4f46e5] uppercase text-center shrink-0">PILIHAN LAYANAN PREMIUM</h2>
+          <h2 className="text-[9px] font-mono font-bold tracking-[0.25em] text-[#6b21a8] uppercase text-center shrink-0">PILIHAN LAYANAN PREMIUM</h2>
           <div className="h-[1px] flex-grow bg-slate-100" />
         </div>
 
@@ -257,7 +261,7 @@ export default function AreaDetailPage() {
                 <span className="font-mono text-[11px] text-slate-700">Mulai Rp540K</span>
                 <Link
                   to={`/layanan/${service.slug}`}
-                  className="flex items-center gap-1 font-mono text-[9px] uppercase text-[#4f46e5] font-bold group hover:translate-x-0.5 transition-transform"
+                  className="flex items-center gap-1 font-mono text-[9px] uppercase text-[#6b21a8] font-bold group hover:translate-x-0.5 transition-transform"
                 >
                   Detail
                   <ArrowRight size={9} />
@@ -270,12 +274,12 @@ export default function AreaDetailPage() {
 
       {/* Premium WhatsApp Consultation Card */}
       <section className="max-w-3xl mx-auto px-6 mb-20" id="consultation-box">
-        <div className="p-6 sm:p-8 rounded-2xl bg-[#090D18]/90 border border-[#4f46e5]/15 relative overflow-hidden text-center shadow-[0_12px_45px_rgba(0,0,0,0.4)] backdrop-blur-sm">
-          <div className="absolute top-0 right-0 w-24 h-24 bg-[#4f46e5]/2 rounded-full blur-2xl pointer-events-none" />
+        <div className="p-6 sm:p-8 rounded-2xl bg-[#090D18]/90 border border-[#6b21a8]/15 relative overflow-hidden text-center shadow-[0_12px_45px_rgba(0,0,0,0.4)] backdrop-blur-sm">
+          <div className="absolute top-0 right-0 w-24 h-24 bg-[#6b21a8]/2 rounded-full blur-2xl pointer-events-none" />
           
           <div className="mb-6 space-y-2">
-            <span className="text-[#4f46e5] font-mono text-[8px] uppercase tracking-[0.2em] inline-flex items-center gap-1 bg-slate-100 px-3 py-1 rounded-full border border-slate-200">
-              <Sparkles size={9} className="text-[#4f46e5]" />
+            <span className="text-[#6b21a8] font-mono text-[8px] uppercase tracking-[0.2em] inline-flex items-center gap-1 bg-slate-100 px-3 py-1 rounded-full border border-slate-200">
+              <Sparkles size={9} className="text-[#6b21a8]" />
               Inisiasi Bisnis Anda di {formattedCityName}
             </span>
             <h3 className="text-2xl font-display font-medium text-slate-900 tracking-tight">Klaim Hubungan Konsultasi Terbaik.</h3>
@@ -289,13 +293,13 @@ export default function AreaDetailPage() {
               const text = `Halo Mas Chesta! Saya mau konsultasi pembuatan website untuk rintisan usaha saya di area ${formattedCityName}. Boleh discuss rancangan visual & penawaran paketnya secara santai?`;
               window.open(`https://wa.me/6282125447232?text=${encodeURIComponent(text)}`, '_blank');
             }}
-            className="inline-flex items-center justify-center gap-2 rounded-full bg-[#4f46e5] text-black px-7 py-3.5 font-sans font-bold text-xs uppercase tracking-widest hover:bg-[#c2e600] active:scale-95 transition-all cursor-pointer shadow-lg shadow-[#4f46e5]/10 w-full sm:w-auto"
+            className="inline-flex items-center justify-center gap-2 rounded-full bg-[#6b21a8] text-black px-7 py-3.5 font-sans font-bold text-xs uppercase tracking-widest hover:bg-[#c2e600] active:scale-95 transition-all cursor-pointer shadow-lg shadow-[#6b21a8]/10 w-full sm:w-auto"
           >
             <span>Konsultasi via WhatsApp 🟢</span>
           </button>
 
           <p className="text-center font-mono text-[8px] text-slate-500 mt-4 leading-normal">
-            *Konsultasi awal gratis 100%. Diskusi langsung dengan desainer utama CHESTADOTCOM.
+            *Konsultasi awal gratis 100%. Diskusi langsung dengan desainer utama CHESTAADOTCOM.
           </p>
         </div>
       </section>
@@ -312,13 +316,13 @@ export default function AreaDetailPage() {
             <Link
               key={city}
               to={`/area/${city.toLowerCase()}`}
-              className="group flex items-center justify-between p-2.5 bg-slate-50 border border-slate-100 rounded-lg hover:bg-slate-50 hover:border-[#4f46e5]/20 transition-all font-mono text-[9px] tracking-wider text-slate-600 hover:text-slate-900"
+              className="group flex items-center justify-between p-2.5 bg-slate-50 border border-slate-100 rounded-lg hover:bg-slate-50 hover:border-[#6b21a8]/20 transition-all font-mono text-[9px] tracking-wider text-slate-600 hover:text-slate-900"
             >
               <div className="flex items-center gap-1.5">
-                <span className="w-1 h-1 rounded-full bg-[#4f46e5]/10 group-hover:bg-[#4f46e5] transition-all" />
+                <span className="w-1 h-1 rounded-full bg-[#6b21a8]/10 group-hover:bg-[#6b21a8] transition-all" />
                 <span className="font-bold">{city}</span>
               </div>
-              <ArrowRight size={9} className="text-slate-600 group-hover:text-[#4f46e5] group-hover:translate-x-0.5 transition-all" />
+              <ArrowRight size={9} className="text-slate-600 group-hover:text-[#6b21a8] group-hover:translate-x-0.5 transition-all" />
             </Link>
           ))}
         </div>

@@ -17,13 +17,13 @@ export default function FloatingQuoteTrigger({ serviceInterest = '' }: FloatingQ
         animate={{ opacity: 1, scale: 1, y: 0 }}
         transition={{ delay: 1, type: "spring", stiffness: 200, damping: 20 }}
         onClick={() => setIsModalOpen(true)}
-        className="fixed bottom-6 right-6 md:bottom-8 md:right-8 z-50 flex items-center gap-3 px-5 py-3.5 bg-slate-900 text-white rounded-full shadow-2xl hover:bg-indigo-600 transition-colors group overflow-hidden border border-slate-700/50"
+        className="fixed bottom-6 right-6 md:bottom-8 md:right-8 z-50 flex items-center gap-3 px-5 py-3.5 bg-slate-900 text-white rounded-full shadow-2xl hover:bg-purple-600 transition-colors group overflow-hidden border border-slate-700/50"
       >
         <div className="absolute inset-0 w-full h-full bg-gradient-to-r from-transparent via-white/10 to-transparent -translate-x-full group-hover:animate-[shimmer_1.5s_infinite]" />
         
         <Calculator size={20} className="relative z-10" />
         <span className="font-mono text-[10px] font-bold tracking-widest uppercase relative z-10 hidden sm:block">
-          Quick Quote
+          Get Started
         </span>
       </motion.button>
 

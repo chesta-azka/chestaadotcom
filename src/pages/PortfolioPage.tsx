@@ -16,10 +16,10 @@ import QuickViewModal, { QuickViewData } from '../components/organisms/QuickView
 const CATEGORIES = ['All', 'Website', 'Landing Page', 'Company Profile'];
 
 const PortfolioSkeleton = () => (
-  <div className="relative flex flex-col h-full bg-white p-6 rounded-3xl border border-slate-100 animate-pulse text-left shadow-sm">
+  <div className="relative flex flex-col h-full bg-white/40 backdrop-blur-xl p-6 rounded-3xl border border-white/60 animate-pulse text-left shadow-xl shadow-purple-900/5">
     <div className="w-full aspect-[4/3] bg-slate-100 rounded-2xl mb-5" />
     <div className="flex gap-2.5 items-center mb-3">
-      <div className="h-5 w-24 bg-indigo-50 rounded-full" />
+      <div className="h-5 w-24 bg-purple-50 rounded-full" />
     </div>
     <div className="space-y-2 mb-4">
       <div className="h-6 w-3/4 bg-slate-200 rounded" />
@@ -51,18 +51,18 @@ export default function PortfolioPage() {
     <div className="pt-12 pb-32 min-h-screen relative bg-transparent select-none">
       <QuickViewModal isOpen={!!quickViewData} onClose={() => setQuickViewData(null)} data={quickViewData} />
       <SEOProvider 
-        title="Client Case Studies & Portfolio | CHESTADOTCOM"
+        title="Client Case Studies & Portfolio | CHESTAADOTCOM"
         description="Explore our track record of transforming enterprise operations through AI and web technology."
       />
       
       <MetaTags 
-        title="Showcase Portfolio — CHESTADOTCOM" 
+        title="Showcase Portfolio — CHESTAADOTCOM" 
         description="Jelajahi portfolio digital masterpieces yang dirancang khusus untuk bisnis modern UMKM Indonesia." 
       />
 
       {/* Cinematic Hero */}
       <section className="relative min-h-[45vh] flex flex-col justify-end pt-48 pb-24 border-b border-slate-100 mb-20 overflow-hidden">
-        <div className="absolute inset-0 bg-blue-50/50 rounded-full blur-[120px] pointer-events-none -z-10 mix-blend-multiply" />
+        <div className="absolute inset-0 bg-purple-50/50 rounded-full blur-[120px] pointer-events-none -z-10 mix-blend-multiply" />
         
         <div className="mx-auto max-w-7xl px-6 w-full relative z-10">
           <Breadcrumbs items={[{ label: 'Portfolio' }]} />
@@ -73,7 +73,7 @@ export default function PortfolioPage() {
                 title={
                   <>
                     Selected <br />
-                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 via-blue-500 to-cyan-500 font-serif italic pr-4">Works.</span>
+                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 via-purple-500 to-cyan-500 font-serif italic pr-4">Works.</span>
                   </>
                 }
                 description="Mengubah ide menjadi karya arsitektur digital premium yang mendorong konversi dan pertumbuhan omset bisnis Anda secara nyata."
@@ -92,7 +92,7 @@ export default function PortfolioPage() {
                     <button 
                       key={cat}
                       onClick={() => setFilter(cat)}
-                      className={`px-6 py-2.5 rounded-full font-sans font-semibold text-[11px] uppercase tracking-widest border transition-all duration-300 ${filter === cat ? 'bg-[#4f46e5] text-white border-[#4f46e5] shadow-md' : 'bg-white border border-slate-200 text-slate-500 hover:text-slate-900 hover:border-slate-300 shadow-sm'}`}
+                      className={`px-6 py-2.5 rounded-full font-sans font-semibold text-[11px] uppercase tracking-widest border transition-all duration-300 ${filter === cat ? 'bg-[#6b21a8] text-white border-[#6b21a8] shadow-md' : 'bg-white/40 backdrop-blur-xl border border-white/60 text-slate-500 hover:text-slate-900 hover:border-purple-300 shadow-xl shadow-purple-900/5 hover:bg-white/60'}`}
                     >
                       {cat}
                     </button>
@@ -118,7 +118,7 @@ export default function PortfolioPage() {
                 >
                   <Link
                     to={`/portfolio/${project.id}`}
-                    className="block shadow-sm hover:shadow-xl bg-white border border-slate-100 hover:border-indigo-200 rounded-3xl overflow-hidden group transition-all duration-500 flex flex-col relative cursor-pointer aspect-square sm:aspect-auto sm:h-[450px]"
+                    className="block shadow-xl shadow-purple-900/5 hover:shadow-2xl hover:shadow-purple-900/10 bg-white/40 backdrop-blur-xl border border-white/60 hover:border-purple-300 hover:bg-white/60 rounded-3xl overflow-hidden group transition-all duration-500 flex flex-col relative cursor-pointer aspect-square sm:aspect-auto sm:h-[450px]"
                   >
                     {/* Image Block */}
                     
@@ -140,13 +140,13 @@ export default function PortfolioPage() {
                             type: 'project',
                             title: project.title,
                             subtitle: project.category,
-                            description: project.description || 'Proyek digital dari CHESTADOTCOM.',
+                            description: project.description || 'Proyek digital dari CHESTAADOTCOM.',
                             image: project.thumbnail,
                             tags: project.techStack,
                             link: `/portfolio/${project.id}`
                           });
                         }}
-                        className="absolute top-4 right-4 z-30 p-2.5 rounded-full bg-white/10 hover:bg-indigo-600 backdrop-blur-md text-white opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-2 group-hover:translate-y-0"
+                        className="absolute top-4 right-4 z-30 p-2.5 rounded-full bg-white/10 hover:bg-purple-600 backdrop-blur-md text-white opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-2 group-hover:translate-y-0"
                         title="Quick View"
                       >
                         <Eye size={18} />
@@ -155,7 +155,7 @@ export default function PortfolioPage() {
                     
                     {/* Card Title */}
                     <div className="absolute inset-x-0 bottom-0 p-8 z-20">
-                      <span className="text-[10px] font-sans font-semibold text-indigo-300 tracking-widest uppercase mb-2 block group-hover:text-indigo-400 transition-colors">
+                      <span className="text-[10px] font-sans font-semibold text-purple-300 tracking-widest uppercase mb-2 block group-hover:text-purple-400 transition-colors">
                         {project.category}
                       </span>
                       <h3 className="text-2xl sm:text-3xl font-display font-medium text-slate-900 tracking-tight leading-snug group-hover:text-slate-900 transition-colors">
@@ -176,12 +176,12 @@ export default function PortfolioPage() {
 
         {/* Sticky Conversion Sidebar */}
         <div className="md:col-span-4 lg:col-span-3">
-           <div className="sticky top-32 p-8 rounded-[2rem] bg-white border border-slate-100 shadow-xl relative overflow-hidden group">
-              <div className="absolute inset-0 bg-blue-50/50 rounded-full blur-[80px] pointer-events-none mix-blend-multiply" />
+           <div className="sticky top-32 p-8 rounded-[2rem] bg-white/40 backdrop-blur-2xl border border-white/60 shadow-xl shadow-purple-900/5 relative overflow-hidden group">
+              <div className="absolute inset-0 bg-purple-50/50 rounded-full blur-[80px] pointer-events-none mix-blend-multiply" />
               
               <div className="relative z-10">
-                 <div className="w-12 h-12 rounded-xl bg-indigo-50 flex items-center justify-center mb-6">
-                    <CheckCircle2 size={24} className="text-[#4f46e5]" />
+                 <div className="w-12 h-12 rounded-xl bg-purple-50 flex items-center justify-center mb-6">
+                    <CheckCircle2 size={24} className="text-[#6b21a8]" />
                  </div>
                  <h4 className="text-2xl font-display font-medium text-slate-900 mb-2 leading-tight">Tertarik dengan kinerja website kami?</h4>
                  <p className="text-sm font-sans text-slate-500 mb-8 leading-relaxed">Konsultasikan kebutuhan spesifik bisnis Anda dengan tim kami sekarang juga secara gratis.</p>
@@ -190,7 +190,7 @@ export default function PortfolioPage() {
                    href="https://wa.me/6282125447232" 
                    target="_blank" 
                    rel="noopener noreferrer" 
-                   className="flex items-center justify-center gap-2 w-full py-4 bg-[#4f46e5] text-white font-sans font-bold rounded-xl text-sm hover:scale-[1.02] transition-transform duration-300 shadow-md hover:shadow-lg hover:bg-indigo-700"
+                   className="flex items-center justify-center gap-2 w-full py-4 bg-[#6b21a8] text-white font-sans font-bold rounded-xl text-sm hover:scale-[1.02] transition-transform duration-300 shadow-md hover:shadow-lg hover:bg-purple-700"
                  >
                     Chat via WhatsApp <ArrowUpRight size={16} />
                  </a>

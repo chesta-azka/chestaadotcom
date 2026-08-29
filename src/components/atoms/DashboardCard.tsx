@@ -21,7 +21,7 @@ export default function DashboardCard({ title, value, icon, children, trend, cla
       className={`bg-white/[0.02] border border-slate-100 rounded-3xl p-6 hover:bg-white/[0.04] transition-all duration-300 group ${className}`}
     >
       <div className="flex justify-between items-start mb-4">
-        <div className="p-3 rounded-2xl bg-slate-100 border border-slate-100 text-[#4f46e5] group-hover:bg-[#4f46e5] group-hover:text-black transition-colors duration-300">
+        <div className="p-3 rounded-2xl bg-slate-100 border border-slate-100 text-[#6b21a8] group-hover:bg-[#6b21a8] group-hover:text-black transition-colors duration-300">
           {icon}
         </div>
         {trend && (

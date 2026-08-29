@@ -9,7 +9,7 @@ const BlogSkeleton = () => (
   <div className="relative flex flex-col h-full bg-slate-50 p-6 md:p-8 rounded-3xl border border-slate-100 animate-pulse min-h-[320px] text-left">
     <div className="flex gap-4 items-center mb-6">
       {/* Category Tag placeholder */}
-      <div className="h-6 w-16 bg-[#4f46e5]/10 rounded-full" />
+      <div className="h-6 w-16 bg-[#6b21a8]/10 rounded-full" />
       {/* Date placeholder */}
       <div className="h-3 w-20 bg-slate-200 rounded" />
     </div>
@@ -28,7 +28,7 @@ const BlogSkeleton = () => (
     </div>
     
     {/* Read more Link placeholder */}
-    <div className="mt-auto pt-4 h-4 w-28 bg-[#4f46e5]/10 rounded" />
+    <div className="mt-auto pt-4 h-4 w-28 bg-[#6b21a8]/10 rounded" />
   </div>
 );
 
@@ -56,14 +56,14 @@ export default function BlogSection() {
           className="mb-14 flex flex-col md:flex-row md:items-end justify-between gap-8 pb-8 border-b border-slate-100"
         >
           <div>
-            <span className="text-[#4f46e5] font-mono font-semibold text-xs uppercase tracking-widest block mb-3">
+            <span className="text-[#6b21a8] font-mono font-semibold text-xs uppercase tracking-widest block mb-3">
               04 — Wawasan & Strategi Digital
             </span>
             <div className="text-fluid-h2 font-serif font-medium tracking-tight text-slate-900 leading-[1.05] mb-2 flex flex-wrap">
               <TextRevealSmooth 
                 text="Insight & Rekomendasi." 
                 highlightWords={["Rekomendasi."]}
-                highlightClass="text-transparent bg-clip-text bg-gradient-to-r from-[#4f46e5] to-indigo-600 font-serif italic pr-2"
+                highlightClass="text-transparent bg-clip-text bg-gradient-to-r from-[#6b21a8] to-purple-600 font-serif italic pr-2"
               />
             </div>
             <p className="text-slate-600 font-sans text-sm md:text-base max-w-lg mt-2">
@@ -72,7 +72,7 @@ export default function BlogSection() {
           </div>
           <Link 
             to="/blog" 
-            className="group inline-flex items-center gap-3 px-6 py-3.5 rounded-full bg-slate-900 hover:bg-[#4f46e5] text-white text-xs font-mono font-bold tracking-wider uppercase transition-colors shrink-0 shadow-sm"
+            className="group inline-flex items-center gap-3 px-6 py-3.5 rounded-full bg-slate-900 hover:bg-[#6b21a8] text-white text-xs font-mono font-bold tracking-wider uppercase transition-colors shrink-0 shadow-sm"
           >
              <span>Buka Semua Insight & Search</span>
              <ArrowUpRight size={16} className="transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
@@ -90,7 +90,7 @@ export default function BlogSection() {
             {homeArticles.map((art, i) => (
               <motion.article 
                 key={art.slug} 
-                className="group cursor-pointer relative flex flex-col h-full bg-white p-6 md:p-8 rounded-3xl border border-slate-200/80 hover:border-indigo-300 hover:shadow-xl transition-all duration-300 shadow-sm"
+                className="group cursor-pointer relative flex flex-col h-full bg-white/40 backdrop-blur-xl p-6 md:p-8 rounded-3xl border border-white/60 hover:border-purple-300 hover:bg-white/60 hover:shadow-xl hover:shadow-purple-900/5 transition-all duration-300 shadow-sm"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -112,14 +112,14 @@ export default function BlogSection() {
                 </div>
 
                 <div className="flex gap-3 items-center mb-3">
-                  <span className="text-[10px] font-mono font-bold text-[#4f46e5] bg-indigo-50 px-3 py-1 rounded-full uppercase tracking-wider">
+                  <span className="text-[10px] font-mono font-bold text-[#6b21a8] bg-purple-50 px-3 py-1 rounded-full uppercase tracking-wider">
                     {art.cat}
                   </span>
                   <span className="text-[10px] font-mono text-slate-400">
                     {art.readTime}
                   </span>
                 </div>
-                <h3 className="text-xl font-display font-medium text-slate-900 leading-snug mb-3 group-hover:text-[#4f46e5] transition-colors tracking-tight line-clamp-2 text-left">
+                <h3 className="text-xl font-display font-medium text-slate-900 leading-snug mb-3 group-hover:text-[#6b21a8] transition-colors tracking-tight line-clamp-2 text-left">
                   {art.title}
                 </h3>
                 <p className="text-sm text-slate-600 leading-relaxed font-sans line-clamp-2 mb-6 text-left">
@@ -128,7 +128,7 @@ export default function BlogSection() {
                 
                 <Link 
                   to={`/blog?read=${art.slug}&origin=home`} 
-                  className="mt-auto pt-4 flex items-center justify-between text-xs font-mono font-semibold tracking-wider text-[#4f46e5] border-t border-slate-100"
+                  className="mt-auto pt-4 flex items-center justify-between text-xs font-mono font-semibold tracking-wider text-[#6b21a8] border-t border-slate-100"
                 >
                   <span>Baca Insight</span>
                   <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />

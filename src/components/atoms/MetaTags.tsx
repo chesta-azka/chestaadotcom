@@ -55,9 +55,9 @@ export default function MetaTags({ title, description, path = '/', breadcrumbs, 
   }, [path]);
 
   let finalTitle = dynamicSeo.title || title;
-  finalTitle = finalTitle ? (finalTitle.includes('CHESTADOTCOM') || finalTitle.includes('chestaa') ? finalTitle : `${finalTitle} | CHESTADOTCOM`) : defaultTitle;
+  finalTitle = finalTitle ? (finalTitle.includes('CHESTAADOTCOM') || finalTitle.includes('chestaa') ? finalTitle : `${finalTitle} | CHESTAADOTCOM`) : defaultTitle;
 
-  // (title.includes('CHESTADOTCOM') || title.includes('chestaa') ? title : `${title} | CHESTADOTCOM`) : defaultTitle;
+  // (title.includes('CHESTAADOTCOM') || title.includes('chestaa') ? title : `${title} | CHESTAADOTCOM`) : defaultTitle;
   if (!finalTitle.includes('BSD') && !finalTitle.includes('Cisauk')) {
       finalTitle = `${finalTitle} - BSD City & Cisauk`;
   }
@@ -91,11 +91,11 @@ export default function MetaTags({ title, description, path = '/', breadcrumbs, 
       <meta property="og:description" content={finalDesc} />
       <meta property="og:url" content={url} />
       <meta property="og:image" content={ogImage} />
-      <meta property="og:site_name" content="CHESTADOTCOM" />
+      <meta property="og:site_name" content="CHESTAADOTCOM" />
       
       {/* Twitter */}
       <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:site" content="@chestadotcom" />
+      <meta name="twitter:site" content="@chestaadotcom" />
       <meta name="twitter:title" content={finalTitle} />
       <meta name="twitter:description" content={finalDesc} />
       <meta name="twitter:image" content={ogImage} />

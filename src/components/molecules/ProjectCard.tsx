@@ -54,7 +54,7 @@ export default function ProjectCard({ project, index, onClick, variants }: Proje
       
       <div className="absolute inset-x-8 bottom-8 top-auto flex flex-col justify-end text-left z-10 transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:-translate-y-6">
         <div>
-          <p className="text-[10px] font-sans font-semibold mb-2 tracking-widest text-indigo-400 uppercase relative z-10 transition-colors duration-500 group-hover:text-indigo-300">
+          <p className="text-[10px] font-sans font-semibold mb-2 tracking-widest text-purple-400 uppercase relative z-10 transition-colors duration-500 group-hover:text-purple-300">
             {project.category}
           </p>
           <h3 className="text-2xl md:text-3xl font-display font-medium tracking-tight text-slate-900 m-0 relative z-10">
@@ -73,7 +73,7 @@ export default function ProjectCard({ project, index, onClick, variants }: Proje
           </div>
           
           <div className="bg-slate-200 backdrop-blur-md px-4 py-2 rounded-xl border border-white/20 inline-flex flex-col items-start w-fit">
-             <span className="text-xl font-mono text-indigo-300 font-bold leading-none mb-1">{project.metricValue}</span>
+             <span className="text-xl font-mono text-purple-300 font-bold leading-none mb-1">{project.metricValue}</span>
              <span className="text-[9px] font-sans font-semibold text-gray-700 uppercase tracking-widest">{project.metricLabel}</span>
           </div>
         </div>

@@ -11,7 +11,7 @@ export default function PainPointReveal({
   text = "Website lambat dan desain berantakan", 
   className = '',
   highlightWords = ["lambat", "berantakan"],
-  highlightClass = "text-transparent bg-clip-text bg-gradient-to-r from-red-400 via-orange-400 to-[#4f46e5]"
+  highlightClass = "text-transparent bg-clip-text bg-gradient-to-r from-red-400 via-orange-400 to-[#6b21a8]"
 }: PainPointRevealProps) {
   const words = text.split(" ");
 

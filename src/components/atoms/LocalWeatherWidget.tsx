@@ -59,8 +59,8 @@ export default function LocalWeatherWidget() {
   const getWeatherIcon = (code: number) => {
     // WMO Weather interpretation codes (very simplified)
     if (code <= 3) return <Sun size={18} className="text-amber-500" />;
-    if (code >= 51 && code <= 67) return <CloudRain size={18} className="text-blue-400" />;
-    if (code >= 71) return <CloudRain size={18} className="text-indigo-300" />;
+    if (code >= 51 && code <= 67) return <CloudRain size={18} className="text-purple-400" />;
+    if (code >= 71) return <CloudRain size={18} className="text-purple-300" />;
     return <Cloud size={18} className="text-slate-400" />;
   };
 
@@ -72,7 +72,7 @@ export default function LocalWeatherWidget() {
       className="absolute right-6 top-32 z-20 hidden lg:flex flex-col bg-white/80 backdrop-blur-xl border border-slate-200/60 p-4 rounded-3xl shadow-[0_8px_32px_rgba(0,0,0,0.08)] min-w-[160px]"
     >
       <div className="flex items-center gap-2 mb-3">
-        <MapPin size={14} className="text-[#4f46e5]" />
+        <MapPin size={14} className="text-[#6b21a8]" />
         <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-slate-500">
           {locationName}
         </span>

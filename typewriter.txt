@@ -1,0 +1,21 @@
+};
+
+const TypewriterMarkdown = ({ content, onComplete }: { content: string, onComplete: () => void }) => {
+  const [displayed, setDisplayed] = useState('');
+  
+  useEffect(() => {
+    let i = 0;
+    const chunkSize = 3;
+    const interval = setInterval(() => {
+      i += chunkSize;
+      if (i >= content.length) {
+        setDisplayed(content);
+        clearInterval(interval);
+        onComplete();
+      } else {
+        setDisplayed(content.slice(0, i));
+      }
+    }, 15);
+    
+    return () => clearInterval(interval);
+  }, [content, onComplete]);

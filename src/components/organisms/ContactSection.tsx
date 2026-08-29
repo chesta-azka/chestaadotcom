@@ -6,6 +6,7 @@ import LeadCaptureForm from './LeadCaptureForm';
 interface ChoicePackage {
   title: string;
   price: string;
+  originalPrice?: string;
   description: string;
   features: string[];
   waMessage: string;
@@ -28,6 +29,7 @@ const packagesList: ChoicePackage[] = [
   {
     title: "UMKM Starter",
     price: "Rp540K",
+    originalPrice: "Rp650K",
     description: "Fondasi digital profesional untuk bisnis tumbuh. Visual premium korporat, kecepatan tinggi, memikat calon pelanggan lebih cepat.",
     features: [
       "Kustom Domain .com (Setahun)",
@@ -65,7 +67,7 @@ export default function ContactSection() {
       {/* Seamless background blending gradients */}
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/[0.012] to-transparent pointer-events-none" />
       {/* Absolute lighting visual glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[550px] h-[550px] bg-[#4f46e5]/5 rounded-full filter blur-[150px] pointer-events-none" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[550px] h-[550px] bg-[#6b21a8]/5 rounded-full filter blur-[150px] pointer-events-none" />
       
       <div className="mx-auto max-w-6xl px-4 sm:px-6 relative z-10">
         
@@ -78,15 +80,15 @@ export default function ContactSection() {
             transition={{ duration: 0.6 }}
             className="space-y-4"
           >
-            <span className="text-[#4f46e5] font-mono text-[10px] uppercase tracking-[0.2em] inline-flex items-center gap-2 bg-slate-100 px-3 py-1 rounded-full border border-slate-200">
-              <Sparkles size={10} className="text-[#4f46e5] animate-pulse" />
+            <span className="text-[#6b21a8] font-mono text-[10px] uppercase tracking-[0.2em] inline-flex items-center gap-2 bg-slate-100 px-3 py-1 rounded-full border border-slate-200">
+              <Sparkles size={10} className="text-[#6b21a8] animate-pulse" />
               Mulai Inisiatif Anda
             </span>
             <div className="text-fluid-h2 font-display font-medium tracking-tight leading-tight text-slate-900 px-2">
               <TextRevealSmooth 
                 text="Inisiasi Kemitraan Digital Strategis." 
                 highlightWords={["Kemitraan", "Strategis"]}
-                highlightClass="font-serif italic text-transparent bg-clip-text bg-gradient-to-r from-indigo-600 to-indigo-400"
+                highlightClass="font-serif italic text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-purple-400"
               />
             </div>
             <p className="text-xs sm:text-sm font-sans text-slate-600 max-w-xl mx-auto leading-relaxed mt-4">
@@ -127,22 +129,27 @@ export default function ContactSection() {
                 onClick={() => openWhatsApp(pkg.waMessage)}
                 className={`p-6 sm:p-8 rounded-3xl border text-left cursor-pointer transition-all duration-300 group relative overflow-hidden flex flex-col justify-between ${
                   isMedium 
-                    ? 'bg-white border-[#4f46e5]/30 shadow-[0_15px_40px_rgba(79,70,229,0.08)] hover:border-[#4f46e5]/60 hover:-translate-y-1' 
-                    : 'bg-slate-50 border-slate-100 hover:border-slate-300 hover:bg-white hover:-translate-y-1'
+                    ? 'bg-white/40 backdrop-blur-xl border-[#6b21a8]/30 shadow-xl shadow-purple-900/5 hover:border-[#6b21a8]/60 hover:bg-white/60 hover:-translate-y-1' 
+                    : 'bg-white/20 backdrop-blur-md border-white/60 hover:border-white hover:bg-white/40 shadow-sm hover:shadow-xl hover:shadow-purple-900/5 hover:-translate-y-1'
                 }`}
               >
                 {/* Subtle highlight label */}
                 {isMedium && (
-                  <span className="absolute top-4 right-4 bg-indigo-600 text-white text-[9px] font-mono uppercase font-extrabold px-2 py-0.5 rounded-full tracking-wider shadow">
+                  <span className="absolute top-4 right-4 bg-purple-600 text-white text-[9px] font-mono uppercase font-extrabold px-2 py-0.5 rounded-full tracking-wider shadow">
                     Paling Diminati
                   </span>
                 )}
 
                 <div>
                   <h3 className="text-slate-500 text-xs font-mono uppercase tracking-widest mb-1">{pkg.title}</h3>
-                  <div className="flex items-baseline gap-1.5 mb-4">
-                    <span className="text-3xl sm:text-4xl font-display font-bold text-slate-900 tracking-tight">{pkg.price}</span>
-                    <span className="text-xs text-slate-500 font-sans">investasi</span>
+                  <div className="flex flex-col gap-1 mb-4">
+                    <div className="flex items-baseline gap-1.5">
+                      <span className="text-3xl sm:text-4xl font-display font-bold text-slate-900 tracking-tight">{pkg.price}</span>
+                      <span className="text-xs text-slate-500 font-sans">investasi</span>
+                    </div>
+                    {pkg.originalPrice && (
+                      <span className="text-xs text-slate-400 font-mono line-through uppercase tracking-wider">Normal {pkg.originalPrice}</span>
+                    )}
                   </div>
                   <p className="text-xs font-sans text-slate-600 leading-relaxed mb-6 group-hover:text-gray-800 transition-colors">
                     {pkg.description}
@@ -152,7 +159,7 @@ export default function ContactSection() {
                   <div className="space-y-2.5 mb-8 border-t border-slate-100 pt-6">
                     {pkg.features.map((feat) => (
                       <div key={feat} className="flex items-center gap-2">
-                        <Check size={12} className="text-indigo-600 shrink-0" />
+                        <Check size={12} className="text-purple-600 shrink-0" />
                         <span className="text-[11px] font-sans text-gray-700 tracking-wide">{feat}</span>
                       </div>
                     ))}
@@ -162,7 +169,7 @@ export default function ContactSection() {
                 {/* Simulated Custom Button inside the card to trigger action */}
                 <div className={`mt-auto w-full py-3 px-4 rounded-xl font-mono text-[10px] uppercase font-bold tracking-widest flex items-center justify-between transition-all ${
                   isMedium 
-                    ? 'bg-indigo-600 text-white font-extrabold group-hover:bg-indigo-700' 
+                    ? 'bg-purple-600 text-white font-extrabold group-hover:bg-purple-700' 
                     : 'bg-white text-gray-700 group-hover:bg-slate-900 group-hover:text-white border border-slate-200 group-hover:border-transparent'
                 }`}>
                   <span>Pilih Paket Ini</span>
@@ -205,8 +212,8 @@ export default function ContactSection() {
             {/* Overlay hint */}
             <div className="absolute top-4 left-4 bg-[#090D18]/90 backdrop-blur-md px-4 py-2 rounded-full shadow-lg border border-white/10 text-xs font-mono font-bold text-white flex items-center gap-2 pointer-events-none">
               <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#4f46e5] opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#4f46e5]"></span>
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#6b21a8] opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#6b21a8]"></span>
               </span>
               Headquarters Region
             </div>

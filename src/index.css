@@ -37,8 +37,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 ::selection {
-  background-color: #C7D2FE;
-  color: #1E1B4B;
+  background-color: #E9D5FF;
+  color: #3B0764;
 }
 
 ::-webkit-scrollbar {
@@ -48,35 +48,35 @@ h1, h2, h3, h4, h5, h6 {
   background: #F9FAFB;
 }
 ::-webkit-scrollbar-thumb {
-  background: #D1D5DB;
+  background: #D8B4FE;
   border-radius: 99px;
   border: 1px solid rgba(0,0,0,0.03);
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #9CA3AF;
+  background: #C084FC;
 }
 
 /* react-calendar-heatmap custom colors */
-.react-calendar-heatmap .color-empty { fill: #f1f5f9; }
-.react-calendar-heatmap .color-scale-1 { fill: #c7d2fe; }
-.react-calendar-heatmap .color-scale-2 { fill: #818cf8; }
-.react-calendar-heatmap .color-scale-3 { fill: #4f46e5; }
-.react-calendar-heatmap .color-scale-4 { fill: #312e81; }
+.react-calendar-heatmap .color-empty { fill: #f8fafc; }
+.react-calendar-heatmap .color-scale-1 { fill: #e9d5ff; }
+.react-calendar-heatmap .color-scale-2 { fill: #c084fc; }
+.react-calendar-heatmap .color-scale-3 { fill: #7e22ce; }
+.react-calendar-heatmap .color-scale-4 { fill: #4c1d95; }
 
 .react-calendar-heatmap .color-empty {
-  fill: #f1f5f9;
+  fill: #f8fafc;
 }
 .react-calendar-heatmap .color-scale-1 {
-  fill: #c7d2fe;
+  fill: #e9d5ff;
 }
 .react-calendar-heatmap .color-scale-2 {
-  fill: #818cf8;
+  fill: #c084fc;
 }
 .react-calendar-heatmap .color-scale-3 {
-  fill: #4f46e5;
+  fill: #7e22ce;
 }
 .react-calendar-heatmap .color-scale-4 {
-  fill: #312e81;
+  fill: #4c1d95;
 }
 .react-calendar-heatmap text {
   font-size: 10px;
@@ -98,5 +98,17 @@ h1, h2, h3, h4, h5, h6 {
     -webkit-backdrop-filter: blur(16px) saturate(180%);
     border: 1px solid rgba(255, 255, 255, 0.1);
     box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3), inset 0 0 0 1px rgba(255, 255, 255, 0.05);
+  }
+}
+
+@layer utilities {
+  .markdown-body ul {
+    @apply list-disc list-inside space-y-2 mt-4;
+  }
+  .markdown-body li {
+    @apply text-slate-700 dark:text-slate-300;
+  }
+  .markdown-body strong {
+    @apply text-slate-900 dark:text-white font-semibold;
   }
 }

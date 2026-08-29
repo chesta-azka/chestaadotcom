@@ -14,10 +14,10 @@ export function getMetaTagsForUrl(url: string) {
   }
 
   const defaultMeta = {
-    title: 'CHESTADOTCOM | Premium Web Development & AI Solutions',
-    description: 'Elevate your brand with CHESTADOTCOM. We build lightning-fast web applications, integrate custom AI solutions, and drive measurable digital transformation.',
-    image: 'https://chestadotcom.com/default-og.png',
-    url: 'https://chestadotcom.com' + url,
+    title: 'CHESTAADOTCOM | Premium Web Development & AI Solutions',
+    description: 'Elevate your brand with CHESTAADOTCOM. We build lightning-fast web applications, integrate custom AI solutions, and drive measurable digital transformation.',
+    image: 'https://chestaadotcom.com/default-og.png',
+    url: 'https://chestaadotcom.com' + url,
     type: 'website'
   };
 
@@ -27,7 +27,7 @@ export function getMetaTagsForUrl(url: string) {
     const article = ALL_ARTICLES.find(a => a.slug === slug);
     if (article) {
       return {
-        title: `${article.title} | CHESTADOTCOM Journal`,
+        title: `${article.title} | CHESTAADOTCOM Journal`,
         description: article.desc,
         image: article.image || defaultMeta.image,
         url: defaultMeta.url,
@@ -42,8 +42,8 @@ export function getMetaTagsForUrl(url: string) {
     const project = PROJECTS.find(p => p.id === id);
     if (project) {
       return {
-        title: `${project.title} - ${project.category} | CHESTADOTCOM`,
-        description: project.description || `Lihat portofolio ${project.title} oleh CHESTADOTCOM.`,
+        title: `${project.title} - ${project.category} | CHESTAADOTCOM`,
+        description: project.description || `Lihat portofolio ${project.title} oleh CHESTAADOTCOM.`,
         image: project.thumbnail || defaultMeta.image,
         url: defaultMeta.url,
         type: 'website'
@@ -62,7 +62,7 @@ export function getMetaTagsForUrl(url: string) {
   if (pathname === '/blog') {
     return {
       ...defaultMeta,
-      title: 'Insight & Journal | CHESTADOTCOM',
+      title: 'Insight & Journal | CHESTAADOTCOM',
     };
   }
 
@@ -82,7 +82,7 @@ export function injectSocialMeta(html: string, url: string): string {
     <meta property="og:title" content="${meta.title}" />
     <meta property="og:description" content="${meta.description}" />
     <meta property="og:image" content="${meta.image}" />
-    <meta property="og:site_name" content="CHESTADOTCOM" />
+    <meta property="og:site_name" content="CHESTAADOTCOM" />
     
     <!-- Twitter -->
     <meta name="twitter:card" content="summary_large_image" />

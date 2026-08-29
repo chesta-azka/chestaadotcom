@@ -43,7 +43,7 @@ export default function CommandPalette() {
     { id: 'home', title: 'Beranda', subtitle: 'Kembali ke halaman utama', icon: Home, path: '/', category: 'Pages', shortcut: 'h' },
     { id: 'services', title: 'Layanan', subtitle: 'Jasa pembuatan website & AI', icon: Zap, path: '/services', category: 'Pages', shortcut: 's' },
     { id: 'portfolio', title: 'Portofolio', subtitle: 'Lihat hasil karya kami', icon: Briefcase, path: '/portfolio', category: 'Pages', shortcut: 'p' },
-    { id: 'about', title: 'Tentang Kami', subtitle: 'Profil CHESTADOTCOM', icon: LayoutGrid, path: '/about', category: 'Pages', shortcut: 'a' },
+    { id: 'about', title: 'Tentang Kami', subtitle: 'Profil CHESTAADOTCOM', icon: LayoutGrid, path: '/about', category: 'Pages', shortcut: 'a' },
     { id: 'blog', title: 'Blog', subtitle: 'Artikel seputar bisnis & tech', icon: FileText, path: '/blog', category: 'Pages', shortcut: 'b' },
     { id: 'contact', title: 'Hubungi Kami', subtitle: 'Konsultasi gratis sekarang', icon: Phone, action: () => window.open('https://wa.me/6282125447232', '_blank'), category: 'General', shortcut: 'c' }
   ];
@@ -115,7 +115,7 @@ export default function CommandPalette() {
     icon: BookOpen,
     path: `/blog?read=${art.slug}`,
     category: 'Articles',
-    content: art.content.join(' ')
+    content: art.content ? art.content.map(c => typeof c === 'string' ? c : c.alt).join(' ') : ''
   }));
 
   const PROJECT_ACTIONS: ActionItem[] = PROJECTS.map(proj => ({
@@ -125,7 +125,7 @@ export default function CommandPalette() {
     icon: Briefcase,
     path: `/portfolio/${proj.id}`,
     category: 'Projects',
-    content: proj.description + ' ' + (proj.tags ? proj.tags.join(' ') : '')
+    content: proj.description + ' ' + (proj.features ? proj.features.join(' ') : '') + ' ' + (proj.techStack ? proj.techStack.join(' ') : '')
   }));
 
   const SERVICE_ACTIONS: ActionItem[] = SERVICE_DEFINITIONS.map(srv => ({
@@ -225,21 +225,21 @@ export default function CommandPalette() {
                         className="w-full flex items-center justify-between p-3 rounded-xl hover:bg-slate-50 transition-colors group text-left"
                       >
                         <div className="flex items-center gap-3 overflow-hidden">
-                          <div className={`shrink-0 w-10 h-10 rounded-lg flex items-center justify-center transition-colors ${action.icon === Sparkles ? 'bg-indigo-50 text-indigo-600 group-hover:bg-indigo-600 group-hover:text-white' : 'bg-slate-100 text-slate-500 group-hover:bg-indigo-50 group-hover:text-[#4f46e5]'}`}>
+                          <div className={`shrink-0 w-10 h-10 rounded-lg flex items-center justify-center transition-colors ${action.icon === Sparkles ? 'bg-purple-50 text-purple-600 group-hover:bg-purple-600 group-hover:text-white' : 'bg-slate-100 text-slate-500 group-hover:bg-purple-50 group-hover:text-[#6b21a8]'}`}>
                             <action.icon size={18} />
                           </div>
                           <div className="overflow-hidden">
-                            <div className="text-sm font-bold text-slate-900 truncate group-hover:text-[#4f46e5] transition-colors">{action.title}</div>
+                            <div className="text-sm font-bold text-slate-900 truncate group-hover:text-[#6b21a8] transition-colors">{action.title}</div>
                             <div className="text-xs text-slate-500 truncate">{action.subtitle}</div>
                           </div>
                         </div>
                         <div className="flex items-center gap-3 shrink-0 ml-3">
                           {action.shortcut && (
-                            <kbd className="hidden sm:inline-flex items-center justify-center h-5 px-1.5 text-[9px] font-mono font-semibold text-slate-400 bg-slate-100 border border-slate-200 rounded group-hover:border-[#4f46e5]/30 group-hover:text-[#4f46e5] transition-colors">
+                            <kbd className="hidden sm:inline-flex items-center justify-center h-5 px-1.5 text-[9px] font-mono font-semibold text-slate-400 bg-slate-100 border border-slate-200 rounded group-hover:border-[#6b21a8]/30 group-hover:text-[#6b21a8] transition-colors">
                               {action.shortcut.toUpperCase()}
                             </kbd>
                           )}
-                          <ChevronRight size={16} className="text-gray-300 group-hover:text-[#4f46e5] transition-colors" />
+                          <ChevronRight size={16} className="text-gray-300 group-hover:text-[#6b21a8] transition-colors" />
                         </div>
                       </motion.button>
                     ))}

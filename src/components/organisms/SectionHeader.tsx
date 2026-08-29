@@ -20,8 +20,8 @@ export default function SectionHeader({ metaTag, title, description, align = 'le
         transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
         className={`flex items-center gap-3 mb-4 ${isCenter ? 'justify-center' : ''}`}
       >
-        {!isCenter && <span className="w-8 h-[1px] bg-indigo-600" />}
-        <span className="text-[10px] font-mono font-bold tracking-[0.3em] text-indigo-600 uppercase pt-0.5">
+        {!isCenter && <span className="w-8 h-[1px] bg-purple-600" />}
+        <span className="text-[10px] font-mono font-bold tracking-[0.3em] text-purple-600 uppercase pt-0.5">
           {metaTag}
         </span>
         {!isCenter && <span className="w-8 h-[1px] bg-transparent" /> /* Balance spacing if needed, but usually omitted */}

@@ -1,42 +1,111 @@
 import SEOProvider from '../components/atoms/SEOProvider';
-import React, { useEffect, useRef } from 'react';
-import { motion, animate, useInView } from 'motion/react';
-import { Layers, Zap, Cpu, Target, Code2, ArrowRight, CheckCircle2, ShieldCheck, Fingerprint, Activity } from 'lucide-react';
+import React, { useEffect, useRef, useState } from 'react';
+import { motion, animate, useInView, useScroll, useTransform } from 'motion/react';
+import { 
+  Layers, 
+  Zap, 
+  Cpu, 
+  Target, 
+  Code2, 
+  ArrowRight, 
+  CheckCircle2, 
+  ShieldCheck, 
+  Fingerprint, 
+  Activity, 
+  Sparkles, 
+  Terminal, 
+  Globe, 
+  Laptop, 
+  Clock, 
+  Award,
+  ArrowUpRight,
+  ChevronRight,
+  MessageSquare
+} from 'lucide-react';
 import LocalWeatherWidget from '../components/atoms/LocalWeatherWidget';
 import MetaTags from '../components/atoms/MetaTags';
 import FaqSection from '../components/organisms/FaqSection';
+import { Link } from 'react-router-dom';
+
+import chestaPhoto from '../assets/images/regenerated_image_1787838669318.png';
+
+interface WordProps {
+  children: string;
+  progress: any;
+  range: [number, number];
+}
+
+const Word: React.FC<WordProps> = ({ children, progress, range }) => {
+  const opacity = useTransform(progress, range, [0.15, 1]);
+  const blur = useTransform(progress, range, [6, 0]);
+  const y = useTransform(progress, range, [4, 0]);
+  const color = useTransform(progress, range, ['#94a3b8', '#0f172a']);
+
+  return (
+    <span className="relative inline-block mr-[0.24em] my-[0.06em]">
+      <motion.span
+        style={{
+          opacity,
+          filter: useTransform(blur, (v) => `blur(${v}px)`),
+          y,
+          color,
+        }}
+        className="inline-block transition-all duration-150"
+      >
+        {children}
+      </motion.span>
+    </span>
+  );
+};
+
+const DEFAULT_AVATAR = chestaPhoto;
 
 const strengths = [
   {
-    icon: <Fingerprint strokeWidth={1} className="w-8 h-8 text-slate-800" />,
+    icon: Fingerprint,
     title: "Signature UI/UX Design",
-    desc: "Desain antarmuka kelas dunia yang minimalis, intuitif, dan bebas gangguan. Berfokus pada presisi piksel layaknya ekosistem Apple."
+    tag: "ESTETIKA & INTERAKSI",
+    desc: "Desain antarmuka kelas dunia yang minimalis, intuitif, dan bebas distorsi visual. Berfokus pada presisi tipografi dan tata letak modern layaknya standar produk teknologi terkemuka."
   },
   {
-    icon: <Zap strokeWidth={1} className="w-8 h-8 text-slate-800" />,
+    icon: Zap,
     title: "Zero-Latency Engineering",
-    desc: "Arsitektur frontend berkinerja ekstrim. Waktu muat instan di bawah 1 detik menggunakan teknologi modern dan edge computing."
+    tag: "KECEPATAN EKSTREM",
+    desc: "Arsitektur frontend berkinerja tinggi. Waktu muat instan di bawah 0.8 detik memanfaatkan kompresi aset pintar, caching edge server, dan eliminasi kode mubazir."
   },
   {
-    icon: <Cpu strokeWidth={1} className="w-8 h-8 text-slate-800" />,
+    icon: Cpu,
     title: "Agentic AI Integration",
-    desc: "Menanamkan kecerdasan buatan otonom untuk melayani klien Anda 24/7. Lebih cerdas dari sekadar website statis konvensional."
+    tag: "OTOMASI CERDAS",
+    desc: "Menanamkan kecerdasan buatan otonom untuk melayani konsultasi prospek, otomasi alur kerja WhatsApp, dan asisten digital interaktif 24 jam sehari."
   },
   {
-    icon: <Activity strokeWidth={1} className="w-8 h-8 text-slate-800" />,
-    title: "Growth & Conversion",
-    desc: "Struktur data SEO yang disukai Google. Mendominasi pencarian organik lokal sekaligus mengonversi pengunjung menjadi klien."
+    icon: Activity,
+    title: "Conversion Architecture",
+    tag: "PERTUMBUHAN BISNIS",
+    desc: "Struktur semantik SEO terkini yang dioptimalkan untuk algoritma pencarian Google, meningkatkan retensi pengunjung, dan mengonversikan traffic menjadi penjualan nyata."
   }
+];
+
+const techStack = [
+  { name: "React 19 & TypeScript", category: "Core Frontend" },
+  { name: "Tailwind CSS & Motion", category: "Styling & Animation" },
+  { name: "Node.js & Express", category: "Backend Architecture" },
+  { name: "Google Gemini & AI SDK", category: "Agentic AI & LLMs" },
+  { name: "PostgreSQL & Firestore", category: "Cloud Database" },
+  { name: "Vercel & Cloud Run", category: "Edge & Container Hosting" },
+  { name: "REST & WebSockets", category: "Realtime Protocols" },
+  { name: "Vite & SWC", category: "High-Speed Build Tooling" },
 ];
 
 const stats = [
   { label: "Proyek Selesai", value: 45, suffix: "+" },
-  { label: "Klien Aktif", value: 20, suffix: "+" },
+  { label: "Kepuasan Klien", value: 100, suffix: "%" },
   { label: "Tahun Pengalaman", value: 5, suffix: "+" },
-  { label: "Baris Kode", value: 99, suffix: "k+" }
+  { label: "Rata-rata Waktu Muat", value: 0.8, suffix: "s", isDecimal: true }
 ];
 
-function AnimatedCounter({ to, suffix = "", duration = 2.5 }: { to: number, suffix?: string, duration?: number }) {
+function AnimatedCounter({ to, suffix = "", duration = 2, isDecimal = false }: { to: number, suffix?: string, duration?: number, isDecimal?: boolean }) {
   const ref = useRef<HTMLSpanElement>(null);
   const inView = useInView(ref, { once: true, margin: "-50px" });
 
@@ -44,136 +113,248 @@ function AnimatedCounter({ to, suffix = "", duration = 2.5 }: { to: number, suff
     if (inView && ref.current) {
       const controls = animate(0, to, {
         duration,
-        ease: [0.16, 1, 0.3, 1], // Apple-like ease
+        ease: [0.16, 1, 0.3, 1],
         onUpdate: (value) => {
           if (ref.current) {
-            ref.current.textContent = Math.round(value).toString() + suffix;
+            ref.current.textContent = isDecimal 
+              ? value.toFixed(1) + suffix 
+              : Math.round(value).toString() + suffix;
           }
         }
       });
-      return () =>
-       controls.stop();
+      return () => controls.stop();
     }
-  }, [to, inView, duration, suffix]);
+  }, [to, inView, duration, suffix, isDecimal]);
 
-  return <span ref={ref} className="font-display font-medium">0{suffix}</span>;
+  return <span ref={ref} className="font-display font-bold">0{suffix}</span>;
 }
 
 export default function AboutPage() {
+  const manifestoRef = useRef<HTMLDivElement>(null);
+  const avatarUrl = chestaPhoto;
+
+  const { scrollYProgress } = useScroll({
+    target: manifestoRef,
+    offset: ['start 80%', 'end 35%'],
+  });
+
+  const manifestoText = 
+    "Di CHESTAADOTCOM, kami menolak pendekatan template murahan dan kompromi performa. Kami percaya bahwa setiap produk digital berkualitas harus memiliki pondasi arsitektur yang kokoh, kode yang bersih, dan kecerdasan buatan yang mampu menggerakkan pertumbuhan bisnis secara nyata.";
+
+  const manifestoWords = manifestoText.split(' ');
+
   const handleContactClick = () => {
     const text = 'Halo Mas Chesta, saya tertarik untuk mendiskusikan visi proyek digital saya lebih lanjut.';
     window.open(`https://wa.me/6282125447232?text=${encodeURIComponent(text)}`, '_blank');
   };
 
   return (
-    <div className="flex flex-col w-full min-h-screen bg-slate-50 relative">
+    <div className="flex flex-col w-full min-h-screen bg-transparent relative overflow-hidden select-none">
       <SEOProvider 
-        title="About Us | CHESTADOTCOM"
-        description="Learn about our engineering culture and the people building the future of enterprise software."
+        title="Tentang Kami & Profil Arsitek | CHESTAADOTCOM"
+        description="Mengenal Chesta dan visi CHESTAADOTCOM dalam rekayasa website berkecepatan tinggi, UI/UX modern, dan otomasi Agentic AI."
       />
       <LocalWeatherWidget />
       <MetaTags 
-        title="Tentang - Profil & Core Competencies | CHESTADOTCOM"
-        description="Pelajari profil, pengalaman, dan keahlian inti (Core Competencies) dari arsitek digital Anda."
+        title="Tentang - Profil & Keahlian Inti | CHESTAADOTCOM"
+        description="Pelajari profil, pengalaman 5+ tahun, dan keahlian rekayasa web dan AI dari CHESTAADOTCOM."
       />
 
-      {/* Decorative ambient background */}
-      <div className="fixed inset-0 pointer-events-none bg-gradient-to-br from-slate-50 via-white to-slate-100/50 z-0" />
-      <div className="fixed top-1/4 right-0 w-[500px] h-[500px] bg-indigo-50/40 rounded-full blur-[100px] pointer-events-none z-0" />
+      {/* Decorative ambient background glows - simplified for a cleaner white look */}
+      <div className="fixed top-20 right-10 w-[500px] h-[500px] bg-purple-600/5 rounded-full blur-[120px] pointer-events-none z-0" />
+      <div className="fixed bottom-20 left-10 w-[450px] h-[450px] bg-purple-600/5 rounded-full blur-[100px] pointer-events-none z-0" />
       
-      <div className="relative z-10">
-        {/* Hero Apple-style */}
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-36 sm:pt-44 md:pt-52 pb-20">
+        
+        {/* Hero Section Badge & Heading */}
         <motion.div 
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-          className="text-center mb-24 mt-20 md:mt-32 px-6"
+          className="text-center mb-16 sm:mb-20 max-w-4xl mx-auto"
         >
-          <h1 className="text-5xl md:text-7xl font-display font-semibold tracking-tighter text-slate-900 mb-6 leading-tight max-w-4xl mx-auto">
-            Mendefinisikan ulang <br className="hidden md:block"/>
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-slate-500 to-slate-900">
-              standar digital.
+          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-purple-50/90 border border-purple-200/90 shadow-2xs mb-6">
+            <Sparkles size={13} className="text-purple-600 animate-pulse" />
+            <span className="text-[10px] font-mono font-bold uppercase tracking-[0.2em] text-purple-800">
+              ARSITEK & STUDIO INDEPENDEN
+            </span>
+          </div>
+
+          <h1 className="text-4xl sm:text-6xl md:text-7xl font-display font-extrabold tracking-tight text-slate-900 mb-6 leading-[1.1]">
+            Mendefinisikan Ulang <br className="hidden sm:block"/>
+            <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 via-purple-600 to-purple-900">
+              Standar Rekayasa Digital.
             </span>
           </h1>
-          <p className="text-lg md:text-2xl text-slate-500 font-sans tracking-tight max-w-2xl mx-auto font-medium">
-            Keunggulan teknis berpadu dengan estetika minimalis. 
-            Saya membangun arsitektur digital yang tidak hanya terlihat indah, namun bekerja tanpa cela.
+
+          <p className="text-base sm:text-xl md:text-2xl text-slate-600 font-sans tracking-tight max-w-2xl mx-auto font-normal leading-relaxed">
+            Keunggulan teknis berpadu dengan estetika modern. Kami membangun arsitektur digital dan solusi AI otonom yang bekerja tanpa cela untuk bisnis Anda.
           </p>
         </motion.div>
 
-        {/* Profile & Portrait Section with Glassmorphism Soft Focus Frame */}
-        <div className="flex flex-col lg:flex-row items-center gap-16 mb-24 max-w-6xl mx-auto px-6">
-          {/* Portrait Column */}
+        {/* Bento Box Master Grid: Profile + Manifesto + Metrics */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 sm:gap-6 mb-16 sm:mb-24">
+          
+          {/* Bento Item 1: Lead Architect Card with Photo (5 cols) */}
           <motion.div 
-            initial={{ opacity: 0, scale: 0.95 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true, margin: "-50px" }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="w-full lg:w-5/12"
+            initial={{ opacity: 0, y: 25 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7 }}
+            className="lg:col-span-5 p-6 sm:p-8 rounded-3xl bg-white/90 backdrop-blur-xl border border-slate-200/90 shadow-xs flex flex-col justify-between"
           >
-            {/* Soft Focus Glass Frame */}
-            <div className="relative p-3 rounded-[3rem] bg-white/20 backdrop-blur-xl border border-white/60 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.1)]">
-              <div className="relative aspect-[4/5] rounded-[2.5rem] overflow-hidden bg-slate-200">
-                <img 
-                  src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=800&auto=format&fit=crop" 
-                  alt="Founder of CHESTADOTCOM" 
-                  className="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-1000 ease-out scale-105 hover:scale-100"
-                  loading="lazy"
-                />
-                <div className="absolute inset-0 bg-gradient-to-t from-slate-900/60 via-transparent to-transparent opacity-80 pointer-events-none"></div>
-                <div className="absolute bottom-8 left-8 right-8 text-white">
-                  <h3 className="font-display text-2xl font-semibold tracking-tight mb-1">Chesta</h3>
-                  <div className="flex items-center gap-2">
-                    <span className="relative flex h-2 w-2">
-                      <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
-                      <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
+            <div>
+              {/* Profile Photo & Info Header */}
+              <div className="flex flex-col sm:flex-row items-center sm:items-start gap-4 sm:gap-5 mb-6">
+                {/* Photo Container & Online Status */}
+                <div className="relative shrink-0">
+                  <div className="w-24 h-24 sm:w-28 sm:h-28 rounded-2xl bg-gradient-to-tr from-purple-600 via-purple-600 to-purple-900 p-0.5 shadow-lg shadow-purple-500/10 overflow-hidden">
+                    <img 
+                      src={avatarUrl} 
+                      alt="Foto Chesta - Lead Digital Architect"
+                      referrerPolicy="no-referrer"
+                      className="w-full h-full object-cover object-top rounded-[14px] transition-transform duration-500 hover:scale-105"
+                    />
+                  </div>
+
+                  {/* Online indicator */}
+                  <span className="absolute -bottom-1 -right-1 flex h-4 w-4">
+                    <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+                    <span className="relative inline-flex rounded-full h-4 w-4 bg-emerald-500 border-2 border-white"></span>
+                  </span>
+                </div>
+
+                <div className="text-center sm:text-left flex-1">
+                  <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2 mb-1">
+                    <h3 className="text-xl font-bold font-display text-slate-900">Chesta Azka Sofyan</h3>
+                    <span className="px-2.5 py-0.5 rounded-full bg-purple-50 text-purple-800 text-[10px] font-mono font-bold border border-purple-200/70 uppercase">
+                      VERIFIED
                     </span>
-                    <p className="font-mono text-[10px] text-slate-200 uppercase tracking-widest font-bold">LEAD ARCHITECT</p>
+                  </div>
+                  <p className="text-xs font-mono font-bold text-purple-600 uppercase tracking-wider mb-1.5">
+                    LEAD DIGITAL ARCHITECT & AI ENGINEER
+                  </p>
+                  <span className="inline-flex items-center gap-1.5 text-[11px] font-sans text-slate-500 mb-3">
+                    <Globe size={12} className="text-slate-400" />
+                    Cisauk &bull; BSD City &bull; Tangerang &bull; Worldwide
+                  </span>
+
+                  {/* Social Handles */}
+                  <div className="flex flex-wrap items-center justify-center sm:justify-start gap-2">
+                    <a
+                      href="https://instagram.com/chestaadotcom"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 text-[10px] font-mono font-medium px-2.5 py-1 rounded-full bg-pink-50 hover:bg-pink-100 text-pink-700 border border-pink-200 transition-colors"
+                    >
+                      <span>IG: @chestaadotcom</span>
+                    </a>
+                    <a
+                      href="https://tiktok.com/@chesta_azka"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-1 text-[10px] font-mono font-medium px-2.5 py-1 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-800 border border-slate-300 transition-colors"
+                    >
+                      <span>TikTok: @chesta_azka</span>
+                    </a>
                   </div>
                 </div>
               </div>
+
+              <div className="space-y-3.5 text-slate-600 text-xs sm:text-sm font-sans leading-relaxed">
+                <p>
+                  Saya mendirikan <strong className="text-slate-900 font-semibold">CHESTAADOTCOM</strong> dengan misi berani: <span className="text-purple-800 font-medium">menghadirkan website dengan estetika visual mewah kelas Apple namun dengan harga terjangkau yang ramah bagi UMKM</span>.
+                </p>
+                <p>
+                  Banyak programmer hanya fokus membuat kode yang berjalan tapi mengabaikan estetika visual sehingga terlihat kaku dan murahan. Kami menggabungkan seni desain sinematik, optimasi SEO lokal Cisauk/BSD peringkat #1, serta sistem Agentic AI otonom.
+                </p>
+              </div>
+            </div>
+
+            <div className="mt-8 pt-5 border-t border-slate-100 flex items-center justify-between">
+              <div className="flex items-center gap-2 text-xs font-mono font-bold text-slate-700">
+                <CheckCircle2 size={15} className="text-purple-600" />
+                <span>Bespoke Engineering Only</span>
+              </div>
+              <span className="text-[11px] font-mono text-purple-800 font-semibold uppercase">5+ Yrs Exp</span>
             </div>
           </motion.div>
 
-          {/* Bio Column */}
-          <div className="w-full lg:w-7/12 flex flex-col justify-center">
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-50px" }}
-              transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-            >
-              <h2 className="text-3xl md:text-4xl font-display font-semibold tracking-tight text-slate-900 mb-6 leading-snug">
-                Sebuah studio independen yang didedikasikan untuk presisi absolut.
-              </h2>
-              <div className="space-y-4 text-slate-600 font-sans text-lg leading-relaxed mb-12">
-                <p>
-                  Visi saya sederhana: menyingkirkan kebisingan visual dan kerumitan teknis dalam pembuatan produk digital. Terlalu banyak agensi yang fokus pada fitur berlebihan dengan performa yang mengecewakan.
-                </p>
-                <p>
-                  Saya mengambil pendekatan fundamental. Setiap baris kode yang ditulis, setiap ruang kosong yang disisakan, memiliki tujuan eksponensial terhadap konversi klien Anda.
-                </p>
+          {/* Bento Item 2: Word-by-Word Manifesto (7 cols) */}
+          <motion.div 
+            ref={manifestoRef}
+            initial={{ opacity: 0, y: 25 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.7, delay: 0.1 }}
+            className="lg:col-span-7 p-6 sm:p-8 md:p-10 rounded-3xl bg-white/90 backdrop-blur-xl border border-slate-200/90 shadow-xs flex flex-col justify-between relative overflow-hidden"
+          >
+            <div>
+              <div className="flex items-center justify-between gap-3 mb-6">
+                <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-purple-800 bg-purple-50 px-3 py-1 rounded-full border border-purple-100">
+                  FILOSOFI KAMI
+                </span>
+                <span className="text-xs font-mono text-slate-400">01 / MANIFESTO</span>
               </div>
-            </motion.div>
-          </div>
+
+              <h3 className="text-xl sm:text-2xl font-bold font-display text-slate-900 mb-4">
+                Komitmen terhadap Presisi & Kinerja Absolut
+              </h3>
+
+              {/* Word-By-Word Scroll Reveal */}
+              <div className="relative text-base sm:text-xl md:text-2xl font-display font-medium text-slate-800 leading-[1.65] sm:leading-[1.7] tracking-tight min-h-[140px]">
+                {manifestoWords.map((word, i) => {
+                  const start = i / manifestoWords.length;
+                  const end = start + (1 / manifestoWords.length);
+                  return (
+                    <Word 
+                      key={i} 
+                      progress={scrollYProgress} 
+                      range={[start, end]}
+                    >
+                      {word}
+                    </Word>
+                  );
+                })}
+              </div>
+            </div>
+
+            {/* Soft White Gradient Finish at bottom */}
+            <div className="absolute -bottom-2 left-0 right-0 h-16 bg-gradient-to-t from-white via-white/80 to-transparent pointer-events-none z-10" />
+
+            <div className="mt-8 pt-5 border-t border-slate-100 flex flex-wrap items-center justify-between gap-3 relative z-20">
+              <div className="flex items-center gap-2 text-xs text-slate-500 font-sans">
+                <ShieldCheck size={16} className="text-emerald-600" />
+                <span>100% Bebas Template & Garansi Performa</span>
+              </div>
+              <button
+                onClick={handleContactClick}
+                className="inline-flex items-center gap-1.5 text-xs font-mono font-bold text-purple-800 hover:text-purple-950 transition-colors cursor-pointer"
+              >
+                <span>Diskusi Langsung via WhatsApp</span>
+                <ArrowUpRight size={14} />
+              </button>
+            </div>
+          </motion.div>
+
         </div>
 
-        {/* Apple-style Glassmorphism Stats Grid */}
-        <div className="max-w-6xl mx-auto px-6 mb-32">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        {/* Live Metrics Counter Bar */}
+        <div className="mb-16 sm:mb-24">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-4">
             {stats.map((stat, idx) => (
               <motion.div 
                 key={idx}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-50px" }}
-                transition={{ duration: 0.7, delay: 0.2 + (idx * 0.1), ease: [0.16, 1, 0.3, 1] }}
-                className="flex flex-col items-center justify-center p-8 rounded-3xl bg-white/40 backdrop-blur-md border border-white/70 shadow-[0_8px_30px_-12px_rgba(0,0,0,0.06)] hover:bg-white/60 transition-colors"
+                viewport={{ once: true }}
+                transition={{ duration: 0.6, delay: 0.1 + (idx * 0.08) }}
+                className="flex flex-col items-center justify-center p-5 sm:p-7 rounded-2xl sm:rounded-3xl bg-white/90 backdrop-blur-md border border-slate-200/90 shadow-2xs hover:border-purple-200 transition-all text-center"
               >
-                <div className="text-4xl md:text-5xl font-display font-semibold text-slate-900 tracking-tighter mb-3">
-                  <AnimatedCounter to={stat.value} suffix={stat.suffix} />
+                <div className="text-3xl sm:text-4xl md:text-5xl font-display font-extrabold text-slate-900 tracking-tight mb-2 text-purple-800">
+                  <AnimatedCounter to={stat.value} suffix={stat.suffix} isDecimal={stat.isDecimal} />
                 </div>
-                <div className="text-[10px] font-mono tracking-widest uppercase text-slate-500 font-bold">
+                <div className="text-[10px] sm:text-[11px] font-mono tracking-wider uppercase text-slate-500 font-bold">
                   {stat.label}
                 </div>
               </motion.div>
@@ -181,84 +362,124 @@ export default function AboutPage() {
           </div>
         </div>
 
-        {/* Core Competencies: Interactive Grid with Hover Reveal */}
-        <div className="max-w-6xl mx-auto px-6 mb-32">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-display font-semibold tracking-tight text-slate-900 mb-4">Core Competencies</h2>
-            <p className="text-slate-500 font-sans text-lg">Keunggulan spesifik dan arsitektur yang dirancang secara khusus.</p>
+        {/* Core Competencies: 4 Bento Cards */}
+        <div className="mb-16 sm:mb-24">
+          <div className="text-center mb-12 sm:mb-16">
+            <span className="text-[10px] font-mono font-bold uppercase tracking-[0.2em] text-purple-800 bg-purple-50 px-3 py-1 rounded-full border border-purple-100 mb-3 inline-block">
+              CORE COMPETENCIES
+            </span>
+            <h2 className="text-2xl sm:text-4xl font-display font-bold tracking-tight text-slate-900 mb-3">
+              Keahlian Spesifik yang Kami Tawarkan
+            </h2>
+            <p className="text-slate-500 font-sans text-sm sm:text-base max-w-xl mx-auto">
+              Setiap aspek dibangun dengan standar tertinggi demi daya saing digital bisnis Anda.
+            </p>
           </div>
 
-          <div className="grid md:grid-cols-2 gap-6">
-            {strengths.map((item, idx) => (
-              <motion.div 
-                key={idx}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-50px" }}
-                transition={{ duration: 0.7, delay: idx * 0.1, ease: [0.16, 1, 0.3, 1] }}
-                className="group relative overflow-hidden rounded-[2rem] bg-slate-100/50 border border-slate-200/50 p-10 md:p-12 transition-all duration-700 hover:shadow-[0_20px_60px_-15px_rgba(0,0,0,0.1)]"
-              >
-                {/* Hover-activated Glassmorphism Reveal Layer */}
-                <div className="absolute inset-0 bg-white/60 backdrop-blur-xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none z-0"></div>
-                
-                {/* Subtle colored glow reveal */}
-                <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-32 h-32 bg-[#4f46e5]/10 rounded-full blur-3xl opacity-0 group-hover:opacity-100 transition-opacity duration-700 z-0"></div>
-
-                <div className="relative z-10 mb-8 transform group-hover:-translate-y-1 transition-transform duration-500">
-                  <div className="w-16 h-16 rounded-2xl bg-white border border-slate-200 flex items-center justify-center shadow-sm group-hover:border-indigo-100 group-hover:shadow-indigo-100/50 transition-all duration-500">
-                    {item.icon}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
+            {strengths.map((item, idx) => {
+              const Icon = item.icon;
+              return (
+                <motion.div 
+                  key={idx}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ duration: 0.6, delay: idx * 0.1 }}
+                  className="group relative overflow-hidden rounded-2xl sm:rounded-3xl bg-white/90 backdrop-blur-xl border border-slate-200/90 p-6 sm:p-8 md:p-10 transition-all duration-300 hover:border-purple-300 hover:shadow-xs"
+                >
+                  <div className="flex items-center justify-between gap-3 mb-6">
+                    <div className="w-12 h-12 rounded-2xl bg-purple-50 text-purple-600 flex items-center justify-center border border-purple-100 group-hover:scale-105 transition-transform shadow-2xs">
+                      <Icon size={22} />
+                    </div>
+                    <span className="text-[9px] font-mono font-bold tracking-widest text-slate-400 uppercase">
+                      {item.tag}
+                    </span>
                   </div>
-                </div>
-                
-                <h3 className="relative z-10 text-2xl font-display font-semibold tracking-tight text-slate-900 mb-4 transform group-hover:translate-x-1 transition-transform duration-500">
-                  {item.title}
-                </h3>
-                
-                <p className="relative z-10 text-slate-600 font-sans text-[15px] leading-relaxed opacity-80 group-hover:opacity-100 transition-opacity duration-500">
-                  {item.desc}
-                </p>
-              </motion.div>
+                  
+                  <h3 className="text-xl sm:text-2xl font-display font-bold tracking-tight text-slate-900 mb-3 group-hover:text-purple-800 transition-colors">
+                    {item.title}
+                  </h3>
+                  
+                  <p className="text-slate-600 font-sans text-xs sm:text-sm leading-relaxed">
+                    {item.desc}
+                  </p>
+                </motion.div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* Tech Stack Matrix */}
+        <div className="mb-16 sm:mb-24 p-6 sm:p-10 rounded-3xl bg-white/90 backdrop-blur-xl border border-slate-200/90 shadow-xs">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8 pb-6 border-b border-slate-100">
+            <div>
+              <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-purple-800 bg-purple-50 px-3 py-1 rounded-full border border-purple-100 mb-2 inline-block">
+                STACK & EKOSISTEM
+              </span>
+              <h3 className="text-xl sm:text-2xl font-bold font-display text-slate-900">Teknologi Modern Terpilih</h3>
+            </div>
+            <p className="text-xs text-slate-500 font-sans max-w-sm">
+              Hanya menggunakan perkakas rekayasa terbaik untuk stabilitas jangka panjang.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 sm:gap-4">
+            {techStack.map((tech, idx) => (
+              <div 
+                key={idx} 
+                className="p-3.5 rounded-xl bg-slate-50/80 border border-slate-200/70 hover:border-purple-300 hover:bg-purple-50/40 transition-all"
+              >
+                <div className="text-xs font-bold font-display text-slate-900 mb-0.5">{tech.name}</div>
+                <div className="text-[10px] font-mono text-purple-600">{tech.category}</div>
+              </div>
             ))}
           </div>
         </div>
 
-        {/* FAQ Section Included Here */}
-        <div className="mb-32">
+        {/* Integrated FAQ Section */}
+        <div className="mb-16 sm:mb-24">
           <FaqSection />
         </div>
 
-        {/* Premium Philosophy Section */}
-        <div className="px-6">
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 1 }}
-            className="relative rounded-[3rem] overflow-hidden bg-slate-900 text-white p-12 md:p-24 text-center mb-24 shadow-2xl max-w-6xl mx-auto"
-          >
-            <div className="absolute inset-0 bg-gradient-to-br from-slate-800 to-slate-950"></div>
-            {/* Subtle mesh/glow effect in background */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-[#4f46e5]/10 rounded-full blur-[120px] pointer-events-none"></div>
-            
-            <div className="relative z-10 max-w-3xl mx-auto">
-              <Code2 strokeWidth={1} className="w-16 h-16 mx-auto text-slate-400 mb-8 opacity-50" />
-              <h2 className="text-4xl md:text-5xl font-display font-medium tracking-tight mb-8 leading-tight">
-                Desain itu bukan sekadar rupa, <br/> melainkan bagaimana ia bekerja.
-              </h2>
-              <p className="text-xl text-slate-400 font-sans leading-relaxed mb-12">
-                Setiap baris kode dan setiap piksel di layar dirancang dengan satu tujuan konversi. 
-                Meniadakan yang tidak perlu, menyisakan yang esensial. Itulah fondasi standar CHESTADOTCOM.
-              </p>
+        {/* Premium Philosophy CTA Section */}
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="relative rounded-3xl overflow-hidden bg-slate-900 text-white p-8 sm:p-12 md:p-16 text-center shadow-xl max-w-5xl mx-auto"
+        >
+          <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-slate-950 to-purple-950/40 pointer-events-none"></div>
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-purple-600/15 rounded-full blur-[120px] pointer-events-none"></div>
+          
+          <div className="relative z-10 max-w-2xl mx-auto">
+            <Code2 strokeWidth={1.5} className="w-12 h-12 mx-auto text-purple-400 mb-6 opacity-80" />
+            <h2 className="text-2xl sm:text-4xl font-display font-bold tracking-tight mb-4 leading-tight">
+              Siap Mentransformasi Kehadiran Digital Bisnis Anda?
+            </h2>
+            <p className="text-sm sm:text-base text-slate-400 font-sans leading-relaxed mb-8">
+              Mulai dari website profil perusahaan hingga sistem Agentic AI otomatis — mari rancang solusi yang presisi dan relevan dengan target pertumbuhan Anda.
+            </p>
+            <div className="flex flex-wrap items-center justify-center gap-4">
               <button 
                 onClick={handleContactClick}
-                className="inline-flex items-center gap-2 bg-white text-slate-900 px-8 py-4 rounded-full font-sans font-semibold tracking-wide hover:scale-105 active:scale-95 transition-transform"
+                className="inline-flex items-center gap-2 bg-gradient-to-r from-purple-600 to-purple-600 hover:from-purple-800 hover:to-purple-700 text-white px-7 py-3.5 rounded-full font-mono text-xs sm:text-sm font-bold uppercase tracking-wider shadow-lg shadow-purple-600/30 transition-all cursor-pointer"
               >
-                Konsultasi Eksklusif
-                <ArrowRight strokeWidth={1.5} size={18} />
+                <span>Konsultasi WhatsApp</span>
+                <ArrowRight size={16} />
               </button>
+              <Link
+                to="/projects"
+                className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 border border-white/20 text-white px-6 py-3.5 rounded-full font-mono text-xs sm:text-sm font-bold uppercase tracking-wider transition-all"
+              >
+                <span>Lihat Portofolio</span>
+                <ArrowUpRight size={16} />
+              </Link>
             </div>
-          </motion.div>
-        </div>
+          </div>
+        </motion.div>
+
       </div>
     </div>
   );

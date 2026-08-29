@@ -13,7 +13,7 @@ export default function TextRevealSmooth({
   text, 
   className = '',
   highlightWords = [],
-  highlightClass = "text-transparent bg-clip-text bg-gradient-to-r from-[#4f46e5] to-green-400 font-serif italic",
+  highlightClass = "text-transparent bg-clip-text bg-gradient-to-r from-[#6b21a8] to-green-400 font-serif italic",
   wordClassName = "",
   once = true
 }: TextRevealSmoothProps) {

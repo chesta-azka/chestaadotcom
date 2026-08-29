@@ -17,12 +17,12 @@ export default function NotFoundPage() {
   return (
     <div className="relative min-h-[80vh] flex flex-col items-center justify-center overflow-hidden px-6 pt-32 pb-12">
       <MetaTags 
-        title="404 - Halaman Tidak Ditemukan | CHESTADOTCOM" 
+        title="404 - Halaman Tidak Ditemukan | CHESTAADOTCOM" 
         description="Halaman yang Anda cari tidak dapat ditemukan. Silakan kembali ke beranda atau gunakan fitur pencarian."
       />
 
       {/* Subtle Background Elements */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-indigo-50/50 rounded-full blur-[120px] pointer-events-none -z-10" />
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-purple-50/50 rounded-full blur-[120px] pointer-events-none -z-10" />
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-3xl aspect-square border-[1px] border-slate-100/50 rounded-full pointer-events-none -z-10" />
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-xl aspect-square border-[1px] border-slate-100/50 rounded-full pointer-events-none -z-10" />
 
@@ -54,7 +54,7 @@ export default function NotFoundPage() {
         <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
           <Link 
             to="/"
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full bg-slate-900 text-white font-sans font-bold text-xs tracking-wide transition-all hover:bg-indigo-600 shadow-sm hover:shadow-indigo-600/20 group"
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full bg-slate-900 text-white font-sans font-bold text-xs tracking-wide transition-all hover:bg-purple-600 shadow-sm hover:shadow-purple-600/20 group"
           >
             <Home size={16} />
             <span>KEMBALI KE BERANDA</span>
@@ -64,7 +64,7 @@ export default function NotFoundPage() {
             onClick={handleSearchClick}
             className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-4 rounded-full bg-white border border-slate-200 text-slate-700 font-sans font-bold text-xs tracking-wide transition-all hover:bg-slate-50 hover:border-slate-300 shadow-sm group"
           >
-            <Search size={16} className="text-slate-400 group-hover:text-indigo-600 transition-colors" />
+            <Search size={16} className="text-slate-400 group-hover:text-purple-600 transition-colors" />
             <span>CARI HALAMAN</span>
             <div className="hidden sm:flex items-center gap-1 ml-2">
               <kbd className="inline-flex items-center justify-center h-5 px-1.5 text-[10px] font-mono font-semibold text-slate-400 bg-slate-100 border border-slate-200 rounded">CTRL</kbd>

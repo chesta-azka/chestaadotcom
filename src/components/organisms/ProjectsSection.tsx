@@ -6,7 +6,7 @@ import TextRevealSmooth from '../atoms/TextRevealSmooth';
 import { PROJECTS } from '../../data/projects.ts';
 
 const ProjectSkeleton = () => (
-  <div className="relative overflow-hidden rounded-2xl border border-[#4f46e5]/5 min-h-[440px] bg-slate-50 animate-pulse flex flex-col justify-end p-8">
+  <div className="relative overflow-hidden rounded-2xl border border-[#6b21a8]/5 min-h-[440px] bg-slate-50 animate-pulse flex flex-col justify-end p-8">
     <div className="absolute inset-0 bg-gradient-to-t from-[#06080F]/95 via-[#06080F]/30 to-transparent opacity-80" />
     <div className="absolute inset-x-8 bottom-8 flex flex-col sm:flex-row justify-between items-end sm:items-center gap-4 z-10 w-[calc(100%-4rem)]">
       <div className="space-y-3 w-full sm:w-2/3 text-left">
@@ -17,7 +17,7 @@ const ProjectSkeleton = () => (
       </div>
       
       {/* Metric Badge placeholder */}
-      <div className="px-4 py-2 rounded-xl bg-[#4f46e5]/5 border border-slate-200 w-24 h-12 flex flex-col justify-center items-end gap-1.5 shrink-0" />
+      <div className="px-4 py-2 rounded-xl bg-[#6b21a8]/5 border border-slate-200 w-24 h-12 flex flex-col justify-center items-end gap-1.5 shrink-0" />
     </div>
   </div>
 );
@@ -122,7 +122,7 @@ export default function ProjectsSection() {
               <TextRevealSmooth 
                 text="Selected Work." 
                 highlightWords={["Work."]}
-                highlightClass="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-indigo-400 font-serif italic pr-4"
+                highlightClass="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-purple-400 font-serif italic pr-4"
               />
             </div>
           </div>
@@ -169,7 +169,7 @@ export default function ProjectsSection() {
             href="https://wa.me/6282125447232?text=Halo%20chestaadotcom%2C%20saya%20melihat%20portfolio%20Anda%20dan%20tertarik%20membuat%20website%20UMKM%20premium%21" 
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-block px-8 py-4 bg-[#4f46e5] text-white font-bold rounded-full hover:bg-white transition-all duration-300 text-lg shadow-lg cursor-pointer"
+            className="inline-block px-8 py-4 bg-[#6b21a8] text-white font-bold rounded-full hover:bg-white transition-all duration-300 text-lg shadow-lg cursor-pointer"
             whileHover={{ scale: 1.05, y: -2 }}
             whileTap={{ scale: 0.95 }}
             transition={{ type: "spring", stiffness: 400, damping: 17 }}

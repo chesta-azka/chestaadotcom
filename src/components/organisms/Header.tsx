@@ -51,7 +51,8 @@ export default function Header() {
     { name: 'Layanan', path: '/services' },
     { name: 'Portofolio', path: '/portfolio' },
     { name: 'Wawasan', path: '/blog' },
-    { name: 'Tentang', path: '/about' }
+    { name: 'Tentang', path: '/about' },
+    { name: 'Workflow', path: '/workflow' }
   ];
 
   return (
@@ -75,17 +76,17 @@ export default function Header() {
         >
           <Link to="/" className="flex items-center gap-2.5 group select-none pointer-events-auto">
             {/* Elegant Geometric Architectural Emblem */}
-            <div className="relative flex items-center justify-center w-8 h-8 rounded-lg bg-slate-50 border border-slate-200 group-hover:border-[#4f46e5]/40 transition-colors duration-300">
-              <svg className="w-4 h-4 text-[#4f46e5] group-hover:scale-110 transition-transform duration-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <div className="relative flex items-center justify-center w-8 h-8 rounded-lg bg-slate-50 border border-slate-200 group-hover:border-[#6b21a8]/40 transition-colors duration-300">
+              <svg className="w-4 h-4 text-[#6b21a8] group-hover:scale-110 transition-transform duration-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                 <path d="m12 3-8 8 8 8 8-8-8-8z" />
                 <path d="m12 8-4 4 4 4 4-4-4-4z" />
               </svg>
-              <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-[#4f46e5] to-green-400 opacity-0 group-hover:opacity-10 blur-sm transition-opacity duration-300" />
+              <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-[#6b21a8] to-green-400 opacity-0 group-hover:opacity-10 blur-sm transition-opacity duration-300" />
             </div>
             
             <div className="flex flex-col text-left">
               <span className="font-display text-base font-extrabold tracking-tight text-slate-900 leading-none">
-                chestaa<span className="text-[#4f46e5]">dot</span>com
+                chestaa<span className="text-[#6b21a8]">dot</span>com
               </span>
             </div>
           </Link>
@@ -99,7 +100,7 @@ export default function Header() {
                   {isAnchor ? (
                     <a
                       href={location.pathname === '/' ? link.path.substring(1) : link.path}
-                      className="font-sans text-sm font-medium text-slate-700 transition-colors group-hover:text-indigo-600 flex items-center gap-1 py-4"
+                      className="font-sans text-sm font-medium text-slate-700 transition-colors group-hover:text-purple-600 flex items-center gap-1 py-4"
                     >
                       {link.name}
                       {isLayanan && <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>}
@@ -107,7 +108,7 @@ export default function Header() {
                   ) : (
                     <Link
                       to={link.path}
-                      className="font-sans text-sm font-medium text-slate-700 transition-colors group-hover:text-indigo-600 flex items-center gap-1 py-4"
+                      className="font-sans text-sm font-medium text-slate-700 transition-colors group-hover:text-purple-600 flex items-center gap-1 py-4"
                     >
                       {link.name}
                       {isLayanan && <svg className="w-4 h-4 transition-transform group-hover:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>}
@@ -125,7 +126,7 @@ export default function Header() {
                               className="relative z-10 px-3 py-3 hover:bg-white/30 rounded-2xl transition-colors text-sm font-medium text-slate-800 flex flex-col group/item"
                             >
                               <span className="flex items-center gap-2 font-semibold transition-transform duration-300 group-hover/item:translate-x-1">
-                                <service.icon size={16} className="text-indigo-600 transition-transform duration-300 group-hover/item:scale-110" />
+                                <service.icon size={16} className="text-purple-600 transition-transform duration-300 group-hover/item:scale-110" />
                                 {service.title}
                               </span>
                               <span className="text-xs text-slate-500 font-normal mt-1 leading-relaxed line-clamp-1 transition-transform duration-300 group-hover/item:translate-x-1">{service.description}</span>
@@ -143,13 +144,13 @@ export default function Header() {
           <div className="hidden md:flex items-center gap-2">
             <button
               onClick={() => window.dispatchEvent(new Event('open-command-palette'))}
-              className="p-2 text-slate-500 hover:text-indigo-600 hover:bg-slate-100 rounded-full transition-colors flex items-center justify-center"
+              className="p-2 text-slate-500 hover:text-purple-600 hover:bg-slate-100 rounded-full transition-colors flex items-center justify-center"
               aria-label="Search"
             >
               <Search size={18} />
             </button>
             <motion.div whileHover={{ y: -2, scale: 1.05 }} whileTap={{ scale: 0.95 }} transition={{ type: "spring", stiffness: 400, damping: 17 }} className="ml-2">
-              <a href={location.pathname === '/' ? '#pricing' : '/#pricing'} className="text-sm font-sans font-medium text-white bg-slate-900 px-5 py-2.5 rounded-full hover:bg-indigo-600 transition-colors shadow-sm inline-block">
+              <a href={location.pathname === '/' ? '#pricing' : '/#pricing'} className="text-sm font-sans font-medium text-white bg-slate-900 px-5 py-2.5 rounded-full hover:bg-purple-600 transition-colors shadow-sm inline-block">
                 Mulai Proyek
               </a>
             </motion.div>
@@ -212,8 +213,8 @@ export default function Header() {
                     {isAnchor ? (
                       <a
                         href={location.pathname === '/' ? link.path.substring(1) : link.path}
-                        className={`block font-display text-2xl font-semibold tracking-tight hover:text-[#4f46e5] transition-colors ${
-                          location.hash === link.path.substring(1) ? 'text-[#4f46e5]' : 'text-slate-800'
+                        className={`block font-display text-2xl font-semibold tracking-tight hover:text-[#6b21a8] transition-colors ${
+                          location.hash === link.path.substring(1) ? 'text-[#6b21a8]' : 'text-slate-800'
                         }`}
                         onClick={() => setIsOpen(false)}
                       >
@@ -222,8 +223,8 @@ export default function Header() {
                     ) : link.name === 'Layanan' ? (
                       <div className="flex flex-col">
                         <button
-                          className={`block font-display text-2xl font-semibold tracking-tight hover:text-[#4f46e5] transition-colors flex items-center justify-between w-full text-left ${
-                            location.pathname === link.path || location.pathname.startsWith('/services') ? 'text-[#4f46e5]' : 'text-slate-800'
+                          className={`block font-display text-2xl font-semibold tracking-tight hover:text-[#6b21a8] transition-colors flex items-center justify-between w-full text-left ${
+                            location.pathname === link.path || location.pathname.startsWith('/services') ? 'text-[#6b21a8]' : 'text-slate-800'
                           }`}
                           onClick={(e) => {
                             e.preventDefault();
@@ -239,16 +240,16 @@ export default function Header() {
                               initial={{ height: 0, opacity: 0 }}
                               animate={{ height: 'auto', opacity: 1 }}
                               exit={{ height: 0, opacity: 0 }}
-                              className="overflow-hidden mt-4 pl-4 border-l-2 border-indigo-100 flex flex-col gap-4"
+                              className="overflow-hidden mt-4 pl-4 border-l-2 border-purple-100 flex flex-col gap-4"
                             >
                               {SERVICE_DEFINITIONS.map(service => (
                                 <Link 
                                   key={service.slug} 
                                   to={`/layanan/${service.slug}`} 
                                   onClick={() => setIsOpen(false)} 
-                                  className="group/mobile text-lg font-medium text-slate-600 hover:text-indigo-600 flex items-center gap-3 transition-all duration-300 hover:translate-x-2"
+                                  className="group/mobile text-lg font-medium text-slate-600 hover:text-purple-600 flex items-center gap-3 transition-all duration-300 hover:translate-x-2"
                                 >
-                                  <service.icon size={20} className="text-indigo-500 transition-transform duration-300 group-hover/mobile:scale-110" />
+                                  <service.icon size={20} className="text-purple-500 transition-transform duration-300 group-hover/mobile:scale-110" />
                                   {service.title}
                                 </Link>
                               ))}
@@ -259,8 +260,8 @@ export default function Header() {
                     ) : (
                       <Link
                         to={link.path}
-                        className={`block font-display text-2xl font-semibold tracking-tight hover:text-[#4f46e5] transition-colors flex items-center justify-between ${
-                          location.pathname === link.path ? 'text-[#4f46e5]' : 'text-slate-800'
+                        className={`block font-display text-2xl font-semibold tracking-tight hover:text-[#6b21a8] transition-colors flex items-center justify-between ${
+                          location.pathname === link.path ? 'text-[#6b21a8]' : 'text-slate-800'
                         }`}
                         onClick={() => setIsOpen(false)}
                       >
@@ -280,7 +281,7 @@ export default function Header() {
                 <a 
                   href={location.pathname === '/' ? '#pricing' : '/#pricing'} 
                   onClick={() => setIsOpen(false)}
-                  className="w-full flex items-center justify-center font-sans font-semibold text-white bg-indigo-600 px-6 py-4 rounded-xl hover:bg-slate-900 transition-colors shadow-sm"
+                  className="w-full flex items-center justify-center font-sans font-semibold text-white bg-purple-600 px-6 py-4 rounded-xl hover:bg-slate-900 transition-colors shadow-sm"
                 >
                   Mulai Konsultasi Enterprise
                 </a>

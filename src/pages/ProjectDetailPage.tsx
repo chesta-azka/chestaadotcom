@@ -3,14 +3,41 @@ import { useParams, Link, Navigate } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { PROJECTS } from '../data/projects';
 import { ArrowLeft, CheckCircle2, AlertCircle, Calendar, ExternalLink, Zap } from 'lucide-react';
+import { Helmet } from 'react-helmet-async';
 import SEOProvider from '../components/atoms/SEOProvider';
 import Breadcrumbs from '../components/atoms/Breadcrumbs';
 import ShareButton from '../components/atoms/ShareButton';
 import CreativityMarquee from '../components/organisms/CreativityMarquee.tsx';
+import ROILineChart from '../components/organisms/ROILineChart';
 
 export default function ProjectDetailPage() {
   const { id } = useParams<{ id: string }>();
   const project = PROJECTS.find((p) => p.id === id);
+  const jsonLd = project ? {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": project.title,
+    "image": [project.image],
+    "datePublished": "2026-08-24T08:00:00+08:00",
+    "author": [{
+        "@type": "Organization",
+        "name": "CHESTAADOTCOM"
+    }],
+    "publisher": {
+      "@type": "Organization",
+      "name": "CHESTAADOTCOM",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://chestaa.com/logo.png"
+      }
+    },
+    "description": project.description,
+    "about": {
+      "@type": "Place",
+      "name": "BSD City, Cisauk, Tangerang"
+    }
+  } : null;
+
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -25,29 +52,26 @@ export default function ProjectDetailPage() {
   const metricLabel = 'Load Time';
 
   return (
-    <div className="pt-32 pb-32 min-h-screen bg-transparent relative overflow-hidden select-none">
+    <div className="pt-48 pb-32 min-h-screen bg-transparent relative overflow-hidden select-none">
       <SEOProvider 
-        title={`${project.title} — CHESTADOTCOM`} 
+        title={`${project.title} — CHESTAADOTCOM`} 
         description={project.description} 
       />
 
       {/* Cinematic Aura Effect */}
-      <div className="absolute inset-0 pointer-events-none -z-10 bg-radial-gradient from-[#4f46e5]/5 via-transparent to-transparent opacity-60" />
+      <div className="absolute inset-0 pointer-events-none -z-10 bg-radial-gradient from-[#6b21a8]/5 via-transparent to-transparent opacity-60" />
 
       <div className="mx-auto max-w-4xl px-6 relative z-10 w-full mt-12">
         {/* Breadcrumb Navigation */}
         <div className="flex justify-between items-center mt-12 mb-8">
-          <Breadcrumbs items={[
-            { label: 'Showcase', path: '/portfolio' },
-            { label: project.title }
-          ]} />
-          <ShareButton title={project.title} text={project.description} className="text-slate-500 hover:text-indigo-600 bg-white shadow-sm border border-slate-200 px-4 py-2 rounded-full transition-colors" />
+          
+          <ShareButton title={project.title} text={project.description} className="text-slate-500 hover:text-purple-600 bg-white/40 backdrop-blur-xl shadow-xl shadow-purple-900/5 border border-white/60 px-4 py-2 rounded-full transition-colors hover:bg-white/60" />
         </div>
 
         {/* Hero Section */}
         <div className="space-y-6 mb-16 mt-12">
           <div className="flex flex-wrap items-center gap-4 text-xs">
-            <span className="px-3.5 py-1.5 rounded-full bg-[#4f46e5]/10 border border-[#4f46e5]/20 text-[10px] font-mono font-bold text-[#4f46e5] uppercase tracking-wider">
+            <span className="px-3.5 py-1.5 rounded-full bg-[#6b21a8]/10 border border-[#6b21a8]/20 text-[10px] font-mono font-bold text-[#6b21a8] uppercase tracking-wider">
               {project.category}
             </span>
             <span className="text-slate-500 flex items-center gap-1.5 font-mono">
@@ -121,7 +145,7 @@ export default function ProjectDetailPage() {
                 <ul className="space-y-3 pt-4 text-slate-600">
                   {project.features.map((feature, idx) => (
                     <li key={idx} className="flex items-center gap-3">
-                      <span className="w-1.5 h-1.5 rounded-full bg-[#4f46e5] shrink-0" />
+                      <span className="w-1.5 h-1.5 rounded-full bg-[#6b21a8] shrink-0" />
                       <span className="text-sm sm:text-base font-sans">{feature}</span>
                     </li>
                   ))}
@@ -134,12 +158,15 @@ export default function ProjectDetailPage() {
           {/* Right Block - Sidebar Core Metrics & Action CTAs */}
           <div className="md:col-span-4 space-y-8">
             
+            {/* ROI D3 Chart */}
+            <ROILineChart roiPercentage={124} />
+
             {/* Minimal Stat Badge */}
             <div className="bg-slate-50 border border-slate-200 rounded-2xl p-6 relative overflow-hidden group">
-              <div className="absolute top-0 right-0 w-24 h-24 bg-[#4f46e5]/5 rounded-full blur-2xl pointer-events-none" />
+              <div className="absolute top-0 right-0 w-24 h-24 bg-[#6b21a8]/5 rounded-full blur-2xl pointer-events-none" />
               <div className="flex flex-col items-start space-y-1">
                 <span className="text-[10px] font-mono text-slate-500 uppercase tracking-widest">PERFORMANCE TARGET</span>
-                <span className="text-5xl font-mono font-bold text-[#4f46e5] tracking-tight">{metricValue}</span>
+                <span className="text-5xl font-mono font-bold text-[#6b21a8] tracking-tight">{metricValue}</span>
                 <span className="text-[10px] font-sans text-slate-600 font-medium">{metricLabel} optimized with perfect score</span>
               </div>
             </div>
@@ -165,10 +192,10 @@ export default function ProjectDetailPage() {
               <p className="text-xs text-slate-500 font-sans leading-relaxed">Dapatkan website interaktif super kencang seperti ini untuk menunjang branding bisnis Anda.</p>
               
               <a 
-                href={`https://wa.me/6282125447232?text=${encodeURIComponent(`Halo CHESTADOTCOM, saya tertarik memodifikasi layout eksklusif seperti pada project ${project.title}. Boleh minta penawaran harganya?`)}`}
+                href={`https://wa.me/6282125447232?text=${encodeURIComponent(`Halo CHESTAADOTCOM, saya tertarik memodifikasi layout eksklusif seperti pada project ${project.title}. Boleh minta penawaran harganya?`)}`}
                 target="_blank" 
                 rel="noopener noreferrer" 
-                className="flex items-center justify-center gap-2 w-full py-3.5 bg-[#4f46e5] text-[#0A0F1C] font-mono text-xs font-extrabold uppercase rounded-xl tracking-wider hover:bg-[#cbf500] transition-colors"
+                className="flex items-center justify-center gap-2 w-full py-3.5 bg-[#6b21a8] text-[#0A0F1C] font-mono text-xs font-extrabold uppercase rounded-xl tracking-wider hover:bg-[#cbf500] transition-colors"
               >
                 Mulai Diskusi <ExternalLink size={12} />
               </a>
@@ -190,7 +217,7 @@ export default function ProjectDetailPage() {
             <Link 
               key={other.id} 
               to={`/portfolio/${other.id}`}
-              className="group block rounded-2xl overflow-hidden border border-slate-100 bg-slate-50 hover:border-[#4f46e5]/30 transition-all duration-300"
+              className="group block rounded-2xl overflow-hidden border border-slate-100 bg-slate-50 hover:border-[#6b21a8]/30 transition-all duration-300"
             >
               <div className="relative aspect-video w-full overflow-hidden bg-white">
                 <img 
@@ -201,10 +228,10 @@ export default function ProjectDetailPage() {
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
               </div>
               <div className="p-6">
-                <span className="text-[10px] font-mono font-bold text-[#4f46e5] tracking-widest uppercase block mb-2">
+                <span className="text-[10px] font-mono font-bold text-[#6b21a8] tracking-widest uppercase block mb-2">
                   {other.category}
                 </span>
-                <h4 className="text-lg font-display text-slate-900 group-hover:text-[#4f46e5] transition-colors line-clamp-1">
+                <h4 className="text-lg font-display text-slate-900 group-hover:text-[#6b21a8] transition-colors line-clamp-1">
                   {other.title}
                 </h4>
               </div>

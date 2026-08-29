@@ -12,19 +12,19 @@ interface SEOMetadataProps {
 }
 
 export default function SEOMetadata({
-  title = 'CHESTADOTCOM - Arsitektur Digital & Agentic AI',
+  title = 'CHESTAADOTCOM - Arsitektur Digital & Agentic AI',
   description = 'Solusi rancang bangun digital premium dan otomatisasi bisnis menggunakan Agentic AI.',
   image = '/og-image.jpg',
   url = 'https://chestacode.com',
   type = 'website',
   schema,
 }: SEOMetadataProps) {
-  const fullTitle = title.includes('CHESTADOTCOM') ? title : `${title} | CHESTADOTCOM`;
+  const fullTitle = title.includes('CHESTAADOTCOM') ? title : `${title} | CHESTAADOTCOM`;
 
   const defaultSchema = {
     '@context': 'https://schema.org',
     '@type': 'LocalBusiness',
-    name: 'CHESTADOTCOM',
+    name: 'CHESTAADOTCOM',
     image: url + image,
     '@id': url,
     url: url,

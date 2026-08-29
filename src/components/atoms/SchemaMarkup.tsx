@@ -10,14 +10,14 @@ export default function SchemaMarkup({ schema }: SchemaMarkupProps) {
     "@graph": [
       {
         "@type": "Organization",
-        "name": "CHESTADOTCOM",
+        "name": "CHESTAADOTCOM",
         "url": "https://chestaa.com",
         "areaServed": ["BSD City", "Cisauk"],
         "knowsAbout": ["Next.js", "AI Agents", "High-Performance Web"]
       },
       {
         "@type": "LocalBusiness",
-        "name": "CHESTADOTCOM",
+        "name": "CHESTAADOTCOM",
         "url": "https://chestaa.com",
         "areaServed": ["BSD City", "Cisauk"],
         "knowsAbout": ["Next.js", "AI Agents", "High-Performance Web"]

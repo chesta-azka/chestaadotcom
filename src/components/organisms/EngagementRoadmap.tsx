@@ -52,11 +52,11 @@ export default function EngagementRoadmap() {
 
   return (
     <section id="roadmap" className="py-24 bg-white relative overflow-hidden border-t border-slate-100 min-h-screen flex items-center justify-center snap-center">
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-indigo-50/50 via-transparent to-transparent pointer-events-none" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-purple-50/50 via-transparent to-transparent pointer-events-none" />
       
       <div className="max-w-7xl mx-auto px-6 relative z-10 w-full">
         <div className="text-center mb-16">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-50 border border-slate-200 text-xs font-mono font-bold tracking-widest text-indigo-600 uppercase mb-4 shadow-sm">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-50 border border-slate-200 text-xs font-mono font-bold tracking-widest text-purple-600 uppercase mb-4 shadow-sm">
             Service Delivery Lifecycle
           </div>
           <h2 className="text-fluid-h2 font-display font-medium text-slate-900 tracking-tight mb-4">
@@ -90,19 +90,19 @@ export default function EngagementRoadmap() {
                 >
                   <div className={`relative z-10 w-12 h-12 lg:w-12 lg:h-12 rounded-xl flex items-center justify-center shrink-0 transition-all duration-300 ${
                     activeStep === idx 
-                      ? 'bg-indigo-600 text-white shadow-lg shadow-indigo-500/40 scale-110 ring-4 ring-indigo-50' 
+                      ? 'bg-purple-600 text-white shadow-lg shadow-purple-500/40 scale-110 ring-4 ring-purple-50' 
                       : idx < activeStep
                         ? 'bg-emerald-50 text-emerald-500 border border-emerald-200'
-                        : 'bg-white text-slate-400 border border-slate-200 group-hover:border-indigo-200 group-hover:text-indigo-500'
+                        : 'bg-white text-slate-400 border border-slate-200 group-hover:border-purple-200 group-hover:text-purple-500'
                   }`}>
                     {activeStep === idx && (
                       <>
                         <motion.div 
                           layoutId="activeGlow" 
-                          className="absolute inset-0 bg-indigo-500 blur-xl opacity-40 rounded-xl"
+                          className="absolute inset-0 bg-purple-500 blur-xl opacity-40 rounded-xl"
                         />
                         <motion.div
-                          className="absolute inset-0 rounded-xl border-2 border-indigo-400"
+                          className="absolute inset-0 rounded-xl border-2 border-purple-400"
                           animate={{ scale: [1, 1.25, 1], opacity: [0.8, 0, 0.8] }}
                           transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
                         />
@@ -135,7 +135,7 @@ export default function EngagementRoadmap() {
                   </div>
                   <div>
                     <h3 className={`font-display font-semibold transition-colors ${
-                      activeStep === idx ? 'text-indigo-600 text-lg' : 'text-slate-500 text-base group-hover:text-slate-900'
+                      activeStep === idx ? 'text-purple-600 text-lg' : 'text-slate-500 text-base group-hover:text-slate-900'
                     }`}>
                       {step.title}
                     </h3>
@@ -149,7 +149,7 @@ export default function EngagementRoadmap() {
           <div className="lg:w-2/3">
             <div className="bg-white rounded-3xl p-8 lg:p-12 shadow-2xl shadow-slate-200/50 border border-slate-100 relative overflow-hidden min-h-[400px]">
               {/* Decorative subtle background icon */}
-              <div className="absolute -right-12 -bottom-12 opacity-[0.02] text-indigo-900 pointer-events-none transition-all duration-700">
+              <div className="absolute -right-12 -bottom-12 opacity-[0.02] text-purple-900 pointer-events-none transition-all duration-700">
                 {React.createElement(ROADMAP_STEPS[activeStep].icon, { size: 300 })}
               </div>
 
@@ -162,8 +162,8 @@ export default function EngagementRoadmap() {
                   transition={{ duration: 0.4, ease: 'easeOut' }}
                   className="relative z-10 flex flex-col h-full justify-center"
                 >
-                  <div className="w-16 h-16 rounded-2xl bg-indigo-50 flex items-center justify-center text-indigo-600 mb-8 border border-indigo-100 shadow-sm relative group">
-                    <div className="absolute inset-0 bg-indigo-200 rounded-2xl blur-lg opacity-0 group-hover:opacity-50 transition-opacity" />
+                  <div className="w-16 h-16 rounded-2xl bg-purple-50 flex items-center justify-center text-purple-600 mb-8 border border-purple-100 shadow-sm relative group">
+                    <div className="absolute inset-0 bg-purple-200 rounded-2xl blur-lg opacity-0 group-hover:opacity-50 transition-opacity" />
                     {React.createElement(ROADMAP_STEPS[activeStep].icon, { size: 28, className: "relative z-10" })}
                   </div>
                   
@@ -184,7 +184,7 @@ export default function EngagementRoadmap() {
                         transition={{ delay: 0.1 + i * 0.1 }}
                         className="flex items-center gap-3 bg-white p-3 rounded-xl border border-slate-100 shadow-sm"
                       >
-                        <CheckCircle2 size={18} className="text-indigo-500 shrink-0" />
+                        <CheckCircle2 size={18} className="text-purple-500 shrink-0" />
                         <span className="font-sans text-slate-700 font-medium text-sm">{feature}</span>
                       </motion.div>
                     ))}
@@ -199,7 +199,7 @@ export default function EngagementRoadmap() {
                   initial={{ width: "0%" }}
                   animate={{ width: "100%" }}
                   transition={{ duration: 5, ease: "linear" }}
-                  className="h-full bg-indigo-500"
+                  className="h-full bg-purple-500"
                   style={{ opacity: isHovered ? 0 : 1 }}
                 />
               </div>

@@ -1,16 +1,105 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
-    match /chat_history/{document=**} {
-      allow create: if true;
-      allow read, update, delete: if request.auth != null;
+    
+    // Check if the user is a verified Admin via the users collection
+    // (We also check if they are authenticated first)
+    function isAdmin() {
+      return request.auth != null && 
+             exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+             get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
     }
-    match /seo_settings/{document=**} {
+
+    // Helper for authenticated workspace clients
+    function isAuthClient() {
+      return request.auth != null;
+    }
+
+    // 1. Workspaces
+    match /workspaces/{workspaceId} {
+      // Must be readable for the AuthContext passcode verification to work locally
       allow read: if true;
-      allow write: if request.auth != null;
+      allow write: if isAdmin();
+
+      // Comm-Link (In-App Chat)
+      match /chat_messages/{messageId} {
+        allow read, write: if true;
+      }
+      match /vault/{vaultId} {
+        allow read, write: if true;
+      }
     }
-    match /{document=**} {
-      allow read, write: if request.auth != null;
+
+    // Allow collectionGroup query for chat_messages
+    match /{path=**}/chat_messages/{messageId} {
+      allow read: if isAdmin();
+    }
+
+    // 2. AI Leads & Click Telemetry
+    match /ai_leads/{leadId} {
+      allow create: if true;
+      allow read, update, delete: if isAdmin();
+    }
+
+    match /click_telemetry/{teleId} {
+      allow create: if true;
+      allow read, update, delete: if isAdmin();
+    }
+    
+    // Required missing collections for the app to function properly:
+    match /live_visitors/{visitorId} {
+      allow create, update: if true;
+      allow read, delete: if isAdmin();
+    }
+    
+    match /ai_chat_sessions/{sessionId} {
+      allow create, update, read: if true;
+      allow delete: if isAdmin();
+    }
+
+    // 3. Vault Assets
+    match /vault_assets/{assetId} {
+      allow read: if isAuthClient() || isAdmin();
+      allow write: if isAdmin();
+    }
+    
+    // 4. System Settings & Admin Auth
+    match /users/{userId} {
+      allow read, write: if request.auth != null && request.auth.uid == userId;
+      allow read, write: if isAdmin();
+    }
+    
+    match /system_config/{docId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    
+    match /system_health/{docId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    
+    match /system_metrics/{docId} {
+      allow read, write: if isAdmin();
+    }
+    
+    match /seo_settings/{docId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    
+    match /audit_logs/{logId} {
+      allow create: if isAdmin() || isAuthClient();
+      allow read, update, delete: if isAdmin();
+    }
+    
+    match /ai_knowledge_base/{docId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    
+    match /blog_interactions/{docId} {
+      allow read, write: if true;
     }
   }
 }

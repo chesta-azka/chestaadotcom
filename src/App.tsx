@@ -1,3 +1,4 @@
+import { FirebaseProvider } from "./contexts/FirebaseContext.tsx";
 import { PerformanceProvider } from "./contexts/PerformanceContext.tsx";
 import { Toaster } from 'react-hot-toast';
 import React from "react";
@@ -21,15 +22,20 @@ import InteractiveBackground from './components/atoms/InteractiveBackground.tsx'
 
 import HomePage from './pages/HomePage.tsx';
 import BlogHubPage from './pages/BlogHubPage.tsx';
+import BlogPostPage from './pages/BlogPostPage.tsx';
 import ServicesPage from './pages/ServicesPage.tsx';
 import PortfolioPage from './pages/PortfolioPage.tsx';
 import ProjectDetailPage from './pages/ProjectDetailPage.tsx';
 import AboutPage from './pages/AboutPage.tsx';
+import WorkflowPage from './pages/WorkflowPage.tsx';
 import ServiceDetailPage from './pages/ServiceDetailPage.tsx';
 import AreaDetailPage from './pages/AreaDetailPage.tsx';
 import AdminPage from './pages/AdminPage.tsx';
 import NotFoundPage from './pages/NotFoundPage.tsx';
 import KeyboardShortcutsModal from './components/organisms/KeyboardShortcutsModal.tsx';
+
+import { useVisitorTracker } from './hooks/useVisitorTracker.ts';
+import { useClickTracker } from './hooks/useClickTracker.ts';
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -44,6 +50,8 @@ function ScrollToTop() {
 // Inner component to use location for AnimatePresence
 function AppContent({ appLoaded }: { appLoaded: boolean }) {
   const location = useLocation();
+  useVisitorTracker();
+  useClickTracker();
   
   return (
     <div className="relative z-10 w-full max-w-7xl mx-auto flex flex-col">
@@ -61,10 +69,12 @@ function AppContent({ appLoaded }: { appLoaded: boolean }) {
           <Routes location={location} >
             <Route path="/" element={<PageWrapper><HomePage /></PageWrapper>} />
             <Route path="/blog" element={<PageWrapper><BlogHubPage /></PageWrapper>} />
+            <Route path="/blog/:slug" element={<PageWrapper><BlogPostPage /></PageWrapper>} />
             <Route path="/services" element={<PageWrapper><ServicesPage /></PageWrapper>} />
             <Route path="/portfolio" element={<PageWrapper><PortfolioPage /></PageWrapper>} />
             <Route path="/portfolio/:id" element={<PageWrapper><ProjectDetailPage /></PageWrapper>} />
             <Route path="/about" element={<PageWrapper><AboutPage /></PageWrapper>} />
+            <Route path="/workflow" element={<PageWrapper><WorkflowPage /></PageWrapper>} />
             <Route path="/layanan/:slug" element={<PageWrapper><ServiceDetailPage /></PageWrapper>} />
             <Route path="/area/:cityName" element={<PageWrapper><AreaDetailPage /></PageWrapper>} />
             <Route path="/admin" element={<PageWrapper><AdminPage /></PageWrapper>} />
@@ -124,7 +134,6 @@ function PageWrapper({ children }: { children: React.ReactNode }) {
   );
 }
 
-import { PerformanceProvider } from './contexts/PerformanceContext.tsx';
 
 export default function App() {
   const [appLoaded, setAppLoaded] = useState(false);
@@ -151,6 +160,7 @@ export default function App() {
   return (
     <HelmetProvider>
     <Router>
+      <FirebaseProvider>
       <PerformanceProvider>
       <AuthProvider>
       <ScrollToTop />
@@ -166,6 +176,7 @@ export default function App() {
       </main>
       </AuthProvider>
       </PerformanceProvider>
+      </FirebaseProvider>
     </Router>
     </HelmetProvider>
   );
