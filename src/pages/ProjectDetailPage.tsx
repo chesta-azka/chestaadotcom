@@ -52,7 +52,7 @@ export default function ProjectDetailPage() {
   const metricLabel = 'Load Time';
 
   return (
-    <div className="pt-48 pb-32 min-h-screen bg-transparent relative overflow-hidden select-none">
+    <div className="pt-[180px] md:pt-[240px] pb-32 min-h-screen bg-transparent relative overflow-hidden select-none">
       <SEOProvider 
         title={`${project.title} — CHESTAADOTCOM`} 
         description={project.description} 

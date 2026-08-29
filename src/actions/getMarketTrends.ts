@@ -14,7 +14,7 @@ export async function fetchMarketTrends() {
     });
     
     const response = await ai.models.generateContent({
-      model: "gemini-3.7-flash",
+      model: "gemini-2.5-flash",
       contents: "Analyze the current real-time market trends for B2B SaaS architecture, specifically regarding Next.js App Router adoption and performance benefits. Give a concise, punchy 3-bullet point summary focusing on enterprise dominance.",
       config: {
         tools: [{ googleSearch: {} }],

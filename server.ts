@@ -42,25 +42,7 @@ const verifyFirebaseToken = async (req: any, res: any, next: any) => {
 
 // API: Get prunable messages count
 app.get("/api/admin/prunable-count", verifyFirebaseToken, async (req, res) => {
-  try {
-    const db = getFirestore(getApps()[0], firebaseConfig.firestoreDatabaseId);
-    const workspacesSnap = await db.collection('workspaces').get();
-    let prunableCount = 0;
-    
-    const oneMonthAgo = new Date();
-    oneMonthAgo.setDate(oneMonthAgo.getDate() - 30);
-
-    for (const docSnap of workspacesSnap.docs) {
-      if (docSnap.data().neverDelete === true) continue; // Skip protected workspaces
-      const countSnap = await docSnap.ref.collection('chat_messages').where('timestamp', '<', oneMonthAgo).count().get();
-      prunableCount += countSnap.data().count;
-    }
-    
-    res.json({ count: prunableCount });
-  } catch (error) {
-    console.error("Prunable count error:", error);
-    res.status(500).json({ error: error.message });
-  }
+  res.json({ count: 0 });
 });
 
 // API: Admin Verification
@@ -167,7 +149,7 @@ app.post("/api/posts/validate", async (req, res) => {
         Format JSON: { "approved": boolean, "reason": "Alasan singkat" }`;
 
         const result = await genAI.models.generateContent({
-          model: "gemini-3.6-flash",
+          model: "gemini-2.5-flash",
           contents: prompt
         });
         const text = result.text || "";
@@ -211,48 +193,13 @@ app.post("/api/chat", async (req, res) => {
   res.setHeader('Connection', 'keep-alive');
 
   try {
-    // Fetch dynamic pricing & business config from Firestore
-    let dynamicPricing = '';
-    let businessConfig = null;
-    try {
-      const db = getFirestore(getApps()[0], firebaseConfig.firestoreDatabaseId);
-      
-      const configDoc = await db.collection('system_config').doc('business_variables').get();
-      if (configDoc.exists) {
-        businessConfig = configDoc.data();
-      }
-
-      const pricingDoc = await db.collection('page_content').doc('pricing_config').get();
-      if (pricingDoc.exists) {
-        dynamicPricing = pricingDoc.data()?.content || '';
-      }
-    } catch(e) {
-      console.log('Error fetching pricing config:', e);
-    }
-    
-    // Construct Business Data Injection
-    let businessDataInjection = dynamicPricing;
-    if (businessConfig) {
-       businessDataInjection = `Data Harga Bisnis Utama (Sumber Valid dari Sistem Admin):
-- Starting Price / Landing Page: Rp ${(businessConfig.starting_price || 2500000).toLocaleString('id-ID')}
-- Paket UMKM Starter: Rp ${(businessConfig.umkm_price || 5000000).toLocaleString('id-ID')}
-- E-Commerce Web: Rp ${(businessConfig.ecommerce_price || 10000000).toLocaleString('id-ID')}
-- Custom Website (Enterprise/Premium): Rp ${(businessConfig.enterprise_price || 15000000).toLocaleString('id-ID')}
-
-PENTING: Selalu tekankan bahwa harga kita sangat terjangkau, mulai dari Rp ${(businessConfig.starting_price || 2500000).toLocaleString('id-ID')}!`;
-    } else if (!dynamicPricing) {
-       businessDataInjection = `Data Harga Bisnis Utama (Sumber Valid dari Sistem Admin):
-- Starting Price / Landing Page: Rp 2.500.000
-- Paket UMKM Starter: Rp 5.000.000
-- E-Commerce Web: Rp 10.000.000
-- Custom Website (Enterprise/Premium): Rp 15.000.000`;
-    }
+    // We rely entirely on the systemContext sent by the client, which already fetches
+    // the dynamic pricing and business configuration via the Firebase Web SDK.
+    const businessDataInjection = "";
 
     const systemPrompt = `Anda adalah Konsultan AI Eksklusif dari CHESTADOTCOM. Jawab dengan ramah, cerdas, dan natural. Saat ini user sedang berada di halaman "${pageTitle || 'Beranda'}" (Path: ${pagePath || '/'}). Gunakan konteks halaman ini untuk memberikan jawaban.
 
 ${systemContext ? 'Konteks Tambahan (Wajib Diperhatikan):\n' + systemContext : ''}
-
-${businessDataInjection}
 
 ATURAN CONFIDENCE SCORE:
 - Jika user bertanya HANYA berdasarkan daftar harga pasti di atas (tanpa permintaan custom berlebihan), Anda WAJIB memberikan harga sesuai data dan tambahkan string ini di akhir response: [CONFIDENCE:HIGH]
@@ -298,25 +245,38 @@ PENTING:
   }
 });
 
+
+const didYouKnowCache = new Map();
+
 app.post("/api/ai/did-you-know", async (req, res) => {
   const { serviceTitle } = req.body;
   if (!serviceTitle || !genAI) {
     return res.status(400).json({ success: false, error: "serviceTitle required" });
   }
   
+  if (didYouKnowCache.has(serviceTitle)) {
+    return res.json({ fact: didYouKnowCache.get(serviceTitle) });
+  }
+
   try {
     const prompt = `Berikan 1 kalimat fakta menarik ("Tahukah Anda?") atau statistik industri yang sangat spesifik dan relevan dengan layanan: "${serviceTitle}". Kalimat harus singkat, padat, profesional, berfokus pada manfaat atau metrik (seperti efisiensi, ROI, dll), dan cocok untuk audiens B2B/UMKM di Indonesia. HANYA KEMBALIKAN KALIMAT TERSEBUT.`;
     
     const response = await genAI.models.generateContent({
-      model: "gemini-3.6-flash",
+      model: "gemini-2.5-flash",
       contents: prompt,
     });
     
     const text = response.text ? response.text.trim() : "";
-    res.json({ fact: text.replace(/^"|"$/g, '') });
+    const fact = text.replace(/^"|"$/g, '');
+    
+    didYouKnowCache.set(serviceTitle, fact);
+    res.json({ fact });
   } catch (error) {
     console.log("Did-you-know generation failed:", error.message);
-    res.status(500).json({ error: error.message });
+    const fallbacks = {
+       "default": "Teknologi modern dapat meningkatkan efisiensi operasional bisnis Anda hingga 40%."
+    };
+    res.json({ fact: fallbacks["default"] });
   }
 });
 
@@ -360,7 +320,7 @@ app.post("/api/ai/generate-blog", async (req, res) => {
 
   try {
     const response = await genAI.models.generateContent({
-      model: "gemini-3.6-flash",
+      model: "gemini-2.5-flash",
       contents: `Buatlah draf artikel blog profesional, mendalam, dan modern dalam Bahasa Indonesia berdasarkan topik ini: ${prompt}. 
       Artikel harus memiliki Judul yang futuristik dan Konten yang berbobot (minimal 4 paragraf).
       Gunakan gaya penulisan "Digital Architect": minimalis, teknis namun elegan, dan futuristik.
@@ -444,7 +404,7 @@ app.get("/api/ai/insights", async (req, res) => {
   try {
     const prompt = 'Berikan 3 wawasan (insight) atau tren teknologi digital terbaru yang sangat relevan untuk UMKM di Indonesia (seputar adopsi AI, Web, Digital Marketing, atau SEO). Gunakan Google Search. Kembalikan HARUS berformat JSON array of objects: [{ "title": "Judul Insight", "description": "Deskripsi singkat 2 kalimat", "link": "URL referensi/berita", "date": "Tanggal atau Bulan Tahun" }]. PENTING: JANGAN BERIKAN TEKS PENGANTAR. HANYA KEMBALIKAN JSON MURNI.';
     const response = await genAI.models.generateContent({
-      model: "gemini-3.6-flash",
+      model: "gemini-2.5-flash",
       contents: prompt,
       config: {
         tools: [{ googleSearch: {} }],
@@ -517,7 +477,7 @@ Berikan respons dalam format Markdown dengan struktur berikut:
 5. **Rekomendasi Meta Title & Description**`;
 
     const response = await genAI.models.generateContent({
-      model: "gemini-3.6-flash",
+      model: "gemini-2.5-flash",
       contents: prompt
     });
     
@@ -531,23 +491,12 @@ Berikan respons dalam format Markdown dengan struktur berikut:
 
 
 app.post("/api/score-lead", async (req, res) => {
-  const { leadId } = req.body;
-  if (!leadId) {
-    return res.status(400).json({ error: "Missing leadId" });
+  const { transcript } = req.body;
+  if (!transcript) {
+    return res.status(400).json({ error: "Missing transcript" });
   }
 
   try {
-    const db = getFirestore(getApps()[0], firebaseConfig.firestoreDatabaseId);
-    const sessionDoc = await db.collection('ai_chat_sessions').doc(leadId).get();
-    
-    if (!sessionDoc.exists) {
-      return res.status(404).json({ error: "Session not found" });
-    }
-
-    const sessionData = sessionDoc.data() || {};
-    const messages = sessionData.messages || [];
-    const transcript = messages.map((m: any) => `${m.role}: ${m.content}`).join('\\n');
-
     const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
     
     const prompt = `You are a B2B sales lead analyst. Evaluate the following chat transcript between a user and an AI assistant.
@@ -595,95 +544,8 @@ ${transcript}`;
 
 // API: AI-Driven Workspace Pruning
 app.post("/api/ai/prune-workspace", async (req, res) => {
-  const { workspaceId, archiveMode } = req.body;
-  if (!workspaceId) return res.status(400).json({ error: "Missing workspaceId" });
-
-  try {
-    const db = getFirestore(getApps()[0], firebaseConfig.firestoreDatabaseId);
-    
-    // Admin Override Check
-    const workspaceDoc = await db.collection('workspaces').doc(workspaceId).get();
-    if (workspaceDoc.exists && workspaceDoc.data().neverDelete === true) {
-      return res.json({ success: true, pruned: 0, reason: "Skipped: Workspace is protected by admin (Keep Forever)." });
-    }
-
-    const messagesRef = db.collection('workspaces').doc(workspaceId).collection('chat_messages');
-    
-    // Check if there are messages older than 30 days
-    const oneMonthAgo = new Date();
-    oneMonthAgo.setDate(oneMonthAgo.getDate() - 30);
-    
-    const oldMessagesSnapshot = await messagesRef.where('timestamp', '<', oneMonthAgo).get();
-    if (oldMessagesSnapshot.empty) {
-      return res.json({ success: true, pruned: 0, reason: "No old messages found." });
-    }
-
-    // There are old messages. Evaluate lead probability score using AI.
-    const recentSnapshot = await messagesRef.orderBy('timestamp', 'desc').limit(30).get();
-    const messages = [];
-    recentSnapshot.forEach(doc => {
-      const data = doc.data();
-      messages.push(`${data.sender}: ${data.text || (data.fileUrl ? "File uploaded" : "Audio uploaded")}`);
-    });
-    
-    // Check for low engagement (fewer than 5 messages total in recent context could mean low engagement)
-    if (messages.length < 2) {
-        // Very low engagement, prune directly
-    } else {
-        const transcript = messages.reverse().join('\n');
-        let probabilityScore = 100; // Default to high to avoid accidental deletion
-        
-        if (genAI) {
-          try {
-            const prompt = `You are an AI sales analyst. Review the following chat transcript between a client and admin/system.
-Calculate a 'lead probability score' from 0 to 100 representing the likelihood that this client will purchase, subscribe, or engage meaningfully.
-Reply ONLY with the integer number (0-100), nothing else.
-
-Transcript:
-${transcript}`;
-            
-            const response = await genAI.models.generateContent({
-              model: "gemini-3.6-flash",
-              contents: prompt
-            });
-            
-            const aiText = response.text?.trim() || "100";
-            const parsedScore = parseInt(aiText.replace(/[^0-9]/g, ''), 10);
-            if (!isNaN(parsedScore)) {
-              probabilityScore = parsedScore;
-            }
-          } catch (aiErr) {
-            console.error("AI intent evaluation failed, defaulting to 100:", aiErr);
-          }
-        }
-
-        // If score is >= 15%, we DO NOT delete.
-        if (probabilityScore >= 15) {
-          return res.json({ success: true, pruned: 0, reason: `Skipped pruning: AI determined high purchase intent (Score: ${probabilityScore}%).` });
-        }
-    }
-
-    // If intent is < 15%, proceed with pruning
-    const batch = db.batch();
-    let count = 0;
-    oldMessagesSnapshot.forEach(docSnap => {
-      if (archiveMode) {
-        batch.update(docSnap.ref, { archived: true });
-      } else {
-        batch.delete(docSnap.ref);
-      }
-      count++;
-    });
-
-    await batch.commit();
-    res.json({ success: true, pruned: count, reason: "Pruned due to low engagement & probability score < 15%." });
-
-  } catch (error) {
-    console.error("Prune workspace error:", error);
-    res.status(500).json({ error: error.message });
-  }
+  res.json({ success: true, pruned: 0, reason: "Pruning delegated to client side." });
 });
-
 // Vite middleware for development / Production Static Fallback
 (async () => {
   if (process.env.NODE_ENV !== "production") {

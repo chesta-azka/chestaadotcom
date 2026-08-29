@@ -910,7 +910,7 @@ export default function ServicesPage() {
         
         
         {/* 1. HERO SECTION */}
-        <motion.section id="hero" onMouseMove={handleMouseMove} variants={sectionVariants} initial="hidden" whileInView="visible" viewport={{ amount: 0.1, margin: "-100px" }} className="snap-start relative min-h-screen flex flex-col justify-center items-center text-center px-6 md:px-12 overflow-hidden bg-slate-950 text-white">
+        <motion.section id="hero" onMouseMove={handleMouseMove} variants={sectionVariants} initial="hidden" whileInView="visible" viewport={{ amount: 0.1, margin: "-100px" }} className="snap-start relative min-h-screen flex flex-col justify-center items-center text-center px-6 md:px-12 pt-[180px] md:pt-[240px] overflow-hidden bg-slate-950 text-white">
           <GlassReveal dark />
           <SectionPin sectionId="hero" />
           <motion.div style={{ y: heroDescY }} className="absolute inset-0 overflow-hidden">

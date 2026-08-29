@@ -3,7 +3,7 @@ import { db } from '../../lib/firebase';
 import { collection, addDoc, serverTimestamp, doc, setDoc, getDoc, updateDoc, query, where, onSnapshot } from 'firebase/firestore';
 
 import { motion, AnimatePresence } from 'motion/react';
-import { AlertTriangle, Bot, X, Send, Copy, Code2, TrendingUp, Calculator, Clock, MessageCircle, ThumbsUp, ThumbsDown, Folder, ChevronDown, Sparkles, CheckCircle2 } from 'lucide-react';
+import { AlertTriangle, Bot, X, Send, Copy, Code2, TrendingUp, Calculator, Clock, MessageCircle, ThumbsUp, ThumbsDown, Folder, ChevronDown, Sparkles, CheckCircle2, User } from 'lucide-react';
 import ReactMarkdown from 'react-markdown';
 import { useAuth } from '../../contexts/AuthContext';
 import toast from 'react-hot-toast';
@@ -16,6 +16,7 @@ type ChatMessage = {
   role: 'ai' | 'user';
   content: string;
   feedback?: 'up' | 'down';
+  isAdmin?: boolean;
 };
 
 const markdownComponents = {
@@ -165,7 +166,9 @@ const MemoizedChatMessage = memo(({
       <div className={`group relative max-w-[85%] break-words [word-break:break-word] overflow-hidden px-4 py-3 text-[13px] font-sans leading-relaxed shadow-xs border ${borderRadiusClass} ${
         isUser 
           ? 'bg-slate-900 text-white border-slate-800' 
-          : 'bg-white/95 backdrop-blur-md text-slate-800 border-slate-200/90 shadow-xs'
+          : msg.isAdmin 
+            ? 'bg-amber-50 backdrop-blur-md text-slate-900 border-amber-200 shadow-sm'
+            : 'bg-white/95 backdrop-blur-md text-slate-800 border-slate-200/90 shadow-xs'
       }`}>
         {msg.role === 'ai' ? (
           msg.content === '' && isTyping ? (
@@ -404,6 +407,7 @@ export default function FloatingAIAssistant() {
     };
   }, []);
   const [showHistory, setShowHistory] = useState(false);
+  const [isHumanTakeover, setIsHumanTakeover] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
   const [isSearchMode, setIsSearchMode] = useState(false);
     const isBusy = isTyping ;
@@ -488,6 +492,7 @@ export default function FloatingAIAssistant() {
     const unsub = onSnapshot(sessionRef, (docSnap) => {
       if (docSnap.exists()) {
         const data = docSnap.data();
+        if (data.humanTakeover === true) { setIsHumanTakeover(true); } else { setIsHumanTakeover(false); }
         if (data.messages) {
           // Only update if length differs or to receive admin messages
           setChatHistory(prev => {
@@ -559,7 +564,7 @@ export default function FloatingAIAssistant() {
       return;
     }
     
-    // Optimistic UI state: add empty AI message and show typing
+    if (isHumanTakeover) { const newHistory = [...chatHistory, { role: "user", content }]; saveSessionToFirestore(newHistory, {}); return; } // Optimistic UI state: add empty AI message and show typing
     setChatHistory(prev => [...prev, { role: 'ai', content: '' }]);
     setIsTyping(true);
 
@@ -658,13 +663,15 @@ export default function FloatingAIAssistant() {
             {/* Header */}
             <div className="flex items-center justify-between p-4 border-b border-slate-200/80 bg-white/80 backdrop-blur-xl shrink-0">
               <div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-purple-50 flex items-center justify-center text-purple-600 border border-purple-100 shadow-2xs">
-                  <Bot size={20} />
+                <div className={`w-10 h-10 rounded-full flex items-center justify-center border shadow-2xs ${isHumanTakeover ? 'bg-amber-100 text-amber-600 border-amber-200' : 'bg-purple-50 text-purple-600 border-purple-100'}`}>
+                  {isHumanTakeover ? <User size={20} /> : <Bot size={20} />}
                 </div>
                 <div>
-                  <h3 className="font-semibold text-slate-900 text-sm">Konsultan AI CHESTAADOTCOM</h3>
-                  <p className="text-xs text-emerald-600 font-medium flex items-center gap-1">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> Online & Siap Bantu
+                  <h3 className="font-semibold text-slate-900 text-sm">
+                    {isHumanTakeover ? 'Principal Engineer (Live)' : 'Konsultan AI CHESTAADOTCOM'}
+                  </h3>
+                  <p className={`text-xs font-medium flex items-center gap-1 ${isHumanTakeover ? 'text-amber-600' : 'text-emerald-600'}`}>
+                    <span className={`w-1.5 h-1.5 rounded-full animate-pulse ${isHumanTakeover ? 'bg-amber-500' : 'bg-emerald-500'}`}></span> {isHumanTakeover ? 'Live Support' : 'Online & Siap Bantu'}
                   </p>
                 </div>
               </div>

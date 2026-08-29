@@ -82,7 +82,7 @@ export default function BlogPostPage() {
       </Helmet>
 
       {/* Hero Section with Parallax Image */}
-      <div className="relative h-[60vh] min-h-[500px] w-full overflow-hidden bg-black">
+      <div className="relative h-[60vh] min-h-[500px] w-full overflow-hidden bg-black mt-[120px] md:mt-[160px]">
         <motion.div 
           style={{ y, opacity }}
           className="absolute inset-0"

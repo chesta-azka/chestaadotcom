@@ -1,22 +1,7 @@
 const fs = require('fs');
 let code = fs.readFileSync('server.ts', 'utf8');
 
-// The original did-you-know API was:
-/*
-app.post("/api/ai/did-you-know", async (req, res) => {
-...
-});
-*/
-
-// Let's just find the start of categorizing feedback to know where to cut
-const categorizeStart = code.indexOf('app.post("/api/ai/categorize-feedback"');
-const didYouKnowStart = code.indexOf('const didYouKnowCache = new Map();');
-
-if (didYouKnowStart > -1 && categorizeStart > didYouKnowStart) {
-  const before = code.substring(0, didYouKnowStart);
-  const after = code.substring(categorizeStart);
-  
-  const replacement = `
+const replacement = `
 const didYouKnowCache = new Map();
 
 app.post("/api/ai/did-you-know", async (req, res) => {
@@ -50,11 +35,8 @@ app.post("/api/ai/did-you-know", async (req, res) => {
     res.json({ fact: fallbacks["default"] });
   }
 });
-
 `;
-  
-  fs.writeFileSync('server.ts', before + replacement + after);
-  console.log("Fixed server.ts parsing error");
-} else {
-  console.log("Could not find boundaries");
-}
+
+code = code.replace(/app\.post\("\/api\/ai\/did-you-know"[\s\S]*?\}\);/, replacement.trim());
+fs.writeFileSync('server.ts', code);
+console.log('Patched did-you-know');

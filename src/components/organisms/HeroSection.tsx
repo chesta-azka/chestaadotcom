@@ -94,7 +94,7 @@ export default function HeroSection() {
   return (
     <section 
       id="home" 
-      className="relative min-h-[90svh] pt-32 md:pt-44 pb-16 md:pb-24 overflow-hidden flex flex-col items-center justify-center text-center select-none"
+      className="relative min-h-screen pt-[180px] md:pt-[240px] pb-16 md:pb-24 overflow-hidden flex flex-col items-center justify-center text-center select-none"
     >
       {/* Background Decor - Focused Purple & Slate Atmosphere */}
       <div className="absolute inset-0 -z-10 pointer-events-none overflow-hidden bg-slate-50/60">

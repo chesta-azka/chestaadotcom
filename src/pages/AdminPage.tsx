@@ -62,7 +62,7 @@ function LiveTakeoverManager() {
     e.preventDefault();
     if (!inputMsg.trim() || !takeoverSession) return;
     
-    const newMessages = [...messages, { role: 'ai', content: inputMsg.trim() }];
+    const newMessages = [...messages, { role: 'ai', content: inputMsg.trim(), isAdmin: true }];
     setMessages(newMessages); // optimistic
     setInputMsg('');
     
@@ -1844,13 +1844,23 @@ function AILeadsScoringDashboard() {
         const userMessages = messages.filter((m: any) => m.role === 'user');
         if (userMessages.length < 2) continue;
         
+        const transcript = messages.map((m: any) => `${m.role}: ${m.content}`).join('\n');
         const res = await fetch('/api/score-lead', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ leadId: docSnap.id })
+          body: JSON.stringify({ transcript })
         });
         
         if (res.ok) {
+          const data = await res.json();
+          await updateDoc(doc(db, 'ai_chat_sessions', docSnap.id), { leadScored: true, ai_score: data.ai_score });
+          await setDoc(doc(db, 'ai_leads', docSnap.id), {
+            sessionId: docSnap.id,
+            score: data.ai_score,
+            createdAt: serverTimestamp(),
+            messageCount: messages.length,
+            userId: session.userId || 'anonymous'
+          });
           processed++;
         }
       }

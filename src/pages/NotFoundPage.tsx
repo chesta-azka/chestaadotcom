@@ -15,7 +15,7 @@ export default function NotFoundPage() {
   };
 
   return (
-    <div className="relative min-h-[80vh] flex flex-col items-center justify-center overflow-hidden px-6 pt-32 pb-12">
+    <div className="relative min-h-[80vh] flex flex-col items-center justify-center overflow-hidden px-6 pt-[180px] md:pt-[240px] pb-12">
       <MetaTags 
         title="404 - Halaman Tidak Ditemukan | CHESTAADOTCOM" 
         description="Halaman yang Anda cari tidak dapat ditemukan. Silakan kembali ke beranda atau gunakan fitur pencarian."

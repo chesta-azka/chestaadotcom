@@ -77,7 +77,7 @@ function CaseCard({ study }: { study: typeof caseStudyDB[0] }) {
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
-      className="relative w-full h-[24rem] rounded-3xl overflow-hidden border border-slate-200/50 dark:border-white/10 bg-white/60 dark:bg-slate-900/60 backdrop-blur-3xl shadow-sm hover:shadow-xl dark:shadow-[0_8px_32px_rgba(0,0,0,0.4)] transition-shadow duration-300"
+      className="relative w-full h-[24rem] rounded-3xl overflow-hidden border border-slate-200/50 dark:border-white/10 bg-white/80 dark:bg-slate-900/60 backdrop-blur-3xl shadow-[0_20px_60px_-15px_rgba(0,0,0,0.05)] hover:shadow-[0_30px_80px_-20px_rgba(0,0,0,0.1)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.4)] transition-shadow duration-300"
     >
       {/* Base Content */}
       <div style={{ transform: "translateZ(30px)" }} className="absolute inset-0 p-8 flex flex-col justify-between pointer-events-none">
@@ -104,12 +104,12 @@ function CaseCard({ study }: { study: typeof caseStudyDB[0] }) {
         }}
         transition={{ type: "spring", stiffness: 200, damping: 25 }}
         style={{ transform: "translateZ(60px)" }}
-        className="absolute inset-0 bg-slate-900/95 dark:bg-slate-950/95 p-8 flex flex-col justify-center text-center backdrop-blur-xl pointer-events-auto"
+        className="absolute inset-0 bg-white/95 dark:bg-slate-950/95 p-8 flex flex-col justify-center text-center backdrop-blur-xl pointer-events-auto"
       >
         <div className="flex-1 flex flex-col justify-center items-center">
           <p className="text-xs uppercase tracking-widest font-semibold text-slate-400 mb-2">ROI Verified</p>
           <p className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-blue-400 font-bold text-4xl mb-4 tracking-tight">{study.impact}</p>
-          <p className="text-slate-300 font-medium leading-relaxed text-sm max-w-[95%] line-clamp-3">
+          <p className="text-slate-600 dark:text-slate-300 font-medium leading-relaxed text-sm max-w-[95%] line-clamp-3">
             {study.roi}
           </p>
         </div>
@@ -122,7 +122,7 @@ function CaseCard({ study }: { study: typeof caseStudyDB[0] }) {
           </Link>
           <button
             onClick={generatePDF}
-            className="w-full py-3 bg-white text-slate-900 rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-slate-200 transition-all hover:scale-[1.02] active:scale-95 shadow-xl"
+            className="w-full py-3 bg-slate-100 dark:bg-white text-slate-900 rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-slate-200 dark:hover:bg-slate-200 transition-all hover:scale-[1.02] active:scale-95 shadow-lg border border-slate-200 dark:border-none"
           >
             <Download className="w-4 h-4" />
             Download PDF Summary

@@ -84,7 +84,7 @@ export default function AboutMeSection() {
         <motion.div
           initial={{ opacity: 0, y: 15 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          viewport={{ once: true, margin: "0px 0px -300px 0px" }}
           className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-purple-50/90 border border-purple-200/90 shadow-2xs mb-3.5"
         >
           <Sparkles size={13} className="text-purple-600 animate-pulse" />
@@ -96,7 +96,7 @@ export default function AboutMeSection() {
         <motion.h2
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          viewport={{ once: true, margin: "0px 0px -300px 0px" }}
           transition={{ delay: 0.1 }}
           className="text-2xl sm:text-4xl md:text-5xl font-display font-bold tracking-tight text-slate-900"
         >
@@ -203,7 +203,7 @@ export default function AboutMeSection() {
                 key={idx}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
+                viewport={{ once: true, margin: "0px 0px -300px 0px" }}
                 transition={{ delay: 0.1 + idx * 0.1 }}
                 className="p-5 rounded-2xl bg-white/40 backdrop-blur-xl border border-white/60 shadow-xl shadow-purple-900/5 hover:border-purple-300 hover:bg-white/60 transition-all flex flex-col justify-between group"
               >

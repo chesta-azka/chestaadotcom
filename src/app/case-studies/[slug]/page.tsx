@@ -5,6 +5,10 @@ import { Home, ChevronRight, ArrowLeft, ArrowUpRight, Sparkles } from 'lucide-re
 import { caseStudyDB } from '../../../lib/caseStudies';
 import { notFound } from 'next/navigation';
 import SocialShare from '../../../components/molecules/SocialShare';
+import ArtPlaceholder from '../../../components/atoms/ArtPlaceholder';
+import ProjectTimeline from '../../../components/organisms/ProjectTimeline';
+import ROITrendChart from '../../../components/organisms/ROITrendChart';
+
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -46,9 +50,32 @@ export default async function CaseStudyPage({ params }: Props) {
 
   const relatedStudies = caseStudyDB.filter(s => s.id !== study.id).slice(0, 3);
 
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": ["Article", "TechArticle"],
+    "headline": `${study.client} - ${study.title} | B2B Case Study in BSD City, Cisauk`,
+    "description": study.desc,
+    "abstract": study.roi,
+    "keywords": ["B2B Software", "Tech Architecture", "BSD City", "Cisauk", "Case Study", study.client],
+    "author": {
+      "@type": "Organization",
+      "name": "CHESTAADOTCOM",
+      "url": "https://chestaa.com"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "CHESTAADOTCOM",
+      "url": "https://chestaa.com"
+    }
+  };
+
   return (
     <main className="relative min-h-screen flex flex-col items-center pb-20 overflow-hidden bg-slate-50 dark:bg-slate-950">
-      <div className="w-full max-w-4xl mx-auto px-4 pt-48 md:pt-56 mb-12">
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+      />
+      <div className="w-full max-w-4xl mx-auto px-4 pt-80 md:pt-96 mb-12">
         
         {/* Breadcrumb for detail page */}
         <nav className="flex items-center gap-2 mb-12 text-sm font-medium text-slate-500 dark:text-slate-400 animate-in fade-in slide-in-from-top-8 duration-700">
@@ -66,6 +93,8 @@ export default async function CaseStudyPage({ params }: Props) {
         <Link href="/case-studies" className="inline-flex items-center gap-2 text-blue-600 dark:text-blue-400 font-semibold mb-8 hover:opacity-80 transition-opacity animate-in fade-in slide-in-from-left-8 duration-700 delay-100 fill-mode-both">
           <ArrowLeft className="w-4 h-4" /> Back to all case studies
         </Link>
+
+        <ArtPlaceholder />
 
         <header className="animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-200 fill-mode-both">
           <div className="flex flex-wrap items-center gap-3 mb-4">
@@ -94,6 +123,7 @@ export default async function CaseStudyPage({ params }: Props) {
               bypassed legacy limitations. By harnessing global edge caching, React Server Components, and 
               advanced asset optimization, we delivered an enterprise-grade digital experience that directly translates to business impact.
             </p>
+            <ProjectTimeline />
           </div>
           <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-3xl rounded-3xl p-8 border border-slate-200 dark:border-slate-800 shadow-xl h-max">
             <h3 className="text-xs uppercase tracking-widest font-bold text-slate-400 mb-6">Key Metrics</h3>
@@ -105,6 +135,7 @@ export default async function CaseStudyPage({ params }: Props) {
               <p className="text-sm text-slate-500 dark:text-slate-400 font-medium mb-2">Verified ROI</p>
               <p className="text-slate-900 dark:text-white font-medium leading-snug">{study.roi}</p>
             </div>
+            <ROITrendChart />
           </div>
         </div>
 

@@ -66,7 +66,7 @@ const faqs = [
   };
 
   return (
-    <div className="min-h-screen bg-transparent text-slate-900 pt-48 pb-24 font-sans selection:bg-purple-100 selection:text-purple-900">
+    <div className="min-h-screen bg-transparent text-slate-900 pt-[180px] md:pt-[240px] pb-24 font-sans selection:bg-purple-100 selection:text-purple-900">
       <SEOProvider 
         title={pageTitle}
         description={pageDescription}

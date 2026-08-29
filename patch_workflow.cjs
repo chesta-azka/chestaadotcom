@@ -1,4 +1,6 @@
-import React, { useEffect, useRef } from 'react';
+const fs = require('fs');
+
+const code = `import React, { useEffect, useRef } from 'react';
 import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
 import { Cpu, ShieldCheck, Zap, LockKeyhole, ArrowRight, Activity, GitCommit, SearchCode, Sparkles } from 'lucide-react';
 import MetaTags from '../components/atoms/MetaTags';
@@ -128,14 +130,14 @@ export default function WorkflowPage() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "-150px" }}
                   transition={{ duration: 1, ease: [0.16, 1, 0.3, 1] }}
-                  className={`relative flex flex-col md:flex-row items-center gap-10 md:gap-16 ${isEven ? 'md:flex-row' : 'md:flex-row-reverse'}`}
+                  className={\`relative flex flex-col md:flex-row items-center gap-10 md:gap-16 \${isEven ? 'md:flex-row' : 'md:flex-row-reverse'}\`}
                 >
                   
                   {/* Timeline Node (Mobile Only) */}
                   <div className="absolute left-7 top-10 w-px h-full bg-slate-200 dark:bg-slate-800 md:hidden" />
 
                   {/* Content Container */}
-                  <div className={`flex-1 w-full ${isEven ? 'md:text-right' : 'md:text-left'}`}>
+                  <div className={\`flex-1 w-full \${isEven ? 'md:text-right' : 'md:text-left'}\`}>
                     <motion.div 
                       whileHover={{ x: isEven ? -10 : 10 }}
                       transition={{ type: "spring", stiffness: 300, damping: 20 }}
@@ -146,7 +148,7 @@ export default function WorkflowPage() {
                       <p className="text-slate-600 dark:text-slate-400 leading-relaxed text-lg mb-8 max-w-md ml-auto mr-auto md:ml-0 md:mr-0">
                         {phase.description}
                       </p>
-                      <ul className={`flex flex-col gap-4 ${isEven ? 'md:items-end' : 'md:items-start'}`}>
+                      <ul className={\`flex flex-col gap-4 \${isEven ? 'md:items-end' : 'md:items-start'}\`}>
                         {phase.features.map((feature, fIndex) => (
                           <motion.li 
                             key={fIndex} 
@@ -172,7 +174,7 @@ export default function WorkflowPage() {
                       whileTap={{ scale: 0.95 }}
                       className="w-16 h-16 md:w-20 md:h-20 bg-white dark:bg-slate-900 rounded-3xl shadow-[0_8px_30px_rgb(0,0,0,0.08)] dark:shadow-black/50 border border-slate-100 dark:border-slate-800 flex items-center justify-center relative overflow-hidden group cursor-pointer"
                     >
-                      <div className={`absolute inset-0 opacity-0 group-hover:opacity-10 bg-gradient-to-br ${phase.color} transition-opacity duration-300`} />
+                      <div className={\`absolute inset-0 opacity-0 group-hover:opacity-10 bg-gradient-to-br \${phase.color} transition-opacity duration-300\`} />
                       {phase.icon}
                     </motion.div>
                     <div className="mt-6 px-4 py-1.5 rounded-full bg-white dark:bg-slate-900 text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-widest border border-slate-200/80 dark:border-slate-800 shadow-sm shadow-slate-200/50 dark:shadow-none">
@@ -188,12 +190,12 @@ export default function WorkflowPage() {
                       className="relative group rounded-[2.5rem] overflow-hidden bg-white dark:bg-slate-900/60 border border-slate-200/60 dark:border-slate-800 shadow-[0_20px_60px_-15px_rgba(0,0,0,0.05)] dark:shadow-2xl dark:shadow-black/50 p-10 transition-all hover:shadow-[0_30px_80px_-20px_rgba(0,0,0,0.1)] hover:border-slate-300/80 dark:hover:border-slate-700"
                     >
                       {/* Interactive Gradient Mesh */}
-                      <div className={`absolute inset-0 opacity-[0.03] dark:opacity-10 bg-gradient-to-br ${phase.color} transition-opacity duration-700 group-hover:opacity-[0.08] dark:group-hover:opacity-20`} />
+                      <div className={\`absolute inset-0 opacity-[0.03] dark:opacity-10 bg-gradient-to-br \${phase.color} transition-opacity duration-700 group-hover:opacity-[0.08] dark:group-hover:opacity-20\`} />
                       
                       <div className="relative z-10 flex flex-col items-center justify-center h-full min-h-[240px]">
                         {/* Animated Abstract Art */}
                         <motion.div 
-                          className={`w-32 h-32 rounded-full bg-gradient-to-br ${phase.color} blur-[40px] opacity-20 dark:opacity-40`}
+                          className={\`w-32 h-32 rounded-full bg-gradient-to-br \${phase.color} blur-[40px] opacity-20 dark:opacity-40\`}
                           animate={{ 
                             scale: [1, 1.3, 1], 
                             opacity: [0.2, 0.4, 0.2],
@@ -243,3 +245,7 @@ export default function WorkflowPage() {
     </main>
   );
 }
+\`
+
+fs.writeFileSync('src/pages/WorkflowPage.tsx', code);
+console.log('Patched WorkflowPage');

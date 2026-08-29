@@ -237,7 +237,7 @@ export default function BlogHubPage() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -15 }}
             transition={{ duration: 0.4, ease: "easeOut" }}
-            className="mx-auto max-w-4xl px-6 pt-40 md:pt-48 pb-20 relative z-10 flex flex-col items-center"
+            className="mx-auto max-w-4xl px-6 pt-[180px] md:pt-[240px] pb-20 relative z-10 flex flex-col items-center"
           >
             <Breadcrumbs items={[{ label: 'Insight', path: '/blog' }, { label: activeArticle.title }]} />
             <MetaTags 
@@ -601,7 +601,7 @@ export default function BlogHubPage() {
             />
 
             {/* Header Hero Section */}
-            <section className="relative pt-40 md:pt-48 pb-16 border-b border-slate-100 mb-12 overflow-hidden">
+            <section className="relative pt-[180px] md:pt-[240px] pb-16 border-b border-slate-100 mb-12 overflow-hidden">
               <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-gradient-to-bl from-purple-500/10 via-purple-500/5 to-transparent blur-3xl rounded-full pointer-events-none" />
 
               <div className="mx-auto max-w-7xl px-6 w-full relative z-10">

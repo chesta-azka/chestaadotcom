@@ -98,7 +98,26 @@ service cloud.firestore {
       allow write: if isAdmin();
     }
     
-    match /blog_interactions/{docId} {
+    
+    match /chat_history/{docId} {
+      allow read, write: if true;
+    }
+    match /faqs/{docId} {
+      allow read, write: if true;
+    }
+    match /newsletter_subscribers/{docId} {
+      allow create: if true;
+      allow read, write: if isAdmin();
+    }
+    match /page_content/{docId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+    match /workspaces/{workspaceId}/kanban_tickets/{ticketId} {
+      allow read, write: if true;
+    }
+
+    match /blog_interactions/{document=**} {
       allow read, write: if true;
     }
   }

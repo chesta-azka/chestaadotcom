@@ -1,4 +1,6 @@
-import React from 'react';
+const fs = require('fs');
+
+const code = `import React from 'react';
 import { Metadata } from 'next';
 import { QuotationCalculator } from '../components/QuotationCalculator';
 import { ArchitecturalEfficiency } from '../components/ArchitecturalEfficiency';
@@ -73,3 +75,7 @@ export default function HomePage() {
     </main>
   );
 }
+`;
+
+fs.writeFileSync('src/app/page.tsx', code);
+console.log('Patched page.tsx');

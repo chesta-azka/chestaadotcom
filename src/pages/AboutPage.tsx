@@ -164,7 +164,7 @@ export default function AboutPage() {
       <div className="fixed top-20 right-10 w-[500px] h-[500px] bg-purple-600/5 rounded-full blur-[120px] pointer-events-none z-0" />
       <div className="fixed bottom-20 left-10 w-[450px] h-[450px] bg-purple-600/5 rounded-full blur-[100px] pointer-events-none z-0" />
       
-      <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-36 sm:pt-44 md:pt-52 pb-20">
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-[180px] md:pt-[240px] pb-20">
         
         {/* Hero Section Badge & Heading */}
         <motion.div 
@@ -199,7 +199,7 @@ export default function AboutPage() {
           <motion.div 
             initial={{ opacity: 0, y: 25 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            viewport={{ once: true, margin: "0px 0px -300px 0px" }}
             transition={{ duration: 0.7 }}
             className="lg:col-span-5 p-6 sm:p-8 rounded-3xl bg-white/90 backdrop-blur-xl border border-slate-200/90 shadow-xs flex flex-col justify-between"
           >
@@ -285,7 +285,7 @@ export default function AboutPage() {
             ref={manifestoRef}
             initial={{ opacity: 0, y: 25 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            viewport={{ once: true, margin: "0px 0px -300px 0px" }}
             transition={{ duration: 0.7, delay: 0.1 }}
             className="lg:col-span-7 p-6 sm:p-8 md:p-10 rounded-3xl bg-white/90 backdrop-blur-xl border border-slate-200/90 shadow-xs flex flex-col justify-between relative overflow-hidden"
           >
@@ -347,7 +347,7 @@ export default function AboutPage() {
                 key={idx}
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
+                viewport={{ once: true, margin: "0px 0px -300px 0px" }}
                 transition={{ duration: 0.6, delay: 0.1 + (idx * 0.08) }}
                 className="flex flex-col items-center justify-center p-5 sm:p-7 rounded-2xl sm:rounded-3xl bg-white/90 backdrop-blur-md border border-slate-200/90 shadow-2xs hover:border-purple-200 transition-all text-center"
               >
@@ -384,7 +384,7 @@ export default function AboutPage() {
                   key={idx}
                   initial={{ opacity: 0, y: 20 }}
                   whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
+                  viewport={{ once: true, margin: "0px 0px -300px 0px" }}
                   transition={{ duration: 0.6, delay: idx * 0.1 }}
                   className="group relative overflow-hidden rounded-2xl sm:rounded-3xl bg-white/90 backdrop-blur-xl border border-slate-200/90 p-6 sm:p-8 md:p-10 transition-all duration-300 hover:border-purple-300 hover:shadow-xs"
                 >
@@ -446,7 +446,7 @@ export default function AboutPage() {
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          viewport={{ once: true, margin: "0px 0px -300px 0px" }}
           transition={{ duration: 0.8 }}
           className="relative rounded-3xl overflow-hidden bg-slate-900 text-white p-8 sm:p-12 md:p-16 text-center shadow-xl max-w-5xl mx-auto"
         >

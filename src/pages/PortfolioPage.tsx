@@ -61,7 +61,7 @@ export default function PortfolioPage() {
       />
 
       {/* Cinematic Hero */}
-      <section className="relative min-h-[45vh] flex flex-col justify-end pt-48 pb-24 border-b border-slate-100 mb-20 overflow-hidden">
+      <section className="relative min-h-[45vh] flex flex-col justify-end pt-[180px] md:pt-[240px] pb-24 border-b border-slate-100 mb-20 overflow-hidden">
         <div className="absolute inset-0 bg-purple-50/50 rounded-full blur-[120px] pointer-events-none -z-10 mix-blend-multiply" />
         
         <div className="mx-auto max-w-7xl px-6 w-full relative z-10">

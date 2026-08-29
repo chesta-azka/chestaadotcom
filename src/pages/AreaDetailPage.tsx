@@ -67,7 +67,7 @@ export default function AreaDetailPage() {
   }
 
   return (
-    <div className="pt-48 pb-28 min-h-screen relative bg-transparent text-slate-900 overflow-hidden">
+    <div className="pt-[180px] md:pt-[240px] pb-28 min-h-screen relative bg-transparent text-slate-900 overflow-hidden">
       <MetaTags 
         title={`Jasa Pembuatan Website ${formattedCityName} Premium — CHESTAADOTCOM`} 
         description={`Arsitek digital 2026 pembuatan website profesional, cepat, SEO-ready, dan mobile-first untuk UMKM & brand lokal di ${formattedCityName} mulai Rp540K.`}
