@@ -39,23 +39,23 @@ interface AICapabilityItem {
 const AI_BENTO_CAPABILITIES: AICapabilityItem[] = [
   {
     id: "ai-sales",
-    title: "Autonomous Sales & WhatsApp Closer",
+    title: "Autonomous Sales & Live Chat Closer",
     category: "CUSTOMER ACQUISITION",
     badge: "24/7 Conversion",
-    description: "Bukan chatbot berbasis menu kaku. Agen AI memahami konteks psikologis prospek, menjawab tanya-jawab produk mendalam, dan memandu transaksi hingga booking jadwal di WhatsApp.",
+    description: "Bukan chatbot berbasis menu kaku. Agen AI memahami konteks psikologis prospek, menjawab tanya-jawab produk mendalam, dan memandu transaksi hingga booking jadwal di Live Chat.",
     icon: Bot,
     tagColor: "bg-purple-50 text-purple-800 border-purple-200",
     metrics: { label: "Response Speed", value: "< 1.2 Detik" },
     previewType: 'chat',
     liveDetails: {
       chatMessages: [
-        { role: 'user', text: 'Halo, saya butuh website e-commerce dengan sistem stok otomatis dan integrasi WhatsApp.', time: '09:41' },
-        { role: 'ai', text: 'Halo! Tentu, kami arsitekturi e-commerce full-stack dengan sinkronisasi inventori real-time dan notifikasi order otomatis ke WhatsApp Admin. Apakah Anda membutuhkan integrasi payment gateway BCA/Midtrans?', time: '09:41' },
+        { role: 'user', text: 'Halo, saya butuh website e-commerce dengan sistem stok otomatis dan integrasi Live Chat.', time: '09:41' },
+        { role: 'ai', text: 'Halo! Tentu, kami arsitekturi e-commerce full-stack dengan sinkronisasi inventori real-time dan notifikasi order otomatis ke Live Chat Admin. Apakah Anda membutuhkan integrasi payment gateway BCA/Midtrans?', time: '09:41' },
         { role: 'user', text: 'Iya, Midtrans dan QRIS instant.', time: '09:42' },
         { role: 'ai', text: 'Sempurna. Estimasi delivery 2-3 minggu dengan garansi performa 100%. Saya buatkan ringkasan proposal sekarang?', time: '09:42' }
       ]
     },
-    ctaText: "Konsultasi Agen Sales WhatsApp",
+    ctaText: "Konsultasi Agen Sales Live Chat",
     ctaLink: "https://wa.me/6282125447232?text=Halo%20CHESTAADOTCOM%2C%20saya%20tertarik%20membangun%20Autonomous%20Sales%20AI%20Agent."
   },
   {
@@ -84,7 +84,7 @@ const AI_BENTO_CAPABILITIES: AICapabilityItem[] = [
     title: "Omnichannel Pipeline & Webhook Sync",
     category: "SYSTEM INTEGRATION",
     badge: "Zero Manual Input",
-    description: "Sinkronisasi seketika antara landing page, CRM, Google Sheets, WhatsApp, dan database backend. Menghapus bottleneck input manual antar departemen.",
+    description: "Sinkronisasi seketika antara landing page, CRM, Google Sheets, Live Chat, dan database backend. Menghapus bottleneck input manual antar departemen.",
     icon: Workflow,
     tagColor: "bg-emerald-50 text-emerald-700 border-emerald-200",
     metrics: { label: "Throughput", value: "100K+ Req/Hari" },
@@ -309,7 +309,7 @@ export default function AISolutionsSection() {
                   <div className="flex items-center justify-between text-xs font-mono text-slate-500 pb-1">
                     <span className="flex items-center gap-1.5 font-medium">
                       <MessageSquare size={13} className="text-purple-600" />
-                      Live WhatsApp Agent Interaction
+                      Live Live Chat Agent Interaction
                     </span>
                     <span>Enkripsi 256-bit</span>
                   </div>

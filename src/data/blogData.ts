@@ -1,3 +1,8 @@
+import { vibeCodingMdx } from '../content/vibeCodingArticle';
+import { filosofiChestaMdx } from '../content/filosofiChestaArticle';
+import { panduanSeoMdx } from '../content/panduanSeoArticle';
+import { vibeCodingStatisticsMdx } from '../content/vibeCodingStatisticsArticle';
+
 export interface Article {
   slug: string;
   title: string;
@@ -10,6 +15,7 @@ export interface Article {
   recommended?: boolean;
   tags?: string[];
   content: (string | { type: 'image'; url: string; alt: string })[];
+  mdxContent?: string;
   image?: string;
   author?: {
     name: string;
@@ -20,7 +26,46 @@ export interface Article {
 
 export const ALL_ARTICLES: Article[] = [
   {
-    slug: 'filosofi-chesta-azka-programmer-estetika-mewah-harga-masuk-akal',
+    slug: 'vibe-coding-statistics',
+    title: 'Vibe Coding & AI-Driven Web Development Statistics 2026',
+    cat: 'DATA & INSIGHTS',
+    date: '31 AGU 2026',
+    readTime: '15 MIN READ',
+    readTimeMinutes: 15,
+    desc: 'Laporan eksekutif eksklusif yang membedah metrik adopsi Vibe Coding, performa Next.js SSR, dan efisiensi AI Lead Scoring di kalangan B2B BSD City.',
+    featured: true,
+    recommended: true,
+    tags: ['Vibe Coding', 'AI Automation', 'B2B Statistics', 'Next.js SSR', 'BSD City'],
+    author: {
+      name: 'Chesta Azka Sofyan',
+      role: 'Lead Digital Architect'
+    },
+    image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=1200&h=630',
+    content: [],
+    mdxContent: vibeCodingStatisticsMdx
+  },
+  {
+    slug: 'vibe-coding-and-ai-web-development-2026',
+    title: 'The Rise of Vibe Coding & AI-Driven Web Development in 2026',
+    cat: 'ENTERPRISE TECH',
+    date: '31 AGU 2026',
+    readTime: '12 MIN READ',
+    readTimeMinutes: 12,
+    desc: 'An incredibly deep, professional analysis into how Vibe Coding, Next.js Server-Side Rendering, Firebase NoSQL, and AI Lead Scoring are revolutionizing the B2B enterprise landscape in 2026.',
+    featured: true,
+    recommended: true,
+    tags: ['Vibe Coding', 'Next.js', 'Firebase', 'AI Lead Scoring', 'B2B Enterprise'],
+    author: {
+      name: 'Principal B2B Tech Copywriter',
+      role: 'Enterprise AI Strategist',
+      avatar: 'https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=256&auto=format&fit=crop'
+    },
+    image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=2000',
+    content: [],
+    mdxContent: vibeCodingMdx
+  },
+  {
+    slug: 'filosofi-chesta-azka-programmer-estetika-mewah-harga-masuk-akal', mdxContent: filosofiChestaMdx,
     title: 'Filosofi Chesta Azka: Mengapa Programmer Muda Harus Beda — Tampilan Mewah, Harga Masuk Akal',
     cat: 'PERSONAL',
     date: '27 AGU 2026',
@@ -41,19 +86,19 @@ export const ALL_ARTICLES: Article[] = [
       "Kalian pasti sering nemu dua tipe web developer di luar sana: yang pertama, jago ngoding backend tapi hasil tampilannya kaku banget kayak tahun 2005. Yang kedua, agency besar yang minta biaya puluhan hingga ratusan juta cuma buat landing page simpel.",
       "Gue, **Chesta Azka Sofyan**, mendirikan **CHESTAADOTCOM** karena muak dengan realita itu. Buat gue, UMKM, pengusaha muda di Cisauk, BSD, Tangerang, dan seluruh Indonesia berhak punya website dengan estetika visual setara brand mewah Silicon Valley tanpa harus bikin kantong jebol.",
       "### Prinsip Utama: Harga Ramah, Tampilan Ga Murahan",
-      "Banyak yang nanya ke gue di Instagram (@chestaadotcom) dan TikTok (@chesta_azka): *'Bang Chesta, kok bisa bikin web animatif, super smooth, dan clean kayak gini dengan harga mulai ratusan ribu (Rp540K)?'*",
+      "Banyak yang nanya ke gue di Instagram (@chestaadotcom) dan TikTok (@chesta_azka): *'Bang Chesta, kok bisa bikin web animatif, super smooth, dan clean kayak gini dengan harga mulai ratusan ribu (mulai Rp650K / promo Rp540K)?'*",
       "Jawabannya sederhana: **Bespoke Architecture + Zero Bloatware**. Gue ga pakai WordPress berat yang numpuk puluhan plugin berbayar dan bikin loading lelet. Gue racik sistemnya pakai modern stack (React, Tailwind CSS, ultra-fast CDN). Hasilnya? Website super kencang di bawah 1 detik, tipografi presisi, dan animasi berkelas tanpa biaya server mahal.",
       { type: 'image', url: 'https://images.unsplash.com/photo-1555099962-4199c345e5dd?q=80&w=1200&auto=format&fit=crop', alt: 'Chesta Coding Setup' },
       "## Personality & Visi Gue: Menghargai Tiap Pixel & Tiap Klien",
       "Gue percaya kerjaan programmer itu bukan cuma copy-paste kode dari StackOverflow atau ChatGPT. Ini soal **Craftsmanship** (kerajinan tangan digital). Setiap detail padding, pemilihan gradien warna biru elektrik & indigo, hingga interaksi tombol diatur dengan penuh perhitungan psikologis.",
       "Saat klien UMKM bilang, *'Mas Chesta, setelah webnya jadi, omset dan kepercayaan klien kami naik drastis karena dikira perusahaan besar,'* itu adalah kepuasan terbesar buat gue pribadi.",
       "### Yuk Connect Bareng Gue!",
-      "Mau ngobrol santai seputar programming, tech stack, atau konsultasi ide gila buat bisnismu? Langsung follow dan DM gue di:\n- **Instagram**: [@chestaadotcom](https://instagram.com/chestaadotcom)\n- **TikTok**: [@chesta_azka](https://tiktok.com/@chesta_azka)\n- **WhatsApp**: [+62 821-2544-7232](https://wa.me/6282125447232)",
+      "Mau ngobrol santai seputar programming, tech stack, atau konsultasi ide gila buat bisnismu? Langsung follow dan DM gue di:\n- **Instagram**: [@chestaadotcom](https://instagram.com/chestaadotcom)\n- **TikTok**: [@chesta_azka](https://tiktok.com/@chesta_azka)\n- **Live Chat**: [+62 821-2544-7232](https://wa.me/6282125447232)",
       "Mari kita buktikan bareng-bareng kalau bisnis lokal Indonesia bisa tampil lebih keren dari brand luar negeri!"
     ]
   },
   {
-    slug: 'panduan-seo-lokal-cisauk-bsd-ranking-1-google',
+    slug: 'panduan-seo-lokal-cisauk-bsd-ranking-1-google', mdxContent: panduanSeoMdx,
     title: 'Panduan Rahasia SEO Lokal Cisauk & BSD City: Cara Tembus Peringkat #1 Google',
     cat: 'SEO',
     date: '25 AGU 2026',
@@ -81,7 +126,7 @@ export const ALL_ARTICLES: Article[] = [
       "### 3. Kecepatan Loading di Bawah 1 Detik (Core Web Vitals)",
       "Google secara resmi memprioritaskan website yang lulus uji LCP (Largest Contentful Paint) dan INP (Interaction to Next Paint). Website yang enteng dan responsif di smartphone pengguna 4G/5G lokal akan langsung dilempar Google ke peringkat atas.",
       "## Butuh Bantuan Ranking #1 di Cisauk & BSD?",
-      "Saya siap bantu audit gratis website atau bisnis Anda. Konsultasikan langsung via WhatsApp atau kunjungi profil saya di Instagram [@chestaadotcom](https://instagram.com/chestaadotcom) dan TikTok [@chesta_azka](https://tiktok.com/@chesta_azka)."
+      "Saya siap bantu audit gratis website atau bisnis Anda. Konsultasikan langsung via Live Chat atau kunjungi profil saya di Instagram [@chestaadotcom](https://instagram.com/chestaadotcom) dan TikTok [@chesta_azka](https://tiktok.com/@chesta_azka)."
     ]
   },
   {
@@ -117,16 +162,16 @@ export const ALL_ARTICLES: Article[] = [
     ]
   },
   {
-    slug: 'solusi-otomasi-agentic-ai-sales-whatsapp-2026',
-    title: 'Otomasi WhatsApp Bisnis dengan Agentic AI: CS 24 Jam yang Pintar Jualan',
+    slug: 'solusi-otomasi-agentic-ai-sales-live chat-2026',
+    title: 'Otomasi Live Chat Bisnis dengan Agentic AI: CS 24 Jam yang Pintar Jualan',
     cat: 'AI',
     date: '19 AGU 2026',
     readTime: '5 MIN READ',
     readTimeMinutes: 5,
-    desc: 'Tinggalkan chatbot kaku yang cuma bisa balas opsi angka. Pelajari bagaimana sistem Agentic AI mampu melayani pelanggan, menghitung harga kustom, dan closing order secara otomatis di WhatsApp.',
+    desc: 'Tinggalkan chatbot kaku yang cuma bisa balas opsi angka. Pelajari bagaimana sistem Agentic AI mampu melayani pelanggan, menghitung harga kustom, dan closing order secara otomatis di Live Chat.',
     featured: false,
     recommended: true,
-    tags: ['Agentic AI', 'WhatsApp Automation', 'Sales AI', 'Business Growth'],
+    tags: ['Agentic AI', 'Live Chat Automation', 'Sales AI', 'Business Growth'],
     author: {
       name: 'Chesta Azka Sofyan',
       role: 'Founder & Lead Digital Architect'
@@ -139,7 +184,7 @@ export const ALL_ARTICLES: Article[] = [
       { type: 'image', url: 'https://images.unsplash.com/photo-1551836022-d5d88e9218df?q=80&w=1200&auto=format&fit=crop', alt: 'AI Workflow Integration' },
       "## Kemampuan Nyata Agentic AI untuk Bisnis Anda",
       "1. **Memahami Konteks Bahasa Gaul & Typo**: Calon pelanggan nanya *'Bro, klo bkin web landing page buat barbershop brp ya?'*, AI langsung menjawab santun, lugas, dan menjelaskan pilihan paket sesuai database bisnis Anda.\n2. **Kalkulasi Biaya & Kirim PDF Instan**: Mampu mengalkulasikan estimasi harga secara dinamis dan mengirimkan invoice/proposal.\n3. **Follow-Up Otomatis**: Menghubungi kembali prospek yang belum sempat menyelesaikan pembayaran tanpa terkesan spamming.",
-      "## Siap Mengintegrasikan AI ke Website & WhatsApp Anda?",
+      "## Siap Mengintegrasikan AI ke Website & Live Chat Anda?",
       "CHESTAADOTCOM menyediakan integrasi lengkap mulai dari website berkecepatan tinggi hingga AI assistant cerdas untuk menunjang penjualan bisnis Anda 24 jam nonstop. Cek tutorial & update terbarunya di Instagram [@chestaadotcom](https://instagram.com/chestaadotcom) dan TikTok [@chesta_azka](https://tiktok.com/@chesta_azka)!"
     ]
   },
@@ -150,10 +195,10 @@ export const ALL_ARTICLES: Article[] = [
     date: '10 JUN 2026',
     readTime: '6 MIN READ',
     readTimeMinutes: 6,
-    desc: 'Bukan sekadar chatbot biasa. Agentic AI dapat memproses pesanan, menjawab pertanyaan teknis pelanggan 24/7, hingga sinkronisasi data WhatsApp secara otomatis.',
+    desc: 'Bukan sekadar chatbot biasa. Agentic AI dapat memproses pesanan, menjawab pertanyaan teknis pelanggan 24/7, hingga sinkronisasi data Live Chat secara otomatis.',
     featured: true,
     recommended: true,
-    tags: ['AI', 'Agentic AI', 'WhatsApp Bot', 'Automation', 'UMKM'],
+    tags: ['AI', 'Agentic AI', 'Live Chat Bot', 'Automation', 'UMKM'],
     author: {
       name: 'Chesta Azka Sofyan',
       role: 'Lead Digital Architect'
@@ -163,7 +208,7 @@ export const ALL_ARTICLES: Article[] = [
       "## Evolusi Otomasi: Dari Chatbot Kaku Menuju Autonomous Agent",
       "Di tahun 2026, era chatbot 'kaku' berbasis opsi tombol telah resmi berakhir. Masuklah era Agentic AI — sistem kecerdasan buatan otonom yang tidak hanya menjawab teks, tetapi mampu berpikir secara kontekstual, mengeksekusi aksi nyata, dan menutup penjualan.",
       "### Menuntaskan Masalah Klasik Kecepatan Respon UMKM",
-      "Bagi pemilik bisnis lokal dan UMKM, tantangan terbesar selalu berada di fase follow-up prospek. Respon lambat lebih dari 5 menit di WhatsApp dapat menurunkan peluang konversi hingga 80%. Agentic AI mengatasi masalah ini secara instan dengan merespons calon pelanggan dalam hitungan detik dengan nada bicara yang natural dan sopan.",
+      "Bagi pemilik bisnis lokal dan UMKM, tantangan terbesar selalu berada di fase follow-up prospek. Respon lambat lebih dari 5 menit di Live Chat dapat menurunkan peluang konversi hingga 80%. Agentic AI mengatasi masalah ini secara instan dengan merespons calon pelanggan dalam hitungan detik dengan nada bicara yang natural dan sopan.",
       { type: 'image', url: 'https://images.unsplash.com/photo-1551836022-d5d88e9218df?q=80&w=1200&auto=format&fit=crop', alt: 'AI Workflow Integration' },
       "## Arsitektur Sistem Agentic AI di CHESTAADOTCOM",
       "Sistem Agentic AI yang kami rancang di CHESTAADOTCOM terhubung langsung dengan basis data inventaris, sistem booking, dan kalkulator harga kustom Anda. Saat ada pelanggan bertanya 'Berapa biaya pembuatan website untuk klinik dokter dan apakah bisa bayar bertahap?', agen AI mampu mengalkulasikan estimasi, mengirimkan proposal PDF, dan menjadwalkan sesi konsultasi tanpa perlu intervensi manual.",
@@ -223,7 +268,7 @@ export const ALL_ARTICLES: Article[] = [
     content: [
       "## Visi dan Misi Membangun Ekosistem Digital Berdaya Saing",
       "Selamat datang di CHESTAADOTCOM. Saya Chesta Azka Sofyan, sosok di balik layar yang merancang pengalaman UI/UX sinematik dan arsitektur kode di setiap baris proyek yang kami kerjakan.",
-      "Visi di balik CHESTAADOTCOM sangat sederhana namun fundamental: Saya, Chesta Azka Sofyan, ingin menjembatani para pemilik UMKM, kreator, dan entitas profesional dengan standar teknologi tingkat dunia. Seringkali, pembuatan website kelas korporat membutuhkan biaya puluhan juta. Kami hadir untuk mendisrupsi itu—menyediakan produk super premium dengan aksesibilitas harga yang wajar (mulai dari Rp540K).",
+      "Visi di balik CHESTAADOTCOM sangat sederhana namun fundamental: Saya, Chesta Azka Sofyan, ingin menjembatani para pemilik UMKM, kreator, dan entitas profesional dengan standar teknologi tingkat dunia. Seringkali, pembuatan website kelas korporat membutuhkan biaya puluhan juta. Kami hadir untuk mendisrupsi itu—menyediakan produk super premium dengan aksesibilitas harga yang wajar (mulai dari Rp650K dengan promo khusus Rp540K).",
       { type: 'image', url: 'https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=1200&auto=format&fit=crop', alt: 'Business Meeting' },
       "## Filosofi Digital Craftsmanship",
       "Nama CHESTAADOTCOM dibangun atas semangat kerajinan digital (digital craftsmanship). Menggunakan ekosistem web modern (seperti Next.js dan Framer Motion), kami memastikan setiap desain yang diluncurkan tidak hanya cantik di permukaan, namun juga kokoh secara infrastruktur.",

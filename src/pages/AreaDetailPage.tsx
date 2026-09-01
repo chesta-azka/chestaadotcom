@@ -67,15 +67,15 @@ export default function AreaDetailPage() {
   }
 
   return (
-    <div className="pt-[180px] md:pt-[240px] pb-28 min-h-screen relative bg-transparent text-slate-900 overflow-hidden">
+    <div className="pt-40 md:pt-48 pb-28 min-h-screen relative bg-transparent text-slate-900 overflow-hidden">
       <MetaTags 
         title={`Jasa Pembuatan Website ${formattedCityName} Premium — CHESTAADOTCOM`} 
-        description={`Arsitek digital 2026 pembuatan website profesional, cepat, SEO-ready, dan mobile-first untuk UMKM & brand lokal di ${formattedCityName} mulai Rp540K.`}
+        description={`Arsitek digital 2026 pembuatan website profesional, cepat, SEO-ready, dan mobile-first untuk UMKM & brand lokal di ${formattedCityName} mulai Rp650K (Promo Rp540K).`}
         path={`/area/${cityName.toLowerCase()}`}
       />
 
       {/* Hero Section */}
-      <section className="relative pt-16 pb-12 mb-12">
+      <section className="relative pb-12 mb-12">
         <div className="absolute top-0 inset-x-0 h-[400px] bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-[#6b21a8]/4 via-transparent to-transparent -z-10 pointer-events-none" />
 
         <div className="max-w-5xl mx-auto px-6">
@@ -112,15 +112,17 @@ export default function AreaDetailPage() {
 
             <div className="pt-2 flex flex-col sm:flex-row gap-3 justify-center md:justify-start">
               <a
-                href="#consultation-box"
-                className="flex items-center justify-center gap-2 rounded-full bg-[#6b21a8] text-black px-6 py-3.5 font-mono text-[10px] font-bold uppercase tracking-wider hover:bg-[#c2e600] active:scale-95 transition-all cursor-pointer shadow-lg shadow-[#6b21a8]/5"
+                href={`https://wa.me/6282125447232?text=${encodeURIComponent(`Halo Mas Chesta, saya ingin konsultasi pembuatan website untuk bisnis saya di wilayah ${formattedCityName}.`)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-2 rounded-full bg-purple-600 text-white px-6 py-3.5 font-mono text-[10px] font-bold uppercase tracking-wider hover:bg-purple-700 active:scale-95 transition-all cursor-pointer shadow-lg shadow-purple-600/10"
               >
-                <span>Mulai Konsultasi Gratis</span>
-                <ArrowRight size={12} className="stroke-[2.5px]" />
+                <MessageCircle size={14} />
+                <span>Chat with us on WhatsApp</span>
               </a>
               <Link
                 to="/services"
-                className="flex items-center justify-center gap-2 rounded-full bg-slate-100 border border-slate-200 text-slate-900 px-6 py-3.5 font-mono text-[10px] font-bold uppercase tracking-wider hover:bg-slate-200 transition-all"
+                className="flex items-center justify-center gap-2 rounded-full bg-white border border-purple-200 text-slate-900 px-6 py-3.5 font-mono text-[10px] font-bold uppercase tracking-wider hover:bg-purple-50 transition-all shadow-2xs"
               >
                 <span>Semua Layanan</span>
                 <ArrowUpRight size={12} />
@@ -224,7 +226,7 @@ export default function AreaDetailPage() {
                   <CheckCircle size={11} strokeWidth={2.5} />
                 </span>
                 <div>
-                  <h4 className="text-[11px] font-mono font-bold uppercase tracking-wider text-slate-900">Direct WhatsApp Funnel</h4>
+                  <h4 className="text-[11px] font-mono font-bold uppercase tracking-wider text-slate-900">Direct Live Chat Funnel</h4>
                   <p className="text-[11px] text-slate-500 font-sans mt-0.5">Menghubungkan pengunjung ke tim admin Anda tanpa friksi formulir pengisian data.</p>
                 </div>
               </div>
@@ -258,7 +260,7 @@ export default function AreaDetailPage() {
               </div>
 
               <div className="pt-3 border-t border-slate-100 flex items-center justify-between">
-                <span className="font-mono text-[11px] text-slate-700">Mulai Rp540K</span>
+                <span className="font-mono text-[11px] text-slate-700">Mulai Rp650K <span className="text-[10px] text-purple-600 font-semibold">(Promo Rp540K)</span></span>
                 <Link
                   to={`/layanan/${service.slug}`}
                   className="flex items-center gap-1 font-mono text-[9px] uppercase text-[#6b21a8] font-bold group hover:translate-x-0.5 transition-transform"
@@ -274,32 +276,32 @@ export default function AreaDetailPage() {
 
       {/* Premium WhatsApp Consultation Card */}
       <section className="max-w-3xl mx-auto px-6 mb-20" id="consultation-box">
-        <div className="p-6 sm:p-8 rounded-2xl bg-[#090D18]/90 border border-[#6b21a8]/15 relative overflow-hidden text-center shadow-[0_12px_45px_rgba(0,0,0,0.4)] backdrop-blur-sm">
-          <div className="absolute top-0 right-0 w-24 h-24 bg-[#6b21a8]/2 rounded-full blur-2xl pointer-events-none" />
+        <div className="p-8 sm:p-10 rounded-3xl bg-gradient-to-br from-purple-50 via-white to-purple-100/50 border border-purple-200 relative overflow-hidden text-center shadow-xl">
+          <div className="absolute top-0 right-0 w-32 h-32 bg-purple-200/30 rounded-full blur-2xl pointer-events-none" />
           
           <div className="mb-6 space-y-2">
-            <span className="text-[#6b21a8] font-mono text-[8px] uppercase tracking-[0.2em] inline-flex items-center gap-1 bg-slate-100 px-3 py-1 rounded-full border border-slate-200">
-              <Sparkles size={9} className="text-[#6b21a8]" />
+            <span className="text-purple-700 font-mono text-[9px] uppercase tracking-[0.2em] inline-flex items-center gap-1.5 bg-purple-100/70 px-3.5 py-1.5 rounded-full border border-purple-200">
+              <Sparkles size={11} className="text-purple-600" />
               Inisiasi Bisnis Anda di {formattedCityName}
             </span>
-            <h3 className="text-2xl font-display font-medium text-slate-900 tracking-tight">Klaim Hubungan Konsultasi Terbaik.</h3>
-            <p className="text-xs text-slate-600 font-sans max-w-md mx-auto leading-relaxed">
-              Diskusikan rancangan arsitektur web rintisan usaha Anda dengan desainer utama kami secara lugas, transparan, dan bebas perantara.
+            <h3 className="text-2xl sm:text-3xl font-display font-bold text-slate-900 tracking-tight">Klaim Konsultasi Langsung.</h3>
+            <p className="text-xs sm:text-sm text-slate-600 font-sans max-w-md mx-auto leading-relaxed">
+              Diskusikan rancangan arsitektur web rintisan usaha Anda dengan desainer utama kami secara lugas, transparan, dan bebas perantara via WhatsApp.
             </p>
           </div>
 
-          <button
-            onClick={() => {
-              const text = `Halo Mas Chesta! Saya mau konsultasi pembuatan website untuk rintisan usaha saya di area ${formattedCityName}. Boleh discuss rancangan visual & penawaran paketnya secara santai?`;
-              window.open(`https://wa.me/6282125447232?text=${encodeURIComponent(text)}`, '_blank');
-            }}
-            className="inline-flex items-center justify-center gap-2 rounded-full bg-[#6b21a8] text-black px-7 py-3.5 font-sans font-bold text-xs uppercase tracking-widest hover:bg-[#c2e600] active:scale-95 transition-all cursor-pointer shadow-lg shadow-[#6b21a8]/10 w-full sm:w-auto"
+          <a
+            href={`https://wa.me/6282125447232?text=${encodeURIComponent(`Halo Mas Chesta! Saya mau konsultasi pembuatan website untuk rintisan usaha saya di area ${formattedCityName}. Boleh discuss rancangan visual & penawaran paketnya secara santai?`)}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="inline-flex items-center justify-center gap-2 rounded-full bg-purple-600 text-white px-8 py-4 font-sans font-bold text-xs uppercase tracking-widest hover:bg-purple-700 active:scale-95 transition-all cursor-pointer shadow-lg shadow-purple-600/20 w-full sm:w-auto"
           >
-            <span>Konsultasi via WhatsApp 🟢</span>
-          </button>
+            <MessageCircle size={16} />
+            <span>Chat with us on WhatsApp</span>
+          </a>
 
-          <p className="text-center font-mono text-[8px] text-slate-500 mt-4 leading-normal">
-            *Konsultasi awal gratis 100%. Diskusi langsung dengan desainer utama CHESTAADOTCOM.
+          <p className="text-center font-mono text-[9px] text-slate-500 mt-4 leading-normal">
+            *Konsultasi awal gratis 100%. Diskusi langsung dengan Chesta Azka Sofyan (Lead Architect).
           </p>
         </div>
       </section>

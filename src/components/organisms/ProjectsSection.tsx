@@ -166,15 +166,15 @@ export default function ProjectsSection() {
         >
           <p className="text-slate-600 font-sans mb-8">Punya ide proyek impian?</p>
           <motion.a 
-            href="https://wa.me/6282125447232?text=Halo%20chestaadotcom%2C%20saya%20melihat%20portfolio%20Anda%20dan%20tertarik%20membuat%20website%20UMKM%20premium%21" 
+            href={`https://wa.me/6282125447232?text=${encodeURIComponent('Halo Mas Chesta, saya tertarik memulai proyek pembuatan website bersama CHESTAADOTCOM.')}`}
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-block px-8 py-4 bg-[#6b21a8] text-white font-bold rounded-full hover:bg-white transition-all duration-300 text-lg shadow-lg cursor-pointer"
+            className="inline-flex items-center gap-2 px-8 py-4 bg-purple-600 hover:bg-purple-700 text-white font-bold rounded-full transition-all duration-300 text-base sm:text-lg shadow-lg shadow-purple-600/20 cursor-pointer"
             whileHover={{ scale: 1.05, y: -2 }}
             whileTap={{ scale: 0.95 }}
             transition={{ type: "spring", stiffness: 400, damping: 17 }}
           >
-            Mulai Proyek Kamu Sekarang
+            <span>Chat with us on WhatsApp</span>
           </motion.a>
         </motion.div>
       </div>

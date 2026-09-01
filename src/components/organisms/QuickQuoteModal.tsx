@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { X, MessageSquare, ChevronRight } from 'lucide-react';
-import { logAnalyticsEvent } from '../../lib/firebase';
+import { X, MessageCircle, ArrowRight } from 'lucide-react';
 
 interface QuickQuoteModalProps {
   isOpen: boolean;
@@ -12,14 +11,14 @@ interface QuickQuoteModalProps {
 export default function QuickQuoteModal({ isOpen, onClose, serviceInterest = '' }: QuickQuoteModalProps) {
   const [formData, setFormData] = useState({
     name: '',
-    contact: '',
-    interest: serviceInterest
+    notes: '',
+    interest: serviceInterest || 'Pembuatan Website'
   });
 
   useEffect(() => {
     if (isOpen) {
       document.body.style.overflow = 'hidden';
-      setFormData(prev => ({ ...prev, interest: serviceInterest }));
+      setFormData(prev => ({ ...prev, interest: serviceInterest || 'Pembuatan Website' }));
     } else {
       document.body.style.overflow = 'unset';
     }
@@ -28,10 +27,8 @@ export default function QuickQuoteModal({ isOpen, onClose, serviceInterest = '' 
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    logAnalyticsEvent('quick_quote_submit', { service_interest: formData.interest });
-    
-    const message = `Halo CHESTAADOTCOM, saya tertarik untuk cepat diskusi mengenai:%0A%0A*Layanan:* ${formData.interest}%0A*Nama:* ${formData.name}%0A*Kontak:* ${formData.contact}`;
-    window.open(`https://wa.me/6282125447232?text=${message}`, '_blank');
+    const text = `Halo Mas Chesta! Saya ingin konsultasi singkat:%0A%0A• *Layanan:* ${encodeURIComponent(formData.interest)}${formData.name ? `%0A• *Nama:* ${encodeURIComponent(formData.name)}` : ''}${formData.notes ? `%0A• *Catatan:* ${encodeURIComponent(formData.notes)}` : ''}%0A%0AMohon informasi ketersediaan & jadwal diskusinya. Terima kasih!`;
+    window.open(`https://wa.me/6282125447232?text=${text}`, '_blank');
     onClose();
   };
 
@@ -44,70 +41,71 @@ export default function QuickQuoteModal({ isOpen, onClose, serviceInterest = '' 
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="fixed inset-0 bg-slate-900/40 backdrop-blur-sm z-[100]"
+            className="fixed inset-0 bg-slate-900/30 backdrop-blur-xs z-[100]"
           />
           <motion.div
-            initial={{ opacity: 0, y: 100, scale: 0.95 }}
+            initial={{ opacity: 0, y: 30, scale: 0.96 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 100, scale: 0.95 }}
-            transition={{ type: "spring", bounce: 0, duration: 0.4 }}
-            className="fixed bottom-0 sm:bottom-auto sm:top-1/2 left-1/2 -translate-x-1/2 sm:-translate-y-1/2 w-full sm:w-[480px] bg-white/10 backdrop-blur-2xl rounded-t-3xl sm:rounded-3xl shadow-[0_20px_60px_-15px_rgba(0,0,0,0.2)] z-[101] overflow-hidden border border-white/30 ring-1 ring-white/20"
+            exit={{ opacity: 0, y: 30, scale: 0.96 }}
+            transition={{ duration: 0.2, ease: "easeOut" }}
+            className="fixed bottom-0 sm:bottom-auto sm:top-1/2 left-1/2 -translate-x-1/2 sm:-translate-y-1/2 w-full sm:w-[440px] bg-white rounded-t-3xl sm:rounded-3xl shadow-2xl shadow-purple-950/10 z-[101] overflow-hidden border border-purple-100 font-sans"
           >
-            <div className="bg-slate-50 p-6 border-b border-slate-100 flex items-center justify-between">
+            <div className="bg-purple-50/40 p-5 border-b border-purple-100 flex items-center justify-between">
               <div>
-                <h3 className="font-display font-medium text-slate-900 text-xl">Quick Quote</h3>
-                <p className="text-slate-500 text-sm font-sans mt-1">Dapatkan estimasi biaya dalam 15 menit.</p>
+                <h3 className="font-display font-semibold text-slate-900 text-base">Konsultasi Cepat</h3>
+                <p className="text-slate-500 text-xs font-sans mt-0.5">Respon langsung 1-on-1 via WhatsApp.</p>
               </div>
-              <button onClick={onClose} className="p-2 bg-white/20 backdrop-blur-md rounded-full border border-white/30 text-slate-500 hover:text-slate-900 transition-colors">
+              <button
+                onClick={onClose}
+                className="p-1.5 rounded-full text-slate-400 hover:text-slate-700 hover:bg-purple-100/50 transition-colors"
+                title="Tutup"
+              >
                 <X size={18} />
               </button>
             </div>
 
-            <form onSubmit={handleSubmit} className="p-6 space-y-5">
-              <div className="space-y-1.5">
-                <label className="text-[10px] font-bold font-mono tracking-widest text-slate-500 uppercase">Ketertarikan Layanan</label>
+            <form onSubmit={handleSubmit} className="p-6 space-y-4">
+              <div className="space-y-1">
+                <label className="text-xs font-semibold text-slate-600">Layanan yang Diminati</label>
                 <input 
                   type="text" 
                   value={formData.interest}
                   onChange={(e) => setFormData({...formData, interest: e.target.value})}
-                  className="w-full px-4 py-3 rounded-xl border border-white/30 bg-white/10 backdrop-blur-md shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-600/20 focus:border-purple-600 transition-colors text-slate-800"
-                  placeholder="Misal: Web Development / AI Agentic"
+                  className="w-full px-4 py-2.5 rounded-2xl border border-slate-200 bg-purple-50/20 focus:bg-white text-slate-900 text-xs sm:text-sm focus:border-purple-600 focus:outline-none transition-all"
+                  placeholder="Misal: Paket Promo UMKM Rp540K"
                 />
               </div>
 
-              <div className="space-y-1.5">
-                <label className="text-[10px] font-bold font-mono tracking-widest text-slate-500 uppercase">Nama Anda</label>
+              <div className="space-y-1">
+                <label className="text-xs font-semibold text-slate-600">Nama Anda (Opsional)</label>
                 <input 
-                  required
                   type="text" 
                   value={formData.name}
                   onChange={(e) => setFormData({...formData, name: e.target.value})}
-                  className="w-full px-4 py-3 rounded-xl border border-white/30 bg-white/10 backdrop-blur-md shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-600/20 focus:border-purple-600 transition-colors text-slate-800"
-                  placeholder="John Doe"
+                  className="w-full px-4 py-2.5 rounded-2xl border border-slate-200 bg-purple-50/20 focus:bg-white text-slate-900 text-xs sm:text-sm focus:border-purple-600 focus:outline-none transition-all"
+                  placeholder="Nama atau brand Anda"
                 />
               </div>
 
-              <div className="space-y-1.5">
-                <label className="text-[10px] font-bold font-mono tracking-widest text-slate-500 uppercase">Email / WhatsApp</label>
-                <input 
-                  required
-                  type="text" 
-                  value={formData.contact}
-                  onChange={(e) => setFormData({...formData, contact: e.target.value})}
-                  className="w-full px-4 py-3 rounded-xl border border-white/30 bg-white/10 backdrop-blur-md shadow-sm focus:outline-none focus:ring-2 focus:ring-purple-600/20 focus:border-purple-600 transition-colors text-slate-800"
-                  placeholder="0812... / john@company.com"
+              <div className="space-y-1">
+                <label className="text-xs font-semibold text-slate-600">Catatan Singkat</label>
+                <textarea 
+                  rows={2}
+                  value={formData.notes}
+                  onChange={(e) => setFormData({...formData, notes: e.target.value})}
+                  className="w-full px-4 py-2.5 rounded-2xl border border-slate-200 bg-purple-50/20 focus:bg-white text-slate-900 text-xs sm:text-sm focus:border-purple-600 focus:outline-none transition-all resize-none"
+                  placeholder="Ceritakan gambaran singkat kebutuhan Anda..."
                 />
               </div>
 
               <div className="pt-2">
                 <button
                   type="submit"
-                  disabled={!formData.name || !formData.contact}
-                  className="w-full flex items-center justify-center gap-2 px-6 py-4 rounded-xl bg-purple-600 text-white font-mono text-xs font-bold uppercase tracking-widest hover:bg-purple-700 transition-colors disabled:opacity-50 disabled:cursor-not-allowed group shadow-lg shadow-purple-600/20"
+                  className="w-full flex items-center justify-center gap-2 px-6 py-3.5 rounded-2xl bg-purple-900 text-white font-sans text-xs sm:text-sm font-semibold hover:bg-purple-800 transition-colors shadow-sm cursor-pointer"
                 >
-                  <MessageSquare size={16} />
-                  Kirim via WhatsApp
-                  <ChevronRight size={16} className="group-hover:translate-x-1 transition-transform" />
+                  <MessageCircle size={16} />
+                  <span>Buka WhatsApp Sekarang</span>
+                  <ArrowRight size={15} />
                 </button>
               </div>
             </form>

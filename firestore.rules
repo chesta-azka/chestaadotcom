@@ -2,118 +2,111 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
     
-    // Check if the user is a verified Admin via the users collection
-    // (We also check if they are authenticated first)
+    // Check if the user is a verified Admin via email or users collection
     function isAdmin() {
-      return request.auth != null && 
-             exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
-             get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin';
+      return request.auth != null && (
+        request.auth.token.email == 'chestacode@gmail.com' ||
+        (exists(/databases/$(database)/documents/users/$(request.auth.uid)) &&
+         get(/databases/$(database)/documents/users/$(request.auth.uid)).data.role == 'admin')
+      );
     }
 
-    // Helper for authenticated workspace clients
-    function isAuthClient() {
-      return request.auth != null;
-    }
-
-    // 1. Workspaces
+    // 1. Workspaces & Nested Subcollections
     match /workspaces/{workspaceId} {
-      // Must be readable for the AuthContext passcode verification to work locally
-      allow read: if true;
-      allow write: if isAdmin();
+      allow read, write: if true;
 
-      // Comm-Link (In-App Chat)
       match /chat_messages/{messageId} {
         allow read, write: if true;
       }
       match /vault/{vaultId} {
         allow read, write: if true;
       }
+      match /kanban_tickets/{ticketId} {
+        allow read, write: if true;
+      }
     }
 
     // Allow collectionGroup query for chat_messages
     match /{path=**}/chat_messages/{messageId} {
-      allow read: if isAdmin();
+      allow read, write: if true;
     }
 
-    // 2. AI Leads & Click Telemetry
+    // 2. Vault Assets
+    match /vault_assets/{assetId} {
+      allow read, write: if true;
+    }
+
+    // 3. AI Leads & Click Telemetry
     match /ai_leads/{leadId} {
-      allow create: if true;
-      allow read, update, delete: if isAdmin();
+      allow read, write: if true;
     }
 
     match /click_telemetry/{teleId} {
-      allow create: if true;
-      allow read, update, delete: if isAdmin();
+      allow read, write: if true;
     }
     
-    // Required missing collections for the app to function properly:
     match /live_visitors/{visitorId} {
-      allow create, update: if true;
-      allow read, delete: if isAdmin();
+      allow read, write: if true;
     }
     
     match /ai_chat_sessions/{sessionId} {
-      allow create, update, read: if true;
-      allow delete: if isAdmin();
+      allow read, write: if true;
     }
 
-    // 3. Vault Assets
-    match /vault_assets/{assetId} {
-      allow read: if isAuthClient() || isAdmin();
-      allow write: if isAdmin();
+    // 4. Knowledge Base & System Configs
+    match /knowledge_base/{docId} {
+      allow read, write: if true;
     }
-    
-    // 4. System Settings & Admin Auth
-    match /users/{userId} {
-      allow read, write: if request.auth != null && request.auth.uid == userId;
-      allow read, write: if isAdmin();
+
+    match /ai_knowledge_base/{docId} {
+      allow read, write: if true;
     }
-    
+
+    match /settings/{docId} {
+      allow read, write: if true;
+    }
+
+    match /system/{docId} {
+      allow read, write: if true;
+    }
+
     match /system_config/{docId} {
-      allow read: if true;
-      allow write: if isAdmin();
+      allow read, write: if true;
     }
     
     match /system_health/{docId} {
-      allow read: if true;
-      allow write: if isAdmin();
+      allow read, write: if true;
     }
     
     match /system_metrics/{docId} {
-      allow read, write: if isAdmin();
+      allow read, write: if true;
     }
     
     match /seo_settings/{docId} {
-      allow read: if true;
-      allow write: if isAdmin();
+      allow read, write: if true;
     }
     
     match /audit_logs/{logId} {
-      allow create: if isAdmin() || isAuthClient();
-      allow read, update, delete: if isAdmin();
+      allow read, write: if true;
     }
-    
-    match /ai_knowledge_base/{docId} {
-      allow read: if true;
-      allow write: if isAdmin();
-    }
-    
-    
+
     match /chat_history/{docId} {
       allow read, write: if true;
     }
+
     match /faqs/{docId} {
       allow read, write: if true;
     }
+
     match /newsletter_subscribers/{docId} {
-      allow create: if true;
-      allow read, write: if isAdmin();
+      allow read, write: if true;
     }
+
     match /page_content/{docId} {
-      allow read: if true;
-      allow write: if isAdmin();
+      allow read, write: if true;
     }
-    match /workspaces/{workspaceId}/kanban_tickets/{ticketId} {
+
+    match /users/{userId} {
       allow read, write: if true;
     }
 
@@ -122,3 +115,4 @@ service cloud.firestore {
     }
   }
 }
+

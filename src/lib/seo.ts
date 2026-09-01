@@ -33,7 +33,7 @@ export const generateLocalBusinessSchema = () => {
     "knowsAbout": [
       "Next.js Web Development",
       "AI Agents",
-      "Groq API",
+      "AI & Cloud Automation",
       "Bot Automation"
     ]
   };

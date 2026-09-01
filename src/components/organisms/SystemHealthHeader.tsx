@@ -13,16 +13,22 @@ export default function SystemHealthHeader() {
   useEffect(() => {
     // Listen to real-time heartbeat from Firestore
     try {
-      const unsub = onSnapshot(doc(db, 'system_health', 'status'), (doc) => {
-        if (doc.exists()) {
-          const data = doc.data();
-          setHealth({
-            status: data.status || 'healthy',
-            latency: data.latency || Math.floor(Math.random() * 50) + 30,
-            errorRate: data.errorRate || 0.1
-          });
+      const unsub = onSnapshot(
+        doc(db, 'system_health', 'status'), 
+        (doc) => {
+          if (doc.exists()) {
+            const data = doc.data();
+            setHealth({
+              status: data.status || 'healthy',
+              latency: data.latency || Math.floor(Math.random() * 50) + 30,
+              errorRate: data.errorRate || 0.1
+            });
+          }
+        },
+        (error) => {
+          console.warn("Could not connect to system_health snapshot, using fallback.", error);
         }
-      });
+      );
       return () => unsub();
     } catch (e) {
       console.warn("Could not connect to system_health, using default.", e);

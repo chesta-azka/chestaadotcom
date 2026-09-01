@@ -61,7 +61,7 @@ const features = [
   },
   {
     icon: MessageCircle,
-    title: "Direct WhatsApp Funnel",
+    title: "Direct Live Chat Funnel",
     desc: "Persingkat journey pelanggan dengan integrasi direct-chat yang mendorong close-rate seketika."
   },
   {

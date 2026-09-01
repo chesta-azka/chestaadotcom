@@ -6,30 +6,32 @@ import { CaseStudiesSkeleton } from '../../components/CaseStudiesSkeleton';
 
 export async function generateMetadata(): Promise<Metadata> {
   return {
-    title: 'Enterprise Case Studies & ROI | chestaa.com',
-    description: 'Detailed analysis of our architectural implementations, Edge caching scaling, and their direct impact on B2B SaaS conversion metrics.',
+    title: 'Studi Kasus & Hasil Nyata | CHESTADOTCOM',
+    description: 'Analisis mendalam implementasi arsitektur website Next.js, kecepatan loading, dan dampak peningkatan penjualan klien kami.',
   };
 }
 
 async function CaseStudiesLoader() {
-  // Simulate data fetching delay for the premium skeleton loading effect
-  await new Promise(resolve => setTimeout(resolve, 1800));
+  await new Promise(resolve => setTimeout(resolve, 800));
   return <FeaturedCaseStudies />;
 }
 
 export default function CaseStudiesPage() {
   return (
-    <main className="relative min-h-screen flex flex-col items-center pb-20 overflow-hidden">
-      <div className="w-full max-w-5xl mx-auto px-4 mt-8 md:mt-0 flex justify-start">
+    <main className="relative min-h-screen flex flex-col items-center pt-36 md:pt-44 pb-20 overflow-hidden bg-white text-slate-900 font-sans">
+      <div className="w-full max-w-5xl mx-auto px-4 flex justify-start">
         <Breadcrumbs />
       </div>
       
-      <div className="w-full max-w-5xl mx-auto px-4 text-center mb-12 animate-in fade-in slide-in-from-bottom-8 duration-1000">
-        <h1 className="text-5xl md:text-7xl font-bold tracking-tighter text-slate-900 dark:text-white mb-6">
-          Proven <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-600 to-blue-600 dark:from-emerald-400 dark:to-blue-400">Excellence</span>
+      <div className="w-full max-w-5xl mx-auto px-4 text-center mb-10">
+        <span className="inline-block px-3 py-1 rounded-full bg-purple-50 text-purple-900 border border-purple-100 text-xs font-mono font-bold uppercase tracking-wider mb-4">
+          Studi Kasus Klien
+        </span>
+        <h1 className="text-4xl md:text-6xl font-display font-extrabold tracking-tight text-slate-900 mb-4">
+          Hasil Terbukti & <span className="text-purple-900">Kinerja Nyata</span>
         </h1>
-        <p className="text-lg md:text-xl text-slate-600 dark:text-slate-400 max-w-2xl mx-auto font-medium">
-          Detailed analysis of our architectural implementations and their direct impact on B2B conversion metrics.
+        <p className="text-sm md:text-base text-slate-600 max-w-2xl mx-auto font-normal leading-relaxed">
+          Analisis dampak implementasi website Next.js berkecepatan tinggi terhadap kepuasan pengguna dan peningkatan konversi bisnis.
         </p>
       </div>
 

@@ -3,7 +3,6 @@ import { motion } from 'motion/react';
 import { SERVICE_DEFINITIONS } from '../data/ServiceDefinition';
 import NotFoundPage from './NotFoundPage';
 import { ArrowRight, CheckCircle2, MessageCircle } from 'lucide-react';
-import FloatingQuoteTrigger from '../components/organisms/FloatingQuoteTrigger';
 import SEOProvider from '../components/atoms/SEOProvider';
 import SchemaMarkup from '../components/atoms/SchemaMarkup';
 import { Skeleton } from '../components/atoms/Skeleton';
@@ -60,13 +59,13 @@ const faqs = [
     { question: `Mengapa memilih ${service.title} dari CHESTAADOTCOM?`, answer: `Kami membangun sistem dengan arsitektur modern yang menjamin skalabilitas, kecepatan, dan konversi tinggi, sesuai dengan spesifikasi: ${service.benefits.join(', ')}.` }
   ];
 
-  const handleWhatsAppClick = () => {
+  const handleLiveChatClick = () => {
     const text = encodeURIComponent(`Halo CHESTAADOTCOM, saya ingin konsultasi mengenai layanan ${service.title}`);
-    window.open(`https://wa.me/6282125447232?text=${text}`, '_blank');
+    window.dispatchEvent(new CustomEvent('open-ai-chat'))
   };
 
   return (
-    <div className="min-h-screen bg-transparent text-slate-900 pt-[180px] md:pt-[240px] pb-24 font-sans selection:bg-purple-100 selection:text-purple-900">
+    <div className="min-h-screen bg-transparent text-slate-900 pt-40 md:pt-48 pb-24 font-sans selection:bg-purple-100 selection:text-purple-900">
       <SEOProvider 
         title={pageTitle}
         description={pageDescription}
@@ -102,12 +101,15 @@ const faqs = [
             <p className="text-xl md:text-2xl text-slate-500 max-w-2xl font-light leading-relaxed mb-12">
               {service.description}
             </p>
-            <button 
-              onClick={handleWhatsAppClick}
-              className="bg-purple-600 text-white hover:bg-purple-700 shadow-md px-10 py-5 rounded-full font-sans font-medium text-[13px] uppercase tracking-widest transition-all duration-300 inline-flex items-center gap-3 group"
+            <a 
+              href={`https://wa.me/6282125447232?text=${encodeURIComponent(`Halo CHESTAADOTCOM, saya ingin konsultasi mengenai layanan ${service.title}`)}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="bg-purple-600 text-white hover:bg-purple-700 shadow-md px-10 py-5 rounded-full font-sans font-medium text-[13px] uppercase tracking-widest transition-all duration-300 inline-flex items-center gap-3 group cursor-pointer"
             >
-              Start Project <ArrowRight size={18} className="group-hover:translate-x-1.5 transition-transform" />
-            </button>
+              <MessageCircle size={18} />
+              <span>Chat with us on WhatsApp</span>
+            </a>
           </div>
           
           <div className="w-full lg:w-[500px] h-[500px] rounded-[60px] bg-white/40 border border-white/60 shadow-xl shadow-purple-900/5 flex items-center justify-center p-12 relative overflow-hidden backdrop-blur-3xl">
@@ -161,17 +163,17 @@ const faqs = [
           whileInView={{ opacity: 1, filter: 'blur(0px)' }}
           viewport={{ once: true }}
           transition={{ duration: 0.8 }}
-          className="bg-slate-900 text-white rounded-[60px] p-16 md:p-24 text-center relative overflow-hidden"
+          className="bg-gradient-to-br from-purple-50 via-white to-purple-100/50 text-slate-900 border border-purple-200 rounded-[40px] p-12 md:p-20 text-center relative overflow-hidden shadow-xl"
         >
-          <div className="absolute inset-0 bg-gradient-to-br from-purple-500/20 to-purple-500/20 blur-3xl mix-blend-overlay"></div>
-          <h3 className="text-4xl md:text-6xl font-display font-medium mb-8 relative z-10">Uncompromising Quality.</h3>
-          <p className="text-slate-400 max-w-3xl mx-auto mb-16 text-xl font-light leading-relaxed relative z-10">
+          <div className="absolute inset-0 bg-purple-100/20 blur-3xl pointer-events-none"></div>
+          <h3 className="text-4xl md:text-5xl font-display font-medium mb-6 relative z-10 text-slate-900">Uncompromising Quality.</h3>
+          <p className="text-slate-600 max-w-3xl mx-auto mb-12 text-lg md:text-xl font-normal leading-relaxed relative z-10">
             Delivering enterprise-grade architecture and profound digital experiences specifically tailored for industry leaders in BSD City and Cisauk.
           </p>
           
           <Link 
-            to="/projects"
-            className="inline-flex relative z-10 items-center gap-3 bg-white text-slate-900 px-10 py-5 rounded-full font-sans font-medium text-[13px] uppercase tracking-widest hover:bg-purple-50 hover:text-purple-700 transition-colors"
+            to="/portfolio"
+            className="inline-flex relative z-10 items-center gap-3 bg-purple-600 text-white px-10 py-5 rounded-full font-sans font-medium text-[13px] uppercase tracking-widest hover:bg-purple-700 transition-colors shadow-md"
           >
             View Portfolio <ArrowRight size={16} />
           </Link>
@@ -182,8 +184,6 @@ const faqs = [
       <RelatedServices currentSlug={slug!} />
         </aside>
       </div>
-      
-      <FloatingQuoteTrigger serviceInterest={service.title} />
     </div>
   );
 }

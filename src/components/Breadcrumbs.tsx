@@ -7,17 +7,17 @@ import { motion } from 'framer-motion';
 export function Breadcrumbs() {
   return (
     <motion.nav 
-      initial={{ opacity: 0, y: -10 }}
+      initial={{ opacity: 0, y: -8 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ duration: 0.5, ease: "easeOut" }}
-      className="flex items-center gap-2 px-4 py-2.5 mb-8 backdrop-blur-xl bg-white/40 dark:bg-slate-900/40 border border-white/20 dark:border-white/10 rounded-2xl shadow-sm w-max"
+      transition={{ duration: 0.4, ease: "easeOut" }}
+      className="flex items-center gap-2 px-3.5 py-1.5 mb-6 bg-purple-50 border border-purple-100 rounded-full w-max font-sans text-xs"
       aria-label="Breadcrumb"
     >
-      <Link href="/" className="text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white transition-colors flex items-center gap-1.5 text-sm font-medium">
-        <Home className="w-4 h-4" /> Home
+      <Link href="/" className="text-slate-600 hover:text-purple-900 transition-colors flex items-center gap-1 font-medium">
+        <Home className="w-3.5 h-3.5" /> Beranda
       </Link>
-      <ChevronRight className="w-4 h-4 text-slate-300 dark:text-slate-600" />
-      <span className="text-slate-900 dark:text-white text-sm font-semibold tracking-tight">Case Studies</span>
+      <ChevronRight className="w-3.5 h-3.5 text-slate-300" />
+      <span className="text-purple-900 font-semibold">Studi Kasus</span>
     </motion.nav>
   );
 }

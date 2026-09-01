@@ -179,7 +179,7 @@ app.post("/api/posts/validate", async (req, res) => {
 });
 
 
-// Chat Assistant Route (Groq API)
+// Chat Assistant Route (Groq API with Gemini fallback)
 app.post("/api/chat", async (req, res) => {
   const { messages, pagePath, pageTitle, systemContext } = req.body;
   if (!messages || !Array.isArray(messages)) {
@@ -193,52 +193,95 @@ app.post("/api/chat", async (req, res) => {
   res.setHeader('Connection', 'keep-alive');
 
   try {
-    // We rely entirely on the systemContext sent by the client, which already fetches
-    // the dynamic pricing and business configuration via the Firebase Web SDK.
-    const businessDataInjection = "";
+    const lastMsg = messages[messages.length - 1]?.content || '';
+    const isPricingIntent = /(harga|biaya|price|pricing|paket|cost|tarif|tagihan|rekening|transfer|quote|quotation|diskon|discount|bca|gopay|dana|bayar|pembayaran|budget|invoice|dp|principal engineer|nego|penawaran|order|beli|pesan)/i.test(lastMsg);
 
-    const systemPrompt = `Anda adalah Konsultan AI Eksklusif dari CHESTADOTCOM. Jawab dengan ramah, cerdas, dan natural. Saat ini user sedang berada di halaman "${pageTitle || 'Beranda'}" (Path: ${pagePath || '/'}). Gunakan konteks halaman ini untuk memberikan jawaban.
+    if (isPricingIntent) {
+      res.write("Connecting you to our Principal Engineer...");
+      res.end();
+      return;
+    }
+
+    const systemPrompt = `Anda adalah Konsultan AI Eksklusif dari CHESTADOTCOM (Bespoke Software, AI Engineering, & Enterprise Digital Solutions). Jawab dengan ramah, lugas, cerdas, dan profesional. Saat ini user berada di halaman "${pageTitle || 'Beranda'}" (Path: ${pagePath || '/'}). Gunakan konteks halaman ini untuk memberikan konsultasi arsitektur dan solusi terbaik.
 
 ${systemContext ? 'Konteks Tambahan (Wajib Diperhatikan):\n' + systemContext : ''}
 
-ATURAN CONFIDENCE SCORE:
-- Jika user bertanya HANYA berdasarkan daftar harga pasti di atas (tanpa permintaan custom berlebihan), Anda WAJIB memberikan harga sesuai data dan tambahkan string ini di akhir response: [CONFIDENCE:HIGH]
-- Jika user meminta estimasi fitur yang tidak ada di daftar, dan Anda menebak atau memberikan estimasi kasar (hallucination), Anda WAJIB memberikan string ini di akhir response: [CONFIDENCE:LOW]
-
-PENTING:
-1. Jika ditanya tentang harga terkini pasar, tren, atau layanan kompetitor, HANYA gunakan Google Search untuk memverifikasi dan berikan informasi mengenai tren teknologi *real-time* atau berita bisnis spesifik BSD City/Cisauk yang relevan untuk klien enterprise.
-2. Jika memberikan informasi harga, estimasi, atau bisnis, Anda WAJIB menyertakan rujukan di akhir kalimat (misal: [Lihat Detail Harga](/services) atau [Konsultasi WhatsApp](https://wa.me/6282125447232)).
-3. Jika Anda ingin memberikan saran pertanyaan lanjutan (opsi) kepada user, JANGAN menyuruh mereka mengetik angka. Sebagai gantinya, WAJIB sertakan opsi tersebut di baris paling bawah dari jawaban Anda dengan format persis seperti ini (harus menggunakan tag <opsi>):
+ATURAN UTAMA:
+1. Berikan jawaban yang terstruktur, elegan, dan solutif.
+2. Jika user menanyakan estimasi harga, rincian biaya, atau paket kustom, jawab langsung: "Connecting you to our Principal Engineer..." agar tim engineer kami dapat langsung menganalisis kebutuhan teknis mereka.
+3. Anda dapat memberikan saran pertanyaan lanjutan di akhir jawaban dengan format:
 <opsi>Pertanyaan atau pilihan 1</opsi>
 <opsi>Pertanyaan atau pilihan 2</opsi>
-`;
+<opsi>Konsultasi dengan Principal Engineer 👨‍💻</opsi>`;
 
-    if (!genAI) throw new Error("Gemini AI not initialized.");
+    let streamed = false;
 
-    const geminiContents = messages.map((m) => ({
-      role: m.role === 'assistant' ? 'model' : 'user',
-      parts: [{ text: m.content }]
-    }));
+    // 1. Try Groq SDK if configured
+    if (groq) {
+      try {
+        const groqMessages = [
+          { role: "system" as const, content: systemPrompt },
+          ...messages.map((m: any) => ({
+            role: (m.role === "assistant" || m.role === "ai" ? "assistant" : "user") as "assistant" | "user",
+            content: m.content
+          }))
+        ];
 
-    const streamResponse = await genAI.models.generateContentStream({
-      model: "gemini-2.5-flash",
-      config: {
-        systemInstruction: systemPrompt,
-        tools: [{ googleSearch: {} }], // Enable Google Search grounding
-      },
-      contents: geminiContents,
-    });
-    
-    for await (const chunk of streamResponse) {
-      if (chunk.text) {
-        res.write(chunk.text);
+        const groqStream = await groq.chat.completions.create({
+          model: "llama-3.3-70b-versatile",
+          messages: groqMessages,
+          stream: true,
+          temperature: 0.6,
+          max_tokens: 1024,
+        });
+
+        for await (const chunk of groqStream) {
+          const content = chunk.choices[0]?.delta?.content || '';
+          if (content) {
+            res.write(content);
+            streamed = true;
+          }
+        }
+        res.end();
+        return;
+      } catch (groqErr) {
+        console.warn("Groq streaming error, falling back to Gemini:", groqErr);
       }
     }
-    res.end();
+
+    // 2. Fallback to Gemini if Groq unavailable or failed
+    if (genAI) {
+      const geminiContents = messages.map((m) => ({
+        role: (m.role === 'assistant' || m.role === 'ai') ? 'model' : 'user',
+        parts: [{ text: m.content }]
+      }));
+
+      const streamResponse = await genAI.models.generateContentStream({
+        model: "gemini-2.5-flash",
+        config: {
+          systemInstruction: systemPrompt,
+        },
+        contents: geminiContents,
+      });
+      
+      for await (const chunk of streamResponse) {
+        if (chunk.text) {
+          res.write(chunk.text);
+          streamed = true;
+        }
+      }
+      res.end();
+      return;
+    }
+
+    if (!streamed) {
+      res.write("Halo! Saya asisten AI CHESTADOTCOM. Silakan ajukan pertanyaan seputar arsitektur sistem, automasi AI, atau solusi digital kami.");
+      res.end();
+    }
   } catch (error) {
     console.error("Chat API failed:", error);
     if (!res.headersSent) {
-      res.status(500).json({ error: "Mohon maaf, layanan AI sedang mengalami gangguan jaringan atau melebihi batas kuota. Silakan coba beberapa saat lagi." });
+      res.status(500).json({ error: "Mohon maaf, layanan AI sedang mengalami gangguan jaringan. Silakan coba beberapa saat lagi." });
     } else {
       res.end();
     }
@@ -491,15 +534,17 @@ Berikan respons dalam format Markdown dengan struktur berikut:
 
 
 app.post("/api/score-lead", async (req, res) => {
-  const { transcript } = req.body;
+  const { transcript, leadId, messages = [], sessionData = {} } = req.body;
   if (!transcript) {
     return res.status(400).json({ error: "Missing transcript" });
   }
 
   try {
-    const groq = new Groq({ apiKey: process.env.GROQ_API_KEY });
-    
-    const prompt = `You are a B2B sales lead analyst. Evaluate the following chat transcript between a user and an AI assistant.
+    const adminDb = getFirestore();
+    let score = "Cold";
+
+    if (groq) {
+      const prompt = `You are a B2B sales lead analyst. Evaluate the following chat transcript between a user and an AI assistant.
 Determine the lead score/category for this user.
 Choose EXACTLY ONE from:
 - Hot (Very interested, asking for pricing, wants contact, ready to buy)
@@ -511,27 +556,30 @@ Return ONLY the category word (Hot, Warm, or Cold).
 Transcript:
 ${transcript}`;
 
-    const chatCompletion = await groq.chat.completions.create({
-      messages: [{ role: "user", content: prompt }],
-      model: "llama3-8b-8192",
-      temperature: 0.1,
-      max_tokens: 10,
-    });
+      const chatCompletion = await groq.chat.completions.create({
+        messages: [{ role: "user", content: prompt }],
+        model: "llama-3.3-70b-versatile",
+        temperature: 0.1,
+        max_tokens: 10,
+      });
 
-    let score = chatCompletion.choices[0]?.message?.content?.trim() || "Cold";
-    if (score.toLowerCase().includes("hot")) score = "Hot";
-    else if (score.toLowerCase().includes("warm")) score = "Warm";
-    else score = "Cold";
+      const raw = chatCompletion.choices[0]?.message?.content?.trim() || "Cold";
+      if (raw.toLowerCase().includes("hot")) score = "Hot";
+      else if (raw.toLowerCase().includes("warm")) score = "Warm";
+      else score = "Cold";
+    }
 
-    await db.collection('ai_leads').doc(leadId).set({
-      sessionId: leadId,
-      score: score,
-      createdAt: new Date(),
-      messageCount: messages.length,
-      userId: sessionData.userId || 'anonymous'
-    });
+    if (leadId) {
+      await adminDb.collection('ai_leads').doc(leadId).set({
+        sessionId: leadId,
+        score: score,
+        createdAt: new Date(),
+        messageCount: messages.length,
+        userId: sessionData.userId || 'anonymous'
+      }, { merge: true });
 
-    await db.collection('ai_chat_sessions').doc(leadId).update({ leadScored: true });
+      await adminDb.collection('ai_chat_sessions').doc(leadId).update({ leadScored: true });
+    }
 
     res.json({ success: true, ai_score: score });
   } catch (error: any) {

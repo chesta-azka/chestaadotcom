@@ -29,18 +29,18 @@ export default function FooterSection() {
               Arsitektur digital premium untuk UMKM dan Brand lokal. Transformasi digital yang fokus pada performa, estetika, dan konversi nyata di tahun 2026.
             </p>
             <div className="flex gap-3">
-              <a href="https://instagram.com/chestaadotcom" target="_blank" rel="noopener noreferrer" title="Instagram @chestaadotcom" className="w-10 h-10 rounded-full bg-slate-50 border border-slate-200 flex items-center justify-center hover:bg-[#6b21a8] hover:text-white hover:border-[#6b21a8] transition-all duration-300">
+              <a href="https://instagram.com/chestaadotcom" target="_blank" rel="noopener noreferrer" title="Instagram @chestaadotcom" className="w-10 h-10 rounded-full bg-slate-50 border border-slate-200 flex items-center justify-center hover:bg-purple-600 hover:text-white hover:border-purple-600 transition-all duration-300">
                 <Instagram size={18} strokeWidth={1.5} />
               </a>
-              <a href="https://tiktok.com/@chesta_azka" target="_blank" rel="noopener noreferrer" title="TikTok @chesta_azka" className="w-10 h-10 rounded-full bg-slate-50 border border-slate-200 flex items-center justify-center hover:bg-[#6b21a8] hover:text-white hover:border-[#6b21a8] transition-all duration-300">
+              <a href="https://tiktok.com/@chesta_azka" target="_blank" rel="noopener noreferrer" title="TikTok @chesta_azka" className="w-10 h-10 rounded-full bg-slate-50 border border-slate-200 flex items-center justify-center hover:bg-purple-600 hover:text-white hover:border-purple-600 transition-all duration-300">
                 <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
                   <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64c.298-.002.595.042.88.13V9.4a6.33 6.33 0 0 0-1-.08A6.34 6.34 0 0 0 3 15.66a6.34 6.34 0 0 0 10.86 4.43c1.92-1.92 2.36-4.68 2.28-7.39a8.28 8.28 0 0 0 4.45 1.3v-3.45a4.86 4.86 0 0 1-1-.86z"/>
                 </svg>
               </a>
-              <a href="https://wa.me/6282125447232" target="_blank" rel="noopener noreferrer" title="WhatsApp +62 821-2544-7232" className="w-10 h-10 rounded-full bg-slate-50 border border-slate-200 flex items-center justify-center hover:bg-[#6b21a8] hover:text-white hover:border-[#6b21a8] transition-all duration-300">
+              <a href="https://wa.me/6282125447232?text=Halo%20CHESTAADOTCOM%2C%20saya%20tertarik%20untuk%20konsultasi%20layanan%20website" target="_blank" rel="noopener noreferrer" title="WhatsApp +62 821-2544-7232" className="w-10 h-10 rounded-full bg-slate-50 border border-slate-200 flex items-center justify-center hover:bg-purple-600 hover:text-white hover:border-purple-600 transition-all duration-300">
                 <MessageCircle size={18} strokeWidth={1.5} />
               </a>
-              <a href="mailto:chestaadotcom@gmail.com" target="_blank" rel="noopener noreferrer" title="Email" className="w-10 h-10 rounded-full bg-slate-50 border border-slate-200 flex items-center justify-center hover:bg-[#6b21a8] hover:text-white hover:border-[#6b21a8] transition-all duration-300">
+              <a href="mailto:chestaadotcom@gmail.com" target="_blank" rel="noopener noreferrer" title="Email" className="w-10 h-10 rounded-full bg-slate-50 border border-slate-200 flex items-center justify-center hover:bg-purple-600 hover:text-white hover:border-purple-600 transition-all duration-300">
                 <Mail size={18} strokeWidth={1.5} />
               </a>
             </div>
@@ -67,9 +67,9 @@ export default function FooterSection() {
           <div className="lg:col-span-2">
             <h4 className="text-slate-900 font-sans font-bold tracking-widest uppercase text-[11px] mb-8">Eksplorasi</h4>
             <ul className="space-y-4 text-sm font-sans text-slate-600">
-              <li><Link to="/projects" onClick={() => window.scrollTo(0,0)} className="hover:text-[#6b21a8] transition-colors">Showcase Portfolio</Link></li>
-              <li><Link to="/blog" onClick={() => window.scrollTo(0,0)} className="hover:text-[#6b21a8] transition-colors">Artikel & Insights</Link></li>
-              <li><Link to="/about" onClick={() => window.scrollTo(0,0)} className="hover:text-[#6b21a8] transition-colors">Tentang Kami</Link></li>
+              <li><Link to="/portfolio" onClick={() => window.scrollTo(0,0)} className="hover:text-purple-600 transition-colors">Showcase Portfolio</Link></li>
+              <li><Link to="/blog" onClick={() => window.scrollTo(0,0)} className="hover:text-purple-600 transition-colors">Artikel & Insights</Link></li>
+              <li><Link to="/about" onClick={() => window.scrollTo(0,0)} className="hover:text-purple-600 transition-colors">Tentang Kami</Link></li>
             </ul>
           </div>
 

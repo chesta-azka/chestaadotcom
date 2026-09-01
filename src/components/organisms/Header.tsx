@@ -1,295 +1,265 @@
 import { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence, useScroll, useSpring } from 'motion/react';
-import { Menu, X, Search, ChevronDown } from 'lucide-react';
+import { motion, AnimatePresence } from 'motion/react';
+import { MessageCircle, Menu, X, Home, Sparkles, Briefcase, GitFork, User, BookOpen, ArrowRight, Search } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
-import { SERVICE_DEFINITIONS } from '../../data/ServiceDefinition';
 import LocalSEOBanner from '../molecules/LocalSEOBanner.tsx';
 
+const NAV_ITEMS = [
+  { name: 'Home', href: '/', icon: Home },
+  { name: 'Services', href: '/services', icon: Sparkles },
+  { name: 'Portfolio', href: '/portfolio', icon: Briefcase },
+  { name: 'Workflow', href: '/workflow', icon: GitFork },
+  { name: 'About', href: '/about', icon: User },
+  { name: 'Blog', href: '/blog', icon: BookOpen },
+];
+
 export default function Header() {
-  const [isOpen, setIsOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
-  const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
-  const { scrollYProgress } = useScroll();
-  const scaleX = useSpring(scrollYProgress, { stiffness: 100, damping: 30, restDelta: 0.001 });
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const headerRef = useRef<HTMLElement>(null);
   const location = useLocation();
-  const menuRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
     const handleScroll = () => {
-      setScrolled(window.scrollY > 20);
+      setScrolled(window.scrollY > 15);
     };
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Close mobile menu on route change
   useEffect(() => {
-    const handleDocumentClick = (event: MouseEvent | TouchEvent) => {
-      // If the menu is closed, do nothing
-      if (!isOpen) return;
+    setMobileMenuOpen(false);
+  }, [location.pathname]);
 
-      // If click target exists and is outside of BOTH the menu and the hamburger button
-      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
-        // Safely check if we clicked on the button that triggers/toggles the menu to avoid conflict
-        const isToggleClick = (event.target as HTMLElement).closest('.menu-toggle-btn');
-        if (!isToggleClick) {
-          setIsOpen(false);
-        }
+  // Dynamically measure and broadcast header height to :root --header-height
+  useEffect(() => {
+    const updateHeaderHeight = () => {
+      if (headerRef.current) {
+        const height = headerRef.current.getBoundingClientRect().height;
+        document.documentElement.style.setProperty('--header-height', `${height}px`);
       }
     };
 
-    document.addEventListener('mousedown', handleDocumentClick);
-    document.addEventListener('touchstart', handleDocumentClick);
+    updateHeaderHeight();
 
+    const resizeObserver = new ResizeObserver(() => {
+      updateHeaderHeight();
+    });
+
+    if (headerRef.current) {
+      resizeObserver.observe(headerRef.current);
+    }
+
+    window.addEventListener('resize', updateHeaderHeight);
     return () => {
-      document.removeEventListener('mousedown', handleDocumentClick);
-      document.removeEventListener('touchstart', handleDocumentClick);
+      resizeObserver.disconnect();
+      window.removeEventListener('resize', updateHeaderHeight);
     };
-  }, [isOpen]);
+  }, [scrolled, mobileMenuOpen]);
 
-  const links = [
-    { name: 'Beranda', path: '/' },
-    { name: 'Layanan', path: '/services' },
-    { name: 'Portofolio', path: '/portfolio' },
-    { name: 'Wawasan', path: '/blog' },
-    { name: 'Tentang', path: '/about' },
-    { name: 'Workflow', path: '/workflow' }
-  ];
+  const whatsappUrl = `https://wa.me/6282125447232?text=${encodeURIComponent('Halo Mas Chesta, saya ingin konsultasi mengenai layanan pembuatan website dan solusi AI di CHESTAADOTCOM.')}`;
 
   return (
-    <>
-      {/* Floating Header */}
-      {/* Floating Header Container */}
-      <header className="fixed top-0 left-0 right-0 z-50 flex flex-col items-center pointer-events-none">
-        
-        {/* The Banner takes full width at the very top, and has pointer events enabled */}
-        <div className="w-full pointer-events-auto">
-          <LocalSEOBanner />
-        </div>
+    <header ref={headerRef} className="fixed top-0 left-0 right-0 z-50 flex flex-col items-center pointer-events-none transition-all duration-300">
+      {/* Top Notice Banner */}
+      <div className="w-full pointer-events-auto">
+        <LocalSEOBanner />
+      </div>
 
-        {/* The Floating Pill is slightly pushed down from the banner or the top */}
-        <div className="flex justify-center px-6 mt-4 sm:mt-6 w-full">
+      {/* Floating Clean Header Pill */}
+      <div className="flex justify-center px-4 sm:px-6 mt-3 sm:mt-4 w-full">
         <motion.div
           initial={{ y: -20, opacity: 0 }}
           animate={{ y: 0, opacity: 1 }}
-          transition={{ type: 'spring', stiffness: 100, damping: 20, delay: 0.2 }}
-          className={`transition-all duration-500 ease-out rounded-full px-6 flex items-center justify-between w-full max-w-5xl pointer-events-auto ${scrolled ? 'bg-white/5 backdrop-blur-xl border border-white/30 shadow-[0_8px_32px_rgba(30,41,59,0.1)] ring-1 ring-white/50 py-3' : 'bg-white/0 backdrop-blur-none border border-transparent shadow-none py-4'}`}
+          transition={{ type: 'spring', stiffness: 120, damping: 20, delay: 0.1 }}
+          className={`transition-all duration-300 ease-out rounded-full px-4 sm:px-7 flex items-center justify-between w-full max-w-4xl pointer-events-auto ${
+            scrolled || mobileMenuOpen
+              ? 'bg-white/95 backdrop-blur-2xl border border-purple-100/90 shadow-[0_8px_30px_rgba(88,28,135,0.08)] ring-1 ring-slate-900/5 py-2.5 sm:py-3' 
+              : 'bg-white/90 backdrop-blur-xl border border-slate-200/80 shadow-[0_4px_20px_rgba(0,0,0,0.03)] py-3 sm:py-3.5'
+          }`}
         >
-          <Link to="/" className="flex items-center gap-2.5 group select-none pointer-events-auto">
-            {/* Elegant Geometric Architectural Emblem */}
-            <div className="relative flex items-center justify-center w-8 h-8 rounded-lg bg-slate-50 border border-slate-200 group-hover:border-[#6b21a8]/40 transition-colors duration-300">
-              <svg className="w-4 h-4 text-[#6b21a8] group-hover:scale-110 transition-transform duration-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+          {/* Brand Logo */}
+          <Link to="/" className="flex items-center gap-2.5 group select-none pointer-events-auto shrink-0">
+            <div className="relative flex items-center justify-center w-8 sm:w-9 h-8 sm:h-9 rounded-xl bg-purple-50 border border-purple-200/80 group-hover:border-purple-400 group-hover:bg-purple-100 transition-all duration-300 shadow-2xs">
+              <svg className="w-4 h-4 text-purple-700 group-hover:scale-110 transition-transform duration-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                 <path d="m12 3-8 8 8 8 8-8-8-8z" />
                 <path d="m12 8-4 4 4 4 4-4-4-4z" />
               </svg>
-              <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-[#6b21a8] to-green-400 opacity-0 group-hover:opacity-10 blur-sm transition-opacity duration-300" />
             </div>
             
             <div className="flex flex-col text-left">
-              <span className="font-display text-base font-extrabold tracking-tight text-slate-900 leading-none">
-                chestaa<span className="text-[#6b21a8]">dot</span>com
+              <span className="font-display text-base sm:text-lg font-bold tracking-tight text-slate-900 leading-none">
+                chestaa<span className="text-purple-600">dot</span>com
               </span>
             </div>
           </Link>
-        <nav className="hidden md:flex gap-8 items-center absolute left-1/2 -translate-x-1/2">
-            {links.map((link) => {
-              const isAnchor = link.path.startsWith('/#');
-              const isLayanan = link.name === 'Layanan';
-              
+
+          {/* Desktop Navigation Links */}
+          <nav className="hidden md:flex items-center gap-1 lg:gap-2">
+            {NAV_ITEMS.map((item) => {
+              const isActive = location.pathname === item.href || (item.href !== '/' && location.pathname.startsWith(item.href));
               return (
-                <motion.div key={link.name} className="relative group" whileHover={{ y: -2, scale: 1.05 }} whileTap={{ scale: 0.95 }} transition={{ type: "spring", stiffness: 400, damping: 17 }}>
-                  {isAnchor ? (
-                    <a
-                      href={location.pathname === '/' ? link.path.substring(1) : link.path}
-                      className="font-sans text-sm font-medium text-slate-700 transition-colors group-hover:text-purple-600 flex items-center gap-1 py-4"
-                    >
-                      {link.name}
-                      {isLayanan && <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>}
-                    </a>
-                  ) : (
-                    <Link
-                      to={link.path}
-                      className="font-sans text-sm font-medium text-slate-700 transition-colors group-hover:text-purple-600 flex items-center gap-1 py-4"
-                    >
-                      {link.name}
-                      {isLayanan && <svg className="w-4 h-4 transition-transform group-hover:rotate-180" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" /></svg>}
-                    </Link>
+                <Link
+                  key={item.name}
+                  to={item.href}
+                  className={`px-3 py-1.5 rounded-full text-xs font-medium font-sans transition-colors duration-200 relative ${
+                    isActive
+                      ? 'text-purple-900 font-semibold bg-purple-50/80'
+                      : 'text-slate-600 hover:text-purple-700 hover:bg-purple-50/50'
+                  }`}
+                >
+                  {item.name}
+                  {isActive && (
+                    <motion.div
+                      layoutId="activeNavIndicator"
+                      className="absolute bottom-0 left-1/2 -translate-x-1/2 w-3 h-0.5 bg-purple-600 rounded-full"
+                      transition={{ type: 'spring', stiffness: 380, damping: 30 }}
+                    />
                   )}
-                  
-                  {isLayanan && (
-                    <div className="absolute top-full left-1/2 -translate-x-1/2 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-300 transform translate-y-2 group-hover:translate-y-0 w-[650px] pointer-events-none group-hover:pointer-events-auto z-50">
-                      <div className="bg-white/10 backdrop-blur-xl rounded-3xl shadow-[0_8px_32px_rgba(0,0,0,0.1)] border border-white/30 ring-1 ring-white/20 p-4 relative before:absolute before:-top-2 before:left-1/2 before:-translate-x-1/2 before:w-4 before:h-4 before:bg-white/10 before:backdrop-blur-xl before:border-l before:border-t before:border-white/80 before:rotate-45">
-                        <div className="grid grid-cols-2 gap-x-4 gap-y-2 max-h-[60vh] overflow-y-auto pr-2 [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:bg-transparent [&::-webkit-scrollbar-thumb]:bg-slate-300/50 hover:[&::-webkit-scrollbar-thumb]:bg-slate-400/50 [&::-webkit-scrollbar-thumb]:rounded-full">
-                          {SERVICE_DEFINITIONS.map(service => (
-                            <Link 
-                              key={service.slug} 
-                              to={`/layanan/${service.slug}`} 
-                              className="relative z-10 px-3 py-3 hover:bg-white/30 rounded-2xl transition-colors text-sm font-medium text-slate-800 flex flex-col group/item"
-                            >
-                              <span className="flex items-center gap-2 font-semibold transition-transform duration-300 group-hover/item:translate-x-1">
-                                <service.icon size={16} className="text-purple-600 transition-transform duration-300 group-hover/item:scale-110" />
-                                {service.title}
-                              </span>
-                              <span className="text-xs text-slate-500 font-normal mt-1 leading-relaxed line-clamp-1 transition-transform duration-300 group-hover/item:translate-x-1">{service.description}</span>
-                            </Link>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                  )}
-                </motion.div>
+                </Link>
               );
             })}
           </nav>
           
-          <div className="hidden md:flex items-center gap-2">
-            <button
-              onClick={() => window.dispatchEvent(new Event('open-command-palette'))}
-              className="p-2 text-slate-500 hover:text-purple-600 hover:bg-slate-100 rounded-full transition-colors flex items-center justify-center"
-              aria-label="Search"
+          {/* Action Area */}
+          <div className="flex items-center gap-2 pointer-events-auto">
+            {/* Search Trigger Button (Desktop & Tablet) */}
+            <motion.button
+              id="header-search-btn"
+              onClick={() => window.dispatchEvent(new CustomEvent('open-command-palette'))}
+              whileHover={{ scale: 1.04 }}
+              whileTap={{ scale: 0.96 }}
+              className="flex items-center gap-2 px-3 py-2 rounded-full bg-purple-50 hover:bg-purple-100/90 text-purple-900 border border-purple-200/90 text-xs font-semibold transition-all cursor-pointer shadow-2xs group"
+              title="Cari Halaman, Layanan & Artikel (⌘K)"
+              aria-label="Cari Website (⌘K)"
             >
-              <Search size={18} />
-            </button>
-            <motion.div whileHover={{ y: -2, scale: 1.05 }} whileTap={{ scale: 0.95 }} transition={{ type: "spring", stiffness: 400, damping: 17 }} className="ml-2">
-              <a href={location.pathname === '/' ? '#pricing' : '/#pricing'} className="text-sm font-sans font-medium text-white bg-slate-900 px-5 py-2.5 rounded-full hover:bg-purple-600 transition-colors shadow-sm inline-block">
-                Mulai Proyek
-              </a>
-            </motion.div>
-          </div>
+              <Search size={14} className="text-purple-700 group-hover:scale-110 transition-transform shrink-0" />
+              <span className="hidden sm:inline text-slate-700 group-hover:text-purple-950 font-medium">Cari</span>
+              <kbd className="hidden md:inline-flex items-center text-[10px] font-mono font-semibold px-1.5 py-0.5 rounded bg-white border border-purple-200 text-purple-700 shadow-2xs">
+                ⌘K
+              </kbd>
+            </motion.button>
 
-          <div className="md:hidden flex items-center gap-1">
-            <button
-              onClick={() => window.dispatchEvent(new Event('open-command-palette'))}
-              className="p-2 text-slate-600 hover:bg-slate-100 rounded-full transition-colors flex items-center justify-center"
-              aria-label="Search"
+            {/* Desktop Direct Contact Button */}
+            <motion.a 
+              href={whatsappUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              whileHover={{ scale: 1.04, y: -1 }}
+              whileTap={{ scale: 0.96 }}
+              transition={{ type: "spring", stiffness: 400, damping: 17 }}
+              className="hidden sm:flex items-center gap-2 text-xs sm:text-sm font-sans font-semibold text-white bg-purple-600 hover:bg-purple-700 active:bg-purple-800 px-4 sm:px-6 py-2 sm:py-2.5 rounded-full shadow-sm hover:shadow-md hover:shadow-purple-600/20 transition-all cursor-pointer"
             >
-              <Search size={18} />
-            </button>
-            <button onClick={() => setIsOpen(!isOpen)} className="text-slate-900 p-2 rounded-full hover:bg-slate-200 transition-colors menu-toggle-btn">
-              {isOpen ? <X size={20} /> : <Menu size={20} />}
+              <MessageCircle size={15} className="shrink-0" />
+              <span>Chat with us</span>
+            </motion.a>
+
+            {/* Mobile Chat with us Quick Icon */}
+            <motion.a
+              href={whatsappUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              whileTap={{ scale: 0.92 }}
+              className="sm:hidden flex items-center justify-center w-8 h-8 rounded-full bg-purple-600 text-white shadow-xs cursor-pointer"
+              aria-label="Chat with us"
+            >
+              <MessageCircle size={15} />
+            </motion.a>
+
+            {/* Mobile Hamburger Toggle Button */}
+            <button
+              id="mobile-hamburger-btn"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+              className="md:hidden flex items-center justify-center w-9 h-9 rounded-full bg-purple-50 hover:bg-purple-100 text-purple-900 border border-purple-200/80 transition-colors cursor-pointer"
+              aria-label={mobileMenuOpen ? 'Tutup menu' : 'Buka menu'}
+            >
+              {mobileMenuOpen ? <X size={18} /> : <Menu size={18} />}
             </button>
           </div>
         </motion.div>
       </div>
-      </header>
 
+      {/* Mobile Slide-Down Menu Overlay */}
       <AnimatePresence>
-        {isOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: -10, scale: 0.95 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: -10, scale: 0.95 }}
-            transition={{ type: 'spring', stiffness: 200, damping: 20 }}
-            className="fixed top-24 right-6 left-6 z-40 bg-white/10 backdrop-blur-2xl border border-white/80 ring-1 ring-white/50 shadow-[0_8px_32px_rgba(0,0,0,0.1)] rounded-3xl p-6 flex flex-col md:hidden transform origin-top"
-          >
-            <motion.nav 
-              ref={menuRef}
-              initial="closed"
-              animate="open"
-              exit="closed"
-              variants={{
-                open: {
-                  transition: { staggerChildren: 0.05, delayChildren: 0.1 }
-                },
-                closed: {
-                  transition: { staggerChildren: 0.03, staggerDirection: -1 }
-                }
-              }}
-              className="flex flex-col gap-4 text-left z-10"
+        {mobileMenuOpen && (
+          <div className="w-full max-w-4xl px-4 sm:px-6 mt-2 pointer-events-auto md:hidden">
+            <motion.div
+              initial={{ opacity: 0, y: -12, scale: 0.98 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: -12, scale: 0.98 }}
+              transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
+              className="bg-white/95 backdrop-blur-2xl border border-purple-100 rounded-3xl p-5 shadow-[0_20px_50px_rgba(88,28,135,0.12)] space-y-4"
             >
-              {links.map((link) => {
-                const isAnchor = link.path.startsWith('/#');
-                
-                const itemVariants = {
-                  open: { opacity: 1, x: 0, transition: { type: "spring" as const, stiffness: 200, damping: 20 } },
-                  closed: { opacity: 0, x: -10, transition: { duration: 0.2 } }
-                };
-
-                return (
-                  <motion.div
-                    key={link.name}
-                    variants={itemVariants}
-                    className="overflow-hidden"
-                  >
-                    {isAnchor ? (
-                      <a
-                        href={location.pathname === '/' ? link.path.substring(1) : link.path}
-                        className={`block font-display text-2xl font-semibold tracking-tight hover:text-[#6b21a8] transition-colors ${
-                          location.hash === link.path.substring(1) ? 'text-[#6b21a8]' : 'text-slate-800'
-                        }`}
-                        onClick={() => setIsOpen(false)}
-                      >
-                        {link.name}
-                      </a>
-                    ) : link.name === 'Layanan' ? (
-                      <div className="flex flex-col">
-                        <button
-                          className={`block font-display text-2xl font-semibold tracking-tight hover:text-[#6b21a8] transition-colors flex items-center justify-between w-full text-left ${
-                            location.pathname === link.path || location.pathname.startsWith('/services') ? 'text-[#6b21a8]' : 'text-slate-800'
-                          }`}
-                          onClick={(e) => {
-                            e.preventDefault();
-                            setMobileServicesOpen(!mobileServicesOpen);
-                          }}
-                        >
-                          {link.name}
-                          <ChevronDown className={`w-6 h-6 text-slate-400 transition-transform duration-300 ${mobileServicesOpen ? 'rotate-180' : ''}`} />
-                        </button>
-                        <AnimatePresence>
-                          {mobileServicesOpen && (
-                            <motion.div
-                              initial={{ height: 0, opacity: 0 }}
-                              animate={{ height: 'auto', opacity: 1 }}
-                              exit={{ height: 0, opacity: 0 }}
-                              className="overflow-hidden mt-4 pl-4 border-l-2 border-purple-100 flex flex-col gap-4"
-                            >
-                              {SERVICE_DEFINITIONS.map(service => (
-                                <Link 
-                                  key={service.slug} 
-                                  to={`/layanan/${service.slug}`} 
-                                  onClick={() => setIsOpen(false)} 
-                                  className="group/mobile text-lg font-medium text-slate-600 hover:text-purple-600 flex items-center gap-3 transition-all duration-300 hover:translate-x-2"
-                                >
-                                  <service.icon size={20} className="text-purple-500 transition-transform duration-300 group-hover/mobile:scale-110" />
-                                  {service.title}
-                                </Link>
-                              ))}
-                            </motion.div>
-                          )}
-                        </AnimatePresence>
-                      </div>
-                    ) : (
-                      <Link
-                        to={link.path}
-                        className={`block font-display text-2xl font-semibold tracking-tight hover:text-[#6b21a8] transition-colors flex items-center justify-between ${
-                          location.pathname === link.path ? 'text-[#6b21a8]' : 'text-slate-800'
-                        }`}
-                        onClick={() => setIsOpen(false)}
-                      >
-                        {link.name}
-                      </Link>
-                    )}
-                  </motion.div>
-                );
-              })}
-              <motion.div 
-                variants={{
-                  open: { opacity: 1, y: 0 },
-                  closed: { opacity: 0, y: 10 }
+              {/* Quick Mobile Search Input Trigger */}
+              <button
+                id="mobile-menu-search-btn"
+                onClick={() => {
+                  setMobileMenuOpen(false);
+                  window.dispatchEvent(new CustomEvent('open-command-palette'));
                 }}
-                className="pt-4 mt-2 border-t border-slate-100"
+                className="w-full flex items-center justify-between px-4 py-3 rounded-2xl bg-purple-50/70 border border-purple-200/90 text-slate-700 text-xs font-medium cursor-pointer hover:bg-purple-100 transition-colors"
               >
-                <a 
-                  href={location.pathname === '/' ? '#pricing' : '/#pricing'} 
-                  onClick={() => setIsOpen(false)}
-                  className="w-full flex items-center justify-center font-sans font-semibold text-white bg-purple-600 px-6 py-4 rounded-xl hover:bg-slate-900 transition-colors shadow-sm"
+                <div className="flex items-center gap-2.5">
+                  <Search size={16} className="text-purple-700" />
+                  <span className="text-slate-600 font-sans">Cari layanan, portofolio, artikel...</span>
+                </div>
+                <kbd className="px-2 py-0.5 rounded-lg bg-white text-[10px] font-mono font-semibold text-purple-700 border border-purple-200 shadow-2xs">
+                  Cari
+                </kbd>
+              </button>
+
+              {/* Navigation Grid */}
+              <div className="grid grid-cols-2 gap-2">
+                {NAV_ITEMS.map((item) => {
+                  const Icon = item.icon;
+                  const isActive = location.pathname === item.href || (item.href !== '/' && location.pathname.startsWith(item.href));
+                  return (
+                    <Link
+                      key={item.name}
+                      to={item.href}
+                      onClick={() => setMobileMenuOpen(false)}
+                      className={`flex items-center gap-2.5 px-3.5 py-3 rounded-2xl text-xs font-semibold font-sans transition-all ${
+                        isActive
+                          ? 'bg-purple-100/80 text-purple-950 border border-purple-200'
+                          : 'bg-purple-50/40 text-slate-700 hover:bg-purple-50 hover:text-purple-900 border border-transparent'
+                      }`}
+                    >
+                      <div className={`p-1.5 rounded-xl ${isActive ? 'bg-purple-600 text-white' : 'bg-purple-100 text-purple-700'}`}>
+                        <Icon size={14} />
+                      </div>
+                      <span>{item.name}</span>
+                    </Link>
+                  );
+                })}
+              </div>
+
+              {/* High-Conversion Mobile WhatsApp Action */}
+              <div className="pt-2 border-t border-purple-100">
+                <a
+                  id="mobile-menu-whatsapp-btn"
+                  href={whatsappUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="flex items-center justify-between w-full py-3.5 px-5 bg-purple-600 hover:bg-purple-700 active:bg-purple-800 text-white rounded-2xl font-sans font-bold text-xs uppercase tracking-wider shadow-md shadow-purple-600/25 transition-all cursor-pointer group"
                 >
-                  Mulai Konsultasi Enterprise
+                  <div className="flex items-center gap-2.5">
+                    <MessageCircle size={18} className="text-white" />
+                    <span>Chat with us on WhatsApp</span>
+                  </div>
+                  <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
                 </a>
-              </motion.div>
-            </motion.nav>
-          </motion.div>
+
+                <div className="flex items-center justify-center gap-2 mt-3 text-[11px] text-slate-500 font-sans">
+                  <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                  <span>Respon Cepat via WhatsApp</span>
+                </div>
+              </div>
+            </motion.div>
+          </div>
         )}
       </AnimatePresence>
-    </>
+    </header>
   );
 }

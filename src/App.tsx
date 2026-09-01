@@ -17,6 +17,7 @@ import CommandPalette from './components/organisms/CommandPalette.tsx';
 import Header from './components/organisms/Header.tsx';
 import FooterSection from './components/organisms/FooterSection.tsx';
 import FloatingAIAssistant from './components/organisms/FloatingAIAssistant.tsx';
+import CommLinkAdmin from './components/CommLinkAdmin.tsx';
 import LoadingScreen from './components/organisms/LoadingScreen.tsx';
 import InteractiveBackground from './components/atoms/InteractiveBackground.tsx';
 
@@ -31,6 +32,7 @@ import WorkflowPage from './pages/WorkflowPage.tsx';
 import ServiceDetailPage from './pages/ServiceDetailPage.tsx';
 import AreaDetailPage from './pages/AreaDetailPage.tsx';
 import AdminPage from './pages/AdminPage.tsx';
+import ClientPortalPage from './pages/ClientPortalPage.tsx';
 import NotFoundPage from './pages/NotFoundPage.tsx';
 import KeyboardShortcutsModal from './components/organisms/KeyboardShortcutsModal.tsx';
 
@@ -78,13 +80,16 @@ function AppContent({ appLoaded }: { appLoaded: boolean }) {
             <Route path="/layanan/:slug" element={<PageWrapper><ServiceDetailPage /></PageWrapper>} />
             <Route path="/area/:cityName" element={<PageWrapper><AreaDetailPage /></PageWrapper>} />
             <Route path="/admin" element={<PageWrapper><AdminPage /></PageWrapper>} />
+            <Route path="/portal" element={<PageWrapper><ClientPortalPage /></PageWrapper>} />
+            <Route path="/workspace/:slug" element={<PageWrapper><ClientPortalPage /></PageWrapper>} />
+            <Route path="/client/:slug" element={<PageWrapper><ClientPortalPage /></PageWrapper>} />
             <Route path="*" element={<PageWrapper><NotFoundPage /></PageWrapper>} />
           </Routes>
         </AnimatePresence>
         
         <FooterSection />
       </motion.div>
-      <FloatingAIAssistant />
+      <FloatingAIAssistant isLoaded={appLoaded} />
     </div>
   );
 }
@@ -171,6 +176,7 @@ export default function App() {
         <CommandPalette />
         
         <AppContent appLoaded={appLoaded} />
+        <CommLinkAdmin />
         <KeyboardShortcutsModal />
         <Toaster position="bottom-left" toastOptions={{ style: { background: "#1e293b", color: "#fff", fontSize: "14px", borderRadius: "12px", fontFamily: "sans-serif" } }} />
       </main>

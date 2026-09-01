@@ -89,12 +89,12 @@ export default function AICaseStudies() {
                 
                 <div>
                   <a 
-                    href="https://wa.me/6282125447232?text=Halo%20CHESTAADOTCOM%2C%20saya%20tertarik%20dengan%20solusi%20AI%20seperti%20studi%20kasus%20di%20portfolio."
+                    href={`https://wa.me/6282125447232?text=${encodeURIComponent('Halo Mas Chesta, saya tertarik untuk menerapkan solusi AI Agentic di bisnis saya.')}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-[#6b21a8] text-white font-sans font-bold text-sm hover:bg-purple-700 transition-colors shadow-md"
+                    className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-purple-600 text-white font-sans font-bold text-sm hover:bg-purple-700 transition-colors shadow-md shadow-purple-600/20"
                   >
-                    Terapkan AI di Bisnis Anda <ArrowRight size={16} />
+                    <span>Chat with us on WhatsApp</span> <ArrowRight size={16} />
                   </a>
                 </div>
               </div>

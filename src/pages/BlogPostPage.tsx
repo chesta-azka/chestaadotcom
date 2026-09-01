@@ -1,43 +1,51 @@
-import { useState, useEffect } from 'react';
+import { useEffect } from 'react';
 import { useParams, Link } from 'react-router-dom';
 import { motion, useScroll, useTransform } from 'framer-motion';
-import { ArrowLeft, Clock, Calendar, ChevronRight, Zap } from 'lucide-react';
+import { ArrowLeft, Clock, Calendar, Zap, ChevronLeft } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
+import Markdown from 'markdown-to-jsx';
+import TableOfContents from '../components/organisms/TableOfContents.tsx';
 import BlogInteractions from '../components/organisms/BlogInteractions.tsx';
+import { ALL_ARTICLES, Article } from '../data/blogData';
 
-// Mock Blog Data since we don't have a DB yet for blogs
-const MOCK_POSTS = {
-  "agentic-ai-b2b": {
-    title: "How Agentic AI is Reshaping B2B SaaS Workflows in BSD City",
-    date: "24 Aug 2026",
-    readTime: "8 min read",
-    author: "Principal Engineer",
-    image: "https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=2000",
-    tags: ["Artificial Intelligence", "B2B SaaS", "Automation"],
-    isAI: true,
-    content: `
-      <p class="lead">The landscape of business-to-business software is experiencing a paradigm shift. Traditional monolithic applications are giving way to intelligent, autonomous ecosystems driven by Agentic AI.</p>
-      
-      <h2>The Shift from Reactive to Proactive</h2>
-      <p>For years, SaaS platforms have relied on user inputs to trigger workflows. You click a button, the system responds. Agentic AI flips this model. By understanding context, analyzing data in real-time, and possessing agency, these systems anticipate needs before they arise.</p>
-      
-      <blockquote>"We are moving from software as a tool to software as a collaborator. In high-growth corridors like BSD City and Cisauk, businesses adopting Agentic AI are seeing a 400% increase in operational velocity."</blockquote>
-      
-      <h2>Core Capabilities in Modern Workflows</h2>
-      <ul>
-        <li><strong>Autonomous Lead Qualification:</strong> AI agents instantly evaluate inbound inquiries, parse requirements, and score intent without human intervention.</li>
-        <li><strong>Dynamic Provisioning:</strong> Infrastructure and workspaces are spun up dynamically based on the specific parameters of a negotiated contract.</li>
-        <li><strong>Predictive Maintenance:</strong> The AI monitors system health, predicts bottlenecks, and scales resources automatically to maintain 99.9% SLAs.</li>
-      </ul>
-      
-      <p>As we continue to build within the Absolute Walled Garden at chestaa.com, our focus remains on integrating these autonomous capabilities directly into our core infrastructure, ensuring our clients receive unparalleled security and efficiency.</p>
-    `
-  }
-};
+const StatCard = ({ percentage, label }: { percentage: string, label: string }) => (
+  <div className="my-10 p-8 rounded-3xl bg-gradient-to-br from-slate-950 to-purple-950 text-white shadow-2xl flex flex-col sm:flex-row items-start sm:items-center gap-4 sm:gap-8 border border-purple-500/20 relative overflow-hidden group">
+    <div className="absolute -right-10 -top-10 w-40 h-40 bg-purple-500/20 blur-3xl rounded-full group-hover:bg-purple-500/30 transition-colors" />
+    <div className="text-6xl font-display font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-purple-200 to-fuchsia-400 drop-shadow-sm">
+      {percentage}
+    </div>
+    <div className="text-lg font-sans font-medium text-slate-300 leading-snug max-w-sm">
+      {label}
+    </div>
+  </div>
+);
+
+const TrendBar = ({ label, progress }: { label: string, progress: number }) => (
+  <div className="my-10 p-8 rounded-3xl bg-slate-50 border border-purple-100 shadow-sm relative overflow-hidden">
+    <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-purple-500 to-fuchsia-500 opacity-20" />
+    <div className="flex flex-col sm:flex-row sm:justify-between sm:items-end mb-4 gap-2">
+      <div className="text-sm font-bold text-slate-800 uppercase tracking-widest">{label}</div>
+      <div className="text-2xl font-display font-black text-purple-900">{progress}%</div>
+    </div>
+    <div className="w-full bg-slate-200/80 rounded-full h-4 overflow-hidden shadow-inner">
+      <motion.div 
+        initial={{ width: 0 }}
+        whileInView={{ width: `${Math.min(progress, 100)}%` }}
+        viewport={{ once: true, margin: "-50px" }}
+        transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1] }}
+        className="bg-gradient-to-r from-purple-600 to-fuchsia-600 h-full rounded-full relative"
+      >
+        <div className="absolute inset-0 bg-white/20 w-full h-full" style={{ backgroundImage: 'linear-gradient(45deg, rgba(255,255,255,0.15) 25%, transparent 25%, transparent 50%, rgba(255,255,255,0.15) 50%, rgba(255,255,255,0.15) 75%, transparent 75%, transparent)', backgroundSize: '1rem 1rem' }} />
+      </motion.div>
+    </div>
+  </div>
+);
 
 export default function BlogPostPage() {
   const { slug } = useParams<{ slug: string }>();
-  const post = MOCK_POSTS[slug as keyof typeof MOCK_POSTS] || MOCK_POSTS["agentic-ai-b2b"]; // fallback for demo
+  
+  // Find article from real data
+  const post = ALL_ARTICLES.find(p => p.slug === slug) || ALL_ARTICLES[0];
   
   const { scrollYProgress } = useScroll();
   const y = useTransform(scrollYProgress, [0, 1], [0, 200]);
@@ -52,11 +60,12 @@ export default function BlogPostPage() {
     "@type": "TechArticle",
     "headline": post.title,
     "image": [post.image],
-    "datePublished": "2026-08-24T08:00:00+08:00",
-    "dateModified": "2026-08-24T08:00:00+08:00",
+    "datePublished": "2026-08-31T08:00:00+08:00",
+    "dateModified": "2026-08-31T08:00:00+08:00",
     "author": [{
         "@type": "Person",
-        "name": post.author
+        "name": post.author?.name || "Chesta Azka",
+        "url": "https://chestaa.com/about"
     }],
     "publisher": {
       "@type": "Organization",
@@ -66,97 +75,143 @@ export default function BlogPostPage() {
         "url": "https://chestaa.com/logo.png"
       }
     },
-    "description": "Insight on B2B SaaS workflows and AI automation focused on BSD City and Cisauk tech ecosystem.",
+    "description": post.desc,
     "about": {
+      "@type": "Organization",
+      "name": "CHESTAADOTCOM B2B Web Development",
+      "address": {
+        "@type": "PostalAddress",
+        "addressLocality": "BSD City, Cisauk",
+        "addressRegion": "Banten",
+        "addressCountry": "ID"
+      }
+    },
+    "contentLocation": {
       "@type": "Place",
-      "name": "BSD City, Cisauk, Tangerang"
+      "name": "BSD City & Cisauk Tech Hub"
     }
   };
 
+  // Convert old content array or use raw MDX
+  let unifiedContent = post.mdxContent || post.content.map(c => 
+    typeof c === 'string' ? c : `![${c.alt}](${c.url})`
+  ).join('\n\n');
+
+  // Strip frontmatter if present
+  if (unifiedContent.startsWith('---')) {
+    const endOfFrontmatter = unifiedContent.indexOf('---', 3);
+    if (endOfFrontmatter !== -1) {
+      unifiedContent = unifiedContent.substring(endOfFrontmatter + 3).trim();
+    }
+  }
+
+  // Inject IDs and extract headings
+  const headings: { id: string; text: string }[] = [];
+  unifiedContent = unifiedContent.replace(/^##\s+(.*)$/gm, (match, title) => {
+    const id = title.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+    headings.push({ id, text: title });
+    return `## <span id="${id}"></span>${title}`;
+  });
+
   return (
-    <main className="min-h-screen bg-white dark:bg-slate-950">
+    <main className="min-h-screen bg-white pt-40 md:pt-48 font-sans">
       <Helmet>
         <title>{post.title} | CHESTAADOTCOM Insights</title>
-        <meta name="description" content="Discover deep tech insights tailored for BSD City and Cisauk enterprises." />
+        <meta name="description" content={post.desc} />
         <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
       </Helmet>
 
-      {/* Hero Section with Parallax Image */}
-      <div className="relative h-[60vh] min-h-[500px] w-full overflow-hidden bg-black mt-[120px] md:mt-[160px]">
+      {/* Hero Section */}
+      <div className="relative h-[60vh] min-h-[550px] w-full overflow-hidden bg-purple-950">
         <motion.div 
           style={{ y, opacity }}
           className="absolute inset-0"
         >
           <img 
-            src={post.image} 
+            src={post.image || 'https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=2000'} 
             alt={post.title}
-            className="w-full h-full object-cover opacity-60 scale-105"
+            className="w-full h-full object-cover opacity-50 scale-105 mix-blend-overlay"
           />
-          {/* Blur Gradient Overlay for text readability */}
-          <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-900/40 to-transparent" />
-          <div className="absolute inset-0 backdrop-blur-[2px]" />
+          <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-900/60 to-transparent" />
         </motion.div>
 
         <div className="absolute inset-0 flex items-end">
           <div className="max-w-4xl mx-auto px-6 pb-16 w-full">
-            <Link to="/blog" className="inline-flex items-center gap-2 text-white/70 hover:text-white transition-colors mb-8 text-sm font-medium tracking-wide">
-              <ArrowLeft size={16} /> BACK TO INSIGHTS
+            <Link to="/blog" className="inline-flex items-center gap-2 text-white/70 hover:text-white transition-colors mb-8 text-xs font-bold tracking-widest uppercase bg-white/10 px-4 py-2 rounded-full backdrop-blur-sm border border-white/10">
+              <ChevronLeft size={16} /> KEMBALI KE ARTIKEL
             </Link>
             
             <div className="flex flex-wrap items-center gap-3 mb-6">
-              {post.tags.map(tag => (
-                <span key={tag} className="px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-xs font-semibold text-white tracking-widest uppercase">
+              {post.tags?.slice(0,3).map(tag => (
+                <span key={tag} className="px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-[10px] font-bold text-white tracking-widest uppercase">
                   {tag}
                 </span>
               ))}
-              {post.isAI && (
-                <span className="px-3 py-1 rounded-full bg-indigo-500/20 backdrop-blur-md border border-indigo-400/30 text-xs font-bold text-indigo-200 tracking-widest uppercase flex items-center gap-1.5">
-                  <Zap size={12} className="text-indigo-400" /> GENERATED BY AI
-                </span>
-              )}
             </div>
             
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-medium text-white leading-[1.1] tracking-tight mb-6 drop-shadow-lg">
+            <h1 className="text-3xl md:text-5xl lg:text-6xl font-display font-bold text-white leading-[1.15] tracking-tight mb-8 drop-shadow-md">
               {post.title}
             </h1>
             
-            <div className="flex items-center gap-6 text-white/80 text-sm font-sans">
-               <div className="flex items-center gap-2">
-                 <div className="w-8 h-8 rounded-full bg-slate-800 border border-slate-600 flex items-center justify-center font-bold text-white">
-                   {post.author[0]}
+            <div className="flex flex-wrap items-center gap-6 text-white/90 text-sm font-sans">
+               <div className="flex items-center gap-3">
+                 <img 
+                   src={post.author?.avatar || 'https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=256'} 
+                   alt={post.author?.name}
+                   className="w-10 h-10 rounded-full bg-purple-800 border-2 border-purple-500/50 object-cover"
+                 />
+                 <div className="flex flex-col">
+                   <span className="font-bold">{post.author?.name || 'Chesta Azka'}</span>
+                   <span className="text-xs text-white/60">{post.author?.role || 'Lead Architect'}</span>
                  </div>
-                 <span className="font-medium">{post.author}</span>
                </div>
-               <div className="w-1 h-1 rounded-full bg-white/30" />
-               <div className="flex items-center gap-1.5">
-                 <Calendar size={14} /> {post.date}
+               <div className="hidden sm:block w-1 h-1 rounded-full bg-white/40" />
+               <div className="flex items-center gap-2 text-white/80 font-medium">
+                 <Calendar size={14} className="text-purple-400" /> {post.date}
                </div>
-               <div className="w-1 h-1 rounded-full bg-white/30" />
-               <div className="flex items-center gap-1.5">
-                 <Clock size={14} /> {post.readTime}
+               <div className="hidden sm:block w-1 h-1 rounded-full bg-white/40" />
+               <div className="flex items-center gap-2 text-white/80 font-medium">
+                 <Clock size={14} className="text-purple-400" /> {post.readTime}
                </div>
             </div>
           </div>
         </div>
       </div>
 
-      {/* Content Section (Apple News / Medium Typography style) */}
-      <article className="max-w-3xl mx-auto px-6 py-20">
-         <div 
-           className="prose prose-lg md:prose-xl prose-slate dark:prose-invert max-w-none
-                      prose-headings:font-display prose-headings:font-medium prose-headings:tracking-tight
-                      prose-p:font-serif prose-p:leading-relaxed prose-p:text-slate-800 dark:prose-p:text-slate-200
-                      prose-a:text-indigo-600 dark:prose-a:text-indigo-400 prose-a:no-underline hover:prose-a:underline
-                      prose-blockquote:border-l-4 prose-blockquote:border-indigo-500 prose-blockquote:bg-slate-50 dark:prose-blockquote:bg-slate-900 prose-blockquote:px-6 prose-blockquote:py-4 prose-blockquote:rounded-r-2xl prose-blockquote:font-serif prose-blockquote:italic
-                      prose-img:rounded-3xl prose-img:shadow-2xl"
-           dangerouslySetInnerHTML={{ __html: post.content }}
-         />
+      {/* Content Section */}
+      <div className="max-w-7xl mx-auto px-6 py-16 md:py-24 flex gap-12 items-start">
+         <article className="flex-1">
+           <div className="prose prose-lg prose-slate max-w-none
+                        prose-headings:font-display prose-headings:font-bold prose-headings:tracking-tight prose-headings:text-slate-900
+                        prose-h2:text-3xl prose-h2:mt-12 prose-h2:mb-6 prose-h2:pb-4 prose-h2:border-b prose-h2:border-slate-200
+                        prose-h3:text-2xl prose-h3:mt-8
+                        prose-p:font-sans prose-p:leading-[1.8] prose-p:tracking-[0.015em] prose-p:text-slate-700 prose-p:mb-8
+                        prose-a:text-purple-700 prose-a:font-semibold hover:prose-a:text-purple-900
+                        prose-strong:text-slate-900 prose-strong:font-bold
+                        prose-blockquote:border-l-4 prose-blockquote:border-purple-600 prose-blockquote:bg-purple-50/50 prose-blockquote:px-6 prose-blockquote:py-4 prose-blockquote:rounded-r-2xl prose-blockquote:font-sans prose-blockquote:italic prose-blockquote:text-slate-700 prose-blockquote:leading-[1.75]
+                        prose-img:rounded-3xl prose-img:shadow-xl prose-img:my-12
+                        prose-ul:list-disc prose-ul:pl-6 prose-ul:my-8 prose-ul:leading-[1.8]
+                        prose-li:my-3 prose-li:text-slate-700">
+             <Markdown
+               options={{
+                 overrides: {
+                   StatCard: { component: StatCard },
+                   TrendBar: { component: TrendBar }
+                 }
+               }}
+             >
+               {unifiedContent}
+             </Markdown>
+           </div>
+           
+           <div className="mt-20 pt-10 border-t border-purple-100">
+             <BlogInteractions slug={slug || 'vibe-coding-and-ai-web-development-2026'} />
+           </div>
+         </article>
          
-         <div className="mt-16 pt-10 border-t border-slate-200 dark:border-slate-800">
-           <BlogInteractions slug={slug || 'agentic-ai-b2b'} />
-         </div>
-      </article>
-      
+         {/* Sidebar TOC */}
+         <TableOfContents headings={headings} />
+      </div>
     </main>
   );
 }

@@ -1,9 +1,15 @@
 const fs = require('fs');
-let text = fs.readFileSync('src/components/organisms/FloatingAIAssistant.tsx', 'utf-8');
+const path = 'src/data/blogData.ts';
+let data = fs.readFileSync(path, 'utf8');
 
-text = text.replace(
-  "import { collection, addDoc, serverTimestamp, doc, setDoc, getDoc, updateDoc } from 'firebase/firestore';",
-  "import { collection, addDoc, serverTimestamp, doc, setDoc, getDoc, updateDoc, query, where, onSnapshot } from 'firebase/firestore';"
+data = data.replace(
+  "import filosofiChestaMdx from '../content/filosofi-chesta-azka.mdx?raw';",
+  "import { filosofiChestaMdx } from '../content/filosofiChestaArticle';"
 );
 
-fs.writeFileSync('src/components/organisms/FloatingAIAssistant.tsx', text);
+data = data.replace(
+  "import panduanSeoMdx from '../content/panduan-seo-lokal.mdx?raw';",
+  "import { panduanSeoMdx } from '../content/panduanSeoArticle';"
+);
+
+fs.writeFileSync(path, data);

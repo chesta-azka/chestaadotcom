@@ -19,7 +19,7 @@ import {
   BookmarkCheck,
   TrendingUp
 } from 'lucide-react';
-import { useSearchParams, Link } from 'react-router-dom';
+import { useSearchParams, Link, useNavigate } from 'react-router-dom';
 import MetaTags from '../components/atoms/MetaTags.tsx';
 import BlogSEO from '../components/atoms/BlogSEO.tsx';
 import Breadcrumbs from '../components/atoms/Breadcrumbs';
@@ -57,6 +57,7 @@ const BlogHubSkeleton = () => (
 
 export default function BlogHubPage() {
   const [searchParams, setSearchParams] = useSearchParams();
+  const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [onlyRecommended, setOnlyRecommended] = useState(false);
@@ -83,6 +84,13 @@ export default function BlogHubPage() {
 
   const combinedAllArticles = ALL_ARTICLES;
   const readSlug = searchParams.get('read');
+  
+  useEffect(() => {
+    if (readSlug) {
+      navigate('/blog/' + readSlug, { replace: true });
+    }
+  }, [readSlug, navigate]);
+
   const activeArticle = combinedAllArticles.find(a => a.slug === readSlug);
 
   const generateHeadingId = (text: string) => {
@@ -130,7 +138,7 @@ export default function BlogHubPage() {
   const categories = ['All', 'Tech', 'AI', 'Business', 'SEO', 'Design', 'Copywriting', 'Personal'];
 
   // Trending tags list
-  const popularTags = ['Agentic AI', 'Local SEO', 'Core Web Vitals', 'Conversion', 'Automation', 'WhatsApp Bot', 'Micro-Interactions'];
+  const popularTags = ['Agentic AI', 'Local SEO', 'Core Web Vitals', 'Conversion', 'Automation', 'Live Chat Bot', 'Micro-Interactions'];
 
   // Filter articles based on category, search query, recommended toggle, and tags
   const filteredArticles = useMemo(() => {
@@ -213,7 +221,7 @@ export default function BlogHubPage() {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="pt-12 pb-32 min-h-screen relative"
+      className="pb-32 min-h-screen relative"
     >
       {/* Precision Reading Progress Bar */}
       <AnimatePresence>
@@ -237,7 +245,7 @@ export default function BlogHubPage() {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -15 }}
             transition={{ duration: 0.4, ease: "easeOut" }}
-            className="mx-auto max-w-4xl px-6 pt-[180px] md:pt-[240px] pb-20 relative z-10 flex flex-col items-center"
+            className="mx-auto max-w-4xl px-6 pt-40 md:pt-48 pb-20 relative z-10 flex flex-col items-center"
           >
             <Breadcrumbs items={[{ label: 'Insight', path: '/blog' }, { label: activeArticle.title }]} />
             <MetaTags 
@@ -527,7 +535,7 @@ export default function BlogHubPage() {
                 {relatedArticles.map(art => (
                   <button
                     key={art.slug}
-                    onClick={() => setSearchParams({ read: art.slug })}
+                    onClick={() => navigate('/blog/' + art.slug)}
                     className="p-6 rounded-3xl bg-slate-50 border border-slate-100 hover:border-purple-200 hover:bg-white hover:shadow-xl transition-all duration-300 text-left flex flex-col justify-between group h-full shadow-sm"
                   >
                     <div>
@@ -560,23 +568,23 @@ export default function BlogHubPage() {
             </div>
 
             {/* Bottom Collaboration CTA */}
-            <div className="mt-16 p-8 md:p-12 rounded-3xl bg-slate-900 text-white text-center relative overflow-hidden w-full shadow-2xl">
-              <div className="absolute top-0 right-0 w-64 h-64 bg-[#6b21a8]/20 rounded-full blur-3xl pointer-events-none" />
+            <div className="mt-16 p-8 md:p-12 rounded-3xl bg-gradient-to-br from-purple-50 via-white to-purple-100/50 border border-purple-200 text-slate-900 text-center relative overflow-hidden w-full shadow-xl">
+              <div className="absolute top-0 right-0 w-64 h-64 bg-purple-200/20 rounded-full blur-3xl pointer-events-none" />
               <div className="relative z-10 max-w-xl mx-auto">
-                <BookOpen size={36} className="text-[#6b21a8] mx-auto mb-4" />
-                <h3 className="text-2xl sm:text-3xl font-serif font-medium mb-3">
+                <BookOpen size={36} className="text-purple-600 mx-auto mb-4" />
+                <h3 className="text-2xl sm:text-3xl font-serif font-bold text-slate-900 mb-3">
                   Wujudkan Arsitektur Digital Bisnis Anda
                 </h3>
-                <p className="text-sm text-slate-300 mb-8 font-sans leading-relaxed">
-                  Konsultasikan kebutuhan website dan solusi otomatisasi AI bersama Chesta Azka Sofyan untuk meningkatkan konversi brand Anda.
+                <p className="text-sm text-slate-600 mb-8 font-sans leading-relaxed">
+                  Konsultasikan kebutuhan website dan solusi otomatisasi AI bersama Chesta Azka Sofyan via WhatsApp untuk meningkatkan konversi brand Anda.
                 </p>
                 <a
-                  href="https://wa.me/6282125447232?text=Halo%20CHESTAADOTCOM,%20saya%20tertarik%20berdiskusi%20setelah%20membaca%20insight%20Anda."
+                  href={`https://wa.me/6282125447232?text=${encodeURIComponent('Halo Mas Chesta, saya baru membaca artikel di CHESTAADOTCOM dan ingin berkonsultasi mengenai strategi digital bisnis saya.')}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 rounded-full bg-[#6b21a8] px-8 py-4 font-mono text-xs font-bold uppercase tracking-widest text-white hover:bg-white hover:text-slate-900 transition-all duration-300 shadow-lg cursor-pointer"
+                  className="inline-flex items-center gap-2 rounded-full bg-purple-600 px-8 py-4 font-mono text-xs font-bold uppercase tracking-widest text-white hover:bg-purple-700 transition-all duration-300 shadow-lg shadow-purple-600/20 cursor-pointer"
                 >
-                  <span>Mulai Diskusi WhatsApp</span>
+                  <span>Chat with us on WhatsApp</span>
                   <ArrowUpRight size={14} />
                 </a>
               </div>
@@ -601,7 +609,7 @@ export default function BlogHubPage() {
             />
 
             {/* Header Hero Section */}
-            <section className="relative pt-[180px] md:pt-[240px] pb-16 border-b border-slate-100 mb-12 overflow-hidden">
+            <section className="relative pt-40 md:pt-48 pb-16 border-b border-slate-100 mb-12 overflow-hidden">
               <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-gradient-to-bl from-purple-500/10 via-purple-500/5 to-transparent blur-3xl rounded-full pointer-events-none" />
 
               <div className="mx-auto max-w-7xl px-6 w-full relative z-10">
@@ -645,12 +653,21 @@ export default function BlogHubPage() {
                           onChange={(e) => setSearchQuery(e.target.value)}
                           className="w-full bg-transparent py-3 pl-3 pr-4 text-sm font-sans font-medium placeholder:text-slate-400 text-slate-900 focus:outline-none"
                         />
-                        {searchQuery && (
+                        {searchQuery ? (
                           <button 
                             onClick={() => setSearchQuery('')}
-                            className="text-[10px] text-slate-400 hover:text-slate-700 bg-slate-100 px-2.5 py-1 rounded-full font-mono mr-2 uppercase"
+                            className="text-[10px] text-slate-400 hover:text-slate-700 bg-slate-100 px-2.5 py-1 rounded-full font-mono mr-2 uppercase cursor-pointer"
                           >
                             Clear
+                          </button>
+                        ) : (
+                          <button
+                            type="button"
+                            onClick={() => window.dispatchEvent(new CustomEvent('open-command-palette'))}
+                            className="hidden sm:inline-flex items-center gap-1 text-[10px] font-mono text-[#6b21a8] bg-purple-50 hover:bg-purple-100 border border-purple-200 px-2 py-1 rounded-lg mr-2 font-bold uppercase transition-colors cursor-pointer"
+                            title="Buka Pencarian Global (⌘K)"
+                          >
+                            <span>Global ⌘K</span>
                           </button>
                         )}
                       </div>
@@ -725,7 +742,7 @@ export default function BlogHubPage() {
                       initial={{ opacity: 0, y: 15 }}
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.1, duration: 0.6, ease: "easeOut" }}
-                      onClick={() => setSearchParams({ read: featuredArticle.slug })}
+                      onClick={() => navigate('/blog/' + featuredArticle.slug)}
                       className="group relative bg-white border border-slate-200/90 rounded-3xl p-6 md:p-10 hover:border-purple-300 hover:shadow-2xl transition-all duration-500 cursor-pointer overflow-hidden shadow-sm"
                     >
                       <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity">
@@ -861,7 +878,7 @@ export default function BlogHubPage() {
                       whileInView={{ opacity: 1, y: 0 }}
                       viewport={{ once: true, margin: "-50px" }}
                       transition={{ duration: 0.4, delay: i * 0.05 }}
-                      onClick={() => setSearchParams({ read: art.slug })}
+                      onClick={() => navigate('/blog/' + art.slug)}
                     >
                       {art.image && (
                         <div className="w-full h-44 overflow-hidden rounded-2xl mb-5 relative border border-slate-100">

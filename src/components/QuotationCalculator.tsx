@@ -1,46 +1,23 @@
 "use client";
-import React, { useState, useEffect, useMemo } from 'react';
-import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
-import { db } from '../lib/firebase';
-import { Check, Loader2, Moon, Sun, ArrowRight } from 'lucide-react';
-import toast from 'react-hot-toast';
+import React, { useState, useMemo } from 'react';
+import { Check, ArrowRight, MessageCircle } from 'lucide-react';
 import { motion } from 'motion/react';
 
 const SERVICES = [
-  { id: 'nextjs', name: 'Next.js Web Architecture', minPrice: 5000, maxPrice: 12000 },
-  { id: 'ai', name: 'AI Automation & Agents', minPrice: 8000, maxPrice: 18000 },
-  { id: 'seo', name: 'Local SEO & Optimization', minPrice: 2000, maxPrice: 6000 },
+  { id: 'promo', name: 'Paket Promo UMKM (Domain .com + Cloud)', minPrice: 540000, maxPrice: 540000 },
+  { id: 'nextjs', name: 'Arsitektur Next.js & Company Profile', minPrice: 2500000, maxPrice: 4500000 },
+  { id: 'ai', name: 'Integrasi Otomatisasi AI & Realtime Cloud', minPrice: 5500000, maxPrice: 9000000 },
+  { id: 'seo', name: 'Optimasi SEO Mendalam & Kecepatan Google', minPrice: 850000, maxPrice: 1800000 },
 ];
 
 export function QuotationCalculator() {
-  const [theme, setTheme] = useState<'light' | 'dark'>('light');
-  const [selected, setSelected] = useState<Set<string>>(new Set(['nextjs']));
+  const [selected, setSelected] = useState<Set<string>>(new Set(['promo']));
   const [companyName, setCompanyName] = useState('');
-  const [email, setEmail] = useState('');
-  const [loading, setLoading] = useState(false);
-  const [submitted, setSubmitted] = useState(false);
-
-  // Seamless Dark Mode / Light Mode toggle functionality
-  useEffect(() => {
-    if (document.documentElement.classList.contains('dark')) {
-      setTheme('dark');
-    }
-  }, []);
-
-  const toggleTheme = () => {
-    const newTheme = theme === 'light' ? 'dark' : 'light';
-    setTheme(newTheme);
-    if (newTheme === 'dark') {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-  };
 
   const toggleService = (id: string) => {
     const next = new Set(selected);
     if (next.has(id)) {
-      if (next.size > 1) next.delete(id); // Require at least one selection
+      if (next.size > 1) next.delete(id);
     } else {
       next.add(id);
     }
@@ -60,163 +37,116 @@ export function QuotationCalculator() {
     return { min, max };
   }, [selected]);
 
-  const formatPrice = (val: number) => {
-    return new Intl.NumberFormat('en-US', {
+  const formatRupiah = (val: number) => {
+    return new Intl.NumberFormat('id-ID', {
       style: 'currency',
-      currency: 'USD',
+      currency: 'IDR',
       maximumFractionDigits: 0,
     }).format(val);
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!companyName || !email) return;
+  const handleSendToWhatsApp = () => {
+    const selectedNames = Array.from(selected)
+      .map(id => SERVICES.find(s => s.id === id)?.name)
+      .filter(Boolean)
+      .join(', ');
 
-    setLoading(true);
-    try {
-      await addDoc(collection(db, 'ai_leads'), {
-        companyName,
-        email,
-        servicesRequested: Array.from(selected),
-        estimatedValueMin: estimate.min,
-        estimatedValueMax: estimate.max,
-        status: 'WARM',
-        source: 'Premium Calculator',
-        createdAt: serverTimestamp(),
-      });
-      setSubmitted(true);
-    } catch (error) {
-      console.error(error);
-      toast.error('Failed to submit request.');
-    } finally {
-      setLoading(false);
-    }
+    const text = `Halo Mas Chesta! Saya telah menghitung estimasi kebutuhan website di website CHESTADOTCOM:%0A%0A• *Layanan Dipilih:* ${encodeURIComponent(selectedNames)}%0A• *Estimasi Biaya:* ${encodeURIComponent(formatRupiah(estimate.min))} - ${encodeURIComponent(formatRupiah(estimate.max))}${companyName ? `%0A• *Nama Usaha / Brand:* ${encodeURIComponent(companyName)}` : ''}%0A%0AMohon konfirmasi alur pemesanannya. Terima kasih!`;
+
+    window.open(`https://wa.me/6282125447232?text=${text}`, '_blank');
   };
 
   return (
-    <div className={`relative min-h-[600px] w-full max-w-2xl mx-auto p-1 font-sans transition-colors duration-700 ease-in-out ${theme === 'dark' ? 'dark' : ''}`}>
-      {/* Background Ambient Glow (Apple style subtle gradients) */}
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-50/50 to-purple-50/50 dark:from-slate-900/50 dark:to-blue-900/50 rounded-[2rem] -z-10 transition-colors duration-700" />
-      
-      {/* Glassmorphism Container */}
-      <div className="relative backdrop-blur-xl bg-white/70 dark:bg-black/60 border border-white/40 dark:border-white/10 rounded-[2rem] shadow-[0_8px_32px_rgba(0,0,0,0.06)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.4)] p-8 sm:p-10 transition-all duration-700 overflow-hidden">
+    <div className="relative w-full max-w-2xl mx-auto p-1 font-sans">
+      <div className="relative bg-white border border-purple-100 rounded-3xl shadow-sm p-6 sm:p-8 overflow-hidden">
         
-        {/* Header & Theme Toggle */}
-        <div className="flex justify-between items-start mb-10">
-          <div>
-            <h2 className="text-3xl font-semibold tracking-tight text-slate-900 dark:text-white mb-2 transition-colors duration-500">
-              Project Estimate
-            </h2>
-            <p className="text-slate-500 dark:text-slate-400 text-sm font-medium transition-colors duration-500">
-              Select your requirements for an instant quotation.
-            </p>
+        {/* Header */}
+        <div className="mb-6">
+          <div className="flex items-center gap-2 mb-1">
+            <span className="w-2 h-2 rounded-full bg-purple-600" />
+            <span className="text-xs font-mono uppercase font-bold text-purple-900 tracking-wider">
+              Kalkulator Estimasi Instan
+            </span>
           </div>
-          <motion.button 
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={toggleTheme}
-            className="p-3 rounded-full bg-slate-100/80 dark:bg-white/10 hover:bg-slate-200 dark:hover:bg-white/20 text-slate-700 dark:text-slate-200 transition-colors shadow-sm"
-          >
-            {theme === 'light' ? <Moon size={18} /> : <Sun size={18} />}
-          </motion.button>
+          <h2 className="text-2xl font-display font-bold text-slate-900">
+            Simulasi Biaya Proyek
+          </h2>
+          <p className="text-slate-500 text-xs font-sans mt-0.5">
+            Pilih komponen layanan untuk melihat perkiraan investasi.
+          </p>
         </div>
 
-        {submitted ? (
-          <div className="flex flex-col items-center justify-center py-20 animate-in fade-in zoom-in duration-700">
-            <div className="w-16 h-16 bg-blue-500 text-white rounded-full flex items-center justify-center shadow-lg shadow-blue-500/30 mb-6">
-              <Check size={32} strokeWidth={2.5} />
-            </div>
-            <h3 className="text-2xl font-semibold tracking-tight text-slate-900 dark:text-white mb-3">
-              Proposal Request Sent
-            </h3>
-            <p className="text-slate-500 dark:text-slate-400 text-center max-w-sm">
-              Our architects will review your requirements for {companyName} and reach out to {email} shortly.
-            </p>
+        <div className="space-y-6">
+          {/* Service Toggles */}
+          <div className="space-y-2.5">
+            {SERVICES.map((service) => {
+              const isSelected = selected.has(service.id);
+              return (
+                <button
+                  key={service.id}
+                  type="button"
+                  onClick={() => toggleService(service.id)}
+                  className={`w-full flex items-center justify-between p-4 rounded-2xl border transition-all text-left cursor-pointer ${
+                    isSelected 
+                      ? 'bg-purple-50/60 border-purple-300 shadow-2xs' 
+                      : 'bg-white border-slate-200 hover:border-purple-200 text-slate-700'
+                  }`}
+                >
+                  <span className={`text-xs sm:text-sm font-medium ${isSelected ? 'text-purple-950 font-semibold' : 'text-slate-700'}`}>
+                    {service.name}
+                  </span>
+                  <div className={`w-5 h-5 rounded-full flex items-center justify-center shrink-0 ml-3 transition-all ${isSelected ? 'bg-purple-900 text-white' : 'border border-slate-300'}`}>
+                    <Check size={12} className={isSelected ? 'opacity-100' : 'opacity-0'} />
+                  </div>
+                </button>
+              );
+            })}
           </div>
-        ) : (
-          <form onSubmit={handleSubmit} className="space-y-10 animate-in fade-in duration-700">
-            
-            {/* Service Toggles */}
-            <div className="space-y-4">
-              {SERVICES.map((service) => {
-                const isSelected = selected.has(service.id);
-                return (
-                  <motion.button
-                    whileHover={{ scale: 1.01 }}
-                    whileTap={{ scale: 0.98 }}
-                    key={service.id}
-                    type="button"
-                    onClick={() => toggleService(service.id)}
-                    className={`w-full flex items-center justify-between p-5 rounded-2xl border transition-colors duration-300 ease-out
-                      ${isSelected 
-                        ? 'bg-white dark:bg-white/10 border-blue-500/30 dark:border-blue-400/30 shadow-[0_4px_16px_rgba(0,113,227,0.1)] ring-1 ring-blue-500/20' 
-                        : 'bg-slate-50/50 dark:bg-white/5 border-transparent hover:bg-white dark:hover:bg-white/10 text-slate-600 dark:text-slate-400 hover:shadow-sm'
-                      }`}
-                  >
-                    <span className={`font-medium tracking-tight text-lg transition-colors duration-300 ${isSelected ? 'text-slate-900 dark:text-white' : ''}`}>
-                      {service.name}
-                    </span>
-                    <div className={`w-6 h-6 rounded-full flex items-center justify-center transition-all duration-300 ${isSelected ? 'bg-blue-500 text-white shadow-sm' : 'border border-slate-300 dark:border-slate-600'}`}>
-                      <Check size={14} className={`transition-opacity duration-300 ${isSelected ? 'opacity-100' : 'opacity-0'}`} strokeWidth={3} />
-                    </div>
-                  </motion.button>
-                );
-              })}
-            </div>
 
-            {/* Dynamic Price Display */}
-            <div className="py-6 border-y border-slate-200 dark:border-white/10 transition-colors duration-500">
-              <p className="text-xs font-semibold tracking-wider text-slate-400 dark:text-slate-500 uppercase mb-2">
-                Estimated Investment
+          {/* Dynamic Price Display */}
+          <div className="py-4 px-5 rounded-2xl bg-purple-50/40 border border-purple-100 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+            <div>
+              <p className="text-[10px] font-mono font-bold tracking-wider text-purple-900 uppercase">
+                Perkiraan Total Investasi
               </p>
-              <div className="text-4xl font-semibold tracking-tight text-slate-900 dark:text-white transition-all duration-500">
-                {formatPrice(estimate.min)} <span className="text-slate-300 dark:text-slate-700 font-light mx-2">&mdash;</span> {formatPrice(estimate.max)}
+              <div className="text-xl sm:text-2xl font-display font-bold text-slate-900 mt-0.5">
+                {estimate.min === estimate.max ? (
+                  formatRupiah(estimate.min)
+                ) : (
+                  `${formatRupiah(estimate.min)} - ${formatRupiah(estimate.max)}`
+                )}
               </div>
             </div>
+            <span className="text-[11px] text-slate-500 font-sans">
+              *Transparan & 100% Hak Milik
+            </span>
+          </div>
 
-            {/* User Info Form */}
-            <div className="space-y-4">
-              <div>
-                <input 
-                  type="text" 
-                  required
-                  placeholder="Company Name"
-                  value={companyName}
-                  onChange={(e) => setCompanyName(e.target.value)}
-                  className="w-full px-5 py-4 bg-white/50 dark:bg-black/50 border border-slate-200 dark:border-white/10 rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500"
-                />
-              </div>
-              <div>
-                <input 
-                  type="email" 
-                  required
-                  placeholder="Work Email"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  className="w-full px-5 py-4 bg-white/50 dark:bg-black/50 border border-slate-200 dark:border-white/10 rounded-2xl focus:outline-none focus:ring-2 focus:ring-blue-500/50 focus:border-blue-500/50 transition-all text-slate-900 dark:text-white placeholder:text-slate-400 dark:placeholder:text-slate-500"
-                />
-              </div>
-            </div>
+          {/* Optional Business Name */}
+          <div>
+            <label className="block text-xs font-semibold text-slate-600 mb-1.5">
+              Nama Brand / Usaha (Opsional)
+            </label>
+            <input 
+              type="text" 
+              placeholder="Contoh: Toko Kopi Kita / CV Berkah"
+              value={companyName}
+              onChange={(e) => setCompanyName(e.target.value)}
+              className="w-full px-4 py-2.5 bg-purple-50/20 border border-slate-200 rounded-2xl focus:outline-none focus:border-purple-600 focus:bg-white transition-all text-xs sm:text-sm text-slate-900 placeholder:text-slate-400"
+            />
+          </div>
 
-            {/* Submit Button */}
-            <motion.button
-              whileHover={{ scale: 1.01 }}
-              whileTap={{ scale: 0.98 }}
-              type="submit"
-              disabled={loading || selected.size === 0 || !companyName || !email}
-              className="w-full py-4 px-6 bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-semibold rounded-2xl hover:bg-slate-800 dark:hover:bg-slate-100 hover:shadow-lg hover:shadow-slate-900/20 dark:hover:shadow-white/20 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 flex items-center justify-center gap-2 group"
-            >
-              {loading ? (
-                <Loader2 className="w-5 h-5 animate-spin" />
-              ) : (
-                <>
-                  Request Detailed Proposal
-                  <ArrowRight className="w-5 h-5 group-hover:translate-x-1 transition-transform" />
-                </>
-              )}
-            </motion.button>
-          </form>
-        )}
+          {/* Submit via WhatsApp */}
+          <button
+            type="button"
+            onClick={handleSendToWhatsApp}
+            className="w-full py-3.5 px-6 bg-purple-900 text-white font-sans font-semibold text-xs sm:text-sm rounded-2xl hover:bg-purple-800 shadow-md shadow-purple-950/5 transition-all flex items-center justify-center gap-2 cursor-pointer group"
+          >
+            <MessageCircle size={16} />
+            <span>Kirim Rencana ke WhatsApp</span>
+            <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+          </button>
+        </div>
       </div>
     </div>
   );

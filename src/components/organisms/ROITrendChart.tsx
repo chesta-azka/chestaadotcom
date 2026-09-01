@@ -6,12 +6,12 @@ import { motion } from 'motion/react';
 
 const generateMockData = () => {
   return [
-    { name: 'M1', value: 15 },
-    { name: 'M2', value: 35 },
-    { name: 'M3', value: 55 },
-    { name: 'M4', value: 75 },
-    { name: 'M5', value: 90 },
-    { name: 'M6', value: 100 },
+    { name: 'B1', value: 15 },
+    { name: 'B2', value: 35 },
+    { name: 'B3', value: 55 },
+    { name: 'B4', value: 75 },
+    { name: 'B5', value: 90 },
+    { name: 'B6', value: 100 },
   ];
 };
 
@@ -19,56 +19,55 @@ export default function ROITrendChart() {
   const [data, setData] = useState<any[]>([]);
 
   useEffect(() => {
-    // Avoid hydration mismatch by setting data after mount
     setData(generateMockData());
   }, []);
 
   return (
     <motion.div 
-      initial={{ opacity: 0, y: 20 }}
+      initial={{ opacity: 0, y: 15 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.6, duration: 0.8 }}
-      className="w-full h-56 mt-8"
+      transition={{ delay: 0.4, duration: 0.6 }}
+      className="w-full h-48 mt-6 font-sans"
     >
       <ResponsiveContainer width="100%" height="100%">
         <LineChart data={data} margin={{ top: 10, right: 10, left: -25, bottom: 0 }}>
-          <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="var(--color-border)" strokeOpacity={0.4} />
+          <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
           <XAxis 
             dataKey="name" 
             axisLine={false} 
             tickLine={false} 
-            tick={{ fontSize: 11, fill: '#94a3b8' }} 
-            dy={10}
+            tick={{ fontSize: 10, fill: '#94a3b8' }} 
+            dy={8}
           />
           <YAxis 
             axisLine={false} 
             tickLine={false} 
-            tick={{ fontSize: 11, fill: '#94a3b8' }} 
+            tick={{ fontSize: 10, fill: '#94a3b8' }} 
           />
           <Tooltip 
             content={({ active, payload, label }) => {
               if (active && payload && payload.length) {
                 return (
-                  <div className="bg-white/90 dark:bg-slate-900/90 backdrop-blur-xl border border-slate-200 dark:border-slate-800 p-3 rounded-2xl shadow-[0_10px_40px_-10px_rgba(0,0,0,0.1)] dark:shadow-[0_10px_40px_-10px_rgba(0,0,0,0.5)]">
-                    <p className="text-[10px] uppercase tracking-wider font-semibold text-slate-500 dark:text-slate-400 mb-1">{label}</p>
-                    <p className="text-sm font-bold text-slate-900 dark:text-white">
-                      Growth: <span className="text-blue-500">{payload[0].value}%</span>
+                  <div className="bg-white border border-purple-100 p-2.5 rounded-xl shadow-md">
+                    <p className="text-[10px] uppercase tracking-wider font-semibold text-slate-400 mb-0.5">{label}</p>
+                    <p className="text-xs font-bold text-slate-900">
+                      Peningkatan: <span className="text-purple-900">+{payload[0].value}%</span>
                     </p>
                   </div>
                 );
               }
               return null;
             }}
-            cursor={{ stroke: 'rgba(148, 163, 184, 0.2)', strokeWidth: 2, strokeDasharray: '4 4' }}
+            cursor={{ stroke: 'rgba(107, 33, 168, 0.1)', strokeWidth: 1.5, strokeDasharray: '4 4' }}
           />
           <Line 
             type="monotone" 
             dataKey="value" 
-            stroke="#3b82f6" 
-            strokeWidth={3}
-            dot={{ r: 4, fill: '#ffffff', stroke: '#3b82f6', strokeWidth: 2 }}
-            activeDot={{ r: 6, fill: '#3b82f6', stroke: '#ffffff', strokeWidth: 2 }}
-            animationDuration={2500}
+            stroke="#6b21a8" 
+            strokeWidth={2.5}
+            dot={{ r: 3.5, fill: '#ffffff', stroke: '#6b21a8', strokeWidth: 2 }}
+            activeDot={{ r: 5, fill: '#6b21a8', stroke: '#ffffff', strokeWidth: 2 }}
+            animationDuration={1500}
             animationEasing="ease-in-out"
           />
         </LineChart>

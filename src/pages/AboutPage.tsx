@@ -77,7 +77,7 @@ const strengths = [
     icon: Cpu,
     title: "Agentic AI Integration",
     tag: "OTOMASI CERDAS",
-    desc: "Menanamkan kecerdasan buatan otonom untuk melayani konsultasi prospek, otomasi alur kerja WhatsApp, dan asisten digital interaktif 24 jam sehari."
+    desc: "Menanamkan kecerdasan buatan otonom untuk melayani konsultasi prospek, otomasi alur kerja Live Chat, dan asisten digital interaktif 24 jam sehari."
   },
   {
     icon: Activity,
@@ -145,7 +145,7 @@ export default function AboutPage() {
 
   const handleContactClick = () => {
     const text = 'Halo Mas Chesta, saya tertarik untuk mendiskusikan visi proyek digital saya lebih lanjut.';
-    window.open(`https://wa.me/6282125447232?text=${encodeURIComponent(text)}`, '_blank');
+    window.dispatchEvent(new CustomEvent('open-ai-chat'))
   };
 
   return (
@@ -164,7 +164,7 @@ export default function AboutPage() {
       <div className="fixed top-20 right-10 w-[500px] h-[500px] bg-purple-600/5 rounded-full blur-[120px] pointer-events-none z-0" />
       <div className="fixed bottom-20 left-10 w-[450px] h-[450px] bg-purple-600/5 rounded-full blur-[100px] pointer-events-none z-0" />
       
-      <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-[180px] md:pt-[240px] pb-20">
+      <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-40 md:pt-48 pb-20">
         
         {/* Hero Section Badge & Heading */}
         <motion.div 
@@ -327,13 +327,15 @@ export default function AboutPage() {
                 <ShieldCheck size={16} className="text-emerald-600" />
                 <span>100% Bebas Template & Garansi Performa</span>
               </div>
-              <button
-                onClick={handleContactClick}
-                className="inline-flex items-center gap-1.5 text-xs font-mono font-bold text-purple-800 hover:text-purple-950 transition-colors cursor-pointer"
+              <a
+                href={`https://wa.me/6282125447232?text=${encodeURIComponent('Halo Mas Chesta, saya tertarik untuk mendiskusikan visi proyek digital saya lebih lanjut.')}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-1.5 text-xs font-mono font-bold text-purple-700 hover:text-purple-900 transition-colors cursor-pointer"
               >
-                <span>Diskusi Langsung via WhatsApp</span>
+                <span>Chat with us di WhatsApp</span>
                 <ArrowUpRight size={14} />
-              </button>
+              </a>
             </div>
           </motion.div>
 
@@ -448,30 +450,31 @@ export default function AboutPage() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "0px 0px -300px 0px" }}
           transition={{ duration: 0.8 }}
-          className="relative rounded-3xl overflow-hidden bg-slate-900 text-white p-8 sm:p-12 md:p-16 text-center shadow-xl max-w-5xl mx-auto"
+          className="relative rounded-3xl overflow-hidden bg-gradient-to-br from-purple-50 via-white to-purple-100/50 text-slate-900 border border-purple-200 p-8 sm:p-12 md:p-16 text-center shadow-xl max-w-5xl mx-auto"
         >
-          <div className="absolute inset-0 bg-gradient-to-br from-slate-900 via-slate-950 to-purple-950/40 pointer-events-none"></div>
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-purple-600/15 rounded-full blur-[120px] pointer-events-none"></div>
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-purple-200/20 rounded-full blur-[120px] pointer-events-none"></div>
           
           <div className="relative z-10 max-w-2xl mx-auto">
-            <Code2 strokeWidth={1.5} className="w-12 h-12 mx-auto text-purple-400 mb-6 opacity-80" />
-            <h2 className="text-2xl sm:text-4xl font-display font-bold tracking-tight mb-4 leading-tight">
+            <Code2 strokeWidth={1.5} className="w-12 h-12 mx-auto text-purple-600 mb-6" />
+            <h2 className="text-2xl sm:text-4xl font-display font-bold tracking-tight mb-4 leading-tight text-slate-900">
               Siap Mentransformasi Kehadiran Digital Bisnis Anda?
             </h2>
-            <p className="text-sm sm:text-base text-slate-400 font-sans leading-relaxed mb-8">
+            <p className="text-sm sm:text-base text-slate-600 font-sans leading-relaxed mb-8">
               Mulai dari website profil perusahaan hingga sistem Agentic AI otomatis — mari rancang solusi yang presisi dan relevan dengan target pertumbuhan Anda.
             </p>
             <div className="flex flex-wrap items-center justify-center gap-4">
-              <button 
-                onClick={handleContactClick}
-                className="inline-flex items-center gap-2 bg-gradient-to-r from-purple-600 to-purple-600 hover:from-purple-800 hover:to-purple-700 text-white px-7 py-3.5 rounded-full font-mono text-xs sm:text-sm font-bold uppercase tracking-wider shadow-lg shadow-purple-600/30 transition-all cursor-pointer"
+              <a 
+                href={`https://wa.me/6282125447232?text=${encodeURIComponent('Halo Mas Chesta, saya siap mentransformasi kehadiran digital bisnis saya bersama CHESTAADOTCOM.')}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 bg-purple-600 hover:bg-purple-700 text-white px-7 py-3.5 rounded-full font-mono text-xs sm:text-sm font-bold uppercase tracking-wider shadow-lg shadow-purple-600/20 transition-all cursor-pointer"
               >
-                <span>Konsultasi WhatsApp</span>
-                <ArrowRight size={16} />
-              </button>
+                <MessageSquare size={16} />
+                <span>Chat with us on WhatsApp</span>
+              </a>
               <Link
-                to="/projects"
-                className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 border border-white/20 text-white px-6 py-3.5 rounded-full font-mono text-xs sm:text-sm font-bold uppercase tracking-wider transition-all"
+                to="/portfolio"
+                className="inline-flex items-center gap-2 bg-white hover:bg-purple-50 border border-purple-200 text-purple-700 px-6 py-3.5 rounded-full font-mono text-xs sm:text-sm font-bold uppercase tracking-wider transition-all shadow-2xs"
               >
                 <span>Lihat Portofolio</span>
                 <ArrowUpRight size={16} />

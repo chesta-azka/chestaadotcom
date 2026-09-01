@@ -1,7 +1,7 @@
 import SEOProvider from '../components/atoms/SEOProvider';
 import { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
-import { ArrowUpRight, CheckCircle2, Eye } from 'lucide-react';
+import { ArrowUpRight, CheckCircle2, Eye, MessageCircle, Search } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { PROJECTS } from '../data/projects';
 import MetaTags from '../components/atoms/MetaTags';
@@ -48,7 +48,7 @@ export default function PortfolioPage() {
 
 
   return (
-    <div className="pt-12 pb-32 min-h-screen relative bg-transparent select-none">
+    <div className="pb-32 min-h-screen relative bg-transparent select-none">
       <QuickViewModal isOpen={!!quickViewData} onClose={() => setQuickViewData(null)} data={quickViewData} />
       <SEOProvider 
         title="Client Case Studies & Portfolio | CHESTAADOTCOM"
@@ -61,7 +61,7 @@ export default function PortfolioPage() {
       />
 
       {/* Cinematic Hero */}
-      <section className="relative min-h-[45vh] flex flex-col justify-end pt-[180px] md:pt-[240px] pb-24 border-b border-slate-100 mb-20 overflow-hidden">
+      <section className="relative min-h-[45vh] flex flex-col justify-end pt-40 md:pt-48 pb-24 border-b border-slate-100 mb-20 overflow-hidden">
         <div className="absolute inset-0 bg-purple-50/50 rounded-full blur-[120px] pointer-events-none -z-10 mix-blend-multiply" />
         
         <div className="mx-auto max-w-7xl px-6 w-full relative z-10">
@@ -86,7 +86,7 @@ export default function PortfolioPage() {
               transition={{ delay: 0.3, duration: 0.6, ease: "easeOut" }}
               className="lg:col-span-4 lg:pb-6 flex lg:justify-end"
             >
-               <div className="flex gap-2 mb-12 flex-wrap pb-4">
+               <div className="flex gap-2 mb-12 flex-wrap pb-4 items-center">
                   <span className="text-[11px] font-sans font-semibold tracking-widest uppercase text-slate-600 whitespace-nowrap mb-2 w-full">Filter By:</span>
                   {CATEGORIES.map(cat => (
                     <button 
@@ -97,6 +97,14 @@ export default function PortfolioPage() {
                       {cat}
                     </button>
                   ))}
+                  <button
+                    onClick={() => window.dispatchEvent(new CustomEvent('open-command-palette'))}
+                    className="px-5 py-2.5 rounded-full font-sans font-semibold text-[11px] uppercase tracking-widest bg-purple-50 hover:bg-purple-100 text-purple-900 border border-purple-200 transition-all flex items-center gap-1.5 cursor-pointer shadow-2xs"
+                    title="Cari seluruh proyek & studi kasus (⌘K)"
+                  >
+                    <Search size={13} className="text-purple-700" />
+                    <span>Cari Proyek</span>
+                  </button>
                </div>
             </motion.div>
           </div>
@@ -187,12 +195,13 @@ export default function PortfolioPage() {
                  <p className="text-sm font-sans text-slate-500 mb-8 leading-relaxed">Konsultasikan kebutuhan spesifik bisnis Anda dengan tim kami sekarang juga secara gratis.</p>
                  
                  <a 
-                   href="https://wa.me/6282125447232" 
+                   href="https://wa.me/6282125447232?text=Halo%20CHESTAADOTCOM%2C%20saya%20tertarik%20dengan%20portofolio%20website%20dan%20AI%20Anda%20dan%20ingin%20konsultasi." 
                    target="_blank" 
                    rel="noopener noreferrer" 
-                   className="flex items-center justify-center gap-2 w-full py-4 bg-[#6b21a8] text-white font-sans font-bold rounded-xl text-sm hover:scale-[1.02] transition-transform duration-300 shadow-md hover:shadow-lg hover:bg-purple-700"
+                   className="flex items-center justify-center gap-2 w-full py-4 bg-purple-600 text-white font-sans font-bold rounded-xl text-sm hover:scale-[1.02] transition-transform duration-300 shadow-md hover:shadow-lg hover:bg-purple-700 cursor-pointer"
                  >
-                    Chat via WhatsApp <ArrowUpRight size={16} />
+                    <MessageCircle size={16} />
+                    <span>Chat with us on WhatsApp</span>
                  </a>
               </div>
            </div>

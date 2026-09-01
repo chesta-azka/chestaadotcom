@@ -17,6 +17,7 @@ export default function AdminDashboardLayout({ children, onLogout, activeTab, se
   // Phase 3 Features: AI Lead Scoring, Workspace Generator, One-Click Document, SLA Node Health, Localized GEO-SEO
   const tabs = [
     { id: 'dashboard', label: 'Dashboard & Analytics', icon: Activity },
+    { id: 'kanban', label: 'Live Kanban & Vault', icon: Briefcase },
     { id: 'ai_leads', label: 'AI Lead Scoring', icon: Users },
     { id: 'ai_training', label: 'AI Feedback & Training', icon: Sparkles },
     { id: 'business_config', label: 'Workspace Generator', icon: Plus },
@@ -33,7 +34,7 @@ export default function AdminDashboardLayout({ children, onLogout, activeTab, se
       {/* Mobile Menu Button */}
       <button 
         onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-        className="lg:hidden fixed top-6 right-6 z-[120] p-3 bg-white border-2 border-black hover:bg-black hover:text-white transition-colors"
+        className="lg:hidden fixed top-6 right-6 z-[120] p-3 bg-white border border-slate-200 shadow-sm rounded-xl hover:bg-black hover:text-white transition-colors"
       >
         {isMobileMenuOpen ? <X size={24} strokeWidth={2.5} /> : <Menu size={24} strokeWidth={2.5} />}
       </button>
@@ -51,9 +52,9 @@ export default function AdminDashboardLayout({ children, onLogout, activeTab, se
         )}
       </AnimatePresence>
 
-      {/* Brutalist Sidebar */}
+      {/* Modern Sidebar */}
       <motion.aside 
-        className="fixed lg:static inset-y-0 left-0 w-72 bg-white text-black flex flex-col pt-8 border-r-4 border-black shrink-0 z-[110]"
+        className="fixed lg:static inset-y-0 left-0 w-72 bg-white text-black flex flex-col pt-8 border-r border-slate-200 shadow-[4px_0_24px_rgba(0,0,0,0.02)] shrink-0 z-[110]"
         initial={false}
         animate={{ x: window.innerWidth >= 1024 ? 0 : (isMobileMenuOpen ? 0 : -288) }}
         transition={{ type: 'spring', stiffness: 300, damping: 30 }}
@@ -61,8 +62,8 @@ export default function AdminDashboardLayout({ children, onLogout, activeTab, se
       >
         
         <div className="px-8 mb-12">
-          <Link to="/" className="text-2xl font-display font-black tracking-tighter uppercase flex flex-col gap-1" onClick={() => setIsMobileMenuOpen(false)}>
-            <span className="bg-black text-white px-2 py-1 w-max leading-none">SYS.ADMIN</span>
+          <Link to="/" className="text-xl font-display font-bold text-slate-900 flex flex-col gap-1" onClick={() => setIsMobileMenuOpen(false)}>
+            <span className="bg-purple-600 text-white px-3 py-1.5 rounded-lg w-max leading-none">SYS.ADMIN</span>
             <span className="text-sm tracking-widest text-slate-500 font-bold">COMMAND_CENTER</span>
           </Link>
         </div>
@@ -75,10 +76,10 @@ export default function AdminDashboardLayout({ children, onLogout, activeTab, se
                 setActiveTab(tab.id);
                 setIsMobileMenuOpen(false);
               }}
-              className={`w-full flex items-center gap-4 px-4 py-3 font-mono font-bold uppercase tracking-tight text-sm transition-all border-2 ${
+              className={`w-full flex items-center gap-4 px-4 py-3 font-medium text-[13px] transition-all rounded-xl ${
                 activeTab === tab.id
-                  ? 'bg-black text-white border-black translate-x-2'
-                  : 'bg-transparent text-slate-600 border-transparent hover:border-black hover:text-black hover:translate-x-1'
+                  ? 'bg-purple-50 text-purple-700 shadow-sm'
+                  : 'bg-transparent text-slate-600 hover:bg-slate-50 hover:text-slate-900'
               }`}
             >
               <tab.icon size={18} strokeWidth={2.5} />
@@ -90,7 +91,7 @@ export default function AdminDashboardLayout({ children, onLogout, activeTab, se
         <div className="p-6 mt-auto">
           <button
             onClick={onLogout}
-            className="w-full flex items-center gap-3 px-4 py-4 bg-white border-2 border-black font-mono font-bold uppercase text-sm hover:bg-black hover:text-white transition-colors"
+            className="w-full flex items-center gap-3 px-4 py-4 bg-white border border-slate-200 shadow-sm rounded-xl font-mono font-bold uppercase text-sm hover:bg-black hover:text-white transition-colors"
           >
             <LogOut size={18} strokeWidth={2.5} />
             TERMINATE SESSION
@@ -101,7 +102,7 @@ export default function AdminDashboardLayout({ children, onLogout, activeTab, se
       {/* Main Content */}
       <main className="flex-1 overflow-y-auto pt-20 lg:pt-8 pb-12 px-4 sm:px-8 h-screen w-full lg:w-auto bg-slate-50">
         <div className="max-w-7xl mx-auto h-full">
-          <div className="flex justify-end mb-8 border-b-2 border-black pb-4">
+          <div className="flex justify-end mb-8 border-b border-slate-200 pb-4">
             <SystemHealthHeader />
           </div>
 

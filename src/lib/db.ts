@@ -15,7 +15,11 @@ export interface Workspace {
 export type TicketStatus = 'Backlog' | 'In Progress' | 'Client Review' | 'Deployed';
 
 export interface KanbanTicket {
+  id?: string;
   title: string;
+  description?: string;
+  tag?: string;
+  priority?: 'High' | 'Medium' | 'Low';
   status: TicketStatus;
   orderIndex: number;
   revision_notes?: { note: string, timestamp: any }[];
@@ -29,13 +33,16 @@ export interface ChatMessage {
   timestamp: any;
 }
 
-export type VaultAssetType = 'Invoice' | 'Link' | 'Proposal';
+export type VaultAssetType = 'Invoice' | 'Link' | 'Proposal' | 'Deliverable' | 'Design';
 
 export interface VaultAsset {
+  id?: string;
   workspace_id: string; // reference to workspace slug
   file_url: string;
   type: VaultAssetType;
   title: string;
+  file_size?: string;
+  status?: 'Paid' | 'Pending' | 'Final Release' | 'Draft' | 'Active';
   created_at: any;
 }
 

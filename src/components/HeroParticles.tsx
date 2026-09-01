@@ -29,15 +29,15 @@ export function HeroParticles() {
   }, []);
 
   const particles = useMemo(() => {
-    return Array.from({ length: 40 }).map((_, i) => {
-      const size = Math.random() * 4 + 1;
+    return Array.from({ length: 30 }).map((_, i) => {
+      const size = Math.random() * 3.5 + 1.5;
       return {
         id: i,
         x: Math.random() * 100,
         y: Math.random() * 100,
         size,
-        opacity: Math.random() * 0.5 + 0.1,
-        parallaxSpeed: Math.random() * 0.05 + 0.01,
+        opacity: Math.random() * 0.4 + 0.1,
+        parallaxSpeed: Math.random() * 0.04 + 0.01,
       };
     });
   }, []);
@@ -46,13 +46,10 @@ export function HeroParticles() {
 
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none -z-10">
-      {/* Subtle glowing orbs */}
-      <div className="absolute top-[10%] left-[20%] w-[400px] h-[400px] bg-blue-500/10 dark:bg-blue-600/5 rounded-full blur-[120px]" />
-      <div className="absolute bottom-[20%] right-[10%] w-[300px] h-[300px] bg-purple-500/10 dark:bg-purple-600/5 rounded-full blur-[100px]" />
+      <div className="absolute top-[10%] left-[20%] w-[350px] h-[350px] bg-purple-100/40 rounded-full blur-[100px]" />
+      <div className="absolute bottom-[20%] right-[10%] w-[250px] h-[250px] bg-purple-200/30 rounded-full blur-[90px]" />
       
-      {/* Interactive particles */}
       {particles.map((p) => {
-        // Calculate offset based on mouse position and particle's parallax speed
         const mouseOffsetX = (mousePos.x - windowSize.width / 2) * p.parallaxSpeed;
         const mouseOffsetY = (mousePos.y - windowSize.height / 2) * p.parallaxSpeed;
         
@@ -66,7 +63,7 @@ export function HeroParticles() {
               y: mouseOffsetY
             }}
             transition={{ type: "spring", stiffness: 50, damping: 20 }}
-            className="absolute rounded-full bg-slate-400 dark:bg-slate-300"
+            className="absolute rounded-full bg-purple-300"
             style={{
               left: `${p.x}%`,
               top: `${p.y}%`,

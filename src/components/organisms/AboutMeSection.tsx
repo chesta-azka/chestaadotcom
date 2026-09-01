@@ -51,7 +51,7 @@ export default function AboutMeSection() {
     {
       icon: Cpu,
       title: "Agentic AI & Otomasi Cerdas",
-      desc: "Integrasi LLM, chatbot AI pintar untuk WhatsApp & Web, dan alur kerja otonom 24/7.",
+      desc: "Integrasi LLM, chatbot AI pintar untuk Live Chat & Web, dan alur kerja otonom 24/7.",
       tag: "KAPABILITAS AI",
       metric: "24/7",
       metricSub: "Otomasi Respons"
@@ -255,13 +255,15 @@ export default function AboutMeSection() {
               <ArrowUpRight size={14} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
             </Link>
 
-            <Link
-              to="/contact"
-              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-slate-900 hover:bg-slate-800 text-white text-xs font-mono font-bold uppercase tracking-wider transition-all shadow-2xs cursor-pointer group"
+            <a
+              href={`https://wa.me/6282125447232?text=${encodeURIComponent('Halo Mas Chesta, saya ingin konsultasi proyek pembuatan website bersama CHESTAADOTCOM.')}`}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 px-4 py-2 rounded-full bg-purple-600 hover:bg-purple-700 text-white text-xs font-mono font-bold uppercase tracking-wider transition-all shadow-2xs cursor-pointer group"
             >
-              <span>Konsultasi Proyek</span>
+              <span>Chat with us on WhatsApp</span>
               <ArrowUpRight size={14} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-            </Link>
+            </a>
           </div>
         </div>
 

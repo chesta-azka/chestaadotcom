@@ -1,5 +1,5 @@
 import { motion } from 'motion/react';
-import { ArrowUpRight, MessageSquare, Sparkles, Check, CheckCircle2 } from 'lucide-react';
+import { ArrowUpRight, MessageCircle, Sparkles, Check } from 'lucide-react';
 import TextRevealSmooth from '../atoms/TextRevealSmooth';
 import LeadCaptureForm from './LeadCaptureForm';
 
@@ -14,165 +14,169 @@ interface ChoicePackage {
 
 const packagesList: ChoicePackage[] = [
   {
-    title: "Micro Starter",
-    price: "Rp350K",
-    description: "Launch instan untuk profil digital dasar. Tampil profesional, optimasi Google lokal, dan langsung hadir untuk klien di WhatsApp.",
-    features: [
-      "Kustom Domain .biz.id (Setahun)",
-      "Landing Page Modern & Ringan",
-      "Setup Google Maps Local",
-      "Integrasi WhatsApp Konsultasi",
-      "Optimasi SEO Area Lokal"
-    ],
-    waMessage: "Halo Mas Chesta! Saya mau ambil Paket Micro Starter Rp350K. Bisa bantu buatkan landing page dasar?"
-  },
-  {
     title: "UMKM Starter",
     price: "Rp540K",
     originalPrice: "Rp650K",
-    description: "Fondasi digital profesional untuk bisnis tumbuh. Visual premium korporat, kecepatan tinggi, memikat calon pelanggan lebih cepat.",
+    description: "Solusi digital lengkap untuk UMKM & brand modern. Tampilan elegan, responsif smartphone, dan loading super cepat di bawah 1 detik.",
     features: [
-      "Kustom Domain .com (Setahun)",
-      "Mobile-First & Super Cepat",
-      "Desain Visual Premium Korporat",
-      "Ready Iklan & SEO Lokal Terintegrasi",
-      "Integrasi Tombol WhatsApp Pintar",
-      "Optimasi Performa 0.5-1s"
+      "Domain Resmi .com (1 Tahun Penuh)",
+      "Loading Cepat Skor PageSpeed 95+",
+      "Desain Visual Modern & Bersih",
+      "Optimasi SEO Google & Meta Tag",
+      "Integrasi Tombol WhatsApp Interaktif",
+      "100% Hak Milik Tanpa Sewa Terkunci"
     ],
-    waMessage: "Halo Mas Chesta! Saya ingine tingkatkan brand dengan Paket UMKM Starter seharga Rp540K. Boleh info next step-nya?"
+    waMessage: "Halo Mas Chesta! Saya ingin memesan Paket UMKM Starter (Promo Rp540K all-in domain .com). Boleh info langkah pengerjaannya?"
   },
   {
-    title: "Bisnis Premium",
-    price: "Rp2.5M+",
-    description: "Solusi profil bisnis lengkap dengan arsitektur konten strategis untuk mengonversi pengunjung menjadi klien setia.",
+    title: "Bisnis Dominance",
+    price: "Rp2.5M",
+    originalPrice: "Rp3.5M",
+    description: "Website profil bisnis multi-halaman dengan struktur konten komprehensif untuk meningkatkan kredibilitas dan konversi klien B2B.",
     features: [
-      "Semua fitur Starter",
-      "Profil Bisnis Multi-Halaman",
-      "Sistem Desain (UI/UX) Eksklusif",
+      "Semua fitur UMKM Starter",
+      "Struktur Profil Bisnis Multi-Halaman",
+      "Desain UI/UX Eksklusif & Interaktif",
       "Optimasi Performa Web Ekstrim <0.8s",
-      "Integrasi Google Analytics & Maps",
-      "Strategi & Setup Metadata SEO"
+      "Integrasi Google Maps & Analytics",
+      "Setup Metadata SEO Mendalam"
     ],
-    waMessage: "Halo Mas Chesta! Saya serius ingin menggunakan Paket Bisnis Premium untuk akselerasi brand saya. Bisa jelaskan strateginya?"
+    waMessage: "Halo Mas Chesta! Saya tertarik dengan Paket Bisnis Dominance Rp2.5M untuk profil bisnis kami. Bisa jelaskan strateginya?"
+  },
+  {
+    title: "Enterprise & AI",
+    price: "Rp5.5M+",
+    description: "Arsitektur kustom dengan database cloud, integrasi otomatisasi cerdas, dan sistem dashboard web skala besar.",
+    features: [
+      "Semua fitur Bisnis Dominance",
+      "Integrasi Otomatisasi AI Kustom",
+      "Cloud Database & Realtime API",
+      "Live Deployment & Staging Preview",
+      "Garansi Maintenance & Technical Support",
+      "Konsultasi Arsitektur Berkelanjutan"
+    ],
+    waMessage: "Halo Mas Chesta! Saya ingin konsultasi solusi Custom Enterprise & AI untuk perusahaan kami. Mohon info waktu diskusinya."
   }
 ];
 
 export default function ContactSection() {
-  const openWhatsApp = (msg: string) => {
+  const handleOpenWhatsApp = (msg: string) => {
     window.open(`https://wa.me/6282125447232?text=${encodeURIComponent(msg)}`, '_blank');
   };
 
   return (
-    <section id="pricing" className="py-24 md:py-32 relative overflow-hidden bg-transparent select-none text-slate-900">
-      {/* Seamless background blending gradients */}
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/[0.012] to-transparent pointer-events-none" />
-      {/* Absolute lighting visual glow */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[550px] h-[550px] bg-[#6b21a8]/5 rounded-full filter blur-[150px] pointer-events-none" />
-      
+    <section id="pricing" className="py-20 md:py-28 relative overflow-hidden bg-white select-none text-slate-900">
       <div className="mx-auto max-w-6xl px-4 sm:px-6 relative z-10">
         
         {/* Section Header */}
-        <div className="text-center max-w-3xl mx-auto mb-16 md:mb-20">
+        <div className="text-center max-w-3xl mx-auto mb-16">
           <motion.div
             initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="space-y-4"
+            transition={{ duration: 0.5 }}
+            className="space-y-3"
           >
-            <span className="text-[#6b21a8] font-mono text-[10px] uppercase tracking-[0.2em] inline-flex items-center gap-2 bg-slate-100 px-3 py-1 rounded-full border border-slate-200">
-              <Sparkles size={10} className="text-[#6b21a8] animate-pulse" />
-              Mulai Inisiatif Anda
+            <span className="text-[#6b21a8] font-mono text-[11px] uppercase tracking-wider inline-flex items-center gap-1.5 bg-purple-50 px-3.5 py-1 rounded-full border border-purple-100">
+              <Sparkles size={11} className="text-[#6b21a8]" />
+              Konsultasi & Harga
             </span>
-            <div className="text-fluid-h2 font-display font-medium tracking-tight leading-tight text-slate-900 px-2">
+            <div className="text-fluid-h2 font-display font-bold tracking-tight text-slate-900 px-2">
               <TextRevealSmooth 
-                text="Inisiasi Kemitraan Digital Strategis." 
-                highlightWords={["Kemitraan", "Strategis"]}
-                highlightClass="font-serif italic text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-purple-400"
+                text="Mulai Proyek Website Anda Hari Ini." 
+                highlightWords={["Website", "Hari Ini"]}
+                highlightClass="text-[#6b21a8]"
               />
             </div>
-            <p className="text-xs sm:text-sm font-sans text-slate-600 max-w-xl mx-auto leading-relaxed mt-4">
-              Transparansi penuh sejak hari pertama. Lengkapi asesmen singkat di bawah untuk mendapatkan estimasi arsitektur proyek, atau pilih langsung model engagement yang sesuai dengan skala bisnis Anda.
+            <p className="text-xs sm:text-sm font-sans text-slate-600 max-w-xl mx-auto leading-relaxed mt-3">
+              Pilih paket yang sesuai dengan kebutuhan Anda atau sesuaikan rencana website di bawah untuk langsung terhubung ke WhatsApp.
             </p>
           </motion.div>
         </div>
 
-        {/* Lead Capture Form */}
+        {/* Lead Capture to WhatsApp Component */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.2 }}
-          className="mb-24"
+          transition={{ duration: 0.5, delay: 0.1 }}
+          className="mb-20"
         >
           <LeadCaptureForm />
         </motion.div>
 
-        <div className="text-center mb-12">
-           <h3 className="text-2xl md:text-3xl font-display font-medium text-slate-900">
-             Pilihan Arsitektur Standar
-           </h3>
-           <p className="text-slate-500 font-sans mt-2">Atau pilih langsung paket pengembangan yang terukur dan transparan.</p>
+        <div className="text-center mb-10">
+          <h3 className="text-xl md:text-2xl font-display font-bold text-slate-900">
+            Pilihan Paket Siap Pakai
+          </h3>
+          <p className="text-slate-500 text-xs sm:text-sm font-sans mt-1">
+            Transparansi penuh tanpa biaya tersembunyi & 100% hak milik.
+          </p>
         </div>
 
         {/* Dynamic Package Cards Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16 max-w-5xl mx-auto">
           {packagesList.map((pkg, idx) => {
-            const isMedium = idx === 1; // Highlight the Premium plan nicely but subtly
+            const isPromo = idx === 0;
             return (
               <motion.div
                 key={pkg.title}
-                initial={{ opacity: 0, y: 25 }}
+                initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: idx * 0.1 }}
-                onClick={() => openWhatsApp(pkg.waMessage)}
-                className={`p-6 sm:p-8 rounded-3xl border text-left cursor-pointer transition-all duration-300 group relative overflow-hidden flex flex-col justify-between ${
-                  isMedium 
-                    ? 'bg-white/40 backdrop-blur-xl border-[#6b21a8]/30 shadow-xl shadow-purple-900/5 hover:border-[#6b21a8]/60 hover:bg-white/60 hover:-translate-y-1' 
-                    : 'bg-white/20 backdrop-blur-md border-white/60 hover:border-white hover:bg-white/40 shadow-sm hover:shadow-xl hover:shadow-purple-900/5 hover:-translate-y-1'
+                transition={{ duration: 0.4, delay: idx * 0.1 }}
+                onClick={() => handleOpenWhatsApp(pkg.waMessage)}
+                className={`p-6 sm:p-7 rounded-3xl border text-left cursor-pointer transition-all duration-200 group flex flex-col justify-between ${
+                  isPromo 
+                    ? 'bg-purple-50/40 border-purple-200 shadow-md shadow-purple-950/5 hover:border-purple-300 hover:bg-purple-50/70' 
+                    : 'bg-white border-slate-200 hover:border-purple-200 hover:shadow-md hover:shadow-purple-950/5'
                 }`}
               >
-                {/* Subtle highlight label */}
-                {isMedium && (
-                  <span className="absolute top-4 right-4 bg-purple-600 text-white text-[9px] font-mono uppercase font-extrabold px-2 py-0.5 rounded-full tracking-wider shadow">
-                    Paling Diminati
-                  </span>
-                )}
-
                 <div>
-                  <h3 className="text-slate-500 text-xs font-mono uppercase tracking-widest mb-1">{pkg.title}</h3>
-                  <div className="flex flex-col gap-1 mb-4">
-                    <div className="flex items-baseline gap-1.5">
-                      <span className="text-3xl sm:text-4xl font-display font-bold text-slate-900 tracking-tight">{pkg.price}</span>
-                      <span className="text-xs text-slate-500 font-sans">investasi</span>
-                    </div>
-                    {pkg.originalPrice && (
-                      <span className="text-xs text-slate-400 font-mono line-through uppercase tracking-wider">Normal {pkg.originalPrice}</span>
+                  <div className="flex items-center justify-between mb-2">
+                    <h4 className="text-slate-500 text-xs font-mono uppercase tracking-wider font-semibold">
+                      {pkg.title}
+                    </h4>
+                    {isPromo && (
+                      <span className="bg-purple-900 text-white text-[10px] font-mono uppercase font-bold px-2.5 py-0.5 rounded-full">
+                        Promo Spesial
+                      </span>
                     )}
                   </div>
-                  <p className="text-xs font-sans text-slate-600 leading-relaxed mb-6 group-hover:text-gray-800 transition-colors">
+
+                  <div className="flex flex-col gap-0.5 mb-3">
+                    <div className="flex items-baseline gap-1.5">
+                      <span className="text-3xl font-display font-bold text-slate-900 tracking-tight">{pkg.price}</span>
+                      <span className="text-xs text-slate-500 font-sans">all-in</span>
+                    </div>
+                    {pkg.originalPrice && (
+                      <span className="text-xs text-slate-400 font-mono line-through">Normal {pkg.originalPrice}</span>
+                    )}
+                  </div>
+
+                  <p className="text-xs font-sans text-slate-600 leading-relaxed mb-5">
                     {pkg.description}
                   </p>
 
                   {/* Bullet features */}
-                  <div className="space-y-2.5 mb-8 border-t border-slate-100 pt-6">
+                  <div className="space-y-2 mb-6 border-t border-purple-100/60 pt-4">
                     {pkg.features.map((feat) => (
-                      <div key={feat} className="flex items-center gap-2">
-                        <Check size={12} className="text-purple-600 shrink-0" />
-                        <span className="text-[11px] font-sans text-gray-700 tracking-wide">{feat}</span>
+                      <div key={feat} className="flex items-start gap-2">
+                        <Check size={13} className="text-purple-600 shrink-0 mt-0.5" />
+                        <span className="text-xs font-sans text-slate-700">{feat}</span>
                       </div>
                     ))}
                   </div>
                 </div>
 
-                {/* Simulated Custom Button inside the card to trigger action */}
-                <div className={`mt-auto w-full py-3 px-4 rounded-xl font-mono text-[10px] uppercase font-bold tracking-widest flex items-center justify-between transition-all ${
-                  isMedium 
-                    ? 'bg-purple-600 text-white font-extrabold group-hover:bg-purple-700' 
-                    : 'bg-white text-gray-700 group-hover:bg-slate-900 group-hover:text-white border border-slate-200 group-hover:border-transparent'
+                {/* Direct Action Button to WhatsApp */}
+                <div className={`mt-auto w-full py-3 px-4 rounded-2xl font-sans text-xs font-semibold flex items-center justify-center gap-2 transition-all ${
+                  isPromo 
+                    ? 'bg-purple-900 text-white hover:bg-purple-800 shadow-xs' 
+                    : 'bg-purple-50 text-purple-950 hover:bg-purple-100 border border-purple-200'
                 }`}>
-                  <span>Pilih Paket Ini</span>
+                  <MessageCircle size={14} />
+                  <span>Pesan via WhatsApp</span>
                   <ArrowUpRight size={13} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
                 </div>
               </motion.div>
@@ -180,24 +184,23 @@ export default function ContactSection() {
           })}
         </div>
 
-
-        {/* Location Map Section */}
+        {/* Clean Location Map */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-          className="mt-20 max-w-5xl mx-auto"
+          transition={{ duration: 0.5 }}
+          className="mt-16 max-w-5xl mx-auto"
         >
-          <div className="text-center mb-8">
-            <h3 className="text-xl md:text-2xl font-display font-medium text-slate-900">
-              Jangkauan Operasional
+          <div className="text-center mb-6">
+            <h3 className="text-lg md:text-xl font-display font-bold text-slate-900">
+              Jangkauan Layanan
             </h3>
-            <p className="text-sm text-slate-500 font-sans mt-2">
-              Berbasis di BSD & Cisauk, melayani seluruh kawasan Jabodetabek hingga Nasional.
+            <p className="text-xs sm:text-sm text-slate-500 font-sans mt-1">
+              Berbasis di BSD & Cisauk (Tangerang), melayani klien Jabodetabek hingga seluruh Indonesia secara online.
             </p>
           </div>
-          <div className="w-full h-[300px] sm:h-[400px] rounded-3xl overflow-hidden border border-slate-200 shadow-sm relative">
+          <div className="w-full h-[280px] sm:h-[340px] rounded-3xl overflow-hidden border border-purple-100 shadow-sm relative bg-slate-50">
             <iframe 
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d126907.03473950672!2d106.56847256673163!3d-6.282928399587445!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69fb20a9906e13%3A0xf775cbab5e8bb720!2sBSD%20City%2C%20Tangerang%2C%20Banten!5e0!3m2!1sen!2sid!4v1700000000000!5m2!1sen!2sid" 
               width="100%" 
@@ -206,16 +209,13 @@ export default function ContactSection() {
               allowFullScreen={false} 
               loading="lazy" 
               referrerPolicy="no-referrer-when-downgrade" 
-              className="absolute inset-0 invert-[.95] hue-rotate-180 brightness-[.85] contrast-[1.1] opacity-90 hover:opacity-100 transition-all duration-700 ease-in-out"
-              title="Operational Area Map"
+              className="w-full h-full"
+              title="Lokasi Layanan CHESTADOTCOM"
             />
-            {/* Overlay hint */}
-            <div className="absolute top-4 left-4 bg-[#090D18]/90 backdrop-blur-md px-4 py-2 rounded-full shadow-lg border border-white/10 text-xs font-mono font-bold text-white flex items-center gap-2 pointer-events-none">
-              <span className="relative flex h-2 w-2">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#6b21a8] opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-[#6b21a8]"></span>
-              </span>
-              Headquarters Region
+            {/* Clean Light Overlay badge */}
+            <div className="absolute top-4 left-4 bg-white/95 backdrop-blur-md px-3.5 py-1.5 rounded-full shadow-md border border-purple-100 text-xs font-sans font-medium text-slate-800 flex items-center gap-2 pointer-events-none">
+              <span className="w-2 h-2 rounded-full bg-purple-600 animate-pulse" />
+              <span>BSD City &bull; Tangerang, Banten</span>
             </div>
           </div>
         </motion.div>

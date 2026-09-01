@@ -4,7 +4,6 @@ import { motion, AnimatePresence, useScroll, useTransform, useInView, useMotionV
 import { Link } from 'react-router-dom';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 import { SERVICE_DEFINITIONS } from '../data/ServiceDefinition';
-import FloatingQuoteTrigger from '../components/organisms/FloatingQuoteTrigger';
 import QuickViewModal, { QuickViewData } from '../components/organisms/QuickViewModal';
 import toast from 'react-hot-toast';
 import { logAnalyticsEvent } from '../lib/firebase';
@@ -54,7 +53,7 @@ const TECH_STACK = [
   { name: 'Firebase', category: 'Backend', icon: Rocket },
   { name: 'PostgreSQL', category: 'Backend', icon: Code2 },
   { name: 'Gemini AI', category: 'AI', icon: Sparkles },
-  { name: 'Groq', category: 'AI', icon: Sparkles },
+  { name: 'AI Architecture', category: 'AI', icon: Sparkles },
 ];
 
 const PROCESS_STEPS = [
@@ -395,44 +394,33 @@ function TechStackCarousel({ slug }: { slug: string }) {
 }
 
 function QuickActionBar() {
+  const whatsappUrl = `https://wa.me/6282125447232?text=${encodeURIComponent('Halo Mas Chesta, saya ingin konsultasi layanan website dan solusi AI di CHESTAADOTCOM.')}`;
   return (
     <motion.div 
       initial={{ y: 100, opacity: 0 }}
       animate={{ y: 0, opacity: 1 }}
       transition={{ delay: 0.5, type: "spring" as any, stiffness: 200, damping: 20 }}
-      className="fixed bottom-6 left-1/2 -translate-x-1/2 z-[110] bg-slate-900/90 backdrop-blur-xl border border-white/10 px-2 py-2 rounded-full shadow-2xl flex items-center gap-1"
+      className="fixed bottom-6 left-1/2 -translate-x-1/2 z-[110] bg-white/95 backdrop-blur-2xl border border-purple-200/90 px-3 py-2 rounded-full shadow-[0_10px_35px_rgba(88,28,135,0.12)] flex items-center gap-2"
     >
-      <button 
-        onClick={() => {
-          const el = document.getElementById('contact');
-          if (el) el.scrollIntoView({ behavior: 'smooth' });
-        }}
-        className="flex items-center gap-2 px-4 py-2 rounded-full hover:bg-white/10 text-slate-200 transition-colors text-sm font-medium"
+      <a 
+        href={whatsappUrl}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="flex items-center gap-2 px-5 py-2.5 rounded-full bg-purple-600 hover:bg-purple-700 active:bg-purple-800 text-white transition-all text-xs sm:text-sm font-semibold shadow-sm cursor-pointer"
       >
-        <PhoneCall size={16} className="text-purple-500" />
-        <span className="hidden sm:inline">Contact Us</span>
-      </button>
-      <div className="w-px h-6 bg-white/20" />
-      <button 
-        onClick={() => {
-          const el = document.getElementById('ai-scope');
-          if (el) el.scrollIntoView({ behavior: 'smooth' });
-        }}
-        className="flex items-center gap-2 px-4 py-2 rounded-full hover:bg-white/10 text-slate-200 transition-colors text-sm font-medium"
-      >
-        <FileText size={16} className="text-emerald-400" />
-        <span className="hidden sm:inline">Request Quote</span>
-      </button>
-      <div className="w-px h-6 bg-white/20" />
+        <MessageSquare size={15} />
+        <span>Chat with us</span>
+      </a>
+      <div className="w-px h-6 bg-purple-100" />
       <button 
         onClick={() => {
           const el = document.getElementById('faq');
           if (el) el.scrollIntoView({ behavior: 'smooth' });
         }}
-        className="flex items-center gap-2 px-4 py-2 rounded-full hover:bg-white/10 text-slate-200 transition-colors text-sm font-medium"
+        className="flex items-center gap-1.5 px-4 py-2 rounded-full hover:bg-purple-50 text-slate-700 transition-colors text-xs sm:text-sm font-medium"
       >
-        <HelpCircle size={16} className="text-purple-500" />
-        <span className="hidden sm:inline">View FAQ</span>
+        <HelpCircle size={15} className="text-purple-600" />
+        <span className="hidden sm:inline">FAQ</span>
       </button>
     </motion.div>
   );
@@ -910,38 +898,38 @@ export default function ServicesPage() {
         
         
         {/* 1. HERO SECTION */}
-        <motion.section id="hero" onMouseMove={handleMouseMove} variants={sectionVariants} initial="hidden" whileInView="visible" viewport={{ amount: 0.1, margin: "-100px" }} className="snap-start relative min-h-screen flex flex-col justify-center items-center text-center px-6 md:px-12 pt-[180px] md:pt-[240px] overflow-hidden bg-slate-950 text-white">
-          <GlassReveal dark />
+        <motion.section id="hero" onMouseMove={handleMouseMove} variants={sectionVariants} initial="hidden" whileInView="visible" viewport={{ amount: 0.1, margin: "-100px" }} className="snap-start relative min-h-screen flex flex-col justify-center items-center text-center px-6 md:px-12 pt-40 md:pt-48 overflow-hidden bg-gradient-to-b from-white via-purple-50/20 to-white text-slate-900">
+          <GlassReveal />
           <SectionPin sectionId="hero" />
           <motion.div style={{ y: heroDescY }} className="absolute inset-0 overflow-hidden">
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-purple-800/30 blur-[120px] rounded-full pointer-events-none" />
-            <motion.div animate={{ y: [0, -30, 0], rotate: [0, 10, 0] }} transition={{ repeat: Infinity, duration: 8, ease: "easeInOut" }} className="absolute top-1/4 left-1/4 w-32 h-32 border border-white/10 rounded-full pointer-events-none" />
-            <motion.div animate={{ y: [0, 40, 0], x: [0, 20, 0], rotate: [0, -15, 0] }} transition={{ repeat: Infinity, duration: 12, ease: "easeInOut" }} className="absolute bottom-1/4 right-1/4 w-64 h-64 border border-purple-500/10 rounded-full pointer-events-none" />
-            <motion.div animate={{ scale: [1, 1.1, 1], rotate: [0, 90, 0] }} transition={{ repeat: Infinity, duration: 15, ease: "easeInOut" }} className="absolute top-1/3 right-1/3 w-24 h-24 border border-white/5 rotate-45 pointer-events-none" />
-            <motion.div animate={{ y: [0, -50, 0], x: [0, -30, 0] }} transition={{ repeat: Infinity, duration: 20, ease: "easeInOut" }} className="absolute bottom-1/3 left-1/3 w-48 h-48 border border-cyan-400/10 rounded-full blur-sm pointer-events-none" />
-            <motion.div animate={{ y: [0, 20, 0], x: [0, 40, 0], rotate: [0, 45, 0] }} transition={{ repeat: Infinity, duration: 25, ease: "easeInOut" }} className="absolute top-1/2 left-1/10 w-40 h-40 border border-purple-500/10 rounded-lg rotate-12 pointer-events-none" />
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-purple-200/30 blur-[120px] rounded-full pointer-events-none" />
+            <motion.div animate={{ y: [0, -30, 0], rotate: [0, 10, 0] }} transition={{ repeat: Infinity, duration: 8, ease: "easeInOut" }} className="absolute top-1/4 left-1/4 w-32 h-32 border border-purple-200/50 rounded-full pointer-events-none" />
+            <motion.div animate={{ y: [0, 40, 0], x: [0, 20, 0], rotate: [0, -15, 0] }} transition={{ repeat: Infinity, duration: 12, ease: "easeInOut" }} className="absolute bottom-1/4 right-1/4 w-64 h-64 border border-purple-300/40 rounded-full pointer-events-none" />
+            <motion.div animate={{ scale: [1, 1.1, 1], rotate: [0, 90, 0] }} transition={{ repeat: Infinity, duration: 15, ease: "easeInOut" }} className="absolute top-1/3 right-1/3 w-24 h-24 border border-purple-100 rotate-45 pointer-events-none" />
+            <motion.div animate={{ y: [0, -50, 0], x: [0, -30, 0] }} transition={{ repeat: Infinity, duration: 20, ease: "easeInOut" }} className="absolute bottom-1/3 left-1/3 w-48 h-48 border border-purple-200/40 rounded-full blur-sm pointer-events-none" />
+            <motion.div animate={{ y: [0, 20, 0], x: [0, 40, 0], rotate: [0, 45, 0] }} transition={{ repeat: Infinity, duration: 25, ease: "easeInOut" }} className="absolute top-1/2 left-1/10 w-40 h-40 border border-purple-300/30 rounded-lg rotate-12 pointer-events-none" />
           </motion.div>
           <motion.div style={{ opacity: heroOpacity, rotateX: heroRotateX, rotateY: heroRotateY, x: heroTranslateX, y: heroTranslateY, transformStyle: "preserve-3d" }} className="relative z-10 max-w-4xl mx-auto">
             <motion.div variants={itemVariants}>
-              <motion.span style={{ y: heroBadgeY }} className="px-4 py-1.5 rounded-full bg-white/10 border border-white/20 text-xs font-mono font-medium tracking-widest uppercase mb-8 inline-block backdrop-blur-md">
+              <motion.span style={{ y: heroBadgeY }} className="px-4 py-1.5 rounded-full bg-purple-50 border border-purple-200 text-xs font-mono font-bold tracking-widest text-purple-900 uppercase mb-8 inline-block shadow-xs">
                 Layanan Digital Premium
               </motion.span>
-              <motion.h1 style={{ y: heroTitleY, scale: heroTitleScale }} className="text-6xl md:text-8xl font-display font-medium tracking-tight mb-8 leading-tight">
+              <motion.h1 style={{ y: heroTitleY, scale: heroTitleScale }} className="text-6xl md:text-8xl font-display font-medium tracking-tight mb-8 leading-tight text-slate-900">
                 Arsitektur Digital <br/>
-                <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 via-purple-500 to-cyan-400 italic font-serif pr-4">Masa Depan.</span>
+                <span className="text-purple-600 italic font-serif pr-4">Masa Depan.</span>
               </motion.h1>
               <motion.div style={{ y: heroDescY }}>
                 <CyclingPropositions />
-                <DidYouKnowSnippet dark sectionTitle="Digital Architecture & Premium Web Services" />
+                <DidYouKnowSnippet sectionTitle="Digital Architecture & Premium Web Services" />
               </motion.div>
             </motion.div>
           </motion.div>
           <motion.button  
             animate={{ y: [0, 10, 0] }} transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
             onClick={() => document.getElementById('philosophy')?.scrollIntoView({ behavior: 'smooth' })}
-            className="absolute bottom-12 text-white/50 hover:text-white transition-colors flex flex-col items-center gap-2 cursor-pointer"
+            className="absolute bottom-12 text-slate-400 hover:text-purple-700 transition-colors flex flex-col items-center gap-2 cursor-pointer"
           >
-            <span className="text-xs font-mono tracking-widest uppercase">Scroll</span>
+            <span className="text-xs font-mono tracking-widest uppercase font-semibold">Scroll</span>
             <ArrowDown size={24} />
           </motion.button>
         </motion.section>
@@ -1159,20 +1147,20 @@ export default function ServicesPage() {
 
         {/* 4. AI SCOPE (QUICK REQUEST) */}
         <motion.section id="ai-scope" variants={sectionVariants} initial="hidden" whileInView="visible" viewport={{ amount: 0.1, margin: "-100px" }} className="snap-start min-h-screen flex flex-col justify-center max-w-[1400px] mx-auto px-6 md:px-12 py-24 relative">
-          <GlassReveal dark />
+          <GlassReveal />
           <SectionPin sectionId="ai-scope" />
-          <div className="bg-gradient-to-br from-purple-900 to-slate-900 rounded-[3rem] p-8 md:p-16 relative overflow-hidden shadow-2xl border border-purple-700/20">
-            <div className="absolute top-0 right-0 w-96 h-96 bg-purple-700/20 blur-[100px] rounded-full pointer-events-none" />
+          <div className="bg-gradient-to-br from-purple-50/70 via-white to-purple-100/50 rounded-[3rem] p-8 md:p-16 relative overflow-hidden shadow-xl border border-purple-200/80">
+            <div className="absolute top-0 right-0 w-96 h-96 bg-purple-200/30 blur-[100px] rounded-full pointer-events-none" />
             
             <div className="relative z-10 max-w-3xl mx-auto text-center">
-              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 text-white border border-white/20 text-sm font-medium mb-8 backdrop-blur-md">
-                <Sparkles size={16} className="text-purple-500" />
+              <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-purple-100 text-purple-800 border border-purple-200 text-sm font-medium mb-8">
+                <Sparkles size={16} className="text-purple-600" />
                 AI-Powered Scoping
               </div>
-              <h2 className="text-4xl md:text-5xl font-display font-medium text-white mb-6">Ceritakan Kebutuhan Anda</h2>
-              <p className="text-purple-200 mb-10 text-lg">AI kami akan menganalisis request Anda dan secara instan merekomendasikan tumpukan teknologi, estimasi waktu, dan solusi layanan yang tepat.</p>
+              <h2 className="text-4xl md:text-5xl font-display font-medium text-slate-900 mb-6">Ceritakan Kebutuhan Anda</h2>
+              <p className="text-slate-600 mb-10 text-lg">AI kami akan menganalisis request Anda dan secara instan merekomendasikan tumpukan teknologi, estimasi waktu, dan solusi layanan yang tepat.</p>
               
-              <div className="bg-white p-2 rounded-2xl md:rounded-full shadow-2xl flex flex-col md:flex-row items-center gap-2 focus-within:ring-4 focus-within:ring-purple-700/30 transition-all">
+              <div className="bg-white p-2 rounded-2xl md:rounded-full shadow-lg border border-purple-100 flex flex-col md:flex-row items-center gap-2 focus-within:ring-4 focus-within:ring-purple-500/20 transition-all">
                 <input
                   type="text"
                   value={requestText}
@@ -1184,12 +1172,12 @@ export default function ServicesPage() {
                 <button
                   onClick={handleQuickRequest}
                   disabled={isGenerating || !requestText.trim()}
-                  className="w-full md:w-auto flex items-center justify-center gap-2 bg-purple-800 text-white px-8 py-4 rounded-xl md:rounded-full font-medium hover:bg-purple-700 transition-colors disabled:opacity-50 shrink-0"
+                  className="w-full md:w-auto flex items-center justify-center gap-2 bg-purple-600 text-white px-8 py-4 rounded-xl md:rounded-full font-medium hover:bg-purple-700 transition-colors disabled:opacity-50 shrink-0"
                 >
                   {isGenerating ? <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin" /> : <><Send size={18} /> Analisis Sekarang</>}
                 </button>
               </div>
-              <DidYouKnowSnippet dark sectionTitle="AI Driven Project Scoping and Estimation" />
+              <DidYouKnowSnippet sectionTitle="AI Driven Project Scoping and Estimation" />
             </div>
           </div>
         </motion.section>
@@ -1204,7 +1192,7 @@ export default function ServicesPage() {
               {['All', 'Frontend', 'Backend', 'AI'].map(cat => (
                 <button 
                   key={cat} onClick={() => setFilter(cat)}
-                  className={`px-6 py-2.5 rounded-full font-medium transition-all duration-300 text-sm ${filter === cat ? 'bg-slate-900 text-white shadow-md' : 'bg-white text-slate-600 border border-slate-200 hover:border-slate-400 hover:text-slate-900'}`}
+                  className={`px-6 py-2.5 rounded-full font-medium transition-all duration-300 text-sm ${filter === cat ? 'bg-purple-600 text-white shadow-md' : 'bg-white text-slate-600 border border-slate-200 hover:border-purple-300 hover:text-slate-900'}`}
                 >
                   {cat}
                 </button>
@@ -1218,9 +1206,9 @@ export default function ServicesPage() {
                 <motion.div
                   layout initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} exit={{ opacity: 0, scale: 0.8 }} transition={{ duration: 0.3 }}
                   key={tech.name}
-                  className="flex flex-col items-center gap-4 p-8 rounded-3xl bg-white border border-slate-100 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all w-40"
+                  className="flex flex-col items-center gap-4 p-8 rounded-3xl bg-white border border-purple-100 shadow-sm hover:shadow-xl hover:-translate-y-2 transition-all w-40"
                 >
-                  <div className="w-16 h-16 rounded-2xl bg-purple-50 flex items-center justify-center text-purple-800">
+                  <div className="w-16 h-16 rounded-2xl bg-purple-50 flex items-center justify-center text-purple-700">
                     <tech.icon size={32} />
                   </div>
                   <span className="text-sm font-bold text-slate-800">{tech.name}</span>
@@ -1242,13 +1230,13 @@ export default function ServicesPage() {
             {PROCESS_STEPS.map((step, i) => (
               <motion.div 
                 variants={itemVariants}
-                key={i} className="bg-white p-8 rounded-3xl border border-slate-100 shadow-xl shadow-slate-200/50 relative overflow-hidden group"
+                key={i} className="bg-white p-8 rounded-3xl border border-purple-100 shadow-xl shadow-purple-900/5 relative overflow-hidden group"
               >
-                <div className="text-6xl font-display font-bold text-slate-50 absolute -right-4 -bottom-4 pointer-events-none group-hover:text-purple-50 transition-colors duration-500">
+                <div className="text-6xl font-display font-bold text-purple-50 absolute -right-4 -bottom-4 pointer-events-none group-hover:text-purple-100 transition-colors duration-500">
                   0{i+1}
                 </div>
                 <div className="relative z-10">
-                  <step.icon size={32} className="text-purple-800 mb-6" />
+                  <step.icon size={32} className="text-purple-700 mb-6" />
                   <h3 className="text-xl font-medium mb-3 text-slate-900">{step.title}</h3>
                   <p className="text-slate-500 text-sm leading-relaxed">{step.desc}</p>
                 </div>
@@ -1259,30 +1247,30 @@ export default function ServicesPage() {
         </motion.section>
 
         {/* 7. METRICS / IMPACT */}
-        <motion.section id="metrics" variants={sectionVariants} initial="hidden" whileInView="visible" viewport={{ amount: 0.1, margin: "-100px" }} className="snap-start min-h-screen flex flex-col justify-center bg-slate-900 text-white max-w-[1400px] mx-auto px-6 md:px-12 py-24 rounded-[3rem] my-12 relative overflow-hidden">
-          <GlassReveal dark />
+        <motion.section id="metrics" variants={sectionVariants} initial="hidden" whileInView="visible" viewport={{ amount: 0.1, margin: "-100px" }} className="snap-start min-h-screen flex flex-col justify-center bg-gradient-to-br from-purple-50/60 via-white to-purple-100/40 text-slate-900 max-w-[1400px] mx-auto px-6 md:px-12 py-24 rounded-[3rem] my-12 relative overflow-hidden border border-purple-100 shadow-xl">
+          <GlassReveal />
           <SectionPin sectionId="metrics" />
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_bottom_right,_var(--tw-gradient-stops))] from-purple-800/20 via-slate-900 to-slate-900 pointer-events-none" />
+          <div className="absolute inset-0 bg-purple-100/30 blur-3xl pointer-events-none" />
           <motion.div variants={itemVariants} className="text-center mb-16 relative z-10">
-            <h2 className="text-4xl md:text-5xl font-display font-medium mb-6">Dampak Nyata</h2>
-            <p className="text-slate-400 max-w-2xl mx-auto">Kami tidak hanya menulis kode, kami membangun metrik yang mendorong kesuksesan bisnis Anda.</p>
+            <h2 className="text-4xl md:text-5xl font-display font-medium mb-6 text-slate-900">Dampak Nyata</h2>
+            <p className="text-slate-600 max-w-2xl mx-auto">Kami tidak hanya menulis kode, kami membangun metrik yang mendorong kesuksesan bisnis Anda.</p>
           </motion.div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 relative z-10">
             {METRICS.map((metric, i) => (
               <motion.div 
                 variants={itemVariants}
-                key={i} className="flex flex-col items-center text-center p-6 border border-white/10 bg-white/5 rounded-3xl backdrop-blur-sm"
+                key={i} className="flex flex-col items-center text-center p-6 border border-purple-100 bg-white/80 rounded-3xl backdrop-blur-sm shadow-sm"
               >
-                <metric.icon size={28} className="text-purple-500 mb-4" />
-                <div className="text-4xl md:text-5xl font-display font-bold text-white mb-2">{metric.value}</div>
-                <div className="text-sm text-slate-400 uppercase tracking-widest font-medium">{metric.label}</div>
+                <metric.icon size={28} className="text-purple-600 mb-4" />
+                <div className="text-4xl md:text-5xl font-display font-bold text-slate-900 mb-2">{metric.value}</div>
+                <div className="text-sm text-slate-500 uppercase tracking-widest font-semibold">{metric.label}</div>
               </motion.div>
             ))}
           </div>
-          <DidYouKnowSnippet dark sectionTitle="Business Metrics and Performance Analytics" />
+          <DidYouKnowSnippet sectionTitle="Business Metrics and Performance Analytics" />
         </motion.section>
 
-        {/* 8. FAQ & CONTACT (Merged visually as bottom CTA) */}
+        {/* 8. FAQ & CONTACT */}
         <motion.section id="faq" variants={sectionVariants} initial="hidden" whileInView="visible" viewport={{ amount: 0.1, margin: "-100px" }} className="snap-start min-h-[50vh] flex flex-col justify-center max-w-3xl mx-auto px-6 md:px-12 py-24">
           <GlassReveal />
           <SectionPin sectionId="faq" />
@@ -1299,26 +1287,34 @@ export default function ServicesPage() {
           <DidYouKnowSnippet sectionTitle="Customer Support & Project Guarantees" />
         </motion.section>
 
-        <motion.section id="contact" variants={sectionVariants} initial="hidden" whileInView="visible" viewport={{ amount: 0.1, margin: "-100px" }} className="snap-start min-h-[50vh] flex flex-col justify-center items-center text-center p-12 bg-purple-800 text-white">
-          <GlassReveal dark />
+        <motion.section id="contact" variants={sectionVariants} initial="hidden" whileInView="visible" viewport={{ amount: 0.1, margin: "-100px" }} className="snap-start min-h-[50vh] flex flex-col justify-center items-center text-center p-12 bg-gradient-to-b from-purple-50/50 via-white to-purple-100/30 rounded-[3rem] border border-purple-100 shadow-xl my-12 max-w-[1400px] mx-auto">
+          <GlassReveal />
           <motion.div variants={itemVariants} className="max-w-2xl">
-            <h2 className="text-5xl md:text-7xl font-display font-medium mb-8">Ready to Build?</h2>
-            <p className="text-xl text-purple-100 mb-12 font-light">Mari diskusikan visi digital Anda bersama tim ahli kami sekarang juga.</p>
+            <h2 className="text-4xl md:text-6xl font-display font-medium text-slate-900 mb-6">Ready to Build?</h2>
+            <p className="text-lg md:text-xl text-slate-600 mb-10 font-normal">Mari diskusikan visi digital Anda bersama tim ahli kami sekarang juga.</p>
             <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+              <a 
+                href="https://wa.me/6282125447232?text=Halo%20CHESTAADOTCOM%2C%20saya%20ingin%20konsultasi%20layanan%20website%20dan%20AI." 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                className="flex items-center gap-2.5 bg-purple-600 text-white px-8 py-4 rounded-full font-medium hover:bg-purple-700 transition-all duration-300 shadow-lg hover:shadow-xl hover:-translate-y-0.5 cursor-pointer"
+              >
+                <MessageSquare size={18} />
+                <span>Chat with us on WhatsApp</span>
+              </a>
               <button 
                 onClick={copyEmail}
-                className="group flex items-center gap-3 bg-white text-purple-800 px-8 py-4 rounded-full font-medium hover:bg-purple-50 transition-all duration-300 shadow-xl hover:shadow-2xl hover:-translate-y-1"
+                className="group flex items-center gap-2.5 bg-white text-slate-800 border border-purple-200 px-6 py-4 rounded-full font-medium hover:bg-purple-50 transition-all duration-300 shadow-sm hover:shadow-md"
               >
-                <Mail size={20} />
+                <Mail size={18} className="text-purple-600" />
                 <span>hello@chestaadotcom.com</span>
-                <Copy size={16} className="text-purple-500 group-hover:text-purple-800 transition-colors ml-2" />
+                <Copy size={16} className="text-slate-400 group-hover:text-purple-600 transition-colors ml-1" />
               </button>
             </div>
           </motion.div>
         </motion.section>
 
       </div>
-      <FloatingQuoteTrigger />
       <QuickActionBar />
     </HelmetProvider>
   );

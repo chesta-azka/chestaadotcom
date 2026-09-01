@@ -17,7 +17,7 @@ export default function ProjectDetailPage() {
     "@context": "https://schema.org",
     "@type": "Article",
     "headline": project.title,
-    "image": [project.image],
+    "image": [project.thumbnail],
     "datePublished": "2026-08-24T08:00:00+08:00",
     "author": [{
         "@type": "Organization",
@@ -52,7 +52,7 @@ export default function ProjectDetailPage() {
   const metricLabel = 'Load Time';
 
   return (
-    <div className="pt-[180px] md:pt-[240px] pb-32 min-h-screen bg-transparent relative overflow-hidden select-none">
+    <div className="pt-40 md:pt-48 pb-32 min-h-screen bg-transparent relative overflow-hidden select-none">
       <SEOProvider 
         title={`${project.title} — CHESTAADOTCOM`} 
         description={project.description} 
@@ -61,7 +61,7 @@ export default function ProjectDetailPage() {
       {/* Cinematic Aura Effect */}
       <div className="absolute inset-0 pointer-events-none -z-10 bg-radial-gradient from-[#6b21a8]/5 via-transparent to-transparent opacity-60" />
 
-      <div className="mx-auto max-w-4xl px-6 relative z-10 w-full mt-12">
+      <div className="mx-auto max-w-4xl px-6 relative z-10 w-full">
         {/* Breadcrumb Navigation */}
         <div className="flex justify-between items-center mt-12 mb-8">
           
@@ -186,18 +186,19 @@ export default function ProjectDetailPage() {
               </div>
             </div>
 
-            {/* Sticky WhatsApp Conversion Button */}
-            <div className="bg-gradient-to-br from-[#131825] to-[#0A0D14] border border-slate-200 rounded-2xl p-6 space-y-4">
-              <h4 className="text-slate-900 font-display font-medium text-lg leading-tight">Yakin ingin brand Anda tertinggal?</h4>
-              <p className="text-xs text-slate-500 font-sans leading-relaxed">Dapatkan website interaktif super kencang seperti ini untuk menunjang branding bisnis Anda.</p>
+            {/* Direct WhatsApp Conversion Button */}
+            <div className="bg-gradient-to-br from-purple-50 via-white to-purple-100/40 border border-purple-200 rounded-2xl p-6 space-y-4 shadow-sm">
+              <h4 className="text-slate-900 font-display font-bold text-lg leading-tight">Tertarik dengan proyek seperti ini?</h4>
+              <p className="text-xs text-slate-600 font-sans leading-relaxed">Dapatkan website interaktif super kencang dengan standar serupa untuk meningkatkan reputasi bisnis Anda.</p>
               
               <a 
-                href={`https://wa.me/6282125447232?text=${encodeURIComponent(`Halo CHESTAADOTCOM, saya tertarik memodifikasi layout eksklusif seperti pada project ${project.title}. Boleh minta penawaran harganya?`)}`}
-                target="_blank" 
-                rel="noopener noreferrer" 
-                className="flex items-center justify-center gap-2 w-full py-3.5 bg-[#6b21a8] text-[#0A0F1C] font-mono text-xs font-extrabold uppercase rounded-xl tracking-wider hover:bg-[#cbf500] transition-colors"
+                href={`https://wa.me/6282125447232?text=${encodeURIComponent(`Halo Mas Chesta, saya melihat portofolio ${project.title} di CHESTAADOTCOM dan ingin berkonsultasi untuk proyek website serupa.`)}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center justify-center gap-2 w-full py-3.5 bg-purple-600 text-white font-mono text-xs font-bold uppercase rounded-xl tracking-wider hover:bg-purple-700 transition-all shadow-md shadow-purple-600/20 cursor-pointer"
               >
-                Mulai Diskusi <ExternalLink size={12} />
+                <span>Chat with us on WhatsApp</span>
+                <Zap size={14} />
               </a>
             </div>
 

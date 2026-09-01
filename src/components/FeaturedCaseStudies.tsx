@@ -14,8 +14,8 @@ function CaseCard({ study }: { study: typeof caseStudyDB[0] }) {
   const mouseXSpring = useSpring(x, { stiffness: 150, damping: 15 });
   const mouseYSpring = useSpring(y, { stiffness: 150, damping: 15 });
 
-  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["10deg", "-10deg"]);
-  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-10deg", "10deg"]);
+  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["6deg", "-6deg"]);
+  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-6deg", "6deg"]);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     const rect = e.currentTarget.getBoundingClientRect();
@@ -45,28 +45,28 @@ function CaseCard({ study }: { study: typeof caseStudyDB[0] }) {
     
     doc.setFont("helvetica", "normal");
     doc.setFontSize(16);
-    doc.setTextColor(59, 130, 246); // Blue
+    doc.setTextColor(107, 33, 168); // Purple
     doc.text(study.title, 20, 42);
     
-    doc.setTextColor(0, 0, 0);
+    doc.setTextColor(15, 23, 42);
     doc.setFontSize(12);
-    doc.text("Project Overview:", 20, 60);
+    doc.text("Ringkasan Proyek:", 20, 60);
     doc.setFont("helvetica", "italic");
     doc.text(doc.splitTextToSize(study.desc, 170), 20, 68);
     
     doc.setFont("helvetica", "bold");
-    doc.text("Architectural Impact:", 20, 100);
+    doc.text("Dampak Performa:", 20, 100);
     doc.setFont("helvetica", "normal");
     doc.setTextColor(16, 185, 129); // Emerald
     doc.text(study.impact, 65, 100);
     
-    doc.setTextColor(0, 0, 0);
+    doc.setTextColor(15, 23, 42);
     doc.setFont("helvetica", "bold");
-    doc.text("ROI & Business Metrics:", 20, 115);
+    doc.text("Metrik Bisnis:", 20, 115);
     doc.setFont("helvetica", "normal");
     doc.text(doc.splitTextToSize(study.roi, 170), 20, 123);
     
-    doc.save(`${study.client.replace(/\s+/g, '_')}_Executive_Summary.pdf`);
+    doc.save(`${study.client.replace(/\s+/g, '_')}_Summary.pdf`);
   };
 
   return (
@@ -77,22 +77,31 @@ function CaseCard({ study }: { study: typeof caseStudyDB[0] }) {
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
-      className="relative w-full h-[24rem] rounded-3xl overflow-hidden border border-slate-200/50 dark:border-white/10 bg-white/80 dark:bg-slate-900/60 backdrop-blur-3xl shadow-[0_20px_60px_-15px_rgba(0,0,0,0.05)] hover:shadow-[0_30px_80px_-20px_rgba(0,0,0,0.1)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.4)] transition-shadow duration-300"
+      className="relative w-full h-[22rem] rounded-3xl overflow-hidden border border-purple-100 bg-white shadow-sm hover:shadow-lg hover:shadow-purple-950/5 transition-all duration-300 font-sans"
     >
       {/* Base Content */}
-      <div style={{ transform: "translateZ(30px)" }} className="absolute inset-0 p-8 flex flex-col justify-between pointer-events-none">
+      <div style={{ transform: "translateZ(20px)" }} className="absolute inset-0 p-6 sm:p-7 flex flex-col justify-between pointer-events-none">
         <div>
           <div className="flex justify-between items-start">
-            <p className="text-sm font-semibold tracking-wider uppercase text-blue-600 dark:text-blue-400">{study.client}</p>
-            <ArrowUpRight className="w-6 h-6 text-slate-400 dark:text-slate-600" />
+            <span className="text-xs font-mono font-bold tracking-wider uppercase text-purple-900 bg-purple-50 px-2.5 py-1 rounded-full border border-purple-100">
+              {study.client}
+            </span>
+            <ArrowUpRight className="w-5 h-5 text-slate-400" />
           </div>
-          <h3 className="text-2xl md:text-3xl font-bold mt-4 tracking-tight text-slate-900 dark:text-white leading-tight">{study.title}</h3>
-          <p className="text-sm md:text-base text-slate-600 dark:text-slate-400 mt-3 font-medium leading-relaxed">{study.desc}</p>
+          <h3 className="text-xl sm:text-2xl font-display font-bold mt-4 tracking-tight text-slate-900 leading-tight">
+            {study.title}
+          </h3>
+          <p className="text-xs sm:text-sm text-slate-600 mt-2 font-normal leading-relaxed">
+            {study.desc}
+          </p>
         </div>
         
-        <div className="pt-5 border-t border-slate-200 dark:border-slate-800">
-           <p className="text-[10px] text-slate-500 uppercase tracking-widest font-bold mb-1">Preview Impact</p>
-           <p className="text-lg font-bold text-slate-900 dark:text-white">{study.impact}</p>
+        <div className="pt-4 border-t border-purple-100/60 flex items-center justify-between">
+          <div>
+            <p className="text-[10px] text-slate-400 uppercase tracking-widest font-mono font-bold">Hasil Pengukuran</p>
+            <p className="text-base font-bold text-slate-900 font-display">{study.impact}</p>
+          </div>
+          <span className="text-xs text-purple-900 font-semibold">Detail &rarr;</span>
         </div>
       </div>
 
@@ -102,30 +111,31 @@ function CaseCard({ study }: { study: typeof caseStudyDB[0] }) {
           rest: { y: "100%", opacity: 0 },
           hover: { y: 0, opacity: 1 }
         }}
-        transition={{ type: "spring", stiffness: 200, damping: 25 }}
-        style={{ transform: "translateZ(60px)" }}
-        className="absolute inset-0 bg-white/95 dark:bg-slate-950/95 p-8 flex flex-col justify-center text-center backdrop-blur-xl pointer-events-auto"
+        transition={{ type: "spring", stiffness: 220, damping: 26 }}
+        style={{ transform: "translateZ(40px)" }}
+        className="absolute inset-0 bg-white/98 p-6 sm:p-7 flex flex-col justify-center text-center backdrop-blur-md pointer-events-auto border border-purple-200"
       >
         <div className="flex-1 flex flex-col justify-center items-center">
-          <p className="text-xs uppercase tracking-widest font-semibold text-slate-400 mb-2">ROI Verified</p>
-          <p className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-blue-400 font-bold text-4xl mb-4 tracking-tight">{study.impact}</p>
-          <p className="text-slate-600 dark:text-slate-300 font-medium leading-relaxed text-sm max-w-[95%] line-clamp-3">
+          <p className="text-[10px] uppercase tracking-wider font-mono font-bold text-slate-400 mb-1">Hasil Terverifikasi</p>
+          <p className="text-purple-900 font-bold text-3xl font-display mb-2">{study.impact}</p>
+          <p className="text-slate-600 font-normal leading-relaxed text-xs max-w-[95%] line-clamp-3">
             {study.roi}
           </p>
         </div>
-        <div className="mt-4 flex flex-col gap-3 w-full">
+        <div className="mt-3 flex flex-col gap-2 w-full">
           <Link
             href={`/case-studies/${study.slug}`}
-            className="w-full py-3 bg-blue-600 text-white rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-blue-500 transition-all hover:scale-[1.02] active:scale-95 shadow-xl"
+            className="w-full py-2.5 bg-purple-900 text-white rounded-2xl font-sans text-xs font-semibold flex items-center justify-center gap-2 hover:bg-purple-800 transition-all shadow-xs"
           >
-            Read Case Study <ArrowRight className="w-4 h-4" />
+            <span>Baca Studi Kasus</span>
+            <ArrowRight className="w-3.5 h-3.5" />
           </Link>
           <button
             onClick={generatePDF}
-            className="w-full py-3 bg-slate-100 dark:bg-white text-slate-900 rounded-xl font-bold flex items-center justify-center gap-2 hover:bg-slate-200 dark:hover:bg-slate-200 transition-all hover:scale-[1.02] active:scale-95 shadow-lg border border-slate-200 dark:border-none"
+            className="w-full py-2 bg-purple-50 text-purple-950 rounded-2xl font-sans text-xs font-semibold flex items-center justify-center gap-2 hover:bg-purple-100 transition-all border border-purple-100 cursor-pointer"
           >
-            <Download className="w-4 h-4" />
-            Download PDF Summary
+            <Download className="w-3.5 h-3.5" />
+            <span>Unduh Ringkasan PDF</span>
           </button>
         </div>
       </motion.div>
@@ -159,13 +169,13 @@ export function FeaturedCaseStudies() {
   }, [inView, page, displayed.length]);
 
   return (
-    <div className="w-full max-w-5xl mx-auto my-20 px-4" style={{ perspective: 1500 }}>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12">
+    <div className="w-full max-w-5xl mx-auto my-6 px-4" style={{ perspective: 1500 }}>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
         <AnimatePresence>
           {displayed.map((study) => (
             <motion.div
               key={study.id}
-              initial={{ opacity: 0, y: 30 }}
+              initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.1 }}
             >
@@ -176,8 +186,8 @@ export function FeaturedCaseStudies() {
       </div>
 
       {displayed.length < caseStudyDB.length && (
-        <div ref={ref} className="w-full flex justify-center mt-16 pb-8">
-          <div className="w-8 h-8 rounded-full border-2 border-slate-300 dark:border-slate-700 border-t-blue-500 dark:border-t-blue-400 animate-spin" />
+        <div ref={ref} className="w-full flex justify-center mt-8 pb-4">
+          <div className="w-6 h-6 rounded-full border-2 border-purple-200 border-t-purple-700 animate-spin" />
         </div>
       )}
     </div>

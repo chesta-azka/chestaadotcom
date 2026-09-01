@@ -11,55 +11,54 @@ const data = [
 
 export function ArchitecturalEfficiency() {
   return (
-    <div className="w-full max-w-4xl mx-auto my-16 p-6 md:p-8 backdrop-blur-2xl bg-white/40 dark:bg-slate-900/40 border border-white/20 dark:border-white/10 rounded-[2rem] shadow-[0_8px_32px_rgba(0,0,0,0.04)] dark:shadow-[0_8px_32px_rgba(0,0,0,0.4)]">
-      <div className="mb-8">
-        <h2 className="text-2xl md:text-3xl font-bold tracking-tight text-slate-900 dark:text-white mb-2">
-          Architectural Efficiency
+    <div className="w-full max-w-4xl mx-auto my-12 p-6 md:p-8 bg-white border border-purple-100 rounded-3xl shadow-sm font-sans">
+      <div className="mb-6">
+        <h2 className="text-xl md:text-2xl font-display font-bold tracking-tight text-slate-900 mb-1">
+          Efisiensi Arsitektur Website
         </h2>
-        <p className="text-slate-600 dark:text-slate-400 font-medium">
-          Legacy SPA vs. Next.js App Router (B2B SaaS Dominance)
+        <p className="text-slate-500 text-xs sm:text-sm font-sans">
+          Perbandingan performa platform konvensional vs. Next.js App Router berkecepatan tinggi.
         </p>
       </div>
 
-      <div className="h-[300px] w-full font-sans">
+      <div className="h-[280px] w-full font-sans">
         <ResponsiveContainer width="100%" height="100%">
           <AreaChart data={data} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
             <defs>
               <linearGradient id="colorNext" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.3} />
-                <stop offset="95%" stopColor="#3b82f6" stopOpacity={0} />
+                <stop offset="5%" stopColor="#6b21a8" stopOpacity={0.25} />
+                <stop offset="95%" stopColor="#6b21a8" stopOpacity={0} />
               </linearGradient>
               <linearGradient id="colorLegacy" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#94a3b8" stopOpacity={0.2} />
-                <stop offset="95%" stopColor="#94a3b8" stopOpacity={0} />
+                <stop offset="5%" stopColor="#cbd5e1" stopOpacity={0.3} />
+                <stop offset="95%" stopColor="#cbd5e1" stopOpacity={0} />
               </linearGradient>
             </defs>
-            <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="rgba(255,255,255,0.1)" className="dark:stroke-slate-700/50 stroke-slate-200" />
+            <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#f1f5f9" />
             <XAxis 
               dataKey="metric" 
               axisLine={false} 
               tickLine={false} 
-              tick={{ fill: '#64748b', fontSize: 12, fontWeight: 500 }}
+              tick={{ fill: '#64748b', fontSize: 11, fontWeight: 500 }}
               dy={10}
             />
             <YAxis 
               axisLine={false} 
               tickLine={false} 
-              tick={{ fill: '#64748b', fontSize: 12 }} 
+              tick={{ fill: '#94a3b8', fontSize: 11 }} 
             />
             <Tooltip 
               contentStyle={{ 
-                backgroundColor: 'rgba(15, 23, 42, 0.8)', 
-                backdropFilter: 'blur(12px)',
+                backgroundColor: '#ffffff', 
                 borderRadius: '16px',
-                border: '1px solid rgba(255,255,255,0.1)',
-                color: '#fff',
-                boxShadow: '0 10px 25px -5px rgba(0, 0, 0, 0.3)'
+                border: '1px solid #e9d5ff',
+                color: '#0f172a',
+                boxShadow: '0 10px 25px -5px rgba(107, 33, 168, 0.08)'
               }}
-              itemStyle={{ fontWeight: 600 }}
+              itemStyle={{ fontWeight: 600, fontSize: '12px' }}
             />
-            <Area type="monotone" dataKey="Legacy" stroke="#94a3b8" strokeWidth={2} fillOpacity={1} fill="url(#colorLegacy)" />
-            <Area type="monotone" dataKey="NextJS" stroke="#3b82f6" strokeWidth={3} fillOpacity={1} fill="url(#colorNext)" />
+            <Area type="monotone" dataKey="Legacy" stroke="#94a3b8" strokeWidth={2} fillOpacity={1} fill="url(#colorLegacy)" name="Platform Lama" />
+            <Area type="monotone" dataKey="NextJS" stroke="#6b21a8" strokeWidth={3} fillOpacity={1} fill="url(#colorNext)" name="Next.js CHESTA" />
           </AreaChart>
         </ResponsiveContainer>
       </div>

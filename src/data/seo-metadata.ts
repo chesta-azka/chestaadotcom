@@ -9,7 +9,7 @@ export const ROUTE_METADATA: Record<string, { title: string; description: string
   },
   '/services': {
     title: 'Layanan Pembuatan Website & AI | CHESTAADOTCOM Cisauk & BSD',
-    description: 'Layanan website company profile, landing page konversi, toko online e-commerce, dan integrasi WhatsApp bot AI cerdas.',
+    description: 'Layanan website company profile, landing page konversi, toko online e-commerce, dan integrasi Live Chat bot AI cerdas.',
   },
   '/projects': {
     title: 'Showcase Portofolio Proyek | CHESTAADOTCOM',

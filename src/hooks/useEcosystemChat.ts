@@ -46,11 +46,17 @@ export function useEcosystemChat(workspaceId: string, archiveMode: boolean = fal
 
     
     const wsRef = doc(db, 'workspaces', workspaceId);
-    onSnapshot(wsRef, (snap) => {
-      if (snap.exists()) {
-        setIsProtected(!!snap.data().neverDelete);
+    const unsubWs = onSnapshot(
+      wsRef, 
+      (snap) => {
+        if (snap.exists()) {
+          setIsProtected(!!snap.data().neverDelete);
+        }
+      },
+      (err) => {
+        console.warn("wsRef onSnapshot notice:", err);
       }
-    });
+    );
 
     const messagesRef = collection(db, 'workspaces', workspaceId, 'chat_messages');
 
@@ -93,7 +99,10 @@ export function useEcosystemChat(workspaceId: string, archiveMode: boolean = fal
       }
     );
 
-    return () => unsubscribe();
+    return () => {
+      unsubWs();
+      unsubscribe();
+    };
   }, [workspaceId, archiveMode]);
 
   return { messages, loading, error, isProtected, toggleWorkspaceProtection };

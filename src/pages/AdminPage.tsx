@@ -1,126 +1,13 @@
 
-function LiveTakeoverManager() {
-  const [takeoverSession, setTakeoverSession] = useState<string | null>(null);
-  const [messages, setMessages] = useState<any[]>([]);
-  const [inputMsg, setInputMsg] = useState('');
-
-  useEffect(() => {
-    // Listen for chat sessions requiring human
-    const q = query(
-      collection(db, 'ai_chat_sessions'), 
-      where('requiresHuman', '==', true),
-      where('humanTakeover', '==', false)
-    );
-    
-    const unsub = onSnapshot(q, (snapshot) => {
-       snapshot.docChanges().forEach((change) => {
-          if (change.type === 'added' || change.type === 'modified') {
-             const data = change.doc.data();
-             if (!data.humanTakeover) {
-                toast(`HOT LEAD ALERT: Visitor requesting human connection! Session ID: ${change.doc.id}`, {
-                   duration: 10000,
-                   icon: '🚨',
-                   style: { background: '#000', color: '#fff' }
-                });
-                // Allow admin to click to take over
-                const id = change.doc.id;
-                setTimeout(() => {
-                   if(window.confirm(`Take over chat session ${id}?`)) {
-                      handleTakeover(id);
-                   }
-                }, 500); // Wait for toast, then prompt (or could make toast actionable)
-             }
-          }
-       });
-    });
-    return unsub;
-  }, []);
-
-  const handleTakeover = async (id: string) => {
-     try {
-       await updateDoc(doc(db, 'ai_chat_sessions', id), {
-          humanTakeover: true,
-          humanTakeoverAt: serverTimestamp()
-       });
-       setTakeoverSession(id);
-     } catch(e) {
-       toast.error("Takeover failed");
-     }
-  };
-
-  useEffect(() => {
-    if (!takeoverSession) return;
-    const unsub = onSnapshot(doc(db, 'ai_chat_sessions', takeoverSession), (snap) => {
-       if (snap.exists()) {
-          setMessages(snap.data().messages || []);
-       }
-    });
-    return unsub;
-  }, [takeoverSession]);
-
-  const sendMessage = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!inputMsg.trim() || !takeoverSession) return;
-    
-    const newMessages = [...messages, { role: 'ai', content: inputMsg.trim(), isAdmin: true }];
-    setMessages(newMessages); // optimistic
-    setInputMsg('');
-    
-    await updateDoc(doc(db, 'ai_chat_sessions', takeoverSession), {
-       messages: newMessages,
-       lastUpdated: serverTimestamp()
-    });
-  };
-
-  if (!takeoverSession) return null;
-
-  return (
-    <div className="fixed bottom-6 right-6 w-96 bg-white border-2 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] z-50 flex flex-col h-[500px]">
-       <div className="bg-black text-white p-3 flex justify-between items-center border-b-2 border-black">
-          <div className="flex items-center gap-2">
-            <div className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
-            <h3 className="font-mono font-bold text-sm">LIVE OVERRIDE</h3>
-          </div>
-          <button onClick={() => setTakeoverSession(null)}><X size={16} /></button>
-       </div>
-       <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-slate-50">
-          {messages.map((m, i) => (
-             <div key={i} className={`flex flex-col ${m.role === 'user' ? 'items-start' : 'items-end'}`}>
-               <span className="text-[10px] font-mono font-bold mb-1 text-slate-500">
-                 {m.role === 'user' ? 'VISITOR' : 'PRINCIPAL ENGINEER'}
-               </span>
-               <div className={`px-4 py-2 ${m.role === 'user' ? 'bg-white border-2 border-black text-black' : 'bg-black text-white'} font-sans text-sm max-w-[85%]`}>
-                 {m.content}
-               </div>
-             </div>
-          ))}
-       </div>
-       <form onSubmit={sendMessage} className="border-t-2 border-black p-3 bg-white flex gap-2">
-         <input 
-           value={inputMsg}
-           onChange={e => setInputMsg(e.target.value)}
-           className="flex-1 border-2 border-black px-3 py-2 font-mono text-sm focus:outline-none"
-           placeholder="Override Groq..."
-         />
-         <button type="submit" className="bg-black text-white px-4 py-2 font-bold font-mono">
-           SEND
-         </button>
-       </form>
-    </div>
-  );
-}
-
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useRef } from 'react';
 import CalendarHeatmap from 'react-calendar-heatmap';
 import 'react-calendar-heatmap/dist/styles.css';
-import { doc, setDoc, getDoc, addDoc, serverTimestamp } from 'firebase/firestore';
-
+import { doc, setDoc, getDoc, addDoc, serverTimestamp, collection, query, orderBy, limit, getDocs, onSnapshot, updateDoc, deleteDoc, where } from 'firebase/firestore';
 import { motion, AnimatePresence } from 'motion/react';
-import { Briefcase, Search, Sparkles, Loader2, Eye, EyeOff, AlertTriangle, FileText, CheckCircle2, Lock, LogOut, MessageSquare, Clock, BarChart as BarChartIcon, Users as UsersIcon, PenTool, Shield, Zap, ChevronDown, Folder, Activity } from 'lucide-react';
+import { Briefcase, Search, Sparkles, Loader2, Eye, EyeOff, AlertTriangle, FileText, CheckCircle2, Lock, LogOut, MessageSquare, Clock, BarChart as BarChartIcon, Users as UsersIcon, PenTool, Shield, Zap, ChevronDown, Folder, Activity, Send, X } from 'lucide-react';
 import MetaTags from '../components/atoms/MetaTags';
 import ReactMarkdown from 'react-markdown';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer, LineChart, Line } from 'recharts';
-import { collection, query, orderBy, limit, getDocs, onSnapshot, updateDoc, deleteDoc } from 'firebase/firestore';
 import { db, auth } from '../lib/firebase';
 import { useAuth } from '../contexts/AuthContext';
 import { signInWithEmailAndPassword, signOut, createUserWithEmailAndPassword, sendPasswordResetEmail, GoogleAuthProvider, signInWithPopup } from 'firebase/auth';
@@ -128,6 +15,225 @@ import { useSearchParams } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import AdminDashboardLayout from '../components/templates/AdminDashboardLayout';
 import AuthGuard from '../components/atoms/AuthGuard';
+import { AdminKanbanBoard } from '../components/AdminKanbanBoard';
+import { ClientVault } from '../components/ClientVault';
+
+function LiveTakeoverManager() {
+  const [takeoverSession, setTakeoverSession] = useState<string | null>(null);
+  const [sessionData, setSessionData] = useState<any>(null);
+  const [messages, setMessages] = useState<any[]>([]);
+  const [inputMsg, setInputMsg] = useState('');
+  const [isSending, setIsSending] = useState(false);
+  const messagesEndRef = useRef<HTMLDivElement>(null);
+
+  // Listen to custom intercept event from notifications or UI tabs
+  useEffect(() => {
+    const handleIntercept = (e: any) => {
+      const sessionId = e.detail?.sessionId;
+      if (sessionId) {
+        handleTakeover(sessionId);
+      }
+    };
+    window.addEventListener('intercept-chat-session', handleIntercept);
+    return () => window.removeEventListener('intercept-chat-session', handleIntercept);
+  }, []);
+
+  const handleTakeover = async (id: string) => {
+    try {
+      await updateDoc(doc(db, 'ai_chat_sessions', id), {
+        humanTakeover: true,
+        humanTakeoverAt: serverTimestamp(),
+        status: 'intercepted_by_admin'
+      });
+      setTakeoverSession(id);
+      toast.success("Tersambung sebagai Principal Engineer 👨‍💻");
+    } catch (e) {
+      console.error("Takeover failed:", e);
+      toast.error("Gagal melakukan intercept sesi");
+    }
+  };
+
+  const handleRelease = async () => {
+    if (!takeoverSession) return;
+    try {
+      await updateDoc(doc(db, 'ai_chat_sessions', takeoverSession), {
+        humanTakeover: false,
+        requiresHuman: false,
+        status: 'released_to_ai'
+      });
+      setTakeoverSession(null);
+      toast.success("Sesi dikembalikan ke AI Autopilot");
+    } catch (e) {
+      console.error("Release failed:", e);
+    }
+  };
+
+  // Real-time onSnapshot listener for the active takeover session
+  useEffect(() => {
+    if (!takeoverSession) return;
+    const unsub = onSnapshot(
+      doc(db, 'ai_chat_sessions', takeoverSession), 
+      (snap) => {
+        if (snap.exists()) {
+          const data = snap.data();
+          setSessionData(data);
+          setMessages(data.messages || []);
+        }
+      },
+      (err) => {
+        console.warn("takeoverSession onSnapshot error:", err);
+      }
+    );
+    return unsub;
+  }, [takeoverSession]);
+
+  useEffect(() => {
+    messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [messages]);
+
+  const sendMessage = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!inputMsg.trim() || !takeoverSession || isSending) return;
+
+    const content = inputMsg.trim();
+    setInputMsg('');
+    setIsSending(true);
+
+    const newMessages = [
+      ...messages,
+      {
+        role: 'ai',
+        content,
+        isAdmin: true,
+        senderName: 'Principal Engineer',
+        timestamp: new Date().toISOString()
+      }
+    ];
+
+    setMessages(newMessages); // optimistic update
+
+    try {
+      await updateDoc(doc(db, 'ai_chat_sessions', takeoverSession), {
+        messages: newMessages,
+        lastUpdated: serverTimestamp(),
+        lastAdminMessage: content,
+        humanTakeover: true
+      });
+    } catch (err) {
+      console.error("Failed to send admin message:", err);
+      toast.error("Gagal mengirim pesan");
+    } finally {
+      setIsSending(false);
+    }
+  };
+
+  if (!takeoverSession) return null;
+
+  return (
+    <div className="fixed bottom-6 right-6 w-[440px] max-w-[calc(100vw-32px)] bg-white/95 backdrop-blur-2xl rounded-3xl shadow-[0_25px_60px_rgba(0,0,0,0.2)] border border-slate-200/80 ring-1 ring-slate-900/5 z-[9999] flex flex-col h-[600px] overflow-hidden font-sans">
+      {/* Header */}
+      <div className="bg-slate-950 text-white p-4 flex justify-between items-center shrink-0 border-b border-slate-800">
+        <div className="flex items-center gap-3">
+          <div className="relative flex h-3 w-3">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-3 w-3 bg-emerald-500"></span>
+          </div>
+          <div>
+            <div className="flex items-center gap-2">
+              <h3 className="font-semibold text-xs tracking-wider uppercase text-white">Principal Engineer Intercept</h3>
+              <span className="bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 text-[9px] font-mono px-2 py-0.5 rounded-full">
+                LIVE SNAPSHOT
+              </span>
+            </div>
+            <p className="text-[10px] text-slate-400 font-mono truncate max-w-[240px]">
+              ID: {takeoverSession} {sessionData?.pagePath ? `• ${sessionData.pagePath}` : ''}
+            </p>
+          </div>
+        </div>
+        <div className="flex items-center gap-1.5">
+          <button
+            onClick={handleRelease}
+            className="text-[11px] font-medium text-slate-300 hover:text-white bg-slate-800/80 hover:bg-slate-700 px-2.5 py-1.5 rounded-lg transition-colors border border-slate-700"
+            title="Kembalikan kontrol ke AI Router"
+          >
+            Release to AI
+          </button>
+          <button
+            onClick={() => setTakeoverSession(null)}
+            className="text-slate-400 hover:text-white transition-colors bg-slate-800/80 hover:bg-slate-700 p-1.5 rounded-lg border border-slate-700"
+          >
+            <X size={15} />
+          </button>
+        </div>
+      </div>
+
+      {/* Pricing Intent Warning Ribbon if detected */}
+      {sessionData?.pricingIntent && (
+        <div className="bg-amber-50 border-b border-amber-200/80 px-4 py-2 flex items-center justify-between text-xs text-amber-900">
+          <span className="font-medium flex items-center gap-1.5">
+            <span className="w-2 h-2 rounded-full bg-amber-500 animate-pulse" />
+            Pricing & Quotation Lead
+          </span>
+          <span className="text-[10px] font-mono text-amber-700 bg-amber-100/80 px-2 py-0.5 rounded-md">
+            Walled Garden Link
+          </span>
+        </div>
+      )}
+
+      {/* Messages Scroll Area */}
+      <div className="flex-1 overflow-y-auto p-4 space-y-3.5 bg-slate-50/70 scroll-smooth custom-scrollbar">
+        {messages.length === 0 ? (
+          <div className="h-full flex items-center justify-center text-xs text-slate-400 font-medium">
+            Memuat riwayat transmisi...
+          </div>
+        ) : (
+          messages.map((m, i) => {
+            const isUser = m.role === 'user';
+            const isAdmin = m.isAdmin || m.senderName === 'Principal Engineer';
+
+            return (
+              <div key={i} className={`flex flex-col ${isUser ? 'items-start' : 'items-end'}`}>
+                <span className="text-[10px] font-medium tracking-wide mb-1 text-slate-400 px-1">
+                  {isUser ? 'Visitor' : isAdmin ? 'You (Principal Engineer)' : 'AI Router Auto-Reply'}
+                </span>
+                <div
+                  className={`px-4 py-2.5 text-[13px] leading-relaxed shadow-sm max-w-[85%] rounded-2xl ${
+                    isUser
+                      ? 'bg-white border border-slate-200 text-slate-900 rounded-tl-sm'
+                      : isAdmin
+                      ? 'bg-gradient-to-r from-purple-600 to-indigo-600 text-white rounded-tr-sm shadow-purple-500/10'
+                      : 'bg-slate-200/80 text-slate-700 rounded-tr-sm'
+                  }`}
+                >
+                  {m.content}
+                </div>
+              </div>
+            );
+          })
+        )}
+        <div ref={messagesEndRef} />
+      </div>
+
+      {/* Input Form */}
+      <form onSubmit={sendMessage} className="border-t border-slate-200 p-3 bg-white flex gap-2 items-center">
+        <input
+          value={inputMsg}
+          onChange={(e) => setInputMsg(e.target.value)}
+          className="flex-1 bg-slate-50 border border-slate-200 rounded-full px-4 py-2.5 text-xs sm:text-sm font-sans focus:outline-none focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20 transition-all placeholder:text-slate-400"
+          placeholder="Kirim respon langsung sebagai Principal Engineer..."
+          disabled={isSending}
+        />
+        <button
+          type="submit"
+          className="bg-purple-600 hover:bg-purple-700 transition-all text-white p-2.5 rounded-full shadow-md shrink-0 flex items-center justify-center disabled:opacity-50 disabled:cursor-not-allowed"
+          disabled={!inputMsg.trim() || isSending}
+        >
+          <Send size={15} className="-ml-0.5" />
+        </button>
+      </form>
+    </div>
+  );
+}
 
 function AdminLogin() {
   const [email, setEmail] = useState('');
@@ -227,7 +333,7 @@ function AdminLogin() {
   };
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-[70vh] w-full mt-24">
+    <div className="flex flex-col items-center justify-center min-h-[70vh] w-full pt-40 md:pt-48 pb-20">
       <motion.div 
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
@@ -238,7 +344,7 @@ function AdminLogin() {
             <Lock size={32} />
           </div>
         </div>
-        <h1 className="text-2xl font-display font-bold text-center text-slate-900 mb-2">
+        <h1 className="text-2xl font-display font-medium text-center text-slate-900 mb-2">
           {isSetup ? 'Setup Admin' : 'Admin Area'}
         </h1>
         <p className="text-center text-slate-500 mb-6 text-sm">
@@ -484,21 +590,27 @@ function AdminDashboard() {
 
   // Threshold Checker for AI Tokens
   useEffect(() => {
-    const unsub = onSnapshot(doc(db, 'system_config', 'ai_usage'), (docSnap) => {
-      if (docSnap.exists()) {
-        const data = docSnap.data();
-        setTokenStats({
-          current_tokens: data.current_tokens || 0,
-          monthly_limit: data.monthly_limit || 1000000
-        });
-        if (data.current_tokens && data.monthly_limit) {
-          const ratio = data.current_tokens / data.monthly_limit;
-          if (ratio >= 0.8) {
-             toast.error(`Peringatan Kritis: Konsumsi token Groq API (${data.current_tokens.toLocaleString()}) melebihi 80% dari kuota bulanan!`, { id: 'token-warning', duration: 6000 });
+    const unsub = onSnapshot(
+      doc(db, 'system_config', 'ai_usage'), 
+      (docSnap) => {
+        if (docSnap.exists()) {
+          const data = docSnap.data();
+          setTokenStats({
+            current_tokens: data.current_tokens || 0,
+            monthly_limit: data.monthly_limit || 1000000
+          });
+          if (data.current_tokens && data.monthly_limit) {
+            const ratio = data.current_tokens / data.monthly_limit;
+            if (ratio >= 0.8) {
+               toast.error(`Peringatan Kritis: Konsumsi token AI Engine (${data.current_tokens.toLocaleString()}) melebihi 80% dari kuota bulanan!`, { id: 'token-warning', duration: 6000 });
+            }
           }
         }
+      },
+      (err) => {
+        console.warn("ai_usage onSnapshot error:", err);
       }
-    });
+    );
     return unsub;
   }, []);
   
@@ -596,18 +708,21 @@ function AdminDashboard() {
       {activeTab === 'dashboard' && (
         <AnalyticsDashboard />
       )}
+      {activeTab === 'kanban' && (
+        <AdminKanbanAndVaultManager />
+      )}
       {activeTab === 'ai_leads' && (
         <AILeadsScoringDashboard />
       )}
       {activeTab === 'chat' && (
         <div className="space-y-8">
-          <div className="flex items-end justify-between border-b-2 border-black pb-4">
+          <div className="flex items-end justify-between border-b border-slate-200 pb-4">
             <div>
-              <h2 className="text-3xl font-mono font-black text-black uppercase tracking-tighter mb-2">Comm-Link Audit</h2>
-              <p className="text-black font-mono text-sm">Intercepted neural chat logs from the Floating AI Assistant.</p>
+              <h2 className="text-xl font-display font-medium text-slate-900 mb-2">Comm-Link Audit</h2>
+              <p className="text-slate-900 font-sans text-sm">Intercepted neural chat logs from the Floating AI Assistant.</p>
             </div>
             <div className="relative">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-black" size={16} />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-900" size={16} />
               <input 
                 type="text"
                 placeholder="SEARCH TRANSMISSIONS..."
@@ -618,7 +733,7 @@ function AdminDashboard() {
                   setSearchQuery(e.target.value);
                   setShowSuggestions(true);
                 }}
-                className="pl-10 pr-4 py-2 bg-white border-2 border-black font-mono text-sm focus:outline-none focus:bg-slate-50 w-full sm:w-[300px] uppercase placeholder:text-slate-400"
+                className="pl-10 pr-4 py-2 bg-white border border-slate-200 rounded-xl font-sans text-sm focus:outline-none focus:bg-slate-50 w-full sm:w-[300px] uppercase placeholder:text-slate-400"
               />
               <AnimatePresence>
                 {showSuggestions && autocompleteSuggestions.length > 0 && (
@@ -626,7 +741,7 @@ function AdminDashboard() {
                     initial={{ opacity: 0, y: -5 }}
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: -5 }}
-                    className="absolute top-full left-0 right-0 mt-1 bg-white border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] z-50 overflow-hidden"
+                    className="absolute top-full left-0 right-0 mt-1 bg-white border border-slate-200 rounded-xl shadow-sm z-50 overflow-hidden"
                   >
                     {autocompleteSuggestions.map((suggestion, idx) => (
                       <button
@@ -635,7 +750,7 @@ function AdminDashboard() {
                           setSearchQuery(suggestion);
                           setShowSuggestions(false);
                         }}
-                        className="w-full text-left px-4 py-3 text-sm font-mono text-black hover:bg-black hover:text-white transition-colors uppercase border-b-2 border-black last:border-b-0"
+                        className="w-full text-left px-4 py-3 text-sm font-sans text-slate-900 hover:bg-slate-50 hover:text-slate-900 transition-colors uppercase border-b border-slate-200 last:border-b-0"
                       >
                         {suggestion}
                       </button>
@@ -646,46 +761,61 @@ function AdminDashboard() {
             </div>
           </div>
 
-          <div className="border-2 border-black bg-white flex flex-col">
-            <div className="bg-black text-white px-4 py-3 border-b-2 border-black flex justify-between items-center">
-              <h3 className="font-mono font-bold uppercase tracking-widest text-sm">Transmission Stream</h3>
+          <div className="border border-slate-200 rounded-xl bg-white flex flex-col">
+            <div className="bg-white text-slate-800 px-4 py-3 border-b border-slate-200 flex justify-between items-center">
+              <h3 className="font-medium text-slate-700 text-sm">Transmission Stream</h3>
               <div className="flex items-center gap-2">
                 <MessageSquare size={14} />
-                <span className="font-mono text-xs font-bold">{filteredLogs.length} LOGS INTERCEPTED</span>
+                <span className="font-sans text-xs font-medium">{filteredLogs.length} LOGS INTERCEPTED</span>
               </div>
             </div>
             <div className="flex-1 overflow-auto bg-slate-50 min-h-[500px]">
               {loading ? (
                 <div className="flex items-center justify-center h-40">
-                  <Loader2 size={24} className="text-black animate-spin" />
+                  <Loader2 size={24} className="text-slate-900 animate-spin" />
                 </div>
               ) : filteredLogs.length === 0 ? (
-                <div className="text-center text-black font-mono py-10 uppercase font-bold text-sm">
+                <div className="text-center text-slate-900 font-sans py-10 uppercase font-medium text-sm">
                   No transmissions detected.
                 </div>
               ) : (
-                <div className="divide-y-2 divide-black">
+                <div className="divide-y divide-slate-100">
                   {filteredLogs.map((log) => {
                     const sentiment = getSentiment(log.message || '');
                     return (
-                      <div key={log.id} className="p-6 bg-white hover:bg-slate-100 transition-colors flex gap-6">
-                        <div className="w-12 h-12 bg-black flex items-center justify-center text-white shrink-0">
-                          <MessageSquare size={20} />
+                      <div key={log.id} className="p-5 bg-white hover:bg-slate-50/80 transition-colors flex items-start gap-4">
+                        <div className="w-10 h-10 bg-purple-50 flex items-center justify-center text-purple-600 rounded-xl shrink-0 border border-purple-100">
+                          <MessageSquare size={18} />
                         </div>
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center justify-between mb-2">
-                            <p className="text-sm font-mono font-bold text-black uppercase tracking-wider">Unidentified Visitor</p>
-                            <div className="flex items-center gap-4">
-                              <span className={`text-[10px] font-bold uppercase tracking-wider px-3 py-1 border-2 border-black ${sentiment === 'positive' ? 'bg-black text-white' : 'bg-white text-black'}`}>
+                            <div className="flex items-center gap-2">
+                              <p className="text-sm font-semibold text-slate-900 tracking-tight">Visitor Transmission</p>
+                              <span className="text-[10px] font-mono text-slate-400 bg-slate-100 px-2 py-0.5 rounded-full">
+                                {log.sessionId ? log.sessionId.substring(0, 8) : log.id.substring(0, 8)}
+                              </span>
+                            </div>
+                            <div className="flex items-center gap-3">
+                              <span className={`text-[10px] font-semibold tracking-wide px-2.5 py-0.5 rounded-full ${sentiment === 'positive' ? 'bg-emerald-50 text-emerald-700 border border-emerald-200' : 'bg-slate-100 text-slate-700'}`}>
                                 {sentiment}
                               </span>
-                              <span className="text-xs font-mono font-bold text-black flex items-center gap-1">
+                              <span className="text-xs text-slate-500 flex items-center gap-1">
                                 <Clock size={12} />
                                 {log.timestamp ? new Date(log.timestamp.toDate()).toLocaleString('id-ID') : '00:00:00'}
                               </span>
+                              {log.sessionId && (
+                                <button
+                                  onClick={() => {
+                                    window.dispatchEvent(new CustomEvent('intercept-chat-session', { detail: { sessionId: log.sessionId } }));
+                                  }}
+                                  className="text-xs font-semibold text-purple-600 hover:text-purple-700 bg-purple-50 hover:bg-purple-100 px-3 py-1 rounded-lg border border-purple-200 transition-colors"
+                                >
+                                  Intercept Sesi
+                                </button>
+                              )}
                             </div>
                           </div>
-                          <p className="text-base font-mono text-slate-800 leading-relaxed border-l-4 border-black pl-4">"{log.message}"</p>
+                          <p className="text-sm font-sans text-slate-700 leading-relaxed bg-slate-50/70 p-3 rounded-xl border border-slate-200/60">"{log.message}"</p>
                         </div>
                       </div>
                     );
@@ -699,46 +829,46 @@ function AdminDashboard() {
 
       {activeTab === 'stats' && (
         <div className="space-y-8">
-          <div className="flex items-end justify-between border-b-2 border-black pb-4">
+          <div className="flex items-end justify-between border-b border-slate-200 pb-4">
             <div>
-              <h2 className="text-3xl font-mono font-black text-black uppercase tracking-tighter mb-2">Document Generator</h2>
-              <p className="text-black font-mono text-sm">Automated Neural Synthesis of business contracts and proposals.</p>
+              <h2 className="text-xl font-display font-medium text-slate-900 mb-2">Document Generator</h2>
+              <p className="text-slate-900 font-sans text-sm">Automated Neural Synthesis of business contracts and proposals.</p>
             </div>
-            <button className="flex items-center gap-2 px-6 py-2 bg-black text-white font-mono text-sm font-bold uppercase hover:bg-slate-800 transition-colors">
+            <button className="flex items-center gap-2 px-6 py-2 bg-white text-slate-800 font-medium text-sm hover:bg-slate-800 transition-colors">
               <FileText size={16} /> GENERATE NEW
             </button>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-            <div className="border-2 border-black bg-white p-6 hover:-translate-y-1 hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all cursor-pointer">
-              <div className="w-12 h-12 bg-black text-white flex items-center justify-center mb-4">
+            <div className="border border-slate-200 rounded-xl bg-white p-6 hover:-translate-y-1 hover:shadow-sm transition-all cursor-pointer">
+              <div className="w-12 h-12 bg-white text-slate-800 flex items-center justify-center mb-4">
                 <Briefcase size={20} />
               </div>
-              <h3 className="font-mono font-bold uppercase tracking-widest text-lg mb-2">Service Proposal</h3>
-              <p className="text-sm font-mono text-slate-600 mb-6">Auto-generate client-specific digital agency proposals.</p>
-              <button className="w-full py-2 border-2 border-black font-mono text-sm font-bold uppercase hover:bg-black hover:text-white transition-colors">
+              <h3 className="font-medium text-slate-900 text-lg mb-2">Service Proposal</h3>
+              <p className="text-sm font-sans text-slate-600 mb-6">Auto-generate client-specific digital agency proposals.</p>
+              <button className="w-full py-2 border border-slate-200 rounded-xl font-medium text-sm hover:bg-slate-50 hover:text-slate-900 transition-colors">
                 SYNTHESIZE
               </button>
             </div>
             
-            <div className="border-2 border-black bg-white p-6 hover:-translate-y-1 hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all cursor-pointer">
-              <div className="w-12 h-12 bg-black text-white flex items-center justify-center mb-4">
+            <div className="border border-slate-200 rounded-xl bg-white p-6 hover:-translate-y-1 hover:shadow-sm transition-all cursor-pointer">
+              <div className="w-12 h-12 bg-white text-slate-800 flex items-center justify-center mb-4">
                 <Shield size={20} />
               </div>
-              <h3 className="font-mono font-bold uppercase tracking-widest text-lg mb-2">NDA Contract</h3>
-              <p className="text-sm font-mono text-slate-600 mb-6">Standard Non-Disclosure Agreement for new contractors.</p>
-              <button className="w-full py-2 border-2 border-black font-mono text-sm font-bold uppercase hover:bg-black hover:text-white transition-colors">
+              <h3 className="font-medium text-slate-900 text-lg mb-2">NDA Contract</h3>
+              <p className="text-sm font-sans text-slate-600 mb-6">Standard Non-Disclosure Agreement for new contractors.</p>
+              <button className="w-full py-2 border border-slate-200 rounded-xl font-medium text-sm hover:bg-slate-50 hover:text-slate-900 transition-colors">
                 SYNTHESIZE
               </button>
             </div>
 
-            <div className="border-2 border-black bg-white p-6 hover:-translate-y-1 hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all cursor-pointer">
-              <div className="w-12 h-12 bg-black text-white flex items-center justify-center mb-4">
+            <div className="border border-slate-200 rounded-xl bg-white p-6 hover:-translate-y-1 hover:shadow-sm transition-all cursor-pointer">
+              <div className="w-12 h-12 bg-white text-slate-800 flex items-center justify-center mb-4">
                 <Activity size={20} />
               </div>
-              <h3 className="font-mono font-bold uppercase tracking-widest text-lg mb-2">SLA Agreement</h3>
-              <p className="text-sm font-mono text-slate-600 mb-6">Service Level Agreement for enterprise software clients.</p>
-              <button className="w-full py-2 border-2 border-black font-mono text-sm font-bold uppercase hover:bg-black hover:text-white transition-colors">
+              <h3 className="font-medium text-slate-900 text-lg mb-2">SLA Agreement</h3>
+              <p className="text-sm font-sans text-slate-600 mb-6">Service Level Agreement for enterprise software clients.</p>
+              <button className="w-full py-2 border border-slate-200 rounded-xl font-medium text-sm hover:bg-slate-50 hover:text-slate-900 transition-colors">
                 SYNTHESIZE
               </button>
             </div>
@@ -807,31 +937,31 @@ function SEOTool() {
   };
 
   return (
-    <div className="border-4 border-black bg-white flex flex-col min-h-[500px]">
-      <div className="bg-black text-white px-8 py-6 border-b-4 border-black flex items-center justify-between">
+    <div className="border border-slate-200 rounded-2xl bg-white flex flex-col min-h-[500px]">
+      <div className="bg-white text-slate-800 px-8 py-6 border-b border-slate-200 flex items-center justify-between">
         <div>
-          <h2 className="text-3xl font-mono font-black uppercase tracking-tighter flex items-center gap-3">
+          <h2 className="text-3xl font-display font-semibold text-slate-900 tracking-tight flex items-center gap-3">
             <Shield size={28} strokeWidth={3} /> SLA Node Health
           </h2>
-          <p className="text-sm font-mono mt-2 tracking-widest text-slate-400">Diagnostic API for Service Level Agreements</p>
+          <p className="text-sm font-sans mt-2 tracking-widest text-slate-400">Diagnostic API for Service Level Agreements</p>
         </div>
       </div>
 
       <div className="flex-1 grid grid-cols-1 lg:grid-cols-2">
-        <div className="flex flex-col border-b-4 lg:border-b-0 lg:border-r-4 border-black">
-          <div className="p-4 border-b-4 border-black bg-slate-100">
-            <span className="font-mono font-bold text-sm uppercase">Input Stream</span>
+        <div className="flex flex-col border-b lg:border-b-0 lg:border-r border-slate-200">
+          <div className="p-4 border-b border-slate-200 bg-slate-100">
+            <span className="font-semibold text-sm uppercase">Input Stream</span>
           </div>
           <textarea
             value={content}
             onChange={(e) => setContent(e.target.value)}
-            className="flex-1 w-full bg-white p-6 font-mono text-sm focus:outline-none resize-none placeholder:text-slate-300"
+            className="flex-1 w-full bg-white p-6 font-sans text-sm focus:outline-none resize-none placeholder:text-slate-300"
             placeholder="PASTE RAW NODE DATA HERE..."
           ></textarea>
           <button
             onClick={handleAudit}
             disabled={loading || !content}
-            className="w-full py-4 bg-black text-white font-mono font-bold uppercase tracking-widest hover:bg-slate-800 disabled:opacity-50 transition-colors flex justify-center items-center gap-2"
+            className="w-full py-4 bg-white text-slate-800 font-semibold tracking-wide hover:bg-slate-800 disabled:opacity-50 transition-colors flex justify-center items-center gap-2"
           >
             {loading ? <Loader2 size={18} className="animate-spin" /> : <Search size={18} />}
             {loading ? 'ANALYZING...' : 'INITIATE DIAGNOSTIC'}
@@ -839,16 +969,16 @@ function SEOTool() {
         </div>
         
         <div className="flex flex-col bg-slate-50">
-          <div className="p-4 border-b-4 border-black bg-slate-200">
-            <span className="font-mono font-bold text-sm uppercase">Diagnostic Output</span>
+          <div className="p-4 border-b border-slate-200 bg-slate-200">
+            <span className="font-semibold text-sm uppercase">Diagnostic Output</span>
           </div>
           <div className="flex-1 p-6 overflow-auto">
             {result ? (
-              <div className="font-mono text-sm prose prose-sm prose-slate max-w-none">
+              <div className="font-sans text-sm prose prose-sm prose-slate max-w-none">
                 <ReactMarkdown>{result}</ReactMarkdown>
               </div>
             ) : (
-              <div className="h-full flex items-center justify-center text-slate-400 font-mono text-sm uppercase text-center">
+              <div className="h-full flex items-center justify-center text-slate-400 font-sans text-sm uppercase text-center">
                 Awaiting input stream...
               </div>
             )}
@@ -1179,28 +1309,34 @@ const TokenUsageMonitor = () => {
   
   useEffect(() => {
     const q = query(collection(db, 'ai_chat_sessions'));
-    const unsub = onSnapshot(q, (snapshot) => {
-      let charCount = 0;
-      snapshot.forEach(doc => {
-        const data = doc.data();
-        if (data.messages) {
-          data.messages.forEach((m: any) => {
-             charCount += (m.content || '').length;
-          });
+    const unsub = onSnapshot(
+      q, 
+      (snapshot) => {
+        let charCount = 0;
+        snapshot.forEach(doc => {
+          const data = doc.data();
+          if (data.messages) {
+            data.messages.forEach((m: any) => {
+               charCount += (m.content || '').length;
+            });
+          }
+        });
+        // 1 token ~= 4 chars roughly
+        const estimatedTokens = Math.floor(charCount / 4);
+        setTokenCount(estimatedTokens);
+        
+        if (estimatedTokens > QUOTA * 0.8 && !warned) {
+           toast.error('Peringatan: Penggunaan LLM Token mencapai >80% batas bulanan!', {
+             duration: 8000,
+             icon: '⚠️'
+           });
+           setWarned(true);
         }
-      });
-      // 1 token ~= 4 chars roughly
-      const estimatedTokens = Math.floor(charCount / 4);
-      setTokenCount(estimatedTokens);
-      
-      if (estimatedTokens > QUOTA * 0.8 && !warned) {
-         toast.error('Peringatan: Penggunaan LLM Token mencapai >80% batas bulanan!', {
-           duration: 8000,
-           icon: '⚠️'
-         });
-         setWarned(true);
+      },
+      (err) => {
+        console.warn("TokenUsageMonitor snapshot error:", err);
       }
-    });
+    );
     return () => unsub();
   }, [warned]);
 
@@ -1218,7 +1354,7 @@ const TokenUsageMonitor = () => {
              <p className="text-xs text-slate-500">Estimasi penggunaan API Gemini (Bulan Ini)</p>
            </div>
            <div className="text-right">
-             <span className={`text-lg font-bold ${tokenCount > QUOTA * 0.8 ? 'text-red-600' : 'text-slate-800'}`}>
+             <span className={`text-lg font-medium ${tokenCount > QUOTA * 0.8 ? 'text-red-600' : 'text-slate-800'}`}>
                {tokenCount.toLocaleString()}
              </span>
              <span className="text-xs text-slate-500 font-medium"> / {QUOTA.toLocaleString()}</span>
@@ -1299,11 +1435,17 @@ function AITrainingTab() {
   useEffect(() => {
     const fetchMetrics = () => {
       try {
-        const unsub = onSnapshot(doc(db, 'system_metrics', 'ai_tokens'), (docSnap) => {
-          if (docSnap.exists()) {
-            setTokenMetrics({ limit: docSnap.data().limit || 1000000, used: docSnap.data().used || 0 });
+        const unsub = onSnapshot(
+          doc(db, 'system_metrics', 'ai_tokens'), 
+          (docSnap) => {
+            if (docSnap.exists()) {
+              setTokenMetrics({ limit: docSnap.data().limit || 1000000, used: docSnap.data().used || 0 });
+            }
+          },
+          (err) => {
+            console.warn("fetchMetrics onSnapshot notice:", err);
           }
-        });
+        );
         return unsub;
       } catch (e) {
         console.error(e);
@@ -1314,24 +1456,31 @@ function AITrainingTab() {
     const fetchSessions = async () => {
       try {
         const q = query(collection(db, 'ai_chat_sessions'), orderBy('lastUpdated', 'desc'), limit(100));
-        const unsubscribe = onSnapshot(q, (snapshot) => {
-          const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-          setSessions(data);
-          
-          let up = 0;
-          let down = 0;
-          data.forEach((s: any) => {
-             if (s.messages) {
-                s.messages.forEach((m: any) => {
-                   if (m.feedback === 'up') up++;
-                   if (m.feedback === 'down') down++;
-                });
-             }
-          });
-          setTotalUpvotes(up);
-          setTotalDownvotes(down);
-          setLoading(false);
-        });
+        const unsubscribe = onSnapshot(
+          q, 
+          (snapshot) => {
+            const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            setSessions(data);
+            
+            let up = 0;
+            let down = 0;
+            data.forEach((s: any) => {
+               if (s.messages) {
+                  s.messages.forEach((m: any) => {
+                     if (m.feedback === 'up') up++;
+                     if (m.feedback === 'down') down++;
+                  });
+               }
+            });
+            setTotalUpvotes(up);
+            setTotalDownvotes(down);
+            setLoading(false);
+          },
+          (err) => {
+            console.warn("fetchSessions onSnapshot notice:", err);
+            setLoading(false);
+          }
+        );
         return unsubscribe;
       } catch (err) {
         console.error(err);
@@ -1345,9 +1494,15 @@ function AITrainingTab() {
     const fetchKnowledge = async () => {
        try {
          const q = query(collection(db, 'ai_knowledge_base'), orderBy('timestamp', 'desc'));
-         const unsubscribe = onSnapshot(q, (snapshot) => {
-            setKnowledge(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
-         });
+         const unsubscribe = onSnapshot(
+           q, 
+           (snapshot) => {
+              setKnowledge(snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() })));
+           },
+           (err) => {
+             console.warn("fetchKnowledge onSnapshot notice:", err);
+           }
+         );
          return unsubscribe;
        } catch(e) {
          console.error(e);
@@ -1401,7 +1556,7 @@ function AITrainingTab() {
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="m21.73 18-8-14a2 2 0 0 0-3.48 0l-8 14A2 2 0 0 0 4 21h16a2 2 0 0 0 1.73-3Z"/><path d="M12 9v4"/><path d="M12 17h.01"/></svg>
           </div>
           <div>
-            <h3 className="text-sm font-bold text-red-800">Peringatan Kuota Token AI</h3>
+            <h3 className="text-sm font-medium text-red-800">Peringatan Kuota Token AI</h3>
             <p className="text-sm text-red-700 mt-1">Konsumsi token AI Anda telah mencapai <strong>{tokenPercentage.toFixed(1)}%</strong> dari batas bulanan. Segera tingkatkan limit atau perbarui paket Anda untuk mencegah gangguan layanan chat.</p>
           </div>
         </div>
@@ -1416,11 +1571,11 @@ function AITrainingTab() {
             <div className="flex justify-between items-end">
               <div>
                 <div className="text-sm text-slate-500 font-medium mb-1">Tokens Used</div>
-                <div className="text-4xl font-bold text-purple-900">{tokenMetrics.used.toLocaleString()}</div>
+                <div className="text-4xl font-medium text-purple-900">{tokenMetrics.used.toLocaleString()}</div>
               </div>
               <div className="text-right">
                 <div className="text-sm text-slate-500 font-medium mb-1">Limit</div>
-                <div className="text-xl font-bold text-slate-700">{tokenMetrics.limit.toLocaleString()}</div>
+                <div className="text-xl font-medium text-slate-700">{tokenMetrics.limit.toLocaleString()}</div>
               </div>
             </div>
             <div>
@@ -1450,13 +1605,13 @@ function AITrainingTab() {
           <div className="flex items-center gap-4 mb-6">
              <div className="flex-1 bg-green-50 border border-green-100 rounded-2xl p-4 text-center">
                 <div className="text-2xl mb-1">👍</div>
-                <div className="text-2xl font-bold text-green-700">{totalUpvotes}</div>
-                <div className="text-[10px] font-bold text-green-600 uppercase tracking-widest mt-1">Positif</div>
+                <div className="text-2xl font-medium text-green-700">{totalUpvotes}</div>
+                <div className="text-[10px] font-medium text-green-600 tracking-wide mt-1">Positif</div>
              </div>
              <div className="flex-1 bg-red-50 border border-red-100 rounded-2xl p-4 text-center">
                 <div className="text-2xl mb-1">👎</div>
-                <div className="text-2xl font-bold text-red-700">{totalDownvotes}</div>
-                <div className="text-[10px] font-bold text-red-600 uppercase tracking-widest mt-1">Negatif</div>
+                <div className="text-2xl font-medium text-red-700">{totalDownvotes}</div>
+                <div className="text-[10px] font-medium text-red-600 tracking-wide mt-1">Negatif</div>
              </div>
           </div>
 
@@ -1487,7 +1642,7 @@ function AITrainingTab() {
                      <div className="flex-1 h-2 bg-slate-100 rounded-full overflow-hidden">
                        <div className="h-full bg-red-400 rounded-full" style={{ width: `${(count / Math.max(totalNeg, 1)) * 100}%` }}></div>
                      </div>
-                     <div className="w-8 text-right text-xs font-bold text-slate-500">{count}</div>
+                     <div className="w-8 text-right text-xs font-medium text-slate-500">{count}</div>
                    </div>
                  ));
                })()}
@@ -1559,10 +1714,10 @@ function AITrainingTab() {
               <table className="w-full text-left border-collapse min-w-[700px]">
                 <thead className="sticky top-0 bg-slate-50 shadow-sm z-10">
                   <tr className="border-b border-slate-200">
-                    <th className="px-4 py-3 text-xs font-mono font-bold tracking-widest text-slate-500 uppercase">Waktu/Sesi</th>
-                    <th className="px-4 py-3 text-xs font-mono font-bold tracking-widest text-slate-500 uppercase">Konteks User</th>
-                    <th className="px-4 py-3 text-xs font-mono font-bold tracking-widest text-slate-500 uppercase">Jawaban AI</th>
-                    <th className="px-4 py-3 text-xs font-mono font-bold tracking-widest text-slate-500 uppercase text-center">Rating</th>
+                    <th className="px-4 py-3 font-medium text-xs text-slate-500 tracking-wide border-b border-slate-200">Waktu/Sesi</th>
+                    <th className="px-4 py-3 font-medium text-xs text-slate-500 tracking-wide border-b border-slate-200">Konteks User</th>
+                    <th className="px-4 py-3 font-medium text-xs text-slate-500 tracking-wide border-b border-slate-200">Jawaban AI</th>
+                    <th className="px-4 py-3 font-medium text-xs text-slate-500 tracking-wide border-b border-slate-200 text-center">Rating</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100 bg-white">
@@ -1618,41 +1773,59 @@ function AnalyticsDashboard() {
   
   useEffect(() => {
     // 1. Live Visitors
-    const unsubVisitors = onSnapshot(collection(db, 'live_visitors'), (snapshot) => {
-      const data = snapshot.docs.map(doc => doc.data()).filter(v => v.is_online);
-      setLiveVisitors(data);
-    });
+    const unsubVisitors = onSnapshot(
+      collection(db, 'live_visitors'), 
+      (snapshot) => {
+        const data = snapshot.docs.map(doc => doc.data()).filter(v => v.is_online);
+        setLiveVisitors(data);
+      },
+      (err) => {
+        console.warn("live_visitors onSnapshot notice:", err);
+      }
+    );
 
     // 2. Click Telemetry
-    const unsubClicks = onSnapshot(collection(db, 'click_telemetry'), (snapshot) => {
-      const data = snapshot.docs.map(doc => doc.data());
-      const counts: Record<string, number> = {};
-      data.forEach(item => {
-        const key = item.elementText || item.elementId;
-        if (key) {
-          counts[key] = (counts[key] || 0) + 1;
-        }
-      });
-      const topClicks = Object.entries(counts)
-        .sort((a, b) => b[1] - a[1])
-        .slice(0, 5)
-        .map(([name, count]) => ({ name, count }));
-      setClickStats(topClicks);
-    });
+    const unsubClicks = onSnapshot(
+      collection(db, 'click_telemetry'), 
+      (snapshot) => {
+        const data = snapshot.docs.map(doc => doc.data());
+        const counts: Record<string, number> = {};
+        data.forEach(item => {
+          const key = item.elementText || item.elementId;
+          if (key) {
+            counts[key] = (counts[key] || 0) + 1;
+          }
+        });
+        const topClicks = Object.entries(counts)
+          .sort((a, b) => b[1] - a[1])
+          .slice(0, 5)
+          .map(([name, count]) => ({ name, count }));
+        setClickStats(topClicks);
+      },
+      (err) => {
+        console.warn("click_telemetry onSnapshot notice:", err);
+      }
+    );
 
     // 3. AI Leads
-    const unsubLeads = onSnapshot(collection(db, 'ai_leads'), (snapshot) => {
-      const data = snapshot.docs.map(doc => doc.data());
-      const grouped: Record<string, number> = {};
-      data.forEach(lead => {
-        const date = lead.createdAt?.toDate ? lead.createdAt.toDate().toLocaleDateString('id-ID') : new Date().toLocaleDateString('id-ID');
-        grouped[date] = (grouped[date] || 0) + 1;
-      });
-      const formatted = Object.entries(grouped)
-         .map(([date, count]) => ({ date, count }))
-         .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
-      setLeadStats(formatted);
-    });
+    const unsubLeads = onSnapshot(
+      collection(db, 'ai_leads'), 
+      (snapshot) => {
+        const data = snapshot.docs.map(doc => doc.data());
+        const grouped: Record<string, number> = {};
+        data.forEach(lead => {
+          const date = lead.createdAt?.toDate ? lead.createdAt.toDate().toLocaleDateString('id-ID') : new Date().toLocaleDateString('id-ID');
+          grouped[date] = (grouped[date] || 0) + 1;
+        });
+        const formatted = Object.entries(grouped)
+           .map(([date, count]) => ({ date, count }))
+           .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime());
+        setLeadStats(formatted);
+      },
+      (err) => {
+        console.warn("ai_leads onSnapshot notice:", err);
+      }
+    );
 
     // 4. Prunable Messages Count
     const fetchPrunable = async () => {
@@ -1679,40 +1852,40 @@ function AnalyticsDashboard() {
   return (
     <div className="space-y-8">
       <div>
-        <h2 className="text-3xl font-mono font-black text-black uppercase tracking-tighter mb-2">Omniscient Analytics</h2>
-        <p className="text-black font-mono text-sm border-b-2 border-black pb-4">Real-time telemetry and intelligence node.</p>
+        <h2 className="text-xl font-display font-medium text-slate-900 mb-2">Omniscient Analytics</h2>
+        <p className="text-slate-900 font-sans text-sm border-b border-slate-200 pb-4">Real-time telemetry and intelligence node.</p>
       </div>
       
       {/* Real-Time Visitors Table */}
-      <div className="border-2 border-black bg-white">
-        <div className="bg-black text-white px-4 py-3 border-b-2 border-black flex justify-between items-center">
-          <h3 className="font-mono font-bold uppercase tracking-widest text-sm">Live Visitors Target Lock</h3>
+      <div className="border border-slate-200 rounded-xl bg-white">
+        <div className="bg-white text-slate-800 px-4 py-3 border-b border-slate-200 flex justify-between items-center">
+          <h3 className="font-medium text-slate-700 text-sm">Live Visitors Target Lock</h3>
           <div className="flex items-center gap-2">
             <span className="w-2 h-2 bg-white rounded-full animate-pulse"></span>
-            <span className="font-mono text-xs font-bold">{liveVisitors.length} ONLINE</span>
+            <span className="font-sans text-xs font-medium">{liveVisitors.length} ONLINE</span>
           </div>
         </div>
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead className="bg-slate-50">
               <tr>
-                <th className="px-4 py-3 font-mono text-xs font-bold uppercase border-b-2 border-black text-black">Session ID</th>
-                <th className="px-4 py-3 font-mono text-xs font-bold uppercase border-b-2 border-black text-black">Source</th>
-                <th className="px-4 py-3 font-mono text-xs font-bold uppercase border-b-2 border-black text-black">Current Page</th>
-                <th className="px-4 py-3 font-mono text-xs font-bold uppercase border-b-2 border-black text-black">Last Active</th>
+                <th className="px-4 py-3 font-medium text-xs text-slate-500 tracking-wide border-b border-slate-200">Session ID</th>
+                <th className="px-4 py-3 font-medium text-xs text-slate-500 tracking-wide border-b border-slate-200">Source</th>
+                <th className="px-4 py-3 font-medium text-xs text-slate-500 tracking-wide border-b border-slate-200">Current Page</th>
+                <th className="px-4 py-3 font-medium text-xs text-slate-500 tracking-wide border-b border-slate-200">Last Active</th>
               </tr>
             </thead>
             <tbody className="divide-y-2 divide-black">
               {liveVisitors.length > 0 ? liveVisitors.map((v, i) => (
                 <tr key={i} className="hover:bg-slate-100 transition-colors">
-                  <td className="px-4 py-3 font-mono text-xs text-black truncate max-w-[150px]">{v.session_id}</td>
-                  <td className="px-4 py-3 font-mono text-xs text-black">{v.source}</td>
-                  <td className="px-4 py-3 font-mono text-xs text-black">{v.current_page}</td>
-                  <td className="px-4 py-3 font-mono text-xs text-black">{v.last_active?.toDate ? v.last_active.toDate().toLocaleTimeString('id-ID') : 'Just now'}</td>
+                  <td className="px-4 py-3 font-sans text-xs text-slate-900 truncate max-w-[150px]">{v.session_id}</td>
+                  <td className="px-4 py-3 font-sans text-xs text-slate-900">{v.source}</td>
+                  <td className="px-4 py-3 font-sans text-xs text-slate-900">{v.current_page}</td>
+                  <td className="px-4 py-3 font-sans text-xs text-slate-900">{v.last_active?.toDate ? v.last_active.toDate().toLocaleTimeString('id-ID') : 'Just now'}</td>
                 </tr>
               )) : (
                 <tr>
-                  <td colSpan={4} className="px-4 py-8 text-center font-mono text-sm text-black">No active signals detected.</td>
+                  <td colSpan={4} className="px-4 py-8 text-center font-sans text-sm text-slate-900">No active signals detected.</td>
                 </tr>
               )}
             </tbody>
@@ -1722,19 +1895,19 @@ function AnalyticsDashboard() {
 
       
       {/* Prunable Storage Widget */}
-      <div className="border-2 border-black bg-white">
-        <div className="bg-black text-white px-4 py-3 border-b-2 border-black flex justify-between items-center">
-          <h3 className="font-mono font-bold uppercase tracking-widest text-sm">Storage Retention Health</h3>
+      <div className="border border-slate-200 rounded-xl bg-white">
+        <div className="bg-white text-slate-800 px-4 py-3 border-b border-slate-200 flex justify-between items-center">
+          <h3 className="font-medium text-slate-700 text-sm">Storage Retention Health</h3>
         </div>
         <div className="p-6 flex flex-col sm:flex-row items-center gap-6 justify-between">
            <div>
-              <p className="font-mono font-bold text-slate-800 uppercase tracking-tight text-lg mb-1">Messages Eligible for AI Pruning (30+ Days)</p>
-              <p className="font-mono text-sm text-slate-500 max-w-xl">
+              <p className="font-semibold text-slate-800 uppercase tracking-tight text-lg mb-1">Messages Eligible for AI Pruning (30+ Days)</p>
+              <p className="font-sans text-sm text-slate-500 max-w-xl">
                  Displays the total count of messages across all unprotected workspaces that are older than 30 days and currently pending the scheduled AI lead probability evaluation. Low-intent sessions will be automatically deleted.
               </p>
            </div>
-           <div className="shrink-0 flex items-center justify-center min-w-[120px] h-24 border-2 border-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] bg-purple-50 rounded-xl">
-             <span className="font-mono font-black text-4xl text-purple-600">
+           <div className="shrink-0 flex items-center justify-center min-w-[120px] h-24 border border-slate-200 rounded-xl shadow-sm bg-purple-50 rounded-xl">
+             <span className="font-sans font-black text-4xl text-purple-600">
                {prunableCount === null ? '...' : prunableCount}
              </span>
            </div>
@@ -1743,9 +1916,9 @@ function AnalyticsDashboard() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
         {/* Click Telemetry Chart */}
-        <div className="border-2 border-black bg-white flex flex-col">
-          <div className="bg-black text-white px-4 py-3 border-b-2 border-black">
-             <h3 className="font-mono font-bold uppercase tracking-widest text-sm">Interaction Frequency</h3>
+        <div className="border border-slate-200 rounded-xl bg-white flex flex-col">
+          <div className="bg-white text-slate-800 px-4 py-3 border-b border-slate-200">
+             <h3 className="font-medium text-slate-700 text-sm">Interaction Frequency</h3>
           </div>
           <div className="p-6 h-[300px] flex-1">
             <ResponsiveContainer width="100%" height="100%">
@@ -1761,9 +1934,9 @@ function AnalyticsDashboard() {
         </div>
 
         {/* AI Leads Growth Chart */}
-        <div className="border-2 border-black bg-white flex flex-col">
-          <div className="bg-black text-white px-4 py-3 border-b-2 border-black">
-             <h3 className="font-mono font-bold uppercase tracking-widest text-sm">AI Lead Genesis</h3>
+        <div className="border border-slate-200 rounded-xl bg-white flex flex-col">
+          <div className="bg-white text-slate-800 px-4 py-3 border-b border-slate-200">
+             <h3 className="font-medium text-slate-700 text-sm">AI Lead Genesis</h3>
           </div>
           <div className="p-6 h-[300px] flex-1">
              <ResponsiveContainer width="100%" height="100%">
@@ -1790,11 +1963,18 @@ function AILeadsScoringDashboard() {
   const [confirmModalLead, setConfirmModalLead] = useState<any>(null);
 
   useEffect(() => {
-    const unsub = onSnapshot(query(collection(db, 'ai_leads'), orderBy('createdAt', 'desc')), (snapshot) => {
-      const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-      setLeads(data);
-      setLoading(false);
-    });
+    const unsub = onSnapshot(
+      query(collection(db, 'ai_leads'), orderBy('createdAt', 'desc')), 
+      (snapshot) => {
+        const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        setLeads(data);
+        setLoading(false);
+      },
+      (err) => {
+        console.warn("ai_leads query onSnapshot notice:", err);
+        setLoading(false);
+      }
+    );
     return unsub;
   }, []);
 
@@ -1864,7 +2044,7 @@ function AILeadsScoringDashboard() {
           processed++;
         }
       }
-      toast.success(`Processed ${processed} new leads via Groq API.`);
+      toast.success(`Processed ${processed} new leads via AI Neural Engine.`);
     } catch (error) {
       console.error(error);
       toast.error("Failed to analyze leads.");
@@ -1875,55 +2055,55 @@ function AILeadsScoringDashboard() {
 
   return (
     <div className="space-y-8">
-      <div className="flex items-end justify-between border-b-2 border-black pb-4">
+      <div className="flex items-end justify-between border-b border-slate-200 pb-4">
         <div>
-          <h2 className="text-3xl font-mono font-black text-black uppercase tracking-tighter mb-2">AI Leads Scoring</h2>
-          <p className="text-black font-mono text-sm">Groq-powered intent analysis and lead categorization.</p>
+          <h2 className="text-xl font-display font-medium text-slate-900 mb-2">AI Leads Scoring</h2>
+          <p className="text-slate-900 font-sans text-sm">Automated intent analysis and lead categorization.</p>
         </div>
         <button 
           onClick={handleProcessLeads}
           disabled={processing}
-          className="flex items-center gap-2 px-6 py-2 bg-black text-white font-mono text-sm font-bold uppercase hover:bg-slate-800 disabled:opacity-50 transition-colors"
+          className="flex items-center gap-2 px-6 py-2 bg-white text-slate-800 font-medium text-sm hover:bg-slate-800 disabled:opacity-50 transition-colors"
         >
           {processing ? <Loader2 className="animate-spin" size={16} /> : <Zap size={16} />}
-          {processing ? 'ANALYZING NEURAL...' : 'TRIGGER GROQ ANALYSIS'}
+          {processing ? 'ANALYZING NEURAL...' : 'TRIGGER AI ANALYSIS'}
         </button>
       </div>
 
-      <div className="border-2 border-black bg-white">
-        <div className="bg-black text-white px-4 py-3 border-b-2 border-black">
-          <h3 className="font-mono font-bold uppercase tracking-widest text-sm">Lead Directory</h3>
+      <div className="border border-slate-200 rounded-xl bg-white">
+        <div className="bg-white text-slate-800 px-4 py-3 border-b border-slate-200">
+          <h3 className="font-medium text-slate-700 text-sm">Lead Directory</h3>
         </div>
         <div className="overflow-x-auto">
           <table className="w-full text-left border-collapse">
             <thead className="bg-slate-50">
               <tr>
-                <th className="px-4 py-3 font-mono text-xs font-bold uppercase border-b-2 border-black text-black">Lead ID</th>
-                <th className="px-4 py-3 font-mono text-xs font-bold uppercase border-b-2 border-black text-black">Intent Score</th>
-                <th className="px-4 py-3 font-mono text-xs font-bold uppercase border-b-2 border-black text-black">Messages</th>
-                <th className="px-4 py-3 font-mono text-xs font-bold uppercase border-b-2 border-black text-black">Timestamp</th>
-                <th className="px-4 py-3 font-mono text-xs font-bold uppercase border-b-2 border-black text-black">Action</th>
+                <th className="px-4 py-3 font-medium text-xs text-slate-500 tracking-wide border-b border-slate-200">Lead ID</th>
+                <th className="px-4 py-3 font-medium text-xs text-slate-500 tracking-wide border-b border-slate-200">Intent Score</th>
+                <th className="px-4 py-3 font-medium text-xs text-slate-500 tracking-wide border-b border-slate-200">Messages</th>
+                <th className="px-4 py-3 font-medium text-xs text-slate-500 tracking-wide border-b border-slate-200">Timestamp</th>
+                <th className="px-4 py-3 font-medium text-xs text-slate-500 tracking-wide border-b border-slate-200">Action</th>
               </tr>
             </thead>
             <tbody className="divide-y-2 divide-black">
               {loading ? (
                 <tr>
-                  <td colSpan={4} className="px-4 py-8 text-center font-mono text-sm text-black">Loading leads...</td>
+                  <td colSpan={4} className="px-4 py-8 text-center font-sans text-sm text-slate-900">Loading leads...</td>
                 </tr>
               ) : leads.length > 0 ? leads.map((lead, i) => (
                 <tr key={i} className="hover:bg-slate-100 transition-colors">
-                  <td className="px-4 py-3 font-mono text-xs text-black truncate max-w-[200px]">{lead.sessionId}</td>
-                  <td className="px-4 py-3 font-mono text-xs font-black uppercase">
-                    {lead.score === 'Hot' && <span className="bg-black text-white px-2 py-1">HOT LEAD</span>}
-                    {lead.score === 'Warm' && <span className="border-2 border-black px-2 py-1">WARM</span>}
+                  <td className="px-4 py-3 font-sans text-xs text-slate-900 truncate max-w-[200px]">{lead.sessionId}</td>
+                  <td className="px-4 py-3 font-sans text-xs font-black uppercase">
+                    {lead.score === 'Hot' && <span className="bg-white text-slate-800 px-2 py-1">HOT LEAD</span>}
+                    {lead.score === 'Warm' && <span className="border border-slate-200 rounded-xl px-2 py-1">WARM</span>}
                     {lead.score === 'Cold' && <span className="text-slate-500">COLD</span>}
                   </td>
-                  <td className="px-4 py-3 font-mono text-xs text-black">{lead.messageCount}</td>
-                  <td className="px-4 py-3 font-mono text-xs text-black">{lead.createdAt?.toDate ? lead.createdAt.toDate().toLocaleString('id-ID') : '-'}</td>
-                  <td className="px-4 py-3 font-mono text-xs text-black">
+                  <td className="px-4 py-3 font-sans text-xs text-slate-900">{lead.messageCount}</td>
+                  <td className="px-4 py-3 font-sans text-xs text-slate-900">{lead.createdAt?.toDate ? lead.createdAt.toDate().toLocaleString('id-ID') : '-'}</td>
+                  <td className="px-4 py-3 font-sans text-xs text-slate-900">
                     <button 
                        onClick={() => setConfirmModalLead(lead)}
-                       className="px-3 py-1 bg-black text-white text-[10px] font-bold uppercase tracking-widest hover:bg-slate-800 transition-colors"
+                       className="px-3 py-1 bg-white text-slate-700 border border-slate-200 rounded-lg text-[11px] font-medium hover:bg-slate-50 transition-colors"
                     >
                       Convert to Client
                     </button>
@@ -1931,7 +2111,7 @@ function AILeadsScoringDashboard() {
                 </tr>
               )) : (
                 <tr>
-                  <td colSpan={4} className="px-4 py-8 text-center font-mono text-sm text-black">No leads scored yet.</td>
+                  <td colSpan={4} className="px-4 py-8 text-center font-sans text-sm text-slate-900">No leads scored yet.</td>
                 </tr>
               )}
             </tbody>
@@ -1953,23 +2133,23 @@ function AILeadsScoringDashboard() {
               initial={{ scale: 0.95, opacity: 0 }}
               animate={{ scale: 1, opacity: 1 }}
               exit={{ scale: 0.95, opacity: 0 }}
-              className="relative bg-white border-2 border-black shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] p-6 max-w-md w-full"
+              className="relative bg-white border border-slate-200 rounded-xl shadow-sm p-6 max-w-md w-full"
             >
-              <h3 className="text-xl font-mono font-black text-black uppercase tracking-tighter mb-4 border-b-2 border-black pb-2">Confirm Conversion</h3>
-              <p className="font-mono text-sm text-slate-700 mb-6 leading-relaxed">
-                Are you sure you want to convert lead <strong className="text-black">{confirmModalLead.sessionId}</strong> to a client?
+              <h3 className="text-lg font-display font-semibold text-slate-900 mb-4 pb-2 border-b border-slate-100">Confirm Conversion</h3>
+              <p className="font-sans text-sm text-slate-700 mb-6 leading-relaxed">
+                Are you sure you want to convert lead <strong className="text-slate-900">{confirmModalLead.sessionId}</strong> to a client?
                 This will automatically provision a new VIP workspace, generate a secure passcode, and create the initial welcome messages.
               </p>
               <div className="flex items-center gap-4 justify-end">
                 <button
                   onClick={() => setConfirmModalLead(null)}
-                  className="px-4 py-2 border-2 border-black font-mono text-sm font-bold uppercase hover:bg-slate-100 transition-colors"
+                  className="px-4 py-2 border border-slate-200 rounded-xl font-medium text-sm hover:bg-slate-100 transition-colors"
                 >
                   Cancel
                 </button>
                 <button
                   onClick={() => handleConvertToClient(confirmModalLead)}
-                  className="px-4 py-2 bg-black text-white font-mono text-sm font-bold uppercase hover:bg-slate-800 transition-colors"
+                  className="px-4 py-2 bg-white text-slate-800 font-medium text-sm hover:bg-slate-800 transition-colors"
                 >
                   Confirm & Provision
                 </button>
@@ -1978,6 +2158,197 @@ function AILeadsScoringDashboard() {
           </div>
         )}
       </AnimatePresence>
+    </div>
+  );
+}
+
+function AdminKanbanAndVaultManager() {
+  const [workspaces, setWorkspaces] = useState<any[]>([]);
+  const [selectedWorkspace, setSelectedWorkspace] = useState<string>('vip-demo');
+  const [activeSubTab, setActiveSubTab] = useState<'kanban' | 'vault'>('kanban');
+  const [newWorkspaceSlug, setNewWorkspaceSlug] = useState('');
+  const [newClientName, setNewClientName] = useState('');
+  const [newPasscode, setNewPasscode] = useState('');
+  const [isCreatingWorkspace, setIsCreatingWorkspace] = useState(false);
+
+  useEffect(() => {
+    const unsub = onSnapshot(
+      collection(db, 'workspaces'), 
+      (snapshot) => {
+        const list = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+        setWorkspaces(list);
+        if (list.length > 0 && !list.find(w => w.id === selectedWorkspace)) {
+          setSelectedWorkspace(list[0].id);
+        }
+      },
+      (err) => {
+        console.warn("workspaces onSnapshot notice:", err);
+      }
+    );
+    return unsub;
+  }, []);
+
+  const handleCreateWorkspace = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newWorkspaceSlug.trim()) return;
+
+    try {
+      const cleanSlug = newWorkspaceSlug.trim().toLowerCase().replace(/[^a-z0-9_-]/g, '-');
+      const pass = newPasscode.trim() || Math.floor(100000 + Math.random() * 900000).toString();
+
+      await setDoc(doc(db, 'workspaces', cleanSlug), {
+        client_name: newClientName.trim() || 'VIP Client',
+        passcode: pass,
+        created_at: serverTimestamp(),
+        status: 'Active',
+        sla: '99.99%',
+        security_level: 'AES-256 Bit Walled Garden'
+      });
+
+      setSelectedWorkspace(cleanSlug);
+      setNewWorkspaceSlug('');
+      setNewClientName('');
+      setNewPasscode('');
+      setIsCreatingWorkspace(false);
+      toast.success(`Workspace "${cleanSlug}" dibuat! Passcode: ${pass}`);
+    } catch (err) {
+      console.error(err);
+      toast.error('Gagal membuat workspace');
+    }
+  };
+
+  return (
+    <div className="space-y-6">
+      {/* Workspace Selector Bar */}
+      <div className="p-6 rounded-3xl bg-white border border-slate-200 shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+        <div>
+          <div className="flex items-center gap-2">
+            <h2 className="text-xl font-bold text-slate-900 tracking-tight">Live Kanban & VIP Client Vault</h2>
+            <span className="text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-purple-50 text-purple-700 border border-purple-200">
+              Real-time Firestore Sync
+            </span>
+          </div>
+          <p className="text-xs text-slate-500 mt-0.5">
+            Kelola progress tiket dan dokumen rahasia langsung tersinkronisasi ke portal klien.
+          </p>
+        </div>
+
+        <div className="flex items-center gap-3 w-full md:w-auto flex-wrap">
+          <div className="flex items-center gap-2">
+            <label className="text-xs font-semibold text-slate-600">Workspace:</label>
+            <select
+              value={selectedWorkspace}
+              onChange={(e) => setSelectedWorkspace(e.target.value)}
+              className="px-3 py-2 bg-slate-50 border border-slate-200 rounded-xl text-xs font-mono font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-purple-500"
+            >
+              {workspaces.map((ws) => (
+                <option key={ws.id} value={ws.id}>
+                  {ws.id} {ws.client_name ? `(${ws.client_name})` : ''}
+                </option>
+              ))}
+              {workspaces.length === 0 && (
+                <option value="vip-demo">vip-demo (Default Demo)</option>
+              )}
+            </select>
+          </div>
+
+          <button
+            onClick={() => setIsCreatingWorkspace(!isCreatingWorkspace)}
+            className="px-3.5 py-2 bg-purple-600 hover:bg-purple-700 text-white rounded-xl text-xs font-bold transition-colors cursor-pointer shadow-sm"
+          >
+            + Workspace Baru
+          </button>
+        </div>
+      </div>
+
+      {/* New Workspace Form */}
+      {isCreatingWorkspace && (
+        <motion.div
+          initial={{ opacity: 0, height: 0 }}
+          animate={{ opacity: 1, height: 'auto' }}
+          className="p-5 rounded-3xl bg-purple-50/70 border border-purple-200/80 shadow-sm"
+        >
+          <form onSubmit={handleCreateWorkspace} className="grid grid-cols-1 sm:grid-cols-4 gap-3 items-end">
+            <div>
+              <label className="block text-[11px] font-bold text-slate-700 mb-1">Slug / ID Workspace</label>
+              <input
+                type="text"
+                required
+                placeholder="misal: acme-corp"
+                value={newWorkspaceSlug}
+                onChange={(e) => setNewWorkspaceSlug(e.target.value)}
+                className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs font-mono text-slate-900 focus:outline-none focus:ring-2 focus:ring-purple-500"
+              />
+            </div>
+            <div>
+              <label className="block text-[11px] font-bold text-slate-700 mb-1">Nama Klien / Perusahaan</label>
+              <input
+                type="text"
+                placeholder="misal: Acme Corporation"
+                value={newClientName}
+                onChange={(e) => setNewClientName(e.target.value)}
+                className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs text-slate-900 focus:outline-none focus:ring-2 focus:ring-purple-500"
+              />
+            </div>
+            <div>
+              <label className="block text-[11px] font-bold text-slate-700 mb-1">Passcode 6 Digit (Opsional)</label>
+              <input
+                type="text"
+                placeholder="Otomatis jika kosong"
+                value={newPasscode}
+                onChange={(e) => setNewPasscode(e.target.value)}
+                className="w-full px-3 py-2 bg-white border border-slate-200 rounded-xl text-xs font-mono text-slate-900 focus:outline-none focus:ring-2 focus:ring-purple-500"
+              />
+            </div>
+            <div className="flex gap-2">
+              <button
+                type="submit"
+                className="flex-1 py-2 bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-xs font-bold transition-colors cursor-pointer"
+              >
+                Buat Workspace
+              </button>
+              <button
+                type="button"
+                onClick={() => setIsCreatingWorkspace(false)}
+                className="px-3 py-2 bg-white border border-slate-200 text-slate-600 rounded-xl text-xs font-semibold hover:bg-slate-100 transition-colors cursor-pointer"
+              >
+                Batal
+              </button>
+            </div>
+          </form>
+        </motion.div>
+      )}
+
+      {/* Sub Tabs */}
+      <div className="flex items-center gap-2 border-b border-slate-200 pb-2">
+        <button
+          onClick={() => setActiveSubTab('kanban')}
+          className={`px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+            activeSubTab === 'kanban'
+              ? 'bg-slate-900 text-white shadow-sm'
+              : 'text-slate-600 hover:bg-slate-100'
+          }`}
+        >
+          Live Kanban Board
+        </button>
+        <button
+          onClick={() => setActiveSubTab('vault')}
+          className={`px-4 py-2 rounded-xl text-xs font-bold transition-all cursor-pointer ${
+            activeSubTab === 'vault'
+              ? 'bg-slate-900 text-white shadow-sm'
+              : 'text-slate-600 hover:bg-slate-100'
+          }`}
+        >
+          Client Vault & Documents
+        </button>
+      </div>
+
+      {/* Active Tab View */}
+      {activeSubTab === 'kanban' ? (
+        <AdminKanbanBoard workspaceSlug={selectedWorkspace} />
+      ) : (
+        <ClientVault workspaceSlug={selectedWorkspace} currentUserRole="admin" />
+      )}
     </div>
   );
 }
@@ -2035,10 +2406,10 @@ function SystemAuditLog() {
           <table className="w-full text-left border-collapse min-w-[700px]">
             <thead>
               <tr className="bg-slate-50 border-b border-slate-200">
-                <th className="px-6 py-4 text-xs font-mono font-bold tracking-widest text-slate-500 uppercase">Timestamp</th>
-                <th className="px-6 py-4 text-xs font-mono font-bold tracking-widest text-slate-500 uppercase">Admin Email</th>
-                <th className="px-6 py-4 text-xs font-mono font-bold tracking-widest text-slate-500 uppercase">Action</th>
-                <th className="px-6 py-4 text-xs font-mono font-bold tracking-widest text-slate-500 uppercase">Details</th>
+                <th className="px-6 py-4 font-medium text-xs text-slate-500 tracking-wide border-b border-slate-200">Timestamp</th>
+                <th className="px-6 py-4 font-medium text-xs text-slate-500 tracking-wide border-b border-slate-200">Admin Email</th>
+                <th className="px-6 py-4 font-medium text-xs text-slate-500 tracking-wide border-b border-slate-200">Action</th>
+                <th className="px-6 py-4 font-medium text-xs text-slate-500 tracking-wide border-b border-slate-200">Details</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100 bg-white">
@@ -2082,17 +2453,18 @@ function PageManager() {
   useEffect(() => {
     // Fetch all editable page contents
     const q = query(collection(db, 'page_content'));
-    const unsub = onSnapshot(q, (snapshot) => {
-      const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-      setPages(data);
-      setLoading(false);
-      
-      const current = data.find(d => d.id === selectedPage);
-      if (current) {
-        // Only set content if we aren't currently editing (or just on initial load)
-        // Here we just initialize if it exists
+    const unsub = onSnapshot(
+      q, 
+      (snapshot) => {
+        const data = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        setPages(data);
+        setLoading(false);
+      },
+      (err) => {
+        console.warn("page_content onSnapshot notice:", err);
+        setLoading(false);
       }
-    });
+    );
     return unsub;
   }, []);
 
@@ -2158,7 +2530,7 @@ function PageManager() {
           <textarea 
             value={content}
             onChange={e => setContent(e.target.value)}
-            className="flex-1 w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 font-mono text-sm resize-none custom-scrollbar"
+            className="flex-1 w-full p-4 bg-slate-50 border border-slate-200 rounded-2xl focus:outline-none focus:border-purple-500 focus:ring-1 focus:ring-purple-500 font-sans text-sm resize-none custom-scrollbar"
             placeholder="Tulis detail/konten di sini..."
           />
         </div>
@@ -2190,16 +2562,22 @@ function BusinessConfigManager() {
     umkm_price: 5000000,
     ecommerce_price: 10000000,
     enterprise_price: 15000000,
-    service_base_rate: 540000
+    service_base_rate: 650000
   });
   const [saving, setSaving] = useState(false);
 
   useEffect(() => {
-    const unsub = onSnapshot(doc(db, 'system_config', 'business_variables'), (docSnap) => {
-      if (docSnap.exists()) {
-        setConfig(prev => ({ ...prev, ...docSnap.data() }));
+    const unsub = onSnapshot(
+      doc(db, 'system_config', 'business_variables'), 
+      (docSnap) => {
+        if (docSnap.exists()) {
+          setConfig(prev => ({ ...prev, ...docSnap.data() }));
+        }
+      },
+      (err) => {
+        console.warn("business_variables onSnapshot notice:", err);
       }
-    });
+    );
     return unsub;
   }, []);
 
@@ -2225,36 +2603,36 @@ function BusinessConfigManager() {
   };
 
   return (
-    <div className="bg-white p-8 border-4 border-black flex flex-col min-h-[500px]">
-      <div className="mb-8 border-b-4 border-black pb-6">
-        <h2 className="text-3xl font-display font-black tracking-tighter uppercase text-black flex items-center gap-3">
+    <div className="bg-white p-8 border border-slate-200 rounded-2xl flex flex-col min-h-[500px]">
+      <div className="mb-8 border-b border-slate-200 pb-6">
+        <h2 className="text-xl font-display font-medium text-slate-900 flex items-center gap-3">
           <Briefcase size={28} strokeWidth={3} /> Business Configuration
         </h2>
-        <p className="text-base font-mono font-bold text-slate-600 mt-2 uppercase tracking-tight">
+        <p className="text-base font-semibold text-slate-600 mt-2 uppercase tracking-tight">
           SYS.VARS &gt; AI_SOURCE_OF_TRUTH
         </p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
         <div className="flex flex-col gap-3">
-          <label className="text-sm font-mono font-bold tracking-widest uppercase text-black">Starting Price / Landing Page (Rp)</label>
-          <input type="number" name="starting_price" value={config.starting_price} onChange={handleChange} className="px-5 py-4 bg-white border-2 border-black focus:outline-none focus:ring-4 focus:ring-black/20 font-mono text-lg font-bold" />
+          <label className="text-sm font-semibold text-slate-500 tracking-wide text-slate-900">Starting Price / Landing Page (Rp)</label>
+          <input type="number" name="starting_price" value={config.starting_price} onChange={handleChange} className="px-5 py-4 bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-4 focus:ring-purple-500/20 focus:border-purple-500 font-sans text-lg font-medium" />
         </div>
         <div className="flex flex-col gap-3">
-          <label className="text-sm font-mono font-bold tracking-widest uppercase text-black">UMKM Starter Price (Rp)</label>
-          <input type="number" name="umkm_price" value={config.umkm_price} onChange={handleChange} className="px-5 py-4 bg-white border-2 border-black focus:outline-none focus:ring-4 focus:ring-black/20 font-mono text-lg font-bold" />
+          <label className="text-sm font-semibold text-slate-500 tracking-wide text-slate-900">UMKM Starter Price (Rp)</label>
+          <input type="number" name="umkm_price" value={config.umkm_price} onChange={handleChange} className="px-5 py-4 bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-4 focus:ring-purple-500/20 focus:border-purple-500 font-sans text-lg font-medium" />
         </div>
         <div className="flex flex-col gap-3">
-          <label className="text-sm font-mono font-bold tracking-widest uppercase text-black">E-Commerce Base Price (Rp)</label>
-          <input type="number" name="ecommerce_price" value={config.ecommerce_price} onChange={handleChange} className="px-5 py-4 bg-white border-2 border-black focus:outline-none focus:ring-4 focus:ring-black/20 font-mono text-lg font-bold" />
+          <label className="text-sm font-semibold text-slate-500 tracking-wide text-slate-900">E-Commerce Base Price (Rp)</label>
+          <input type="number" name="ecommerce_price" value={config.ecommerce_price} onChange={handleChange} className="px-5 py-4 bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-4 focus:ring-purple-500/20 focus:border-purple-500 font-sans text-lg font-medium" />
         </div>
         <div className="flex flex-col gap-3">
-          <label className="text-sm font-mono font-bold tracking-widest uppercase text-black">Enterprise / Custom Price (Rp)</label>
-          <input type="number" name="enterprise_price" value={config.enterprise_price} onChange={handleChange} className="px-5 py-4 bg-white border-2 border-black focus:outline-none focus:ring-4 focus:ring-black/20 font-mono text-lg font-bold" />
+          <label className="text-sm font-semibold text-slate-500 tracking-wide text-slate-900">Enterprise / Custom Price (Rp)</label>
+          <input type="number" name="enterprise_price" value={config.enterprise_price} onChange={handleChange} className="px-5 py-4 bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-4 focus:ring-purple-500/20 focus:border-purple-500 font-sans text-lg font-medium" />
         </div>
         <div className="flex flex-col gap-3">
-          <label className="text-sm font-mono font-bold tracking-widest uppercase text-black">Service Calculator Base Rate (Rp)</label>
-          <input type="number" name="service_base_rate" value={config.service_base_rate} onChange={handleChange} className="px-5 py-4 bg-white border-2 border-black focus:outline-none focus:ring-4 focus:ring-black/20 font-mono text-lg font-bold" />
+          <label className="text-sm font-semibold text-slate-500 tracking-wide text-slate-900">Service Calculator Base Rate (Rp)</label>
+          <input type="number" name="service_base_rate" value={config.service_base_rate} onChange={handleChange} className="px-5 py-4 bg-white border border-slate-200 rounded-xl focus:outline-none focus:ring-4 focus:ring-purple-500/20 focus:border-purple-500 font-sans text-lg font-medium" />
         </div>
       </div>
 
@@ -2262,7 +2640,7 @@ function BusinessConfigManager() {
         <button 
            onClick={handleSave}
            disabled={saving}
-           className="bg-black hover:bg-transparent hover:text-black text-white border-4 border-black font-mono font-bold text-lg uppercase tracking-widest py-4 px-10 transition-all flex items-center gap-3 disabled:opacity-50"
+           className="bg-purple-600 hover:bg-purple-700 text-white rounded-xl font-medium py-3 px-8 shadow-sm transition-all flex items-center gap-3 disabled:opacity-50"
          >
             {saving ? <Loader2 size={20} className="animate-spin" /> : null}
             UPDATE_SYS_VARS

@@ -2,17 +2,17 @@ import type { Metadata } from 'next';
 import { ThemeProvider } from '../components/providers/ThemeProvider';
 import { NextErrorBoundary } from '../components/atoms/NextErrorBoundary';
 import { Navbar } from '../components/Navbar';
-import '../index.css'; // Assuming Tailwind is compiled here
+import '../index.css';
 
 export const metadata: Metadata = {
-  title: 'chestaa.com | Premium Web & AI Architecture',
-  description: 'Chestaa.com provides premium B2B SaaS architecture, Next.js optimization, and AI automation for enterprise dominance.',
+  title: 'CHESTADOTCOM | Pembuatan Website Modern Next.js & Promo UMKM Rp540K',
+  description: 'Jasa pembuatan website profesional berkecepatan tinggi dengan Next.js, paket promo UMKM Rp540K domain .com, dan solusi digital terpercaya berbasis BSD Tangerang.',
   openGraph: {
-    title: 'chestaa.com | Premium Web & AI Architecture',
-    description: 'Chestaa.com provides premium B2B SaaS architecture, Next.js optimization, and AI automation for enterprise dominance.',
+    title: 'CHESTADOTCOM | Pembuatan Website Modern Next.js & Promo UMKM Rp540K',
+    description: 'Jasa pembuatan website profesional berkecepatan tinggi dengan Next.js, paket promo UMKM Rp540K domain .com, dan solusi digital terpercaya berbasis BSD Tangerang.',
     type: 'website',
-    locale: 'en_US',
-    siteName: 'chestaa.com',
+    locale: 'id_ID',
+    siteName: 'CHESTADOTCOM',
   }
 };
 
@@ -22,12 +22,12 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en" suppressHydrationWarning>
-      <body className="antialiased transition-colors duration-700 bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white min-h-screen">
+    <html lang="id" suppressHydrationWarning>
+      <body className="antialiased bg-white text-slate-900 min-h-screen">
         <ThemeProvider>
           <NextErrorBoundary>
             <Navbar />
-            <div className="pt-32">
+            <div className="w-full relative">
               {children}
             </div>
           </NextErrorBoundary>

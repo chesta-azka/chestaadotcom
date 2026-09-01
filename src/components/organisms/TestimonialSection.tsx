@@ -56,8 +56,8 @@ const testimonials: Testimonial[] = [
     industry: "Floral Design",
     avatar: "https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=150&auto=format&fit=crop",
     metric: "+240% Order",
-    metricLabel: "WhatsApp Booking",
-    comment: "Kak Chesta! Makasih banyak yaa webnya cantikkk bangeeettt. Detail layout, font, sama penempatan tombol WhatsApp-nya pas bgt di jempol pas buka di hp. Hari ini aja flow pesanan florist masuk lancar bgt dan ga ada komplain eror dari pembeli. Memang beda bgt rasanya bikin custom web.",
+    metricLabel: "Live Chat Booking",
+    comment: "Kak Chesta! Makasih banyak yaa webnya cantikkk bangeeettt. Detail layout, font, sama penempatan tombol Live Chat-nya pas bgt di jempol pas buka di hp. Hari ini aja flow pesanan florist masuk lancar bgt dan ga ada komplain eror dari pembeli. Memang beda bgt rasanya bikin custom web.",
     highlightText: "Flow pesanan florist masuk lancar bgt tanpa ada komplain eror dari pembeli."
   }
 ];

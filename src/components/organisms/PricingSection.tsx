@@ -1,111 +1,111 @@
 import { motion } from 'motion/react';
-import { Check, ArrowRight, Zap, Target, Star, Globe } from 'lucide-react';
+import { Check, Star, Globe, MessageCircle } from 'lucide-react';
 
 export default function PricingSection() {
-  return (
-    <section className="py-4 sm:py-8 relative overflow-hidden bg-transparent z-10" id="pricing">
-      <div className="absolute inset-0 pointer-events-none -z-10">
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-[#6b21a8]/5 rounded-full blur-[100px]" />
-      </div>
+  const handleOpenWhatsApp = () => {
+    const text = `Halo Mas Chesta! Saya ingin memesan Paket Promo UMKM Rp540K all-in domain .com. Mohon info langkah pengerjaannya.`;
+    window.open(`https://wa.me/6282125447232?text=${encodeURIComponent(text)}`, '_blank');
+  };
 
+  return (
+    <section className="py-8 sm:py-12 relative overflow-hidden bg-transparent z-10 font-sans" id="pricing">
       <div className="w-full">
-        <div className="text-center mb-10 sm:mb-16">
+        <div className="text-center mb-10">
           <motion.div
             initial={{ opacity: 0, y: 15 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="inline-flex items-center gap-2 px-4.5 py-2.5 rounded-full bg-white/[0.03] border border-slate-100 mx-auto text-xs font-mono tracking-widest text-[#6b21a8] uppercase mb-6"
+            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-purple-50 border border-purple-100 mx-auto text-xs font-mono tracking-wider text-purple-900 uppercase mb-4"
           >
-            <Star size={12} />
-            <span>Investasi Digital</span>
+            <Star size={12} className="text-purple-600" />
+            <span>Paket Spesial UMKM</span>
           </motion.div>
           <motion.h2 
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-fluid-h2 font-display font-medium text-slate-900 tracking-tight mb-6"
+            className="text-3xl sm:text-4xl md:text-5xl font-display font-bold text-slate-900 tracking-tight mb-4"
           >
-            Satu Harga. <span className="font-serif italic text-transparent bg-clip-text bg-gradient-to-r from-[#6b21a8] to-purple-300">Full Fitur.</span>
+            Satu Harga. <span className="text-purple-900">Full Fasilitas.</span>
           </motion.h2>
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-slate-600 font-sans max-w-2xl mx-auto text-lg leading-relaxed"
+            className="text-slate-600 font-sans max-w-2xl mx-auto text-xs sm:text-sm md:text-base leading-relaxed"
           >
-            Kami membenci kerumitan paket berjenjang. Anda mendapatkan semua fitur enterprise grade yang Anda butuhkan untuk mendominasi pasar, tanpa biaya tersembunyi.
+            Dapatkan website profesional berkecepatan tinggi dengan biaya transparan tanpa biaya tersembunyi.
           </motion.p>
         </div>
 
         <div className="max-w-4xl mx-auto">
           <motion.div
-            initial={{ opacity: 0, y: 30 }}
+            initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="relative bg-white/40 backdrop-blur-3xl border border-white/60 rounded-[2.5rem] p-8 md:p-12 overflow-hidden shadow-[0_20px_40px_-15px_rgba(107,33,168,0.1)]"
+            className="relative bg-white border border-purple-200 rounded-3xl p-6 sm:p-10 overflow-hidden shadow-sm"
           >
-            {/* Glow accent */}
-            <div className="absolute top-0 right-0 w-64 h-64 bg-[#6b21a8]/10 blur-[80px] pointer-events-none" />
-
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-8 items-center">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10 items-center">
               <div>
-                <div className="mb-8">
-                  <div className="flex items-center gap-4 mb-4">
-                     <h3 className="text-2xl font-serif italic text-slate-900">UMKM Dominance</h3>
-                     <span className="bg-[#6b21a8] text-white font-mono text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-widest">Paling Laris</span>
+                <div className="mb-6">
+                  <div className="flex items-center gap-3 mb-3">
+                     <h3 className="text-xl font-display font-bold text-slate-900">Paket UMKM Starter</h3>
+                     <span className="bg-purple-900 text-white font-mono text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase">Promo Spesial</span>
                   </div>
                   <div className="flex flex-col gap-1 items-start">
                     <div className="flex items-baseline gap-2 text-slate-900">
-                      <span className="text-6xl md:text-7xl font-display font-black tracking-tighter">Rp 540K</span>
-                      <span className="text-slate-600 font-mono text-sm mb-2">/ flat</span>
+                      <span className="text-4xl sm:text-5xl font-display font-black tracking-tight">Rp 540.000</span>
+                      <span className="text-slate-500 font-sans text-xs">all-in</span>
                     </div>
-                    <p className="text-slate-400 font-mono text-sm line-through uppercase tracking-wide">Harga Normal Rp 650.000</p>
+                    <p className="text-slate-400 font-mono text-xs line-through">Harga Normal Rp 650.000</p>
                   </div>
                 </div>
                 
-                <p className="text-gray-700 font-sans leading-relaxed mb-8 text-lg">
-                  Dapatkan arsitektur website premium yang sama dengan klien korporasi kami. Dirancang ekstrem untuk loading cepat, SEO maksimal, dan konversi tinggi.
+                <p className="text-slate-600 font-sans leading-relaxed mb-6 text-xs sm:text-sm">
+                  Infrastruktur website modern berkecepatan tinggi, dioptimalkan untuk performa cepat di ponsel pintar, SEO Google, dan konversi ke WhatsApp.
                 </p>
 
-                <button 
-                  onClick={() => window.open('https://wa.me/6282125447232?text=Halo%20CHESTAADOTCOM,%20saya%20tertarik%20dengan%20paket%20Website%20Premium%20Rp%20540K.', '_blank')}
-                  className="group flex flex-col items-center justify-center gap-1 w-full rounded-2xl bg-[#6b21a8] px-6 py-5 font-mono text-sm font-bold uppercase tracking-widest text-white hover:bg-purple-500 transition-all hover:scale-[1.02] active:scale-[0.98]"
-                >
-                  <span className="flex items-center gap-2">
-                    <Globe size={18} />
-                    Klaim .COM Gratis Sekarang
-                  </span>
-                  <span className="text-[10px] opacity-70">Terbatas untuk 10 slot pertama</span>
-                </button>
+                <div className="space-y-2.5">
+                  <a 
+                    href={`https://wa.me/6282125447232?text=${encodeURIComponent('Halo Mas Chesta! Saya ingin memesan Paket Promo UMKM Rp540K all-in domain .com. Mohon info langkah pengerjaannya.')}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="flex items-center justify-center gap-2 w-full rounded-2xl bg-purple-900 px-6 py-3.5 font-sans text-xs sm:text-sm font-semibold text-white hover:bg-purple-800 transition-all cursor-pointer shadow-sm shadow-purple-950/20"
+                  >
+                    <MessageCircle size={16} />
+                    <span>Chat with us on WhatsApp</span>
+                  </a>
+
+                  <button 
+                    onClick={() => window.dispatchEvent(new CustomEvent('open-floating-ai'))}
+                    className="flex items-center justify-center gap-2 w-full rounded-2xl bg-purple-50 border border-purple-200 px-6 py-3 font-sans text-xs font-semibold text-purple-950 hover:bg-purple-100 transition-all cursor-pointer"
+                  >
+                    <Globe size={15} />
+                    <span>Tanya Asisten AI Web</span>
+                  </button>
+                </div>
               </div>
 
-              <div className="lg:border-l lg:border-slate-200 lg:pl-12">
-                <ul className="space-y-4">
+              <div className="lg:border-l lg:border-purple-100 lg:pl-10">
+                <ul className="space-y-3">
                   {[
-                    { text: "Gratis Domain .COM (Tahun Pertama)", highlight: true },
-                    { text: "Desain UI/UX Premium Kustom (Bukan Template)", highlight: false },
-                    { text: "Performa Ekstrem (Load time < 1 detik)", highlight: false },
-                    { text: "SEO Setup Google Standard 2026", highlight: false },
-                    { text: "Integrasi Langsung ke WhatsApp Bisnis", highlight: false },
-                    { text: "Akses Revisi Desain", highlight: false },
-                    { text: "Hosting High-Speed CDN", highlight: false },
-                    { text: "Dukungan Teknis Prioritas", highlight: false }
+                    { text: "Gratis Domain .COM (1 Tahun Penuh)", highlight: true },
+                    { text: "Desain Visual Modern & Bersih (Responsif HP)", highlight: false },
+                    { text: "Loading Cepat (PageSpeed 95+)", highlight: true },
+                    { text: "Setup SEO Google & Metadata Standar 2026", highlight: false },
+                    { text: "Integrasi Tombol WhatsApp Langsung", highlight: false },
+                    { text: "Hosting Cloud High-Speed & SSL HTTPS Aman", highlight: false },
+                    { text: "100% Hak Milik Tanpa Sewa Terkunci", highlight: true },
+                    { text: "Pengerjaan Cepat 1–3 Hari Kerja", highlight: false }
                   ].map((benefit, i) => (
-                    <motion.li 
-                      key={i}
-                      initial={{ opacity: 0, x: -10 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      viewport={{ once: true }}
-                      transition={{ delay: i * 0.1 }}
-                      className="flex items-start gap-3"
-                    >
-                      <div className={`mt-1 flex-shrink-0 w-5 h-5 rounded-full ${benefit.highlight ? 'bg-[#6b21a8]' : 'bg-[#6b21a8]/10'} flex items-center justify-center`}>
-                        <Check size={12} className={benefit.highlight ? 'text-white' : 'text-[#6b21a8]'} />
+                    <li key={i} className="flex items-start gap-2.5">
+                      <div className={`mt-0.5 flex-shrink-0 w-4 h-4 rounded-full ${benefit.highlight ? 'bg-purple-900 text-white' : 'bg-purple-100 text-purple-800'} flex items-center justify-center`}>
+                        <Check size={10} />
                       </div>
-                      <span className={`${benefit.highlight ? 'text-slate-900 font-bold' : 'text-slate-600'} font-sans text-sm md:text-base`}>
+                      <span className={`${benefit.highlight ? 'text-slate-900 font-semibold' : 'text-slate-600'} font-sans text-xs sm:text-sm`}>
                         {benefit.text}
                       </span>
-                    </motion.li>
+                    </li>
                   ))}
                 </ul>
               </div>
