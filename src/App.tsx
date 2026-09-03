@@ -38,6 +38,7 @@ import KeyboardShortcutsModal from './components/organisms/KeyboardShortcutsModa
 
 import { useVisitorTracker } from './hooks/useVisitorTracker.ts';
 import { useClickTracker } from './hooks/useClickTracker.ts';
+import { ErrorBoundary } from './components/ErrorBoundary.tsx';
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -175,7 +176,7 @@ export default function App() {
         <WebVitalsTracker />
         <CommandPalette />
         
-        <AppContent appLoaded={appLoaded} />
+        <ErrorBoundary><AppContent appLoaded={appLoaded} /></ErrorBoundary>
         <CommLinkAdmin />
         <KeyboardShortcutsModal />
         <Toaster position="bottom-left" toastOptions={{ style: { background: "#1e293b", color: "#fff", fontSize: "14px", borderRadius: "12px", fontFamily: "sans-serif" } }} />

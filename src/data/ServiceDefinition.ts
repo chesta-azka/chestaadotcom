@@ -1,6 +1,13 @@
-import { Code, Bot, ShoppingCart, Cloud, LayoutTemplate, Search, Cpu, Link, Zap, Palette } from 'lucide-react';
+import { Code, Bot, ShoppingCart, Cloud, LayoutTemplate, Search, Cpu, Link, Zap, Palette, Briefcase } from 'lucide-react';
 
 export const SERVICE_DEFINITIONS = [
+  {
+    slug: 'it-consulting',
+    title: 'IT Consulting & Strategy',
+    description: 'Expert advisory for digital transformation, system architecture, and technology roadmaps.',
+    benefits: ['Strategic IT Alignment', 'Cost Optimization', 'Future-proof Architecture'],
+    icon: Briefcase
+  },
   {
     slug: 'web-development',
     title: 'Web Development',

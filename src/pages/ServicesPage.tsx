@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 import { SERVICE_DEFINITIONS } from '../data/ServiceDefinition';
 import QuickViewModal, { QuickViewData } from '../components/organisms/QuickViewModal';
+import CatalogDeepDive from '../components/organisms/CatalogDeepDive';
 import toast from 'react-hot-toast';
 import { logAnalyticsEvent } from '../lib/firebase';
 import confetti from 'canvas-confetti';
@@ -1269,6 +1270,9 @@ export default function ServicesPage() {
           </div>
           <DidYouKnowSnippet sectionTitle="Business Metrics and Performance Analytics" />
         </motion.section>
+
+        {/* CATALOG DEEP DIVE */}
+        <CatalogDeepDive />
 
         {/* 8. FAQ & CONTACT */}
         <motion.section id="faq" variants={sectionVariants} initial="hidden" whileInView="visible" viewport={{ amount: 0.1, margin: "-100px" }} className="snap-start min-h-[50vh] flex flex-col justify-center max-w-3xl mx-auto px-6 md:px-12 py-24">

@@ -219,7 +219,7 @@ export default async function CaseStudyPage({ params }: Props) {
           <ArrowLeft className="w-3.5 h-3.5" /> Kembali ke Semua Studi Kasus
         </Link>
 
-        <ArtPlaceholder />
+        <ArtPlaceholder src={study.image} alt={study.title} />
 
         <header className="animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-200 fill-mode-both">
           <div className="flex flex-wrap items-center gap-3 mb-4">

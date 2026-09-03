@@ -28,7 +28,7 @@ export const ALL_ARTICLES: Article[] = [
   {
     slug: 'vibe-coding-statistics',
     title: 'Vibe Coding & AI-Driven Web Development Statistics 2026',
-    cat: 'DATA & INSIGHTS',
+    cat: 'Digital Strategy',
     date: '31 AGU 2026',
     readTime: '15 MIN READ',
     readTimeMinutes: 15,
@@ -47,7 +47,7 @@ export const ALL_ARTICLES: Article[] = [
   {
     slug: 'vibe-coding-and-ai-web-development-2026',
     title: 'The Rise of Vibe Coding & AI-Driven Web Development in 2026',
-    cat: 'ENTERPRISE TECH',
+    cat: 'Tech Architecture',
     date: '31 AGU 2026',
     readTime: '12 MIN READ',
     readTimeMinutes: 12,
@@ -67,7 +67,7 @@ export const ALL_ARTICLES: Article[] = [
   {
     slug: 'filosofi-chesta-azka-programmer-estetika-mewah-harga-masuk-akal', mdxContent: filosofiChestaMdx,
     title: 'Filosofi Chesta Azka: Mengapa Programmer Muda Harus Beda — Tampilan Mewah, Harga Masuk Akal',
-    cat: 'PERSONAL',
+    cat: 'Digital Strategy',
     date: '27 AGU 2026',
     readTime: '6 MIN READ',
     readTimeMinutes: 6,
@@ -100,7 +100,7 @@ export const ALL_ARTICLES: Article[] = [
   {
     slug: 'panduan-seo-lokal-cisauk-bsd-ranking-1-google', mdxContent: panduanSeoMdx,
     title: 'Panduan Rahasia SEO Lokal Cisauk & BSD City: Cara Tembus Peringkat #1 Google',
-    cat: 'SEO',
+    cat: 'Digital Strategy',
     date: '25 AGU 2026',
     readTime: '7 MIN READ',
     readTimeMinutes: 7,
@@ -132,7 +132,7 @@ export const ALL_ARTICLES: Article[] = [
   {
     slug: 'resep-rahasia-web-mewah-harga-terjangkau-tech-stack-2026',
     title: 'Resep Rahasia Tech Stack 2026: Cara Bikin Website Sekelas Apple dengan Biaya Hemat',
-    cat: 'TECH',
+    cat: 'Tech Architecture',
     date: '22 AGU 2026',
     readTime: '5 MIN READ',
     readTimeMinutes: 5,
@@ -164,7 +164,7 @@ export const ALL_ARTICLES: Article[] = [
   {
     slug: 'solusi-otomasi-agentic-ai-sales-live chat-2026',
     title: 'Otomasi Live Chat Bisnis dengan Agentic AI: CS 24 Jam yang Pintar Jualan',
-    cat: 'AI',
+    cat: 'AI Engineering',
     date: '19 AGU 2026',
     readTime: '5 MIN READ',
     readTimeMinutes: 5,
@@ -191,7 +191,7 @@ export const ALL_ARTICLES: Article[] = [
   {
     slug: 'agentic-ai-otomasi-bisnis-umkm-2026',
     title: 'Agentic AI: Revolusi Otomasi Customer Service & Sales untuk UMKM 2026',
-    cat: 'AI',
+    cat: 'AI Engineering',
     date: '10 JUN 2026',
     readTime: '6 MIN READ',
     readTimeMinutes: 6,
@@ -222,7 +222,7 @@ export const ALL_ARTICLES: Article[] = [
   {
     slug: 'jasa-website-premium-cisauk-bsd-gading-serpong',
     title: 'Jasa Pembuatan Website Premium di Cisauk, BSD, & Gading Serpong',
-    cat: 'SEO',
+    cat: 'Digital Strategy',
     date: '02 JUN 2026',
     readTime: '4 MIN READ',
     readTimeMinutes: 4,
@@ -252,7 +252,7 @@ export const ALL_ARTICLES: Article[] = [
   {
     slug: 'mengenal-chestaadotcom-chesta-azka-sofyan',
     title: 'Mengenal CHESTAADOTCOM: Visi Digital Premium Chesta Azka Sofyan',
-    cat: 'PERSONAL',
+    cat: 'Digital Strategy',
     date: '01 JUN 2026',
     readTime: '5 MIN READ',
     readTimeMinutes: 5,
@@ -281,7 +281,7 @@ export const ALL_ARTICLES: Article[] = [
   {
     slug: 'framework-seo-2026',
     title: 'Framework SEO 2026: Mengapa Desain UI Mempengaruhi Peringkat Google',
-    cat: 'SEO',
+    cat: 'Digital Strategy',
     date: '15 MEI 2026',
     readTime: '7 MIN READ',
     readTimeMinutes: 7,
@@ -312,7 +312,7 @@ export const ALL_ARTICLES: Article[] = [
   {
     slug: 'kenapa-instagram-saja-tidak-cukup',
     title: 'Kenapa Instagram Saja Tidak Cukup untuk Bisnis Kamu',
-    cat: 'Business',
+    cat: 'Digital Strategy',
     date: '12 MEI 2026',
     readTime: '5 MIN READ',
     readTimeMinutes: 5,
@@ -341,7 +341,7 @@ export const ALL_ARTICLES: Article[] = [
   {
     slug: 'website-lemot-kehilangan-pembeli',
     title: 'Website Lemot = Kehilangan 40% Calon Pembeli',
-    cat: 'Tech',
+    cat: 'Tech Architecture',
     date: '08 MEI 2026',
     readTime: '4 MIN READ',
     readTimeMinutes: 4,
@@ -369,7 +369,7 @@ export const ALL_ARTICLES: Article[] = [
   {
     slug: 'desain-murahan-merusak-profesionalisme',
     title: 'Desain Murahan Membuat Bisnis Terlihat Tidak Profesional',
-    cat: 'DESIGN',
+    cat: 'Tech Architecture',
     date: '01 MEI 2026',
     readTime: '3 MIN READ',
     readTimeMinutes: 3,
@@ -393,7 +393,7 @@ export const ALL_ARTICLES: Article[] = [
   {
     slug: 'micro-interactions-rahasia-konversi',
     title: 'Micro-Interactions: Rahasia Konversi E-Commerce Premium',
-    cat: 'DESIGN',
+    cat: 'Tech Architecture',
     date: '24 APR 2026',
     readTime: '6 MIN READ',
     readTimeMinutes: 6,
@@ -419,7 +419,7 @@ export const ALL_ARTICLES: Article[] = [
   {
     slug: 'menulis-copywriting-membujuk',
     title: 'Menulis Copywriting yang Membujuk (Tanpa Terlihat Menjual)',
-    cat: 'COPYWRITING',
+    cat: 'Digital Strategy',
     date: '18 APR 2026',
     readTime: '5 MIN READ',
     readTimeMinutes: 5,

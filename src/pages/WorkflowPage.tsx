@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
+import { motion, useScroll, useTransform, useSpring } from 'motion/react';
 import { ShieldCheck, ArrowRight, Sparkles, MessageCircle, Clock, CheckCircle2, Code2, Globe2, Bot } from 'lucide-react';
 import MetaTags from '../components/atoms/MetaTags';
 

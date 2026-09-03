@@ -317,6 +317,35 @@ Anda juga dapat melihat contoh hasil pengerjaan pada halaman Portofolio.`,
     };
   }
 
+  // Konsultan IT
+  if (/(konsultan it|it consultant|it consulting|strategi digital|audit sistem|arsitektur it)/.test(q)) {
+    return {
+      content: `### Konsultan IT & Strategi Digital
+
+Kami menyediakan layanan pendampingan dan audit untuk mentransformasi infrastruktur teknologi bisnis Anda secara profesional:
+
+• **Audit & Roadmap IT**: Menilai kelemahan infrastruktur yang ada dan merancang cetak biru (blueprint) masa depan.
+• **Transformasi Cloud & AI**: Panduan migrasi ke sistem awan terpusat (Cloud) dan integrasi agen AI untuk otomasi bisnis.
+• **Otomatisasi Alur Kerja**: Memangkas pekerjaan manual rutin lewat solusi ERP mini, API, dan skrip integrasi cerdas.
+
+Jadwalkan sesi konsultasi teknis pertama (gratis) untuk mendiskusikan bottleneck di perusahaan Anda!`,
+      actions: [
+        {
+          label: '💬 Konsultasi IT via WhatsApp',
+          actionType: 'whatsapp',
+          value: 'Halo Tim CHESTA, saya ingin menjadwalkan konsultasi terkait Audit Arsitektur IT dan Strategi Digital perusahaan saya.',
+          variant: 'whatsapp',
+        },
+        {
+          label: '📂 Layanan Lainnya',
+          actionType: 'prompt',
+          value: 'Layanan apa saja yang ditawarkan selain itu?',
+          variant: 'secondary',
+        },
+      ],
+    };
+  }
+
   // Default Fallback
   return {
     content: `### Asisten Layanan CHESTADOTCOM

@@ -9,6 +9,7 @@ import Breadcrumbs from '../components/atoms/Breadcrumbs';
 import ShareButton from '../components/atoms/ShareButton';
 import CreativityMarquee from '../components/organisms/CreativityMarquee.tsx';
 import ROILineChart from '../components/organisms/ROILineChart';
+import ArtPlaceholder from '../components/atoms/ArtPlaceholder';
 
 export default function ProjectDetailPage() {
   const { id } = useParams<{ id: string }>();
@@ -90,16 +91,9 @@ export default function ProjectDetailPage() {
         </div>
 
         {/* Premium Framed Asset Header */}
-        <div className="relative aspect-[16/9] w-full rounded-2xl md:rounded-3xl overflow-hidden border border-slate-200 shadow-2xl mb-16 bg-white">
-          <picture>
-            <img 
-              src={project.thumbnail} 
-              alt={project.title} 
-              className="w-full h-full object-cover grayscale opacity-75 hover:grayscale-0 hover:opacity-100 transition-all duration-1000"
-              referrerPolicy="no-referrer"
-            />
-          </picture>
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent pointer-events-none" />
+        <div className="relative aspect-[16/9] w-full rounded-2xl md:rounded-3xl overflow-hidden shadow-2xl mb-16 bg-white">
+          <ArtPlaceholder src={project.thumbnail} alt={project.title} className="!mb-0 !rounded-none !border-0 grayscale hover:grayscale-0 transition-all duration-1000" />
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/10 to-transparent pointer-events-none z-30" />
         </div>
 
         {/* Detailed Layout Container (No Interactive Garbage) */}

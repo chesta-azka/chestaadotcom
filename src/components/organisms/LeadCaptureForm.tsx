@@ -8,6 +8,7 @@ const PROJECT_TYPES = [
   'Toko Online / Katalog Produk',
   'Landing Page Promosi & Iklan',
   'Custom Web & Integrasi AI',
+  'Konsultan IT & Strategi Digital',
 ];
 
 const BUDGET_OPTIONS = [

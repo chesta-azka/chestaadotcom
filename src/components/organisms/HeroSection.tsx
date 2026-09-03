@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { motion, useMotionValue, useSpring, Variants } from 'motion/react';
-import { ArrowRight, MessageCircle } from 'lucide-react';
+import { ArrowRight, MessageCircle, BriefcaseBusiness } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export default function HeroSection() {
@@ -109,7 +109,7 @@ export default function HeroSection() {
         >
           <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
           <span className="text-[11px] font-mono font-bold uppercase tracking-[0.18em] text-purple-900">
-            Jasa Website & AI solusi Cisauk BSD
+            IT Consultant & Software Engineering · BSD City
           </span>
         </motion.div>
 
@@ -119,9 +119,9 @@ export default function HeroSection() {
           variants={fadeInUpVariants}
           className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-display font-extrabold tracking-tight leading-[1.08] text-slate-900 max-w-5xl text-balance"
         >
-          Arsitektur Enterprise & <br className="hidden sm:block" />
-          <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-950 via-purple-800 to-indigo-950">
-            Optimasi Konversi Digital.
+          Konsultan IT & Arsitektur <br className="hidden md:block" />
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 via-fuchsia-600 to-indigo-600">
+            Sistem Skala Enterprise.
           </span>
         </motion.h1>
 
@@ -131,14 +131,24 @@ export default function HeroSection() {
           variants={fadeInUpVariants}
           className="mt-6 sm:mt-8 md:mt-10 text-base sm:text-lg md:text-xl lg:text-2xl text-slate-600 font-sans max-w-2xl sm:max-w-3xl leading-relaxed text-balance font-normal"
         >
-          Kami merancang infrastruktur web berkinerja tinggi, sistem cloud andal, dan strategi optimasi konversi terukur untuk mentransformasi prospek menjadi transaksi bernilai tinggi bagi bisnis skala enterprise Anda.
+          Sebagai mitra strategis teknologi, kami mendampingi perusahaan Anda merancang infrastruktur digital berkinerja tinggi, memodernisasi arsitektur <i>legacy</i>, dan mengintegrasikan ekosistem <i>cloud</i> untuk eskalasi bisnis Anda.
         </motion.p>
+
+        {/* Expertise Tags */}
+        <motion.div 
+          variants={fadeInUpVariants} 
+          className="mt-7 sm:mt-8 flex flex-wrap items-center justify-center gap-2.5 sm:gap-3"
+        >
+          <span className="text-[11px] sm:text-xs font-mono font-medium text-slate-600 bg-white/60 backdrop-blur-sm px-3 sm:px-4 py-1.5 rounded-full border border-slate-200/80 shadow-sm">Cloud Architecture</span>
+          <span className="text-[11px] sm:text-xs font-mono font-medium text-slate-600 bg-white/60 backdrop-blur-sm px-3 sm:px-4 py-1.5 rounded-full border border-slate-200/80 shadow-sm">System Integration</span>
+          <span className="text-[11px] sm:text-xs font-mono font-medium text-slate-600 bg-white/60 backdrop-blur-sm px-3 sm:px-4 py-1.5 rounded-full border border-slate-200/80 shadow-sm">Web App Development</span>
+        </motion.div>
 
         {/* Call-To-Action Group */}
         <motion.div
           id="hero-cta-group"
           variants={ctaGroupVariants}
-          className="mt-8 sm:mt-10 md:mt-12 flex flex-col items-center justify-center gap-4 w-full"
+          className="mt-10 sm:mt-12 flex flex-col items-center justify-center gap-4 w-full"
         >
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full">
             <motion.a
@@ -158,12 +168,14 @@ export default function HeroSection() {
               <span>Konsultasi via WhatsApp</span>
               <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
             </motion.a>
-            <Link
-              to="/portfolio"
-              className="inline-flex items-center justify-center gap-2 px-7 py-4 rounded-full bg-white/80 hover:bg-white text-slate-700 font-mono text-xs sm:text-sm font-bold uppercase tracking-wider border border-slate-200 shadow-xs hover:border-purple-300 transition-all cursor-pointer w-full sm:w-auto"
+            
+            <a
+              href="mailto:chestacode@gmail.com?subject=Inquiry:%20IT%20Architecture%20Audit%20&%20Strategy"
+              className="group inline-flex items-center justify-center gap-2.5 px-8 sm:px-9 py-4 rounded-full bg-white/80 hover:bg-white text-slate-800 font-mono text-xs sm:text-sm font-bold uppercase tracking-wider border border-slate-200 shadow-xs hover:border-purple-300 hover:shadow-purple-100/50 transition-all cursor-pointer w-full sm:w-auto"
             >
-              <span>Lihat Portofolio</span>
-            </Link>
+              <BriefcaseBusiness size={18} className="text-purple-600 group-hover:scale-110 transition-transform" />
+              <span>Audit Strategi IT</span>
+            </a>
           </div>
 
           {/* Direct Consultation Link */}

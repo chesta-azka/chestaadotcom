@@ -42,6 +42,7 @@ const mainServices = [
 ];
 
 const otherServices = [
+  { title: "IT Consulting & Strategic Advisory", desc: "Audit arsitektur, transformasi digital, dan roadmap sistem", slug: "it-consulting" },
   { title: "Strategic Web Architecture", desc: "Membangun fondasi digital yang agile dan scalable", slug: "pembuatan-website" },
   { title: "SEO & Market Dominance", desc: "Mendominasi visibilitas pencarian organik secara konsisten", slug: "seo" },
   { title: "Performance Marketing Ads", desc: "Akuisisi pelanggan presisi dengan metrik konversi terukur", slug: "digital-marketing" },

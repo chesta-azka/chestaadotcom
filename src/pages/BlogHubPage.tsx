@@ -17,7 +17,8 @@ import {
   Check,
   Flame,
   BookmarkCheck,
-  TrendingUp
+  TrendingUp,
+  ChevronDown
 } from 'lucide-react';
 import { useSearchParams, Link, useNavigate } from 'react-router-dom';
 import MetaTags from '../components/atoms/MetaTags.tsx';
@@ -135,7 +136,7 @@ export default function BlogHubPage() {
   const postsPerPage = 6;
 
   // Categories list
-  const categories = ['All', 'Tech', 'AI', 'Business', 'SEO', 'Design', 'Copywriting', 'Personal'];
+  const categories = ['All', 'Tech Architecture', 'AI Engineering', 'Digital Strategy'];
 
   // Trending tags list
   const popularTags = ['Agentic AI', 'Local SEO', 'Core Web Vitals', 'Conversion', 'Automation', 'Live Chat Bot', 'Micro-Interactions'];
@@ -644,32 +645,55 @@ export default function BlogHubPage() {
                     className="lg:col-span-5 flex flex-col gap-4"
                   >
                     <div className="relative w-full">
-                      <div className="relative bg-white border border-slate-200 shadow-md rounded-2xl p-1.5 flex items-center transition-all duration-300 focus-within:border-[#6b21a8] focus-within:shadow-purple-100">
-                        <Search size={20} className="text-slate-400 ml-3 shrink-0" />
-                        <input 
-                          type="text" 
-                          placeholder="Cari insight, AI, SEO, konversi..."
-                          value={searchQuery}
-                          onChange={(e) => setSearchQuery(e.target.value)}
-                          className="w-full bg-transparent py-3 pl-3 pr-4 text-sm font-sans font-medium placeholder:text-slate-400 text-slate-900 focus:outline-none"
-                        />
-                        {searchQuery ? (
-                          <button 
-                            onClick={() => setSearchQuery('')}
-                            className="text-[10px] text-slate-400 hover:text-slate-700 bg-slate-100 px-2.5 py-1 rounded-full font-mono mr-2 uppercase cursor-pointer"
-                          >
-                            Clear
-                          </button>
-                        ) : (
-                          <button
-                            type="button"
-                            onClick={() => window.dispatchEvent(new CustomEvent('open-command-palette'))}
-                            className="hidden sm:inline-flex items-center gap-1 text-[10px] font-mono text-[#6b21a8] bg-purple-50 hover:bg-purple-100 border border-purple-200 px-2 py-1 rounded-lg mr-2 font-bold uppercase transition-colors cursor-pointer"
-                            title="Buka Pencarian Global (⌘K)"
-                          >
-                            <span>Global ⌘K</span>
-                          </button>
-                        )}
+                      <div className="relative bg-white border border-slate-200 shadow-md rounded-2xl p-1.5 flex flex-col sm:flex-row sm:items-center transition-all duration-300 focus-within:border-[#6b21a8] focus-within:shadow-purple-100">
+                        
+                        {/* Search Input */}
+                        <div className="flex-1 flex items-center w-full">
+                          <Search size={20} className="text-slate-400 ml-3 shrink-0" />
+                          <input 
+                            type="text" 
+                            placeholder="Cari insight, AI, teknikal topik..."
+                            value={searchQuery}
+                            onChange={(e) => setSearchQuery(e.target.value)}
+                            className="w-full bg-transparent py-3 pl-3 pr-4 text-sm font-sans font-medium placeholder:text-slate-400 text-slate-900 focus:outline-none"
+                          />
+                        </div>
+                        
+                        {/* Removed Category Dropdown */}
+                        <div className="hidden sm:block h-6 w-px bg-slate-200 mx-2 shrink-0"></div>
+                        
+                        {/* Action Buttons */}
+                        <div className="hidden sm:flex items-center pr-2 shrink-0">
+                          {searchQuery || selectedCategory !== 'All' ? (
+                            <button 
+                              onClick={() => { setSearchQuery(''); setSelectedCategory('All'); }}
+                              className="text-[10px] text-slate-400 hover:text-slate-700 bg-slate-100 px-3 py-1.5 rounded-full font-mono uppercase font-bold cursor-pointer transition-colors"
+                            >
+                              Clear
+                            </button>
+                          ) : (
+                            <button
+                              type="button"
+                              onClick={() => window.dispatchEvent(new CustomEvent('open-command-palette'))}
+                              className="inline-flex items-center gap-1 text-[10px] font-mono text-[#6b21a8] bg-purple-50 hover:bg-purple-100 border border-purple-200 px-2 py-1.5 rounded-lg font-bold uppercase transition-colors cursor-pointer"
+                              title="Buka Pencarian Global (⌘K)"
+                            >
+                              <span>⌘K</span>
+                            </button>
+                          )}
+                        </div>
+                        
+                        {/* Mobile Action Buttons (Visible only on small screens) */}
+                        <div className="sm:hidden absolute right-3 top-3.5">
+                          {searchQuery || selectedCategory !== 'All' ? (
+                            <button 
+                              onClick={() => { setSearchQuery(''); setSelectedCategory('All'); }}
+                              className="text-[10px] text-slate-400 hover:text-slate-700 bg-slate-100 px-2.5 py-1 rounded-full font-mono uppercase font-bold cursor-pointer"
+                            >
+                              Clear
+                            </button>
+                          ) : null}
+                        </div>
                       </div>
                     </div>
 
@@ -798,28 +822,8 @@ export default function BlogHubPage() {
                 </div>
               )}
 
-              {/* Filter Controls Bar */}
+              {/* Filter Controls Bar (Search Results Summary) */}
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200/80 pb-6 mb-10">
-                {/* Category Pills */}
-                <div className="flex items-center gap-2 overflow-x-auto no-scrollbar pb-2 sm:pb-0">
-                  {categories.map((cat) => (
-                    <button 
-                      key={cat}
-                      onClick={() => {
-                        setSelectedCategory(cat);
-                        setSelectedTag(null);
-                      }}
-                      className={`px-4 py-2 rounded-full text-xs font-sans font-medium whitespace-nowrap transition-colors ${
-                        (selectedCategory === 'All' && cat === 'All') || selectedCategory.toLowerCase() === cat.toLowerCase()
-                        ? 'bg-[#6b21a8] text-white shadow-sm' 
-                        : 'text-slate-600 hover:text-slate-900 border border-slate-200 bg-white hover:bg-slate-50'
-                      }`}
-                    >
-                      {cat === 'All' ? 'Semua Kategori' : cat}
-                    </button>
-                  ))}
-                </div>
-
                 {/* Status & Active Filter Indicator */}
                 <div className="text-xs font-mono text-slate-500 shrink-0 flex items-center gap-2">
                   <span>Ditemukan <strong>{totalFilteredCount}</strong> insight</span>
@@ -947,7 +951,38 @@ export default function BlogHubPage() {
                 </div>
                 
                 {/* Sidebar */}
-                <aside className="w-full lg:w-[320px] shrink-0 lg:sticky lg:top-32 h-max">
+                <aside className="w-full lg:w-[320px] shrink-0 lg:sticky lg:top-32 h-max space-y-10">
+                  
+                  {/* Categories Vertical List */}
+                  <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm">
+                    <h4 className="font-bold text-slate-900 mb-6 text-xs uppercase tracking-widest bg-slate-50 border border-slate-100 px-4 py-2 rounded-lg inline-block">
+                      Kategori Topik
+                    </h4>
+                    <ul className="flex flex-col gap-2">
+                      {categories.map((cat) => {
+                        const isActive = (selectedCategory === 'All' && cat === 'All') || selectedCategory.toLowerCase() === cat.toLowerCase();
+                        return (
+                          <li key={cat}>
+                            <button
+                              onClick={() => {
+                                setSelectedCategory(cat);
+                                setSelectedTag(null);
+                              }}
+                              className={`w-full text-left px-4 py-3 rounded-xl transition-all duration-300 flex items-center justify-between group ${
+                                isActive 
+                                  ? 'bg-purple-50 text-purple-900 font-semibold ring-1 ring-purple-200' 
+                                  : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'
+                              }`}
+                            >
+                              <span className="text-sm font-sans">{cat === 'All' ? 'Semua Jurnal' : cat}</span>
+                              <ChevronDown size={14} className={`transform -rotate-90 transition-transform ${isActive ? 'text-purple-600 translate-x-1' : 'text-slate-300 group-hover:translate-x-0.5'}`} />
+                            </button>
+                          </li>
+                        );
+                      })}
+                    </ul>
+                  </div>
+
                   <RecentPostsWidget />
                 </aside>
               </div>
