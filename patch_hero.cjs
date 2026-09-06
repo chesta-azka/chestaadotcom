@@ -1,16 +1,38 @@
 const fs = require('fs');
-let code = fs.readFileSync('src/components/organisms/HeroSection.tsx', 'utf8');
+const content = fs.readFileSync('src/components/organisms/HeroSection.tsx', 'utf-8');
 
-const targetStr = `    <section 
-      id="home" 
-      className="relative min-h-[90svh] pt-48 md:pt-60 pb-16 md:pb-24 overflow-hidden flex flex-col items-center justify-center text-center select-none"
-    >`;
+let newContent = content.replace(
+  `              rel="noopener noreferrer"
+              style={isMobile ? {} : { x: springX, y: springY }}
+              onMouseMove={handleMouseMove}
+              onMouseLeave={ctaMouseLeave}
+              whileHover={isMobile ? {} : { scale: 1.04 }}
+              whileTap={{ scale: 0.96 }}`,
+  `              rel="noopener noreferrer"
+              onClick={(e) => handleWhatsAppClick(e, 'project')}
+              style={isMobile ? {} : { x: springX, y: springY }}
+              onMouseMove={handleMouseMove}
+              onMouseLeave={ctaMouseLeave}
+              whileHover={isMobile ? {} : { scale: 1.04 }}
+              whileTap={{ scale: 0.96 }}`
+);
 
-const replaceStr = `    <section 
-      id="home" 
-      className="relative min-h-screen pt-[180px] md:pt-[240px] pb-16 md:pb-24 overflow-hidden flex flex-col items-center justify-center text-center select-none"
-    >`;
+newContent = newContent.replace(
+  `            {/* Secondary CTA - IT Consultancy */}
+            <a
+              href={whatsappITUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="group inline-flex items-center justify-center gap-2.5 px-8 sm:px-9 py-4 rounded-full bg-white hover:bg-slate-50 text-slate-700 hover:text-purple-950 font-mono text-xs sm:text-sm font-bold uppercase tracking-wider border border-slate-200 hover:border-purple-200 shadow-sm transition-all cursor-pointer w-full sm:w-auto"
+            >`,
+  `            {/* Secondary CTA - IT Consultancy */}
+            <a
+              href={whatsappITUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={(e) => handleWhatsAppClick(e, 'consulting')}
+              className="group inline-flex items-center justify-center gap-2.5 px-8 sm:px-9 py-4 rounded-full bg-white hover:bg-slate-50 text-slate-700 hover:text-purple-950 font-mono text-xs sm:text-sm font-bold uppercase tracking-wider border border-slate-200 hover:border-purple-200 shadow-sm transition-all cursor-pointer w-full sm:w-auto"
+            >`
+);
 
-code = code.replace(targetStr, replaceStr);
-fs.writeFileSync('src/components/organisms/HeroSection.tsx', code);
-console.log('Patched HeroSection gap');
+fs.writeFileSync('src/components/organisms/HeroSection.tsx', newContent);

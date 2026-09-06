@@ -1,0 +1,173 @@
+{
+  "tutorialContent": [
+    {
+      "id": "module-0",
+      "title": "Modul 0: Persiapan Instalasi VS Code & Git",
+      "content": "Sebelum kita mulai ngoding, kita wajib menyiapkan 'senjata' utama kita. Dalam modul ini kita akan menginstal Visual Studio Code (VS Code) dan Git.",
+      "submodules": [
+        {
+          "id": "sub-0-1",
+          "title": "0.1 Instalasi Visual Studio Code & Git",
+          "content": "Langkah pertama untuk menjadi developer adalah menggunakan alat yang tepat.\n\n1. Unduh VS Code dari [code.visualstudio.com](https://code.visualstudio.com/) dan install.\n2. Unduh Git dari [git-scm.com](https://git-scm.com/) dan install.\n3. Buka VS Code, pilih tab **Extensions** di sebelah kiri (atau `Ctrl+Shift+X`).\n4. Cari dan install ekstensi **ESLint**, **Prettier**, dan **Tailwind CSS IntelliSense**.",
+          "filename": "Info",
+          "code": "Alat kerja Anda sudah siap! Lanjut ke Modul 1.",
+          "lang": "text"
+        }
+      ]
+    },
+    {
+      "id": "module-1",
+      "title": "Modul 1: Persiapan Environment & Workspace (VS Code)",
+      "content": "Selamat datang di Masterclass *Full-Stack Music Streaming App*. Pendekatan kita di sini adalah **Enterprise-grade**. Kita akan membangun arsitektur aplikasi dari awal (scratch) agar mudah dikembangkan (scalable) di masa depan.\n\n### 💡 Prasyarat Utama\nSebelum memulai, pastikan Anda menggunakan **Visual Studio Code (VS Code)** sebagai kode editor (IDE) Anda.\n1. Buka VS Code.\n2. Buka terminal internal VS Code dengan menekan shortcut `` Ctrl + ` `` (Backtick).\n3. Instal ekstensi wajib: **ESLint**, **Tailwind CSS IntelliSense**, dan **Prettier**.",
+      "submodules": [
+        {
+          "id": "sub-1-1",
+          "title": "1.1 Inisialisasi Proyek Next.js & Dependencies",
+          "content": "Langkah pertama adalah membuat pondasi Next.js menggunakan App Router. Di terminal VS Code Anda, navigasikan ke direktori tempat Anda menyimpan proyek, lalu jalankan instalasi ini.\n\nKita menggunakan **Zustand** untuk *state management* yang lebih ringan, **Howler.js** untuk mesin pemutar audio yang stabil, dan **Lucide React** untuk ikon antarmuka.",
+          "filename": "Terminal (VS Code)",
+          "code": "npx create-next-app@latest vibe-music --typescript --tailwind --eslint\ncd vibe-music\nnpm install zustand howler lucide-react framer-motion",
+          "lang": "bash"
+        },
+        {
+          "id": "sub-1-2",
+          "title": "1.2 Arsitektur Folder Musik Skala Enterprise",
+          "content": "Aplikasi musik sangat rentan terhadap isu *re-rendering* UI yang bisa menghentikan audio. Oleh karena itu, *Folder Architecture* (Struktur Folder) adalah pondasi krusial.\n\nBuka panel *Explorer* (kiri) di VS Code Anda. Buat folder-folder berikut ini di dalam direktori `src/`:\n\n*   📂 **`src/app/`**: (Otomatis dibuat) Digunakan khusus untuk sistem *routing* halaman.\n*   📂 **`src/components/audio/`**: Khusus menampung UI pemutar musik (seperti Player Bar, SeekBar) agar benar-benar terisolasi dari halaman utama.\n*   📂 **`src/store/`**: Menyimpan status global lagu (Zustand) agar musik tidak putus saat pengguna pindah halaman.\n*   📂 **`src/hooks/`**: Tempat menyimpan Custom Hooks untuk logika Web Audio API.\n\nAnda dapat membuatnya dengan cepat menggunakan terminal:",
+          "filename": "Terminal (VS Code)",
+          "code": "mkdir -p src/components/audio src/store src/hooks src/lib",
+          "lang": "bash"
+        },
+        {
+          "id": "sub-1-3",
+          "title": "1.3 Pembersihan Boilerplate (File Bawaan)",
+          "content": "Next.js membawa *boilerplate* CSS yang tidak kita perlukan.\n\n1. Buka file `src/app/page.tsx` di editor VS Code.\n2. Hapus **seluruh baris kode** (Ctrl+A lalu Delete).\n3. Ganti dengan kerangka kosong *Tailwind CSS* di bawah ini agar kita memiliki *blank canvas* yang siap digunakan.",
+          "filename": "src/app/page.tsx",
+          "code": "export default function HomePage() {\n  return (\n    <main className=\"flex flex-col items-center justify-center min-h-screen bg-slate-950 text-white\">\n      <h1 className=\"text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-emerald-400\">\n        Vibe Music Workspace\n      </h1>\n      <p className=\"text-slate-400 mt-4 max-w-lg text-center\">\n        Arsitektur aplikasi musik Anda siap digunakan. Silakan ikuti modul berikutnya untuk memulai integrasi state.\n      </p>\n    </main>\n  );\n}",
+          "lang": "tsx"
+        }
+      ]
+    },
+    {
+      "id": "module-2",
+      "title": "Modul 2: State Management Global (Zustand)",
+      "content": "Pada aplikasi biasa, state ditaruh di dalam halaman (misal di `page.tsx`). Namun di aplikasi musik, **jika state berada di halaman, maka lagu akan berhenti (mati) saat pengguna pindah halaman!**\n\nOleh karena itu, kita membuat state *di luar* React Tree menggunakan **Zustand**.",
+      "submodules": [
+        {
+          "id": "sub-2-1",
+          "title": "2.1 Mendefinisikan Tipe Data Track (TypeScript)",
+          "content": "Sebelum membuat state, kita wajib mendefinisikan bentuk objek lagu (Track) agar Typescript di VS Code bisa memberikan autocompletion cerdas (IntelliSense).\n\n1. Di sidebar VS Code, navigasi ke `src/store/`.\n2. Klik kanan > New File, beri nama `types.ts`.\n3. Salin kode berikut.",
+          "filename": "src/store/types.ts",
+          "code": "export interface Track {\n  id: string;\n  title: string;\n  artist: string;\n  coverUrl: string;\n  audioUrl: string;\n  duration: number;\n}",
+          "lang": "typescript"
+        },
+        {
+          "id": "sub-2-2",
+          "title": "2.2 Membuat Fondasi usePlayerStore",
+          "content": "Sekarang kita buat pusat otaknya. Store ini bertanggung jawab menyimpan lagu apa yang saat ini dimainkan (`currentTrack`) dan daftar putar (`queue`).\n\n1. Di folder `src/store/`, buat file baru bernama `usePlayerStore.ts`.\n2. Ketik (atau salin) *boilerplate* store berikut.",
+          "filename": "src/store/usePlayerStore.ts",
+          "code": "import { create } from 'zustand';\nimport { Track } from './types';\n\ninterface PlayerState {\n  currentTrack: Track | null;\n  isPlaying: boolean;\n  queue: Track[];\n  playTrack: (track: Track) => void;\n  togglePlay: () => void;\n}\n\nexport const usePlayerStore = create<PlayerState>((set) => ({\n  currentTrack: null,\n  isPlaying: false,\n  queue: [],\n  \n  playTrack: (track) => set({ currentTrack: track, isPlaying: true }),\n  togglePlay: () => set((state) => ({ isPlaying: !state.isPlaying })),\n}));",
+          "lang": "typescript"
+        },
+        {
+          "id": "sub-2-3",
+          "title": "2.3 Menambahkan Fungsi Navigasi Antrean (Next & Prev)",
+          "content": "Kita akan menyempurnakan Store kita dengan fitur loncat lagu selanjutnya (Next) dan sebelumnya (Previous).\n\n**📌 CATATAN PENEMPATAN KODE:**\nBuka kembali `src/store/usePlayerStore.ts` di VS Code Anda. Tambahkan fungsi `nextTrack` dan `prevTrack` **di dalam** blok `create(...)`, **tepat di bawah** baris fungsi `togglePlay: () => set(...)`.",
+          "filename": "src/store/usePlayerStore.ts (Penambahan Kode)",
+          "code": "  // ... fungsi playTrack dan togglePlay yang sebelumnya sudah ada ...\n\n  // 👇 TAMBAHKAN KODE INI DI SINI 👇\n  nextTrack: () => set((state) => {\n    if (!state.currentTrack) return state;\n    const currentIndex = state.queue.findIndex(t => t.id === state.currentTrack!.id);\n    if (currentIndex !== -1 && currentIndex < state.queue.length - 1) {\n      return { currentTrack: state.queue[currentIndex + 1], isPlaying: true };\n    }\n    return state;\n  }),\n\n  prevTrack: () => set((state) => {\n    if (!state.currentTrack) return state;\n    const currentIndex = state.queue.findIndex(t => t.id === state.currentTrack!.id);\n    if (currentIndex > 0) {\n      return { currentTrack: state.queue[currentIndex - 1], isPlaying: true };\n    }\n    return state;\n  }),\n  // 👆 BATAS PENAMBAHAN KODE 👆",
+          "lang": "typescript"
+        }
+      ]
+    },
+    {
+      "id": "module-3",
+      "title": "Modul 3: Desain UI Player Bar Persistent (Tidak Mati)",
+      "content": "Tantangan visual di aplikasi streaming musik: Anda butuh Player Bar yang selalu melayang (sticky) di bagian bawah browser pengguna. \nKita akan membangun UI-nya terlebih dahulu.",
+      "submodules": [
+        {
+          "id": "sub-3-1",
+          "title": "3.1 Kerangka UI GlobalPlayerBar",
+          "content": "Kita akan membuat antarmukanya (UI) menggunakan kombinasi *Flexbox Tailwind CSS* dan ikon-ikon media modern dari `lucide-react`.\n\n1. Buka folder `src/components/audio/`.\n2. Buat file `GlobalPlayerBar.tsx`.\n3. Masukkan kode UI layout ini.",
+          "filename": "src/components/audio/GlobalPlayerBar.tsx",
+          "code": "import { Play, Pause, SkipBack, SkipForward } from 'lucide-react';\nimport { usePlayerStore } from '@/store/usePlayerStore';\n\nexport default function GlobalPlayerBar() {\n  const { currentTrack, isPlaying, togglePlay, nextTrack, prevTrack } = usePlayerStore();\n\n  // Jika belum ada lagu yang dipilih dari database, sembunyikan UI player-nya.\n  if (!currentTrack) return null;\n\n  return (\n    <div className=\"fixed bottom-0 left-0 w-full h-24 bg-[#121212]/95 backdrop-blur-xl border-t border-slate-800 text-white flex items-center justify-between px-6 z-50 shadow-2xl\">\n      {/* 1. Bagian Kiri: Info Lagu & Cover Art */}\n      <div className=\"flex items-center gap-4 w-1/3 min-w-[200px]\">\n        <div className=\"w-14 h-14 rounded-md overflow-hidden bg-slate-800 flex-shrink-0\">\n          <img \n            src={currentTrack.coverUrl} \n            alt={currentTrack.title} \n            className=\"w-full h-full object-cover\"\n          />\n        </div>\n        <div className=\"flex flex-col\">\n          <h4 className=\"font-semibold text-sm line-clamp-1 hover:underline cursor-pointer\">{currentTrack.title}</h4>\n          <p className=\"text-xs text-slate-400 hover:underline cursor-pointer mt-0.5\">{currentTrack.artist}</p>\n        </div>\n      </div>\n      \n      {/* 2. Bagian Tengah: Kontrol Utama Player (Media Controls) */}\n      <div className=\"flex flex-col items-center justify-center w-1/3 gap-3\">\n        <div className=\"flex items-center gap-6\">\n          <button onClick={prevTrack} className=\"text-slate-400 hover:text-white transition-colors\">\n            <SkipBack size={20} className=\"fill-current\" />\n          </button>\n          \n          <button \n            onClick={togglePlay} \n            className=\"w-9 h-9 flex items-center justify-center bg-white text-slate-950 rounded-full hover:scale-105 transition-transform shadow-lg\"\n          >\n            {isPlaying ? <Pause size={18} className=\"fill-current\" /> : <Play size={18} className=\"fill-current translate-x-[1px]\" />}\n          </button>\n          \n          <button onClick={nextTrack} className=\"text-slate-400 hover:text-white transition-colors\">\n            <SkipForward size={20} className=\"fill-current\" />\n          </button>\n        </div>\n        {/* Note: Tempat SeekBar akan dipasang nanti */}\n      </div>\n\n      {/* 3. Bagian Kanan: Extra Kontrol (Volume, dll) - Placeholder */}\n      <div className=\"w-1/3 flex justify-end pr-4\">\n        <div className=\"w-24 h-1 bg-slate-700 rounded-full cursor-pointer\">\n           <div className=\"w-1/2 h-full bg-white rounded-full hover:bg-emerald-400 transition-colors\" />\n        </div>\n      </div>\n    </div>\n  );\n}",
+          "lang": "tsx"
+        },
+        {
+          "id": "sub-3-2",
+          "title": "3.2 Menyuntikkan (Inject) Player ke Root Layout",
+          "content": "Ini adalah langkah terpenting dalam arsitektur Next.js. Agar komponen `GlobalPlayerBar` ini tidak pernah hilang atau terre-render saat pengguna menavigasi ke halaman lain, kita WAJIB meletakkannya di `RootLayout` utama, tepat di atas penutup tag HTML `</body>`.\n\n**📌 CATATAN PENEMPATAN KODE:**\nBuka `src/app/layout.tsx`. Impor komponen tersebut dan letakkan di bawah tag `{children}`.",
+          "filename": "src/app/layout.tsx (Modifikasi)",
+          "code": "import type { Metadata } from 'next';\nimport { Inter } from 'next/font/google';\nimport './globals.css';\n\n// 👇 TAMBAHKAN IMPORT INI 👇\nimport GlobalPlayerBar from '@/components/audio/GlobalPlayerBar';\n\nconst inter = Inter({ subsets: ['latin'] });\n\nexport const metadata: Metadata = {\n  title: 'Vibe Music - Enterprise Streaming',\n  description: 'Aplikasi streaming musik modern.',\n};\n\nexport default function RootLayout({\n  children,\n}: {\n  children: React.ReactNode\n}) {\n  return (\n    <html lang=\"en\">\n      <body className={`${inter.className} bg-slate-950 text-slate-50 antialiased`}>\n        \n        {/* Wadah pembungkus konten utama. pb-24 berguna agar konten bawah tidak tertutup oleh Player Bar setinggi h-24 */}\n        <div className=\"pb-24\">\n          {children}\n        </div>\n        \n        {/* 👇 PASANG KOMPONEN PLAYER BAR DI SINI 👇 */}\n        <GlobalPlayerBar />\n\n      </body>\n    </html>\n  );\n}",
+          "lang": "tsx"
+        }
+      ]
+    },
+    {
+      "id": "module-4",
+      "title": "Modul 4: Integrasi Mesin Audio Asli (Howler.js)",
+      "content": "Sejauh ini, UI kita cantik tapi *belum berbunyi*. Kita harus menerjemahkan (bind) state Zustand ke dalam mesin pembaca file media sungguhan (AudioContext HTML5). Kita membungkus logika rumit tersebut di dalam Custom Hook: `useAudioEngine`.",
+      "submodules": [
+        {
+          "id": "sub-4-1",
+          "title": "4.1 Menulis Hook useAudioEngine",
+          "content": "Hook ini berfungsi mengontrol instansiasi `Howl` secara reaktif ketika `currentTrack` atau statu `isPlaying` berubah di Zustand. \n\n1. Buka folder `src/hooks/`.\n2. Buat file baru `useAudioEngine.ts`.\n3. Tulis logika interceptor audio ini.",
+          "filename": "src/hooks/useAudioEngine.ts",
+          "code": "import { useEffect, useRef } from 'react';\nimport { Howl } from 'howler';\nimport { usePlayerStore } from '@/store/usePlayerStore';\n\nexport function useAudioEngine() {\n  // Referensi memori untuk objek suara yang aktif, agar tidak terbuat ganda\n  const soundRef = useRef<Howl | null>(null);\n  const { currentTrack, isPlaying, nextTrack } = usePlayerStore();\n\n  // Effect 1: Menangani pergantian lagu (currentTrack berubah)\n  useEffect(() => {\n    // Jika ada lagu sebelumnya yang masih jalan, hancurkan (unload) dari memori\n    if (soundRef.current) {\n      soundRef.current.unload();\n    }\n\n    if (currentTrack) {\n      // Inisialisasi audio decoder baru\n      soundRef.current = new Howl({\n        src: [currentTrack.audioUrl],\n        html5: true, // Wajib TRUE! Agar lagu besar di-stream via chunk, bukan didownload full\n        volume: 1.0,\n        onend: () => {\n          // Trigger otomatis dari Howler jika lagu sudah habis durasinya\n          nextTrack(); \n        }\n      });\n\n      // Langsung mainkan jika state di UI menyuruh main\n      if (isPlaying) {\n        soundRef.current.play();\n      }\n    }\n\n    return () => {\n      // Cleanup: Hancurkan memori jika komponen di-unmount (meskipun di arsitektur kita, ini jarang terjadi)\n      if (soundRef.current) soundRef.current.unload();\n    };\n  }, [currentTrack]);\n\n  // Effect 2: Menangani tombol Pause / Play ditekan user tanpa mengganti lagu\n  useEffect(() => {\n    if (!soundRef.current) return;\n    \n    if (isPlaying && !soundRef.current.playing()) {\n      soundRef.current.play();\n    } else if (!isPlaying && soundRef.current.playing()) {\n      soundRef.current.pause();\n    }\n  }, [isPlaying]);\n}",
+          "lang": "typescript"
+        },
+        {
+          "id": "sub-4-2",
+          "title": "4.2 Membangunkan (Awaken) Engine Audio",
+          "content": "Hook yang baru kita buat (di sub-4-1) itu masih \"mati\" karena belum dipanggil (invoked) di dalam komponen UI mana pun.\n\n**📌 CATATAN PENEMPATAN KODE:**\nKembali buka file `src/components/audio/GlobalPlayerBar.tsx`. Kita akan memanggil hook tersebut di baris paling atas di dalam komponen tersebut.",
+          "filename": "src/components/audio/GlobalPlayerBar.tsx (Modifikasi Tambahan)",
+          "code": "// 👇 1. IMPORT HOOK DI BAGIAN ATAS FILE 👇\nimport { useAudioEngine } from '@/hooks/useAudioEngine';\n\nexport default function GlobalPlayerBar() {\n  const { currentTrack, isPlaying, togglePlay, nextTrack, prevTrack } = usePlayerStore();\n  \n  // 👇 2. PANGGIL HOOK DI SINI (Sebelum statemen 'if (!currentTrack) return null;') 👇\n  useAudioEngine();\n\n  if (!currentTrack) return null;\n\n  return (\n    // ... sisa UI komponen ...",
+          "lang": "tsx"
+        }
+      ]
+    },
+    {
+      "id": "module-5",
+      "title": "Modul 5: Animasi Progress Bar Real-Time (SeekBar)",
+      "content": "Membuat SeekBar (garis progress durasi) sangat menantang (tricky) di React. Jika kita menggunakan `useState` untuk memperbarui persentase setiap 1 detik, performa UI React akan sangat berat. Kita akan menggunakan API murni browser: `requestAnimationFrame`.",
+      "submodules": [
+        {
+          "id": "sub-5-1",
+          "title": "5.1 Membuat Komponen SeekBar Cerdas",
+          "content": "Buka `src/components/audio/` dan buat file `SeekBar.tsx`. \n\nDi sini, kita mengintip waktu berjalan dari mesin *Howler* (`sound.seek()`) dan mengkalkulasinya terhadap total `sound.duration()`. Proses perhitungannya berjalan di background frame 60fps.",
+          "filename": "src/components/audio/SeekBar.tsx",
+          "code": "import { useState, useEffect, useRef } from 'react';\nimport { Howler } from 'howler';\nimport { usePlayerStore } from '@/store/usePlayerStore';\n\nexport default function SeekBar() {\n  const [progress, setProgress] = useState(0);\n  const [currentTime, setCurrentTime] = useState('0:00');\n  const { isPlaying } = usePlayerStore();\n  const rafRef = useRef<number>();\n\n  // Helper memformat detik menjadi menit:detik (contoh: 125 -> 2:05)\n  const formatTime = (secs: number) => {\n    const m = Math.floor(secs / 60);\n    const s = Math.floor(secs % 60);\n    return `${m}:${s < 10 ? '0' : ''}${s}`;\n  };\n\n  useEffect(() => {\n    const updateProgress = () => {\n      // Mengakses instance global dari lagu yang aktif\n      const sound = Howler._howls[0];\n      if (sound && sound.playing()) {\n        const currentPos = sound.seek() as number;\n        const duration = sound.duration();\n        \n        setProgress((currentPos / duration) * 100);\n        setCurrentTime(formatTime(currentPos));\n      }\n      rafRef.current = requestAnimationFrame(updateProgress);\n    };\n\n    if (isPlaying) {\n      rafRef.current = requestAnimationFrame(updateProgress);\n    } else if (rafRef.current) {\n      cancelAnimationFrame(rafRef.current);\n    }\n\n    return () => {\n      if (rafRef.current) cancelAnimationFrame(rafRef.current);\n    };\n  }, [isPlaying]);\n\n  return (\n    <div className=\"w-full flex items-center gap-3 text-[11px] text-slate-400 font-mono\">\n      <span>{currentTime}</span>\n      <div className=\"h-1 flex-1 bg-slate-700/50 rounded-full overflow-hidden cursor-pointer group\">\n        <div \n          className=\"h-full bg-slate-300 group-hover:bg-emerald-400 rounded-full transition-colors relative\"\n          style={{ width: `${progress}%` }}\n        />\n      </div>\n      {/* Disini Anda bisa mengambil total durasi dari store jika Anda merekamnya */}\n      <span>...</span> \n    </div>\n  );\n}",
+          "lang": "tsx"
+        },
+        {
+          "id": "sub-5-2",
+          "title": "5.2 Mengintegrasikan SeekBar ke Player Bar",
+          "content": "Sekarang SeekBar kita sudah jadi, mari kita masukkan (mounting) komponen tersebut ke tengah (center panel) dari `GlobalPlayerBar`.\n\n**📌 CATATAN PENEMPATAN KODE:**\nBuka `src/components/audio/GlobalPlayerBar.tsx`. Tambahkan impor `SeekBar` di paling atas, dan gantikan tempat komentar ` {/* Note: Tempat SeekBar akan dipasang nanti */}`.",
+          "filename": "src/components/audio/GlobalPlayerBar.tsx (Revisi Final)",
+          "code": "import { Play, Pause, SkipBack, SkipForward } from 'lucide-react';\nimport { usePlayerStore } from '@/store/usePlayerStore';\nimport { useAudioEngine } from '@/hooks/useAudioEngine';\n// 👇 1. IMPORT SEEKBAR 👇\nimport SeekBar from './SeekBar';\n\nexport default function GlobalPlayerBar() {\n  const { currentTrack, isPlaying, togglePlay, nextTrack, prevTrack } = usePlayerStore();\n  useAudioEngine();\n\n  if (!currentTrack) return null;\n\n  return (\n    <div className=\"fixed bottom-0 left-0 w-full h-24 bg-[#121212]/95 backdrop-blur-xl border-t border-slate-800 text-white flex items-center justify-between px-6 z-50 shadow-2xl\">\n      {/* ... BAGIAN KIRI TETAP SAMA ... */}\n      \n      {/* 2. Bagian Tengah (Direvisi) */}\n      <div className=\"flex flex-col items-center justify-center w-2/5 gap-2\">\n        <div className=\"flex items-center gap-6\">\n           {/* ... TOMBOL PLAY/PAUSE/PREV/NEXT TETAP SAMA ... */}\n        </div>\n\n        {/* 👇 2. MOUNT SEEKBAR DI BAWAH DERETAN TOMBOL 👇 */}\n        <div className=\"w-full max-w-[500px]\">\n          <SeekBar />\n        </div>\n      </div>\n\n      {/* ... BAGIAN KANAN TETAP SAMA ... */}\n    </div>\n  );\n}",
+          "lang": "tsx"
+        }
+      ]
+    },
+    {
+      "id": "module-6",
+      "title": "Modul 6: Deploy ke GitHub dan Vercel",
+      "content": "Aplikasi kita sudah jadi! Sekarang saatnya *publish* karya kita agar bisa diakses oleh seluruh dunia. Kita akan menyimpan kode kita di GitHub, lalu melakukan deploy otomatis menggunakan platform serverless Vercel.",
+      "submodules": [
+        {
+          "id": "sub-6-1",
+          "title": "6.1 Push Kode ke GitHub",
+          "content": "GitHub adalah portofolio developer. Mari kita simpan kode kita ke sana.\n\n1. Buat repository kosong baru di [github.com](https://github.com).\n2. Buka terminal di VS Code (`Ctrl+\\``).\n3. Inisialisasi dan push kode menggunakan perintah berikut (pastikan mengganti username dan repo Anda):",
+          "filename": "Terminal",
+          "code": "git init\ngit add .\ngit commit -m \"feat: complete spotify clone app\"\ngit branch -M main\n\ngit remote add origin https://github.com/USERNAME/REPO_NAME.git\n\ngit push -u origin main",
+          "lang": "bash"
+        },
+        {
+          "id": "sub-6-2",
+          "title": "6.2 Deploy ke Internet via Vercel",
+          "content": "Vercel adalah platform hosting terbaik untuk men-deploy aplikasi Next.js/React secara instan.\n\n1. Kunjungi [vercel.com](https://vercel.com) dan login menggunakan akun GitHub Anda.\n2. Klik tombol **Add New...** > **Project**.\n3. Di samping repository GitHub Anda tadi, klik tombol **Import**.\n4. Biarkan pengaturan default, dan klik **Deploy**.\n\nDalam 1-2 menit, Vercel akan mem-build aplikasi Anda dan memberikan URL publik yang siap dibagikan ke teman atau LinkedIn!",
+          "filename": "Info",
+          "code": "🎉 Selamat! Aplikasi musik Anda sudah online. 🎉\n\nAkses URL dari Vercel (contoh: https://vibe-music-clone.vercel.app).",
+          "lang": "text"
+        }
+      ]
+    }
+  ]
+}

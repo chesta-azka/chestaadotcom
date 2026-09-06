@@ -1,15 +1,14 @@
 const fs = require('fs');
-const path = 'src/data/blogData.ts';
-let data = fs.readFileSync(path, 'utf8');
+let content = fs.readFileSync('src/app/academy/[slug]/page.tsx', 'utf-8');
 
-data = data.replace(
-  "import filosofiChestaMdx from '../content/filosofi-chesta-azka.mdx?raw';",
-  "import { filosofiChestaMdx } from '../content/filosofiChestaArticle';"
-);
+// Remove the import from the middle
+content = content.replace("import { codeToHtml } from 'shiki';\n", "");
+content = content.replace("import { codeToHtml } from 'shiki';\r\n", "");
 
-data = data.replace(
-  "import panduanSeoMdx from '../content/panduan-seo-lokal.mdx?raw';",
-  "import { panduanSeoMdx } from '../content/panduanSeoArticle';"
-);
+// Add it to the top
+content = "import { codeToHtml } from 'shiki';\n" + content;
 
-fs.writeFileSync(path, data);
+// Replace CodeBlock usage with PremiumCodeBlock
+content = content.replace("<CodeBlock code={sub.code} language={sub.lang} title={sub.filename} />", "<PremiumCodeBlock code={sub.code} language={sub.lang} title={sub.filename} />");
+
+fs.writeFileSync('src/app/academy/[slug]/page.tsx', content);

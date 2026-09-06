@@ -1,38 +1,35 @@
 const fs = require('fs');
-let code = fs.readFileSync('src/components/organisms/FloatingAIAssistant.tsx', 'utf8');
+let code = fs.readFileSync('src/components/organisms/Header.tsx', 'utf8');
 
-const target = `<div className="flex items-center gap-3">
-                <div className="w-10 h-10 rounded-full bg-purple-50 flex items-center justify-center text-purple-600 border border-purple-100 shadow-2xs">
-                  <Bot size={20} />
-                </div>
-                <div>
-                  <h3 className="font-semibold text-slate-900 text-sm">Konsultan AI CHESTAADOTCOM</h3>
-                  <p className="text-xs text-emerald-600 font-medium flex items-center gap-1">
-                    <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span> Online & Siap Bantu
-                  </p>
-                </div>
-              </div>`;
+const newNavItems = `const NAV_ITEMS: NavItem[] = [
+  { name: 'Home', href: '/', icon: Home, subtitle: 'Beranda' },
+  {
+    name: 'Layanan',
+    children: [
+      { name: 'Web Dev Next.js', href: '/#services', icon: Sparkles, subtitle: 'Pembuatan Website Cepat & Modern' },
+      { name: 'AI Integration', href: '/#services', icon: Sparkles, subtitle: 'Otomatisasi dengan Google Gemini' },
+      { name: 'UI/UX Design', href: '/#services', icon: Sparkles, subtitle: 'Desain Antarmuka Premium' },
+      { name: 'Workflow', href: '/workflow', icon: GitFork, subtitle: 'Proses Kerja & Eksekusi' },
+    ]
+  },
+  {
+    name: 'Showcase',
+    children: [
+      { name: 'Portfolio', href: '/portfolio', icon: Briefcase, subtitle: 'Studi Kasus & Hasil Nyata' },
+      { name: 'About', href: '/about', icon: User, subtitle: 'Profil Founder & Visi' },
+    ]
+  },
+  {
+    name: 'Developers',
+    children: [
+      { name: 'Tech Insights', href: '/blog', icon: BookOpen, subtitle: 'Jurnal Vibe Coding' },
+      { name: 'Academy', href: '/academy', icon: GraduationCap, subtitle: 'Tutorial & Dokumentasi' },
+      { name: 'Quiz Evaluasi', href: '/quiz', icon: CheckSquare, subtitle: 'Uji Kompetensi' },
+    ]
+  },
+];`;
 
-const replacement = `<div className="flex items-center gap-3">
-                <div className={\`w-10 h-10 rounded-full flex items-center justify-center border shadow-2xs \${isHumanTakeover ? 'bg-amber-100 text-amber-600 border-amber-200' : 'bg-purple-50 text-purple-600 border-purple-100'}\`}>
-                  {isHumanTakeover ? <User size={20} /> : <Bot size={20} />}
-                </div>
-                <div>
-                  <h3 className="font-semibold text-slate-900 text-sm">
-                    {isHumanTakeover ? 'Principal Engineer (Live)' : 'Konsultan AI CHESTAADOTCOM'}
-                  </h3>
-                  <p className={\`text-xs font-medium flex items-center gap-1 \${isHumanTakeover ? 'text-amber-600' : 'text-emerald-600'}\`}>
-                    <span className={\`w-1.5 h-1.5 rounded-full animate-pulse \${isHumanTakeover ? 'bg-amber-500' : 'bg-emerald-500'}\`}></span> {isHumanTakeover ? 'Live Support' : 'Online & Siap Bantu'}
-                  </p>
-                </div>
-              </div>`;
+code = code.replace(/const NAV_ITEMS: NavItem\[\] = \[[\s\S]*?\];/m, newNavItems);
 
-if(code.includes('Konsultan AI CHESTAADOTCOM')) {
-  // we also need to import User from lucide-react
-  code = code.replace(/Bot, X, Send, Copy, Code2, TrendingUp, Calculator, Clock, MessageCircle, ThumbsUp, ThumbsDown, Folder, ChevronDown, Sparkles, CheckCircle2/, "Bot, X, Send, Copy, Code2, TrendingUp, Calculator, Clock, MessageCircle, ThumbsUp, ThumbsDown, Folder, ChevronDown, Sparkles, CheckCircle2, User");
-  
-  // replace target
-  code = code.replace(target, replacement);
-  fs.writeFileSync('src/components/organisms/FloatingAIAssistant.tsx', code);
-  console.log("Patched header successfully!");
-}
+fs.writeFileSync('src/components/organisms/Header.tsx', code);
+console.log('Patched Header.tsx');

@@ -132,13 +132,13 @@ export default function TableOfContents({ headings }: { headings: Heading[] }) {
             />
 
             <ul ref={tocListRef} className="space-y-2.5 relative z-10 m-0 p-0 list-none">
-              {headings.map((heading) => {
+              {headings.map((heading, idx) => {
                 const isActive = activeId === heading.id;
                 const isH3 = heading.level === 3;
                 
                 return (
                   <li 
-                    key={heading.id} 
+                    key={`${heading.id}-${idx}`} 
                     data-id={heading.id}
                     className={`relative transition-all duration-200 ${isH3 ? 'pl-5' : 'pl-4'}`}
                   >
@@ -256,13 +256,13 @@ export default function TableOfContents({ headings }: { headings: Heading[] }) {
 
               {/* Mobile Scrollable TOC List */}
               <div className="overflow-y-auto flex-1 pr-1 space-y-2 py-2">
-                {headings.map((heading) => {
+                {headings.map((heading, idx) => {
                   const isActive = activeId === heading.id;
                   const isH3 = heading.level === 3;
 
                   return (
                     <button
-                      key={heading.id}
+                      key={`${heading.id}-${idx}`}
                       type="button"
                       onClick={() => scrollToHeading(heading.id)}
                       className={`w-full text-left py-2.5 px-3.5 rounded-xl transition-all flex items-start gap-2.5 ${

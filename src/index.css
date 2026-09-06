@@ -105,3 +105,24 @@ p {
     @apply text-slate-900 font-semibold;
   }
 }
+
+.academy-text-content p {
+  margin-bottom: 2rem !important;
+  padding-bottom: 1rem !important;
+  line-height: 1.75 !important;
+  color: #334155 !important;
+}
+.academy-text-content h1,
+.academy-text-content h2,
+.academy-text-content h3 {
+  margin-top: 2.5rem !important;
+  margin-bottom: 1.25rem !important;
+}
+
+@media (max-width: 768px) {
+  .academy-text-content p {
+    margin-bottom: 2rem !important;
+    padding-bottom: 0.5rem !important;
+    line-height: 1.75 !important;
+  }
+}

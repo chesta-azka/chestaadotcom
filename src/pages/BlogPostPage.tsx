@@ -13,6 +13,7 @@ import SocialShare from '../components/molecules/SocialShare.tsx';
 import LazyImage from '../components/atoms/LazyImage.tsx';
 import ReadNextSection from '../components/organisms/ReadNextSection.tsx';
 import { ALL_ARTICLES, Article } from '../data/blogData';
+import { TextSelectionToolbar } from '../components/organisms/TextSelectionToolbar.tsx';
 
 // Skeleton Component for Blog Post Loading State
 const BlogPostSkeleton = () => (
@@ -484,23 +485,47 @@ export default function BlogPostPage() {
   // Extract all H2 and H3 tags from the markdown content
   const headings: { id: string; text: string; level: number }[] = [];
   let headingCount = 0;
+  
+  // Track unique IDs
+  const idMap = new Map<string, number>();
+
   unifiedContent = unifiedContent.replace(/^(#{2,3})\s+(.*)$/gm, (match, hashes, title) => {
     const cleanTitle = title.replace(/<[^>]+>/g, '').trim();
-    const id = cleanTitle.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+    let baseId = cleanTitle.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+    
+    let id = baseId;
+    if (idMap.has(baseId)) {
+      const count = idMap.get(baseId)! + 1;
+      idMap.set(baseId, count);
+      id = `${baseId}-${count}`;
+    } else {
+      idMap.set(baseId, 1);
+    }
+
     headings.push({ id, text: cleanTitle, level: hashes.length });
     
     if (hashes === '##') {
       headingCount++;
       if (headingCount === 3) {
-        return `<InlineCTA />\n\n${hashes} ${cleanTitle}`;
+        return `<InlineCTA />
+
+<h2 id="${id}">${title}</h2>`;
       }
+      return `<h2 id="${id}">${title}</h2>`;
     }
     
-    return `${hashes} ${cleanTitle}`;
+    return `<h3 id="${id}">${title}</h3>`;
   });
 
   return (
     <main className="min-h-screen bg-white pt-36 md:pt-44 font-sans relative">
+      <TextSelectionToolbar />
+      <div className="hidden 2xl:flex fixed left-8 top-1/2 -translate-y-1/2 flex-col gap-4 z-40">
+        <div className="text-[10px] font-mono font-bold uppercase tracking-widest text-slate-400 rotate-180 mb-2" style={{ writingMode: 'vertical-rl' }}>Bagikan</div>
+        <div className="w-[1px] h-12 bg-slate-200 mx-auto" />
+        <SocialShare title={post.title} description={post.desc} vertical className="relative" />
+      </div>
+      
       <Helmet>
         <title>{post.title} | CHESTAADOTCOM Insights</title>
         <meta name="description" content={post.desc} />

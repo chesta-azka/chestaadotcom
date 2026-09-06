@@ -8,6 +8,7 @@ import MetaTags from '../components/atoms/MetaTags';
 import Breadcrumbs from '../components/atoms/Breadcrumbs';
 import CreativityMarquee from '../components/organisms/CreativityMarquee.tsx';
 import AICaseStudies from '../components/organisms/AICaseStudies.tsx';
+import ClientTestimonials from '../components/organisms/ClientTestimonials.tsx';
 import LazyImage from '../components/atoms/LazyImage.tsx';
 
 import SectionHeader from '../components/organisms/SectionHeader';
@@ -207,6 +208,7 @@ export default function PortfolioPage() {
            </div>
         </div>
       </div>
+      <ClientTestimonials />
       <AICaseStudies />
       <CreativityMarquee />
     </div>

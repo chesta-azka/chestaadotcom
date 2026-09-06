@@ -1,24 +1,28 @@
-import React, { Suspense } from 'react';
-import { Metadata } from 'next';
-import { FeaturedCaseStudies } from '../../components/FeaturedCaseStudies';
-import { Breadcrumbs } from '../../components/Breadcrumbs';
-import { CaseStudiesSkeleton } from '../../components/CaseStudiesSkeleton';
+import React, { Suspense, useState, useEffect } from 'react';
+import { Helmet } from 'react-helmet-async';
+import { FeaturedCaseStudies } from '../components/FeaturedCaseStudies';
+import { Breadcrumbs } from '../components/Breadcrumbs';
+import { CaseStudiesSkeleton } from '../components/CaseStudiesSkeleton';
 
-export async function generateMetadata(): Promise<Metadata> {
-  return {
-    title: 'Studi Kasus & Hasil Nyata | CHESTADOTCOM',
-    description: 'Analisis mendalam implementasi arsitektur website Next.js, kecepatan loading, dan dampak peningkatan penjualan klien kami.',
-  };
-}
-
-async function CaseStudiesLoader() {
-  await new Promise(resolve => setTimeout(resolve, 800));
+function CaseStudiesLoader() {
+  const [loading, setLoading] = useState(true);
+  useEffect(() => {
+    const timer = setTimeout(() => setLoading(false), 800);
+    return () => clearTimeout(timer);
+  }, []);
+  
+  if (loading) return <CaseStudiesSkeleton />;
   return <FeaturedCaseStudies />;
 }
 
 export default function CaseStudiesPage() {
   return (
     <main className="relative min-h-screen flex flex-col items-center pt-36 md:pt-44 pb-20 overflow-hidden bg-white text-slate-900 font-sans">
+      <Helmet>
+        <title>Studi Kasus & Hasil Nyata | CHESTADOTCOM</title>
+        <meta name="description" content="Analisis mendalam implementasi arsitektur website Next.js, kecepatan loading, dan dampak peningkatan penjualan klien kami." />
+      </Helmet>
+      
       <div className="w-full max-w-5xl mx-auto px-4 flex justify-start">
         <Breadcrumbs />
       </div>
@@ -34,10 +38,7 @@ export default function CaseStudiesPage() {
           Analisis dampak implementasi website Next.js berkecepatan tinggi terhadap kepuasan pengguna dan peningkatan konversi bisnis.
         </p>
       </div>
-
-      <Suspense fallback={<CaseStudiesSkeleton />}>
-        <CaseStudiesLoader />
-      </Suspense>
+      <CaseStudiesLoader />
     </main>
   );
 }

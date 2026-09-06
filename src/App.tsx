@@ -24,21 +24,30 @@ import InteractiveBackground from './components/atoms/InteractiveBackground.tsx'
 import HomePage from './pages/HomePage.tsx';
 import BlogHubPage from './pages/BlogHubPage.tsx';
 import BlogPostPage from './pages/BlogPostPage.tsx';
-import ServicesPage from './pages/ServicesPage.tsx';
 import PortfolioPage from './pages/PortfolioPage.tsx';
 import ProjectDetailPage from './pages/ProjectDetailPage.tsx';
 import AboutPage from './pages/AboutPage.tsx';
 import WorkflowPage from './pages/WorkflowPage.tsx';
-import ServiceDetailPage from './pages/ServiceDetailPage.tsx';
 import AreaDetailPage from './pages/AreaDetailPage.tsx';
+import AcademyPage from './pages/AcademyPage.tsx';
+import AcademyMasterclassPage from './pages/AcademyMasterclassPage.tsx';
+import AcademyResourcesPage from './pages/AcademyResourcesPage.tsx';
+
+import QuizIndexPage from './pages/QuizIndexPage.tsx';
+import AcademyQuizPage from './pages/AcademyQuizPage.tsx';
 import AdminPage from './pages/AdminPage.tsx';
 import ClientPortalPage from './pages/ClientPortalPage.tsx';
 import NotFoundPage from './pages/NotFoundPage.tsx';
+import CaseStudiesPage from './pages/CaseStudiesPage.tsx';
+import CaseStudyDetailPage from './pages/CaseStudyDetailPage.tsx';
+
 import KeyboardShortcutsModal from './components/organisms/KeyboardShortcutsModal.tsx';
 
 import { useVisitorTracker } from './hooks/useVisitorTracker.ts';
 import { useClickTracker } from './hooks/useClickTracker.ts';
 import { ErrorBoundary } from './components/ErrorBoundary.tsx';
+
+
 
 function ScrollToTop() {
   const { pathname } = useLocation();
@@ -63,37 +72,62 @@ function AppContent({ appLoaded }: { appLoaded: boolean }) {
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={appLoaded ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-        transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
+        transition={{ duration: 0.8, delay: 0.2 }}
         className="flex flex-col flex-1"
       >
-        <Header />
+        {!/^\/academy\/.+/.test(location.pathname) && <Header />}
         
         <AnimatePresence mode="wait">
           <Routes location={location} >
             <Route path="/" element={<PageWrapper><HomePage /></PageWrapper>} />
             <Route path="/blog" element={<PageWrapper><BlogHubPage /></PageWrapper>} />
             <Route path="/blog/:slug" element={<PageWrapper><BlogPostPage /></PageWrapper>} />
-            <Route path="/services" element={<PageWrapper><ServicesPage /></PageWrapper>} />
             <Route path="/portfolio" element={<PageWrapper><PortfolioPage /></PageWrapper>} />
             <Route path="/portfolio/:id" element={<PageWrapper><ProjectDetailPage /></PageWrapper>} />
             <Route path="/about" element={<PageWrapper><AboutPage /></PageWrapper>} />
             <Route path="/workflow" element={<PageWrapper><WorkflowPage /></PageWrapper>} />
-            <Route path="/layanan/:slug" element={<PageWrapper><ServiceDetailPage /></PageWrapper>} />
+            <Route path="/academy" element={<PageWrapper><AcademyPage /></PageWrapper>} />
+            <Route path="/academy/resources" element={<PageWrapper><AcademyResourcesPage /></PageWrapper>} />
+            <Route path="/academy/:slug" element={<PageWrapper><AcademyMasterclassPage /></PageWrapper>} />
+            <Route path="/quiz" element={<PageWrapper><QuizIndexPage /></PageWrapper>} />
+            <Route path="/quiz/:moduleId" element={<PageWrapper><AcademyQuizPage /></PageWrapper>} />
             <Route path="/area/:cityName" element={<PageWrapper><AreaDetailPage /></PageWrapper>} />
             <Route path="/admin" element={<PageWrapper><AdminPage /></PageWrapper>} />
             <Route path="/portal" element={<PageWrapper><ClientPortalPage /></PageWrapper>} />
             <Route path="/workspace/:slug" element={<PageWrapper><ClientPortalPage /></PageWrapper>} />
             <Route path="/client/:slug" element={<PageWrapper><ClientPortalPage /></PageWrapper>} />
+            
+            <Route path="/case-studies" element={<PageWrapper><CaseStudiesPage /></PageWrapper>} />
+            <Route path="/case-studies/:slug" element={<PageWrapper><CaseStudyDetailPage /></PageWrapper>} />
             <Route path="*" element={<PageWrapper><NotFoundPage /></PageWrapper>} />
           </Routes>
         </AnimatePresence>
         
-        <FooterSection />
+        {!/^\/academy\/.+/.test(location.pathname) ? <FooterSection /> : null}
       </motion.div>
       <FloatingAIAssistant isLoaded={appLoaded} />
     </div>
   );
 }
+
+// Staggered animation variants for page wrapper content
+const containerVariants = {
+  hidden: { opacity: 0 },
+  show: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.1,
+      delayChildren: 0.2
+    }
+  },
+  exit: { opacity: 0 }
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 15 },
+  show: { opacity: 1, y: 0, transition: { duration: 0.5 } },
+  exit: { opacity: 0, y: -10, transition: { duration: 0.3 } }
+};
 
 // Simple page transition wrapper
 function PageWrapper({ children }: { children: React.ReactNode }) {
@@ -113,28 +147,34 @@ function PageWrapper({ children }: { children: React.ReactNode }) {
         <meta property="twitter:title" content={currentMeta.title} />
         <meta property="twitter:description" content={currentMeta.description} />
       </Helmet>
+      
       <motion.div
-        initial={{ opacity: 0, y: 10 }}
-        animate={{ opacity: 1, y: 0 }}
-        exit={{ opacity: 0 }}
-        transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+        key={location.pathname}
+        variants={containerVariants}
+        initial="hidden"
+        animate="show"
+        exit="exit"
         className="flex flex-col flex-1"
       >
-        {children}
+        <motion.div variants={itemVariants} className="flex flex-col flex-1">
+          {children}
+        </motion.div>
       </motion.div>
+
+      {/* Wipe Animations */}
       <motion.div
         className="fixed top-0 left-0 w-full h-full bg-white z-50 origin-bottom pointer-events-none"
         initial={{ scaleY: 1 }}
         animate={{ scaleY: 0 }}
         exit={{ scaleY: 1 }}
-        transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+        transition={{ duration: 0.5 }}
       />
       <motion.div
         className="fixed top-0 left-0 w-full h-full bg-black z-50 origin-bottom pointer-events-none"
         initial={{ scaleY: 1 }}
         animate={{ scaleY: 0 }}
         exit={{ scaleY: 1 }}
-        transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1], delay: 0.1 }}
+        transition={{ duration: 0.5, delay: 0.1 }}
       />
     </>
   );

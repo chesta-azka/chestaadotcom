@@ -33,7 +33,7 @@ export default function LocalWeatherWidget() {
           setLocationName(name);
         }
       } catch (e) {
-        console.error("Failed to fetch weather", e);
+        // error handled silently
       } finally {
         setLoading(false);
       }

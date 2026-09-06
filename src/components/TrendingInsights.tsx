@@ -15,7 +15,7 @@ export function TrendingInsights() {
         const data = await res.json();
         setTrends(data.trends || []);
       } catch (error) {
-        console.error(error);
+        // error handled silently
         setTrends([
           "Website cepat dengan Next.js terbukti meningkatkan konversi penjualan.",
           "UMKM modern beralih ke direct chat WhatsApp untuk closing lebih cepat.",

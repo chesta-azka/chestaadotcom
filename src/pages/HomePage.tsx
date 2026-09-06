@@ -6,8 +6,8 @@ import ServicesSection from '../components/organisms/ServicesSection.tsx';
 import AboutMeSection from '../components/organisms/AboutMeSection.tsx';
 import AISolutionsSection from '../components/organisms/AISolutionsSection.tsx';
 import ProjectsSection from '../components/organisms/ProjectsSection.tsx';
-import WorkflowSection from '../components/organisms/WorkflowSection.tsx';
-import WorkflowAutomation from '../components/organisms/WorkflowAutomation.tsx';
+
+
 import TestimonialSection from '../components/organisms/TestimonialSection.tsx';
 import PricingSection from '../components/organisms/PricingSection.tsx';
 import InsightsSection from '../components/organisms/InsightsSection.tsx';
@@ -73,15 +73,9 @@ export default function HomePage() {
         <ProjectsSection />
       </SectionGlassCard>
 
-      <SectionSeparator variant="blob-2" index={3} label="Metodologi Kerja" />
-      <SectionGlassCard index={3} metaLabel="ALUR KERJA KORPORASI" className="snap-start">
-        <WorkflowSection />
-      </SectionGlassCard>
+
       
-      <SectionSeparator variant="wave-3" index={4} label="Simulator AI" />
-      <SectionGlassCard index={4} metaLabel="SIMULATOR ROADMAP AI" className="snap-start">
-        <WorkflowAutomation />
-      </SectionGlassCard>
+
 
       <SectionSeparator variant="blob-1" index={5} label="Paket Investasi" />
       <SectionGlassCard index={5} metaLabel="INVESTASI & PAKET" className="snap-start">

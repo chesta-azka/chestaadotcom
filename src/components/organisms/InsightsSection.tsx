@@ -44,7 +44,7 @@ export default function InsightsSection() {
           throw new Error('Invalid format');
         }
       } catch (err: any) {
-        console.error(err);
+        // error handled silently
         setError('Gagal memuat tren terbaru saat ini.');
       } finally {
         setIsLoading(false);

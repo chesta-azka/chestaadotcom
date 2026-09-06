@@ -1,8 +1,10 @@
 import { Link } from 'react-router-dom';
 import { Instagram, MessageCircle, Mail, MapPin, ArrowRight } from 'lucide-react';
 
+import { useLocation } from 'react-router-dom';
 export default function FooterSection() {
-  return (
+  const location = useLocation();
+    return (
     <footer className="pt-24 pb-12 bg-transparent text-slate-600 border-t border-slate-100 relative overflow-hidden">
       {/* Seamless background blending gradients */}
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/[0.008] to-transparent pointer-events-none" />

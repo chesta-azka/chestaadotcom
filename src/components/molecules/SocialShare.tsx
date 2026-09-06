@@ -7,9 +7,10 @@ interface SocialShareProps {
   title: string;
   description?: string;
   className?: string;
+  vertical?: boolean;
 }
 
-export default function SocialShare({ title, description, className = '' }: SocialShareProps) {
+export default function SocialShare({ title, description, className = '', vertical = false }: SocialShareProps) {
   const [url, setUrl] = useState('');
   const [copied, setCopied] = useState(false);
   const [supportsNativeShare, setSupportsNativeShare] = useState(false);
@@ -66,11 +67,13 @@ export default function SocialShare({ title, description, className = '' }: Soci
   }
 
   return (
-    <div className={`flex flex-wrap items-center gap-2 font-sans ${className}`}>
-      <div className="flex items-center gap-1.5 text-slate-500 text-xs font-semibold uppercase tracking-wider mr-1 select-none">
-        <Share2 className="w-3.5 h-3.5 text-purple-700" />
-        <span>Bagikan</span>
-      </div>
+    <div className={`flex ${vertical ? 'flex-col items-center' : 'flex-wrap items-center'} gap-2 font-sans ${className}`}>
+      {!vertical && (
+        <div className="flex items-center gap-1.5 text-slate-500 text-xs font-semibold uppercase tracking-wider mr-1 select-none">
+          <Share2 className="w-3.5 h-3.5 text-purple-700" />
+          <span>Bagikan</span>
+        </div>
+      )}
 
       <a 
         href={whatsappShare} 
@@ -145,7 +148,7 @@ export default function SocialShare({ title, description, className = '' }: Soci
       )}
 
       {copied && (
-        <span className="text-[11px] font-sans font-semibold text-purple-900 bg-purple-50 px-2 py-0.5 rounded-lg border border-purple-200 animate-in fade-in">
+        <span className={`text-[11px] font-sans font-semibold text-purple-900 bg-purple-50 px-2 py-0.5 rounded-lg border border-purple-200 animate-in fade-in ${vertical ? 'absolute -right-20' : ''}`}>
           Tersalin!
         </span>
       )}
