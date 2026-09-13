@@ -37,7 +37,7 @@ export default function RelatedCaseStudiesSlider({ relatedStudies }: { relatedSt
   return (
     <div className="mt-8 pt-16 border-t border-slate-200/80 animate-in fade-in slide-in-from-bottom-12 duration-1000 delay-500 fill-mode-both w-full relative">
       <div className="flex items-center justify-between mb-8">
-        <h3 className="text-2xl font-display font-bold tracking-tight text-slate-900">Related Implementations</h3>
+        <h3 className="text-2xl font-display font-black tracking-tight text-slate-900">Related Implementations</h3>
         <Link to="/case-studies" className="text-xs font-mono font-bold uppercase tracking-wider text-purple-900 hover:text-purple-700 hover:underline">
           Lihat Semua &rarr;
         </Link>
@@ -52,19 +52,19 @@ export default function RelatedCaseStudiesSlider({ relatedStudies }: { relatedSt
           <Link
             key={related.id}
             to={`/case-studies/${related.slug}`}
-            className="flex-shrink-0 w-[85%] md:w-[400px] snap-center bg-white/90 backdrop-blur-3xl border border-slate-200/80 rounded-3xl p-8 hover:shadow-xl hover:border-purple-200 hover:-translate-y-1 transition-all duration-300 group relative flex flex-col justify-between h-[18rem]"
+            className="flex-shrink-0 w-[85%] md:w-[400px] snap-center bg-white/90 backdrop-blur-3xl border border-slate-200/80 rounded-xl p-8 hover:shadow-xl hover:border-purple-200 hover:-translate-y-1 transition-all duration-300 group relative flex flex-col justify-between h-[18rem]"
           >
             <div>
               <div className="flex justify-between items-start mb-4">
                 <p className="text-xs font-mono font-bold tracking-wider uppercase text-purple-900">{related.client}</p>
                 <ArrowUpRight className="w-5 h-5 text-slate-400 group-hover:text-purple-600 transition-colors" />
               </div>
-              <h4 className="text-xl font-display font-bold text-slate-900 mb-3">{related.title}</h4>
+              <h4 className="text-xl font-display font-black text-slate-900 mb-3">{related.title}</h4>
               <p className="font-sans text-sm text-slate-600 line-clamp-3 mb-6 leading-relaxed tracking-tight">{related.desc}</p>
             </div>
             <div className="pt-4 border-t border-slate-200/80">
-              <p className="text-[10px] text-slate-500 uppercase font-mono tracking-widest font-bold mb-1">Impact</p>
-              <p className="text-purple-900 font-display font-bold text-lg">{related.impact}</p>
+              <p className="text-[10px] text-slate-600 uppercase font-mono tracking-widest font-bold mb-1">Impact</p>
+              <p className="text-purple-900 font-display font-black text-lg">{related.impact}</p>
             </div>
           </Link>
         ))}

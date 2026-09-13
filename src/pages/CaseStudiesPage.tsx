@@ -1,4 +1,6 @@
 import React, { Suspense, useState, useEffect } from 'react';
+import MetaTags from '../components/atoms/MetaTags';
+
 import { Helmet } from 'react-helmet-async';
 import { FeaturedCaseStudies } from '../components/FeaturedCaseStudies';
 import { Breadcrumbs } from '../components/Breadcrumbs';
@@ -18,6 +20,15 @@ function CaseStudiesLoader() {
 export default function CaseStudiesPage() {
   return (
     <main className="relative min-h-screen flex flex-col items-center pt-36 md:pt-44 pb-20 overflow-hidden bg-white text-slate-900 font-sans">
+
+      <MetaTags 
+        title="Case Studies & Portofolio Klien | CHESTAADOTCOM"
+        description="Eksplorasi studi kasus nyata bagaimana CHESTAADOTCOM mentransformasi bisnis B2B dan enterprise melalui web app dan Agentic AI."
+        path="/casestudies"
+        breadcrumbs={[{ name: 'Home', item: '/' }, { name: 'Case Studies', item: '/case-studies' }]}
+        
+      />
+    
       <Helmet>
         <title>Studi Kasus & Hasil Nyata | CHESTADOTCOM</title>
         <meta name="description" content="Analisis mendalam implementasi arsitektur website Next.js, kecepatan loading, dan dampak peningkatan penjualan klien kami." />

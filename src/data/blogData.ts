@@ -2,6 +2,14 @@ import { vibeCodingMdx } from '../content/vibeCodingArticle';
 import { filosofiChestaMdx } from '../content/filosofiChestaArticle';
 import { panduanSeoMdx } from '../content/panduanSeoArticle';
 import { vibeCodingStatisticsMdx } from '../content/vibeCodingStatisticsArticle';
+import { jasaWebKorporat2026Mdx } from '../content/jasaWebKorporat2026Article';
+import { edukasiNextJsVsWordPressMdx } from '../content/edukasiNextJsVsWordPressArticle';
+import { aiAutomationSmallBusinesses2026Mdx } from '../content/aiAutomationSmallBusinesses2026Article';
+import { aiEcosystemBsdMdx } from '../content/aiEcosystemBsdArticle';
+import { itConsultationJabodetabekMdx } from '../content/itConsultationJabodetabekArticle';
+import { panduanTechStackMdx } from '../content/panduanTechStackArticle';
+import { mengapaBsdButuhAiMdx } from '../content/mengapaBsdButuhAiArticle';
+import { premiumWebDevJabodetabekMdx } from '../content/premiumWebDevJabodetabekArticle';
 
 export interface Article {
   slug: string;
@@ -25,6 +33,161 @@ export interface Article {
 }
 
 export const ALL_ARTICLES: Article[] = [
+  {
+    slug: 'panduan-memilih-tech-stack-startup-indonesia',
+    title: 'Panduan Memilih Tech Stack untuk Startup di Indonesia',
+    cat: 'Tech Architecture',
+    date: '02 Oct 2026',
+    readTime: '5 MIN READ',
+    readTimeMinutes: 5,
+    desc: 'Strategi pemilihan tumpukan teknologi modern yang tepat untuk memastikan skalabilitas dan efisiensi biaya bagi startup di Indonesia.',
+    featured: true,
+    recommended: true,
+    tags: ['Tech Stack', 'Startup', 'Next.js', 'Architecture'],
+    content: [],
+    mdxContent: panduanTechStackMdx,
+    image: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=1200&auto=format&fit=crop',
+    author: {
+      name: 'CHESTAADOTCOM',
+      role: 'Chief Technology Officer'
+    }
+  },
+  {
+    slug: 'mengapa-bisnis-di-bsd-membutuhkan-automasi-ai',
+    title: 'Mengapa Bisnis di BSD Membutuhkan Automasi AI',
+    cat: 'AI Automation',
+    date: '04 Oct 2026',
+    readTime: '6 MIN READ',
+    readTimeMinutes: 6,
+    desc: 'Meneliti bagaimana adopsi Agentic AI dan otomasi cerdas dapat melipatgandakan efisiensi operasional bisnis di kawasan BSD City dan Cisauk.',
+    featured: true,
+    recommended: true,
+    tags: ['AI Automation', 'BSD City', 'Enterprise', 'Efficiency'],
+    content: [],
+    mdxContent: mengapaBsdButuhAiMdx,
+    image: 'https://images.unsplash.com/photo-1573164713988-8665fc963095?q=80&w=1200&auto=format&fit=crop',
+    author: {
+      name: 'CHESTAADOTCOM',
+      role: 'AI Specialist'
+    }
+  },
+  {
+    slug: 'it-consultation-transformasi-bisnis-jabodetabek',
+    title: 'IT Consultation Terbaik untuk Transformasi Bisnis di Jabodetabek: Fokus Tangerang Selatan hingga Margonda',
+    cat: 'IT Consultation',
+    date: '28 Sep 2026',
+    readTime: '6 MIN READ',
+    readTimeMinutes: 6,
+    desc: 'Layanan Full IT Consultation untuk Enterprise dan Startup di wilayah Tangerang, Jakarta, Depok, dan Bogor untuk transformasi digital terarah.',
+    featured: true,
+    recommended: true,
+    tags: ['IT Services', 'Tangerang', 'Jakarta', 'Depok', 'Bogor'],
+    content: [],
+    mdxContent: itConsultationJabodetabekMdx,
+    image: 'https://images.unsplash.com/photo-1519389950473-47ba0277781c?q=80&w=1200&auto=format&fit=crop',
+    author: {
+      name: 'CHESTAADOTCOM',
+      role: 'IT Consultant'
+    }
+  },
+  {
+    slug: 'premium-web-dev-enterprise-bsd-jakarta-bogor',
+    title: 'Mengoptimalkan Skala Enterprise: Layanan IT & Web Development Premium dari BSD City ke Seluruh Jakarta dan Bogor',
+    cat: 'Web Development',
+    date: '30 Sep 2026',
+    readTime: '5 MIN READ',
+    readTimeMinutes: 5,
+    desc: 'Tingkatkan kinerja web dan terapkan AI Automation untuk memperluas jangkauan pasar B2B Anda di seluruh wilayah Jabodetabek.',
+    featured: false,
+    recommended: true,
+    tags: ['Web Development', 'AI Automation', 'Enterprise', 'Jabodetabek'],
+    content: [],
+    mdxContent: premiumWebDevJabodetabekMdx,
+    image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1200&auto=format&fit=crop',
+    author: {
+      name: 'CHESTAADOTCOM',
+      role: 'Lead Architect'
+    }
+  },
+  {
+    slug: 'masa-depan-ai-bsd-city-cisauk',
+    title: 'Masa Depan AI di BSD City: Membangun Ekosistem Startup Teknologi',
+    cat: 'Business & Tech',
+    date: '24 Sep 2026',
+    readTime: '6 MIN READ',
+    readTimeMinutes: 6,
+    desc: 'Menelusuri transformasi BSD City dan Cisauk sebagai pusat inovasi AI dan ekosistem startup teknologi terdepan di Indonesia.',
+    featured: true,
+    recommended: true,
+    tags: ['AI', 'BSD City', 'Tech Startup', 'Business'],
+    content: [],
+    mdxContent: aiEcosystemBsdMdx,
+    image: 'https://images.unsplash.com/photo-1573164713988-8665fc963095?q=80&w=1200&auto=format&fit=crop',
+    author: {
+      name: 'CHESTAADOTCOM',
+      role: 'Head of Engineering'
+    }
+  },
+  {
+    slug: 'otomasi-ai-untuk-bisnis-kecil-2026',
+    title: 'Otomasi AI untuk Bisnis Kecil di 2026: Panduan Praktis Meningkatkan Omset Tanpa Tambah Karyawan',
+    cat: 'AI Engineering',
+    date: '06 SEP 2026',
+    readTime: '10 MIN READ',
+    readTimeMinutes: 10,
+    desc: 'Panduan praktis bagi pemilik usaha kecil & UMKM dalam mengimplementasikan Agentic AI di Live Chat dan website untuk melayani pelanggan 24 jam nonstop.',
+    featured: true,
+    recommended: true,
+    tags: ['AI Automation', 'Agentic AI', 'UMKM', 'Live Chat', 'Business Growth'],
+    author: {
+      name: 'Chesta Azka Sofyan',
+      role: 'Founder & Lead Digital Architect',
+      avatar: '/src/assets/images/regenerated_image_1787838669318.png'
+    },
+    image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=1200&h=630',
+    content: [],
+    mdxContent: aiAutomationSmallBusinesses2026Mdx
+  },
+  {
+    slug: 'edukasi-arsitektur-web-nextjs-vs-wordpress-2026',
+    title: 'Edukasi Arsitektur Web 2026: Mengapa UMKM & Startup Harus Tinggalkan CMS Jadul Demi Next.js SSR',
+    cat: 'Tech Architecture',
+    date: '06 SEP 2026',
+    readTime: '12 MIN READ',
+    readTimeMinutes: 12,
+    desc: 'Panduan edukatif mendalam bagi pemilik bisnis, mahasiswa IT, dan developer muda mengenai mengapa arsitektur Next.js SSR jauh lebih unggul dibanding WordPress monolitik.',
+    featured: true,
+    recommended: true,
+    tags: ['Edukasi IT', 'Next.js SSR', 'WordPress', 'Clean Architecture', 'Web Performance'],
+    author: {
+      name: 'Chesta Azka Sofyan',
+      role: 'Founder & Lead Digital Architect',
+      avatar: '/src/assets/images/regenerated_image_1787838669318.png'
+    },
+    image: 'https://images.unsplash.com/photo-1555066931-4365d14bab8c?auto=format&fit=crop&q=80&w=1200&h=630',
+    content: [],
+    mdxContent: edukasiNextJsVsWordPressMdx
+  },
+  {
+    slug: 'strategi-jasa-pembuatan-website-korporat-2026',
+    title: 'Strategi Memilih Jasa Pembuatan Website Korporat & AI Automation di Era 2026',
+    cat: 'Digital Strategy',
+    date: '06 SEP 2026',
+    readTime: '14 MIN READ',
+    readTimeMinutes: 14,
+    desc: 'Panduan eksekutif bagi pemilik bisnis dalam menghindari vendor abal-abal, memilih tech stack Next.js yang tepat, dan mengintegrasikan AI automation.',
+    featured: true,
+    recommended: true,
+    tags: ['Web Korporat', 'AI Automation', 'Next.js', 'Vendor IT', 'BSD City'],
+    author: {
+      name: 'Chesta Azka Sofyan',
+      role: 'Founder & Lead Digital Architect',
+      avatar: '/src/assets/images/regenerated_image_1787838669318.png'
+    },
+    image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=1200&h=630',
+    content: [],
+    mdxContent: jasaWebKorporat2026Mdx
+  },
   {
     slug: 'vibe-coding-statistics',
     title: 'Vibe Coding & AI-Driven Web Development Statistics 2026',

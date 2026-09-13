@@ -48,12 +48,12 @@ export default function QuickQuoteModal({ isOpen, onClose, serviceInterest = '' 
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 30, scale: 0.96 }}
             transition={{ duration: 0.2, ease: "easeOut" }}
-            className="fixed bottom-0 sm:bottom-auto sm:top-1/2 left-1/2 -translate-x-1/2 sm:-translate-y-1/2 w-full sm:w-[440px] bg-white rounded-t-3xl sm:rounded-3xl shadow-2xl shadow-purple-950/10 z-[101] overflow-hidden border border-purple-100 font-sans"
+            className="fixed bottom-0 sm:bottom-auto sm:top-1/2 left-1/2 -translate-x-1/2 sm:-translate-y-1/2 w-full sm:w-[440px] bg-white rounded-t-3xl sm:rounded-xl shadow-2xl shadow-purple-950/10 z-[101] overflow-hidden border border-purple-100 font-sans"
           >
             <div className="bg-purple-50/40 p-5 border-b border-purple-100 flex items-center justify-between">
               <div>
-                <h3 className="font-display font-semibold text-slate-900 text-base">Konsultasi Cepat</h3>
-                <p className="text-slate-500 text-xs font-sans mt-0.5">Respon langsung 1-on-1 via WhatsApp.</p>
+                <h3 className="font-display font-black text-slate-900 text-base">Konsultasi Cepat</h3>
+                <p className="text-slate-600 text-xs font-sans mt-0.5">Respon langsung 1-on-1 via WhatsApp.</p>
               </div>
               <button
                 onClick={onClose}

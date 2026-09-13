@@ -455,7 +455,7 @@ function FormattedMessageView({ content, isUser }: { content: string; isUser: bo
       renderedElements.push(
         <h4
           key={`h4-${renderedElements.length}`}
-          className="text-sm sm:text-base font-display font-bold text-purple-950 mt-1 mb-2 tracking-tight border-b border-purple-100 pb-1.5 flex items-center gap-1.5"
+          className="text-sm sm:text-base font-display font-black text-purple-950 mt-1 mb-2 tracking-tight border-b border-purple-100 pb-1.5 flex items-center gap-1.5"
         >
           <span className="w-1.5 h-3.5 bg-purple-600 rounded-full inline-block shrink-0" />
           <span>{title}</span>
@@ -714,7 +714,7 @@ export default function FloatingAIAssistant({ isLoaded = true }: { isLoaded?: bo
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 24, scale: 0.98 }}
             transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
-            className="fixed inset-0 sm:inset-auto sm:bottom-24 sm:right-8 w-full sm:w-[430px] h-[100dvh] sm:h-[600px] sm:max-h-[calc(100vh-110px)] z-50 flex flex-col bg-white sm:rounded-3xl border-0 sm:border sm:border-purple-100 shadow-2xl sm:shadow-[0_24px_60px_rgba(107,33,168,0.14)] overflow-hidden font-sans"
+            className="fixed inset-0 sm:inset-auto sm:bottom-24 sm:right-8 w-full sm:w-[430px] h-[100dvh] sm:h-[600px] sm:max-h-[calc(100vh-110px)] z-50 flex flex-col bg-white sm:rounded-xl border-0 sm:border sm:border-purple-100 shadow-2xl sm:shadow-[0_24px_60px_rgba(107,33,168,0.14)] overflow-hidden font-sans"
           >
             {/* Header: Pure Clean White with Crisp Subtle Purple Accent */}
             <div className="px-4 sm:px-5 py-3.5 border-b border-purple-100 bg-white flex items-center justify-between shrink-0 shadow-2xs">
@@ -724,7 +724,7 @@ export default function FloatingAIAssistant({ isLoaded = true }: { isLoaded?: bo
                 </div>
                 <div>
                   <div className="flex items-center gap-1.5">
-                    <h3 className="font-display font-bold text-sm text-slate-950 leading-tight">
+                    <h3 className="font-display font-black text-sm text-slate-950 leading-tight">
                       CHESTADOTCOM AI
                     </h3>
                     <span className="px-1.5 py-0.2 rounded bg-purple-50 border border-purple-200 text-[10px] font-semibold text-purple-700">
@@ -733,7 +733,7 @@ export default function FloatingAIAssistant({ isLoaded = true }: { isLoaded?: bo
                   </div>
                   <div className="flex items-center gap-1.5 mt-0.5">
                     <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                    <span className="text-[11px] text-slate-500 font-medium">Asisten Konsultasi Siap Membantu</span>
+                    <span className="text-[11px] text-slate-600 font-medium">Asisten Konsultasi Siap Membantu</span>
                   </div>
                 </div>
               </div>

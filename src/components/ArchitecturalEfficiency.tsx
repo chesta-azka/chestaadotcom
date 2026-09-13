@@ -11,12 +11,12 @@ const data = [
 
 export function ArchitecturalEfficiency() {
   return (
-    <div className="w-full max-w-4xl mx-auto my-12 p-6 md:p-8 bg-white border border-purple-100 rounded-3xl shadow-sm font-sans">
+    <div className="w-full max-w-4xl mx-auto my-12 p-6 md:p-8 bg-white border border-purple-100 rounded-xl shadow-sm font-sans">
       <div className="mb-6">
-        <h2 className="text-xl md:text-2xl font-display font-bold tracking-tight text-slate-900 mb-1">
+        <h2 className="text-xl md:text-2xl font-display font-black tracking-tight text-slate-900 mb-1">
           Efisiensi Arsitektur Website
         </h2>
-        <p className="text-slate-500 text-xs sm:text-sm font-sans">
+        <p className="text-slate-600 text-xs sm:text-sm font-sans">
           Perbandingan performa platform konvensional vs. Next.js App Router berkecepatan tinggi.
         </p>
       </div>

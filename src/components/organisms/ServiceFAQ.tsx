@@ -85,8 +85,8 @@ export default function ServiceFAQ({ serviceSlug }: { serviceSlug: string }) {
   return (
     <section className="w-full max-w-3xl mx-auto py-24 px-6 relative z-10">
       <div className="text-center mb-12">
-        <h2 className="text-3xl font-display font-bold text-slate-900">Frequently Asked Questions</h2>
-        <p className="text-slate-500 mt-4">Jawaban atas pertanyaan umum seputar layanan ini.</p>
+        <h2 className="text-3xl font-display font-black text-slate-900">Frequently Asked Questions</h2>
+        <p className="text-slate-600 mt-4">Jawaban atas pertanyaan umum seputar layanan ini.</p>
       </div>
 
       <div className="space-y-4">

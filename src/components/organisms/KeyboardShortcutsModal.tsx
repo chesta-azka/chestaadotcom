@@ -48,7 +48,7 @@ export default function KeyboardShortcutsModal() {
             initial={{ opacity: 0, scale: 0.96, y: 10 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.96, y: 10 }}
-            className="relative w-full max-w-md bg-white rounded-3xl shadow-xl p-6 sm:p-8 border border-purple-100"
+            className="relative w-full max-w-md bg-white rounded-xl shadow-xl p-6 sm:p-8 border border-purple-100"
           >
             <button
               onClick={() => setIsOpen(false)}
@@ -57,7 +57,7 @@ export default function KeyboardShortcutsModal() {
               <X size={18} />
             </button>
 
-            <h2 className="text-xl font-display font-bold text-slate-900 mb-5">
+            <h2 className="text-xl font-display font-black text-slate-900 mb-5">
               Pintasan Keyboard
             </h2>
 

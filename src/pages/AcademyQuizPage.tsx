@@ -1,5 +1,8 @@
 import React, { useState, useEffect, useCallback } from 'react';
+import MetaTags from '../components/atoms/MetaTags';
+import { generateQuizSchema } from '../lib/seo';
 import { Link, useNavigate } from 'react-router-dom';
+import { submitQuizLead } from '../lib/quizDb';
 import { motion, AnimatePresence } from 'motion/react';
 import { ArrowLeft, CheckCircle2, XCircle, ArrowRight, BookOpen, Award, RotateCcw, Clock, Trophy, Medal, AlertCircle } from 'lucide-react';
 import { QUIZ_BANK, getRandomQuestions } from '../data/quizBank';
@@ -47,6 +50,10 @@ export default function AcademyQuizPage() {
   const [currentQIndex, setCurrentQIndex] = useState(0);
   const [answers, setAnswers] = useState<Record<number, number>>({}); // questionIndex -> selectedOptionIndex
   const [isCompleted, setIsCompleted] = useState(false);
+  const [showLeadForm, setShowLeadForm] = useState(false);
+  const [leadForm, setLeadForm] = useState({ name: '', email: '', company: '' });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [leadSubmitted, setLeadSubmitted] = useState(false);
   const [timeLeft, setTimeLeft] = useState(300); // 5 minutes total or per quiz
   const [scoreAchieved, setScoreAchieved] = useState(0);
   const [reviewMode, setReviewMode] = useState(false);
@@ -167,6 +174,15 @@ export default function AcademyQuizPage() {
   if (!questions || questions.length === 0) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-[#fbfbfd]">
+
+      <MetaTags 
+        title="Interactive Coding Quiz di BSD City & Cisauk | CHESTAADOTCOM"
+        description="Evaluasi pemahaman tech stack Next.js dan AI Anda dengan tes interaktif dari software house elit di BSD City & Cisauk."
+        path="/academyquiz"
+        breadcrumbs={[{ name: 'Home', item: '/' }, { name: 'Academy', item: '/academy' }, { name: 'Quiz', item: '/academy/quiz' }]}
+        schemaString={JSON.stringify(generateQuizSchema('Advanced Coding Quiz', 'Interactive Web Dev Assessment', 'https://chestaa.com/academy/quiz/active'))}
+      />
+    
         <div className="animate-spin w-8 h-8 border-4 border-purple-500 border-t-transparent rounded-full" />
       </div>
     );
@@ -205,7 +221,7 @@ export default function AcademyQuizPage() {
               <motion.div 
                 initial={{ opacity: 0, scale: 0.95, y: 20 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
-                className="bg-white rounded-3xl shadow-xl border border-slate-200 p-8 sm:p-10 text-center relative overflow-hidden flex flex-col"
+                className="bg-white rounded-xl shadow-xl border border-slate-200 p-8 sm:p-10 text-center relative overflow-hidden flex flex-col"
               >
                 <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-purple-100/50 to-transparent pointer-events-none" />
                 
@@ -250,7 +266,7 @@ export default function AcademyQuizPage() {
                 initial={{ opacity: 0, scale: 0.95, y: 20 }}
                 animate={{ opacity: 1, scale: 1, y: 0 }}
                 transition={{ delay: 0.1 }}
-                className="bg-white rounded-3xl shadow-md border border-slate-200 p-8 flex flex-col"
+                className="bg-white rounded-xl shadow-md border border-slate-200 p-8 flex flex-col"
               >
                 <div className="flex items-center gap-3 mb-6">
                   <div className="p-3 rounded-2xl bg-amber-100 text-amber-600 shadow-inner">
@@ -422,7 +438,7 @@ export default function AcademyQuizPage() {
         </div>
 
         {/* Progress Bar */}
-        <div className="mb-10 bg-white p-4 rounded-3xl shadow-sm border border-slate-200 flex flex-col sm:flex-row sm:items-center gap-4">
+        <div className="mb-10 bg-white p-4 rounded-xl shadow-sm border border-slate-200 flex flex-col sm:flex-row sm:items-center gap-4">
            <div className="text-xs font-bold uppercase tracking-widest text-slate-500 whitespace-nowrap">
              Soal {currentQIndex + 1} / {questions.length}
            </div>

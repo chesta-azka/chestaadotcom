@@ -21,11 +21,11 @@ export default function HowItWorksSection() {
           <span className="text-[#6b21a8] font-sans font-medium text-sm uppercase tracking-widest block mb-6">
             03 — The Workflow
           </span>
-          <div className="text-6xl md:text-6xl font-display font-medium tracking-tight text-slate-900 leading-[1.05] flex flex-wrap">
+          <div className="text-6xl md:text-6xl font-display font-black tracking-tight text-slate-900 leading-[1.05] flex flex-wrap">
             <TextRevealSmooth 
               text="Proses Terukur, Konversi Maksimal." 
               highlightWords={["Konversi", "Maksimal."]}
-              highlightClass="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-purple-400 font-serif italic pr-4"
+              highlightClass="text-purple-700 font-serif italic pr-4"
             />
           </div>
         </motion.div>
@@ -40,10 +40,10 @@ export default function HowItWorksSection() {
               viewport={{ once: true, margin: "-50px" }}
               transition={{ type: 'spring', stiffness: 100, damping: 20, delay: i * 0.1 }}
             >
-              <div className="text-7xl md:text-[6rem] lg:text-[7.5rem] font-display font-bold text-transparent bg-clip-text bg-gradient-to-b from-purple-200 to-purple-50 mb-8 leading-none select-none">
+              <div className="text-7xl md:text-[6rem] lg:text-[7.5rem] font-display font-black text-purple-700 mb-8 leading-none select-none">
                 {s.num}
               </div>
-              <h3 className="text-2xl lg:text-3xl font-display font-medium tracking-tight text-slate-900 mb-4">{s.title}</h3>
+              <h3 className="text-2xl lg:text-3xl font-display font-black tracking-tight text-slate-900 mb-4">{s.title}</h3>
               <p className="text-slate-600 font-sans leading-relaxed text-base">{s.desc}</p>
               
               {/* Animated Progress bar */}

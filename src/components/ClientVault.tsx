@@ -205,15 +205,15 @@ export function ClientVault({ workspaceSlug, currentUserRole = 'client' }: Clien
   return (
     <div className="w-full font-sans space-y-6">
       {/* Header Container */}
-      <div className="p-6 rounded-3xl bg-white border border-purple-100 shadow-xs flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+      <div className="p-6 rounded-xl bg-white border border-purple-100 shadow-xs flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2.5 mb-1">
             <div className="p-2 rounded-xl bg-purple-50 text-purple-900 border border-purple-100">
               <Lock size={18} />
             </div>
             <div>
-              <h2 className="text-xl font-display font-bold text-slate-900 tracking-tight">Client Vault & Deliverables</h2>
-              <div className="flex items-center gap-2 text-xs text-slate-500">
+              <h2 className="text-xl font-display font-black text-slate-900 tracking-tight">Client Vault & Deliverables</h2>
+              <div className="flex items-center gap-2 text-xs text-slate-600">
                 <span className="w-2 h-2 rounded-full bg-emerald-500" />
                 <span>Encrypted 256-bit Repository &bull; Workspace: <strong className="font-mono text-purple-900">{workspaceSlug}</strong></span>
               </div>
@@ -297,16 +297,16 @@ export function ClientVault({ workspaceSlug, currentUserRole = 'client' }: Clien
       {loading ? (
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           {[1, 2, 3].map(i => (
-            <div key={i} className="h-44 rounded-3xl bg-purple-50/40 border border-purple-100 animate-pulse" />
+            <div key={i} className="h-44 rounded-xl bg-purple-50/40 border border-purple-100 animate-pulse" />
           ))}
         </div>
       ) : filteredAssets.length === 0 ? (
-        <div className="p-12 text-center rounded-3xl bg-white border border-purple-100 flex flex-col items-center justify-center">
+        <div className="p-12 text-center rounded-xl bg-white border border-purple-100 flex flex-col items-center justify-center">
           <div className="w-14 h-14 rounded-2xl bg-purple-50 flex items-center justify-center text-purple-700 mb-3">
             <Lock size={22} />
           </div>
           <h3 className="text-sm font-semibold text-slate-800 mb-1">Belum Ada Asset di Kategori Ini</h3>
-          <p className="text-xs text-slate-500 max-w-sm">File deliverable, invoice resmi, dan aset desain final yang diunggah akan muncul di sini secara otomatis.</p>
+          <p className="text-xs text-slate-600 max-w-sm">File deliverable, invoice resmi, dan aset desain final yang diunggah akan muncul di sini secara otomatis.</p>
         </div>
       ) : (
         <motion.div layout className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
@@ -330,7 +330,7 @@ export function ClientVault({ workspaceSlug, currentUserRole = 'client' }: Clien
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.95 }}
                   key={asset.id}
-                  className="group relative p-5 rounded-3xl bg-white border border-purple-100 hover:border-purple-300 shadow-xs hover:shadow-md transition-all duration-300 flex flex-col justify-between"
+                  className="group relative p-5 rounded-xl bg-white border border-purple-100 hover:border-purple-300 shadow-xs hover:shadow-md transition-all duration-300 flex flex-col justify-between"
                 >
                   <div>
                     <div className="flex items-center justify-between gap-2 mb-3">
@@ -419,7 +419,7 @@ export function ClientVault({ workspaceSlug, currentUserRole = 'client' }: Clien
               initial={{ opacity: 0, scale: 0.96, y: 15 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.96, y: 15 }}
-              className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-lg bg-white border border-purple-100 rounded-3xl shadow-xl z-50 p-6 font-sans overflow-hidden"
+              className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-lg bg-white border border-purple-100 rounded-xl shadow-xl z-50 p-6 font-sans overflow-hidden"
             >
               <div className="flex items-center justify-between pb-4 border-b border-slate-100">
                 <div className="flex items-center gap-2">

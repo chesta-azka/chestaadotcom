@@ -126,10 +126,10 @@ export function ModernHeroCenterpiece() {
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.1, ease: "easeOut" }}
-            className="text-3xl sm:text-5xl md:text-6xl font-display font-extrabold tracking-tight leading-[1.12] text-slate-900 text-balance"
+            className="text-3xl sm:text-5xl md:text-6xl font-display font-black tracking-tight leading-[1.12] text-slate-900 text-balance"
           >
             Arsitektur Web Modern &amp; <br className="hidden sm:block" />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-900 via-indigo-800 to-purple-950">
+            <span className="text-purple-700">
               Rekayasa Otomasi AI
             </span>{' '}
             <span className="relative inline-block">
@@ -211,7 +211,7 @@ export function ModernHeroCenterpiece() {
               <span className="font-mono text-xl sm:text-2xl font-extrabold text-slate-900">
                 &lt; 0.5s
               </span>
-              <span className="text-xs text-slate-500 font-medium mt-0.5">
+              <span className="text-xs text-slate-600 font-medium mt-0.5">
                 First Contentful Paint
               </span>
             </div>
@@ -219,7 +219,7 @@ export function ModernHeroCenterpiece() {
               <span className="font-mono text-xl sm:text-2xl font-extrabold text-slate-900">
                 100/100
               </span>
-              <span className="text-xs text-slate-500 font-medium mt-0.5">
+              <span className="text-xs text-slate-600 font-medium mt-0.5">
                 Lighthouse Score
               </span>
             </div>
@@ -227,7 +227,7 @@ export function ModernHeroCenterpiece() {
               <span className="font-mono text-xl sm:text-2xl font-extrabold text-slate-900">
                 100%
               </span>
-              <span className="text-xs text-slate-500 font-medium mt-0.5">
+              <span className="text-xs text-slate-600 font-medium mt-0.5">
                 Source Code Hak Milik
               </span>
             </div>
@@ -235,7 +235,7 @@ export function ModernHeroCenterpiece() {
               <span className="font-mono text-xl sm:text-2xl font-extrabold text-slate-900">
                 30 Hari
               </span>
-              <span className="text-xs text-slate-500 font-medium mt-0.5">
+              <span className="text-xs text-slate-600 font-medium mt-0.5">
                 Garansi Maintenance
               </span>
             </div>
@@ -250,11 +250,11 @@ export function ModernHeroCenterpiece() {
           transition={{ duration: 0.7, delay: 0.2, ease: "easeOut" }}
           className="lg:col-span-5 w-full"
         >
-          <div className="bg-slate-950/85 backdrop-blur-xl text-slate-200 rounded-3xl p-5 sm:p-6 shadow-2xl border border-slate-800 relative overflow-hidden ring-1 ring-purple-500/20">
+          <div className="bg-slate-950/85 backdrop-blur-xl text-slate-200 rounded-xl p-5 sm:p-6 shadow-2xl border border-slate-800 relative overflow-hidden ring-1 ring-purple-500/20">
             
             {/* Ambient Corner Flare inside terminal */}
-            <div className="absolute top-0 right-0 w-48 h-48 bg-purple-600/15 rounded-full blur-3xl pointer-events-none" />
-            <div className="absolute bottom-0 left-0 w-48 h-48 bg-indigo-600/10 rounded-full blur-3xl pointer-events-none" />
+            <div className="absolute top-0 right-0 w-48 h-48 " />
+            <div className="absolute bottom-0 left-0 w-48 h-48 " />
 
             {/* Terminal Header */}
             <div className="flex items-center justify-between pb-4 mb-4 border-b border-slate-800/80 relative z-10">
@@ -387,7 +387,7 @@ export function ModernHeroCenterpiece() {
                       <div className="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden mb-1">
                         <div className="h-full bg-emerald-500 rounded-full w-[98%]" />
                       </div>
-                      <span className="text-[10px] text-slate-500">Target &lt; 2.5s (98% lebih cepat)</span>
+                      <span className="text-[10px] text-slate-600">Target &lt; 2.5s (98% lebih cepat)</span>
                     </div>
 
                     <div className="p-3.5 rounded-2xl bg-slate-900/90 border border-slate-800">
@@ -398,7 +398,7 @@ export function ModernHeroCenterpiece() {
                       <div className="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden mb-1">
                         <div className="h-full bg-emerald-500 rounded-full w-[100%]" />
                       </div>
-                      <span className="text-[10px] text-slate-500">Nol pergeseran layout visual</span>
+                      <span className="text-[10px] text-slate-600">Nol pergeseran layout visual</span>
                     </div>
 
                     <div className="p-3.5 rounded-2xl bg-slate-900/90 border border-slate-800">
@@ -409,7 +409,7 @@ export function ModernHeroCenterpiece() {
                       <div className="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden mb-1">
                         <div className="h-full bg-emerald-500 rounded-full w-[95%]" />
                       </div>
-                      <span className="text-[10px] text-slate-500">Respons klik instan</span>
+                      <span className="text-[10px] text-slate-600">Respons klik instan</span>
                     </div>
 
                     <div className="p-3.5 rounded-2xl bg-slate-900/90 border border-slate-800">
@@ -420,7 +420,7 @@ export function ModernHeroCenterpiece() {
                       <div className="w-full bg-slate-800 h-1.5 rounded-full overflow-hidden mb-1">
                         <div className="h-full bg-emerald-500 rounded-full w-[96%]" />
                       </div>
-                      <span className="text-[10px] text-slate-500">Edge SSR Pre-cached</span>
+                      <span className="text-[10px] text-slate-600">Edge SSR Pre-cached</span>
                     </div>
                   </div>
 
@@ -467,7 +467,7 @@ export function ModernHeroCenterpiece() {
                 <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
                 <span>ID-CGK-Edge (Jakarta-BSD)</span>
               </div>
-              <span className="text-slate-500">SLA: 99.98%</span>
+              <span className="text-slate-600">SLA: 99.98%</span>
             </div>
 
           </div>

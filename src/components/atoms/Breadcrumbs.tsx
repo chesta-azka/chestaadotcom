@@ -101,7 +101,7 @@ export default function Breadcrumbs({ items }: BreadcrumbsProps) {
         >
           <Compass size={13} className="text-[#6b21a8]" />
         </motion.div>
-        <span className="text-[8px] font-mono tracking-widest text-slate-500 uppercase">LOCATION</span>
+        <span className="text-[8px] font-mono tracking-widest text-slate-600 uppercase">LOCATION</span>
       </div>
 
       <motion.ol 
@@ -110,7 +110,7 @@ export default function Breadcrumbs({ items }: BreadcrumbsProps) {
         variants={containerVariants}
         initial="hidden"
         animate="visible"
-        className="flex flex-wrap items-center gap-1.5 md:gap-2 text-[10px] md:text-xs font-mono font-bold tracking-wider uppercase text-slate-500"
+        className="flex flex-wrap items-center gap-1.5 md:gap-2 text-[10px] md:text-xs font-mono font-bold tracking-wider uppercase text-slate-600"
         style={{ perspective: 1000 }}
         id="breadcrumbs-list"
       >

@@ -127,23 +127,17 @@ export default function TestimonialSection() {
       <div className="mx-auto max-w-4xl px-3 sm:px-6 relative z-10 w-full">
         
         <div className="mb-8 sm:mb-12">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white border border-slate-200 shadow-2xs mb-4">
-            <span className="flex h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>
-            <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-slate-600">
-              SOCIAL PROOF & REPUTASI
-            </span>
-          </div>
-          <h2 className="text-2xl sm:text-4xl md:text-5xl font-display font-bold tracking-tight text-slate-900 mb-3">
+          <h2 className="text-2xl sm:text-4xl md:text-5xl font-display font-black tracking-tight text-slate-900 mb-3">
             Dipercaya oleh Bisnis Terkemuka.
           </h2>
-          <p className="text-slate-500 text-sm sm:text-base font-sans">
+          <p className="text-slate-600 text-sm sm:text-base font-sans">
             Testimoni otentik dari pemilik bisnis, founder startup, dan pimpinan korporasi.
           </p>
         </div>
 
         {/* Slider Box */}
         <div 
-          className="relative min-h-[280px] flex flex-col justify-center bg-white/40 border border-white/60 rounded-2xl sm:rounded-3xl p-5 sm:p-8 md:p-10 backdrop-blur-2xl shadow-xl shadow-purple-900/5 overflow-hidden"
+          className="relative min-h-[280px] flex flex-col justify-center bg-white/40 border border-white/60 rounded-2xl sm:rounded-xl p-5 sm:p-8 md:p-10 backdrop-blur-2xl shadow-xl shadow-purple-900/5 overflow-hidden transition-all duration-300 hover:scale-[1.02]"
           onMouseEnter={() => setIsHovered(true)}
           onMouseLeave={() => setIsHovered(false)}
         >
@@ -160,7 +154,7 @@ export default function TestimonialSection() {
             >
               <Quote className="w-10 sm:w-12 h-10 sm:h-12 text-purple-100 absolute -top-4 -left-4 opacity-50" />
               
-              <p className="text-base sm:text-xl md:text-2xl text-slate-700 leading-relaxed font-display font-medium relative z-10 tracking-tight">
+              <p className="text-base sm:text-xl md:text-2xl text-slate-700 leading-relaxed font-display font-black relative z-10 tracking-tight">
                 "{current.comment}"
               </p>
               
@@ -180,7 +174,7 @@ export default function TestimonialSection() {
                 </div>
                 
                 <div className="bg-purple-50/80 border border-purple-100 rounded-xl sm:rounded-2xl p-2.5 sm:p-4 flex flex-col items-start sm:items-end">
-                  <span className="text-lg sm:text-2xl font-bold font-display tracking-tight text-purple-950">{current.metric}</span>
+                  <span className="text-lg sm:text-2xl font-black font-display tracking-tight text-purple-950">{current.metric}</span>
                   <span className="text-[10px] sm:text-xs font-mono tracking-widest text-purple-800 uppercase font-semibold">{current.metricLabel}</span>
                 </div>
               </div>

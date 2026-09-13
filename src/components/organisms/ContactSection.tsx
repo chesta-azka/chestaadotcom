@@ -77,11 +77,7 @@ export default function ContactSection() {
             transition={{ duration: 0.5 }}
             className="space-y-3"
           >
-            <span className="text-[#6b21a8] font-mono text-[11px] uppercase tracking-wider inline-flex items-center gap-1.5 bg-purple-50 px-3.5 py-1 rounded-full border border-purple-100">
-              <Sparkles size={11} className="text-[#6b21a8]" />
-              Konsultasi & Harga
-            </span>
-            <div className="text-fluid-h2 font-display font-bold tracking-tight text-slate-900 px-2">
+            <div className="text-fluid-h2 font-display font-black tracking-tight text-slate-900 px-2">
               <TextRevealSmooth 
                 text="Mulai Proyek Website Anda Hari Ini." 
                 highlightWords={["Website", "Hari Ini"]}
@@ -106,10 +102,10 @@ export default function ContactSection() {
         </motion.div>
 
         <div className="text-center mb-10">
-          <h3 className="text-xl md:text-2xl font-display font-bold text-slate-900">
+          <h3 className="text-xl md:text-2xl font-display font-black text-slate-900">
             Pilihan Paket Siap Pakai
           </h3>
-          <p className="text-slate-500 text-xs sm:text-sm font-sans mt-1">
+          <p className="text-slate-600 text-xs sm:text-sm font-sans mt-1">
             Transparansi penuh tanpa biaya tersembunyi & 100% hak milik.
           </p>
         </div>
@@ -126,7 +122,7 @@ export default function ContactSection() {
                 viewport={{ once: true }}
                 transition={{ duration: 0.4, delay: idx * 0.1 }}
                 onClick={() => handleOpenWhatsApp(pkg.waMessage)}
-                className={`p-6 sm:p-7 rounded-3xl border text-left cursor-pointer transition-all duration-200 group flex flex-col justify-between ${
+                className={`p-6 sm:p-7 rounded-xl border text-left cursor-pointer transition-all duration-200 group flex flex-col justify-between hover:scale-[1.02] ${
                   isPromo 
                     ? 'bg-purple-50/40 border-purple-200 shadow-md shadow-purple-950/5 hover:border-purple-300 hover:bg-purple-50/70' 
                     : 'bg-white border-slate-200 hover:border-purple-200 hover:shadow-md hover:shadow-purple-950/5'
@@ -134,7 +130,7 @@ export default function ContactSection() {
               >
                 <div>
                   <div className="flex items-center justify-between mb-2">
-                    <h4 className="text-slate-500 text-xs font-mono uppercase tracking-wider font-semibold">
+                    <h4 className="text-slate-600 text-xs font-mono uppercase tracking-wider font-semibold">
                       {pkg.title}
                     </h4>
                     {isPromo && (
@@ -146,8 +142,8 @@ export default function ContactSection() {
 
                   <div className="flex flex-col gap-0.5 mb-3">
                     <div className="flex items-baseline gap-1.5">
-                      <span className="text-3xl font-display font-bold text-slate-900 tracking-tight">{pkg.price}</span>
-                      <span className="text-xs text-slate-500 font-sans">all-in</span>
+                      <span className="text-3xl font-display font-black text-slate-900 tracking-tight">{pkg.price}</span>
+                      <span className="text-xs text-slate-600 font-sans">all-in</span>
                     </div>
                     {pkg.originalPrice && (
                       <span className="text-xs text-slate-400 font-mono line-through">Normal {pkg.originalPrice}</span>
@@ -193,14 +189,14 @@ export default function ContactSection() {
           className="mt-16 max-w-5xl mx-auto"
         >
           <div className="text-center mb-6">
-            <h3 className="text-lg md:text-xl font-display font-bold text-slate-900">
+            <h3 className="text-lg md:text-xl font-display font-black text-slate-900">
               Jangkauan Layanan
             </h3>
-            <p className="text-xs sm:text-sm text-slate-500 font-sans mt-1">
+            <p className="text-xs sm:text-sm text-slate-600 font-sans mt-1">
               Berbasis di BSD & Cisauk (Tangerang), melayani klien Jabodetabek hingga seluruh Indonesia secara online.
             </p>
           </div>
-          <div className="w-full h-[280px] sm:h-[340px] rounded-3xl overflow-hidden border border-purple-100 shadow-sm relative bg-slate-50">
+          <div className="w-full h-[280px] sm:h-[340px] rounded-xl overflow-hidden border border-purple-100 shadow-sm relative bg-slate-50">
             <iframe 
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d126907.03473950672!2d106.56847256673163!3d-6.282928399587445!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e69fb20a9906e13%3A0xf775cbab5e8bb720!2sBSD%20City%2C%20Tangerang%2C%20Banten!5e0!3m2!1sen!2sid!4v1700000000000!5m2!1sen!2sid" 
               width="100%" 

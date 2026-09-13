@@ -40,6 +40,7 @@ import ClientPortalPage from './pages/ClientPortalPage.tsx';
 import NotFoundPage from './pages/NotFoundPage.tsx';
 import CaseStudiesPage from './pages/CaseStudiesPage.tsx';
 import CaseStudyDetailPage from './pages/CaseStudyDetailPage.tsx';
+import ServiceDetailPage from './pages/ServiceDetailPage.tsx';
 
 import KeyboardShortcutsModal from './components/organisms/KeyboardShortcutsModal.tsx';
 
@@ -99,6 +100,7 @@ function AppContent({ appLoaded }: { appLoaded: boolean }) {
             
             <Route path="/case-studies" element={<PageWrapper><CaseStudiesPage /></PageWrapper>} />
             <Route path="/case-studies/:slug" element={<PageWrapper><CaseStudyDetailPage /></PageWrapper>} />
+            <Route path="/layanan/:slug" element={<PageWrapper><ServiceDetailPage /></PageWrapper>} />
             <Route path="*" element={<PageWrapper><NotFoundPage /></PageWrapper>} />
           </Routes>
         </AnimatePresence>
@@ -116,7 +118,7 @@ const containerVariants = {
   show: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.1,
+      staggerChildren: 0.05,
       delayChildren: 0.2
     }
   },

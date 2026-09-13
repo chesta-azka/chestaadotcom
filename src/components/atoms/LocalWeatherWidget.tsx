@@ -69,17 +69,17 @@ export default function LocalWeatherWidget() {
       initial={{ opacity: 0, scale: 0.9, y: 20 }}
       animate={{ opacity: 1, scale: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.5 }}
-      className="absolute right-6 top-32 z-20 hidden lg:flex flex-col bg-white/80 backdrop-blur-xl border border-slate-200/60 p-4 rounded-3xl shadow-[0_8px_32px_rgba(0,0,0,0.08)] min-w-[160px]"
+      className="absolute right-6 top-32 z-20 hidden lg:flex flex-col bg-white/80 backdrop-blur-xl border border-slate-200/60 p-4 rounded-xl shadow-[0_8px_32px_rgba(0,0,0,0.08)] min-w-[160px]"
     >
       <div className="flex items-center gap-2 mb-3">
         <MapPin size={14} className="text-[#6b21a8]" />
-        <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-slate-500">
+        <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-slate-600">
           {locationName}
         </span>
       </div>
       
       <div className="flex items-center justify-between mb-1">
-        <span className="text-2xl font-display font-medium tracking-tight text-slate-800">
+        <span className="text-2xl font-display font-black tracking-tight text-slate-800">
           {time}
         </span>
         <Clock size={16} className="text-slate-300" />

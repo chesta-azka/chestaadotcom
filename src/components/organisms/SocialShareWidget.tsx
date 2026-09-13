@@ -30,7 +30,7 @@ export default function SocialShareWidget({ title, url }: { title: string, url: 
       
       <button
         onClick={handleTwitterShare}
-        className="w-8 h-8 rounded-full border border-slate-200 bg-white hover:bg-[#1DA1F2] hover:border-[#1DA1F2] hover:text-white text-slate-500 flex items-center justify-center transition-all shadow-sm"
+        className="w-8 h-8 rounded-full border border-slate-200 bg-white hover:bg-[#1DA1F2] hover:border-[#1DA1F2] hover:text-white text-slate-600 flex items-center justify-center transition-all shadow-sm"
         title="Share to Twitter"
       >
         <Twitter size={14} />
@@ -38,7 +38,7 @@ export default function SocialShareWidget({ title, url }: { title: string, url: 
 
       <button
         onClick={handleLinkedInShare}
-        className="w-8 h-8 rounded-full border border-slate-200 bg-white hover:bg-[#0A66C2] hover:border-[#0A66C2] hover:text-white text-slate-500 flex items-center justify-center transition-all shadow-sm"
+        className="w-8 h-8 rounded-full border border-slate-200 bg-white hover:bg-[#0A66C2] hover:border-[#0A66C2] hover:text-white text-slate-600 flex items-center justify-center transition-all shadow-sm"
         title="Share to LinkedIn"
       >
         <Linkedin size={14} />

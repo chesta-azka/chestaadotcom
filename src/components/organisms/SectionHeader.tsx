@@ -31,7 +31,7 @@ export default function SectionHeader({ metaTag, title, description, align = 'le
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: '-50px' }}
         transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
-        className="text-3xl md:text-4xl font-display font-medium tracking-tight text-slate-900 mb-4 leading-none"
+        className="text-3xl md:text-4xl font-display font-black tracking-tight text-slate-900 mb-4 leading-none"
       >
         {title}
       </motion.h2>

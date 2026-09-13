@@ -130,7 +130,7 @@ function LiveTakeoverManager() {
   if (!takeoverSession) return null;
 
   return (
-    <div className="fixed bottom-6 right-6 w-[440px] max-w-[calc(100vw-32px)] bg-white/95 backdrop-blur-2xl rounded-3xl shadow-[0_25px_60px_rgba(0,0,0,0.2)] border border-slate-200/80 ring-1 ring-slate-900/5 z-[9999] flex flex-col h-[600px] overflow-hidden font-sans">
+    <div className="fixed bottom-6 right-6 w-[440px] max-w-[calc(100vw-32px)] bg-white/95 backdrop-blur-2xl rounded-xl shadow-[0_25px_60px_rgba(0,0,0,0.2)] border border-slate-200/80 ring-1 ring-slate-900/5 z-[9999] flex flex-col h-[600px] overflow-hidden font-sans">
       {/* Header */}
       <div className="bg-slate-950 text-white p-4 flex justify-between items-center shrink-0 border-b border-slate-800">
         <div className="flex items-center gap-3">
@@ -337,7 +337,7 @@ function AdminLogin() {
       <motion.div 
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
-        className="bg-white p-8 rounded-3xl shadow-lg border border-slate-200 w-full max-w-md"
+        className="bg-white p-8 rounded-xl shadow-lg border border-slate-200 w-full max-w-md"
       >
         <div className="flex justify-center mb-6">
           <div className="w-16 h-16 bg-purple-100 rounded-2xl flex items-center justify-center text-purple-600">
@@ -482,7 +482,7 @@ const AdminChatHistoryFolders = ({ sessions }: { sessions: any[] }) => {
   const [openFolder, setOpenFolder] = useState<string | null>('Pricing');
 
   return (
-    <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm mt-6">
+    <div className="bg-white rounded-xl p-6 sm:p-8 border border-slate-200 shadow-sm mt-6">
       <div className="mb-6">
         <h2 className="text-xl font-display font-medium text-slate-900 flex items-center gap-2">
           <Folder size={20} className="text-purple-600" /> Kategori Topik (History Folders)
@@ -1046,7 +1046,7 @@ function SEOManager() {
   };
 
   return (
-    <div className="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm flex flex-col min-h-[500px]">
+    <div className="bg-white rounded-xl p-8 border border-slate-200 shadow-sm flex flex-col min-h-[500px]">
       <div className="mb-6">
         <h2 className="text-xl font-display font-medium text-slate-900 flex items-center gap-2">
           <Search size={20} className="text-purple-600" /> SEO Route Manager
@@ -1154,7 +1154,7 @@ function UserManagement() {
   };
 
   return (
-    <div className="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm flex flex-col min-h-[500px]">
+    <div className="bg-white rounded-xl p-8 border border-slate-200 shadow-sm flex flex-col min-h-[500px]">
       <div className="flex justify-between items-center mb-6">
         <div>
           <h2 className="text-xl font-display font-medium text-slate-900 flex items-center gap-2">
@@ -1563,7 +1563,7 @@ function AITrainingTab() {
       )}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         {/* Token Stats */}
-        <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm flex flex-col">
+        <div className="bg-white rounded-xl p-6 sm:p-8 border border-slate-200 shadow-sm flex flex-col">
           <h2 className="text-xl font-display font-medium text-slate-900 flex items-center gap-2 mb-6">
              API Token Usage (Real-time)
           </h2>
@@ -1594,7 +1594,7 @@ function AITrainingTab() {
         </div>
 
         {/* Feedback Summary & LLM Insights Dashboard */}
-        <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm flex flex-col">
+        <div className="bg-white rounded-xl p-6 sm:p-8 border border-slate-200 shadow-sm flex flex-col">
            <h2 className="text-xl font-display font-medium text-slate-900 flex items-center justify-between gap-2 mb-6">
              <div className="flex items-center gap-2">
                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-purple-600"><path d="M21.21 15.89A10 10 0 1 1 8 2.83"/><path d="M22 12A10 10 0 0 0 12 2v10z"/></svg>
@@ -1653,7 +1653,7 @@ function AITrainingTab() {
 
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* Dataset / Knowledge Base */}
-        <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm flex flex-col min-h-[400px]">
+        <div className="bg-white rounded-xl p-6 sm:p-8 border border-slate-200 shadow-sm flex flex-col min-h-[400px]">
           <h2 className="text-xl font-display font-medium text-slate-900 flex items-center gap-2 mb-2">
             Dataset & Context (Fine-tuning)
           </h2>
@@ -1688,7 +1688,7 @@ function AITrainingTab() {
         </div>
 
         {/* AI Training & Feedback Log Table */}
-        <div className="bg-white rounded-3xl p-6 sm:p-8 border border-slate-200 shadow-sm flex flex-col min-h-[400px]">
+        <div className="bg-white rounded-xl p-6 sm:p-8 border border-slate-200 shadow-sm flex flex-col min-h-[400px]">
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-2">
             <h2 className="text-xl font-display font-medium text-slate-900 flex items-center gap-2">
               Feedback Log Detail
@@ -2220,7 +2220,7 @@ function AdminKanbanAndVaultManager() {
   return (
     <div className="space-y-6">
       {/* Workspace Selector Bar */}
-      <div className="p-6 rounded-3xl bg-white border border-slate-200 shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+      <div className="p-6 rounded-xl bg-white border border-slate-200 shadow-sm flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2">
             <h2 className="text-xl font-bold text-slate-900 tracking-tight">Live Kanban & VIP Client Vault</h2>
@@ -2266,7 +2266,7 @@ function AdminKanbanAndVaultManager() {
         <motion.div
           initial={{ opacity: 0, height: 0 }}
           animate={{ opacity: 1, height: 'auto' }}
-          className="p-5 rounded-3xl bg-purple-50/70 border border-purple-200/80 shadow-sm"
+          className="p-5 rounded-xl bg-purple-50/70 border border-purple-200/80 shadow-sm"
         >
           <form onSubmit={handleCreateWorkspace} className="grid grid-cols-1 sm:grid-cols-4 gap-3 items-end">
             <div>
@@ -2380,7 +2380,7 @@ function SystemAuditLog() {
   }, []);
 
   return (
-    <div className="bg-white rounded-3xl p-4 sm:p-8 border border-slate-200 shadow-sm flex flex-col min-h-[500px]">
+    <div className="bg-white rounded-xl p-4 sm:p-8 border border-slate-200 shadow-sm flex flex-col min-h-[500px]">
       <div className="mb-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h2 className="text-xl font-display font-medium text-slate-900 flex items-center gap-2">
@@ -2502,7 +2502,7 @@ function PageManager() {
   };
 
   return (
-    <div className="bg-white rounded-3xl p-8 border border-slate-200 shadow-sm min-h-[600px] flex flex-col">
+    <div className="bg-white rounded-xl p-8 border border-slate-200 shadow-sm min-h-[600px] flex flex-col">
       <div className="mb-6 flex justify-between items-center">
         <div>
           <h2 className="text-xl font-display font-medium text-slate-900 flex items-center gap-2">

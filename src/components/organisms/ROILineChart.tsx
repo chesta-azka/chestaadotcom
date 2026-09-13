@@ -123,9 +123,9 @@ const ROILineChart = ({ roiPercentage }: { roiPercentage: number }) => {
 
   return (
     <div className="w-full bg-slate-50 border border-slate-200 rounded-2xl p-6 relative overflow-hidden group">
-      <div className="absolute top-0 right-0 w-32 h-32 bg-[#6b21a8]/5 rounded-full blur-3xl pointer-events-none" />
+      <div className="absolute top-0 right-0 w-32 h-32 " />
       <div className="flex flex-col items-start space-y-1 mb-6 relative z-10">
-        <span className="text-[10px] font-mono text-slate-500 uppercase tracking-widest">ROI GROWTH METRIC</span>
+        <span className="text-[10px] font-mono text-slate-600 uppercase tracking-widest">ROI GROWTH METRIC</span>
         <span className="text-4xl font-mono font-bold text-[#6b21a8] tracking-tight">+{roiPercentage}%</span>
       </div>
       <div ref={chartRef} className="w-full relative z-10 aspect-[2/1]" />

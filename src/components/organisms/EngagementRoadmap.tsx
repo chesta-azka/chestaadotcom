@@ -59,7 +59,7 @@ export default function EngagementRoadmap() {
           <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-50 border border-slate-200 text-xs font-mono font-bold tracking-widest text-purple-600 uppercase mb-4 shadow-sm">
             Service Delivery Lifecycle
           </div>
-          <h2 className="text-fluid-h2 font-display font-medium text-slate-900 tracking-tight mb-4">
+          <h2 className="text-fluid-h2 font-display font-black text-slate-900 tracking-tight mb-4">
             Eksekusi Kemitraan Strategis
           </h2>
           <p className="text-slate-600 font-sans max-w-2xl mx-auto text-lg leading-relaxed font-light">
@@ -134,8 +134,8 @@ export default function EngagementRoadmap() {
                     </AnimatePresence>
                   </div>
                   <div>
-                    <h3 className={`font-display font-semibold transition-colors ${
-                      activeStep === idx ? 'text-purple-600 text-lg' : 'text-slate-500 text-base group-hover:text-slate-900'
+                    <h3 className={`font-display font-black transition-colors ${
+                      activeStep === idx ? 'text-purple-600 text-lg' : 'text-slate-600 text-base group-hover:text-slate-900'
                     }`}>
                       {step.title}
                     </h3>
@@ -147,7 +147,7 @@ export default function EngagementRoadmap() {
 
           {/* Active Step Content */}
           <div className="lg:w-2/3">
-            <div className="bg-white rounded-3xl p-8 lg:p-12 shadow-2xl shadow-slate-200/50 border border-slate-100 relative overflow-hidden min-h-[400px]">
+            <div className="bg-white rounded-xl p-8 lg:p-12 shadow-2xl shadow-slate-200/50 border border-slate-100 relative overflow-hidden min-h-[400px]">
               {/* Decorative subtle background icon */}
               <div className="absolute -right-12 -bottom-12 opacity-[0.02] text-purple-900 pointer-events-none transition-all duration-700">
                 {React.createElement(ROADMAP_STEPS[activeStep].icon, { size: 300 })}
@@ -167,7 +167,7 @@ export default function EngagementRoadmap() {
                     {React.createElement(ROADMAP_STEPS[activeStep].icon, { size: 28, className: "relative z-10" })}
                   </div>
                   
-                  <h3 className="text-3xl md:text-4xl font-display font-medium text-slate-900 mb-4">
+                  <h3 className="text-3xl md:text-4xl font-display font-black text-slate-900 mb-4">
                     {ROADMAP_STEPS[activeStep].title}
                   </h3>
                   

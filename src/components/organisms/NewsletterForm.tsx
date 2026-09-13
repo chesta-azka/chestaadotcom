@@ -30,7 +30,7 @@ export default function NewsletterForm() {
 
   if (success) {
     return (
-      <div className="bg-purple-600 rounded-3xl p-8 text-center text-white flex flex-col items-center">
+      <div className="bg-purple-600 rounded-xl p-8 text-center text-white flex flex-col items-center">
         <CheckCircle size={32} className="mb-4" />
         <h3 className="text-2xl font-bold mb-2">Terima Kasih!</h3>
         <p className="text-purple-100">Email Anda telah terdaftar untuk newsletter.</p>
@@ -39,12 +39,12 @@ export default function NewsletterForm() {
   }
 
   return (
-    <div className="bg-purple-50/50 border border-purple-100 rounded-3xl p-8 md:p-12 flex flex-col md:flex-row items-center gap-8 md:gap-12 shadow-sm">
+    <div className="bg-purple-50/50 border border-purple-100 rounded-xl p-8 md:p-12 flex flex-col md:flex-row items-center gap-8 md:gap-12 shadow-sm">
       <div className="flex-1 text-slate-900">
         <span className="text-purple-700 font-mono text-xs uppercase tracking-wider font-bold inline-block mb-2">
           Update &amp; Wawasan
         </span>
-        <h3 className="text-2xl md:text-3xl font-display font-semibold mb-2">Newsletter Digital</h3>
+        <h3 className="text-2xl md:text-3xl font-display font-black mb-2">Newsletter Digital</h3>
         <p className="text-slate-600 text-sm font-sans">Dapatkan insight teknologi, optimasi web modern, dan AI langsung ke email Anda.</p>
       </div>
       <form onSubmit={handleSubscribe} className="w-full md:w-[420px] relative">

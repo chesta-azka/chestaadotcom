@@ -83,7 +83,7 @@ export default function ProjectsSection() {
     hidden: { opacity: 0 },
     visible: { 
       opacity: 1, 
-      transition: { staggerChildren: 0.15 } 
+      transition: { staggerChildren: 0.05 } 
     }
   };
 
@@ -118,11 +118,11 @@ export default function ProjectsSection() {
           className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-24"
         >
           <div>
-            <div className="text-5xl md:text-[6.5rem] font-display font-medium tracking-tight text-slate-900 leading-[1.0] mb-2 flex flex-wrap">
+            <div className="text-5xl md:text-[6.5rem] font-display font-black tracking-tight text-slate-900 leading-[1.0] mb-2 flex flex-wrap">
               <TextRevealSmooth 
                 text="Selected Work." 
                 highlightWords={["Work."]}
-                highlightClass="text-transparent bg-clip-text bg-gradient-to-r from-purple-400 to-purple-400 font-serif italic pr-4"
+                highlightClass="text-purple-700 font-serif italic pr-4"
               />
             </div>
           </div>
@@ -142,7 +142,8 @@ export default function ProjectsSection() {
             className="grid grid-cols-1 md:grid-cols-2 gap-6"
             variants={containerVariants}
             initial="hidden"
-            animate="visible"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-50px" }}
           >
             {projects.map((project, i) => (
               <ProjectCard 

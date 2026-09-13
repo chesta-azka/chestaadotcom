@@ -161,7 +161,7 @@ export default function DirectTransferModal({
           animate={{ opacity: 1, scale: 1, y: 0 }}
           exit={{ opacity: 0, scale: 0.96, y: 15 }}
           transition={{ type: 'spring', damping: 25, stiffness: 260 }}
-          className="relative w-full max-w-3xl bg-white border border-purple-100 rounded-3xl shadow-xl overflow-hidden my-auto max-h-[92vh] flex flex-col"
+          className="relative w-full max-w-3xl bg-white border border-purple-100 rounded-xl shadow-xl overflow-hidden my-auto max-h-[92vh] flex flex-col"
         >
           {/* Header */}
           <div className="px-6 py-5 border-b border-slate-100 bg-purple-50/50 flex items-center justify-between shrink-0">
@@ -171,14 +171,14 @@ export default function DirectTransferModal({
               </div>
               <div>
                 <div className="flex items-center gap-2">
-                  <h2 className="text-lg font-display font-bold text-slate-900 tracking-tight">
+                  <h2 className="text-lg font-display font-black text-slate-900 tracking-tight">
                     Direct Transfer & E-Wallet
                   </h2>
                   <span className="text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full bg-purple-100 text-purple-900">
                     Satset &bull; 0% Fee
                   </span>
                 </div>
-                <p className="text-xs text-slate-500">
+                <p className="text-xs text-slate-600">
                   Pembayaran transfer langsung tanpa ribet &bull; Konfirmasi instan via WhatsApp
                 </p>
               </div>
@@ -228,7 +228,7 @@ export default function DirectTransferModal({
                     )}
                     <div>
                       <span className="font-bold text-xs block">{pkg.name}</span>
-                      <span className="text-xs text-slate-500">
+                      <span className="text-xs text-slate-600">
                         {new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(pkg.price)}
                       </span>
                     </div>
@@ -284,7 +284,7 @@ export default function DirectTransferModal({
 
                 {paymentType === 'custom' && (
                   <div className="mt-2.5">
-                    <label className="text-xs text-slate-500 block mb-1">
+                    <label className="text-xs text-slate-600 block mb-1">
                       Masukkan Nominal Transfer (Rp):
                     </label>
                     <input
@@ -501,7 +501,7 @@ export default function DirectTransferModal({
                       <div className="text-[10px] font-bold text-slate-800 font-mono mt-1">CHESTADOTCOM CIPTA KARYA</div>
                     </div>
 
-                    <p className="text-xs text-slate-500">
+                    <p className="text-xs text-slate-600">
                       Buka aplikasi BCA Mobile, Livin Mandiri, GoPay, OVO, atau ShopeePay lalu scan QRIS di atas.
                     </p>
                   </div>
@@ -614,7 +614,7 @@ export default function DirectTransferModal({
           </div>
 
           {/* Footer */}
-          <div className="px-6 py-3 border-t border-slate-100 bg-purple-50/40 flex items-center justify-between text-[11px] text-slate-500 shrink-0">
+          <div className="px-6 py-3 border-t border-slate-100 bg-purple-50/40 flex items-center justify-between text-[11px] text-slate-600 shrink-0">
             <div className="flex items-center gap-1.5 text-purple-900 font-semibold">
               <ShieldCheck size={14} />
               <span>SSL 256-Bit Guaranteed Settlement</span>

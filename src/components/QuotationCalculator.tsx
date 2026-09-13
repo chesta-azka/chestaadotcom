@@ -58,7 +58,7 @@ export function QuotationCalculator() {
 
   return (
     <div className="relative w-full max-w-2xl mx-auto p-1 font-sans">
-      <div className="relative bg-white border border-purple-100 rounded-3xl shadow-sm p-6 sm:p-8 overflow-hidden">
+      <div className="relative bg-white border border-purple-100 rounded-xl shadow-sm p-6 sm:p-8 overflow-hidden">
         
         {/* Header */}
         <div className="mb-6">
@@ -68,10 +68,10 @@ export function QuotationCalculator() {
               Kalkulator Estimasi Instan
             </span>
           </div>
-          <h2 className="text-2xl font-display font-bold text-slate-900">
+          <h2 className="text-2xl font-display font-black text-slate-900">
             Simulasi Biaya Proyek
           </h2>
-          <p className="text-slate-500 text-xs font-sans mt-0.5">
+          <p className="text-slate-600 text-xs font-sans mt-0.5">
             Pilih komponen layanan untuk melihat perkiraan investasi.
           </p>
         </div>
@@ -109,7 +109,7 @@ export function QuotationCalculator() {
               <p className="text-[10px] font-mono font-bold tracking-wider text-purple-900 uppercase">
                 Perkiraan Total Investasi
               </p>
-              <div className="text-xl sm:text-2xl font-display font-bold text-slate-900 mt-0.5">
+              <div className="text-xl sm:text-2xl font-display font-black text-slate-900 mt-0.5">
                 {estimate.min === estimate.max ? (
                   formatRupiah(estimate.min)
                 ) : (
@@ -117,7 +117,7 @@ export function QuotationCalculator() {
                 )}
               </div>
             </div>
-            <span className="text-[11px] text-slate-500 font-sans">
+            <span className="text-[11px] text-slate-600 font-sans">
               *Transparan & 100% Hak Milik
             </span>
           </div>

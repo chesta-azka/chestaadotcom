@@ -34,7 +34,7 @@ export default function ProjectCard({ project, index, onClick, variants }: Proje
     <motion.div
       className={`group relative overflow-hidden rounded-2xl cursor-pointer border border-slate-200 ${project.className || 'min-h-[400px]'}`}
       variants={variants}
-      whileHover={{ scale: 0.98 }}
+      whileHover={{ scale: 1.02 }}
       transition={{ type: 'spring', stiffness: 300, damping: 20 }}
       onClick={onClick}
     >
@@ -54,10 +54,10 @@ export default function ProjectCard({ project, index, onClick, variants }: Proje
       
       <div className="absolute inset-x-8 bottom-8 top-auto flex flex-col justify-end text-left z-10 transition-transform duration-700 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:-translate-y-6">
         <div>
-          <p className="text-[10px] font-sans font-semibold mb-2 tracking-widest text-purple-400 uppercase relative z-10 transition-colors duration-500 group-hover:text-purple-300">
+          <p className="text-xs font-sans font-semibold mb-2 text-purple-300 relative z-10 transition-colors duration-500">
             {project.category}
           </p>
-          <h3 className="text-2xl md:text-3xl font-display font-medium tracking-tight text-slate-900 m-0 relative z-10">
+          <h3 className="text-2xl md:text-3xl font-display font-black tracking-tight text-white m-0 relative z-10">
             {project.title}
           </h3>
         </div>
@@ -66,15 +66,15 @@ export default function ProjectCard({ project, index, onClick, variants }: Proje
         <div className="mt-4 flex flex-col gap-4 opacity-0 h-0 group-hover:opacity-100 group-hover:h-auto transition-all duration-700 delay-100 overflow-hidden translate-y-4 group-hover:translate-y-0">
           <div className="flex flex-wrap gap-2">
             {techStack.map(tech => (
-              <span key={tech} className="px-2.5 py-1 bg-slate-200 backdrop-blur-md rounded-md text-[9px] font-mono font-bold text-gray-200 border border-white/20 uppercase tracking-wider">
+              <span key={tech} className="px-2.5 py-1 bg-white/10 backdrop-blur-md rounded-md text-[10px] font-mono font-bold text-white border border-white/20">
                 {tech}
               </span>
             ))}
           </div>
           
-          <div className="bg-slate-200 backdrop-blur-md px-4 py-2 rounded-xl border border-white/20 inline-flex flex-col items-start w-fit">
+          <div className="bg-white/10 backdrop-blur-md px-4 py-2 rounded-xl border border-white/20 inline-flex flex-col items-start w-fit">
              <span className="text-xl font-mono text-purple-300 font-bold leading-none mb-1">{project.metricValue}</span>
-             <span className="text-[9px] font-sans font-semibold text-gray-700 uppercase tracking-widest">{project.metricLabel}</span>
+             <span className="text-[10px] font-sans font-semibold text-gray-300">{project.metricLabel}</span>
           </div>
         </div>
       </div>

@@ -115,7 +115,7 @@ export default function ReadNextSection({ currentArticle, allArticles = ALL_ARTI
 
         <Link
           to="/blog"
-          className="inline-flex items-center gap-2 font-display text-xs sm:text-sm font-bold text-purple-700 hover:text-purple-950 uppercase tracking-widest bg-white hover:bg-purple-50/80 border border-purple-200 px-5 py-2.5 rounded-full transition-all duration-300 shadow-2xs hover:shadow-md shrink-0 self-start md:self-auto"
+          className="inline-flex items-center gap-2 font-display text-xs sm:text-sm font-black text-purple-700 hover:text-purple-950 uppercase tracking-widest bg-white hover:bg-purple-50/80 border border-purple-200 px-5 py-2.5 rounded-full transition-all duration-300 shadow-2xs hover:shadow-md shrink-0 self-start md:self-auto"
         >
           <BookOpen size={16} /> Semua Jurnal <ArrowRight size={16} />
         </Link>
@@ -137,7 +137,7 @@ export default function ReadNextSection({ currentArticle, allArticles = ALL_ARTI
             >
               <Link
                 to={`/blog/${article.slug}`}
-                className="group flex flex-col w-full bg-white rounded-3xl border border-slate-200/90 hover:border-purple-400/80 shadow-md hover:shadow-2xl hover:shadow-purple-900/10 transition-all duration-400 overflow-hidden relative"
+                className="group flex flex-col w-full bg-white rounded-xl border border-slate-200/90 hover:border-purple-400/80 shadow-md hover:shadow-2xl hover:shadow-purple-900/10 transition-all duration-400 overflow-hidden relative"
               >
                 {/* Visual Cover Header */}
                 <div className="relative w-full h-48 sm:h-52 overflow-hidden bg-slate-900">
@@ -203,7 +203,7 @@ export default function ReadNextSection({ currentArticle, allArticles = ALL_ARTI
                     )}
 
                     {/* Title */}
-                    <h4 className="font-display font-bold text-lg sm:text-xl text-slate-900 leading-snug group-hover:text-purple-700 transition-colors line-clamp-2">
+                    <h4 className="font-display font-black text-lg sm:text-xl text-slate-900 leading-snug group-hover:text-purple-700 transition-colors line-clamp-2">
                       {article.title}
                     </h4>
 

@@ -161,9 +161,9 @@ export default function AISolutionsSection() {
             <Sparkles size={12} className="text-purple-600" />
             <span>ARSITEKTUR AGENTIC AI 2026</span>
           </div>
-          <h2 className="text-2xl sm:text-4xl md:text-5xl font-display font-extrabold text-slate-900 tracking-tight leading-[1.15]">
+          <h2 className="text-2xl sm:text-4xl md:text-5xl font-display font-black text-slate-900 tracking-tight leading-[1.15]">
             Otomasi Skala Penuh. <br className="hidden sm:inline" />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 via-purple-600 to-purple-500">
+            <span className="text-purple-700">
               Cerdas, Mandiri & Skalabel.
             </span>
           </h2>
@@ -180,7 +180,7 @@ export default function AISolutionsSection() {
         {/* Left Column: Interactive Capability Selector Pills (Bento Left) */}
         <div className="lg:col-span-5 flex flex-col gap-3">
           <div className="flex items-center justify-between pb-2">
-            <span className="text-xs font-mono font-bold uppercase tracking-wider text-slate-500 flex items-center gap-1.5">
+            <span className="text-xs font-mono font-bold uppercase tracking-wider text-slate-600 flex items-center gap-1.5">
               <Layers size={13} className="text-purple-600" />
               Pilih Modul Solusi
             </span>
@@ -197,7 +197,7 @@ export default function AISolutionsSection() {
               <div
                 key={cap.id}
                 onClick={() => setSelectedId(cap.id)}
-                className={`p-4 sm:p-5 rounded-2xl sm:rounded-3xl border transition-all duration-300 cursor-pointer select-none text-left relative overflow-hidden ${
+                className={`p-4 sm:p-5 rounded-2xl sm:rounded-xl border transition-all duration-300 cursor-pointer select-none text-left relative overflow-hidden ${
                   isSelected
                     ? 'bg-white border-purple-500/80 shadow-[0_10px_30px_rgba(88,28,135,0.1)] ring-2 ring-purple-500/20'
                     : 'bg-white/80 hover:bg-white border-slate-200/80 hover:border-purple-200 shadow-2xs'
@@ -225,18 +225,18 @@ export default function AISolutionsSection() {
                       </span>
                     </div>
 
-                    <h3 className={`text-base sm:text-lg font-display font-bold leading-snug truncate ${
+                    <h3 className={`text-base sm:text-lg font-display font-black leading-snug truncate ${
                       isSelected ? 'text-purple-950' : 'text-slate-900'
                     }`}>
                       {cap.title}
                     </h3>
 
-                    <p className="text-xs text-slate-500 line-clamp-2 mt-1 font-sans">
+                    <p className="text-xs text-slate-600 line-clamp-2 mt-1 font-sans">
                       {cap.description}
                     </p>
 
                     <div className="mt-3 flex items-center justify-between pt-2.5 border-t border-slate-100/80 text-[11px] font-mono">
-                      <span className="text-slate-500 font-medium">
+                      <span className="text-slate-600 font-medium">
                         {cap.metrics.label}: <strong className="text-slate-800">{cap.metrics.value}</strong>
                       </span>
                       <span className="text-purple-600 font-bold flex items-center gap-1 group-hover:translate-x-1 transition-transform">
@@ -252,7 +252,7 @@ export default function AISolutionsSection() {
 
         {/* Right Column: Independent Scrollable Bento Playground & Live Preview Window */}
         <div className="lg:col-span-7">
-          <div className="bg-white/85 backdrop-blur-2xl rounded-2xl sm:rounded-3xl border border-slate-200/90 shadow-[0_20px_50px_rgba(15,23,42,0.06)] ring-1 ring-slate-900/5 overflow-hidden flex flex-col">
+          <div className="bg-white/85 backdrop-blur-2xl rounded-2xl sm:rounded-xl border border-slate-200/90 shadow-[0_20px_50px_rgba(15,23,42,0.06)] ring-1 ring-slate-900/5 overflow-hidden flex flex-col">
             
             {/* Bento Top Terminal Bar */}
             <div className="bg-slate-900/95 backdrop-blur-md text-white px-5 py-3.5 flex items-center justify-between gap-3 border-b border-slate-800">
@@ -289,7 +289,7 @@ export default function AISolutionsSection() {
                   <span className="text-[10px] font-mono font-bold text-purple-800 tracking-wider uppercase">
                     SIMULASI AKTIF
                   </span>
-                  <h4 className="text-lg sm:text-xl font-display font-bold text-slate-900 mt-0.5">
+                  <h4 className="text-lg sm:text-xl font-display font-black text-slate-900 mt-0.5">
                     {activeCapability.title}
                   </h4>
                   <p className="text-xs sm:text-sm text-slate-600 mt-1">
@@ -298,7 +298,7 @@ export default function AISolutionsSection() {
                 </div>
 
                 <div className="shrink-0 bg-purple-50/80 px-4 py-2 rounded-xl border border-purple-200/80 shadow-2xs text-center">
-                  <span className="text-[10px] font-mono text-slate-500 block uppercase font-medium">Metrik Inti</span>
+                  <span className="text-[10px] font-mono text-slate-600 block uppercase font-medium">Metrik Inti</span>
                   <span className="text-sm font-mono font-bold text-purple-800">{activeCapability.metrics.value}</span>
                 </div>
               </div>
@@ -306,7 +306,7 @@ export default function AISolutionsSection() {
               {/* Chat Simulation Preview */}
               {activeCapability.previewType === 'chat' && activeCapability.liveDetails.chatMessages && (
                 <div className="space-y-3">
-                  <div className="flex items-center justify-between text-xs font-mono text-slate-500 pb-1">
+                  <div className="flex items-center justify-between text-xs font-mono text-slate-600 pb-1">
                     <span className="flex items-center gap-1.5 font-medium">
                       <MessageSquare size={13} className="text-purple-600" />
                       Live Live Chat Agent Interaction
@@ -341,7 +341,7 @@ export default function AISolutionsSection() {
               {/* Pipeline / Steps Simulation Preview */}
               {activeCapability.previewType === 'pipeline' && activeCapability.liveDetails.steps && (
                 <div className="space-y-3">
-                  <div className="flex items-center justify-between text-xs font-mono text-slate-500 pb-1">
+                  <div className="flex items-center justify-between text-xs font-mono text-slate-600 pb-1">
                     <span className="flex items-center gap-1.5 font-medium">
                       <Cpu size={13} className="text-purple-600" />
                       Multi-Step Agentic Reasoning Log
@@ -365,7 +365,7 @@ export default function AISolutionsSection() {
               {/* Data / Webhook Fields Preview */}
               {activeCapability.previewType === 'ocr' && activeCapability.liveDetails.dataFields && (
                 <div className="space-y-3">
-                  <div className="flex items-center justify-between text-xs font-mono text-slate-500 pb-1">
+                  <div className="flex items-center justify-between text-xs font-mono text-slate-600 pb-1">
                     <span className="flex items-center gap-1.5 font-medium">
                       <Database size={13} className="text-emerald-600" />
                       Payload Data Mapping & Route
@@ -387,7 +387,7 @@ export default function AISolutionsSection() {
               {/* Security Guardrails Preview */}
               {activeCapability.previewType === 'security' && activeCapability.liveDetails.steps && (
                 <div className="space-y-3">
-                  <div className="flex items-center justify-between text-xs font-mono text-slate-500 pb-1">
+                  <div className="flex items-center justify-between text-xs font-mono text-slate-600 pb-1">
                     <span className="flex items-center gap-1.5 font-medium">
                       <ShieldCheck size={13} className="text-purple-600" />
                       Security & Privacy Guardrails
@@ -437,7 +437,7 @@ export default function AISolutionsSection() {
 
             {/* Bento Bottom Action Footer */}
             <div className="p-4 sm:p-5 bg-white/80 backdrop-blur-xl border-t border-slate-200/80 flex flex-col sm:flex-row items-center justify-between gap-3">
-              <span className="text-xs font-mono text-slate-500 text-center sm:text-left">
+              <span className="text-xs font-mono text-slate-600 text-center sm:text-left">
                 Butuh kustomisasi agen AI untuk workflow spesifik bisnis Anda?
               </span>
 

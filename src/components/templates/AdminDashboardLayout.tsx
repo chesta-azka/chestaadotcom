@@ -62,9 +62,9 @@ export default function AdminDashboardLayout({ children, onLogout, activeTab, se
       >
         
         <div className="px-8 mb-12">
-          <Link to="/" className="text-xl font-display font-bold text-slate-900 flex flex-col gap-1" onClick={() => setIsMobileMenuOpen(false)}>
+          <Link to="/" className="text-xl font-display font-black text-slate-900 flex flex-col gap-1" onClick={() => setIsMobileMenuOpen(false)}>
             <span className="bg-purple-600 text-white px-3 py-1.5 rounded-lg w-max leading-none">SYS.ADMIN</span>
-            <span className="text-sm tracking-widest text-slate-500 font-bold">COMMAND_CENTER</span>
+            <span className="text-sm tracking-widest text-slate-600 font-bold">COMMAND_CENTER</span>
           </Link>
         </div>
 

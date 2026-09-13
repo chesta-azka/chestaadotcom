@@ -39,9 +39,9 @@ export default function ClientTestimonials() {
       <div className="max-w-7xl mx-auto px-6">
         <div className="flex flex-col items-center text-center mb-16">
           <span className="text-[10px] font-sans font-bold uppercase tracking-[0.2em] text-purple-600 mb-3 block">Client Success Stories</span>
-          <h2 className="text-3xl md:text-5xl font-display font-medium text-slate-900 tracking-tight leading-tight max-w-2xl">
+          <h2 className="text-3xl md:text-5xl font-display font-black text-slate-900 tracking-tight leading-tight max-w-2xl">
             Dipercaya oleh Bisnis <br className="hidden sm:block" /> 
-            <span className="font-serif italic text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-cyan-600 pr-2">Terdepan.</span>
+            <span className="font-serif italic text-purple-700 pr-2">Terdepan.</span>
           </h2>
         </div>
 
@@ -53,7 +53,7 @@ export default function ClientTestimonials() {
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: -20 }}
               transition={{ duration: 0.5, ease: "easeInOut" }}
-              className="flex flex-col md:flex-row items-center gap-8 md:gap-16 bg-white/60 backdrop-blur-xl border border-white/60 p-8 md:p-12 rounded-[2.5rem] shadow-xl shadow-purple-900/5"
+              className="flex flex-col md:flex-row items-center gap-8 md:gap-16 bg-white/60 backdrop-blur-xl border border-white/60 p-8 md:p-12 rounded-2xl shadow-xl shadow-purple-900/5"
             >
               <div className="relative flex-shrink-0">
                 <div className="w-32 h-32 md:w-48 md:h-48 rounded-full overflow-hidden border-4 border-white shadow-lg">
@@ -79,7 +79,7 @@ export default function ClientTestimonials() {
                 </p>
                 <div>
                   <h4 className="font-bold text-slate-900 text-lg">{TESTIMONIALS[currentIndex].author}</h4>
-                  <p className="text-slate-500 font-sans text-sm">{TESTIMONIALS[currentIndex].role}</p>
+                  <p className="text-slate-600 font-sans text-sm">{TESTIMONIALS[currentIndex].role}</p>
                 </div>
               </div>
             </motion.div>

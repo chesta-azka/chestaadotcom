@@ -11,7 +11,7 @@ export default function PainPointReveal({
   text = "Website lambat dan desain berantakan", 
   className = '',
   highlightWords = ["lambat", "berantakan"],
-  highlightClass = "text-transparent bg-clip-text bg-gradient-to-r from-red-400 via-orange-400 to-[#6b21a8]"
+  highlightClass = "text-purple-700"
 }: PainPointRevealProps) {
   const words = text.split(" ");
 
@@ -21,7 +21,7 @@ export default function PainPointReveal({
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.04, // Snappier standard delay
+        staggerChildren: 0.05, // Snappier standard delay
         delayChildren: 0.05,
       }
     }

@@ -225,7 +225,7 @@ export default function WorkflowPage() {
                     <motion.div 
                       whileHover={{ scale: 1.08, rotate: 3 }}
                       whileTap={{ scale: 0.96 }}
-                      className="w-16 h-16 md:w-20 md:h-20 bg-white rounded-3xl shadow-xl shadow-purple-950/5 border border-purple-100 flex items-center justify-center relative overflow-hidden group cursor-pointer"
+                      className="w-16 h-16 md:w-20 md:h-20 bg-white rounded-xl shadow-xl shadow-purple-950/5 border border-purple-100 flex items-center justify-center relative overflow-hidden group cursor-pointer"
                     >
                       <div className="absolute inset-0 opacity-0 group-hover:opacity-10 bg-purple-600 transition-opacity duration-300" />
                       {phase.icon}
@@ -265,7 +265,7 @@ export default function WorkflowPage() {
             whileInView={{ opacity: 1, scale: 1, y: 0 }}
             viewport={{ once: true, margin: "-80px" }}
             transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-            className="inline-flex flex-col items-center bg-white border border-purple-200/80 rounded-[2.5rem] p-10 md:p-14 shadow-2xl shadow-purple-950/5 w-full max-w-3xl mx-auto relative overflow-hidden"
+            className="inline-flex flex-col items-center bg-white border border-purple-200/80 rounded-2xl p-10 md:p-14 shadow-2xl shadow-purple-950/5 w-full max-w-3xl mx-auto relative overflow-hidden"
            >
              <div className="w-14 h-14 rounded-2xl bg-purple-50 text-purple-900 border border-purple-200 flex items-center justify-center mb-6 shadow-xs">
                <MessageCircle className="w-7 h-7" />

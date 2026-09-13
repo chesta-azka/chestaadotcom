@@ -64,7 +64,7 @@ export default function AutomatedPricingLogic({ onEstimateGenerated, onCancel }:
   };
 
   return (
-    <div className="flex flex-col h-full bg-white/40 backdrop-blur-2xl text-slate-800 font-sans border border-white/60 shadow-xl shadow-purple-900/5 rounded-3xl overflow-hidden">
+    <div className="flex flex-col h-full bg-white/40 backdrop-blur-2xl text-slate-800 font-sans border border-white/60 shadow-xl shadow-purple-900/5 rounded-xl overflow-hidden">
       <div className="p-4 border-b border-slate-100 flex items-center gap-2">
         <Calculator size={18} className="text-[#6b21a8]" />
         <h3 className="font-semibold text-sm">Estimasi Otomatis (Mulai Rp2.500.000)</h3>
@@ -73,7 +73,7 @@ export default function AutomatedPricingLogic({ onEstimateGenerated, onCancel }:
       <div className="flex-1 overflow-y-auto p-4 space-y-5">
         {/* Pages */}
         <div className="space-y-2">
-          <label className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Jumlah Halaman</label>
+          <label className="text-xs font-semibold text-slate-600 uppercase tracking-wider">Jumlah Halaman</label>
           <div className="flex items-center gap-3">
             <input 
               type="range" 
@@ -88,13 +88,13 @@ export default function AutomatedPricingLogic({ onEstimateGenerated, onCancel }:
 
         {/* Complexity */}
         <div className="space-y-2">
-          <label className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Kompleksitas Sistem</label>
+          <label className="text-xs font-semibold text-slate-600 uppercase tracking-wider">Kompleksitas Sistem</label>
           <div className="grid grid-cols-3 gap-2">
             {['basic', 'standard', 'complex'].map((level) => (
               <button
                 key={level}
                 onClick={() => setParams({ ...params, complexity: level as any })}
-                className={`py-2 text-[11px] font-bold uppercase rounded-lg border transition-all ${params.complexity === level ? 'bg-[#6b21a8] text-white border-[#6b21a8]' : 'bg-white text-slate-500 border-slate-200 hover:border-slate-300'}`}
+                className={`py-2 text-[11px] font-bold uppercase rounded-lg border transition-all ${params.complexity === level ? 'bg-[#6b21a8] text-white border-[#6b21a8]' : 'bg-white text-slate-600 border-slate-200 hover:border-slate-300'}`}
               >
                 {level}
               </button>
@@ -104,7 +104,7 @@ export default function AutomatedPricingLogic({ onEstimateGenerated, onCancel }:
 
         {/* Add-ons */}
         <div className="space-y-2">
-          <label className="text-xs font-semibold text-slate-500 uppercase tracking-wider">Fitur Tambahan</label>
+          <label className="text-xs font-semibold text-slate-600 uppercase tracking-wider">Fitur Tambahan</label>
           <div className="space-y-2">
             <label className="flex items-center gap-2 text-sm cursor-pointer group">
               <input 
@@ -138,7 +138,7 @@ export default function AutomatedPricingLogic({ onEstimateGenerated, onCancel }:
 
         <div className="p-4 bg-purple-50 rounded-xl border border-purple-100 flex items-center justify-between">
           <span className="text-xs font-semibold text-purple-800 uppercase">Estimasi</span>
-          <span className="text-lg font-display font-bold text-[#6b21a8]">
+          <span className="text-lg font-display font-black text-[#6b21a8]">
             {new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(totalPrice)}
           </span>
         </div>

@@ -32,7 +32,7 @@ export default function ServiceComparisonTable() {
     <section className="py-24 md:py-32 bg-transparent relative">
       <div className="max-w-6xl mx-auto px-6 relative z-10">
         <div className="text-center mb-16">
-          <h2 className="text-4xl md:text-5xl font-display font-medium text-slate-900 tracking-tight mb-4">
+          <h2 className="text-4xl md:text-5xl font-display font-black text-slate-900 tracking-tight mb-4">
             Paket Layanan & Skalabilitas
           </h2>
           <p className="text-slate-600 font-sans max-w-2xl mx-auto text-lg leading-relaxed">
@@ -55,8 +55,8 @@ export default function ServiceComparisonTable() {
               <div className="col-span-3">
                 <div className="bg-slate-50 border border-slate-200 rounded-2xl p-6 text-center h-full flex flex-col justify-between">
                   <div>
-                    <h3 className="font-display font-semibold text-slate-900 text-xl mb-1">Basic</h3>
-                    <p className="text-xs text-slate-500 font-sans mb-4">Esensial digital presence</p>
+                    <h3 className="font-display font-black text-slate-900 text-xl mb-1">Basic</h3>
+                    <p className="text-xs text-slate-600 font-sans mb-4">Esensial digital presence</p>
                   </div>
                   <a href="#pricing" className="mt-auto block w-full py-2.5 px-4 rounded-xl border border-slate-200 text-slate-700 text-xs font-bold uppercase tracking-widest hover:bg-slate-900 hover:text-white transition-colors">
                     Pilih Basic
@@ -71,7 +71,7 @@ export default function ServiceComparisonTable() {
                     Paling Populer
                   </div>
                   <div>
-                    <h3 className="font-display font-semibold text-white text-xl mb-1">Professional</h3>
+                    <h3 className="font-display font-black text-white text-xl mb-1">Professional</h3>
                     <p className="text-xs text-purple-100 font-sans mb-4">Otomasi cerdas terintegrasi</p>
                   </div>
                   <a href="#pricing" className="mt-auto block w-full py-2.5 px-4 rounded-xl bg-white text-purple-600 text-xs font-bold uppercase tracking-widest hover:bg-purple-50 transition-colors shadow-sm">
@@ -83,7 +83,7 @@ export default function ServiceComparisonTable() {
               <div className="col-span-3">
                 <div className="bg-slate-900 border border-slate-800 rounded-2xl p-6 text-center h-full flex flex-col justify-between">
                   <div>
-                    <h3 className="font-display font-semibold text-white text-xl mb-1">Enterprise</h3>
+                    <h3 className="font-display font-black text-white text-xl mb-1">Enterprise</h3>
                     <p className="text-xs text-slate-400 font-sans mb-4">Sistem korporasi skala penuh</p>
                   </div>
                   <a href="#pricing" className="mt-auto block w-full py-2.5 px-4 rounded-xl bg-slate-800 text-white border border-slate-700 text-xs font-bold uppercase tracking-widest hover:bg-white hover:text-slate-900 transition-colors">
@@ -99,7 +99,7 @@ export default function ServiceComparisonTable() {
                 <div key={idx} className="space-y-4">
                   <div className="grid grid-cols-12 gap-4">
                     <div className="col-span-12">
-                      <h4 className="text-lg font-display font-medium text-slate-900 border-b border-slate-100 pb-2">
+                      <h4 className="text-lg font-display font-black text-slate-900 border-b border-slate-100 pb-2">
                         {category.category}
                       </h4>
                     </div>

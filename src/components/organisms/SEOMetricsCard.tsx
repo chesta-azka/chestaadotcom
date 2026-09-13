@@ -24,16 +24,16 @@ export default function SEOMetricsCard({ metrics }: SEOMetricsCardProps) {
   ];
 
   return (
-    <div className="bg-white/80 backdrop-blur-xl border border-slate-200 rounded-3xl p-6 shadow-sm overflow-hidden relative group">
-      <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/5 rounded-full blur-3xl pointer-events-none group-hover:bg-emerald-500/10 transition-colors duration-500" />
+    <div className="bg-white/80 backdrop-blur-xl border border-slate-200 rounded-xl p-6 shadow-sm overflow-hidden relative group">
+      <div className="absolute top-0 right-0 w-32 h-32  group-hover:bg-emerald-500/10 transition-colors duration-500" />
       
       <div className="flex items-center gap-3 mb-6">
         <div className="w-10 h-10 rounded-2xl bg-slate-100 flex items-center justify-center text-slate-700">
           <Activity size={18} />
         </div>
         <div>
-          <h4 className="font-display font-bold text-slate-900 text-sm">Core Web Vitals</h4>
-          <span className="text-[10px] font-mono font-medium text-slate-500 uppercase tracking-widest">Performance comparison</span>
+          <h4 className="font-display font-black text-slate-900 text-sm">Core Web Vitals</h4>
+          <span className="text-[10px] font-mono font-medium text-slate-600 uppercase tracking-widest">Performance comparison</span>
         </div>
       </div>
 
@@ -64,7 +64,7 @@ export default function SEOMetricsCard({ metrics }: SEOMetricsCardProps) {
       </div>
       
       <div className="mt-5 pt-4 border-t border-slate-100 flex items-center justify-between">
-        <span className="text-[10px] font-sans font-medium text-slate-500 flex items-center gap-1.5">
+        <span className="text-[10px] font-sans font-medium text-slate-600 flex items-center gap-1.5">
           <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
           Passing all assessments
         </span>

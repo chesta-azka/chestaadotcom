@@ -12,18 +12,22 @@ export default function SectionWrapper({ children, backgroundType = 'none', divi
   return (
     <motion.div
       className="relative"
-      initial={{ opacity: 0 }}
-      whileInView={{ opacity: 1 }}
-      viewport={{ once: true, margin: "-50px" }}
-      transition={{ type: 'spring', stiffness: 100, damping: 20 }}
+      initial={{ opacity: 0, y: 25 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-10%" }}
+      transition={{ 
+        duration: 0.6, 
+        ease: [0.22, 1, 0.36, 1],
+        staggerChildren: 0.05 
+      }}
     >
       {divider && (
         <motion.div 
-          className="absolute top-0 left-0 right-0 h-[1px] bg-gradient-to-r from-transparent via-white/10 to-transparent"
+          className="absolute top-0 left-0 right-0 h-[1px] bg-slate-200"
           initial={{ scaleX: 0, opacity: 0 }}
           whileInView={{ scaleX: 1, opacity: 1 }}
           viewport={{ once: true }}
-          transition={{ duration: 1.5, ease: "easeInOut" }}
+          transition={{ duration: 1.2, ease: "easeInOut" }}
         />
       )}
       <SectionBackground type={backgroundType} />

@@ -77,7 +77,7 @@ function CaseCard({ study }: { study: typeof caseStudyDB[0] }) {
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
       style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
-      className="relative w-full h-[22rem] rounded-3xl overflow-hidden border border-purple-100 bg-white shadow-sm hover:shadow-lg hover:shadow-purple-950/5 transition-all duration-300 font-sans cursor-pointer group"
+      className="relative w-full h-[22rem] rounded-xl overflow-hidden border border-purple-100 bg-white shadow-sm hover:shadow-lg hover:shadow-purple-950/5 transition-all duration-300 font-sans cursor-pointer group"
     >
       {/* Full card clickable link when not hovering overlay */}
       <Link to={`/case-studies/${study.slug}`} className="absolute inset-0 z-10" aria-label={study.title} />
@@ -91,7 +91,7 @@ function CaseCard({ study }: { study: typeof caseStudyDB[0] }) {
             </span>
             <ArrowUpRight className="w-5 h-5 text-slate-400 group-hover:text-purple-700 transition-colors" />
           </div>
-          <h3 className="text-xl sm:text-2xl font-display font-bold mt-4 tracking-tight text-slate-900 group-hover:text-purple-900 transition-colors leading-tight">
+          <h3 className="text-xl sm:text-2xl font-display font-black mt-4 tracking-tight text-slate-900 group-hover:text-purple-900 transition-colors leading-tight">
             {study.title}
           </h3>
           <p className="text-xs sm:text-sm text-slate-600 mt-2 font-normal leading-relaxed">
@@ -102,7 +102,7 @@ function CaseCard({ study }: { study: typeof caseStudyDB[0] }) {
         <div className="pt-4 border-t border-purple-100/60 flex items-center justify-between">
           <div>
             <p className="text-[10px] text-slate-400 uppercase tracking-widest font-mono font-bold">Hasil Pengukuran</p>
-            <p className="text-base font-bold text-slate-900 font-display">{study.impact}</p>
+            <p className="text-base font-black text-slate-900 font-display">{study.impact}</p>
           </div>
           <span className="text-xs text-purple-900 font-semibold group-hover:translate-x-1 transition-transform">Detail &rarr;</span>
         </div>
@@ -120,7 +120,7 @@ function CaseCard({ study }: { study: typeof caseStudyDB[0] }) {
       >
         <div className="flex-1 flex flex-col justify-center items-center">
           <p className="text-[10px] uppercase tracking-wider font-mono font-bold text-slate-400 mb-1">Hasil Terverifikasi</p>
-          <p className="text-purple-900 font-bold text-3xl font-display mb-2">{study.impact}</p>
+          <p className="text-purple-900 font-black text-3xl font-display mb-2">{study.impact}</p>
           <p className="text-slate-600 font-normal leading-relaxed text-xs max-w-[95%] line-clamp-3">
             {study.roi}
           </p>

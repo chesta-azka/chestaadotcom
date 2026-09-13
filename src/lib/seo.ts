@@ -26,14 +26,27 @@ export const generateLocalBusinessSchema = () => {
       "email": "hello@chestaa.com",
       "telephone": "+6282125447232"
     },
-    "areaServed": [
+        "areaServed": [
       { "@type": "City", "name": "BSD City" },
-      { "@type": "City", "name": "Cisauk" }
+      { "@type": "City", "name": "Cisauk" },
+      { "@type": "City", "name": "Tangerang Selatan" },
+      { "@type": "City", "name": "Tangerang" },
+      { "@type": "City", "name": "Jakarta Selatan" },
+      { "@type": "City", "name": "Jakarta Kota" },
+      { "@type": "City", "name": "Bogor Rumpin" },
+      { "@type": "City", "name": "Bogor Barat" },
+      { "@type": "City", "name": "Bogor Utara" },
+      { "@type": "City", "name": "Bogor Kota" },
+      { "@type": "City", "name": "Depok" },
+      { "@type": "City", "name": "Margonda" }
     ],
     "knowsAbout": [
+      "IT Services",
+      "Web Development",
+      "AI Automation",
       "Next.js Web Development",
       "AI Agents",
-      "AI & Cloud Automation",
+      "Cloud Automation",
       "Bot Automation"
     ]
   };
@@ -116,5 +129,140 @@ export const generateBreadcrumbs = (breadcrumbs: { name: string; item: string }[
       "name": bc.name,
       "item": bc.item
     }))
+  };
+};
+
+export const generateArticleSchema = (title: string, description: string, url: string, imageUrl: string, datePublished: string, authorName: string = "Chesta Azka Sofyan") => {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": url
+    },
+    "headline": title,
+    "description": description,
+    "image": imageUrl,
+    "author": {
+      "@type": "Person",
+      "name": authorName
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "CHESTAADOTCOM",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://chestaa.com/favicon.svg"
+      }
+    },
+    "datePublished": datePublished
+  };
+};
+
+export const generateCourseSchema = (courseName: string, description: string, url: string) => {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Course",
+    "name": courseName,
+    "description": description,
+    "provider": {
+      "@type": ["Organization", "LocalBusiness", "EducationalOrganization"],
+      "name": "CHESTAADOTCOM Academy",
+      "sameAs": "https://chestaa.com/academy",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "BSD Green Office Park",
+        "addressLocality": "Cisauk, Tangerang",
+        "addressRegion": "Banten",
+        "addressCountry": "ID"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": -6.3042,
+        "longitude": 106.6439
+      },
+            "areaServed": [
+        { "@type": "City", "name": "BSD City" },
+        { "@type": "City", "name": "Cisauk" },
+        { "@type": "City", "name": "Tangerang Selatan" },
+        { "@type": "City", "name": "Tangerang" },
+        { "@type": "City", "name": "Jakarta Selatan" },
+        { "@type": "City", "name": "Jakarta Kota" },
+        { "@type": "City", "name": "Bogor" },
+        { "@type": "City", "name": "Depok" }
+      ]
+    },
+    "url": url
+  };
+};
+
+export const generateQuizSchema = (quizName: string, description: string, url: string) => {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Quiz",
+    "name": quizName,
+    "description": description,
+    "url": url,
+    "about": {
+      "@type": "Thing",
+      "name": "Tech & Web Development Assessment"
+    },
+    "provider": {
+      "@type": ["Organization", "LocalBusiness", "EducationalOrganization"],
+      "name": "CHESTAADOTCOM Academy",
+      "sameAs": "https://chestaa.com/academy",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "BSD Green Office Park",
+        "addressLocality": "Cisauk, Tangerang",
+        "addressRegion": "Banten",
+        "addressCountry": "ID"
+      },
+      "geo": {
+        "@type": "GeoCoordinates",
+        "latitude": -6.3042,
+        "longitude": 106.6439
+      },
+            "areaServed": [
+        { "@type": "City", "name": "BSD City" },
+        { "@type": "City", "name": "Cisauk" },
+        { "@type": "City", "name": "Tangerang Selatan" },
+        { "@type": "City", "name": "Tangerang" },
+        { "@type": "City", "name": "Jakarta Selatan" },
+        { "@type": "City", "name": "Jakarta Kota" },
+        { "@type": "City", "name": "Bogor" },
+        { "@type": "City", "name": "Depok" }
+      ]
+    }
+  };
+};
+
+export const generateCaseStudySchema = (title: string, description: string, url: string) => {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": title,
+    "description": description,
+    "url": url,
+    "genre": "Case Study",
+    "publisher": {
+      "@type": "Organization",
+      "name": "CHESTAADOTCOM"
+    }
+  };
+};
+
+export const generatePortfolioSchema = (projectName: string, description: string, url: string, imageUrl: string) => {
+  return {
+    "@context": "https://schema.org",
+    "@type": "CreativeWork",
+    "name": projectName,
+    "description": description,
+    "url": url,
+    "image": imageUrl,
+    "author": {
+      "@type": "Organization",
+      "name": "CHESTAADOTCOM"
+    }
   };
 };

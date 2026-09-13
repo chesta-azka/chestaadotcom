@@ -12,7 +12,7 @@ export function CaseStudiesSkeleton() {
             initial={{ opacity: 0.5 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 0.8, repeat: Infinity, repeatType: "reverse", ease: "easeInOut" }}
-            className="w-full h-[20rem] rounded-3xl p-6 sm:p-8 border border-purple-100 bg-white shadow-xs flex flex-col justify-between"
+            className="w-full h-[20rem] rounded-xl p-6 sm:p-8 border border-purple-100 bg-white shadow-xs flex flex-col justify-between"
           >
             <div>
               <div className="flex justify-between items-start mb-4">

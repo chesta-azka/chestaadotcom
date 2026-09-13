@@ -2,14 +2,14 @@
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "Plus Jakarta Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-sans: "Helvetica Neue", Helvetica, Arial, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
-  --font-display: "Plus Jakarta Sans", sans-serif;
+  --font-display: "Coolvetica", "Helvetica Neue", sans-serif;
   --font-serif: "Playfair Display", ui-serif, Georgia, serif;
   
-  --text-fluid-h1: clamp(2.5rem, 5vw + 1rem, 5rem);
-  --text-fluid-h2: clamp(2rem, 3.8vw + 1rem, 3.75rem);
-  --text-fluid-h3: clamp(1.35rem, 2.5vw + 1rem, 2.5rem);
+  --text-fluid-h1: clamp(2.5rem, 6vw + 1rem, 5.5rem);
+  --text-fluid-h2: clamp(2rem, 4vw + 1rem, 4rem);
+  --text-fluid-h3: clamp(1.5rem, 3vw + 1rem, 3rem);
 }
 
 @keyframes shimmer {
@@ -36,7 +36,34 @@ body {
   letter-spacing: 0.015em;
 }
 
-h1, h2, h3, h4, h5, h6 {
+h1 {
+  font-family: var(--font-display);
+  font-size: var(--text-fluid-h1);
+  letter-spacing: -0.05em;
+  line-height: 1.1;
+  font-weight: 900;
+  color: #0f172a;
+}
+
+h2 {
+  font-family: var(--font-display);
+  font-size: var(--text-fluid-h2);
+  letter-spacing: -0.05em;
+  line-height: 1.15;
+  font-weight: 900;
+  color: #0f172a;
+}
+
+h3 {
+  font-family: var(--font-display);
+  font-size: var(--text-fluid-h3);
+  letter-spacing: -0.025em;
+  line-height: 1.25;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+h4, h5, h6 {
   font-family: var(--font-display);
   letter-spacing: -0.025em;
   line-height: 1.25;
@@ -48,6 +75,7 @@ p {
   line-height: 1.85;
   letter-spacing: 0.015em;
   color: #475569;
+  font-family: var(--font-sans);
 }
 
 ::selection {
@@ -64,7 +92,7 @@ p {
 }
 ::-webkit-scrollbar-thumb {
   background: #D8B4FE;
-  border-radius: 99px;
+  border-radius: 0px;
   border: 1px solid rgba(0,0,0,0.03);
 }
 ::-webkit-scrollbar-thumb:hover {
@@ -103,26 +131,5 @@ p {
   }
   .markdown-body strong {
     @apply text-slate-900 font-semibold;
-  }
-}
-
-.academy-text-content p {
-  margin-bottom: 2rem !important;
-  padding-bottom: 1rem !important;
-  line-height: 1.75 !important;
-  color: #334155 !important;
-}
-.academy-text-content h1,
-.academy-text-content h2,
-.academy-text-content h3 {
-  margin-top: 2.5rem !important;
-  margin-bottom: 1.25rem !important;
-}
-
-@media (max-width: 768px) {
-  .academy-text-content p {
-    margin-bottom: 2rem !important;
-    padding-bottom: 0.5rem !important;
-    line-height: 1.75 !important;
   }
 }

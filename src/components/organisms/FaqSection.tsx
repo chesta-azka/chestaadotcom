@@ -101,19 +101,13 @@ export default function FaqSection() {
 
       <div className="mx-auto max-w-4xl px-3 sm:px-6 relative z-10 w-full">
         <motion.div 
-           initial={{ opacity: 0, scale: 0.95, y: 30 }}
-           whileInView={{ opacity: 1, scale: 1, y: 0 }}
-           viewport={{ once: true, margin: "-50px" }}
-           transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
+           variants={{ hidden: { opacity: 0, scale: 0.95, y: 30 }, visible: { opacity: 1, scale: 1, y: 0, transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] } } }}
            className="mb-8 sm:mb-14 text-center"
         >
-          <span className="text-purple-600 font-mono font-bold text-xs uppercase tracking-widest block mb-3">
-            07 — F.A.Q & JAWABAN TEKNIS
-          </span>
-          <h2 className="text-2xl sm:text-4xl md:text-5xl font-display font-semibold tracking-tight text-slate-900 mb-4">
+          <h2 className="text-2xl sm:text-4xl md:text-5xl font-display font-black tracking-tight text-slate-900 mb-4">
             Pertanyaan Umum
           </h2>
-          <p className="text-slate-500 font-sans text-sm sm:text-base max-w-2xl mx-auto">
+          <p className="text-slate-600 font-sans text-sm sm:text-base max-w-2xl mx-auto">
             Resolusi strategis atas pertimbangan teknis seputar arsitektur website performa tinggi dan implementasi otomasi AI B2B.
           </p>
         </motion.div>
@@ -127,21 +121,19 @@ export default function FaqSection() {
               <motion.div 
                 key={faq.id}
                 id={faq.id}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-50px" }}
+                variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.6 } } }}
                 transition={{ duration: 0.6, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
-                className={`border rounded-2xl sm:rounded-3xl overflow-hidden transition-all duration-300 ${
+                className={`border border-slate-200 rounded-none overflow-hidden transition-all duration-300 ${
                   isOpen 
-                    ? 'bg-white/40 backdrop-blur-2xl border-white/60 shadow-xl shadow-purple-900/5'
-                    : 'bg-white/20 backdrop-blur-xl border-white/40 hover:bg-white/40 hover:border-white/60 shadow-sm'
+                    ? 'bg-slate-50 shadow-sm'
+                    : 'bg-white hover:bg-slate-50'
                 }`}
               >
                 <div
                   onClick={() => toggleFaq(i)}
                   className="flex flex-wrap sm:flex-nowrap w-full items-center justify-between py-4 sm:py-5 md:py-6 px-4 sm:px-6 md:px-8 text-left cursor-pointer group gap-3"
                 >
-                  <span className={`text-base sm:text-lg font-display font-medium transition-colors flex-1 ${isOpen ? 'text-purple-800 font-semibold' : 'text-slate-900 group-hover:text-purple-600'}`}>
+                  <span className={`text-base sm:text-lg font-display font-black transition-colors flex-1 ${isOpen ? 'text-purple-800 font-black' : 'text-slate-900 group-hover:text-purple-600'}`}>
                     {faq.q}
                   </span>
                   
@@ -150,7 +142,7 @@ export default function FaqSection() {
                     <button
                       onClick={(e) => handleCopyLink(e, faq.id)}
                       title="Salin tautan langsung"
-                      className="p-1.5 sm:p-2 rounded-full border border-slate-200/70 bg-white/70 text-slate-500 hover:text-purple-600 hover:bg-white transition-all cursor-pointer relative"
+                      className="p-1.5 sm:p-2 rounded-full border border-slate-200/70 bg-white/70 text-slate-600 hover:text-purple-600 hover:bg-white transition-all cursor-pointer relative"
                     >
                       {isCopied ? (
                         <Check strokeWidth={1.5} size={15} className="text-purple-600" />

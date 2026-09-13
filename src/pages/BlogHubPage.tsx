@@ -34,7 +34,7 @@ import BlogInteractions from '../components/organisms/BlogInteractions';
 import TableOfContents, { TOCItem } from '../components/molecules/TableOfContents';
 
 const BlogHubSkeleton = () => (
-  <div className="relative flex flex-col h-full bg-white p-6 rounded-3xl border border-slate-100 animate-pulse text-left shadow-sm">
+  <div className="relative flex flex-col h-full bg-white p-6 rounded-xl border border-slate-100 animate-pulse text-left shadow-sm">
     <div className="w-full h-44 bg-slate-100 rounded-2xl mb-5" />
     <div className="flex gap-2.5 items-center mb-3">
       <div className="h-5 w-16 bg-[#6b21a8]/10 rounded-full" />
@@ -75,14 +75,6 @@ export default function BlogHubPage() {
   }, [selectedCategory, searchQuery, selectedTag, onlyRecommended]);
 
   
-  // Reading progress scroll tracking
-  const { scrollYProgress } = useScroll();
-  const scaleX = useSpring(scrollYProgress, {
-    stiffness: 100,
-    damping: 30,
-    restDelta: 0.001
-  });
-
   const combinedAllArticles = ALL_ARTICLES;
   const readSlug = searchParams.get('read');
   
@@ -224,18 +216,6 @@ export default function BlogHubPage() {
       exit={{ opacity: 0 }}
       className="pb-32 min-h-screen relative"
     >
-      {/* Precision Reading Progress Bar */}
-      <AnimatePresence>
-        {activeArticle && (
-          <motion.div
-            initial={{ scaleX: 0, opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed top-0 left-0 right-0 h-[3px] bg-[#6b21a8] origin-left z-[9999]"
-            style={{ scaleX }}
-          />
-        )}
-      </AnimatePresence>
 
       <AnimatePresence mode="wait">
         {activeArticle ? (
@@ -291,30 +271,31 @@ export default function BlogHubPage() {
             </div>
 
             {/* Article Header */}
-            <header className="mb-12 w-full text-left">
+            <header className="mb-12 w-full text-left bg-purple-950 p-8 sm:p-12 rounded-xl text-white shadow-xl relative overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-tr from-purple-950 via-slate-950 to-purple-900 opacity-95 -z-10" />
               <div className="flex flex-wrap gap-3 items-center mb-6">
-                <span className="text-[10px] font-mono font-bold text-white bg-[#6b21a8] px-3.5 py-1.5 rounded-full uppercase tracking-widest shadow-sm">
+                <span className="text-[10px] font-mono font-bold text-white bg-purple-600 px-3.5 py-1.5 rounded-full uppercase tracking-widest shadow-sm">
                   {activeArticle.cat}
                 </span>
 
                 {activeArticle.recommended && (
-                  <span className="inline-flex items-center gap-1 text-[10px] font-mono font-bold text-amber-800 bg-amber-50 border border-amber-200/60 px-3 py-1.5 rounded-full uppercase tracking-wider">
-                    <Star size={11} className="fill-amber-500 text-amber-500" />
+                  <span className="inline-flex items-center gap-1 text-[10px] font-mono font-bold text-amber-300 bg-amber-950/85 border border-amber-500/40 px-3 py-1.5 rounded-full uppercase tracking-wider">
+                    <Star size={11} className="fill-amber-400 text-amber-400" />
                     Rekomendasi Editor
                   </span>
                 )}
 
-                <div className="flex items-center gap-1.5 text-xs font-mono text-slate-500">
-                  <Calendar size={12} />
+                <div className="flex items-center gap-1.5 text-xs font-mono text-purple-200">
+                  <Calendar size={12} className="text-purple-300" />
                   <span>{activeArticle.date}</span>
                 </div>
-                <div className="flex items-center gap-1.5 text-xs font-mono text-slate-600">
-                  <Clock size={12} className="text-[#6b21a8]" />
+                <div className="flex items-center gap-1.5 text-xs font-mono text-purple-200">
+                  <Clock size={12} className="text-purple-300" />
                   <span>{activeArticle.readTime}</span>
                 </div>
               </div>
 
-              <h1 className="text-3xl sm:text-4xl md:text-5xl font-serif font-medium text-slate-900 tracking-tight leading-[1.15] mb-6">
+              <h1 className="text-3xl sm:text-4xl md:text-5xl font-serif font-medium text-white tracking-tight leading-[1.15] mb-6 drop-shadow-md">
                 {activeArticle.title}
               </h1>
 
@@ -354,7 +335,7 @@ export default function BlogHubPage() {
               )}
 
               {activeArticle.image && (
-                <div className="w-full overflow-hidden rounded-3xl mb-8 border border-slate-100 shadow-xl max-h-[460px]">
+                <div className="w-full overflow-hidden rounded-xl mb-8 border border-slate-100 shadow-xl max-h-[460px]">
                   <img src={activeArticle.image} alt={activeArticle.title} className="w-full h-full object-cover" />
                 </div>
               )}
@@ -537,7 +518,7 @@ export default function BlogHubPage() {
                   <button
                     key={art.slug}
                     onClick={() => navigate('/blog/' + art.slug)}
-                    className="p-6 rounded-3xl bg-slate-50 border border-slate-100 hover:border-purple-200 hover:bg-white hover:shadow-xl transition-all duration-300 text-left flex flex-col justify-between group h-full shadow-sm"
+                    className="p-6 rounded-xl bg-slate-50 border border-slate-100 hover:border-purple-200 hover:bg-white hover:shadow-xl transition-all duration-300 text-left flex flex-col justify-between group h-full shadow-sm"
                   >
                     <div>
                       <div className="flex items-center gap-2.5 mb-4">
@@ -569,8 +550,8 @@ export default function BlogHubPage() {
             </div>
 
             {/* Bottom Collaboration CTA */}
-            <div className="mt-16 p-8 md:p-12 rounded-3xl bg-gradient-to-br from-purple-50 via-white to-purple-100/50 border border-purple-200 text-slate-900 text-center relative overflow-hidden w-full shadow-xl">
-              <div className="absolute top-0 right-0 w-64 h-64 bg-purple-200/20 rounded-full blur-3xl pointer-events-none" />
+            <div className="mt-16 p-8 md:p-12 rounded-xl bg-gradient-to-br from-purple-50 via-white to-purple-100/50 border border-purple-200 text-slate-900 text-center relative overflow-hidden w-full shadow-xl">
+              <div className="absolute top-0 right-0 w-64 h-64 " />
               <div className="relative z-10 max-w-xl mx-auto">
                 <BookOpen size={36} className="text-purple-600 mx-auto mb-4" />
                 <h3 className="text-2xl sm:text-3xl font-serif font-bold text-slate-900 mb-3">
@@ -628,7 +609,7 @@ export default function BlogHubPage() {
                       </div>
                       
                       <h1 className="text-5xl sm:text-6xl lg:text-7xl font-serif font-medium tracking-tight leading-[1.05] text-slate-900">
-                        The <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 via-[#6b21a8] to-purple-600 italic">Journal.</span>
+                        The <span className="text-purple-700 italic">Journal.</span>
                       </h1>
                       
                       <p className="text-base sm:text-lg text-slate-600 font-sans max-w-xl leading-relaxed mt-6 border-l-2 border-purple-200 pl-5">
@@ -767,7 +748,7 @@ export default function BlogHubPage() {
                       animate={{ opacity: 1, y: 0 }}
                       transition={{ delay: 0.1, duration: 0.6, ease: "easeOut" }}
                       onClick={() => navigate('/blog/' + featuredArticle.slug)}
-                      className="group relative bg-white border border-slate-200/90 rounded-3xl p-6 md:p-10 hover:border-purple-300 hover:shadow-2xl transition-all duration-500 cursor-pointer overflow-hidden shadow-sm"
+                      className="group relative bg-white border border-slate-200/90 rounded-xl p-6 md:p-10 hover:border-purple-300 hover:shadow-2xl transition-all duration-500 cursor-pointer overflow-hidden shadow-sm"
                     >
                       <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity">
                         <ArrowUpRight size={100} className="text-slate-900" />
@@ -845,7 +826,7 @@ export default function BlogHubPage() {
 
               {/* Dynamic Empty State */}
               {displayArticles.length === 0 && (
-                <div className="text-center py-20 border border-dashed border-slate-200 rounded-3xl bg-slate-50">
+                <div className="text-center py-20 border border-dashed border-slate-200 rounded-xl bg-slate-50">
                   <BookOpen size={40} className="text-slate-400 mx-auto mb-3" />
                   <h3 className="text-lg font-display font-medium text-slate-800 mb-1">
                     Tidak ada artikel yang cocok
@@ -877,11 +858,11 @@ export default function BlogHubPage() {
                       displayArticles.map((art, i) => (
                         <motion.article 
                       key={art.slug} 
-                      className="group cursor-pointer flex flex-col h-full bg-white p-6 rounded-3xl border border-slate-200/80 hover:border-purple-300 hover:shadow-xl transition-all duration-300 shadow-sm"
-                      initial={{ opacity: 0, y: 15 }}
-                      whileInView={{ opacity: 1, y: 0 }}
+                      className="group cursor-pointer flex flex-col h-full bg-white p-6 rounded-none border border-slate-200/90 hover:border-purple-300 hover:shadow-xl transition-all duration-300 shadow-sm"
+                      initial={{ opacity: 0, y: 30, scale: 0.96 }}
+                      whileInView={{ opacity: 1, y: 0, scale: 1 }}
                       viewport={{ once: true, margin: "-50px" }}
-                      transition={{ duration: 0.4, delay: i * 0.05 }}
+                      transition={{ duration: 0.5, delay: i * 0.06, ease: [0.22, 1, 0.36, 1] }}
                       onClick={() => navigate('/blog/' + art.slug)}
                     >
                       {art.image && (
@@ -954,7 +935,7 @@ export default function BlogHubPage() {
                 <aside className="w-full lg:w-[320px] shrink-0 lg:sticky lg:top-32 h-max space-y-10">
                   
                   {/* Categories Vertical List */}
-                  <div className="bg-white p-6 rounded-3xl border border-slate-100 shadow-sm">
+                  <div className="bg-white p-6 rounded-xl border border-slate-100 shadow-sm">
                     <h4 className="font-bold text-slate-900 mb-6 text-xs uppercase tracking-widest bg-slate-50 border border-slate-100 px-4 py-2 rounded-lg inline-block">
                       Kategori Topik
                     </h4>

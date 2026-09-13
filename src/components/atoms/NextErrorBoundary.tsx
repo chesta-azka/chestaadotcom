@@ -36,7 +36,7 @@ export class NextErrorBoundary extends Component<Props, State> {
     if (this.state.hasError) {
       return (
         <div className="min-h-screen w-full flex items-center justify-center bg-white p-6 font-sans">
-          <div className="relative z-10 w-full max-w-md bg-white border border-purple-100 rounded-3xl shadow-lg p-8 text-center">
+          <div className="relative z-10 w-full max-w-md bg-white border border-purple-100 rounded-xl shadow-lg p-8 text-center">
             <div className="mx-auto w-14 h-14 bg-red-50 rounded-full flex items-center justify-center mb-5">
               <AlertCircle className="w-7 h-7 text-red-500" strokeWidth={2} />
             </div>
@@ -45,7 +45,7 @@ export class NextErrorBoundary extends Component<Props, State> {
               Terjadi Kesalahan
             </h1>
             
-            <p className="text-slate-500 text-xs sm:text-sm leading-relaxed mb-6">
+            <p className="text-slate-600 text-xs sm:text-sm leading-relaxed mb-6">
               Sistem mendeteksi kendala pada antarmuka. Silakan muat ulang halaman.
             </p>
             

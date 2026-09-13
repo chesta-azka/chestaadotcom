@@ -102,8 +102,8 @@ export default function WorkflowAutomation() {
   return (
     <section ref={sectionRef} className="relative overflow-hidden w-full transition-all duration-1000 py-6">
       {/* Background elements */}
-      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-purple-50/60 rounded-full blur-3xl pointer-events-none transform translate-x-1/3 -translate-y-1/3" />
-      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-purple-50/60 rounded-full blur-3xl pointer-events-none transform -translate-x-1/3 translate-y-1/3" />
+      <div className="absolute top-0 right-0 w-[500px] h-[500px]  transform translate-x-1/3 -translate-y-1/3" />
+      <div className="absolute bottom-0 left-0 w-[500px] h-[500px]  transform -translate-x-1/3 translate-y-1/3" />
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 relative z-10">
         <SectionHeader 
@@ -117,7 +117,7 @@ export default function WorkflowAutomation() {
           
           {/* Left Column: AI Input Form */}
           <div className="lg:col-span-5 w-full">
-            <div className="bg-white border border-purple-100 rounded-3xl p-6 sm:p-8 shadow-xl shadow-purple-950/5 relative overflow-hidden">
+            <div className="bg-white border border-purple-100 rounded-xl p-6 sm:p-8 shadow-xl shadow-purple-950/5 relative overflow-hidden">
               <div className="absolute top-0 right-0 p-6 opacity-5 text-purple-900">
                 <Bot size={120} />
               </div>
@@ -128,8 +128,8 @@ export default function WorkflowAutomation() {
                     <Sparkles size={20} />
                   </div>
                   <div>
-                    <h3 className="font-display font-bold text-lg text-slate-900">AI Project Architect</h3>
-                    <p className="text-xs font-sans text-slate-500">Estimasi Alur Cepat & Praktis</p>
+                    <h3 className="font-display font-black text-lg text-slate-900">AI Project Architect</h3>
+                    <p className="text-xs font-sans text-slate-600">Estimasi Alur Cepat & Praktis</p>
                   </div>
                 </div>
 
@@ -170,7 +170,7 @@ export default function WorkflowAutomation() {
                 </form>
 
                 <div className="mt-6 pt-5 border-t border-purple-100 flex items-center justify-between">
-                  <span className="text-xs text-slate-500 font-sans">Ingin langsung tanya?</span>
+                  <span className="text-xs text-slate-600 font-sans">Ingin langsung tanya?</span>
                   <button
                     onClick={openFloatingAI}
                     className="text-xs font-mono font-bold text-purple-900 hover:text-purple-700 uppercase tracking-wider inline-flex items-center gap-1.5 cursor-pointer"
@@ -185,11 +185,11 @@ export default function WorkflowAutomation() {
 
           {/* Right Column: Dynamic Roadmap Board */}
           <div className="lg:col-span-7 w-full">
-            <div className={`bg-white border rounded-3xl p-6 sm:p-8 h-full min-h-[420px] transition-all duration-700 shadow-xl shadow-purple-950/5 ${
+            <div className={`bg-white border rounded-xl p-6 sm:p-8 h-full min-h-[420px] transition-all duration-700 shadow-xl shadow-purple-950/5 ${
               highlightGlow ? "border-purple-300 shadow-[0_0_30px_rgba(107,33,168,0.15)]" : "border-purple-100"
             }`}>
               <div className="flex items-center justify-between mb-6 pb-4 border-b border-purple-100 flex-wrap gap-3">
-                <h3 className="font-display font-bold text-xl text-slate-900 flex items-center gap-2">
+                <h3 className="font-display font-black text-xl text-slate-900 flex items-center gap-2">
                   <GitMerge className="text-purple-700" size={22} />
                   Peta Jalan & Alur Pengerjaan
                 </h3>
@@ -202,7 +202,7 @@ export default function WorkflowAutomation() {
               </div>
 
               {!generated && !isGenerating ? (
-                <div className="flex flex-col items-center justify-center h-full text-center text-slate-500 py-12">
+                <div className="flex flex-col items-center justify-center h-full text-center text-slate-600 py-12">
                   <div className="w-16 h-16 rounded-2xl bg-purple-50 border border-purple-100 flex items-center justify-center mb-4 text-purple-600 shadow-xs">
                     <Bot size={30} />
                   </div>
@@ -267,7 +267,7 @@ export default function WorkflowAutomation() {
                           
                           <div className="flex-1 bg-purple-50/30 border border-purple-100 rounded-2xl p-4 shadow-xs hover:border-purple-200 transition-colors">
                             <div className="flex flex-wrap items-center justify-between gap-2 mb-1.5">
-                              <h4 className="font-display font-bold text-slate-900 text-sm sm:text-base">{milestone.title}</h4>
+                              <h4 className="font-display font-black text-slate-900 text-sm sm:text-base">{milestone.title}</h4>
                               <span className="inline-flex items-center gap-1 text-[10px] font-mono uppercase tracking-wider text-purple-900 bg-white border border-purple-200 px-2 py-0.5 rounded-full">
                                 <Clock size={11} />
                                 {milestone.duration}
@@ -284,7 +284,7 @@ export default function WorkflowAutomation() {
 
                   {/* Direct WhatsApp Action Button */}
                   <div className="pt-4 border-t border-purple-100 flex flex-col sm:flex-row items-center justify-between gap-4">
-                    <p className="text-xs text-slate-500 font-sans">
+                    <p className="text-xs text-slate-600 font-sans">
                       Lanjutkan diskusi alur ini langsung bersama Mas Chesta:
                     </p>
                     <button

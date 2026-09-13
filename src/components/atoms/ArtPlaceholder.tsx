@@ -17,7 +17,7 @@ export default function ArtPlaceholder({ src, alt = 'Visual Showcase', className
   // But to be safe, if there's an src, we rely on onLoad.
   
   return (
-    <div className={`w-full aspect-[16/9] sm:aspect-[21/9] rounded-3xl overflow-hidden relative mb-10 border border-slate-100 bg-slate-50 flex items-center justify-center group ${className}`}>
+    <div className={`w-full aspect-[16/9] sm:aspect-[21/9] rounded-xl overflow-hidden relative mb-10 border border-slate-100 bg-slate-50 flex items-center justify-center group ${className}`}>
       
       <AnimatePresence>
         {!isLoaded && !hasError && (

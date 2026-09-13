@@ -119,7 +119,7 @@ export function ClientPortalPage() {
         <motion.div
           initial={{ opacity: 0, scale: 0.96, y: 15 }}
           animate={{ opacity: 1, scale: 1, y: 0 }}
-          className="w-full max-w-md p-8 rounded-3xl bg-white border border-purple-100 shadow-xl text-center space-y-6"
+          className="w-full max-w-md p-8 rounded-xl bg-white border border-purple-100 shadow-xl text-center space-y-6"
         >
           <div className="w-14 h-14 rounded-2xl bg-purple-50 text-purple-900 border border-purple-100 flex items-center justify-center mx-auto shadow-2xs">
             <Lock size={24} />
@@ -199,7 +199,7 @@ export function ClientPortalPage() {
   return (
     <div className="w-full min-h-[85vh] pt-40 md:pt-48 pb-20 px-4 sm:px-6 max-w-7xl mx-auto font-sans space-y-8">
       {/* Top Bar */}
-      <div className="p-6 rounded-3xl bg-white border border-purple-100 shadow-xs flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
+      <div className="p-6 rounded-xl bg-white border border-purple-100 shadow-xs flex flex-col md:flex-row items-start md:items-center justify-between gap-4">
         <div className="flex items-center gap-4">
           <div className="w-12 h-12 rounded-2xl bg-purple-900 text-white flex items-center justify-center font-bold text-lg shadow-xs">
             {workspaceData?.client_name ? workspaceData.client_name.charAt(0) : 'C'}

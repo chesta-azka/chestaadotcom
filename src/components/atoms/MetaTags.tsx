@@ -14,6 +14,7 @@ import {
 } from '../../lib/seo';
 
 interface MetaTagsProps {
+  schemaString?: string;
   title?: string;
   description?: string;
   path?: string;
@@ -22,7 +23,7 @@ interface MetaTagsProps {
   cityName?: string;
 }
 
-export default function MetaTags({ title, description, path = '/', breadcrumbs, serviceName, cityName }: MetaTagsProps) {
+export default function MetaTags({ title, description, path = '/', breadcrumbs, serviceName, cityName, schemaString }: MetaTagsProps) {
   const defaultTitle = "chestaa.com | Arsitek Web & AI Automation di BSD & Cisauk";
   const defaultDesc = "Solusi B2B Software House elit. Tingkatkan skala bisnis Enterprise dan Tech Startup Anda dengan High-Performance Web Development dan AI Automation di BSD City & Cisauk.";
   
@@ -70,6 +71,7 @@ export default function MetaTags({ title, description, path = '/', breadcrumbs, 
   const url = `https://chestaa.com${path.startsWith('/') ? path : '/' + path}`.replace(/\/+$/, '');
   
   const websiteLd = generateWebSiteSchema();
+  const localBusinessLd = generateLocalBusinessSchema();
   const siteNavLd = generateSiteNavigationElement();
   const breadcrumbLd = breadcrumbs ? generateBreadcrumbs(breadcrumbs) : null;
   const serviceLd = serviceName ? generateServiceSchema(serviceName, description, url) : null;
@@ -109,10 +111,12 @@ export default function MetaTags({ title, description, path = '/', breadcrumbs, 
 
       
       <script type="application/ld+json">{JSON.stringify(websiteLd)}</script>
+      <script type="application/ld+json">{JSON.stringify(localBusinessLd)}</script>
       <script type="application/ld+json">{JSON.stringify(siteNavLd)}</script>
       {breadcrumbLd && <script type="application/ld+json">{JSON.stringify(breadcrumbLd)}</script>}
       {serviceLd && <script type="application/ld+json">{JSON.stringify(serviceLd)}</script>}
       {cityGeoLd && <script type="application/ld+json">{JSON.stringify(cityGeoLd)}</script>}
+      {schemaString && <script type="application/ld+json">{schemaString}</script>}
     </Helmet>
     </>
   );

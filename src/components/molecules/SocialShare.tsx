@@ -69,7 +69,7 @@ export default function SocialShare({ title, description, className = '', vertic
   return (
     <div className={`flex ${vertical ? 'flex-col items-center' : 'flex-wrap items-center'} gap-2 font-sans ${className}`}>
       {!vertical && (
-        <div className="flex items-center gap-1.5 text-slate-500 text-xs font-semibold uppercase tracking-wider mr-1 select-none">
+        <div className="flex items-center gap-1.5 text-slate-600 text-xs font-semibold uppercase tracking-wider mr-1 select-none">
           <Share2 className="w-3.5 h-3.5 text-purple-700" />
           <span>Bagikan</span>
         </div>

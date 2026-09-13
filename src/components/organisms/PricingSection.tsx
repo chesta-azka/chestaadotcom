@@ -7,31 +7,37 @@ export default function PricingSection() {
     window.open(`https://wa.me/6282125447232?text=${encodeURIComponent(text)}`, '_blank');
   };
 
+  const staggerContainer = {
+    hidden: { opacity: 0 },
+    visible: { 
+      opacity: 1,
+      transition: { staggerChildren: 0.05 }
+    }
+  };
+
+  const fadeInUp = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0, transition: { duration: 0.6 } }
+  };
+
   return (
     <section className="py-8 sm:py-12 relative overflow-hidden bg-transparent z-10 font-sans" id="pricing">
-      <div className="w-full">
+      <motion.div 
+        className="w-full"
+        variants={staggerContainer}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-50px" }}
+      >
         <div className="text-center mb-10">
-          <motion.div
-            initial={{ opacity: 0, y: 15 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-purple-50 border border-purple-100 mx-auto text-xs font-mono tracking-wider text-purple-900 uppercase mb-4"
-          >
-            <Star size={12} className="text-purple-600" />
-            <span>Paket Spesial UMKM</span>
-          </motion.div>
           <motion.h2 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="text-3xl sm:text-4xl md:text-5xl font-display font-bold text-slate-900 tracking-tight mb-4"
+            variants={fadeInUp}
+            className="text-3xl sm:text-4xl md:text-5xl font-display font-black text-slate-900 tracking-tight mb-4"
           >
             Satu Harga. <span className="text-purple-900">Full Fasilitas.</span>
           </motion.h2>
           <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
+            variants={fadeInUp}
             className="text-slate-600 font-sans max-w-2xl mx-auto text-xs sm:text-sm md:text-base leading-relaxed"
           >
             Dapatkan website profesional berkecepatan tinggi dengan biaya transparan tanpa biaya tersembunyi.
@@ -40,22 +46,20 @@ export default function PricingSection() {
 
         <div className="max-w-4xl mx-auto">
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="relative bg-white border border-purple-200 rounded-3xl p-6 sm:p-10 overflow-hidden shadow-sm"
+            variants={fadeInUp}
+            className="relative bg-white border border-purple-200 rounded-xl p-6 sm:p-10 overflow-hidden shadow-sm hover:scale-[1.02] hover:shadow-lg hover:border-purple-300 transition-all duration-300 group"
           >
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-10 items-center">
               <div>
                 <div className="mb-6">
                   <div className="flex items-center gap-3 mb-3">
-                     <h3 className="text-xl font-display font-bold text-slate-900">Paket UMKM Starter</h3>
+                     <h3 className="text-xl font-display font-black text-slate-900">Paket UMKM Starter</h3>
                      <span className="bg-purple-900 text-white font-mono text-[10px] font-bold px-2.5 py-0.5 rounded-full uppercase">Promo Spesial</span>
                   </div>
                   <div className="flex flex-col gap-1 items-start">
                     <div className="flex items-baseline gap-2 text-slate-900">
                       <span className="text-4xl sm:text-5xl font-display font-black tracking-tight">Rp 540.000</span>
-                      <span className="text-slate-500 font-sans text-xs">all-in</span>
+                      <span className="text-slate-600 font-sans text-xs">all-in</span>
                     </div>
                     <p className="text-slate-400 font-mono text-xs line-through">Harga Normal Rp 650.000</p>
                   </div>
@@ -112,7 +116,7 @@ export default function PricingSection() {
             </div>
           </motion.div>
         </div>
-      </div>
+      </motion.div>
     </section>
   );
 }

@@ -60,7 +60,7 @@ export default function AreaDetailPage() {
           <Skeleton className="w-64 h-8 rounded-full mb-6" />
           <Skeleton className="w-full max-w-3xl h-24 rounded-2xl mb-8" />
           <Skeleton className="w-96 h-12 rounded-full mb-16" />
-          <Skeleton className="w-full h-[400px] rounded-3xl" />
+          <Skeleton className="w-full h-[400px] rounded-xl" />
         </div>
       </div>
     );
@@ -102,7 +102,7 @@ export default function AreaDetailPage() {
               <TextRevealSmooth 
                 text={`Website Premium untuk UMKM di ${formattedCityName} yang Ingin Terlihat Lebih Serius.`} 
                 highlightWords={[formattedCityName, "Serius."]}
-                highlightClass="text-transparent bg-clip-text bg-gradient-to-r from-[#6b21a8] to-green-400 font-serif italic pl-1"
+                highlightClass="text-purple-700 font-serif italic pl-1"
               />
             </h1>
 
@@ -276,7 +276,7 @@ export default function AreaDetailPage() {
 
       {/* Premium WhatsApp Consultation Card */}
       <section className="max-w-3xl mx-auto px-6 mb-20" id="consultation-box">
-        <div className="p-8 sm:p-10 rounded-3xl bg-gradient-to-br from-purple-50 via-white to-purple-100/50 border border-purple-200 relative overflow-hidden text-center shadow-xl">
+        <div className="p-8 sm:p-10 rounded-xl bg-gradient-to-br from-purple-50 via-white to-purple-100/50 border border-purple-200 relative overflow-hidden text-center shadow-xl">
           <div className="absolute top-0 right-0 w-32 h-32 bg-purple-200/30 rounded-full blur-2xl pointer-events-none" />
           
           <div className="mb-6 space-y-2">

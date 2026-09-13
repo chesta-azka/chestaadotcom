@@ -1,7 +1,10 @@
 import { Home, Bookmark, BookmarkCheck, ChevronDown, ChevronRight, ArrowLeft, FileCode, Check, Copy, Share2, Printer, Search, Menu, X, AlignLeft } from 'lucide-react';
+import QuizEngine, { QuizQuestion } from '../components/organisms/QuizEngine';
 
 import { codeToHtml } from 'shiki';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect }  from 'react';
+import MetaTags from '../components/atoms/MetaTags';
+import { generateCourseSchema } from '../lib/seo';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import Markdown from 'markdown-to-jsx';
 import { motion, AnimatePresence } from 'motion/react';
@@ -11,6 +14,46 @@ import FooterSection from '../components/organisms/FooterSection.tsx';
 import { Breadcrumbs } from '../components/Breadcrumbs.tsx';
 
 // --- Premium Code Block Component ---
+
+const courseQuizQuestions: QuizQuestion[] = [
+  {
+    id: 'q1',
+    question: 'Mengapa arsitektur Server Components (RSC) di Next.js 14+ secara drastis meningkatkan performa aplikasi berskala besar?',
+    options: [
+      'Karena mengeksekusi semua Javascript di browser klien.',
+      'Karena RSC memangkas pengiriman bundle JavaScript ke browser dan memindahkan beban rendering berat ke server.',
+      'Karena RSC mengandalkan Redux untuk manajemen state global.',
+      'RSC hanya berfungsi untuk merender gambar statis.'
+    ],
+    correctAnswer: 1,
+    explanation: 'RSC memungkinkan komponen dirender sepenuhnya di server, mengirimkan HTML dan payload ringan ke klien tanpa membebani browser dengan JavaScript tambahan.'
+  },
+  {
+    id: 'q2',
+    question: 'Dalam pengembangan aplikasi berkinerja tinggi, mengapa kita sebaiknya menghindari Client-Side Rendering (CSR) penuh pada halaman pertama (Initial Load)?',
+    options: [
+      'CSR terlalu cepat sehingga server tidak sempat merespon.',
+      'CSR mengakibatkan blank screen yang lama pada jaringan lambat karena browser harus mengunduh dan mengeksekusi JS sebelum merender UI.',
+      'CSR mengharuskan kita membayar biaya server lebih mahal.',
+      'Google sangat menyukai CSR untuk indexing SEO.'
+    ],
+    correctAnswer: 1,
+    explanation: 'CSR (terutama di aplikasi besar) memblokir rendering awal sampai seluruh JS selesai di-load (Time to Interactive memburuk), yang merugikan baik user experience maupun SEO.'
+  },
+  {
+    id: 'q3',
+    question: 'Manakah pola arsitektur yang paling tepat untuk mengelola data streaming audio (Music App) tanpa mengganggu rendering navigasi utama (Layout)?',
+    options: [
+      'Menyimpan file mp3 langsung di localStorage.',
+      'Menjadikan seluruh aplikasi sebagai Client Component menggunakan "use client" di layout.tsx.',
+      'Memanfaatkan Next.js Nested Layouts dengan menempatkan Global Player UI di Layout level terluar dan membiarkan konten navigasi berubah di dalam page.',
+      'Me-reload window.location setiap berpindah lagu.'
+    ],
+    correctAnswer: 2,
+    explanation: 'Nested Layouts di Next.js memungkinkan Player Audio berjalan secara persisten di root/parent layout tanpa mengalami re-render saat user bernavigasi melintasi halaman lain.'
+  }
+];
+
 const PremiumCodeBlock = ({ code, language, title, filename }: { code: string, language: string, title?: string, filename?: string }) => {
   const [copied, setCopied] = useState(false);
   const [html, setHtml] = useState<string>('');
@@ -347,6 +390,15 @@ export default function AcademyMasterclassPage() {
 
         {/* Scrollable Content Area - CONTINUOUS SCROLL */}
         <main id="academy-content-area" className="flex-1 h-full overflow-y-auto bg-white custom-scrollbar scroll-smooth">
+
+      <MetaTags 
+        title="Masterclass AI & Web Dev di BSD City & Cisauk | CHESTAADOTCOM"
+        description="Ikuti masterclass intensif di BSD City & Cisauk untuk menguasai pengembangan aplikasi web modern dengan Agentic AI dan Next.js."
+        path="/academymasterclass"
+        breadcrumbs={[{ name: 'Home', item: '/' }, { name: 'Academy', item: '/academy' }, { name: 'Masterclass', item: '/academy/masterclass' }]}
+        schemaString={JSON.stringify(generateCourseSchema('Masterclass AI & Web Dev', 'Kelas intensif AI dan Web Dev', 'https://chestaa.com/academy/masterclass'))}
+      />
+  
           {/* Breadcrumb Navigation */}
           <div className="max-w-4xl mx-auto px-4 sm:px-8 lg:px-12 pt-6 sm:pt-10 pb-4">
             <motion.nav 
@@ -402,7 +454,7 @@ export default function AcademyMasterclassPage() {
                       
                       {/* Simulated Content Block for visual completeness */}
                       {!sub.code && (
-                        <div className="bg-slate-50/50 rounded-3xl p-8 border border-slate-200 my-10 shadow-sm">
+                        <div className="bg-slate-50/50 rounded-xl p-8 border border-slate-200 my-10 shadow-sm">
                           <div className="flex items-center gap-3 text-purple-900 font-medium mb-4">
                             <div className="p-2 bg-purple-100 rounded-xl">
                               <AlignLeft size={20} />
@@ -446,16 +498,14 @@ export default function AcademyMasterclassPage() {
               </div>
             ))}
 
-            <div className="py-20 text-center flex flex-col items-center">
-              <div className="w-16 h-16 bg-emerald-50 rounded-full flex items-center justify-center mb-4 border border-emerald-100">
-                <Check size={32} className="text-emerald-500" />
-              </div>
-              <h3 className="text-2xl font-display font-medium text-slate-900 mb-2">Selamat, Anda Telah Mencapai Akhir Modul!</h3>
-              <p className="text-slate-500 max-w-md">Anda dapat kembali meninjau materi menggunakan navigasi di sebelah kiri, atau kembali ke beranda.</p>
-              
-              <Link to="/academy" className="mt-8 px-8 py-3 bg-slate-900 text-white rounded-full font-medium hover:bg-slate-800 transition-colors">
-                Kembali ke Dashboard Academy
-              </Link>
+            
+            <div className="py-20 flex flex-col items-center">
+              <QuizEngine 
+                title="Asesmen Teknis: Arsitektur Modern"
+                description="Uji pemahaman Anda terhadap arsitektur web mutakhir dari studi kasus ini. Dapatkan roadmap belajar gratis di akhir sesi!"
+                questions={courseQuizQuestions}
+                onComplete={(score) => console.log('Quiz completed with score:', score)}
+              />
             </div>
 
           </div>

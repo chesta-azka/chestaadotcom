@@ -50,7 +50,7 @@ export function Navbar() {
             <Shield className="w-4 h-4 text-white" />
           </div>
           <Link to="/">
-            <span className="text-lg font-display font-extrabold tracking-tight text-slate-900">
+            <span className="text-lg font-display font-black tracking-tight text-slate-900">
               CHESTADOTCOM
             </span>
           </Link>
@@ -73,19 +73,19 @@ export function Navbar() {
               <div className="bg-white rounded-2xl shadow-[0_10px_40px_-10px_rgba(0,0,0,0.1)] border border-slate-100 p-2 flex flex-col gap-1">
                 <Link to="/#services-web" className="px-4 py-2.5 rounded-xl hover:bg-purple-50 hover:text-purple-900 transition-colors text-slate-600 block">
                   <div className="font-semibold text-sm">Web Development</div>
-                  <div className="text-[11px] font-normal text-slate-500 mt-0.5">Pembuatan Website Next.js</div>
+                  <div className="text-[11px] font-normal text-slate-600 mt-0.5">Pembuatan Website Next.js</div>
                 </Link>
                 <Link to="/#services-mobile" className="px-4 py-2.5 rounded-xl hover:bg-purple-50 hover:text-purple-900 transition-colors text-slate-600 block">
                   <div className="font-semibold text-sm">Mobile Apps</div>
-                  <div className="text-[11px] font-normal text-slate-500 mt-0.5">iOS & Android React Native</div>
+                  <div className="text-[11px] font-normal text-slate-600 mt-0.5">iOS & Android React Native</div>
                 </Link>
                 <Link to="/#services-ai" className="px-4 py-2.5 rounded-xl hover:bg-purple-50 hover:text-purple-900 transition-colors text-slate-600 block">
                   <div className="font-semibold text-sm">AI Integration</div>
-                  <div className="text-[11px] font-normal text-slate-500 mt-0.5">Otomatisasi dengan Google Gemini</div>
+                  <div className="text-[11px] font-normal text-slate-600 mt-0.5">Otomatisasi dengan Google Gemini</div>
                 </Link>
                 <Link to="/#services-uiux" className="px-4 py-2.5 rounded-xl hover:bg-purple-50 hover:text-purple-900 transition-colors text-slate-600 block">
                   <div className="font-semibold text-sm">UI/UX Design</div>
-                  <div className="text-[11px] font-normal text-slate-500 mt-0.5">Desain antarmuka modern & premium</div>
+                  <div className="text-[11px] font-normal text-slate-600 mt-0.5">Desain antarmuka modern & premium</div>
                 </Link>
               </div>
             </div>

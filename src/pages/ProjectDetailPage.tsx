@@ -1,4 +1,6 @@
 import React, { useEffect } from 'react';
+import MetaTags from '../components/atoms/MetaTags';
+import { generatePortfolioSchema } from '../lib/seo';
 import { useParams, Link } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { ArrowLeft, CheckCircle2, Globe, Calendar, User, ExternalLink } from 'lucide-react';
@@ -10,7 +12,7 @@ const staggerContainer = {
   show: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.15
+      staggerChildren: 0.05
     }
   }
 };
@@ -31,7 +33,7 @@ export default function ProjectDetailPage() {
   if (!project) {
     return (
       <div className="min-h-screen bg-[#F8F9FA] text-slate-900 flex flex-col items-center justify-center p-6 text-center pt-24">
-        <div className="max-w-2xl bg-white/60 backdrop-blur-xl border border-white p-12 rounded-3xl shadow-sm">
+        <div className="max-w-2xl bg-white/60 backdrop-blur-xl border border-white p-12 rounded-xl shadow-sm">
           <h1 className="text-3xl font-display font-bold mb-4">Project Not Found</h1>
           <p className="text-slate-500 mb-8">The project you're looking for doesn't exist or has been removed.</p>
           <Link to="/portfolio" className="inline-flex items-center justify-center px-6 py-3 rounded-full bg-slate-900 text-white font-bold hover:bg-purple-600 transition-colors">
@@ -44,6 +46,13 @@ export default function ProjectDetailPage() {
 
   return (
     <div className="min-h-screen bg-white font-sans text-slate-900 pt-32 pb-20 selection:bg-purple-100 selection:text-purple-900">
+      <MetaTags 
+        title={`${project.title} - Portfolio | CHESTAADOTCOM`}
+        description={project.description}
+        path={`/portfolio/${project.id}`}
+        breadcrumbs={[{ name: 'Home', item: '/' }, { name: 'Portfolio', item: '/portfolio' }, { name: project.title, item: `/portfolio/${project.id}` }]}
+        schemaString={JSON.stringify(generatePortfolioSchema(project.title, project.description, `https://chestaa.com/portfolio/${project.id}`, project.image))}
+      />
       <motion.div 
         className="max-w-5xl mx-auto px-6"
         variants={staggerContainer}
@@ -91,7 +100,7 @@ export default function ProjectDetailPage() {
         </motion.header>
 
         {/* Hero Image */}
-        <motion.div variants={fadeUpVariant} className="w-full aspect-[16/9] md:aspect-[21/9] rounded-3xl overflow-hidden bg-slate-100 mb-16 shadow-sm border border-slate-100 relative group">
+        <motion.div variants={fadeUpVariant} className="w-full aspect-[16/9] md:aspect-[21/9] rounded-xl overflow-hidden bg-slate-100 mb-16 shadow-sm border border-slate-100 relative group">
           <LazyImage src={project.thumbnail} alt={project.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 ease-out" />
         </motion.div>
 
@@ -130,7 +139,7 @@ export default function ProjectDetailPage() {
 
           {/* Sidebar */}
           <div className="lg:col-span-1 flex flex-col gap-8">
-            <motion.div variants={fadeUpVariant} className="bg-slate-50 rounded-3xl p-8 border border-slate-100">
+            <motion.div variants={fadeUpVariant} className="bg-slate-50 rounded-xl p-8 border border-slate-100">
               <h3 className="text-xs font-bold uppercase tracking-widest text-slate-900 mb-6">Tech Stack</h3>
               <div className="flex flex-wrap gap-2">
                 {project.techStack.map(tech => (
@@ -141,7 +150,7 @@ export default function ProjectDetailPage() {
               </div>
             </motion.div>
 
-            <motion.div variants={fadeUpVariant} className="bg-purple-50/50 rounded-3xl p-8 border border-purple-100/50">
+            <motion.div variants={fadeUpVariant} className="bg-purple-50/50 rounded-xl p-8 border border-purple-100/50">
               <h3 className="text-xs font-bold uppercase tracking-widest text-purple-900 mb-6">Key Features</h3>
               <ul className="flex flex-col gap-5">
                 {project.features.map(feature => (

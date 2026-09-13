@@ -93,7 +93,7 @@ export default function TableOfContents({ headings }: { headings: Heading[] }) {
     <>
       {/* Desktop Floating Sticky Sidebar */}
       <aside className="hidden lg:block sticky top-28 w-80 shrink-0">
-        <div className="rounded-3xl bg-white/95 backdrop-blur-md border border-slate-200/90 shadow-xl shadow-purple-950/5 p-6 relative overflow-hidden transition-all duration-300 hover:border-purple-300/80">
+        <div className="rounded-xl bg-white/95 backdrop-blur-md border border-slate-200/90 shadow-xl shadow-purple-950/5 p-6 relative overflow-hidden transition-all duration-300 hover:border-purple-300/80">
           {/* Subtle Ambient Glow */}
           <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/10 blur-2xl rounded-full pointer-events-none" />
 
@@ -103,7 +103,7 @@ export default function TableOfContents({ headings }: { headings: Heading[] }) {
               <div className="p-1.5 rounded-lg bg-purple-100/80 text-purple-700">
                 <ListTree size={16} />
               </div>
-              <span className="font-display font-bold text-sm tracking-tight text-slate-900">
+              <span className="font-display font-black text-sm tracking-tight text-slate-900">
                 Daftar Isi
               </span>
             </div>
@@ -179,7 +179,7 @@ export default function TableOfContents({ headings }: { headings: Heading[] }) {
           <div className="pt-4 mt-4 border-t border-slate-100 flex items-center justify-between gap-2">
             <button
               onClick={scrollToTop}
-              className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-500 hover:text-purple-700 transition-colors py-1 px-2 rounded-lg hover:bg-purple-50 cursor-pointer"
+              className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-600 hover:text-purple-700 transition-colors py-1 px-2 rounded-lg hover:bg-purple-50 cursor-pointer"
             >
               <ArrowUp size={14} /> Ke Atas
             </button>
@@ -242,7 +242,7 @@ export default function TableOfContents({ headings }: { headings: Heading[] }) {
                   <div className="p-1.5 rounded-lg bg-purple-100 text-purple-700">
                     <ListTree size={16} />
                   </div>
-                  <h4 className="font-display font-bold text-base text-slate-900 m-0">
+                  <h4 className="font-display font-black text-base text-slate-900 m-0">
                     Navigasi Artikel
                   </h4>
                 </div>

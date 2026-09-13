@@ -6,6 +6,7 @@ import LocalWeatherWidget from '../components/atoms/LocalWeatherWidget';
 import MetaTags from '../components/atoms/MetaTags';
 import { Link } from 'react-router-dom';
 import chestaPhoto from '../assets/images/regenerated_image_1787838669318.png';
+import { generateLocalBusinessSchema } from '../lib/seo';
 
 export default function AboutPage() {
   return (
@@ -14,10 +15,14 @@ export default function AboutPage() {
         title="Tentang Kami | CHESTAADOTCOM"
         description="Mengenal CHESTAADOTCOM sebagai agency IT solution dan rekayasa website modern di BSD City oleh Chesta Azka Sofyan."
       />
+      <script 
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(generateLocalBusinessSchema()) }}
+      />
       <LocalWeatherWidget />
       <MetaTags 
-        title="Tentang - Profil Agency | CHESTAADOTCOM"
-        description="Pelajari visi dan keahlian rekayasa perangkat lunak dari CHESTAADOTCOM."
+        title="Tentang Kami | Software House BSD City & Cisauk"
+        description="Pelajari visi CHESTAADOTCOM sebagai software house elit di BSD City dan Cisauk yang berfokus pada Web Development dan AI Automation."
       />
 
       <div className="relative z-10 w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-36 md:pt-44 pb-24">
@@ -38,7 +43,7 @@ export default function AboutPage() {
 
           <h1 className="text-3xl sm:text-5xl font-display font-extrabold tracking-tight text-slate-900 mb-4">
             Membangun Standar Baru <br />
-            <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-900 via-indigo-800 to-purple-950">
+            <span className="text-purple-700">
               Rekayasa Digital &amp; IT Solution.
             </span>
           </h1>
@@ -53,18 +58,18 @@ export default function AboutPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-          className="bg-white rounded-3xl border border-slate-200 p-6 sm:p-10 shadow-sm mb-12 grid grid-cols-1 md:grid-cols-12 gap-8 items-center"
+          className="bg-white rounded-xl border border-slate-200 p-6 sm:p-10 shadow-sm mb-12 grid grid-cols-1 md:grid-cols-12 gap-8 items-center"
         >
           <div className="md:col-span-4 flex flex-col items-center text-center">
             <div className="w-32 h-32 sm:w-36 sm:h-36 rounded-2xl bg-gradient-to-tr from-purple-600 to-indigo-900 p-1 shadow-md mb-4 overflow-hidden">
               <img 
                 src={chestaPhoto} 
-                alt="Chesta Azka Sofyan - Lead Architect"
+                alt="Chesta - Lead Architect"
                 referrerPolicy="no-referrer"
                 className="w-full h-full object-cover object-top rounded-[14px]"
               />
             </div>
-            <h3 className="text-lg font-bold font-display text-slate-900">Chesta Azka Sofyan</h3>
+            <h3 className="text-lg font-bold font-display text-slate-900">Chesta</h3>
             <p className="text-xs font-mono font-bold text-purple-700 uppercase tracking-wider mb-2">
               Lead Architect &amp; Founder
             </p>
@@ -76,7 +81,7 @@ export default function AboutPage() {
 
           <div className="md:col-span-8 space-y-4 text-slate-700 text-sm sm:text-base font-sans leading-relaxed">
             <p>
-              <strong className="text-slate-900">CHESTAADOTCOM</strong> didirikan dengan prinsip sederhana: setiap bisnis berhak mendapatkan infrastruktur digital berkecepatan tinggi dengan desain visual kelas dunia tanpa kompromi.
+              <strong className="text-slate-900">CHESTAADOTCOM</strong> didirikan oleh <strong className="text-slate-900">Chesta</strong> dengan prinsip sederhana: setiap bisnis berhak mendapatkan infrastruktur digital berkecepatan tinggi dengan desain visual kelas dunia tanpa kompromi.
             </p>
             <p>
               Kami menolak penggunaan template murahan yang lambat dan rentan. Setiap baris kode dirancang secara khusus (*bespoke*) agar memberikan pengalaman terbaik bagi pengguna serta menaikkan konversi bisnis Anda secara signifikan.
@@ -103,7 +108,7 @@ export default function AboutPage() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.7, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-          className="rounded-3xl bg-purple-950 text-white p-8 sm:p-12 text-center shadow-xl flex flex-col items-center"
+          className="rounded-xl bg-purple-950 text-white p-8 sm:p-12 text-center shadow-xl flex flex-col items-center"
         >
           <h3 className="text-2xl sm:text-3xl font-display font-bold tracking-tight mb-3">
             Mari Diskusikan Proyek Anda

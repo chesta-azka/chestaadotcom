@@ -161,13 +161,13 @@ export function CommLinkWorkspace({ workspaceId, currentUserRole = 'client' }: C
   );
 
   return (
-    <div className="flex flex-col h-full w-full max-h-[800px] border border-purple-100 rounded-3xl overflow-hidden bg-white shadow-md relative">
+    <div className="flex flex-col h-full w-full max-h-[800px] border border-purple-100 rounded-xl overflow-hidden bg-white shadow-md relative">
       
       {/* Header & Controls */}
       <div className="px-6 py-4 border-b border-purple-100 bg-purple-50/30 flex flex-col md:flex-row md:items-center justify-between gap-4 z-10">
         <div>
           <h3 className="font-bold text-slate-900 tracking-tight">Ecosystem Comm-Link</h3>
-          <p className="text-xs font-medium text-slate-500 flex items-center gap-2">
+          <p className="text-xs font-medium text-slate-600 flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
             Direct Communication Workspace
           </p>
@@ -185,11 +185,11 @@ export function CommLinkWorkspace({ workspaceId, currentUserRole = 'client' }: C
             />
           </div>
           <div className="flex items-center gap-2 bg-white p-1.5 rounded-full border border-purple-100">
-            <button onClick={() => setArchiveMode(!archiveMode)} className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold transition-all ${archiveMode ? 'bg-purple-100 text-purple-900' : 'text-slate-500 hover:text-slate-700'}`} title={archiveMode ? 'Older than 30 days: Archived' : 'Older than 30 days: Deleted'}> <Archive className="w-3.5 h-3.5" /> <span className="hidden sm:inline">{archiveMode ? 'Archiving' : 'Auto-Delete'}</span> </button> 
+            <button onClick={() => setArchiveMode(!archiveMode)} className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold transition-all ${archiveMode ? 'bg-purple-100 text-purple-900' : 'text-slate-600 hover:text-slate-700'}`} title={archiveMode ? 'Older than 30 days: Archived' : 'Older than 30 days: Deleted'}> <Archive className="w-3.5 h-3.5" /> <span className="hidden sm:inline">{archiveMode ? 'Archiving' : 'Auto-Delete'}</span> </button> 
           {currentUserRole === 'admin' && (
             <button 
               onClick={toggleWorkspaceProtection}
-              className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold transition-all ${isProtected ? 'bg-purple-100 text-purple-900' : 'text-slate-500 hover:text-slate-700'}`} 
+              className={`flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold transition-all ${isProtected ? 'bg-purple-100 text-purple-900' : 'text-slate-600 hover:text-slate-700'}`} 
               title={isProtected ? 'Protected from Auto-Delete' : 'Not Protected'}
             >
               <ShieldAlert className="w-3.5 h-3.5" />
@@ -305,7 +305,7 @@ export function CommLinkWorkspace({ workspaceId, currentUserRole = 'client' }: C
             type="button"
             onClick={() => fileInputRef.current?.click()}
             disabled={isUploading || isRecording}
-            className="p-3 text-slate-500 hover:text-slate-900 transition-colors bg-purple-50 hover:bg-purple-100 rounded-full shrink-0 shadow-xs border border-purple-100 cursor-pointer"
+            className="p-3 text-slate-600 hover:text-slate-900 transition-colors bg-purple-50 hover:bg-purple-100 rounded-full shrink-0 shadow-xs border border-purple-100 cursor-pointer"
           >
             {isUploading ? <Loader2 className="w-5 h-5 animate-spin" /> : <Paperclip className="w-5 h-5" />}
           </button>
@@ -318,7 +318,7 @@ export function CommLinkWorkspace({ workspaceId, currentUserRole = 'client' }: C
             onTouchStart={startRecording}
             onTouchEnd={stopRecording}
             disabled={isUploading}
-            className={`p-3 transition-colors rounded-full shrink-0 shadow-xs border border-purple-100 cursor-pointer ${isRecording ? 'bg-red-500 text-white animate-pulse' : 'bg-purple-50 text-slate-500 hover:text-slate-900 hover:bg-purple-100'}`}
+            className={`p-3 transition-colors rounded-full shrink-0 shadow-xs border border-purple-100 cursor-pointer ${isRecording ? 'bg-red-500 text-white animate-pulse' : 'bg-purple-50 text-slate-600 hover:text-slate-900 hover:bg-purple-100'}`}
           >
             {isRecording ? <Square className="w-5 h-5" /> : <Mic className="w-5 h-5" />}
           </button>

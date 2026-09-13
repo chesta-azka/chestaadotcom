@@ -110,7 +110,7 @@ export default function TableOfContents({ items, className = '' }: TableOfConten
                     href={`#${item.id}`}
                     onClick={(e) => scrollToHeading(item.id, e)}
                     className={`group flex items-start gap-2 py-1.5 px-2.5 rounded-lg text-xs font-sans transition-all leading-snug ${
-                      item.level === 3 ? 'ml-4 text-slate-500' : 'text-slate-700 font-medium'
+                      item.level === 3 ? 'ml-4 text-slate-600' : 'text-slate-700 font-medium'
                     } ${
                       isActive 
                         ? 'bg-purple-50/80 text-purple-800 font-semibold border-l-2 border-purple-600 pl-2' 

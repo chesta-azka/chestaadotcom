@@ -30,7 +30,7 @@ const MarqueeTrack = () => (
   <div className="flex items-center shrink-0">
     <div className="flex items-center font-display font-black uppercase text-5xl sm:text-7xl md:text-[7rem] tracking-tighter text-slate-900 shrink-0 leading-none">
       <span>BRING</span>
-      <span className="font-serif italic font-normal text-transparent bg-clip-text bg-gradient-to-r from-[#6b21a8] via-[#E2FF3B] to-emerald-300 ml-4 lowercase tracking-normal">creatifity</span>
+      <span className="font-serif italic font-normal text-purple-700 ml-4 lowercase tracking-normal">creatifity</span>
     </div>
 
     <NavbarLogoIcon />

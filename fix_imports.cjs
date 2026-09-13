@@ -1,14 +1,14 @@
 const fs = require('fs');
-let content = fs.readFileSync('src/app/academy/[slug]/page.tsx', 'utf-8');
 
-// Remove the import from the middle
-content = content.replace("import { codeToHtml } from 'shiki';\n", "");
-content = content.replace("import { codeToHtml } from 'shiki';\r\n", "");
+function fix(file) {
+  let code = fs.readFileSync(file, 'utf8');
+  code = code.replace(/import React\nimport MetaTags from '\.\.\/components\/atoms\/MetaTags';\nimport \{ generateCourseSchema \} from '\.\.\/lib\/seo';, \{ useState \} from 'react';/, 
+  "import React, { useState } from 'react';\nimport MetaTags from '../components/atoms/MetaTags';\nimport { generateCourseSchema } from '../lib/seo';");
+  
+  fs.writeFileSync(file, code);
+}
 
-// Add it to the top
-content = "import { codeToHtml } from 'shiki';\n" + content;
+fix('src/pages/AcademyPage.tsx');
+fix('src/pages/AcademyMasterclassPage.tsx');
+fix('src/pages/AcademyResourcesPage.tsx');
 
-// Replace CodeBlock usage with PremiumCodeBlock
-content = content.replace("<CodeBlock code={sub.code} language={sub.lang} title={sub.filename} />", "<PremiumCodeBlock code={sub.code} language={sub.lang} title={sub.filename} />");
-
-fs.writeFileSync('src/app/academy/[slug]/page.tsx', content);

@@ -5,6 +5,7 @@ import { ArrowUpRight, CheckCircle2, Eye, MessageCircle, Search } from 'lucide-r
 import { Link } from 'react-router-dom';
 import { PROJECTS } from '../data/projects';
 import MetaTags from '../components/atoms/MetaTags';
+import { generatePortfolioSchema } from '../lib/seo';
 import Breadcrumbs from '../components/atoms/Breadcrumbs';
 import CreativityMarquee from '../components/organisms/CreativityMarquee.tsx';
 import AICaseStudies from '../components/organisms/AICaseStudies.tsx';
@@ -14,10 +15,10 @@ import LazyImage from '../components/atoms/LazyImage.tsx';
 import SectionHeader from '../components/organisms/SectionHeader';
 import QuickViewModal, { QuickViewData } from '../components/organisms/QuickViewModal';
 
-const CATEGORIES = ['All', 'Website', 'Landing Page', 'Company Profile'];
+const CATEGORIES = ['All', 'Website', 'Landing Page', 'Company Profile', 'Next.js', 'AI'];
 
 const PortfolioSkeleton = () => (
-  <div className="relative flex flex-col h-full bg-white/40 backdrop-blur-xl p-6 rounded-3xl border border-white/60 animate-pulse text-left shadow-xl shadow-purple-900/5">
+  <div className="relative flex flex-col h-full bg-white/40 backdrop-blur-xl p-6 rounded-xl border border-white/60 animate-pulse text-left shadow-xl shadow-purple-900/5">
     <div className="w-full aspect-[4/3] bg-slate-100 rounded-2xl mb-5" />
     <div className="flex gap-2.5 items-center mb-3">
       <div className="h-5 w-24 bg-purple-50 rounded-full" />
@@ -45,7 +46,7 @@ export default function PortfolioPage() {
 
   const filteredProjects = filter === 'All' 
     ? PROJECTS 
-    : PROJECTS.filter(p => p.category === filter);
+    : PROJECTS.filter(p => p.category === filter || (p.techStack && p.techStack.some(t => t.toLowerCase().includes(filter.toLowerCase()))));
 
 
   return (
@@ -58,7 +59,9 @@ export default function PortfolioPage() {
       
       <MetaTags 
         title="Showcase Portfolio — CHESTAADOTCOM" 
-        description="Jelajahi portfolio digital masterpieces yang dirancang khusus untuk bisnis modern UMKM Indonesia." 
+        description="Jelajahi portfolio digital masterpieces yang dirancang khusus untuk bisnis modern B2B & Enterprise di Indonesia."
+        path="/portfolio"
+        breadcrumbs={[{ name: 'Home', item: '/' }, { name: 'Portfolio', item: '/portfolio' }]}
       />
 
       {/* Cinematic Hero */}
@@ -74,7 +77,7 @@ export default function PortfolioPage() {
                 title={
                   <>
                     Selected <br />
-                    <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-500 via-purple-500 to-cyan-500 font-serif italic pr-4">Works.</span>
+                    <span className="text-purple-700 font-serif italic pr-4">Works.</span>
                   </>
                 }
                 description="Mengubah ide menjadi karya arsitektur digital premium yang mendorong konversi dan pertumbuhan omset bisnis Anda secara nyata."
@@ -127,7 +130,7 @@ export default function PortfolioPage() {
                 >
                   <Link
                     to={`/portfolio/${project.id}`}
-                    className="block shadow-xl shadow-purple-900/5 hover:shadow-2xl hover:shadow-purple-900/10 bg-white/40 backdrop-blur-xl border border-white/60 hover:border-purple-300 hover:bg-white/60 rounded-3xl overflow-hidden group transition-all duration-500 flex flex-col relative cursor-pointer aspect-square sm:aspect-auto sm:h-[450px]"
+                    className="block shadow-xl shadow-purple-900/5 hover:shadow-2xl hover:shadow-purple-900/10 bg-white/40 backdrop-blur-xl border border-white/60 hover:border-purple-300 hover:bg-white/60 rounded-xl overflow-hidden group transition-all duration-500 flex flex-col relative cursor-pointer aspect-square sm:aspect-auto sm:h-[450px]"
                   >
                     {/* Image Block */}
                     
@@ -150,8 +153,8 @@ export default function PortfolioPage() {
                             title: project.title,
                             subtitle: project.category,
                             description: project.description || 'Proyek digital dari CHESTAADOTCOM.',
+                            tags: project.techStack || [],
                             image: project.thumbnail,
-                            tags: project.techStack,
                             link: `/portfolio/${project.id}`
                           });
                         }}

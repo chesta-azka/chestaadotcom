@@ -23,7 +23,7 @@ export function ClientKanbanView({ workspaceSlug }: ClientKanbanViewProps) {
     return (
       <div className="p-12 text-center flex flex-col items-center justify-center font-sans space-y-3">
         <div className="w-8 h-8 rounded-full border-2 border-purple-900 border-t-transparent animate-spin" />
-        <span className="text-sm font-medium text-slate-500">Memuat status pengerjaan proyek...</span>
+        <span className="text-sm font-medium text-slate-600">Memuat status pengerjaan proyek...</span>
       </div>
     );
   }
@@ -62,15 +62,15 @@ export function ClientKanbanView({ workspaceSlug }: ClientKanbanViewProps) {
   return (
     <div className="w-full font-sans space-y-6">
       {/* Header & Overall Project Progress Meter */}
-      <div className="p-6 rounded-3xl bg-white border border-purple-100 shadow-xs flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+      <div className="p-6 rounded-xl bg-white border border-purple-100 shadow-xs flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
         <div className="space-y-1">
           <div className="flex items-center gap-2">
             <span className="p-1.5 rounded-xl bg-purple-50 text-purple-900">
               <Sparkles size={16} />
             </span>
-            <h2 className="text-xl font-display font-bold text-slate-900 tracking-tight">Live Project Milestones & Kanban</h2>
+            <h2 className="text-xl font-display font-black text-slate-900 tracking-tight">Live Project Milestones & Kanban</h2>
           </div>
-          <p className="text-xs text-slate-500">
+          <p className="text-xs text-slate-600">
             Pantau progres implementasi teknis secara real-time. Anda dapat menyetujui fitur atau meminta revisi kapan saja.
           </p>
         </div>
@@ -116,10 +116,10 @@ export function ClientKanbanView({ workspaceSlug }: ClientKanbanViewProps) {
 
       {/* Tickets List */}
       {tickets.length === 0 ? (
-        <div className="p-12 text-center rounded-3xl bg-white border border-purple-100">
+        <div className="p-12 text-center rounded-xl bg-white border border-purple-100">
           <Clock className="w-10 h-10 text-slate-400 mx-auto mb-2 opacity-50" />
           <h3 className="text-sm font-bold text-slate-800">Belum Ada Milestone Terdaftar</h3>
-          <p className="text-xs text-slate-500 mt-1">Tim engineer kami sedang merancang roadmap teknis untuk workspace Anda.</p>
+          <p className="text-xs text-slate-600 mt-1">Tim engineer kami sedang merancang roadmap teknis untuk workspace Anda.</p>
         </div>
       ) : (
         <motion.div layout className="space-y-3.5">
@@ -153,7 +153,7 @@ export function ClientKanbanView({ workspaceSlug }: ClientKanbanViewProps) {
               <motion.div 
                 layout
                 key={ticket.id}
-                className={`p-5 rounded-3xl border transition-all duration-300 ${
+                className={`p-5 rounded-xl border transition-all duration-300 ${
                   isReview 
                     ? 'bg-amber-50/40 border-amber-300 shadow-xs' 
                     : 'bg-white border-purple-100'
@@ -170,7 +170,7 @@ export function ClientKanbanView({ workspaceSlug }: ClientKanbanViewProps) {
                           {statusText}
                         </span>
                         {ticket.tag && (
-                          <span className="text-[10px] font-semibold text-slate-500 bg-slate-100 px-2 py-0.5 rounded-md">
+                          <span className="text-[10px] font-semibold text-slate-600 bg-slate-100 px-2 py-0.5 rounded-md">
                             {ticket.tag}
                           </span>
                         )}
@@ -184,7 +184,7 @@ export function ClientKanbanView({ workspaceSlug }: ClientKanbanViewProps) {
                         {ticket.title}
                       </h3>
                       {ticket.description && (
-                        <p className="text-xs text-slate-500 mt-1 leading-relaxed max-w-2xl">
+                        <p className="text-xs text-slate-600 mt-1 leading-relaxed max-w-2xl">
                           {ticket.description}
                         </p>
                       )}

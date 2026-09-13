@@ -103,11 +103,11 @@ function StatCard({ stat, index }: { stat: StatItem; index: number }) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
-      className="flex flex-col relative group p-8 rounded-3xl bg-slate-50/70 hover:bg-white border border-slate-200/90 hover:border-purple-300 shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden cursor-default"
+      className="flex flex-col relative group p-8 rounded-xl bg-slate-50/70 hover:bg-white border border-slate-200/90 hover:border-purple-300 shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden cursor-default"
     >
       {/* Mouse-following spotlight glow effect */}
       <div
-        className="absolute pointer-events-none -inset-px transition-opacity duration-300 rounded-3xl z-0"
+        className="absolute pointer-events-none -inset-px transition-opacity duration-300 rounded-xl z-0"
         style={{
           opacity,
           background: `radial-gradient(350px circle at ${position.x}px ${position.y}px, rgba(168, 85, 247, 0.12), transparent 70%)`
@@ -117,17 +117,17 @@ function StatCard({ stat, index }: { stat: StatItem; index: number }) {
         <div>
           <div className="flex items-baseline gap-1 mb-2">
             {stat.prefix && (
-              <span className="text-2xl font-display font-medium text-slate-400">{stat.prefix}</span>
+              <span className="text-2xl font-display font-black text-slate-400">{stat.prefix}</span>
             )}
-            <h4 className="text-5xl md:text-6xl font-display font-bold tracking-tight text-slate-900 group-hover:text-purple-700 transition-colors">
+            <h4 className="text-5xl md:text-6xl font-display font-black tracking-tight text-slate-900 group-hover:text-purple-700 transition-colors">
               <Counter value={stat.value} decimals={stat.decimals} />
             </h4>
             {stat.suffix && (
-              <span className="text-3xl font-display font-medium text-purple-600">{stat.suffix}</span>
+              <span className="text-3xl font-display font-black text-purple-600">{stat.suffix}</span>
             )}
           </div>
           <div className="w-12 h-1 bg-purple-200 rounded-full mb-5 group-hover:w-full group-hover:bg-purple-600 transition-all duration-500" />
-          <h5 className="text-lg font-display font-semibold text-slate-900 mb-2">{stat.label}</h5>
+          <h5 className="text-lg font-display font-black text-slate-900 mb-2">{stat.label}</h5>
         </div>
         <p className="text-sm font-sans text-slate-600 leading-relaxed">
           {stat.description}
@@ -147,7 +147,7 @@ export default function StatsCounter() {
           <span className="px-3 py-1 rounded-full bg-purple-50 text-purple-900 border border-purple-200/80 font-mono font-bold uppercase tracking-wider text-xs mb-4 inline-block">
             Verified Performance &amp; Metrics
           </span>
-          <h3 className="text-3xl sm:text-4xl font-display font-bold tracking-tight text-slate-900">
+          <h3 className="text-3xl sm:text-4xl font-display font-black tracking-tight text-slate-900">
             Dampak Nyata dalam Angka
           </h3>
         </div>

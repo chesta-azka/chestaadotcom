@@ -95,7 +95,7 @@ export function AdminKanbanBoard({ workspaceSlug }: { workspaceSlug: string }) {
     return (
       <div className="p-12 text-center flex flex-col items-center justify-center font-sans space-y-3">
         <div className="w-8 h-8 rounded-full border-2 border-purple-900 border-t-transparent animate-spin" />
-        <span className="text-sm font-medium text-slate-500">Menghubungkan Kanban Database...</span>
+        <span className="text-sm font-medium text-slate-600">Menghubungkan Kanban Database...</span>
       </div>
     );
   }
@@ -116,7 +116,7 @@ export function AdminKanbanBoard({ workspaceSlug }: { workspaceSlug: string }) {
   return (
     <div className="w-full font-sans space-y-6">
       {/* Top Controls: Legend, Search & Action Buttons */}
-      <div className="p-5 rounded-3xl bg-white border border-purple-100 shadow-xs flex flex-col md:flex-row items-center justify-between gap-4">
+      <div className="p-5 rounded-xl bg-white border border-purple-100 shadow-xs flex flex-col md:flex-row items-center justify-between gap-4">
         <div className="flex flex-wrap items-center gap-4 text-xs text-slate-600">
           <div className="flex items-center gap-2">
             <span className="w-2.5 h-2.5 rounded-full bg-slate-400" />
@@ -207,7 +207,7 @@ export function AdminKanbanBoard({ workspaceSlug }: { workspaceSlug: string }) {
           return (
             <div 
               key={col.title} 
-              className={`rounded-3xl p-4 flex flex-col gap-3 border shadow-xs ${col.color} min-h-[450px]`}
+              className={`rounded-xl p-4 flex flex-col gap-3 border shadow-xs ${col.color} min-h-[450px]`}
             >
               {/* Column Header */}
               <div className="flex items-center justify-between px-1 py-1">
@@ -278,7 +278,7 @@ export function AdminKanbanBoard({ workspaceSlug }: { workspaceSlug: string }) {
                           {ticket.title}
                         </h4>
                         {ticket.description && (
-                          <p className="text-[11px] text-slate-500 line-clamp-2 mb-3">
+                          <p className="text-[11px] text-slate-600 line-clamp-2 mb-3">
                             {ticket.description}
                           </p>
                         )}
@@ -301,7 +301,7 @@ export function AdminKanbanBoard({ workspaceSlug }: { workspaceSlug: string }) {
                           {prevSt ? (
                             <button
                               onClick={(e) => { e.stopPropagation(); moveTicket(ticket.id, prevSt); }}
-                              className="flex items-center gap-1 text-[10px] font-semibold text-slate-500 hover:text-slate-900 p-1 hover:bg-slate-100 rounded-lg transition-colors cursor-pointer"
+                              className="flex items-center gap-1 text-[10px] font-semibold text-slate-600 hover:text-slate-900 p-1 hover:bg-slate-100 rounded-lg transition-colors cursor-pointer"
                               title={`Kembalikan ke ${prevSt}`}
                             >
                               <ArrowLeft size={12} />
@@ -334,7 +334,7 @@ export function AdminKanbanBoard({ workspaceSlug }: { workspaceSlug: string }) {
               {/* Quick Add Button inside Column */}
               <button
                 onClick={() => { setNewStatus(col.title); setIsAddModalOpen(true); }}
-                className="w-full py-2 border border-dashed border-purple-200 rounded-2xl text-[11px] font-semibold text-slate-500 hover:text-purple-900 hover:bg-purple-50 transition-all flex items-center justify-center gap-1.5 cursor-pointer mt-auto"
+                className="w-full py-2 border border-dashed border-purple-200 rounded-2xl text-[11px] font-semibold text-slate-600 hover:text-purple-900 hover:bg-purple-50 transition-all flex items-center justify-center gap-1.5 cursor-pointer mt-auto"
               >
                 <Plus size={13} />
                 <span>Tambah ke {col.title}</span>
@@ -423,7 +423,7 @@ export function AdminKanbanBoard({ workspaceSlug }: { workspaceSlug: string }) {
               initial={{ opacity: 0, scale: 0.96, y: 15 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.96, y: 15 }}
-              className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-lg bg-white border border-purple-100 rounded-3xl shadow-xl z-50 p-6 font-sans"
+              className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-lg bg-white border border-purple-100 rounded-xl shadow-xl z-50 p-6 font-sans"
             >
               <div className="flex items-center justify-between pb-4 border-b border-slate-100">
                 <div className="flex items-center gap-2">

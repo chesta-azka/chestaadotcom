@@ -13,7 +13,7 @@ export default function CatalogDeepDive() {
           viewport={{ once: true, margin: "-100px" }}
           transition={{ duration: 0.6 }}
           className="prose prose-slate prose-lg md:prose-xl max-w-none
-                     prose-headings:font-display prose-headings:font-bold prose-headings:tracking-tight prose-headings:text-slate-900
+                     prose-headings:font-display prose-headings:font-black prose-headings:tracking-tight prose-headings:text-slate-900
                      prose-h1:text-4xl md:prose-h1:text-5xl prose-h1:mb-12 prose-h1:pb-8 prose-h1:border-b prose-h1:border-slate-200
                      prose-h2:text-3xl prose-h2:mt-16 prose-h2:mb-6 prose-h2:text-purple-900
                      prose-h3:text-2xl prose-h3:mt-10 prose-h3:mb-4

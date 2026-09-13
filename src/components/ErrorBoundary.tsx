@@ -34,12 +34,12 @@ export class ErrorBoundary extends Component<Props, State> {
           <div className="text-center z-10 w-full max-w-2xl">
             <div className="inline-flex items-center gap-2.5 mb-8 px-4 py-2 rounded-full bg-white border border-slate-100 shadow-sm">
               <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
-              <span className="text-[10px] font-mono font-bold tracking-[0.2em] text-slate-500 uppercase pt-0.5">
+              <span className="text-[10px] font-mono font-bold tracking-[0.2em] text-slate-600 uppercase pt-0.5">
                 System Error
               </span>
             </div>
             
-            <h1 className="text-5xl md:text-7xl font-display font-medium tracking-tight text-slate-900 mb-6">
+            <h1 className="text-5xl md:text-7xl font-display font-black tracking-tight text-slate-900 mb-6">
               Terjadi Kesalahan
             </h1>
             

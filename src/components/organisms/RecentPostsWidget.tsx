@@ -10,7 +10,7 @@ export default function RecentPostsWidget() {
   const recentArticles = [...ALL_ARTICLES].slice(0, 3);
 
   return (
-    <div className="bg-white rounded-3xl border border-slate-100 shadow-sm p-6 relative overflow-hidden">
+    <div className="bg-white rounded-xl border border-slate-100 shadow-sm p-6 relative overflow-hidden">
       <div className="absolute top-0 right-0 w-32 h-32 bg-purple-50/50 rounded-bl-full pointer-events-none -z-0"></div>
       
       <div className="relative z-10">
@@ -35,7 +35,7 @@ export default function RecentPostsWidget() {
                 </span>
               </div>
               
-              <h5 className="text-sm font-display font-medium text-slate-800 leading-snug group-hover:text-purple-600 transition-colors line-clamp-2">
+              <h5 className="text-sm font-display font-black text-slate-800 leading-snug group-hover:text-purple-600 transition-colors line-clamp-2">
                 {art.title}
               </h5>
               

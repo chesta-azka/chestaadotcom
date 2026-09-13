@@ -188,17 +188,17 @@ export default function BlogInteractions({ slug }: BlogInteractionsProps) {
       </div>
 
       {/* Comment Form Card */}
-      <div className="bg-white/60 backdrop-blur-2xl p-6 sm:p-8 rounded-3xl border border-white shadow-xl shadow-purple-900/5 relative overflow-hidden ring-1 ring-purple-100/50">
+      <div className="bg-white/60 backdrop-blur-2xl p-6 sm:p-8 rounded-xl border border-white shadow-xl shadow-purple-900/5 relative overflow-hidden ring-1 ring-purple-100/50">
         <div className="absolute inset-0 bg-gradient-to-br from-purple-50/50 via-transparent to-purple-100/30 -z-10" />
         <div className="flex items-center gap-3 mb-6 relative z-10">
           <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-purple-700 to-purple-900 text-white flex items-center justify-center shadow-md shadow-purple-800/20">
             <MessageSquare size={18} />
           </div>
           <div>
-            <h4 className="text-base sm:text-lg font-display font-semibold text-slate-900">
+            <h4 className="text-base sm:text-lg font-display font-black text-slate-900">
               Tinggalkan Tanggapan
             </h4>
-            <p className="text-xs font-sans text-slate-500">
+            <p className="text-xs font-sans text-slate-600">
               Bagikan pemikiran, pertanyaan, atau feedback Anda terkait artikel ini.
             </p>
           </div>
@@ -270,7 +270,7 @@ export default function BlogInteractions({ slug }: BlogInteractionsProps) {
         <h5 className="text-xs font-mono font-bold uppercase tracking-widest text-slate-400 mb-6 flex items-center gap-2">
           <span>Komentar Pembaca</span>
           <span className="w-1.5 h-1.5 rounded-full bg-purple-600" />
-          <span className="text-slate-500">({comments.length})</span>
+          <span className="text-slate-600">({comments.length})</span>
         </h5>
 
         {isLoadingComments ? (

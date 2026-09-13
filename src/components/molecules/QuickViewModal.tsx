@@ -48,12 +48,12 @@ export default function QuickViewModal({ isOpen, onClose, data }: QuickViewModal
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.95, y: 20 }}
             transition={{ type: 'spring', damping: 25, stiffness: 300 }}
-            className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-lg bg-white rounded-3xl shadow-2xl z-[101] overflow-hidden border border-slate-100 flex flex-col max-h-[85vh] mx-4 sm:mx-0"
+            className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-lg bg-white rounded-xl shadow-2xl z-[101] overflow-hidden border border-slate-100 flex flex-col max-h-[85vh] mx-4 sm:mx-0"
           >
             {/* Header */}
             <div className="flex items-center justify-between p-6 border-b border-slate-100 relative">
               <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-purple-500 to-cyan-400" />
-              <h3 className="text-xl font-display font-semibold text-slate-900 tracking-tight">
+              <h3 className="text-xl font-display font-black text-slate-900 tracking-tight">
                 {data.title}
               </h3>
               <button

@@ -1,4 +1,6 @@
 import React, { useState } from 'react';
+import MetaTags from '../components/atoms/MetaTags';
+import { generateCourseSchema } from '../lib/seo';
 import { motion } from 'motion/react';
 import { Link } from 'react-router-dom';
 import { CheckCircle2, Circle, Terminal, Code, Sparkles, ArrowRight, Home, ChevronRight, Server, BookOpen, Compass, Layers } from 'lucide-react';
@@ -37,10 +39,19 @@ export default function AcademyResourcesPage() {
 
   return (
     <div className="min-h-screen bg-white font-sans text-slate-900 pt-24 md:pt-32 selection:bg-purple-100 selection:text-purple-900">
+
+      <MetaTags 
+        title="Resource Library - Web Dev & AI | CHESTAADOTCOM BSD & Cisauk"
+        description="Kumpulan resource gratis, e-book, dan snippet kode dari pakar tech di BSD City & Cisauk untuk membantu perjalanan Anda menjadi top-tier developer."
+        path="/academyresources"
+        breadcrumbs={[{ name: 'Home', item: '/' }, { name: 'Academy', item: '/academy' }, { name: 'Resources', item: '/academy/resources' }]}
+        
+      />
+  
       <div className="max-w-7xl mx-auto px-6 py-12 flex flex-col lg:flex-row gap-12 items-start">
         
         {/* Persistent Sidebar Navigation for Resources */}
-        <aside className="w-full lg:w-80 shrink-0 lg:sticky lg:top-28 bg-white border border-slate-200/80 rounded-3xl p-6 shadow-sm">
+        <aside className="w-full lg:w-80 shrink-0 lg:sticky lg:top-28 bg-white border border-slate-200/80 rounded-xl p-6 shadow-sm">
           <div className="flex items-center gap-3 mb-6 pb-4 border-b border-slate-100">
             <div className="w-10 h-10 rounded-xl bg-purple-50 text-purple-700 flex items-center justify-center border border-purple-100">
               <Compass size={20} />
@@ -134,7 +145,7 @@ export default function AcademyResourcesPage() {
           {/* Sections */}
           <div className="space-y-12">
             {/* Phase 1: VS Code & Environment */}
-            <section id="phase-1" className="bg-white border border-slate-200 rounded-3xl p-8 shadow-sm scroll-mt-32">
+            <section id="phase-1" className="bg-white border border-slate-200 rounded-xl p-8 shadow-sm scroll-mt-32">
               <div className="flex items-center gap-3 mb-6">
                 <div className="w-12 h-12 rounded-2xl bg-purple-50 text-purple-700 flex items-center justify-center border border-purple-100">
                   <Terminal size={22} />
@@ -194,7 +205,7 @@ export default function AcademyResourcesPage() {
             </section>
 
             {/* Phase 2: Local Environment Initialization */}
-            <section id="phase-2" className="bg-white border border-slate-200 rounded-3xl p-8 shadow-sm scroll-mt-32">
+            <section id="phase-2" className="bg-white border border-slate-200 rounded-xl p-8 shadow-sm scroll-mt-32">
               <div className="flex items-center gap-3 mb-6">
                 <div className="w-12 h-12 rounded-2xl bg-purple-50 text-purple-700 flex items-center justify-center border border-purple-100">
                   <Code size={22} />
@@ -254,7 +265,7 @@ export default function AcademyResourcesPage() {
             </section>
 
             {/* Phase 3: Deployment to Vercel */}
-            <section id="phase-3" className="bg-white border border-slate-200 rounded-3xl p-8 shadow-sm scroll-mt-32">
+            <section id="phase-3" className="bg-white border border-slate-200 rounded-xl p-8 shadow-sm scroll-mt-32">
               <div className="flex items-center gap-3 mb-6">
                 <div className="w-12 h-12 rounded-2xl bg-purple-50 text-purple-700 flex items-center justify-center border border-purple-100">
                   <Server size={22} />

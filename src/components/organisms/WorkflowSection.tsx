@@ -54,8 +54,8 @@ export default function WorkflowSection() {
             {/* Subtle Clean Accents */}
             <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-purple-200/50 to-transparent" />
             <div className="absolute bottom-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-purple-200/50 to-transparent" />
-            <div className="absolute -left-40 top-20 w-96 h-96 bg-purple-100/30 rounded-full blur-3xl pointer-events-none" />
-            <div className="absolute -right-40 bottom-20 w-96 h-96 bg-purple-100/30 rounded-full blur-3xl pointer-events-none" />
+            <div className="absolute -left-40 top-20 w-96 h-96 " />
+            <div className="absolute -right-40 bottom-20 w-96 h-96 " />
 
             <div className="w-full relative z-10">
                 <div className="flex flex-col items-center justify-center text-center mb-10 sm:mb-14">
@@ -92,7 +92,7 @@ export default function WorkflowSection() {
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true, margin: "-50px" }}
                                 transition={{ delay: i * 0.12, duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-                                className="relative flex flex-col h-full bg-white/90 backdrop-blur-2xl rounded-3xl p-8 border border-purple-100 shadow-xl shadow-purple-950/5 hover:shadow-2xl hover:shadow-purple-900/10 hover:border-purple-200 hover:-translate-y-1 transition-all duration-300 group"
+                                className="relative flex flex-col h-full bg-white/90 backdrop-blur-2xl rounded-xl p-8 border border-purple-100 shadow-xl shadow-purple-950/5 hover:shadow-2xl hover:shadow-purple-900/10 hover:border-purple-200 hover:-translate-y-1 transition-all duration-300 group"
                             >
                                     {/* Number Badge */}
                                     <div className="absolute -top-4 -right-4 w-12 h-12 bg-purple-900 text-white font-mono font-bold text-sm rounded-2xl flex items-center justify-center shadow-lg shadow-purple-950/20 transform rotate-3 group-hover:rotate-6 group-hover:scale-110 transition-transform duration-300">
@@ -105,7 +105,7 @@ export default function WorkflowSection() {
                                     </div>
 
                                     {/* Content */}
-                                    <h3 className="text-xl font-display font-bold tracking-tight mb-3 text-slate-900 group-hover:text-purple-900 transition-colors duration-300">
+                                    <h3 className="text-xl font-display font-black tracking-tight mb-3 text-slate-900 group-hover:text-purple-900 transition-colors duration-300">
                                         {step.title}
                                     </h3>
                                     <p className="font-sans text-slate-600 text-sm md:text-[15px] leading-relaxed flex-grow antialiased">

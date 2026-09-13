@@ -84,15 +84,7 @@ export default function ServicesSection() {
         
         {/* Header Section */}
         <div className="mb-20 max-w-3xl">
-          <div className="flex items-center gap-3 mb-6">
-            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white border border-slate-200 shadow-sm">
-              <span className="flex h-2 w-2 rounded-full bg-purple-600 animate-pulse"></span>
-              <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-slate-600">
-                PILIHAN STRATEGIS
-              </span>
-            </div>
-          </div>
-          <h2 className="text-fluid-h2 font-display font-medium tracking-tight text-slate-900 mb-6 leading-tight">
+          <h2 className="text-fluid-h2 font-display font-black tracking-tight text-slate-900 mb-6 leading-tight">
             Kemitraan Untuk Skalabilitas <br className="hidden md:block" />
             Tanpa Batas.
           </h2>
@@ -115,7 +107,7 @@ export default function ServicesSection() {
               <Link
                 to={`/layanan/${service.slug}`}
                 onClick={() => window.scrollTo(0, 0)}
-                className="relative flex flex-col md:flex-row md:items-center justify-between py-8 px-8 sm:px-12 bg-white/20 backdrop-blur-xl border border-white/40 shadow-xl shadow-purple-900/5 rounded-[2.5rem] hover:bg-white/40 hover:border-[#6b21a8]/30 transition-all duration-500 overflow-hidden transform hover:scale-[1.02] hover:shadow-[0_20px_60px_-15px_rgba(107,33,168,0.15)] hover:z-20"
+                className="relative flex flex-col md:flex-row md:items-center justify-between py-8 px-8 sm:px-12 bg-white/20 backdrop-blur-xl border border-white/40 shadow-xl shadow-purple-900/5 rounded-2xl hover:bg-white/40 hover:border-[#6b21a8]/30 transition-all duration-500 overflow-hidden transform hover:scale-[1.02] hover:shadow-[0_20px_60px_-15px_rgba(107,33,168,0.15)] hover:z-20"
               >
                 {/* Visual hover color ripple overlay */}
                 <div 
@@ -149,7 +141,7 @@ export default function ServicesSection() {
 
                   {/* Bold Elegant Title */}
                   <div className="flex flex-col">
-                    <h3 className="text-xl sm:text-2xl md:text-3xl font-display font-medium tracking-tight text-slate-800 group-hover:text-purple-900 transition-all duration-300">
+                    <h3 className="text-xl sm:text-2xl md:text-3xl font-display font-black tracking-tight text-slate-800 group-hover:text-purple-900 transition-all duration-300">
                       {service.title}
                     </h3>
                   </div>
@@ -215,13 +207,13 @@ export default function ServicesSection() {
               }}
               className="overflow-hidden"
             >
-              <div className="p-8 sm:p-10 border border-slate-100 rounded-[2.5rem] bg-gradient-to-br from-white/[0.01] to-transparent relative overflow-hidden backdrop-blur-md">
+              <div className="p-8 sm:p-10 border border-slate-100 rounded-2xl bg-gradient-to-br from-white/[0.01] to-transparent relative overflow-hidden backdrop-blur-md">
                 <div className="absolute top-0 left-12 w-24 h-24 bg-[#6b21a8]/5 rounded-full blur-2xl pointer-events-none" />
                 
                 <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8 border-b border-slate-100 pb-6">
                   <div>
-                    <span className="text-slate-500 font-mono text-[9px] uppercase tracking-widest block mb-1">STRATEGIC SUPPORT</span>
-                    <h4 className="text-lg sm:text-xl font-display font-medium text-slate-900 tracking-tight">Katalog Ekstensi Layanan</h4>
+                    <span className="text-slate-600 font-mono text-[9px] uppercase tracking-widest block mb-1">STRATEGIC SUPPORT</span>
+                    <h4 className="text-lg sm:text-xl font-display font-black text-slate-900 tracking-tight">Katalog Ekstensi Layanan</h4>
                   </div>
                   <p className="text-xs text-slate-600 font-sans max-w-sm">
                     Kami mendukung ekosistem digital Anda melalui manajemen operasional yang proaktif dari hulu ke hilir.
@@ -238,11 +230,11 @@ export default function ServicesSection() {
                       <Link
                         to={`/layanan/${o.slug}`}
                         onClick={() => window.scrollTo(0,0)}
-                        className="flex items-center justify-between p-5 border border-white/60 rounded-2xl bg-white/30 backdrop-blur-md hover:border-white hover:bg-white/50 shadow-sm transition-all duration-300 group"
+                        className="flex items-center justify-between p-5 border border-white/60 rounded-2xl bg-white/30 backdrop-blur-md hover:border-white hover:bg-white/50 shadow-sm transition-all duration-300 group hover:scale-[1.02]"
                       >
                         <div className="flex flex-col gap-1 pr-4">
                           <span className="text-sm font-sans font-bold text-gray-700 group-hover:text-[#6b21a8] transition-colors">{o.title}</span>
-                          <span className="text-[11px] font-sans text-slate-500">{o.desc}</span>
+                          <span className="text-[11px] font-sans text-slate-600">{o.desc}</span>
                         </div>
                         <div className="w-8 h-8 rounded-full border border-slate-200 flex items-center justify-center shrink-0 bg-slate-100 group-hover:bg-[#6b21a8] group-hover:border-[#6b21a8] transition-colors">
                           <ArrowUpRight strokeWidth={1} size={14} className="text-slate-600 group-hover:text-white transition-colors" />
@@ -261,7 +253,7 @@ export default function ServicesSection() {
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
-          className="border border-[#6b21a8]/20 rounded-[2.5rem] bg-gradient-to-b from-[#6b21a8]/5 to-transparent relative overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5)]"
+          className="border border-[#6b21a8]/20 rounded-2xl bg-gradient-to-b from-[#6b21a8]/5 to-transparent relative overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5)]"
         >
           <div className="absolute inset-0 bg-slate-100 backdrop-blur-md -z-10" />
           <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-[#6b21a8]/50 to-transparent" />
@@ -271,30 +263,30 @@ export default function ServicesSection() {
               <span className="text-[#6b21a8] font-sans font-medium text-[10px] uppercase tracking-[0.25em] block mb-4">
                 KEUNGGULAN TEKNIS
               </span>
-              <h3 className="text-2xl sm:text-3xl md:text-4xl font-display font-medium tracking-tight mb-5">Keunggulan Arsitektur Kami.</h3>
+              <h3 className="text-2xl sm:text-3xl md:text-4xl font-display font-black tracking-tight mb-5">Keunggulan Arsitektur Kami.</h3>
               <p className="text-slate-600 font-sans text-xs md:text-sm max-w-xl mx-auto leading-relaxed font-light">
                 Standar teknis tanpa kompromi memastikan setiap proyek yang kami rilis memiliki fondasi keamanan, kecepatan, dan konversi tertinggi di kelasnya.
               </p>
             </div>
             
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 md:gap-10">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6 lg:gap-10">
               {features.map((f, i) => (
                 <motion.div 
                   key={i} 
-                  className="flex gap-4 sm:gap-6 lg:flex-col lg:gap-4 relative group"
+                  className="flex gap-4 items-start"
                   initial={{ opacity: 0, y: 30 }}
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true, margin: "-50px" }}
                   transition={{ type: "spring", stiffness: 100, damping: 20, delay: i * 0.1 }}
                 >
-                  <div className="w-12 h-12 shrink-0 rounded-xl bg-white border border-[#6b21a8]/20 flex items-center justify-center text-[#6b21a8] group-hover:bg-[#6b21a8] group-hover:text-white transition-colors duration-300 shadow-sm">
-                    <f.icon size={22} />
+                  <div className="w-10 h-10 shrink-0 flex items-center justify-center text-slate-900 mt-1">
+                    <f.icon size={20} />
                   </div>
                   <div>
-                    <h4 className="text-sm sm:text-base font-bold font-sans tracking-tight mb-1.5 text-slate-900 group-hover:text-[#6b21a8] transition-colors">
+                    <h4 className="text-sm sm:text-base font-bold font-sans tracking-tight mb-1 text-slate-900">
                       {f.title}
                     </h4>
-                    <p className="text-[11px] sm:text-xs font-sans text-slate-600 leading-relaxed">
+                    <p className="text-xs sm:text-sm font-sans text-slate-600 leading-relaxed">
                       {f.desc}
                     </p>
                   </div>

@@ -312,7 +312,7 @@ export default function CommandPalette() {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.96, y: -12 }}
             transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
-            className="relative w-full max-w-3xl bg-white rounded-3xl shadow-[0_30px_90px_rgba(88,28,135,0.22)] border border-purple-100 ring-1 ring-slate-900/5 overflow-hidden flex flex-col z-10 max-h-[85vh]"
+            className="relative w-full max-w-3xl bg-white rounded-xl shadow-[0_30px_90px_rgba(88,28,135,0.22)] border border-purple-100 ring-1 ring-slate-900/5 overflow-hidden flex flex-col z-10 max-h-[85vh]"
           >
             {/* Top Search Input Bar */}
             <div className="flex items-center px-4 sm:px-6 py-4 border-b border-purple-100 bg-white/95 sticky top-0 z-20">
@@ -383,7 +383,7 @@ export default function CommandPalette() {
             {!searchQuery && recentSearches.length > 0 && (
               <div className="px-4 sm:px-6 py-2.5 bg-purple-50/30 border-b border-purple-50 flex items-center justify-between gap-3 overflow-x-auto no-scrollbar">
                 <div className="flex items-center gap-2 overflow-x-auto no-scrollbar">
-                  <span className="text-[11px] font-bold text-slate-500 flex items-center gap-1 shrink-0">
+                  <span className="text-[11px] font-bold text-slate-600 flex items-center gap-1 shrink-0">
                     <History size={12} className="text-purple-600" />
                     Terkini:
                   </span>
@@ -549,7 +549,7 @@ export default function CommandPalette() {
               ) : (
                 /* No Results State with Direct AI / WhatsApp Escalation */
                 <div className="py-12 px-6 text-center space-y-4">
-                  <div className="w-14 h-14 rounded-3xl bg-purple-50 text-purple-700 mx-auto flex items-center justify-center border border-purple-100 shadow-2xs">
+                  <div className="w-14 h-14 rounded-xl bg-purple-50 text-purple-700 mx-auto flex items-center justify-center border border-purple-100 shadow-2xs">
                     <Search size={24} />
                   </div>
                   <div>
@@ -584,7 +584,7 @@ export default function CommandPalette() {
               {/* Dynamic Direct Action Buttons when searching */}
               {searchQuery && searchResults.length > 0 && (
                 <div className="pt-3 pb-1 border-t border-purple-100/80 flex items-center justify-between gap-2 flex-wrap">
-                  <span className="text-[11px] font-semibold text-slate-500">
+                  <span className="text-[11px] font-semibold text-slate-600">
                     Perlu solusi kustom seputar "{searchQuery}"?
                   </span>
                   <div className="flex items-center gap-2">
@@ -608,7 +608,7 @@ export default function CommandPalette() {
             </div>
 
             {/* Bottom Keyboard Guide Footer */}
-            <div className="px-4 sm:px-6 py-3 bg-slate-50/95 border-t border-purple-100 flex items-center justify-between text-[11px] text-slate-500 font-medium">
+            <div className="px-4 sm:px-6 py-3 bg-slate-50/95 border-t border-purple-100 flex items-center justify-between text-[11px] text-slate-600 font-medium">
               <div className="hidden sm:flex items-center gap-4">
                 <span className="flex items-center gap-1.5">
                   <kbd className="px-1.5 py-0.5 bg-white border border-slate-200 rounded text-[10px] font-mono text-slate-700 shadow-2xs">↑</kbd>

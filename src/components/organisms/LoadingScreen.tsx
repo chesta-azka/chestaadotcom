@@ -35,7 +35,7 @@ export default function LoadingScreen({ onComplete }: { onComplete?: () => void 
       >
         {/* Apple-style minimalist spinner */}
         <div className="w-6 h-6 border-2 border-slate-200 border-t-slate-800 rounded-full animate-spin"></div>
-        <span className="font-sans text-xs font-semibold tracking-widest text-slate-500 uppercase">
+        <span className="font-sans text-xs font-semibold tracking-widest text-slate-600 uppercase">
           Initializing
         </span>
       </motion.div>

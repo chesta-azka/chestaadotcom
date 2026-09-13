@@ -67,7 +67,7 @@ export function CommLinkAdmin() {
                 </div>
 
                 <div className="flex-1 min-w-0">
-                  <p className="text-xs font-medium text-slate-500 mb-1">
+                  <p className="text-xs font-medium text-slate-600 mb-1">
                     {isPricing ? 'Visitor menanyakan estimasi harga & paket' : 'Visitor meminta terhubung ke Engineer'}
                   </p>
                   <p className="text-xs text-slate-800 font-medium bg-purple-50/40 p-2.5 rounded-xl border border-purple-100 line-clamp-2 leading-relaxed italic">
@@ -79,7 +79,7 @@ export function CommLinkAdmin() {
               <div className="mt-3.5 pt-2.5 flex items-center justify-end gap-2 border-t border-slate-100">
                 <button
                   onClick={() => toast.dismiss(t.id)}
-                  className="px-3 py-1.5 text-xs font-medium text-slate-500 hover:text-slate-700 transition-colors cursor-pointer"
+                  className="px-3 py-1.5 text-xs font-medium text-slate-600 hover:text-slate-700 transition-colors cursor-pointer"
                 >
                   Abaikan
                 </button>

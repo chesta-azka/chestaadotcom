@@ -14,13 +14,13 @@ async function TrendsContent() {
 
 export function MarketTrends() {
   return (
-    <div className="w-full max-w-4xl mx-auto my-12 p-6 md:p-8 bg-white border border-purple-100 rounded-3xl shadow-xs font-sans">
+    <div className="w-full max-w-4xl mx-auto my-12 p-6 md:p-8 bg-white border border-purple-100 rounded-xl shadow-xs font-sans">
       <div className="flex items-center gap-3 mb-6">
         <div className="p-2.5 bg-purple-50 rounded-xl text-purple-900">
           <Activity className="w-5 h-5" />
         </div>
         <div>
-          <h2 className="text-xl md:text-2xl font-display font-bold tracking-tight text-slate-900">
+          <h2 className="text-xl md:text-2xl font-display font-black tracking-tight text-slate-900">
             Tren Industri Terkini
           </h2>
           <p className="text-xs font-medium text-slate-400 uppercase tracking-wider mt-0.5">Analisis Otomatis & Riset Pasar</p>

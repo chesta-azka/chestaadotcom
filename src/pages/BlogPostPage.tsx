@@ -1,4 +1,6 @@
 import { useEffect, useState } from 'react';
+import MetaTags from '../components/atoms/MetaTags';
+import { generateArticleSchema } from '../lib/seo';
 import { useParams, Link } from 'react-router-dom';
 import { motion, useScroll, useSpring, useTransform } from 'motion/react';
 import { ArrowLeft, Clock, Calendar, Zap, ChevronLeft, Check, Copy, MessageSquare, User, Briefcase, CheckCircle2, Sparkles, Layers, ShieldCheck, Quote, ArrowRight } from 'lucide-react';
@@ -39,7 +41,7 @@ const BlogPostSkeleton = () => (
         <div className="h-4 w-full bg-slate-50 rounded-lg" />
         <div className="h-4 w-full bg-slate-50 rounded-lg" />
         <div className="h-4 w-5/6 bg-slate-50 rounded-lg" />
-        <div className="h-64 w-full bg-slate-100 rounded-3xl my-8" />
+        <div className="h-64 w-full bg-slate-100 rounded-xl my-8" />
         <div className="h-8 w-1/4 bg-slate-100 rounded-xl" />
         <div className="h-4 w-full bg-slate-50 rounded-lg" />
         <div className="h-4 w-4/5 bg-slate-50 rounded-lg" />
@@ -66,7 +68,7 @@ const KeyTakeaways = ({ title = "Executive Summary & Key Takeaways", items }: { 
   const list = items || defaultItems;
 
   return (
-    <div className="my-14 p-8 sm:p-10 rounded-3xl bg-gradient-to-br from-purple-950 via-slate-950 to-indigo-950 text-white shadow-2xl border border-purple-500/30 relative overflow-hidden">
+    <div className="my-14 p-8 sm:p-10 rounded-xl bg-gradient-to-br from-purple-950 via-slate-950 to-indigo-950 text-white shadow-2xl border border-purple-500/30 relative overflow-hidden">
       <div className="absolute top-0 right-0 w-80 h-80 bg-purple-600/15 blur-3xl rounded-full -translate-y-1/2 translate-x-1/3 pointer-events-none" />
       <div className="relative z-10">
         <div className="flex items-center gap-2.5 mb-6">
@@ -119,7 +121,7 @@ const ArchitectureComparison = ({
   const rightList = rightItems || defaultRight;
 
   return (
-    <div className="my-16 rounded-3xl border border-slate-200 bg-white overflow-hidden shadow-lg">
+    <div className="my-16 rounded-xl border border-slate-200 bg-white overflow-hidden shadow-lg">
       <div className="bg-slate-900 px-6 py-4 text-white flex items-center justify-between">
         <div className="flex items-center gap-2">
           <Layers size={18} className="text-purple-400" />
@@ -163,7 +165,7 @@ const ArchitectureComparison = ({
 
 // Pull Quote Component
 const QuoteBox = ({ quote, author, role }: { quote: string; author?: string; role?: string }) => (
-  <div className="my-14 p-8 sm:p-10 rounded-3xl bg-gradient-to-r from-purple-50 via-indigo-50/50 to-white border-l-4 border-purple-600 shadow-sm relative">
+  <div className="my-14 p-8 sm:p-10 rounded-xl bg-gradient-to-r from-purple-50 via-indigo-50/50 to-white border-l-4 border-purple-600 shadow-sm relative">
     <Quote size={40} className="text-purple-300/60 mb-4" />
     <p className="font-display font-semibold text-slate-800 text-lg sm:text-xl md:text-2xl leading-relaxed italic mb-4">
       "{quote}"
@@ -184,7 +186,7 @@ const QuoteBox = ({ quote, author, role }: { quote: string; author?: string; rol
 
 // High-Contrast Checklist Component
 const CheckList = ({ title, items }: { title: string; items: string[] }) => (
-  <div className="my-12 p-8 rounded-3xl bg-slate-50 border border-slate-200">
+  <div className="my-12 p-8 rounded-xl bg-slate-50 border border-slate-200">
     <h5 className="font-display font-bold text-slate-900 text-lg mb-6 flex items-center gap-2.5">
       <ShieldCheck className="text-purple-600" size={20} />
       {title}
@@ -203,9 +205,9 @@ const CheckList = ({ title, items }: { title: string; items: string[] }) => (
 );
 
 const StatCard = ({ percentage, label, caption }: { percentage: string; label: string; caption?: string }) => (
-  <div className="my-14 p-8 sm:p-10 rounded-3xl bg-gradient-to-br from-slate-950 via-purple-950 to-slate-900 text-white shadow-2xl flex flex-col sm:flex-row items-start sm:items-center gap-6 sm:gap-10 border border-purple-500/25 relative overflow-hidden group">
+  <div className="my-14 p-8 sm:p-10 rounded-xl bg-gradient-to-br from-slate-950 via-purple-950 to-slate-900 text-white shadow-2xl flex flex-col sm:flex-row items-start sm:items-center gap-6 sm:gap-10 border border-purple-500/25 relative overflow-hidden group">
     <div className="absolute -right-10 -top-10 w-48 h-48 bg-purple-500/25 blur-3xl rounded-full group-hover:bg-purple-500/35 transition-colors duration-500" />
-    <div className="text-6xl sm:text-7xl font-display font-black text-transparent bg-clip-text bg-gradient-to-r from-purple-200 via-fuchsia-300 to-purple-400 drop-shadow-md shrink-0">
+    <div className="text-6xl sm:text-7xl font-display font-black text-purple-700 drop-shadow-md shrink-0">
       {percentage}
     </div>
     <div className="space-y-1 max-w-lg">
@@ -222,7 +224,7 @@ const StatCard = ({ percentage, label, caption }: { percentage: string; label: s
 );
 
 const TrendBar = ({ label, progress }: { label: string; progress: number }) => (
-  <div className="my-14 p-8 sm:p-10 rounded-3xl bg-slate-50 border border-purple-100 shadow-sm relative overflow-hidden">
+  <div className="my-14 p-8 sm:p-10 rounded-xl bg-slate-50 border border-purple-100 shadow-sm relative overflow-hidden">
     <div className="absolute top-0 left-0 w-full h-1.5 bg-gradient-to-r from-purple-600 to-indigo-600 opacity-30" />
     <div className="flex flex-col sm:flex-row sm:justify-between sm:items-end mb-4 gap-2">
       <div className="text-xs font-mono font-bold text-slate-700 uppercase tracking-widest">{label}</div>
@@ -261,7 +263,7 @@ const CodeBlock = ({ className, children }: { className?: string; children: Reac
   };
 
   return (
-    <div className="relative group rounded-3xl overflow-hidden bg-[#18181b] my-12 shadow-2xl border border-slate-800">
+    <div className="relative group rounded-xl overflow-hidden bg-[#18181b] my-12 shadow-2xl border border-slate-800">
       <div className="flex items-center justify-between px-5 py-3.5 bg-[#27272a] border-b border-black/40">
         <div className="flex items-center gap-2">
           <div className="flex gap-2">
@@ -310,12 +312,12 @@ const Heading2 = ({ children, id, ...props }: any) => {
     <h2
       id={headingId}
       {...props}
-      className="scroll-mt-32 font-display font-extrabold tracking-tight text-slate-950 text-3xl sm:text-4xl mt-28 md:mt-36 mb-8 pt-10 border-t-2 border-purple-100/80 flex items-center justify-between group"
+      className="scroll-mt-32 font-display font-extrabold tracking-tight text-white text-3xl sm:text-4xl mt-28 md:mt-36 mb-8 pt-10 border-t-2 border-purple-800/80 flex items-center justify-between group"
     >
       <span>{children}</span>
       <a 
         href={`#${headingId}`} 
-        className="opacity-0 group-hover:opacity-100 transition-opacity text-purple-300 hover:text-purple-600 ml-3 text-2xl no-underline font-normal"
+        className="opacity-0 group-hover:opacity-100 transition-opacity text-purple-300 hover:text-purple-400 ml-3 text-2xl no-underline font-normal"
         aria-label="Tautan ke bagian ini"
       >
         #
@@ -331,12 +333,12 @@ const Heading3 = ({ children, id, ...props }: any) => {
     <h3
       id={headingId}
       {...props}
-      className="scroll-mt-32 font-display font-bold tracking-tight text-purple-950 text-2xl sm:text-3xl mt-20 md:mt-24 mb-6 flex items-center justify-between group"
+      className="scroll-mt-32 font-display font-bold tracking-tight text-white text-2xl sm:text-3xl mt-20 md:mt-24 mb-6 flex items-center justify-between group"
     >
       <span>{children}</span>
       <a 
         href={`#${headingId}`} 
-        className="opacity-0 group-hover:opacity-100 transition-opacity text-purple-200 hover:text-purple-500 ml-3 text-xl no-underline font-normal"
+        className="opacity-0 group-hover:opacity-100 transition-opacity text-purple-300 hover:text-purple-400 ml-3 text-xl no-underline font-normal"
         aria-label="Tautan ke bagian ini"
       >
         #
@@ -348,15 +350,15 @@ const Heading3 = ({ children, id, ...props }: any) => {
 const Heading4 = ({ children, ...props }: any) => (
   <h4
     {...props}
-    className="scroll-mt-32 font-display font-bold tracking-tight text-slate-900 text-xl sm:text-2xl mt-14 md:mt-16 mb-5"
+    className="scroll-mt-32 font-display font-bold tracking-tight text-white text-xl sm:text-2xl mt-14 md:mt-16 mb-5"
   >
     {children}
   </h4>
 );
 
 const InlineCTA = () => (
-  <div className="my-16 p-8 sm:p-12 rounded-3xl bg-gradient-to-br from-purple-900 via-purple-950 to-indigo-950 text-white shadow-2xl flex flex-col md:flex-row items-center justify-between gap-8 relative overflow-hidden group">
-    <div className="absolute top-0 right-0 w-80 h-80 bg-white/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2 group-hover:bg-white/15 transition-colors duration-700 pointer-events-none" />
+  <div className="my-16 p-8 sm:p-12 rounded-xl bg-gradient-to-br from-purple-900 via-purple-950 to-indigo-950 text-white shadow-2xl flex flex-col md:flex-row items-center justify-between gap-8 relative overflow-hidden group">
+    <div className="absolute top-0 right-0 w-80 h-80  -translate-y-1/2 translate-x-1/2 group-hover:bg-white/15 transition-colors duration-700 pointer-events-none" />
     <div className="relative z-10 flex-1 text-center md:text-left space-y-2">
       <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/15 text-purple-200 text-xs font-bold uppercase tracking-wider mb-2">
         <Sparkles size={14} /> Solusi Arsitektur B2B
@@ -386,7 +388,6 @@ export default function BlogPostPage() {
   const [isLoading, setIsLoading] = useState(true);
   
   const { scrollYProgress } = useScroll();
-  const scaleX = useSpring(scrollYProgress, { stiffness: 100, damping: 30, restDelta: 0.001 });
   const y = useTransform(scrollYProgress, [0, 1], [0, 200]);
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
 
@@ -532,12 +533,6 @@ export default function BlogPostPage() {
         <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
       </Helmet>
 
-      {/* Top Reading Progress Bar */}
-      <motion.div
-        style={{ scaleX }}
-        className="fixed top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-purple-600 via-indigo-600 to-fuchsia-600 origin-left z-50 shadow-sm"
-      />
-
       {/* Hero Section */}
       <div className="relative h-[62vh] min-h-[560px] w-full overflow-hidden bg-purple-950">
         <motion.div 
@@ -548,48 +543,48 @@ export default function BlogPostPage() {
             src={post.image || 'https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=2000'} 
             blurSrc={(post.image || 'https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=20') + '&blur=20'}
             alt={post.title}
-            className="w-full h-full object-cover opacity-50 scale-105 mix-blend-overlay"
+            className="w-full h-full object-cover opacity-30 scale-105 mix-blend-overlay"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-900/70 to-purple-950/40" />
+          <div className="absolute inset-0 bg-gradient-to-t from-purple-950 via-slate-950 to-purple-950/95" />
         </motion.div>
 
         <div className="absolute inset-0 flex items-end">
           <div className="max-w-5xl mx-auto px-6 pb-16 md:pb-20 w-full">
-            <Link to="/blog" className="inline-flex items-center gap-2 text-white/80 hover:text-white transition-colors mb-8 text-xs font-bold tracking-widest uppercase bg-white/10 hover:bg-white/20 px-4 py-2 rounded-full backdrop-blur-sm border border-white/15">
+            <Link to="/blog" className="inline-flex items-center gap-2 text-white hover:text-purple-200 transition-colors mb-8 text-xs font-bold tracking-widest uppercase bg-white/20 hover:bg-white/30 px-4 py-2 rounded-full backdrop-blur-md border border-white/30 shadow-md">
               <ChevronLeft size={16} /> KEMBALI KE BLOG HUB
             </Link>
             
             <div className="flex flex-wrap items-center gap-2.5 mb-6">
               {post.tags?.slice(0, 4).map(tag => (
-                <span key={tag} className="px-3.5 py-1.5 rounded-full bg-white/15 backdrop-blur-md border border-white/25 text-[10px] font-bold text-white tracking-widest uppercase">
+                <span key={tag} className="px-3.5 py-1.5 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-[10px] font-bold text-white tracking-widest uppercase shadow-sm">
                   {tag}
                 </span>
               ))}
             </div>
             
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-extrabold text-white leading-[1.14] tracking-tight mb-8 drop-shadow-md">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-extrabold text-white leading-[1.14] tracking-tight mb-8 drop-shadow-lg">
               {post.title}
             </h1>
             
-            <div className="flex flex-wrap items-center gap-6 text-white/90 text-sm font-sans pt-2 border-t border-white/15">
+            <div className="flex flex-wrap items-center gap-6 text-white text-sm font-sans pt-4 border-t border-white/25">
                <div className="flex items-center gap-3">
                  <LazyImage 
                    src={post.author?.avatar || 'https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=256'} 
                    blurSrc={(post.author?.avatar || 'https://images.unsplash.com/photo-1560250097-0b93528c311a?q=20&w=20') + '&blur=10'}
                    alt={post.author?.name}
-                   className="w-11 h-11 rounded-full bg-purple-800 border-2 border-purple-400/80 object-cover shadow-md"
+                   className="w-11 h-11 rounded-full bg-purple-700 border-2 border-white object-cover shadow-md"
                  />
                  <div className="flex flex-col">
-                   <span className="font-bold text-white leading-tight">{post.author?.name || 'Chesta Azka'}</span>
-                   <span className="text-xs text-purple-200">{post.author?.role || 'Lead Architect & Engineer'}</span>
+                   <span className="font-bold text-white text-base leading-tight">{post.author?.name || 'Chesta Azka'}</span>
+                   <span className="text-xs text-purple-200 font-medium">{post.author?.role || 'Lead Architect & Engineer'}</span>
                  </div>
                </div>
-               <div className="hidden sm:block w-1.5 h-1.5 rounded-full bg-white/40" />
-               <div className="flex items-center gap-2 text-white/90 font-medium">
+               <div className="hidden sm:block w-1.5 h-1.5 rounded-full bg-white/60" />
+               <div className="flex items-center gap-2 text-white font-semibold">
                  <Calendar size={15} className="text-purple-300" /> {post.date}
                </div>
-               <div className="hidden sm:block w-1.5 h-1.5 rounded-full bg-white/40" />
-               <div className="flex items-center gap-2 text-white/90 font-medium">
+               <div className="hidden sm:block w-1.5 h-1.5 rounded-full bg-white/60" />
+               <div className="flex items-center gap-2 text-white font-semibold">
                  <Clock size={15} className="text-purple-300" /> {post.readTime}
                </div>
             </div>
@@ -600,23 +595,24 @@ export default function BlogPostPage() {
       {/* Content Section with Generous Breathable Spacing */}
       <div className="max-w-7xl mx-auto px-6 py-20 md:py-28 grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-16 items-start">
          <article className="w-full min-w-0">
-           <div className="prose prose-lg prose-slate max-w-none
-                        prose-headings:font-display prose-headings:font-extrabold prose-headings:tracking-tight prose-headings:text-slate-950
-                        prose-h2:text-3xl md:prose-h2:text-4xl prose-h2:mt-28 md:prose-h2:mt-36 prose-h2:mb-8 prose-h2:pt-10 prose-h2:border-t-2 prose-h2:border-purple-100/80
-                        prose-h3:text-2xl md:prose-h3:text-3xl prose-h3:mt-20 md:prose-h3:mt-24 prose-h3:mb-6 prose-h3:text-purple-950
-                        prose-h4:text-xl md:prose-h4:text-2xl prose-h4:mt-14 md:prose-h4:mt-16 prose-h4:mb-5 prose-h4:font-display prose-h4:text-slate-900
-                        prose-p:font-sans prose-p:leading-[2.1] md:prose-p:leading-[2.2] prose-p:tracking-[0.012em] prose-p:text-slate-700 prose-p:text-[1.125rem] prose-p:mb-12 prose-p:mt-0
-                        prose-a:text-purple-700 prose-a:font-semibold hover:prose-a:text-purple-900 prose-a:underline-offset-4
-                        prose-strong:text-slate-950 prose-strong:font-bold
-                        prose-blockquote:my-16 prose-blockquote:py-8 prose-blockquote:px-8 sm:prose-blockquote:px-10 prose-blockquote:bg-gradient-to-r prose-blockquote:from-purple-50/90 prose-blockquote:to-indigo-50/50 prose-blockquote:border-l-4 prose-blockquote:border-purple-600 prose-blockquote:rounded-r-3xl prose-blockquote:font-sans prose-blockquote:italic prose-blockquote:text-slate-800 prose-blockquote:leading-[1.95] prose-blockquote:text-lg prose-blockquote:shadow-sm
-                        prose-img:rounded-3xl prose-img:shadow-2xl prose-img:my-16 prose-img:border prose-img:border-slate-100
+           <div className="prose prose-lg prose-invert max-w-none prose-h1:hidden
+                        prose-headings:font-display prose-headings:font-extrabold prose-headings:tracking-tight prose-headings:text-white
+                        prose-h2:text-3xl md:prose-h2:text-4xl prose-h2:mt-28 md:prose-h2:mt-36 prose-h2:mb-8 prose-h2:pt-10 prose-h2:border-t-2 prose-h2:border-purple-800/80
+                        prose-h3:text-2xl md:prose-h3:text-3xl prose-h3:mt-20 md:prose-h3:mt-24 prose-h3:mb-6 prose-h3:text-white
+                        prose-h4:text-xl md:prose-h4:text-2xl prose-h4:mt-14 md:prose-h4:mt-16 prose-h4:mb-5 prose-h4:font-display prose-h4:text-white
+                        prose-p:font-sans prose-p:leading-[2.1] md:prose-p:leading-[2.2] prose-p:tracking-[0.012em] prose-p:text-slate-300 prose-p:text-[1.125rem] prose-p:mb-12 prose-p:mt-0
+                        prose-a:text-purple-400 prose-a:font-semibold hover:prose-a:text-purple-300 prose-a:underline-offset-4
+                        prose-strong:text-white prose-strong:font-bold
+                        prose-blockquote:my-16 prose-blockquote:py-8 prose-blockquote:px-8 sm:prose-blockquote:px-10 prose-blockquote:bg-gradient-to-r prose-blockquote:from-purple-950/90 prose-blockquote:to-indigo-950/50 prose-blockquote:border-l-4 prose-blockquote:border-purple-500 prose-blockquote:rounded-r-3xl prose-blockquote:font-sans prose-blockquote:italic prose-blockquote:text-slate-200 prose-blockquote:leading-[1.95] prose-blockquote:text-lg prose-blockquote:shadow-sm
+                        prose-img:rounded-xl prose-img:shadow-2xl prose-img:my-16 prose-img:border prose-img:border-slate-800
                         prose-ul:list-disc prose-ul:pl-8 prose-ul:my-12 prose-ul:space-y-4 prose-ul:leading-[1.95]
                         prose-ol:list-decimal prose-ol:pl-8 prose-ol:my-12 prose-ol:space-y-4 prose-ol:leading-[1.95]
-                        prose-li:text-slate-700 prose-li:text-[1.075rem] marker:text-purple-600 marker:font-bold
-                        prose-hr:my-24 prose-hr:border-slate-200/90">
+                        prose-li:text-slate-300 prose-li:text-[1.075rem] marker:text-purple-400 marker:font-bold
+                        prose-hr:my-24 prose-hr:border-slate-800">
              <Markdown
                options={{
                  overrides: {
+                   h1: { component: () => null },
                    h2: { component: Heading2 },
                    h3: { component: Heading3 },
                    h4: { component: Heading4 },
@@ -651,7 +647,7 @@ export default function BlogPostPage() {
            </div>
 
             {/* Author Bio Box */}
-            <div className="mt-16 bg-slate-50 border border-slate-200/80 p-8 sm:p-10 rounded-3xl flex flex-col md:flex-row items-center md:items-start gap-8 text-center md:text-left">
+            <div className="mt-16 bg-slate-50 border border-slate-200/80 p-8 sm:p-10 rounded-xl flex flex-col md:flex-row items-center md:items-start gap-8 text-center md:text-left">
               <div className="w-24 h-24 rounded-full bg-purple-100 ring-4 ring-white shadow-lg shrink-0 overflow-hidden relative">
                 <LazyImage 
                   src={post.author?.avatar || 'https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=256'} 

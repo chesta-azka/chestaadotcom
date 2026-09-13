@@ -1,6 +1,6 @@
 import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { MessageCircle, Menu, X, Home, Sparkles, Briefcase, GitFork, User, BookOpen, ArrowRight, Search, Mail, Phone, ChevronRight, ChevronDown, MapPin, GraduationCap, CheckSquare } from 'lucide-react';
+import { MessageCircle, Menu, X, Home, Sparkles, Briefcase, GitFork, User, BookOpen, ArrowRight, Search, Mail, Phone, ChevronRight, ChevronDown, MapPin, GraduationCap, CheckSquare, Code2, Bot, ShoppingBag, Target, FolderGit2, LineChart, UserCircle2, Terminal } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import LocalSEOBanner from '../molecules/LocalSEOBanner.tsx';
 
@@ -16,23 +16,26 @@ const NAV_ITEMS: NavItem[] = [
   { name: 'Home', href: '/', icon: Home, subtitle: 'Beranda' },
   {
     name: 'Layanan',
+    icon: Code2,
     children: [
-      { name: 'Web Dev Next.js', href: '/#services', icon: Sparkles, subtitle: 'Pembuatan Website Cepat & Modern' },
-      { name: 'AI Integration', href: '/#services', icon: Sparkles, subtitle: 'Otomatisasi dengan Google Gemini' },
-      { name: 'UI/UX Design', href: '/#services', icon: Sparkles, subtitle: 'Desain Antarmuka Premium' },
-      { name: 'Workflow', href: '/workflow', icon: GitFork, subtitle: 'Proses Kerja & Eksekusi' },
+      { name: 'Web Dev Next.js', href: '/layanan/web-development-nextjs', icon: Code2, subtitle: 'Website Super Cepat & Enterprise' },
+      { name: 'AI & Chatbot', href: '/layanan/ai-integration', icon: Bot, subtitle: 'Otomatisasi Google Gemini 24/7' },
+      { name: 'E-Commerce Automation', href: '/layanan/ecommerce-automation', icon: ShoppingBag, subtitle: 'Toko Online & Checkout Kilat' },
+      { name: 'Landing Page Konversi', href: '/layanan/landing-page', icon: Target, subtitle: 'Melejitkan Omset Iklan Anda' },
     ]
   },
   {
     name: 'Showcase',
+    icon: FolderGit2,
     children: [
-      { name: 'Portfolio', href: '/portfolio', icon: Briefcase, subtitle: 'Galeri & Hasil Nyata' },
-      { name: 'Case Studies', href: '/case-studies', icon: Briefcase, subtitle: 'Analisis Mendalam' },
-      { name: 'About', href: '/about', icon: User, subtitle: 'Profil Founder & Visi' },
+      { name: 'Portfolio', href: '/portfolio', icon: FolderGit2, subtitle: 'Galeri & Hasil Nyata' },
+      { name: 'Case Studies', href: '/case-studies', icon: LineChart, subtitle: 'Analisis Mendalam' },
+      { name: 'About', href: '/about', icon: UserCircle2, subtitle: 'Profil Founder & Visi' },
     ]
   },
   {
     name: 'Developers',
+    icon: Terminal,
     children: [
       { name: 'Tech Insights', href: '/blog', icon: BookOpen, subtitle: 'Jurnal Vibe Coding' },
       { name: 'Academy', href: '/academy', icon: GraduationCap, subtitle: 'Tutorial & Dokumentasi' },
@@ -164,7 +167,7 @@ export default function Header() {
               </div>
               
               <div className="flex flex-col text-left">
-                <span className="font-display text-base md:text-[15px] font-bold tracking-tight text-slate-900 leading-none">
+                <span className="font-display text-base md:text-[15px] font-black tracking-tight text-slate-900 leading-none">
                   chestaa<span className="text-purple-500">dot</span>com
                 </span>
               </div>
@@ -225,12 +228,12 @@ export default function Header() {
                                     : 'hover:bg-slate-50 text-slate-700 hover:text-purple-700'
                                 }`}
                               >
-                                <div className={`p-1.5 rounded-lg ${isChildActive ? 'bg-purple-100' : 'bg-slate-100 text-slate-500'}`}>
+                                <div className={`p-1.5 rounded-lg ${isChildActive ? 'bg-purple-100' : 'bg-slate-100 text-slate-600'}`}>
                                   <Icon size={14} className={isChildActive ? 'text-purple-600' : ''} />
                                 </div>
                                 <div className="flex flex-col">
                                   <span className="text-xs font-bold font-sans">{child.name}</span>
-                                  <span className="text-[9px] text-slate-500 font-sans tracking-wide">{child.subtitle}</span>
+                                  <span className="text-[9px] text-slate-600 font-sans tracking-wide">{child.subtitle}</span>
                                 </div>
                               </Link>
                             )
@@ -304,223 +307,213 @@ export default function Header() {
         </div>
       </header>
 
-      {/* Full-Screen Mobile Navigation Overlay */}
+      {/* Mobile Navigation Drawer Overlay */}
       <AnimatePresence>
         {mobileMenuOpen && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            transition={{ duration: 0.28, ease: 'easeInOut' }}
-            className="fixed inset-0 z-50 md:hidden bg-white flex flex-col justify-between overflow-y-auto"
-            style={{ overscrollBehavior: 'contain' }}
-          >
-            {/* Top Bar inside Overlay */}
-            <div className="w-full flex items-center justify-between px-6 py-5 border-b border-slate-200 shrink-0">
-              <Link
-                to="/"
-                onClick={() => setMobileMenuOpen(false)}
-                className="flex items-center gap-2.5 group select-none"
-              >
-                <div className="flex items-center justify-center w-9 h-9 rounded-xl bg-purple-50 border border-purple-200">
-                  <svg className="w-4 h-4 text-purple-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                    <path d="m12 3-8 8 8 8 8-8-8-8z" />
-                    <path d="m12 8-4 4 4 4 4-4-4-4z" />
-                  </svg>
-                </div>
-                <span className="font-display text-lg font-bold tracking-tight text-slate-900">
-                  chestaa<span className="text-purple-600">dot</span>com
-                </span>
-              </Link>
+          <>
+            {/* Backdrop */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              transition={{ duration: 0.2 }}
+              onClick={() => setMobileMenuOpen(false)}
+              className="fixed inset-0 z-50 md:hidden bg-slate-950/40 backdrop-blur-xs"
+            />
 
-              <motion.button
-                whileTap={{ scale: 0.9 }}
-                onClick={() => setMobileMenuOpen(false)}
-                className="flex items-center justify-center min-w-[44px] min-h-[44px] rounded-full bg-slate-100 hover:bg-slate-200 active:bg-slate-300 text-slate-900 border border-slate-200 transition-all cursor-pointer"
-                aria-label="Tutup navigasi layar penuh"
-              >
-                <X size={22} />
-              </motion.button>
-            </div>
-
-            {/* Scrollable Center Content */}
-            <div className="flex-1 flex flex-col px-6 py-6 space-y-6 max-w-lg mx-auto w-full">
-              {/* Quick Search Bar */}
-              <motion.button
-                initial={{ opacity: 0, y: -10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3, delay: 0.08 }}
-                onClick={() => {
-                  setMobileMenuOpen(false);
-                  window.dispatchEvent(new CustomEvent('open-command-palette'));
-                }}
-                className="w-full flex items-center justify-between px-4 py-3.5 rounded-2xl bg-slate-50 border border-slate-200 text-slate-600 text-sm font-medium cursor-pointer hover:bg-slate-100 transition-all shadow-sm"
-              >
-                <div className="flex items-center gap-3">
-                  <Search size={18} className="text-purple-600 shrink-0" />
-                  <span className="text-slate-600 font-sans">Cari Layanan, Portofolio, Artikel...</span>
-                </div>
-                <kbd className="px-2.5 py-1 rounded-lg bg-white text-[11px] font-mono font-semibold text-purple-600 border border-slate-200">
-                  ⌘K
-                </kbd>
-              </motion.button>
-
-              {/* Navigation Links List */}
-              <nav className="space-y-2 py-2">
-                {NAV_ITEMS.map((item, index) => {
-                  const Icon = item.icon || (item.children ? ChevronDown : ChevronRight);
-                  const isActive = item.href 
-                    ? location.pathname === item.href || (item.href !== '/' && location.pathname.startsWith(item.href))
-                    : item.children?.some(child => location.pathname === child.href || location.pathname.startsWith(child.href));
-                  const isExpanded = expandedMenus.includes(item.name);
-
-                  return (
-                    <motion.div
-                      key={item.name}
-                      initial={{ opacity: 0, x: -20 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      transition={{ duration: 0.25, delay: 0.12 + index * 0.04 }}
-                      className="flex flex-col gap-1"
-                    >
-                      {item.href ? (
-                        <Link
-                          to={item.href}
-                          onClick={() => setMobileMenuOpen(false)}
-                          className={`flex items-center justify-between p-3.5 rounded-2xl transition-all ${
-                            isActive
-                              ? 'bg-purple-100/80 border border-purple-200/50 text-purple-900 shadow-sm'
-                              : 'bg-transparent border border-transparent text-slate-600 hover:bg-slate-100 hover:text-slate-900'
-                          }`}
-                        >
-                          <div className="flex items-center gap-3.5">
-                            <div className={`p-2.5 rounded-xl ${isActive ? 'bg-purple-100 text-purple-900' : 'bg-slate-50 text-slate-600'}`}>
-                              <Icon size={18} />
-                            </div>
-                            <div className="flex flex-col text-left">
-                              <span className="font-display text-base font-bold tracking-tight">
-                                {item.name}
-                              </span>
-                              <span className="text-xs text-slate-500 font-sans">
-                                {item.subtitle}
-                              </span>
-                            </div>
-                          </div>
-                          <div className="flex items-center gap-2">
-                            {isActive && (
-                              <span className="text-[10px] font-mono font-bold uppercase tracking-wider text-purple-300 bg-purple-500/20 px-2 py-0.5 rounded-md border border-purple-400/30">
-                                Aktif
-                              </span>
-                            )}
-                            <ChevronRight size={18} className="text-slate-500" />
-                          </div>
-                        </Link>
-                      ) : (
-                        <button
-                          onClick={() => toggleMenu(item.name)}
-                          className={`flex items-center justify-between p-3.5 rounded-2xl transition-all w-full ${
-                            isActive || isExpanded
-                              ? 'bg-purple-50 border border-purple-100 text-purple-900'
-                              : 'bg-transparent border border-transparent text-slate-600 hover:bg-slate-100 hover:text-slate-900'
-                          }`}
-                        >
-                          <div className="flex items-center gap-3.5">
-                            <div className={`p-2.5 rounded-xl ${isActive || isExpanded ? 'bg-purple-100 text-purple-900' : 'bg-slate-50 text-slate-600'}`}>
-                              <ChevronDown size={18} className={`transition-transform duration-300 ${isExpanded ? 'rotate-180' : ''}`} />
-                            </div>
-                            <div className="flex flex-col text-left">
-                              <span className="font-display text-base font-bold tracking-tight">
-                                {item.name}
-                              </span>
-                            </div>
-                          </div>
-                        </button>
-                      )}
-
-                      {/* Mobile Dropdown Items */}
-                      <AnimatePresence>
-                        {item.children && isExpanded && (
-                          <motion.div
-                            initial={{ height: 0, opacity: 0 }}
-                            animate={{ height: 'auto', opacity: 1 }}
-                            exit={{ height: 0, opacity: 0 }}
-                            transition={{ duration: 0.3 }}
-                            className="overflow-hidden"
-                          >
-                            <div className="pl-4 pr-2 py-2 space-y-2 border-l border-slate-200 ml-6 mt-1">
-                              {item.children.map((child) => {
-                                const ChildIcon = child.icon;
-                                const isChildActive = location.pathname === child.href || location.pathname.startsWith(child.href);
-                                return (
-                                  <Link
-                                    key={child.name}
-                                    to={child.href}
-                                    onClick={() => setMobileMenuOpen(false)}
-                                    className={`flex items-center justify-between p-3 rounded-xl transition-all ${
-                                      isChildActive
-                                        ? 'bg-purple-100/50 border border-purple-200/50 text-purple-900'
-                                        : 'bg-transparent border border-transparent text-slate-600 hover:bg-slate-50 hover:text-slate-900'
-                                    }`}
-                                  >
-                                    <div className="flex items-center gap-3">
-                                      <div className={`p-2 rounded-lg ${isChildActive ? 'bg-purple-100 text-purple-900' : 'bg-slate-50 text-slate-600'}`}>
-                                        <ChildIcon size={16} />
-                                      </div>
-                                      <div className="flex flex-col">
-                                        <span className="font-sans text-sm font-bold">{child.name}</span>
-                                        <span className="text-[10px] text-slate-500">{child.subtitle}</span>
-                                      </div>
-                                    </div>
-                                    {isChildActive && (
-                                      <span className="w-1.5 h-1.5 rounded-full bg-purple-400 mr-2" />
-                                    )}
-                                  </Link>
-                                );
-                              })}
-                            </div>
-                          </motion.div>
-                        )}
-                      </AnimatePresence>
-                    </motion.div>
-                  );
-                })}
-              </nav>
-
-              {/* Direct Contact & Social Links */}
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.35, delay: 0.38 }}
-                className="space-y-4 pt-4 border-t border-slate-200"
-              >
-                {/* WhatsApp Action Button */}
-                <a
-                  id="mobile-fullscreen-whatsapp-btn"
-                  href={whatsappUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
+            {/* Slide-in Drawer */}
+            <motion.div
+              initial={{ x: '100%' }}
+              animate={{ x: 0 }}
+              exit={{ x: '100%' }}
+              transition={{ type: 'spring', damping: 26, stiffness: 220 }}
+              className="fixed inset-y-0 right-0 z-50 w-full max-w-sm md:hidden bg-white shadow-2xl flex flex-col justify-between overflow-y-auto"
+              style={{ overscrollBehavior: 'contain' }}
+            >
+              {/* Top Bar inside Drawer */}
+              <div className="w-full flex items-center justify-between px-6 py-5 border-b border-slate-100 shrink-0 bg-slate-50/50">
+                <Link
+                  to="/"
                   onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center justify-between w-full py-4 px-5 bg-gradient-to-r from-purple-600 to-indigo-600 hover:from-purple-500 hover:to-indigo-500 active:scale-[0.98] text-white rounded-2xl font-sans font-bold text-xs uppercase tracking-widest shadow-xl shadow-purple-900/40 transition-all cursor-pointer group"
+                  className="flex items-center gap-2.5 group select-none"
+                >
+                  <div className="flex items-center justify-center w-9 h-9 rounded-xl bg-purple-50 border border-purple-200">
+                    <svg className="w-4 h-4 text-purple-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="m12 3-8 8 8 8 8-8-8-8z" />
+                      <path d="m12 8-4 4 4 4 4-4-4-4z" />
+                    </svg>
+                  </div>
+                  <span className="font-display text-lg font-black tracking-tight text-slate-900">
+                    chestaa<span className="text-purple-600">dot</span>com
+                  </span>
+                </Link>
+
+                <motion.button
+                  whileTap={{ scale: 0.9 }}
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="flex items-center justify-center w-10 h-10 rounded-full bg-white hover:bg-slate-100 active:bg-slate-200 text-slate-900 border border-slate-200 transition-all cursor-pointer shadow-2xs"
+                  aria-label="Tutup navigasi"
+                >
+                  <X size={20} />
+                </motion.button>
+              </div>
+
+              {/* Scrollable Center Content */}
+              <div className="flex-1 flex flex-col px-6 py-6 space-y-6 w-full">
+                {/* Quick Search Bar */}
+                <motion.button
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ duration: 0.3, delay: 0.08 }}
+                  onClick={() => {
+                    setMobileMenuOpen(false);
+                    window.dispatchEvent(new CustomEvent('open-command-palette'));
+                  }}
+                  className="w-full flex items-center justify-between px-4 py-3.5 rounded-2xl bg-slate-50 border border-slate-200/80 text-slate-600 text-sm font-medium cursor-pointer hover:bg-slate-100 transition-all shadow-2xs"
                 >
                   <div className="flex items-center gap-3">
-                    <MessageCircle size={20} className="text-white" />
-                    <span>Konsultasi WhatsApp</span>
+                    <Search size={18} className="text-purple-700 shrink-0" />
+                    <span className="text-slate-700 font-sans">Cari Layanan, Portfolio...</span>
                   </div>
-                  <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
-                </a>
+                  <kbd className="px-2 py-0.5 rounded-lg bg-white text-[11px] font-mono font-semibold text-purple-700 border border-purple-200">
+                    ⌘K
+                  </kbd>
+                </motion.button>
 
-                {/* Status Indicator */}
-                <div className="flex items-center justify-center gap-2 text-xs text-slate-500 font-sans">
-                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
-                  <span>Lead Architect Online &bull; Respon Cepat</span>
+                {/* Navigation Links List */}
+                <nav className="space-y-2">
+                  {NAV_ITEMS.map((item, index) => {
+                    const Icon = item.icon || ChevronRight;
+                    const isActive = item.href 
+                      ? location.pathname === item.href || (item.href !== '/' && location.pathname.startsWith(item.href))
+                      : item.children?.some(child => location.pathname === child.href || location.pathname.startsWith(child.href));
+                    const isExpanded = expandedMenus.includes(item.name);
+
+                    return (
+                      <motion.div
+                        key={item.name}
+                        initial={{ opacity: 0, x: 20 }}
+                        animate={{ opacity: 1, x: 0 }}
+                        transition={{ duration: 0.25, delay: 0.1 + index * 0.04 }}
+                        className="flex flex-col gap-1"
+                      >
+                        {item.href ? (
+                          <Link
+                            to={item.href}
+                            onClick={() => setMobileMenuOpen(false)}
+                            className={`flex items-center justify-between p-3.5 rounded-2xl transition-all ${
+                              isActive
+                                ? 'bg-purple-100/80 border border-purple-200/60 text-purple-900 font-semibold shadow-2xs'
+                                : 'bg-transparent border border-transparent text-slate-700 hover:bg-slate-50 hover:text-purple-900'
+                            }`}
+                          >
+                            <div className="flex items-center gap-3.5">
+                              <div className={`p-2.5 rounded-xl ${isActive ? 'bg-purple-200 text-purple-950' : 'bg-slate-100 text-slate-600'}`}>
+                                <Icon size={18} />
+                              </div>
+                              <span className="font-display text-base tracking-tight">
+                                {item.name}
+                              </span>
+                            </div>
+                            <ChevronRight size={16} className="text-slate-400" />
+                          </Link>
+                        ) : (
+                          <button
+                            onClick={() => toggleMenu(item.name)}
+                            className={`flex items-center justify-between p-3.5 rounded-2xl transition-all w-full ${
+                              isActive || isExpanded
+                                ? 'bg-purple-50 border border-purple-200/70 text-purple-900 font-semibold'
+                                : 'bg-transparent border border-transparent text-slate-700 hover:bg-slate-50 hover:text-purple-900'
+                            }`}
+                          >
+                            <div className="flex items-center gap-3.5">
+                              <div className={`p-2.5 rounded-xl ${isActive || isExpanded ? 'bg-purple-100 text-purple-900' : 'bg-slate-100 text-slate-600'}`}>
+                                <Icon size={18} />
+                              </div>
+                              <span className="font-display text-base tracking-tight">
+                                {item.name}
+                              </span>
+                            </div>
+                            <ChevronDown size={18} className={`transition-transform duration-300 text-slate-600 ${isExpanded ? 'rotate-180 text-purple-700' : ''}`} />
+                          </button>
+                        )}
+
+                        {/* Mobile Dropdown Items */}
+                        <AnimatePresence>
+                          {item.children && isExpanded && (
+                            <motion.div
+                              initial={{ height: 0, opacity: 0 }}
+                              animate={{ height: 'auto', opacity: 1 }}
+                              exit={{ height: 0, opacity: 0 }}
+                              transition={{ duration: 0.25 }}
+                              className="overflow-hidden"
+                            >
+                              <div className="pl-4 pr-2 py-2 space-y-1.5 border-l-2 border-purple-200 ml-6 mt-1">
+                                {item.children.map((child) => {
+                                  const ChildIcon = child.icon;
+                                  const isChildActive = location.pathname === child.href || location.pathname.startsWith(child.href);
+                                  return (
+                                    <Link
+                                      key={child.name}
+                                      to={child.href}
+                                      onClick={() => setMobileMenuOpen(false)}
+                                      className={`flex items-center justify-between p-3 rounded-xl transition-all ${
+                                        isChildActive
+                                          ? 'bg-purple-100 text-purple-950 font-bold'
+                                          : 'bg-transparent text-slate-600 hover:bg-slate-50 hover:text-purple-900'
+                                      }`}
+                                    >
+                                      <div className="flex items-center gap-3">
+                                        <div className={`p-2 rounded-lg ${isChildActive ? 'bg-purple-200 text-purple-900' : 'bg-slate-100 text-slate-600'}`}>
+                                          <ChildIcon size={15} />
+                                        </div>
+                                        <div className="flex flex-col text-left">
+                                          <span className="font-sans text-xs font-bold">{child.name}</span>
+                                          <span className="text-[10px] text-slate-600 font-sans">{child.subtitle}</span>
+                                        </div>
+                                      </div>
+                                    </Link>
+                                  );
+                                })}
+                              </div>
+                            </motion.div>
+                          )}
+                        </AnimatePresence>
+                      </motion.div>
+                    );
+                  })}
+                </nav>
+
+                {/* Direct Contact Action Button */}
+                <div className="pt-4 border-t border-slate-100 space-y-3">
+                  <a
+                    id="mobile-drawer-whatsapp-btn"
+                    href={whatsappUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => setMobileMenuOpen(false)}
+                    className="flex items-center justify-between w-full py-3.5 px-5 bg-gradient-to-r from-purple-900 to-indigo-900 hover:from-purple-950 hover:to-indigo-950 active:scale-[0.98] text-white rounded-2xl font-sans font-bold text-xs uppercase tracking-wider shadow-lg shadow-purple-950/20 transition-all cursor-pointer group"
+                  >
+                    <div className="flex items-center gap-3">
+                      <MessageCircle size={18} className="text-white" />
+                      <span>Konsultasi WhatsApp</span>
+                    </div>
+                    <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+                  </a>
+
+                  <div className="flex items-center justify-center gap-2 text-xs text-slate-600 font-sans py-1">
+                    <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                    <span>Lead Architect Online &bull; BSD City</span>
+                  </div>
                 </div>
-              </motion.div>
-            </div>
+              </div>
 
-            {/* Bottom Footer Info */}
-            <div className="w-full px-6 py-4 border-t border-slate-200 text-center text-[11px] text-slate-500 font-sans shrink-0">
-              <span>CHESTAADOTCOM &copy; 2026 &bull; Cisauk &amp; BSD City</span>
-            </div>
-          </motion.div>
+              {/* Bottom Footer Info */}
+              <div className="w-full px-6 py-4 border-t border-slate-100 bg-slate-50/80 text-center text-[11px] text-slate-600 font-sans shrink-0">
+                <span>CHESTAADOTCOM &copy; 2026 &bull; All Rights Reserved</span>
+              </div>
+            </motion.div>
+          </>
         )}
       </AnimatePresence>
     </>

@@ -1,11 +1,34 @@
 import { Link } from 'react-router-dom';
-import { Instagram, MessageCircle, Mail, MapPin, ArrowRight } from 'lucide-react';
+import { Instagram, MessageCircle, Mail, MapPin, ArrowRight, Send, CheckCircle2 } from 'lucide-react';
+import { useState } from 'react';
+import toast from 'react-hot-toast';
 
+import { motion } from 'motion/react';
 import { useLocation } from 'react-router-dom';
 export default function FooterSection() {
   const location = useLocation();
+  const [email, setEmail] = useState('');
+  const [isSubscribed, setIsSubscribed] = useState(false);
+
+  const handleSubscribe = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email || !email.includes('@')) {
+      toast.error('Masukkan alamat email yang valid.');
+      return;
+    }
+    setIsSubscribed(true);
+    toast.success('Terima kasih! Berhasil berlangganan newsletter kami.');
+    setEmail('');
+  };
+
     return (
-    <footer className="pt-24 pb-12 bg-transparent text-slate-600 border-t border-slate-100 relative overflow-hidden">
+    <motion.footer 
+      initial={{ opacity: 0, y: 30 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-50px" }}
+      transition={{ duration: 0.8, ease: "easeOut" }}
+      className="pt-24 pb-12 bg-transparent text-slate-600 border-t border-slate-100 relative overflow-hidden"
+    >
       {/* Seamless background blending gradients */}
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/[0.008] to-transparent pointer-events-none" />
       {/* Decorative Glow */}
@@ -14,8 +37,8 @@ export default function FooterSection() {
       <div className="mx-auto max-w-[1400px] px-6 md:px-12 relative z-10">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 lg:gap-8 mb-24">
           
-          {/* Column 1: Brand */}
-          <div className="lg:col-span-4 space-y-8 pr-8">
+          {/* Column 1: Brand & Newsletter */}
+          <div className="lg:col-span-4 space-y-8 pr-4">
             <Link to="/" onClick={() => window.scrollTo(0,0)} className="inline-flex items-center gap-3 group">
               <div className="w-12 h-12 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-center group-hover:border-[#6b21a8]/40 transition-colors duration-300 shadow-[0_4px_20px_rgba(0,0,0,0.3)]">
                 <svg className="w-6 h-6 text-[#6b21a8] group-hover:scale-110 transition-transform duration-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
@@ -23,13 +46,37 @@ export default function FooterSection() {
                   <path d="m12 8-4 4 4 4 4-4-4-4z" />
                 </svg>
               </div>
-              <span className="font-display text-2xl font-extrabold tracking-tight leading-none text-slate-900">
+              <span className="font-display text-2xl font-black tracking-tight leading-none text-slate-900">
                 CHESTA<span className="text-[#6b21a8]">.</span>
               </span>
             </Link>
             <p className="text-base font-sans leading-relaxed text-slate-600 max-w-sm">
-              Arsitektur digital premium untuk UMKM dan Brand lokal. Transformasi digital yang fokus pada performa, estetika, dan konversi nyata di tahun 2026.
+              Arsitektur digital premium untuk UMKM dan Brand lokal. Transformasi digital yang fokus pada performa, estetika, dan konversi nyata.
             </p>
+
+            {/* Newsletter Subscription Box */}
+            <div className="bg-slate-50/90 rounded-2xl p-4 border border-slate-200/80 shadow-sm max-w-sm">
+              <p className="text-xs font-mono font-bold text-slate-800 uppercase tracking-wider mb-2">Newsletter Eksklusif</p>
+              {isSubscribed ? (
+                <div className="flex items-center gap-2 text-emerald-600 text-sm font-medium py-2">
+                  <CheckCircle2 size={18} /> Berhasil Berlangganan!
+                </div>
+              ) : (
+                <form onSubmit={handleSubscribe} className="flex gap-2">
+                  <input 
+                    type="email" 
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    placeholder="nama@email.com" 
+                    className="bg-white px-3.5 py-2 text-xs rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-purple-600 flex-1 text-slate-800"
+                  />
+                  <button type="submit" className="bg-purple-900 hover:bg-purple-800 text-white px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-center cursor-pointer shadow-xs">
+                    <Send size={13} />
+                  </button>
+                </form>
+              )}
+            </div>
+
             <div className="flex gap-3">
               <a href="https://instagram.com/chestaadotcom" target="_blank" rel="noopener noreferrer" title="Instagram @chestaadotcom" className="w-10 h-10 rounded-full bg-slate-50 border border-slate-200 flex items-center justify-center hover:bg-purple-600 hover:text-white hover:border-purple-600 transition-all duration-300">
                 <Instagram size={18} strokeWidth={1.5} />
@@ -70,7 +117,9 @@ export default function FooterSection() {
             <h4 className="text-slate-900 font-sans font-bold tracking-widest uppercase text-[11px] mb-8">Eksplorasi</h4>
             <ul className="space-y-4 text-sm font-sans text-slate-600">
               <li><Link to="/portfolio" onClick={() => window.scrollTo(0,0)} className="hover:text-purple-600 transition-colors">Showcase Portfolio</Link></li>
+              <li><Link to="/case-studies" onClick={() => window.scrollTo(0,0)} className="hover:text-purple-600 transition-colors">Case Studies</Link></li>
               <li><Link to="/blog" onClick={() => window.scrollTo(0,0)} className="hover:text-purple-600 transition-colors">Artikel & Insights</Link></li>
+              <li><Link to="/academy" onClick={() => window.scrollTo(0,0)} className="hover:text-purple-600 transition-colors">Academy &amp; Masterclass</Link></li>
               <li><Link to="/about" onClick={() => window.scrollTo(0,0)} className="hover:text-purple-600 transition-colors">Tentang Kami</Link></li>
             </ul>
           </div>
@@ -87,6 +136,10 @@ export default function FooterSection() {
                 <MessageCircle size={18} className="shrink-0 text-[#6b21a8]" />
                 <span className="leading-relaxed">+62 821-2544-7232</span>
               </li>
+              <li className="flex items-center gap-3">
+                <Mail size={18} className="shrink-0 text-[#6b21a8]" />
+                <span className="leading-relaxed">chestaadotcom@gmail.com</span>
+              </li>
             </ul>
           </div>
         </div>
@@ -95,7 +148,7 @@ export default function FooterSection() {
         <div className="w-full border-t border-slate-100 pt-12 mt-12 flex flex-col items-center">
             {/* Massive typography for decorative brutalism aesthetic */}
             <div className="w-full mb-12 flex justify-center overflow-hidden">
-                <h2 className="text-[12vw] font-display font-extrabold tracking-tighter text-slate-900/[0.03] leading-none select-none pointer-events-none whitespace-nowrap">
+                <h2 className="text-[12vw] font-display font-black tracking-tighter text-slate-900/[0.03] leading-none select-none pointer-events-none whitespace-nowrap">
                   CHESTAADOTCOM
                 </h2>
             </div>
@@ -111,6 +164,6 @@ export default function FooterSection() {
             </div>
         </div>
       </div>
-    </footer>
+    </motion.footer>
   );
 }

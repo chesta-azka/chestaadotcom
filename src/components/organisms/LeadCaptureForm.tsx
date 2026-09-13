@@ -29,14 +29,14 @@ export default function LeadCaptureForm() {
   };
 
   return (
-    <div className="bg-white rounded-3xl shadow-sm border border-purple-100 overflow-hidden w-full max-w-2xl mx-auto font-sans">
+    <div className="bg-white rounded-xl shadow-sm border border-purple-100 overflow-hidden w-full max-w-2xl mx-auto font-sans">
       {/* Header */}
       <div className="bg-purple-50/40 p-6 border-b border-purple-100 flex items-center justify-between">
         <div>
-          <h3 className="font-display font-semibold text-slate-900 text-lg">
+          <h3 className="font-display font-black text-slate-900 text-lg">
             Kustomisasi Rencana Website
           </h3>
-          <p className="text-slate-500 text-xs font-sans mt-0.5">
+          <p className="text-slate-600 text-xs font-sans mt-0.5">
             Pilih kebutuhan Anda dan dapatkan konsultasi 1-on-1 langsung di WhatsApp.
           </p>
         </div>
@@ -49,7 +49,7 @@ export default function LeadCaptureForm() {
       <div className="p-6 sm:p-8 space-y-6">
         {/* Step 1: Jenis Proyek */}
         <div>
-          <label className="block text-xs font-mono uppercase font-bold text-slate-500 tracking-wider mb-2.5">
+          <label className="block text-xs font-mono uppercase font-bold text-slate-600 tracking-wider mb-2.5">
             1. Pilih Jenis Kebutuhan Website
           </label>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
@@ -78,7 +78,7 @@ export default function LeadCaptureForm() {
 
         {/* Step 2: Budget */}
         <div>
-          <label className="block text-xs font-mono uppercase font-bold text-slate-500 tracking-wider mb-2.5">
+          <label className="block text-xs font-mono uppercase font-bold text-slate-600 tracking-wider mb-2.5">
             2. Perkiraan Alokasi Investasi
           </label>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-2.5">
@@ -107,7 +107,7 @@ export default function LeadCaptureForm() {
 
         {/* Optional Business Name */}
         <div>
-          <label className="block text-xs font-mono uppercase font-bold text-slate-500 tracking-wider mb-2">
+          <label className="block text-xs font-mono uppercase font-bold text-slate-600 tracking-wider mb-2">
             3. Nama Bisnis / Usaha (Opsional)
           </label>
           <input

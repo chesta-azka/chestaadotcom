@@ -354,7 +354,7 @@ Format Balasan:
       <div key={index} className={`flex flex-col ${isUser ? 'items-end' : 'items-start'} my-2.5`}>
         <div className="flex items-center gap-1.5 mb-1 px-1">
           {isUser ? (
-            <span className="text-[11px] font-semibold text-slate-500">Anda</span>
+            <span className="text-[11px] font-semibold text-slate-600">Anda</span>
           ) : isAdminHuman ? (
             <div className="flex items-center gap-1.5 text-[11px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
@@ -415,7 +415,7 @@ Format Balasan:
   };
 
   const containerContent = (
-    <div className={`flex flex-col h-full bg-white border border-purple-100 rounded-3xl shadow-xl overflow-hidden font-sans ${className}`}>
+    <div className={`flex flex-col h-full bg-white border border-purple-100 rounded-xl shadow-xl overflow-hidden font-sans ${className}`}>
       
       {/* Top Header */}
       <div className="px-5 py-3.5 border-b border-purple-100 bg-white flex items-center justify-between shrink-0">
@@ -440,7 +440,7 @@ Format Balasan:
                 {isHumanTakeover ? 'Live Handoff' : 'Verified'}
               </span>
             </div>
-            <p className="text-[11px] font-medium text-slate-500 flex items-center gap-1">
+            <p className="text-[11px] font-medium text-slate-600 flex items-center gap-1">
               {isHumanTakeover ? (
                 <span className="text-emerald-600 flex items-center gap-1 font-semibold">
                   <Lock size={10} /> Comm-Link Active

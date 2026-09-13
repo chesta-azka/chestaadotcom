@@ -6,6 +6,21 @@ import { MessageCircle, ArrowRight, ChevronDown, Terminal, Cpu, Globe, Shield, Z
 import { Link } from 'react-router-dom';
 import { motion } from 'motion/react';
 
+
+function HighlightWord({ children }: { children: React.ReactNode }) {
+  return (
+    <motion.span
+      variants={{
+        hidden: { opacity: 0, scale: 0.9 },
+        visible: { opacity: 1, scale: 1, transition: { duration: 0.4, type: 'spring' } }
+      }}
+      className="bg-purple-600 text-white px-2 py-0.5 rounded-md font-semibold inline-block mx-1 shadow-sm shadow-purple-600/20"
+    >
+      {children}
+    </motion.span>
+  );
+}
+
 function TypewriterKeyword() {
   const words = [
     'Otomasi IT Skala Korporasi',
@@ -41,9 +56,7 @@ function TypewriterKeyword() {
   }, [currentText, isDeleting, currentWordIndex]);
 
   return (
-    <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-900 via-indigo-800 to-purple-950 border-r-2 border-purple-700 pr-1 animate-pulse">
-      {currentText}
-    </span>
+    <span className="inline-block bg-purple-600 text-white px-4 py-1 sm:py-1.5 mt-2 rounded-xl shadow-lg shadow-purple-600/30 font-semibold relative"><span className="mr-1">{currentText}</span><span className="inline-block w-[3px] h-[0.9em] bg-white animate-pulse align-middle -mt-1"></span></span>
   );
 }
 
@@ -91,30 +104,30 @@ export default function HomePage() {
           
           {/* Left Column: Headline, Copywriting, and CTAs */}
           <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-            className="lg:col-span-7 flex flex-col items-start text-left"
-          >
+  initial="hidden"
+  animate="visible"
+  variants={{
+    hidden: { opacity: 0 },
+    visible: { opacity: 1, transition: { staggerChildren: 0.05 } }
+  }}
+  className="lg:col-span-7 flex flex-col items-start text-left"
+>
             {/* Agency Tag */}
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-purple-50 text-purple-900 text-xs font-mono font-semibold mb-6 border border-purple-100">
+            <motion.div variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] } } }} className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-purple-50 text-purple-900 text-xs font-mono font-semibold mb-6 border border-purple-100">
               <Zap size={13} className="text-purple-700 fill-purple-700" />
               <span>CHESTAADOTCOM • Premier IT Solution Agency</span>
-            </div>
-
+            </motion.div>
             {/* High-Impact Headline with Typewriter Effect */}
-            <h1 className="text-3xl sm:text-5xl md:text-6xl font-display font-extrabold tracking-tight leading-[1.12] text-slate-900 min-h-[140px] sm:min-h-[160px]">
+            <motion.h1 variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] } } }} className="text-3xl sm:text-5xl md:text-6xl font-display font-extrabold tracking-tight leading-[1.12] text-slate-900 min-h-[140px] sm:min-h-[160px]">
               Arsitektur Website Modern &amp; <br />
               <TypewriterKeyword />
-            </h1>
-
+            </motion.h1>
             {/* Improved Copywriting focused on Agency IT Solution */}
-            <p className="mt-2 text-base sm:text-lg text-slate-600 font-sans max-w-xl leading-relaxed">
-              <strong>CHESTAADOTCOM</strong> adalah agency IT solution terdepan yang berpusat di BSD City. Kami menghadirkan solusi rekayasa perangkat lunak full-stack, performa web super cepat, dan integrasi Agentic AI untuk mengakselerasi transformasi digital bisnis Anda secara efisien.
-            </p>
-
+            <motion.p variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] } } }} className="mt-2 text-base sm:text-lg text-slate-600 font-sans max-w-xl leading-relaxed">
+              <strong>CHESTAADOTCOM</strong> adalah agency IT solution terdepan yang berpusat di BSD City. Kami menghadirkan solusi <HighlightWord>rekayasa perangkat lunak</HighlightWord> full-stack, performa web super cepat, dan integrasi <HighlightWord>Agentic AI</HighlightWord> untuk mengakselerasi transformasi digital bisnis Anda secara efisien.
+            </motion.p>
             {/* Primary CTA Buttons with Pulsating Motion */}
-            <div className="mt-8 flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto">
+            <motion.div variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] } } }} className="mt-8 flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto">
               <motion.a
                 href="https://wa.me/6282125447232?text=Halo%20CHESTADOTCOM,%20saya%20tertarik%20untuk%20konsultasi%20solusi%20IT%20dan%20pembuatan%20website%20korporat."
                 target="_blank"
@@ -137,10 +150,9 @@ export default function HomePage() {
                 <span>Lihat Portofolio</span>
                 <ArrowRight size={15} className="text-slate-400 group-hover:translate-x-1" />
               </Link>
-            </div>
-
+            </motion.div>
             {/* Quick Metrics */}
-            <div className="mt-10 pt-6 border-t border-slate-100 flex items-center gap-8 text-xs font-mono text-slate-500">
+            <motion.div variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] } } }} className="mt-10 pt-6 border-t border-slate-100 flex items-center gap-8 text-xs font-mono text-slate-500">
               <div>
                 <span className="font-bold text-slate-900 text-base block">50+</span>
                 <span>Proyek Enterprise</span>
@@ -155,21 +167,23 @@ export default function HomePage() {
                 <span className="font-bold text-slate-900 text-base block">&lt;0.5s</span>
                 <span>Sub-Second Response</span>
               </div>
-            </div>
-
+            </motion.div>
           </motion.div>
 
           {/* Right Column: Minimalist Illustration / Accent Element with Hover Animations */}
           <motion.div 
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+            initial="hidden"
+            animate="visible"
+            variants={{
+               hidden: { opacity: 0, scale: 0.95 },
+               visible: { opacity: 1, scale: 1, transition: { duration: 0.8, delay: 0.2, ease: [0.16, 1, 0.3, 1], staggerChildren: 0.05, delayChildren: 0.4 } }
+            }}
             className="lg:col-span-5 flex justify-center"
           >
-            <div className="relative w-full max-w-md bg-gradient-to-br from-slate-900 via-slate-800 to-purple-950 rounded-3xl p-6 sm:p-8 text-white shadow-2xl border border-slate-800/80 overflow-hidden">
+            <div className="relative w-full max-w-md bg-gradient-to-br from-slate-900 via-slate-800 to-purple-950 rounded-xl p-6 sm:p-8 text-white shadow-2xl border border-slate-800/80 overflow-hidden">
               {/* Glow accent */}
-              <div className="absolute -top-24 -right-24 w-64 h-64 bg-purple-600/30 rounded-full blur-3xl pointer-events-none" />
-              <div className="absolute -bottom-24 -left-24 w-64 h-64 bg-indigo-600/20 rounded-full blur-3xl pointer-events-none" />
+              <div className="absolute -top-24 -right-24 w-64 h-64 " />
+              <div className="absolute -bottom-24 -left-24 w-64 h-64 " />
 
               <div className="relative z-10 flex flex-col gap-5">
                 <div className="flex items-center justify-between border-b border-slate-700/60 pb-4">
@@ -184,9 +198,7 @@ export default function HomePage() {
                 </div>
 
                 <div className="space-y-3 font-mono text-xs text-slate-300">
-                  <motion.div 
-                    whileHover={{ scale: 1.03, x: 4 }}
-                    transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+                  <motion.div variants={{ hidden: { opacity: 0, x: 10 }, visible: { opacity: 1, x: 0, transition: { type: 'spring', stiffness: 300, damping: 24 } } }} whileHover={{ scale: 1.03, x: 4 }} transition={{ type: 'spring', stiffness: 300, damping: 20 }}
                     className="flex items-center gap-2 bg-slate-800/60 p-3 rounded-xl border border-slate-700/50 cursor-pointer"
                   >
                     <motion.div whileHover={{ rotate: 15, scale: 1.2 }} transition={{ duration: 0.2 }}>
@@ -195,9 +207,7 @@ export default function HomePage() {
                     <span className="truncate">Next.js 15 App Router &amp; SSR</span>
                   </motion.div>
 
-                  <motion.div 
-                    whileHover={{ scale: 1.03, x: 4 }}
-                    transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+                  <motion.div variants={{ hidden: { opacity: 0, x: 10 }, visible: { opacity: 1, x: 0, transition: { type: 'spring', stiffness: 300, damping: 24 } } }} whileHover={{ scale: 1.03, x: 4 }} transition={{ type: 'spring', stiffness: 300, damping: 20 }}
                     className="flex items-center gap-2 bg-slate-800/60 p-3 rounded-xl border border-slate-700/50 cursor-pointer"
                   >
                     <motion.div whileHover={{ rotate: 15, scale: 1.2 }} transition={{ duration: 0.2 }}>
@@ -206,9 +216,7 @@ export default function HomePage() {
                     <span className="truncate">Agentic AI &amp; LLM Integration</span>
                   </motion.div>
 
-                  <motion.div 
-                    whileHover={{ scale: 1.03, x: 4 }}
-                    transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+                  <motion.div variants={{ hidden: { opacity: 0, x: 10 }, visible: { opacity: 1, x: 0, transition: { type: 'spring', stiffness: 300, damping: 24 } } }} whileHover={{ scale: 1.03, x: 4 }} transition={{ type: 'spring', stiffness: 300, damping: 20 }}
                     className="flex items-center gap-2 bg-slate-800/60 p-3 rounded-xl border border-slate-700/50 cursor-pointer"
                   >
                     <motion.div whileHover={{ rotate: 15, scale: 1.2 }} transition={{ duration: 0.2 }}>
@@ -217,9 +225,7 @@ export default function HomePage() {
                     <span className="truncate">Cloud Firestore &amp; GCP Enterprise</span>
                   </motion.div>
 
-                  <motion.div 
-                    whileHover={{ scale: 1.03, x: 4 }}
-                    transition={{ type: 'spring', stiffness: 300, damping: 20 }}
+                  <motion.div variants={{ hidden: { opacity: 0, x: 10 }, visible: { opacity: 1, x: 0, transition: { type: 'spring', stiffness: 300, damping: 24 } } }} whileHover={{ scale: 1.03, x: 4 }} transition={{ type: 'spring', stiffness: 300, damping: 20 }}
                     className="flex items-center gap-2 bg-slate-800/60 p-3 rounded-xl border border-slate-700/50 cursor-pointer"
                   >
                     <motion.div whileHover={{ rotate: 15, scale: 1.2 }} transition={{ duration: 0.2 }}>
@@ -250,9 +256,19 @@ export default function HomePage() {
         </div>
 
       </section>
+      
+      <hr className="w-full border-t border-slate-200 m-0 p-0" />
 
       {/* Portfolio / Featured Case Studies Section */}
-      <section className="w-full max-w-6xl mx-auto mt-12 flex flex-col items-center relative z-10 px-4">
+      <motion.section 
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-10%" }}
+        variants={{
+          hidden: { opacity: 0, y: 30 },
+          visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } }
+        }}
+        className="w-full max-w-6xl mx-auto mt-12 flex flex-col items-center relative z-10 px-4">
         <div className="text-center mb-8">
            <h2 className="text-2xl md:text-4xl font-display font-bold tracking-tight text-slate-900 mb-2">
               Portofolio &amp; Hasil Nyata
@@ -262,11 +278,21 @@ export default function HomePage() {
            </p>
         </div>
         <FeaturedCaseStudies />
-      </section>
+      </motion.section>
+      
+      <hr className="w-full border-t border-slate-200 m-0 p-0" />
 
       {/* Simplified 'About' Section focused on IT Solution Expertise */}
-      <section className="w-full max-w-6xl mx-auto mt-24 mb-16 px-4 relative z-10">
-        <div className="bg-slate-50 border border-slate-200 rounded-3xl p-8 sm:p-12 shadow-sm">
+      <motion.section 
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-10%" }}
+        variants={{
+          hidden: { opacity: 0, y: 30 },
+          visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } }
+        }}
+        className="w-full max-w-6xl mx-auto mt-24 mb-16 px-4 relative z-10">
+        <div className="bg-slate-50 border border-slate-200 rounded-xl p-8 sm:p-12 shadow-sm">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
             
             <div className="lg:col-span-6 flex flex-col items-start text-left">
@@ -308,8 +334,7 @@ export default function HomePage() {
 
           </div>
         </div>
-      </section>
-
+      </motion.section>
     </main>
   );
 }

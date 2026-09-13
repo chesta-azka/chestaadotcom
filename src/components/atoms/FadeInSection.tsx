@@ -10,13 +10,20 @@ interface FadeInSectionProps {
 export default function FadeInSection({ children, className = '', delay = 0 }: FadeInSectionProps) {
   return (
     <motion.div
-      initial={{ opacity: 0, y: 30 }}
-      whileInView={{ opacity: 1, y: 0 }}
+      initial="hidden"
+      whileInView="visible"
       viewport={{ once: true, margin: "-10%" }}
-      transition={{ 
-        duration: 0.8, 
-        ease: [0.16, 1, 0.3, 1], 
-        delay: delay 
+      variants={{
+        hidden: { opacity: 0, y: 30 },
+        visible: {
+          opacity: 1, y: 0,
+          transition: {
+            duration: 0.6,
+            ease: [0.22, 1, 0.36, 1],
+            delay: delay,
+            staggerChildren: 0.05
+          }
+        }
       }}
       className={className}
     >

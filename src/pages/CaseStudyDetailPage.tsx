@@ -1,4 +1,6 @@
 import React from 'react';
+import MetaTags from '../components/atoms/MetaTags';
+import { generateCaseStudySchema } from '../lib/seo';
 import { Helmet } from "react-helmet-async";
 import { useParams, Navigate } from "react-router-dom";
 import { Link } from "react-router-dom";
@@ -32,8 +34,8 @@ function InteractiveRoiEstimator({ clientName }: { clientName: string }) {
   const annualSavings = (monthlyRevenueGain * 12).toLocaleString('id-ID');
 
   return (
-    <div className="bg-gradient-to-br from-purple-900 via-purple-950 to-slate-900 text-white rounded-3xl p-6 sm:p-8 my-10 shadow-xl border border-purple-800/60 relative overflow-hidden">
-      <div className="absolute top-0 right-0 w-64 h-64 bg-purple-600/20 rounded-full blur-3xl pointer-events-none" />
+    <div className="bg-gradient-to-br from-purple-900 via-purple-950 to-slate-900 text-white rounded-xl p-6 sm:p-8 my-10 shadow-xl border border-purple-800/60 relative overflow-hidden">
+      <div className="absolute top-0 right-0 w-64 h-64 " />
       <h3 className="text-xl font-display font-bold mb-2">Simulator Estimasi Dampak &amp; ROI ({clientName})</h3>
       <p className="text-xs text-purple-200 mb-6">Simulasikan potensi peningkatan pendapatan berdasarkan skala trafik bulanan.</p>
       
@@ -216,6 +218,13 @@ export default function CaseStudyDetailPage() {
 
   return (
     <main className="relative min-h-screen flex flex-col items-center pt-40 md:pt-48 pb-24 px-4 sm:px-6 lg:px-8 overflow-hidden bg-[#FAFAFC] text-slate-900 selection:bg-purple-500/20">
+      <MetaTags 
+        title={`Case Study: ${study.client} | CHESTAADOTCOM`}
+        description={study.challenge.substring(0, 150) + '...'}
+        path={`/case-studies/${study.slug}`}
+        breadcrumbs={[{ name: 'Home', item: '/' }, { name: 'Case Studies', item: '/case-studies' }, { name: study.client, item: `/case-studies/${study.slug}` }]}
+        schemaString={JSON.stringify(generateCaseStudySchema(study.client, study.challenge, `https://chestaa.com/case-studies/${study.slug}`))}
+      />
       {/* Enhanced Ambient Background System */}
       <div className="absolute inset-0 -z-10 pointer-events-none overflow-hidden">
         {/* Central Violet Core Glow */}
@@ -345,7 +354,7 @@ export default function CaseStudyDetailPage() {
           
           <div className="md:col-span-1 space-y-6 lg:sticky lg:top-24 lg:self-start">
             {/* Table of Contents */}
-            <div className="bg-white/95 backdrop-blur-3xl rounded-3xl p-6 border border-slate-200/90 shadow-lg shadow-slate-200/20">
+            <div className="bg-white/95 backdrop-blur-3xl rounded-xl p-6 border border-slate-200/90 shadow-lg shadow-slate-200/20">
               <h3 className="text-xs uppercase tracking-widest font-mono font-bold text-slate-400 mb-4">Table of Contents</h3>
               <nav className="flex flex-col space-y-2">
                 <a href="#project-overview" className="text-sm font-medium text-slate-600 hover:text-purple-700 transition-colors">Project Overview</a>
@@ -366,13 +375,13 @@ export default function CaseStudyDetailPage() {
               show: {
                 opacity: 1,
                 y: 0,
-                transition: { type: "spring", stiffness: 300, damping: 24, staggerChildren: 0.15 }
+                transition: { type: "spring", stiffness: 300, damping: 24, staggerChildren: 0.05 }
               }
             }}
-            className="bg-white/95 backdrop-blur-3xl rounded-[2.5rem] p-6 sm:p-8 border border-slate-200/90 shadow-2xl shadow-purple-950/10 h-max relative overflow-hidden"
+            className="bg-white/95 backdrop-blur-3xl rounded-2xl p-6 sm:p-8 border border-slate-200/90 shadow-2xl shadow-purple-950/10 h-max relative overflow-hidden"
           >
             {/* Subtle bento background ambient glow */}
-            <div className="absolute -top-24 -right-24 w-48 h-48 bg-purple-500/10 rounded-full blur-3xl pointer-events-none" />
+            <div className="absolute -top-24 -right-24 w-48 h-48 " />
 
             <div className="flex items-center justify-between mb-6">
               <h3 className="text-xs uppercase tracking-widest font-mono font-bold text-slate-400">Key Metrics Bento</h3>
@@ -385,7 +394,7 @@ export default function CaseStudyDetailPage() {
               <motion.div 
                 whileHover={{ scale: 1.02 }} 
                 variants={{ hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 300, damping: 24 } } }} 
-                className="col-span-2 bg-gradient-to-br from-purple-900 via-purple-950 to-indigo-950 text-white rounded-3xl p-6 shadow-lg border border-purple-800/60 relative overflow-hidden group cursor-pointer"
+                className="col-span-2 bg-gradient-to-br from-purple-900 via-purple-950 to-indigo-950 text-white rounded-xl p-6 shadow-lg border border-purple-800/60 relative overflow-hidden group cursor-pointer"
               >
                 <TrendingUp className="absolute -right-4 -bottom-4 text-white/10 group-hover:text-white/20 transition-colors" size={100} strokeWidth={1} />
                 <div className="flex items-center gap-2 mb-2">
@@ -446,7 +455,7 @@ export default function CaseStudyDetailPage() {
         </div>
 
         {/* Bottom Social Share Card */}
-        <div className="my-12 p-6 sm:p-8 rounded-3xl bg-gradient-to-br from-white via-purple-50/40 to-white backdrop-blur-3xl border border-purple-200/70 shadow-lg shadow-purple-950/5 flex flex-col sm:flex-row items-center justify-between gap-6">
+        <div className="my-12 p-6 sm:p-8 rounded-xl bg-gradient-to-br from-white via-purple-50/40 to-white backdrop-blur-3xl border border-purple-200/70 shadow-lg shadow-purple-950/5 flex flex-col sm:flex-row items-center justify-between gap-6">
           <div>
             <h4 className="font-display text-lg font-bold text-slate-900 mb-1">
               Bagikan Studi Kasus Ini

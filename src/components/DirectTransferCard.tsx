@@ -120,7 +120,7 @@ export function DirectTransferCard({
 
   return (
     <div className="w-full space-y-6 font-sans">
-      <div className="p-6 sm:p-8 rounded-3xl bg-white border border-purple-100 shadow-xs space-y-6">
+      <div className="p-6 sm:p-8 rounded-xl bg-white border border-purple-100 shadow-xs space-y-6">
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-100 pb-5">
           <div className="flex items-center gap-3.5">
             <div className="p-3 rounded-2xl bg-purple-900 text-white shadow-xs">
@@ -128,14 +128,14 @@ export function DirectTransferCard({
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <h3 className="text-lg font-display font-bold text-slate-900">
+                <h3 className="text-lg font-display font-black text-slate-900">
                   Direct Transfer & E-Wallet
                 </h3>
                 <span className="text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full bg-purple-50 text-purple-900 border border-purple-100">
                   Instant
                 </span>
               </div>
-              <p className="text-xs text-slate-500 mt-0.5">
+              <p className="text-xs text-slate-600 mt-0.5">
                 Bebas biaya gateway tambahan &bull; Rekening resmi berbadan hukum &bull; Verifikasi langsung
               </p>
             </div>
@@ -180,7 +180,7 @@ export function DirectTransferCard({
             </div>
 
             <div className="mt-2">
-              <label className="text-[11px] text-slate-500 block mb-1">
+              <label className="text-[11px] text-slate-600 block mb-1">
                 Nominal Dasar Proyek (Rp):
               </label>
               <input

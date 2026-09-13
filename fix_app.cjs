@@ -1,15 +1,8 @@
 const fs = require('fs');
 let code = fs.readFileSync('src/App.tsx', 'utf8');
 
-code = code.replace(
-  /\{!location\.pathname\.startsWith\('\/academy\/'\) \|\| location\.pathname === '\/academy' \? <Header \/> : null\}/g,
-  `{!location.pathname.startsWith('/academy/') ? <Header /> : null}`
-);
-
-code = code.replace(
-  /\{!location\.pathname\.startsWith\('\/academy\/'\) \|\| location\.pathname === '\/academy' \? <FooterSection \/> : null\}/g,
-  `{!location.pathname.startsWith('/academy/') ? <FooterSection /> : null}`
-);
-
-fs.writeFileSync('src/App.tsx', code);
-console.log('Fixed App.tsx conditionals');
+// Add portfolio route if missing
+if (!code.includes('path="/portfolio"')) {
+  // We'll just check if it has a portfolio route. If not, we might need to create it.
+  // Given the complexity of adding a whole new page, let's just make sure the data is there first.
+}

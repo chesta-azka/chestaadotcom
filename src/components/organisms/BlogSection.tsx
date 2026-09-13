@@ -6,7 +6,7 @@ import TextRevealSmooth from '../atoms/TextRevealSmooth';
 import { ALL_ARTICLES } from '../../data/blogData';
 
 const BlogSkeleton = () => (
-  <div className="relative flex flex-col h-full bg-slate-50 p-6 md:p-8 rounded-3xl border border-slate-100 animate-pulse min-h-[320px] text-left">
+  <div className="relative flex flex-col h-full bg-slate-50 p-6 md:p-8 rounded-xl border border-slate-100 animate-pulse min-h-[320px] text-left">
     <div className="flex gap-4 items-center mb-6">
       {/* Category Tag placeholder */}
       <div className="h-6 w-16 bg-[#6b21a8]/10 rounded-full" />
@@ -56,14 +56,11 @@ export default function BlogSection() {
           className="mb-14 flex flex-col md:flex-row md:items-end justify-between gap-8 pb-8 border-b border-slate-100"
         >
           <div>
-            <span className="text-[#6b21a8] font-mono font-semibold text-xs uppercase tracking-widest block mb-3">
-              04 — Wawasan & Strategi Digital
-            </span>
             <div className="text-fluid-h2 font-serif font-medium tracking-tight text-slate-900 leading-[1.05] mb-2 flex flex-wrap">
               <TextRevealSmooth 
                 text="Insight & Rekomendasi." 
                 highlightWords={["Rekomendasi."]}
-                highlightClass="text-transparent bg-clip-text bg-gradient-to-r from-[#6b21a8] to-purple-600 font-serif italic pr-2"
+                highlightClass="text-purple-700 font-serif italic pr-2"
               />
             </div>
             <p className="text-slate-600 font-sans text-sm md:text-base max-w-lg mt-2">
@@ -90,7 +87,7 @@ export default function BlogSection() {
             {homeArticles.map((art, i) => (
               <motion.article 
                 key={art.slug} 
-                className="group cursor-pointer relative flex flex-col h-full bg-white/40 backdrop-blur-xl p-6 md:p-8 rounded-3xl border border-white/60 hover:border-purple-300 hover:bg-white/60 hover:shadow-xl hover:shadow-purple-900/5 transition-all duration-300 shadow-sm"
+                className="group cursor-pointer relative flex flex-col h-full bg-white/40 backdrop-blur-xl p-6 md:p-8 rounded-xl border border-white/60 hover:border-purple-300 hover:bg-white/60 hover:shadow-xl hover:shadow-purple-900/5 hover:scale-[1.02] transition-all duration-300 shadow-sm"
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 viewport={{ once: true }}
@@ -119,7 +116,7 @@ export default function BlogSection() {
                     {art.readTime}
                   </span>
                 </div>
-                <h3 className="text-xl font-display font-medium text-slate-900 leading-snug mb-3 group-hover:text-[#6b21a8] transition-colors tracking-tight line-clamp-2 text-left">
+                <h3 className="text-xl font-display font-black text-slate-900 leading-snug mb-3 group-hover:text-[#6b21a8] transition-colors tracking-tight line-clamp-2 text-left">
                   {art.title}
                 </h3>
                 <p className="text-sm text-slate-600 leading-relaxed font-sans line-clamp-2 mb-6 text-left">

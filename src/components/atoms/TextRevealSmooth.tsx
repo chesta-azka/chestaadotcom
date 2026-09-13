@@ -13,7 +13,7 @@ export default function TextRevealSmooth({
   text, 
   className = '',
   highlightWords = [],
-  highlightClass = "text-transparent bg-clip-text bg-gradient-to-r from-[#6b21a8] to-green-400 font-serif italic",
+  highlightClass = "text-purple-700 font-serif italic",
   wordClassName = "",
   once = true
 }: TextRevealSmoothProps) {
@@ -25,7 +25,7 @@ export default function TextRevealSmooth({
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.04, // Snappier, standard delay
+        staggerChildren: 0.05, // Snappier, standard delay
         delayChildren: 0.05,
       }
     }

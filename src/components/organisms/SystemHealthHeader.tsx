@@ -40,7 +40,7 @@ export default function SystemHealthHeader() {
       case 'healthy': return 'text-emerald-500 bg-emerald-500/10 border-emerald-500/20';
       case 'degraded': return 'text-amber-500 bg-amber-500/10 border-amber-500/20';
       case 'down': return 'text-red-500 bg-red-500/10 border-red-500/20';
-      default: return 'text-slate-500 bg-slate-100 border-slate-200';
+      default: return 'text-slate-600 bg-slate-100 border-slate-200';
     }
   };
 
@@ -60,7 +60,7 @@ export default function SystemHealthHeader() {
           <span className={`relative inline-flex rounded-full h-3 w-3 ${health.status === 'healthy' ? 'bg-emerald-500' : health.status === 'degraded' ? 'bg-amber-500' : 'bg-red-500'}`}></span>
         </span>
         <div className="flex flex-col">
-          <span className="text-xs font-bold uppercase tracking-wider text-slate-500">System Status</span>
+          <span className="text-xs font-bold uppercase tracking-wider text-slate-600">System Status</span>
           <span className="text-sm font-semibold capitalize text-slate-900 flex items-center gap-1.5">
             {getStatusIcon()}
             {health.status}

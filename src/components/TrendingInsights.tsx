@@ -35,17 +35,17 @@ export function TrendingInsights() {
         initial={{ opacity: 0, y: 15 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true }}
-        className="bg-white border border-purple-100 rounded-3xl p-6 sm:p-8 shadow-xs relative overflow-hidden"
+        className="bg-white border border-purple-100 rounded-xl p-6 sm:p-8 shadow-xs relative overflow-hidden"
       >
         <div className="flex items-center gap-3 mb-6">
           <div className="p-2.5 bg-purple-50 text-purple-900 rounded-xl">
             <TrendingUp className="w-5 h-5" />
           </div>
           <div>
-            <h3 className="text-lg sm:text-xl font-display font-bold text-slate-900 flex items-center gap-2">
+            <h3 className="text-lg sm:text-xl font-display font-black text-slate-900 flex items-center gap-2">
               Wawasan & Peluang Digital <Sparkles className="w-4 h-4 text-purple-600" />
             </h3>
-            <p className="text-xs text-slate-500">Riset Terkini Pertumbuhan Bisnis</p>
+            <p className="text-xs text-slate-600">Riset Terkini Pertumbuhan Bisnis</p>
           </div>
         </div>
 
