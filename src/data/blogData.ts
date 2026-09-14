@@ -14,6 +14,11 @@ import { saasEfficiencyMdx } from '../content/saasEfficiencyArticle';
 import { ecommerceConversionMdx } from '../content/ecommerceConversionArticle';
 import { aiOperationalScalingMdx } from '../content/aiOperationalScalingArticle';
 import { aiAutomationEnterpriseMdx } from '../content/aiAutomationEnterpriseArticle';
+import { aiDocumentAutomationMdx } from '../content/aiDocumentAutomationArticle';
+import { autonomousLogisticsMdx } from '../content/autonomousLogisticsArticle';
+import { predictiveMaintenanceMdx } from '../content/predictiveMaintenanceArticle';
+import { mengenalChestaaComMdx } from '../content/mengenalChestaaComArticle';
+import { perjalananChestaAzkaMdx } from '../content/perjalananChestaAzkaArticle';
 
 export interface Article {
   slug: string;
@@ -37,6 +42,101 @@ export interface Article {
 }
 
 export const ALL_ARTICLES: Article[] = [
+  {
+    slug: 'mengenal-chestaa-com',
+    title: 'Mengenal CHESTAADOTCOM: Software House & Studio Arsitektur Digital No. 1 di BSD City & Cisauk',
+    cat: 'Profil Perusahaan',
+    date: '14 Sep 2026',
+    readTime: '6 MIN READ',
+    readTimeMinutes: 6,
+    desc: 'Temukan bagaimana CHESTAADOTCOM hadir sebagai pionir software house premium di BSD City, Tangerang & Jakarta, menghadirkan website kustom sekelas Apple.',
+    featured: true,
+    recommended: true,
+    tags: ['Chestaa.com', 'Software House BSD', 'Jasa Website Tangerang', 'Chesta Azka Sofyan'],
+    content: [],
+    mdxContent: mengenalChestaaComMdx,
+    image: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?q=80&w=1200&auto=format&fit=crop',
+    author: {
+      name: 'Chesta Azka Sofyan',
+      role: 'Founder & Principal Engineer'
+    }
+  },
+  {
+    slug: 'perjalanan-chesta-azka-sofyan',
+    title: 'Di Balik Layar CHESTAADOTCOM: Perjalanan & Visi Chesta Azka Sofyan dalam Industri Tech Indonesia',
+    cat: 'Visi & Founder',
+    date: '14 Sep 2026',
+    readTime: '7 MIN READ',
+    readTimeMinutes: 7,
+    desc: 'Kisah inspiratif di balik berdirinya CHESTAADOTCOM oleh Chesta Azka Sofyan, mengombinasikan seni desain antarmuka mewah dengan rekayasa sistem AI berkecepatan tinggi.',
+    featured: true,
+    recommended: true,
+    tags: ['Chesta Azka', 'Visi Founder', 'Tech Indonesia', 'Software House BSD'],
+    content: [],
+    mdxContent: perjalananChestaAzkaMdx,
+    image: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?q=80&w=1200&auto=format&fit=crop',
+    author: {
+      name: 'Chesta Azka Sofyan',
+      role: 'Lead Architect & Founder'
+    }
+  },
+  {
+    slug: 'ai-driven-document-automation-fintech',
+    title: 'AI-Driven Document Automation: Mengubah Kertas Menjadi Aset Data Real-Time',
+    cat: 'AI Automation',
+    date: '14 Sep 2026',
+    readTime: '6 MIN READ',
+    readTimeMinutes: 6,
+    desc: 'Memanfaatkan Machine Learning dan OCR tingkat lanjut untuk mengekstrak dan memvalidasi data dokumen korporat secara otonom.',
+    featured: true,
+    recommended: true,
+    tags: ['AI Automation', 'FinTech', 'OCR', 'Enterprise', 'Compliance'],
+    content: [],
+    mdxContent: aiDocumentAutomationMdx,
+    image: 'https://images.unsplash.com/photo-1554224155-8d04cb21cd6c?q=80&w=1200&auto=format&fit=crop',
+    author: {
+      name: 'CHESTAADOTCOM',
+      role: 'Principal Software Architect'
+    }
+  },
+  {
+    slug: 'autonomous-workflow-orchestration-logistics',
+    title: 'Autonomous Workflow Orchestration in Logistics: Menuju Rantai Pasok Mandiri',
+    cat: 'Tech Architecture',
+    date: '14 Sep 2026',
+    readTime: '7 MIN READ',
+    readTimeMinutes: 7,
+    desc: 'Arsitektur Agentic AI yang mengoordinasikan pergerakan armada, manajemen inventaris, dan respons krisis tanpa campur tangan manusia.',
+    featured: true,
+    recommended: true,
+    tags: ['Logistics', 'Supply Chain', 'Agentic AI', 'Workflow', 'Next.js'],
+    content: [],
+    mdxContent: autonomousLogisticsMdx,
+    image: 'https://images.unsplash.com/photo-1586528116311-ad8ed7c663c0?q=80&w=1200&auto=format&fit=crop',
+    author: {
+      name: 'CHESTAADOTCOM',
+      role: 'Chief Technology Officer'
+    }
+  },
+  {
+    slug: 'predictive-maintenance-systems-manufacturing',
+    title: 'Predictive Maintenance Systems: Mengakhiri Downtime Industri dengan AI',
+    cat: 'AI Automation',
+    date: '14 Sep 2026',
+    readTime: '8 MIN READ',
+    readTimeMinutes: 8,
+    desc: 'Implementasi pemeliharaan prediktif berbasis IoT dan AI Edge Computing untuk memprediksi kegagalan mesin sebelum terjadi.',
+    featured: true,
+    recommended: true,
+    tags: ['Manufacturing', 'Predictive Maintenance', 'IoT', 'AI', 'Edge Computing'],
+    content: [],
+    mdxContent: predictiveMaintenanceMdx,
+    image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=1200&auto=format&fit=crop',
+    author: {
+      name: 'CHESTAADOTCOM',
+      role: 'AI & Systems Specialist'
+    }
+  },
   {
     slug: 'agentic-ai-otomasi-enterprise-sistem-otonom-b2b',
     title: 'Agentic AI & Otomasi Enterprise: Membangun Sistem Kerja Otonom untuk Efisiensi B2B',

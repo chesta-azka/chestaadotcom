@@ -18,6 +18,7 @@ export default function AdminDashboardLayout({ children, onLogout, activeTab, se
   const tabs = [
     { id: 'dashboard', label: 'Dashboard & Analytics', icon: Activity },
     { id: 'kanban', label: 'Live Kanban & Vault', icon: Briefcase },
+    { id: 'blog_generator', label: 'Blog Outline AI', icon: PenTool },
     { id: 'ai_leads', label: 'AI Lead Scoring', icon: Users },
     { id: 'ai_training', label: 'AI Feedback & Training', icon: Sparkles },
     { id: 'business_config', label: 'Workspace Generator', icon: Plus },

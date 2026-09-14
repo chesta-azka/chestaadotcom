@@ -31,7 +31,7 @@ export default function AcademyPage() {
         id: p.id,
         type: 'case-study' as const,
         title: p.title,
-        description: p.shortDesc || p.description,
+        description: p.description,
         link: `/portfolio/${p.id}`,
         category: p.category,
         tags: p.techStack || [],

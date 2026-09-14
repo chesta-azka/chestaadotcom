@@ -16,6 +16,7 @@ import LazyImage from '../components/atoms/LazyImage.tsx';
 import ReadNextSection from '../components/organisms/ReadNextSection.tsx';
 import { ALL_ARTICLES, Article } from '../data/blogData';
 import { TextSelectionToolbar } from '../components/organisms/TextSelectionToolbar.tsx';
+import { useSEOOptimizer } from '../hooks/useSEOOptimizer';
 
 // Skeleton Component for Blog Post Loading State
 const BlogPostSkeleton = () => (
@@ -390,6 +391,12 @@ export default function BlogPostPage() {
   const { scrollYProgress } = useScroll();
   const y = useTransform(scrollYProgress, [0, 1], [0, 200]);
   const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+  
+  const scaleX = useSpring(scrollYProgress, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001
+  });
 
   useEffect(() => {
     setIsLoading(true);
@@ -403,6 +410,14 @@ export default function BlogPostPage() {
   
   // Find article from real data
   const post = ALL_ARTICLES.find(p => p.slug === slug);
+
+  useSEOOptimizer({
+    title: post ? `${post.title} | CHESTAADOTCOM` : 'Artikel | CHESTAADOTCOM',
+    description: post ? post.desc : 'Jurnal teknologi dan wawasan AI automation.',
+    image: post?.image,
+    publishedTime: post?.date,
+    author: post?.author?.name || 'Chesta Azka Sofyan'
+  });
   
   if (isLoading) {
     return <BlogPostSkeleton />;
@@ -433,42 +448,59 @@ export default function BlogPostPage() {
     );
   }
 
-  const jsonLd = {
-    "@context": "https://schema.org",
-    "@type": "TechArticle",
-    "headline": post.title,
-    "image": [post.image],
-    "datePublished": "2026-08-31T08:00:00+08:00",
-    "dateModified": "2026-08-31T08:00:00+08:00",
-    "author": [{
+  const jsonLd = [
+    {
+      "@context": "https://schema.org",
+      "@type": "TechArticle",
+      "headline": post.title,
+      "image": [post.image],
+      "datePublished": post.date || "2026-09-14T08:00:00+08:00",
+      "dateModified": post.date || "2026-09-14T08:00:00+08:00",
+      "author": {
         "@type": "Person",
-        "name": post.author?.name || "Chesta Azka",
+        "name": "Chesta Azka Sofyan",
+        "jobTitle": "Principal Software Engineer & Founder",
+        "worksFor": {
+          "@type": "Organization",
+          "name": "CHESTAADOTCOM"
+        },
         "url": "https://chestaa.com/about"
-    }],
-    "publisher": {
-      "@type": "Organization",
-      "name": "CHESTAADOTCOM",
-      "logo": {
-        "@type": "ImageObject",
-        "url": "https://chestaa.com/logo.png"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "CHESTAADOTCOM",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://chestaa.com/logo.png"
+        }
+      },
+      "description": post.desc,
+      "about": {
+        "@type": "Organization",
+        "name": "CHESTAADOTCOM B2B Web Development & AI Automation",
+        "address": {
+          "@type": "PostalAddress",
+          "addressLocality": "BSD City, Cisauk",
+          "addressRegion": "Banten",
+          "addressCountry": "ID"
+        }
       }
     },
-    "description": post.desc,
-    "about": {
-      "@type": "Organization",
-      "name": "CHESTAADOTCOM B2B Web Development",
-      "address": {
-        "@type": "PostalAddress",
-        "addressLocality": "BSD City, Cisauk",
-        "addressRegion": "Banten",
-        "addressCountry": "ID"
-      }
-    },
-    "contentLocation": {
-      "@type": "Place",
-      "name": "BSD City & Cisauk Tech Hub"
+    {
+      "@context": "https://schema.org",
+      "@type": "Person",
+      "name": "Chesta Azka Sofyan",
+      "jobTitle": "Principal Software Engineer & Founder",
+      "worksFor": {
+        "@type": "Organization",
+        "name": "CHESTAADOTCOM"
+      },
+      "sameAs": [
+        "https://chestaa.com"
+      ],
+      "description": "Principal Software Engineer and founder of CHESTAADOTCOM, specializing in high-performance Next.js architectures, Vibe Coding, and Agentic AI automation in BSD City and Tangerang."
     }
-  };
+  ];
 
   // Convert old content array or use raw MDX
   let unifiedContent = post.mdxContent || post.content.map(c => 
@@ -520,6 +552,10 @@ export default function BlogPostPage() {
 
   return (
     <main className="min-h-screen bg-white pt-36 md:pt-44 font-sans relative">
+      <motion.div
+        className="fixed top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-purple-500 via-indigo-500 to-fuchsia-500 origin-left z-[100]"
+        style={{ scaleX }}
+      />
       <TextSelectionToolbar />
       <div className="hidden 2xl:flex fixed left-8 top-1/2 -translate-y-1/2 flex-col gap-4 z-40">
         <div className="text-[10px] font-mono font-bold uppercase tracking-widest text-slate-400 rotate-180 mb-2" style={{ writingMode: 'vertical-rl' }}>Bagikan</div>

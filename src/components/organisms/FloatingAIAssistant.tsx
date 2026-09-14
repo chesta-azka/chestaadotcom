@@ -1,6 +1,6 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { motion, AnimatePresence, type Variants } from 'motion/react';
-import { Bot, X, Send, MessageCircle, ArrowRight, Sparkles, HelpCircle, ChevronRight } from 'lucide-react';
+import { Bot, X, Send, MessageCircle, ArrowRight, Sparkles, HelpCircle, ChevronRight, Code, Briefcase, Clock, Calculator, FileText, CheckCircle2, User, Zap } from 'lucide-react';
 import { db, logAnalyticsEvent } from '../../lib/firebase';
 import { doc, setDoc, serverTimestamp } from 'firebase/firestore';
 import { useAuth } from '../../contexts/AuthContext';
@@ -181,6 +181,59 @@ Pengerjaan langsung dimulai setelah materi dasar (nama bisnis, deskripsi, & kont
           label: '⚡ Kenapa pakai Next.js?',
           actionType: 'prompt',
           value: 'Mengapa website Next.js lebih cepat dan aman dibanding platform biasa?',
+          variant: 'secondary',
+        },
+      ],
+    };
+  }
+
+  // Proyek / Portofolio
+  if (/(proyek|portofolio|case study|detail|tech stack|teknologi|implementasikan)/.test(q)) {
+    return {
+      content: `### Informasi Proyek & Solusi Teknis
+
+Proyek-proyek skala enterprise kami umumnya dibangun menggunakan arsitektur modern:
+• **Next.js 15 & React Server Components**: Untuk performa rendering ultra-cepat dan SEO maksimal.
+• **Tailwind CSS & Framer Motion**: Untuk desain UI premium dan animasi yang mulus.
+• **Agentic AI & Firebase**: Untuk otomatisasi alur kerja dan database real-time yang terukur.
+
+Apakah Anda tertarik membangun sistem serupa untuk bisnis Anda?`,
+      actions: [
+        {
+          label: '💬 Konsultasi Proyek via WA',
+          actionType: 'whatsapp',
+          value: 'Halo Mas Chesta, saya tertarik membahas pembuatan proyek/sistem serupa dengan portofolio CHESTADOTCOM.',
+          variant: 'whatsapp',
+        },
+        {
+          label: '📋 Alur Pemesanan',
+          actionType: 'prompt',
+          value: 'Bagaimana langkah mudah memesan website di CHESTADOTCOM?',
+          variant: 'secondary',
+        },
+      ],
+    };
+  }
+
+  // Artikel / Blog
+  if (/(artikel|blog|rangkum|poin|strategi|implementasi)/.test(q)) {
+    return {
+      content: `### Rangkuman & Diskusi Strategi
+
+Meskipun saat ini saya beroperasi dengan alur terstruktur, artikel yang Anda baca berfokus pada **transformasi digital, efisiensi B2B, dan optimasi arsitektur AI**. 
+
+Untuk menerapkan strategi dari artikel ini ke dalam operasional perusahaan Anda, langkah terbaik adalah memulai dengan **Sesi Konsultasi & Audit IT** secara langsung.`,
+      actions: [
+        {
+          label: '💬 Diskusi Strategi via WA',
+          actionType: 'whatsapp',
+          value: 'Halo Mas Chesta, saya baru membaca artikel di blog dan ingin diskusi tentang implementasi strategi tersebut untuk perusahaan saya.',
+          variant: 'whatsapp',
+        },
+        {
+          label: '📂 Layanan Konsultan IT',
+          actionType: 'prompt',
+          value: 'Bisa jelaskan tentang layanan konsultan IT dan strategi digital?',
           variant: 'secondary',
         },
       ],
@@ -570,6 +623,64 @@ export default function FloatingAIAssistant({ isLoaded = true }: { isLoaded?: bo
   const location = useLocation();
   const { user } = useAuth() || {};
 
+  const contextualSuggestions = useMemo(() => {
+    const path = location.pathname;
+    let contextSpecific: any[] = [];
+
+    if (path.includes('/portfolio') || path.includes('/case-study')) {
+      contextSpecific = [
+        { label: '🔍 Tanya tentang proyek ini', prompt: 'Bisa jelaskan lebih detail tentang proyek atau case study ini?' },
+        { label: '🛠️ Tech Stack', prompt: 'Teknologi apa saja yang biasanya digunakan untuk proyek sekelas ini?' }
+      ];
+    } else if (path.includes('/blog')) {
+      contextSpecific = [
+        { label: '📝 Rangkum Artikel', prompt: 'Bisa tolong rangkumkan poin utama dari artikel blog ini?' },
+        { label: '💡 Implementasi Strategi', prompt: 'Bagaimana cara saya mengimplementasikan strategi dari artikel ini ke bisnis saya?' }
+      ];
+    } else if (path.includes('/services')) {
+      contextSpecific = [
+        { label: '💼 Layanan Korporat', prompt: 'Apa saja layanan konsultan IT yang ditawarkan untuk perusahaan?' },
+        { label: '💰 Estimasi Biaya', prompt: 'Berapa estimasi biaya untuk pembuatan sistem custom / website bisnis?' }
+      ];
+    }
+    
+    // Combine context specific with generic ones
+    return [...contextSpecific, ...QUICK_AI_SUGGESTIONS].slice(0, 7);
+  }, [location.pathname]);
+
+  const quickActionsGrid = useMemo(() => {
+    const path = location.pathname;
+    if (path.includes('/portfolio') || path.includes('/case-study')) {
+      return [
+        { label: 'View Tech Stack', icon: Code, prompt: 'Bisa jelaskan detail Tech Stack yang digunakan di proyek ini?' },
+        { label: 'Similar Project', icon: Briefcase, prompt: 'Apakah ada proyek serupa lainnya yang pernah dikerjakan?' },
+        { label: 'Dev Timeline', icon: Clock, prompt: 'Berapa lama waktu pengembangan untuk sistem seperti ini?' },
+        { label: 'Consult Now', icon: MessageCircle, isWa: true, value: 'Halo Mas Chesta, saya tertarik membangun proyek serupa.' },
+      ];
+    } else if (path.includes('/services')) {
+      return [
+        { label: 'Request Quote', icon: Calculator, prompt: 'Bisa berikan estimasi biaya (Quote) untuk layanan ini?' },
+        { label: 'Implementation', icon: Zap, prompt: 'Bagaimana tahapan implementasi layanan ini?' },
+        { label: 'View Portfolio', icon: Briefcase, prompt: 'Tampilkan portofolio yang relevan dengan layanan ini.' },
+        { label: 'Contact Expert', icon: User, isWa: true, value: 'Halo Mas Chesta, saya ingin konsultasi mengenai layanan IT.' },
+      ];
+    } else if (path.includes('/blog')) {
+      return [
+        { label: 'Summarize', icon: FileText, prompt: 'Tolong buatkan ringkasan / eksekutif summary dari artikel ini.' },
+        { label: 'Key Takeaways', icon: CheckCircle2, prompt: 'Apa saja 3 poin penting (Key Takeaways) dari bacaan ini?' },
+        { label: 'Apply Strategy', icon: Zap, prompt: 'Bagaimana cara menerapkan strategi ini di perusahaan saya?' },
+        { label: 'Discuss Idea', icon: MessageCircle, isWa: true, value: 'Halo Mas Chesta, saya membaca artikel blog Anda dan ingin berdiskusi lebih lanjut.' },
+      ];
+    }
+    // Default Home/Others
+    return [
+      { label: 'Explore Services', icon: Zap, prompt: 'Apa saja layanan utama yang ditawarkan CHESTAADOTCOM?' },
+      { label: 'View Tech Stack', icon: Code, prompt: 'Teknologi apa yang paling sering digunakan?' },
+      { label: 'Pricing Info', icon: Calculator, prompt: 'Bagaimana skema harga untuk pembuatan website/sistem?' },
+      { label: 'Consultation', icon: MessageCircle, isWa: true, value: 'Halo Mas Chesta, saya butuh konsultasi IT untuk bisnis.' },
+    ];
+  }, [location.pathname]);
+
   const scrollToBottom = (smooth = true) => {
     if (messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ behavior: smooth ? 'smooth' : 'auto' });
@@ -754,63 +865,99 @@ export default function FloatingAIAssistant({ isLoaded = true }: { isLoaded?: bo
               ref={scrollContainerRef}
               className="flex-1 overflow-y-auto px-4 sm:px-5 py-4 space-y-4 custom-scrollbar bg-slate-50/50 overscroll-contain"
             >
-              {chatHistory.map((msg, idx) => {
-                const isUser = msg.role === 'user';
-                return (
-                  <div
-                    key={idx}
-                    className={`flex flex-col ${isUser ? 'items-end' : 'items-start'} space-y-2`}
-                  >
-                    {/* Message Bubble: Pure White for AI with High-Contrast Text & Crisp Subtle Purple Border */}
-                    <div
-                      className={`max-w-[94%] sm:max-w-[90%] px-4 py-3.5 rounded-2xl ${
-                        isUser
-                          ? 'bg-purple-900 text-white rounded-tr-xs shadow-xs font-sans'
-                          : 'bg-white text-slate-900 rounded-tl-xs border border-purple-100 shadow-[0_2px_12px_rgba(107,33,168,0.04)] font-sans'
-                      }`}
+              <AnimatePresence initial={false}>
+                {chatHistory.map((msg, idx) => {
+                  const isUser = msg.role === 'user';
+                  return (
+                    <motion.div
+                      key={msg.id || idx}
+                      initial={{ opacity: 0, y: 15, scale: 0.95 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      transition={{ duration: 0.3, type: "spring", bounce: 0.3 }}
+                      className={`flex flex-col ${isUser ? 'items-end' : 'items-start'} space-y-2`}
                     >
-                      <FormattedMessageView content={msg.content} isUser={isUser} />
-                    </div>
+                      {/* Message Bubble: Pure White for AI with High-Contrast Text & Crisp Subtle Purple Border */}
+                      <div
+                        className={`max-w-[94%] sm:max-w-[90%] px-4 py-3.5 rounded-2xl ${
+                          isUser
+                            ? 'bg-purple-900 text-white rounded-tr-xs shadow-xs font-sans'
+                            : 'bg-white text-slate-900 rounded-tl-xs border border-purple-100 shadow-[0_2px_12px_rgba(107,33,168,0.04)] font-sans'
+                        }`}
+                      >
+                        <FormattedMessageView content={msg.content} isUser={isUser} />
+                      </div>
 
-                    {/* Integrated Action Buttons & Guaranteed WhatsApp Quick-Action CTA */}
-                    {!isUser && msg.actions && msg.actions.length > 0 && (
-                      <div className="max-w-[98%] sm:max-w-[92%] flex flex-wrap gap-1.5 pt-1">
-                        {msg.actions.map((action, aIdx) => {
-                          if (action.actionType === 'whatsapp') {
+                      {/* Integrated Action Buttons & Guaranteed WhatsApp Quick-Action CTA */}
+                      {!isUser && msg.actions && msg.actions.length > 0 && (
+                        <div className="max-w-[98%] sm:max-w-[92%] flex flex-wrap gap-1.5 pt-1">
+                          {msg.actions.map((action, aIdx) => {
+                            if (action.actionType === 'whatsapp') {
+                              return (
+                                <button
+                                  key={aIdx}
+                                  onClick={() => openWhatsAppUrl(action.value)}
+                                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-purple-600 hover:bg-purple-700 active:bg-purple-800 text-white font-sans text-xs font-semibold shadow-xs hover:shadow-sm transition-all cursor-pointer group"
+                                >
+                                  <MessageCircle size={13} className="text-white shrink-0" />
+                                  <span className="text-white">{action.label}</span>
+                                  <ArrowRight size={12} className="text-white/80 group-hover:translate-x-0.5 transition-transform shrink-0" />
+                                </button>
+                              );
+                            }
+
                             return (
                               <button
                                 key={aIdx}
-                                onClick={() => openWhatsAppUrl(action.value)}
-                                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-purple-600 hover:bg-purple-700 active:bg-purple-800 text-white font-sans text-xs font-semibold shadow-xs hover:shadow-sm transition-all cursor-pointer group"
+                                onClick={() => handleSendMessage(undefined, action.value)}
+                                className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-white hover:bg-purple-50 active:bg-purple-100 text-purple-950 hover:text-purple-900 border border-purple-200 font-sans text-xs font-medium transition-all cursor-pointer text-left shadow-2xs"
                               >
-                                <MessageCircle size={13} className="text-white shrink-0" />
-                                <span className="text-white">{action.label}</span>
-                                <ArrowRight size={12} className="text-white/80 group-hover:translate-x-0.5 transition-transform shrink-0" />
+                                <span>{action.label}</span>
                               </button>
                             );
-                          }
+                          })}
+                        </div>
+                      )}
+                    </motion.div>
+                  );
+                })}
+              </AnimatePresence>
 
-                          return (
-                            <button
-                              key={aIdx}
-                              onClick={() => handleSendMessage(undefined, action.value)}
-                              className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-white hover:bg-purple-50 active:bg-purple-100 text-purple-950 hover:text-purple-900 border border-purple-200 font-sans text-xs font-medium transition-all cursor-pointer text-left shadow-2xs"
-                            >
-                              <span>{action.label}</span>
-                            </button>
-                          );
-                        })}
-                      </div>
-                    )}
-                  </div>
-                );
-              })}
+              {chatHistory.length === 1 && (
+                <motion.div
+                  initial={{ opacity: 0, y: 15 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 0.4, type: 'spring', bounce: 0.4 }}
+                  className="grid grid-cols-2 gap-2 mt-2 pt-2 px-1"
+                >
+                  {quickActionsGrid.map((action, idx) => {
+                    const Icon = action.icon;
+                    return (
+                      <button
+                        key={idx}
+                        onClick={() => action.isWa ? openWhatsAppUrl(action.value!) : handleSendMessage(undefined, action.prompt)}
+                        className="flex flex-col items-center justify-center text-center gap-2 p-3.5 rounded-2xl bg-white border border-purple-100 hover:border-purple-300 hover:bg-purple-50 hover:shadow-[0_4px_12px_rgba(107,33,168,0.06)] active:scale-95 transition-all group"
+                      >
+                        <div className="p-2 rounded-xl bg-purple-100 text-purple-600 group-hover:bg-purple-600 group-hover:text-white transition-colors">
+                          <Icon size={18} strokeWidth={2.5} />
+                        </div>
+                        <span className="text-[11px] font-bold text-slate-700 group-hover:text-purple-900 leading-tight tracking-tight">
+                          {action.label}
+                        </span>
+                      </button>
+                    );
+                  })}
+                </motion.div>
+              )}
 
               {isSubmitting && (
-                <div className="flex items-center gap-2 text-xs font-sans text-purple-900 px-3 py-1.5 bg-white rounded-xl border border-purple-100 w-fit shadow-2xs">
+                <motion.div
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="flex items-center gap-2 text-xs font-sans text-purple-900 px-3 py-1.5 bg-white rounded-xl border border-purple-100 w-fit shadow-2xs"
+                >
                   <span className="w-2 h-2 rounded-full bg-purple-600 animate-pulse" />
                   <span className="text-slate-600 text-xs font-medium">Menyiapkan jawaban untuk Anda...</span>
-                </div>
+                </motion.div>
               )}
               <div ref={messagesEndRef} />
             </div>
@@ -824,7 +971,7 @@ export default function FloatingAIAssistant({ isLoaded = true }: { isLoaded?: bo
                   <span>Saran:</span>
                 </div>
 
-                {QUICK_AI_SUGGESTIONS.map((sug, sIdx) => (
+                {contextualSuggestions.map((sug, sIdx) => (
                   <button
                     key={sIdx}
                     type="button"

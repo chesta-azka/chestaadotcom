@@ -9,16 +9,18 @@ interface SectionGlassCardProps {
   serviceType?: 'ai' | 'software' | null;
   pattern?: 'dots' | 'mesh' | 'grid' | 'auto';
   fluid?: boolean;
+  id?: string;
 }
 
 export default function SectionGlassCard({ 
   children, 
   className = '', 
   index = 0, 
-  fluid = false
+  fluid = false,
+  id
 }: SectionGlassCardProps) {
   return (
-    <div className={`w-full ${fluid ? '' : 'max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 xl:px-10'}`}>
+    <div className={`w-full ${fluid ? '' : 'max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 xl:px-10'}`} id={id}>
       <motion.div
         initial="hidden"
         whileInView="visible"

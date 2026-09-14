@@ -900,6 +900,9 @@ function AdminDashboard() {
       {activeTab === 'content' && (
         <PageManager />
       )}
+      {activeTab === 'blog_generator' && (
+        <BlogOutlineGenerator />
+      )}
 
     </AdminDashboardLayout>
   );
@@ -2646,6 +2649,229 @@ function BusinessConfigManager() {
             UPDATE_SYS_VARS
          </button>
       </div>
+    </div>
+  );
+}
+
+function BlogOutlineGenerator() {
+  const [keyword, setKeyword] = useState('');
+  const [category, setCategory] = useState('AI Automation');
+  const [loading, setLoading] = useState(false);
+  const [outline, setOutline] = useState<any>(null);
+
+  const handleGenerate = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!keyword.trim()) return;
+    setLoading(true);
+    
+    setTimeout(() => {
+      const generated = {
+        title: `${keyword}: Panduan Komprehensif & Strategi Enterprise 2026`,
+        targetWordCount: '1,850+ Kata',
+        author: 'Chesta Azka Sofyan (Founder CHESTAADOTCOM)',
+        primaryKeyword: keyword,
+        lsiKeywords: [
+          `${keyword} BSD City`,
+          `Jasa ${keyword} Tangerang`,
+          'Software House B2B Indonesia',
+          'Next.js 15 & AI Automation',
+          'Chesta Azka Sofyan'
+        ],
+        metaDescription: `Pelajari secara mendalam mengenai ${keyword} bersama CHESTAADOTCOM. Solusi arsitektur digital & automasi AI kelas enterprise di BSD City & Jabodetabek.`,
+        sections: [
+          {
+            heading: 'H2: Pendahuluan: Mengapa ' + keyword + ' Menjadi Standar Korporat 2026',
+            wordCount: '250 Kata',
+            subsections: [
+              'H3: Paradigma Baru Transformasi Digital di BSD City & Jakarta',
+              'H3: Tantangan Konvensional dan Solusi Arsitektur Modern'
+            ],
+            keyPoints: [
+              'Analisis pasar regional Jabodetabek',
+              'Dampak lambatnya adopsi teknologi bagi bisnis B2B'
+            ]
+          },
+          {
+            heading: 'H2: Analisis Mendalam: Apa dan Bagaimana ' + keyword + ' Bekerja',
+            wordCount: '400 Kata',
+            subsections: [
+              'H3: Infrastruktur Inti di Balik Sistem Otonom',
+              'H3: Integrasi Next.js 15 dan Firebase Real-Time Database'
+            ],
+            keyPoints: [
+              'Penjelasan teknis stack modern',
+              'Keunggulan performa Core Web Vitals < 0.8s'
+            ]
+          },
+          {
+            heading: 'H2: Studi Kasus & Dampak Nyata untuk Bisnis di Tangerang Raya',
+            wordCount: '450 Kata',
+            subsections: [
+              'H3: Studi Kasus Klien Enterprise Sektor Logistik & FinTech',
+              'H3: Peningkatan Konversi & Efisiensi Operasional hingga 92%'
+            ],
+            keyPoints: [
+              'Metrik ROI terukur pasca implementasi',
+              'Testimoni langsung dari stakeholder korporat'
+            ]
+          },
+          {
+            heading: 'H2: Kerangka Kerja & Metodologi Implementasi oleh CHESTAADOTCOM',
+            wordCount: '400 Kata',
+            subsections: [
+              'H3: Fase 01: Audit, Arsitektur, & Desain UI/UX Mewah',
+              'H3: Fase 02: Eksekusi Vibe Coding & QA Stress Testing'
+            ],
+            keyPoints: [
+              'Transparansi penuh timeline 14 hari kerja',
+              'Garansi performa 99+ Lighthouse'
+            ]
+          },
+          {
+            heading: 'H2: Kesimpulan & Call to Action: Memulai Transformasi Bersama Chesta Azka Sofyan',
+            wordCount: '250 Kata',
+            subsections: [
+              'H3: Langkah Pertama Menuju Dominasi Pasar Digital'
+            ],
+            keyPoints: [
+              'Undangan konsultasi arsitektur gratis via WhatsApp',
+              'Komitmen kepemilikan penuh 100% source code'
+            ]
+          }
+        ]
+      };
+      setOutline(generated);
+      setLoading(false);
+      toast.success("Outline 1500+ kata berhasil digenerate!");
+    }, 1200);
+  };
+
+  return (
+    <div className="p-8 max-w-5xl mx-auto font-sans">
+      <div className="mb-8">
+        <span className="text-xs font-mono font-bold text-purple-700 uppercase tracking-widest block mb-1">AI Content Engine</span>
+        <h2 className="text-2xl sm:text-3xl font-display font-black text-slate-900">
+          Generator Outline Artikel 1500+ Kata (SEO &amp; GEO Optimized)
+        </h2>
+        <p className="text-slate-600 text-sm mt-1">
+          Masukkan keyword target untuk mengenerate struktur artikel mendalam yang dioptimalkan untuk chestaa.com dan otoritas author Chesta Azka Sofyan.
+        </p>
+      </div>
+
+      <form onSubmit={handleGenerate} className="bg-slate-50 border border-slate-200 p-6 rounded-2xl mb-8 shadow-sm space-y-4">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div className="sm:col-span-2">
+            <label className="block text-xs font-mono font-bold text-slate-700 uppercase tracking-wider mb-2">
+              Keyword Utama Artikel / Topik
+            </label>
+            <input
+              type="text"
+              value={keyword}
+              onChange={(e) => setKeyword(e.target.value)}
+              placeholder="Contoh: AI-Driven Document Automation / Software House BSD"
+              className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl text-slate-900 text-sm focus:outline-none focus:ring-2 focus:ring-purple-600"
+              required
+            />
+          </div>
+          <div>
+            <label className="block text-xs font-mono font-bold text-slate-700 uppercase tracking-wider mb-2">
+              Kategori Artikel
+            </label>
+            <select
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+              className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl text-slate-900 text-sm focus:outline-none focus:ring-2 focus:ring-purple-600"
+            >
+              <option value="AI Automation">AI Automation</option>
+              <option value="Tech Architecture">Tech Architecture</option>
+              <option value="Profil Perusahaan">Profil Perusahaan</option>
+              <option value="Visi & Founder">Visi &amp; Founder</option>
+            </select>
+          </div>
+        </div>
+
+        <button
+          type="submit"
+          disabled={loading}
+          className="w-full sm:w-auto px-8 py-3.5 bg-purple-900 text-white rounded-xl font-mono font-bold text-xs uppercase tracking-wider hover:bg-purple-950 transition-all flex items-center justify-center gap-2 shadow-lg disabled:opacity-50 cursor-pointer"
+        >
+          {loading ? <Loader2 size={16} className="animate-spin" /> : <Sparkles size={16} />}
+          Generate 1500+ Word Structural Outline
+        </button>
+      </form>
+
+      {outline && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="bg-white border border-purple-200 p-8 rounded-3xl shadow-xl space-y-8"
+        >
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 pb-6 border-b border-slate-100">
+            <div>
+              <span className="inline-block px-3 py-1 bg-purple-50 text-purple-700 border border-purple-100 rounded-lg text-xs font-mono font-bold mb-2">
+                {category} • {outline.targetWordCount}
+              </span>
+              <h3 className="text-xl sm:text-2xl font-display font-black text-slate-900">
+                {outline.title}
+              </h3>
+            </div>
+            <button
+              onClick={() => {
+                navigator.clipboard.writeText(JSON.stringify(outline, null, 2));
+                toast.success("Outline disalin ke clipboard!");
+              }}
+              className="px-4 py-2 bg-slate-900 text-white text-xs font-mono rounded-xl hover:bg-slate-800 transition-colors"
+            >
+              Salin Format JSON
+            </button>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-slate-50 p-6 rounded-2xl border border-slate-200">
+            <div>
+              <h4 className="text-xs font-mono font-bold text-slate-700 uppercase tracking-widest mb-2">Metadata SEO</h4>
+              <p className="text-xs text-slate-600 mb-1"><strong>Author:</strong> {outline.author}</p>
+              <p className="text-xs text-slate-600 mb-1"><strong>Primary Keyword:</strong> {outline.primaryKeyword}</p>
+              <p className="text-xs text-slate-600"><strong>Meta Description:</strong> {outline.metaDescription}</p>
+            </div>
+            <div>
+              <h4 className="text-xs font-mono font-bold text-slate-700 uppercase tracking-widest mb-2">Target LSI Keywords</h4>
+              <div className="flex flex-wrap gap-1.5">
+                {outline.lsiKeywords.map((kw: string, i: number) => (
+                  <span key={i} className="px-2.5 py-1 bg-purple-100/70 text-purple-900 text-[11px] font-mono rounded-md">
+                    {kw}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div className="space-y-6">
+            <h4 className="text-sm font-mono font-bold text-slate-900 uppercase tracking-wider">
+              Struktur Bab &amp; Sub-Heading (1500+ Kata)
+            </h4>
+            {outline.sections.map((sec: any, idx: number) => (
+              <div key={idx} className="p-6 rounded-2xl bg-white border border-slate-200 shadow-2xs space-y-3">
+                <div className="flex items-center justify-between">
+                  <h5 className="font-display font-bold text-slate-900 text-base">{sec.heading}</h5>
+                  <span className="text-xs font-mono text-purple-700 bg-purple-50 px-2.5 py-1 rounded-md">{sec.wordCount}</span>
+                </div>
+                <div className="space-y-1.5 pl-4 border-l-2 border-purple-200">
+                  {sec.subsections.map((sub: string, sIdx: number) => (
+                    <div key={sIdx} className="text-xs font-sans text-slate-700 font-medium">{sub}</div>
+                  ))}
+                </div>
+                <div className="pt-2 flex flex-wrap gap-2">
+                  {sec.keyPoints.map((kp: string, kIdx: number) => (
+                    <span key={kIdx} className="inline-flex items-center gap-1 text-[11px] font-sans text-slate-600 bg-slate-100 px-2.5 py-1 rounded-full">
+                      <CheckCircle2 size={12} className="text-emerald-600" /> {kp}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </motion.div>
+      )}
     </div>
   );
 }

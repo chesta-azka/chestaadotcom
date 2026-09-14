@@ -18,6 +18,7 @@ import SectionGlassCard from '../components/atoms/SectionGlassCard.tsx';
 import SectionSeparator from '../components/atoms/SectionSeparator.tsx';
 import FadeInSection from '../components/atoms/FadeInSection.tsx';
 import { useRevealAnimation } from '../hooks/useRevealAnimation';
+import { useScrollSpy } from '../hooks/useScrollSpy';
 import { ChevronDown, Link as LinkIcon, Check } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { generateLocalBusinessSchema } from '../lib/seo';
@@ -51,6 +52,18 @@ export default function HomePage() {
   const [copiedId, setCopiedId] = useState<string | null>(null);
   const navigate = useNavigate();
 
+  const activeSection = useScrollSpy([
+    'hero',
+    'about',
+    'services',
+    'projects',
+    'pricing',
+    'contact',
+    'testimonials',
+    'faq',
+    'insights'
+  ]);
+
   const handleCopyLink = (e: React.MouseEvent, id: string) => {
     e.stopPropagation();
     const directUrl = `${window.location.origin}${window.location.pathname}#${id}`;
@@ -81,7 +94,7 @@ export default function HomePage() {
         ]}
       />
 
-      <div className="snap-start relative">
+      <div className="snap-start relative" id="hero">
         <HeroSection />
       </div>
       <SectionSeparator />
@@ -96,53 +109,59 @@ export default function HomePage() {
       </motion.div>
       <SectionSeparator />
       
-      <motion.div {...reveal2.revealProps}>
+      <motion.div {...reveal2.revealProps} id="about">
         <SectionGlassCard fluid={true} index={0} metaLabel="TENTANG CHESTAADOTCOM" className="snap-start">
           <AboutMeSection />
         </SectionGlassCard>
       </motion.div>
       <SectionSeparator />
       
-      <motion.div {...reveal3.revealProps}>
+      <motion.div {...reveal3.revealProps} id="services">
         <SectionGlassCard fluid={true} index={1} metaLabel="LAYANAN KAMI" className="snap-start" serviceType="software">
           <ServicesSection />
         </SectionGlassCard>
       </motion.div>
       <SectionSeparator />
       
-      <motion.div {...reveal4.revealProps}>
+      <motion.div {...reveal4.revealProps} id="projects">
         <SectionGlassCard fluid={true} index={2} metaLabel="GALERI PROYEK" className="snap-start">
           <ProjectsSection />
         </SectionGlassCard>
       </motion.div>
       <SectionSeparator />
       
-      <motion.div {...reveal5.revealProps}>
+      <motion.div {...reveal5.revealProps} id="pricing">
         <SectionGlassCard fluid={true} index={5} metaLabel="INVESTASI & PAKET" className="snap-start">
           <PricingSection />
         </SectionGlassCard>
       </motion.div>
       <SectionSeparator />
       
-      <SectionGlassCard fluid={true} index={6} metaLabel="HUBUNGI KAMI" className="snap-start">
+      <SectionGlassCard fluid={true} index={6} metaLabel="HUBUNGI KAMI" className="snap-start" id="contact">
         <ContactSection />
       </SectionGlassCard>
       <SectionSeparator />
       
-      <SectionGlassCard fluid={true} index={7} metaLabel="KESUKSESAN KLIEN" className="snap-start">
+      <SectionGlassCard fluid={true} index={7} metaLabel="KESUKSESAN KLIEN" className="snap-start" id="testimonials">
         <TestimonialSection />
       </SectionGlassCard>
       <SectionSeparator />
       
-      <SectionGlassCard fluid={true} index={8} metaLabel="TANYA JAWAB (FAQ)" className="snap-start">
+      <SectionGlassCard fluid={true} index={8} metaLabel="TANYA JAWAB (FAQ)" className="snap-start" id="faq">
         <BlogSection />
       </SectionGlassCard>
       <SectionSeparator />
       
-      <SectionGlassCard fluid={true} index={9} metaLabel="TREN TEKNOLOGI" className="snap-start">
+      <SectionGlassCard fluid={true} index={9} metaLabel="TREN TEKNOLOGI" className="snap-start" id="insights">
         <InsightsSection />
       </SectionGlassCard>
       <SectionSeparator />
+
+      {/* ScrollSpy Active Section Indicator Badge */}
+      <div className="fixed bottom-6 right-6 z-40 hidden md:flex items-center gap-2.5 px-4 py-2.5 rounded-2xl bg-white/90 backdrop-blur-md border border-purple-200 shadow-xl text-xs font-mono text-slate-700">
+        <div className="w-2.5 h-2.5 rounded-full bg-purple-600 animate-pulse" />
+        <span>Posisi Halaman: <strong className="text-purple-900 uppercase">{activeSection}</strong></span>
+      </div>
 
       {/* New Sharp-Edged, Borderless FAQ Accordion Section at Bottom */}
       <section className="py-16 px-6 sm:px-12 bg-white border-y border-slate-200">

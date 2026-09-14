@@ -5,39 +5,32 @@ import { ArrowUpRight, Gauge, Smartphone, MessageCircle, Grid2X2, ChevronDown } 
 
 const mainServices = [
   {
-    title: "eCommerce & Retail Automation",
-    slug: "toko-online",
-    color: "#E11D48", // Pink-Rose dot
-    glow: "rgba(225, 29, 72, 0.3)",
+    title: "Web Development Next.js & Enterprise",
+    slug: "web-development-nextjs",
+    color: "#A855F7", // Purple dot
+    glow: "rgba(168, 85, 247, 0.3)",
     number: "L-01"
   },
   {
-    title: "Enterprise Information Systems",
-    slug: "sistem-informasi",
+    title: "AI Integration & Google Gemini Automation",
+    slug: "ai-integration",
     color: "#06B6D4", // Cyan-Teal dot
     glow: "rgba(6, 182, 212, 0.3)",
     number: "L-02"
   },
   {
-    title: "Corporate Identity Platforms",
-    slug: "company-profile",
-    color: "#F97316", // Orange dot
-    glow: "rgba(249, 115, 22, 0.3)",
+    title: "E-Commerce & Retail Automation",
+    slug: "ecommerce-automation",
+    color: "#E11D48", // Pink-Rose dot
+    glow: "rgba(225, 29, 72, 0.3)",
     number: "L-03"
   },
   {
-    title: "High-Conversion Landing Pages",
+    title: "High-Conversion Landing Page",
     slug: "landing-page",
     color: "#22C55E", // Green dot
     glow: "rgba(34, 197, 110, 0.3)",
     number: "L-04"
-  },
-  {
-    title: "Custom Web Applications",
-    slug: "aplikasi-web",
-    color: "#A855F7", // Purple dot
-    glow: "rgba(168, 85, 247, 0.3)",
-    number: "L-05"
   }
 ];
 

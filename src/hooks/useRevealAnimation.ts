@@ -1,7 +1,7 @@
 import { useRef } from 'react';
 import { useInView, useReducedMotion } from 'motion/react';
 
-export function useRevealAnimation(margin = '-10%') {
+export function useRevealAnimation(margin: any = '-10%') {
   const ref = useRef<HTMLDivElement>(null);
   const shouldReduceMotion = useReducedMotion();
   const isInView = useInView(ref, { once: true, margin });
@@ -16,7 +16,7 @@ export function useRevealAnimation(margin = '-10%') {
       ? { duration: 0 }
       : {
           duration: 0.5,
-          ease: [0.22, 1, 0.36, 1],
+          ease: [0.22, 1, 0.36, 1] as any,
           staggerChildren: 0.03
         }
   };
