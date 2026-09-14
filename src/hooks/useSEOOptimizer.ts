@@ -42,6 +42,8 @@ export function useSEOOptimizer({
     setMetaTag('property', 'og:title', title, true);
     setMetaTag('property', 'og:description', description, true);
     setMetaTag('property', 'og:image', image, true);
+    setMetaTag('property', 'og:image:secure_url', image, true);
+    setMetaTag('property', 'og:image:alt', title, true);
     setMetaTag('property', 'og:url', url, true);
     setMetaTag('property', 'og:type', type, true);
 
@@ -50,6 +52,7 @@ export function useSEOOptimizer({
     setMetaTag('name', 'twitter:title', title);
     setMetaTag('name', 'twitter:description', description);
     setMetaTag('name', 'twitter:image', image);
+    setMetaTag('name', 'twitter:image:alt', title);
 
     // Article Specific Metadata
     if (publishedTime) {

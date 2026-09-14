@@ -31,6 +31,8 @@ import toast from 'react-hot-toast';
 import { generateServiceSchema, injectSchemaScript } from '../utils/schemaMarkup';
 import { useScrollSpy } from '../hooks/useScrollSpy';
 import { useSEOOptimizer } from '../hooks/useSEOOptimizer';
+import SocialShare from '../components/molecules/SocialShare';
+import { SocialPreviewGenerator } from '../components/molecules/SocialPreviewGenerator';
 
 // Lazy-loaded heavy components for code-splitting & Lighthouse performance optimization
 const LazyPricingSection = lazy(() => import('../components/organisms/ServicePricingSection'));
@@ -263,18 +265,21 @@ export default function ServiceDetailPage() {
       <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Breadcrumb */}
-        <motion.nav 
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4 }}
-          className="flex items-center gap-2 text-xs font-mono text-slate-500 mb-12"
-        >
-          <Link to="/" className="hover:text-slate-900 transition-colors">Beranda</Link>
-          <ChevronRight size={14} className="text-slate-400" />
-          <span className="text-slate-400">Layanan</span>
-          <ChevronRight size={14} className="text-slate-400" />
-          <span className="text-slate-900 font-semibold">{service.title}</span>
-        </motion.nav>
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-12">
+          <motion.nav 
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4 }}
+            className="flex items-center gap-2 text-xs font-mono text-slate-500"
+          >
+            <Link to="/" className="hover:text-slate-900 transition-colors">Beranda</Link>
+            <ChevronRight size={14} className="text-slate-400" />
+            <span className="text-slate-400">Layanan</span>
+            <ChevronRight size={14} className="text-slate-400" />
+            <span className="text-slate-900 font-semibold">{service.title}</span>
+          </motion.nav>
+          <SocialShare title={service.title} description={service.heroDescription} />
+        </div>
 
         {/* Hero Section */}
         <div className="max-w-4xl mb-20" id="overview">
@@ -529,64 +534,48 @@ export default function ServiceDetailPage() {
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[
-              {
-                phase: "Fase 01",
-                title: "Audit & Arsitektur",
-                timeline: "Hari 1 - 3",
-                desc: "Analisis mendalam kebutuhan bisnis, pemetaan user journey, & perancangan database secure."
-              },
-              {
-                phase: "Fase 02",
-                title: "Pengembangan Core & UI",
-                timeline: "Hari 4 - 10",
-                desc: "Implementasi Next.js 15, Tailwind v4, animasi Framer Motion, & integrasi API."
-              },
-              {
-                phase: "Fase 03",
-                title: "QA & Stress Testing",
-                timeline: "Hari 11 - 14",
-                desc: "Pengujian performa Lighthouse skor 95+, keamanan data, & simulasi multi-user."
-              },
-              {
-                phase: "Fase 04",
-                title: "Deploy & Skalabilitas",
-                timeline: "Hari 15+",
-                desc: "Peluncuran live ke Vercel Edge CDN, setup domain resmi, & pelatihan mandiri."
-              }
-            ].map((phaseItem, idx) => (
-              <motion.div
-                key={idx}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: idx * 0.1, duration: 0.4 }}
-                whileHover={{ y: -8, scale: 1.02 }}
-                className="p-7 rounded-3xl bg-white border border-slate-200/90 shadow-sm flex flex-col justify-between group hover:border-purple-300 hover:shadow-xl transition-all"
-              >
-                <div>
-                  <div className="flex items-center justify-between mb-6">
-                    <span className="px-3 py-1 rounded-xl bg-purple-50 text-purple-700 font-mono text-xs font-bold border border-purple-100">
-                      {phaseItem.phase}
-                    </span>
-                    <span className="inline-flex items-center gap-1.5 text-xs font-mono font-medium text-slate-500">
-                      <Clock size={13} className="text-purple-600" />
-                      {phaseItem.timeline}
-                    </span>
+            {service.processSteps.map((phaseItem, idx) => {
+              // Men-generate timeline simulasi secara dinamis
+              let timelineStr = "";
+              if (idx === 0) timelineStr = "Minggu 1";
+              else if (idx === 1) timelineStr = "Minggu 1-2";
+              else if (idx === 2) timelineStr = "Minggu 2-3";
+              else timelineStr = "Minggu 3-4";
+
+              return (
+                <motion.div
+                  key={idx}
+                  initial={{ opacity: 0, y: 20 }}
+                  whileInView={{ opacity: 1, y: 0 }}
+                  viewport={{ once: true }}
+                  transition={{ delay: idx * 0.1, duration: 0.4 }}
+                  whileHover={{ y: -8, scale: 1.02 }}
+                  className="p-7 rounded-3xl bg-white border border-slate-200/90 shadow-sm flex flex-col justify-between group hover:border-purple-300 hover:shadow-xl transition-all"
+                >
+                  <div>
+                    <div className="flex items-center justify-between mb-6">
+                      <span className="px-3 py-1 rounded-xl bg-purple-50 text-purple-700 font-mono text-xs font-bold border border-purple-100">
+                        Fase {phaseItem.step}
+                      </span>
+                      <span className="inline-flex items-center gap-1.5 text-xs font-mono font-medium text-slate-500">
+                        <Clock size={13} className="text-purple-600" />
+                        {timelineStr}
+                      </span>
+                    </div>
+                    <h3 className="text-lg font-display font-bold text-slate-900 mb-2 group-hover:text-purple-950 transition-colors">
+                      {phaseItem.title}
+                    </h3>
+                    <p className="text-xs sm:text-sm font-sans text-slate-600 leading-relaxed">
+                      {phaseItem.desc}
+                    </p>
                   </div>
-                  <h3 className="text-lg font-display font-bold text-slate-900 mb-2 group-hover:text-purple-950 transition-colors">
-                    {phaseItem.title}
-                  </h3>
-                  <p className="text-xs sm:text-sm font-sans text-slate-600 leading-relaxed">
-                    {phaseItem.desc}
-                  </p>
-                </div>
-                <div className="mt-6 pt-4 border-t border-slate-100 flex items-center gap-2 text-xs font-mono font-bold text-purple-700">
-                  <span>Status: Terstruktur</span>
-                  <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse ml-auto" />
-                </div>
-              </motion.div>
-            ))}
+                  <div className="mt-6 pt-4 border-t border-slate-100 flex items-center gap-2 text-xs font-mono font-bold text-purple-700">
+                    <span>Status: Terstruktur</span>
+                    <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse ml-auto" />
+                  </div>
+                </motion.div>
+              );
+            })}
           </div>
         </div>
 
@@ -668,6 +657,18 @@ export default function ServiceDetailPage() {
                 aria-label={`Go to slide ${idx + 1}`}
               />
             ))}
+          </div>
+        </div>
+
+        {/* Social Preview Generator & Bottom Share */}
+        <div className="my-16">
+          <SocialPreviewGenerator title={service.title} category="Enterprise Services" author="Chesta Azka Sofyan" />
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-8 rounded-2xl bg-slate-50 border border-slate-200 mt-6">
+            <div>
+              <h4 className="font-display font-bold text-slate-900 text-lg mb-1">Bagikan Layanan Ini</h4>
+              <p className="text-xs text-slate-600 font-sans">Bantu kolega atau partner bisnis Anda menemukan solusi arsitektur digital terbaik.</p>
+            </div>
+            <SocialShare title={service.title} description={service.heroDescription} />
           </div>
         </div>
 

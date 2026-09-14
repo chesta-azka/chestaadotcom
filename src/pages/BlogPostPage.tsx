@@ -7,11 +7,12 @@ import { ArrowLeft, Clock, Calendar, Zap, ChevronLeft, Check, Copy, MessageSquar
 import { Helmet } from 'react-helmet-async';
 import Markdown from 'markdown-to-jsx';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
-import { vscDarkPlus } from 'react-syntax-highlighter/dist/esm/styles/prism';
+import { shadesOfPurple } from 'react-syntax-highlighter/dist/esm/styles/prism';
 import TableOfContents from '../components/organisms/TableOfContents.tsx';
 import BlogInteractions from '../components/organisms/BlogInteractions.tsx';
 import NotFoundPage from './NotFoundPage.tsx';
 import SocialShare from '../components/molecules/SocialShare.tsx';
+import { SocialPreviewGenerator } from '../components/molecules/SocialPreviewGenerator.tsx';
 import LazyImage from '../components/atoms/LazyImage.tsx';
 import ReadNextSection from '../components/organisms/ReadNextSection.tsx';
 import { ALL_ARTICLES, Article } from '../data/blogData';
@@ -264,19 +265,19 @@ const CodeBlock = ({ className, children }: { className?: string; children: Reac
   };
 
   return (
-    <div className="relative group rounded-xl overflow-hidden bg-[#18181b] my-12 shadow-2xl border border-slate-800">
-      <div className="flex items-center justify-between px-5 py-3.5 bg-[#27272a] border-b border-black/40">
+    <div className="relative group rounded-xl overflow-hidden bg-[#1e1e3f] my-12 shadow-2xl shadow-purple-900/20 border border-purple-500/20">
+      <div className="flex items-center justify-between px-5 py-3.5 bg-[#2d2b55] border-b border-purple-500/30">
         <div className="flex items-center gap-2">
           <div className="flex gap-2">
             <div className="w-3 h-3 rounded-full bg-rose-500/90" />
             <div className="w-3 h-3 rounded-full bg-amber-500/90" />
             <div className="w-3 h-3 rounded-full bg-emerald-500/90" />
           </div>
-          <span className="text-xs font-mono font-medium text-slate-300 ml-3">{language}</span>
+          <span className="text-xs font-mono font-medium text-purple-200 ml-3">{language}</span>
         </div>
         <button 
           onClick={handleCopy} 
-          className="text-slate-300 hover:text-white transition-colors flex items-center gap-1.5 text-xs font-mono bg-white/10 hover:bg-white/20 px-3 py-1.5 rounded-lg cursor-pointer"
+          className="text-purple-200 hover:text-white transition-colors flex items-center gap-1.5 text-xs font-mono bg-purple-500/20 hover:bg-purple-500/40 px-3 py-1.5 rounded-lg cursor-pointer"
         >
           {copied ? <Check size={14} className="text-emerald-400" /> : <Copy size={14} />}
           {copied ? 'Copied!' : 'Copy Code'}
@@ -285,7 +286,7 @@ const CodeBlock = ({ className, children }: { className?: string; children: Reac
       <div className="text-sm overflow-x-auto">
         <SyntaxHighlighter
           language={language}
-          style={vscDarkPlus}
+          style={shadesOfPurple}
           customStyle={{ margin: 0, padding: '1.75rem', background: 'transparent' }}
           wrapLines={true}
           showLineNumbers={true}
@@ -631,6 +632,16 @@ export default function BlogPostPage() {
       {/* Content Section with Generous Breathable Spacing */}
       <div className="max-w-7xl mx-auto px-6 py-20 md:py-28 grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-16 items-start">
          <article className="w-full min-w-0">
+           {/* Top Share & Preview Generator Bar */}
+           <div className="mb-10 pb-8 border-b border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+             <div className="text-xs font-mono uppercase tracking-widest text-slate-500 font-bold">
+               Author: <span className="text-purple-700">{post.author?.name || 'Chesta Azka Sofyan'}</span>
+             </div>
+             <SocialShare title={post.title} description={post.desc} />
+           </div>
+
+           <SocialPreviewGenerator title={post.title} category={post.cat} author={post.author?.name} />
+
            <div className="prose prose-lg prose-invert max-w-none prose-h1:hidden
                         prose-headings:font-display prose-headings:font-extrabold prose-headings:tracking-tight prose-headings:text-white
                         prose-h2:text-3xl md:prose-h2:text-4xl prose-h2:mt-28 md:prose-h2:mt-36 prose-h2:mb-8 prose-h2:pt-10 prose-h2:border-t-2 prose-h2:border-purple-800/80

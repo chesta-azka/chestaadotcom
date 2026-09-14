@@ -77,7 +77,7 @@ export default function MetaTags({ title, description, path = '/', breadcrumbs, 
   const serviceLd = serviceName ? generateServiceSchema(serviceName, description, url) : null;
   const cityGeoLd = cityName ? generateCityGeoSchema(cityName) : null;
   
-  const ogImage = 'https://chestaa.com/og-preview-image.jpg';
+  const ogImage = 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1200&q=80';
 
   return (
     <>
