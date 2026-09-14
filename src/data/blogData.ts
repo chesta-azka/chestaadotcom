@@ -10,6 +10,10 @@ import { itConsultationJabodetabekMdx } from '../content/itConsultationJabodetab
 import { panduanTechStackMdx } from '../content/panduanTechStackArticle';
 import { mengapaBsdButuhAiMdx } from '../content/mengapaBsdButuhAiArticle';
 import { premiumWebDevJabodetabekMdx } from '../content/premiumWebDevJabodetabekArticle';
+import { saasEfficiencyMdx } from '../content/saasEfficiencyArticle';
+import { ecommerceConversionMdx } from '../content/ecommerceConversionArticle';
+import { aiOperationalScalingMdx } from '../content/aiOperationalScalingArticle';
+import { aiAutomationEnterpriseMdx } from '../content/aiAutomationEnterpriseArticle';
 
 export interface Article {
   slug: string;
@@ -33,6 +37,82 @@ export interface Article {
 }
 
 export const ALL_ARTICLES: Article[] = [
+  {
+    slug: 'agentic-ai-otomasi-enterprise-sistem-otonom-b2b',
+    title: 'Agentic AI & Otomasi Enterprise: Membangun Sistem Kerja Otonom untuk Efisiensi B2B',
+    cat: 'AI Automation',
+    date: '14 Sep 2026',
+    readTime: '9 MIN READ',
+    readTimeMinutes: 9,
+    desc: 'Membahas bagaimana transformasi digital dengan arsitektur Agentic AI mampu menghilangkan hingga 90% pekerjaan repetitif dan mempercepat siklus operasional korporat.',
+    featured: true,
+    recommended: true,
+    tags: ['AI Automation', 'Agentic AI', 'Enterprise', 'B2B', 'Operational'],
+    content: [],
+    mdxContent: aiAutomationEnterpriseMdx,
+    image: 'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?q=80&w=1200&auto=format&fit=crop',
+    author: {
+      name: 'CHESTAADOTCOM',
+      role: 'Principal Software Architect'
+    }
+  },
+  {
+    slug: 'saas-efficiency-automating-legacy-workflows-200-roi',
+    title: 'SaaS Efficiency: Automating Legacy Workflows for 200% ROI',
+    cat: 'SaaS Architecture',
+    date: '13 Sep 2026',
+    readTime: '8 MIN READ',
+    readTimeMinutes: 8,
+    desc: 'Strategi rekayasa arsitektur modern untuk mengotomatisasi alur kerja SaaS, memangkas latensi sistem, dan menghasilkan pengembalian investasi (ROI) hingga 200%.',
+    featured: true,
+    recommended: true,
+    tags: ['SaaS', 'ROI', 'Next.js', 'Automation', 'Cloud Efficiency'],
+    content: [],
+    mdxContent: saasEfficiencyMdx,
+    image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1200&auto=format&fit=crop',
+    author: {
+      name: 'CHESTAADOTCOM',
+      role: 'Principal Software Architect'
+    }
+  },
+  {
+    slug: 'ecommerce-scaling-high-conversion-funnels-agentic-ai',
+    title: 'E-commerce Scaling: Building High-Conversion Funnels with Agentic AI',
+    cat: 'E-commerce & AI',
+    date: '13 Sep 2026',
+    readTime: '7 MIN READ',
+    readTimeMinutes: 7,
+    desc: 'Membedah strategi arsitektur modern untuk membangun sales funnel konversi tinggi yang didukung penuh oleh Agentic AI, mengubah pengunjung menjadi pembeli.',
+    featured: true,
+    recommended: true,
+    tags: ['E-commerce', 'Agentic AI', 'Conversion', 'Funnels'],
+    content: [],
+    mdxContent: ecommerceConversionMdx,
+    image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=1200&auto=format&fit=crop',
+    author: {
+      name: 'CHESTAADOTCOM',
+      role: 'Chief Technology Officer'
+    }
+  },
+  {
+    slug: 'ai-operational-scaling-autonomous-systems',
+    title: 'AI Operational Scaling: Transforming Manual Data Entry into Autonomous Systems',
+    cat: 'AI Automation',
+    date: '13 Sep 2026',
+    readTime: '9 MIN READ',
+    readTimeMinutes: 9,
+    desc: 'Transformasi digital korporat berbasis Agentic AI untuk mengambil alih 90% beban kerja manual repetitif, menciptakan sistem otonom 24/7.',
+    featured: true,
+    recommended: true,
+    tags: ['AI Operations', 'Automation', 'Enterprise', 'OCR'],
+    content: [],
+    mdxContent: aiOperationalScalingMdx,
+    image: 'https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=1200&auto=format&fit=crop',
+    author: {
+      name: 'CHESTAADOTCOM',
+      role: 'AI & Systems Specialist'
+    }
+  },
   {
     slug: 'panduan-memilih-tech-stack-startup-indonesia',
     title: 'Panduan Memilih Tech Stack untuk Startup di Indonesia',

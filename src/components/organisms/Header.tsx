@@ -65,7 +65,6 @@ export default function Header() {
       
       setScrolled(currentScrollY > 15);
       
-      // Hide on scroll down, show on scroll up
       if (currentScrollY > 100 && currentScrollY > lastScrollY.current) {
         setHidden(true);
       } else if (currentScrollY < lastScrollY.current) {
@@ -78,13 +77,11 @@ export default function Header() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Close mobile menu on route change & unlock scroll
   useEffect(() => {
     setMobileMenuOpen(false);
     document.body.style.overflow = 'unset';
   }, [location.pathname]);
 
-  // Lock body scroll when full-screen mobile menu is open
   useEffect(() => {
     if (mobileMenuOpen) {
       document.body.style.overflow = 'hidden';
@@ -96,7 +93,6 @@ export default function Header() {
     };
   }, [mobileMenuOpen]);
 
-  // Close mobile menu on Escape key
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if (e.key === 'Escape' && mobileMenuOpen) {
@@ -107,7 +103,6 @@ export default function Header() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [mobileMenuOpen]);
 
-  // Dynamically measure and broadcast header height to :root --header-height
   useEffect(() => {
     const updateHeaderHeight = () => {
       if (headerRef.current) {
@@ -133,8 +128,6 @@ export default function Header() {
     };
   }, [scrolled]);
 
-  // Removed academy exception to make header visible on all pages
-
   const whatsappUrl = `https://wa.me/6282125447232?text=${encodeURIComponent('Halo Mas Chesta, saya ingin konsultasi mengenai layanan pembuatan website dan solusi AI di CHESTAADOTCOM.')}`;
 
   return (
@@ -146,35 +139,35 @@ export default function Header() {
         </div>
 
         {/* Floating Clean Header Pill */}
-        <div className="w-full">
+        <div className="w-full px-4 sm:px-6 pt-3">
           <motion.div
             initial={{ y: -20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ type: 'spring', stiffness: 120, damping: 20, delay: 0.1 }}
-            className={`transition-all duration-300 ease-out flex items-center justify-between w-full px-4 md:px-8 pointer-events-auto ${
+            className={`transition-all duration-300 ease-out flex items-center justify-between w-full max-w-7xl mx-auto px-4 md:px-6 pointer-events-auto rounded-2xl ${
               scrolled
-                ? 'bg-white/95 backdrop-blur-xl border-b border-slate-200/80 shadow-sm py-2' 
-                : 'bg-white/90 backdrop-blur-xl border-b border-slate-200/40 py-2.5'
+                ? 'bg-white/90 backdrop-blur-xl border border-slate-200 shadow-lg py-3' 
+                : 'bg-white/80 backdrop-blur-xl border border-slate-200/80 py-3.5 shadow-sm'
             }`}
           >
             {/* Brand Logo */}
             <Link to="/" className="flex items-center gap-2.5 md:gap-2 group select-none pointer-events-auto shrink-0">
-              <div className="relative flex items-center justify-center w-8 md:w-7 h-8 md:h-7 rounded-lg md:rounded-xl bg-purple-50 border border-purple-200/80 group-hover:border-purple-400 group-hover:bg-purple-100 transition-all duration-300 shadow-2xs">
-                <svg className="w-4 h-4 md:w-3.5 md:h-3.5 text-purple-700 group-hover:scale-110 transition-transform duration-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <div className="relative flex items-center justify-center w-8 md:w-8 h-8 md:h-8 rounded-xl bg-purple-50 border border-purple-200 group-hover:bg-purple-100 transition-all duration-300 shadow-xs">
+                <svg className="w-4 h-4 md:w-4 md:h-4 text-purple-700 group-hover:scale-110 transition-transform duration-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                   <path d="m12 3-8 8 8 8 8-8-8-8z" />
                   <path d="m12 8-4 4 4 4 4-4-4-4z" />
                 </svg>
               </div>
               
               <div className="flex flex-col text-left">
-                <span className="font-display text-base md:text-[15px] font-black tracking-tight text-slate-900 leading-none">
-                  chestaa<span className="text-purple-500">dot</span>com
+                <span className="font-display text-base md:text-[16px] font-black tracking-tight text-slate-900 leading-none">
+                  chestaa<span className="text-purple-600">dot</span>com
                 </span>
               </div>
             </Link>
 
             {/* Desktop Navigation Links */}
-            <nav className="hidden md:flex items-center gap-1">
+            <nav className="hidden md:flex items-center gap-1.5">
               {NAV_ITEMS.map((item) => {
                 const isActive = item.href 
                   ? location.pathname === item.href || (item.href !== '/' && location.pathname.startsWith(item.href))
@@ -185,33 +178,31 @@ export default function Header() {
                     {item.href ? (
                       <Link
                         to={item.href}
-                        className={` rounded-full text-sm font-medium font-sans tracking-tight transition-colors duration-200 relative flex items-center px-4 py-2 ${
+                        className={`rounded-xl text-xs font-mono font-bold uppercase tracking-wider transition-colors duration-200 relative flex items-center px-4 py-2 ${
                           isActive
-                            ? 'text-purple-900 bg-purple-100/60 font-semibold'
-                            : 'text-slate-600 hover:text-purple-900 hover:bg-slate-100/60'
+                            ? 'text-purple-900 bg-purple-50 border border-purple-200 shadow-2xs'
+                            : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100/80 border border-transparent'
                         }`}
                       >
                         {item.name}
-                        
                       </Link>
                     ) : (
                       <div
-                        className={` rounded-full text-sm font-medium font-sans tracking-tight transition-colors duration-200 relative flex items-center px-4 py-2 gap-1 cursor-pointer ${
+                        className={`rounded-xl text-xs font-mono font-bold uppercase tracking-wider transition-colors duration-200 relative flex items-center px-4 py-2 gap-1.5 cursor-pointer ${
                           isActive
-                            ? 'text-purple-900 bg-purple-100/60 font-semibold'
-                            : 'text-slate-600 hover:text-purple-900 hover:bg-slate-100/60'
+                            ? 'text-purple-900 bg-purple-50 border border-purple-200 shadow-2xs'
+                            : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100/80 border border-transparent'
                         }`}
                       >
                         {item.name}
-                        <ChevronDown size={12} className="group-hover/navitem:rotate-180 transition-transform duration-200" />
-                        
+                        <ChevronDown size={12} className="group-hover/navitem:rotate-180 transition-transform duration-200 text-slate-400" />
                       </div>
                     )}
 
                     {/* Dropdown Menu */}
                     {item.children && (
-                      <div className="absolute top-full left-1/2 -translate-x-1/2 pt-4 opacity-0 translate-y-2 pointer-events-none group-hover/navitem:opacity-100 group-hover/navitem:translate-y-0 group-hover/navitem:pointer-events-auto transition-all duration-300 z-50">
-                        <div className="w-56 bg-white/95 backdrop-blur-xl border border-slate-200 shadow-xl shadow-purple-900/5 rounded-2xl p-2 flex flex-col gap-1 relative">
+                      <div className="absolute top-full left-1/2 -translate-x-1/2 pt-3 opacity-0 translate-y-2 pointer-events-none group-hover/navitem:opacity-100 group-hover/navitem:translate-y-0 group-hover/navitem:pointer-events-auto transition-all duration-300 z-50">
+                        <div className="w-64 bg-white border border-slate-200 shadow-xl rounded-2xl p-2.5 flex flex-col gap-1.5 relative">
                           {/* Triangle indicator */}
                           <div className="absolute -top-1.5 left-1/2 -translate-x-1/2 w-3 h-3 bg-white border-t border-l border-slate-200 rotate-45" />
                           
@@ -222,18 +213,18 @@ export default function Header() {
                               <Link
                                 key={child.name}
                                 to={child.href}
-                                className={`flex items-center gap-3 p-2 rounded-xl transition-all ${
+                                className={`flex items-center gap-3 p-3 rounded-xl transition-all border ${
                                   isChildActive 
-                                    ? 'bg-purple-50 text-purple-900' 
-                                    : 'hover:bg-slate-50 text-slate-700 hover:text-purple-700'
+                                    ? 'bg-purple-50 text-purple-950 border-purple-200 font-bold' 
+                                    : 'bg-white hover:bg-slate-50 text-slate-700 hover:text-slate-900 border-transparent'
                                 }`}
                               >
-                                <div className={`p-1.5 rounded-lg ${isChildActive ? 'bg-purple-100' : 'bg-slate-100 text-slate-600'}`}>
-                                  <Icon size={14} className={isChildActive ? 'text-purple-600' : ''} />
+                                <div className={`p-2 rounded-xl border ${isChildActive ? 'bg-purple-100 text-purple-800 border-purple-200' : 'bg-slate-100 text-slate-600 border-slate-200'}`}>
+                                  <Icon size={16} />
                                 </div>
-                                <div className="flex flex-col">
+                                <div className="flex flex-col text-left">
                                   <span className="text-xs font-bold font-sans">{child.name}</span>
-                                  <span className="text-[9px] text-slate-600 font-sans tracking-wide">{child.subtitle}</span>
+                                  <span className="text-[10px] text-slate-500 font-sans tracking-wide">{child.subtitle}</span>
                                 </div>
                               </Link>
                             )
@@ -248,19 +239,19 @@ export default function Header() {
             
             {/* Action Area */}
             <div className="flex items-center gap-2 pointer-events-auto">
-              {/* Search Trigger Button (Desktop & Tablet) */}
+              {/* Search Trigger Button */}
               <motion.button
                 id="header-search-btn"
                 onClick={() => window.dispatchEvent(new CustomEvent('open-command-palette'))}
-                whileHover={{ scale: 1.04 }}
-                whileTap={{ scale: 0.96 }}
-                className="flex items-center gap-2 px-3 py-2 rounded-full bg-purple-50 hover:bg-purple-100/90 text-purple-900 border border-purple-200/90 text-xs font-semibold transition-all cursor-pointer shadow-2xs group"
+                whileHover={{ scale: 1.02 }}
+                whileTap={{ scale: 0.98 }}
+                className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-purple-50 hover:bg-purple-100 text-purple-950 border border-purple-200 text-xs font-mono font-bold uppercase tracking-wider transition-all cursor-pointer shadow-2xs group"
                 title="Cari Halaman, Layanan & Artikel (⌘K)"
                 aria-label="Cari Website (⌘K)"
               >
                 <Search size={14} className="text-purple-700 group-hover:scale-110 transition-transform shrink-0" />
-                <span className="hidden sm:inline text-slate-700 group-hover:text-purple-950 font-medium">Cari</span>
-                <kbd className="hidden md:inline-flex items-center text-[10px] font-mono font-semibold px-1.5 py-0.5 rounded bg-white border border-purple-200 text-purple-700 shadow-2xs">
+                <span className="hidden sm:inline text-slate-800 group-hover:text-purple-950">Cari</span>
+                <kbd className="hidden md:inline-flex items-center text-[10px] font-mono font-bold px-1.5 py-0.5 rounded-lg bg-white border border-purple-200 text-purple-900 shadow-2xs">
                   ⌘K
                 </kbd>
               </motion.button>
@@ -270,25 +261,25 @@ export default function Header() {
                 href={whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                whileHover={{ scale: 1.04, y: -1 }}
-                whileTap={{ scale: 0.96 }}
-                transition={{ type: "spring", stiffness: 400, damping: 17 }}
-                className="hidden md:flex items-center gap-1.5 text-[11px] font-sans font-bold text-white bg-gradient-to-r from-purple-800 to-indigo-800 hover:from-purple-900 hover:to-indigo-900 active:scale-95 px-4 py-2 rounded-full shadow-sm hover:shadow-md hover:shadow-purple-800/20 transition-all cursor-pointer uppercase tracking-wider"
+                whileHover={{ scale: 1.02, y: -1 }}
+                whileTap={{ scale: 0.98 }}
+                transition={{ type: "spring", stiffness: 300, damping: 20 }}
+                className="hidden md:flex items-center gap-1.5 text-[11px] font-mono font-bold text-white bg-slate-900 hover:bg-purple-900 active:scale-95 px-4 py-2.5 rounded-xl shadow-xs transition-all cursor-pointer uppercase tracking-widest border border-slate-800"
               >
-                <MessageCircle size={13} className="shrink-0" />
+                <MessageCircle size={13} className="shrink-0 text-purple-400" />
                 <span>Chat</span>
               </motion.a>
 
-              {/* Mobile Chat with us Quick Icon */}
+              {/* Mobile Chat Quick Icon */}
               <motion.a
                 href={whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 whileTap={{ scale: 0.92 }}
-                className="md:hidden flex items-center justify-center min-w-[38px] min-h-[38px] rounded-full bg-gradient-to-r from-purple-800 to-indigo-800 text-white shadow-xs cursor-pointer"
+                className="md:hidden flex items-center justify-center min-w-[38px] min-h-[38px] rounded-xl bg-slate-900 text-white border border-slate-800 shadow-2xs cursor-pointer"
                 aria-label="Chat with us via WhatsApp"
               >
-                <MessageCircle size={16} />
+                <MessageCircle size={16} className="text-purple-400" />
               </motion.a>
 
               {/* Mobile Hamburger Toggle Button */}
@@ -296,7 +287,7 @@ export default function Header() {
                 id="mobile-hamburger-btn"
                 whileTap={{ scale: 0.92 }}
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="md:hidden flex items-center justify-center min-w-[38px] min-h-[38px] rounded-full bg-purple-50 hover:bg-purple-100 active:bg-purple-200 text-purple-900 border border-purple-200/80 transition-colors cursor-pointer"
+                className="md:hidden flex items-center justify-center min-w-[38px] min-h-[38px] rounded-xl bg-purple-50 hover:bg-purple-100 text-purple-950 border border-purple-200 transition-colors cursor-pointer shadow-2xs"
                 aria-label={mobileMenuOpen ? 'Tutup menu navigasi' : 'Buka menu navigasi'}
                 aria-expanded={mobileMenuOpen}
               >
@@ -307,7 +298,7 @@ export default function Header() {
         </div>
       </header>
 
-      {/* Mobile Navigation Drawer Overlay */}
+      {/* Mobile Navigation Drawer Overlay (Polished Rounded Corners) */}
       <AnimatePresence>
         {mobileMenuOpen && (
           <>
@@ -318,7 +309,7 @@ export default function Header() {
               exit={{ opacity: 0 }}
               transition={{ duration: 0.2 }}
               onClick={() => setMobileMenuOpen(false)}
-              className="fixed inset-0 z-50 md:hidden bg-slate-950/40 backdrop-blur-xs"
+              className="fixed inset-0 z-50 md:hidden bg-slate-900/40 backdrop-blur-xs"
             />
 
             {/* Slide-in Drawer */}
@@ -326,8 +317,8 @@ export default function Header() {
               initial={{ x: '100%' }}
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
-              transition={{ type: 'spring', damping: 26, stiffness: 220 }}
-              className="fixed inset-y-0 right-0 z-50 w-full max-w-sm md:hidden bg-white shadow-2xl flex flex-col justify-between overflow-y-auto"
+              transition={{ type: 'spring', damping: 25, stiffness: 240 }}
+              className="fixed inset-y-0 right-0 z-50 w-full max-w-sm md:hidden bg-white border-l border-slate-200 shadow-2xl flex flex-col justify-between overflow-y-auto rounded-l-3xl"
               style={{ overscrollBehavior: 'contain' }}
             >
               {/* Top Bar inside Drawer */}
@@ -351,7 +342,7 @@ export default function Header() {
                 <motion.button
                   whileTap={{ scale: 0.9 }}
                   onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center justify-center w-10 h-10 rounded-full bg-white hover:bg-slate-100 active:bg-slate-200 text-slate-900 border border-slate-200 transition-all cursor-pointer shadow-2xs"
+                  className="flex items-center justify-center w-10 h-10 rounded-xl bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 transition-all cursor-pointer shadow-2xs"
                   aria-label="Tutup navigasi"
                 >
                   <X size={20} />
@@ -369,19 +360,19 @@ export default function Header() {
                     setMobileMenuOpen(false);
                     window.dispatchEvent(new CustomEvent('open-command-palette'));
                   }}
-                  className="w-full flex items-center justify-between px-4 py-3.5 rounded-2xl bg-slate-50 border border-slate-200/80 text-slate-600 text-sm font-medium cursor-pointer hover:bg-slate-100 transition-all shadow-2xs"
+                  className="w-full flex items-center justify-between px-4 py-3.5 rounded-2xl bg-slate-50 border border-slate-200 text-slate-700 text-sm font-medium cursor-pointer hover:bg-slate-100 transition-all shadow-2xs"
                 >
                   <div className="flex items-center gap-3">
                     <Search size={18} className="text-purple-700 shrink-0" />
-                    <span className="text-slate-700 font-sans">Cari Layanan, Portfolio...</span>
+                    <span className="text-slate-800 font-sans font-medium">Cari Layanan, Portfolio...</span>
                   </div>
-                  <kbd className="px-2 py-0.5 rounded-lg bg-white text-[11px] font-mono font-semibold text-purple-700 border border-purple-200">
+                  <kbd className="px-2.5 py-1 rounded-xl bg-white text-[11px] font-mono font-bold text-purple-900 border border-slate-200 shadow-2xs">
                     ⌘K
                   </kbd>
                 </motion.button>
 
                 {/* Navigation Links List */}
-                <nav className="space-y-2">
+                <nav className="space-y-2.5">
                   {NAV_ITEMS.map((item, index) => {
                     const Icon = item.icon || ChevronRight;
                     const isActive = item.href 
@@ -401,17 +392,17 @@ export default function Header() {
                           <Link
                             to={item.href}
                             onClick={() => setMobileMenuOpen(false)}
-                            className={`flex items-center justify-between p-3.5 rounded-2xl transition-all ${
+                            className={`flex items-center justify-between p-3.5 rounded-2xl transition-all border ${
                               isActive
-                                ? 'bg-purple-100/80 border border-purple-200/60 text-purple-900 font-semibold shadow-2xs'
-                                : 'bg-transparent border border-transparent text-slate-700 hover:bg-slate-50 hover:text-purple-900'
+                                ? 'bg-purple-50 border-purple-200 text-purple-950 font-bold shadow-2xs'
+                                : 'bg-white border-slate-200 text-slate-800 hover:bg-slate-50'
                             }`}
                           >
                             <div className="flex items-center gap-3.5">
-                              <div className={`p-2.5 rounded-xl ${isActive ? 'bg-purple-200 text-purple-950' : 'bg-slate-100 text-slate-600'}`}>
+                              <div className={`p-2.5 rounded-xl border ${isActive ? 'bg-purple-100 text-purple-900 border-purple-200' : 'bg-slate-100 text-slate-600 border-slate-200'}`}>
                                 <Icon size={18} />
                               </div>
-                              <span className="font-display text-base tracking-tight">
+                              <span className="font-display text-base tracking-tight font-bold">
                                 {item.name}
                               </span>
                             </div>
@@ -420,21 +411,21 @@ export default function Header() {
                         ) : (
                           <button
                             onClick={() => toggleMenu(item.name)}
-                            className={`flex items-center justify-between p-3.5 rounded-2xl transition-all w-full ${
+                            className={`flex items-center justify-between p-3.5 rounded-2xl transition-all w-full border ${
                               isActive || isExpanded
-                                ? 'bg-purple-50 border border-purple-200/70 text-purple-900 font-semibold'
-                                : 'bg-transparent border border-transparent text-slate-700 hover:bg-slate-50 hover:text-purple-900'
+                                ? 'bg-purple-50 border-purple-200 text-purple-950 font-bold'
+                                : 'bg-white border-slate-200 text-slate-800 hover:bg-slate-50'
                             }`}
                           >
                             <div className="flex items-center gap-3.5">
-                              <div className={`p-2.5 rounded-xl ${isActive || isExpanded ? 'bg-purple-100 text-purple-900' : 'bg-slate-100 text-slate-600'}`}>
+                              <div className={`p-2.5 rounded-xl border ${isActive || isExpanded ? 'bg-purple-100 text-purple-900 border-purple-200' : 'bg-slate-100 text-slate-600 border-slate-200'}`}>
                                 <Icon size={18} />
                               </div>
-                              <span className="font-display text-base tracking-tight">
+                              <span className="font-display text-base tracking-tight font-bold">
                                 {item.name}
                               </span>
                             </div>
-                            <ChevronDown size={18} className={`transition-transform duration-300 text-slate-600 ${isExpanded ? 'rotate-180 text-purple-700' : ''}`} />
+                            <ChevronDown size={18} className={`transition-transform duration-300 text-slate-400 ${isExpanded ? 'rotate-180 text-purple-700' : ''}`} />
                           </button>
                         )}
 
@@ -448,7 +439,7 @@ export default function Header() {
                               transition={{ duration: 0.25 }}
                               className="overflow-hidden"
                             >
-                              <div className="pl-4 pr-2 py-2 space-y-1.5 border-l-2 border-purple-200 ml-6 mt-1">
+                              <div className="pl-3 pr-1 py-2 space-y-2 border-l-2 border-purple-200 ml-6 mt-1 bg-slate-50/50">
                                 {item.children.map((child) => {
                                   const ChildIcon = child.icon;
                                   const isChildActive = location.pathname === child.href || location.pathname.startsWith(child.href);
@@ -457,19 +448,19 @@ export default function Header() {
                                       key={child.name}
                                       to={child.href}
                                       onClick={() => setMobileMenuOpen(false)}
-                                      className={`flex items-center justify-between p-3 rounded-xl transition-all ${
+                                      className={`flex items-center justify-between p-3 rounded-xl transition-all border ${
                                         isChildActive
-                                          ? 'bg-purple-100 text-purple-950 font-bold'
-                                          : 'bg-transparent text-slate-600 hover:bg-slate-50 hover:text-purple-900'
+                                          ? 'bg-purple-100 text-purple-950 font-bold border-purple-200'
+                                          : 'bg-white text-slate-700 hover:bg-slate-100 border-slate-200'
                                       }`}
                                     >
                                       <div className="flex items-center gap-3">
-                                        <div className={`p-2 rounded-lg ${isChildActive ? 'bg-purple-200 text-purple-900' : 'bg-slate-100 text-slate-600'}`}>
+                                        <div className={`p-2 rounded-xl border ${isChildActive ? 'bg-purple-200 text-purple-800 border-purple-300' : 'bg-slate-100 text-slate-600 border-slate-200'}`}>
                                           <ChildIcon size={15} />
                                         </div>
                                         <div className="flex flex-col text-left">
                                           <span className="font-sans text-xs font-bold">{child.name}</span>
-                                          <span className="text-[10px] text-slate-600 font-sans">{child.subtitle}</span>
+                                          <span className="text-[10px] text-slate-500 font-sans">{child.subtitle}</span>
                                         </div>
                                       </div>
                                     </Link>
@@ -485,23 +476,23 @@ export default function Header() {
                 </nav>
 
                 {/* Direct Contact Action Button */}
-                <div className="pt-4 border-t border-slate-100 space-y-3">
+                <div className="pt-4 border-t border-slate-200 space-y-3">
                   <a
                     id="mobile-drawer-whatsapp-btn"
                     href={whatsappUrl}
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={() => setMobileMenuOpen(false)}
-                    className="flex items-center justify-between w-full py-3.5 px-5 bg-gradient-to-r from-purple-900 to-indigo-900 hover:from-purple-950 hover:to-indigo-950 active:scale-[0.98] text-white rounded-2xl font-sans font-bold text-xs uppercase tracking-wider shadow-lg shadow-purple-950/20 transition-all cursor-pointer group"
+                    className="flex items-center justify-between w-full py-4 px-5 bg-slate-900 hover:bg-purple-900 active:scale-[0.98] text-white rounded-2xl font-mono font-bold text-xs uppercase tracking-widest shadow-md transition-all cursor-pointer group"
                   >
                     <div className="flex items-center gap-3">
-                      <MessageCircle size={18} className="text-white" />
+                      <MessageCircle size={18} className="text-purple-400" />
                       <span>Konsultasi WhatsApp</span>
                     </div>
                     <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
                   </a>
 
-                  <div className="flex items-center justify-center gap-2 text-xs text-slate-600 font-sans py-1">
+                  <div className="flex items-center justify-center gap-2 text-xs text-slate-500 font-mono py-1">
                     <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
                     <span>Lead Architect Online &bull; BSD City</span>
                   </div>
@@ -509,7 +500,7 @@ export default function Header() {
               </div>
 
               {/* Bottom Footer Info */}
-              <div className="w-full px-6 py-4 border-t border-slate-100 bg-slate-50/80 text-center text-[11px] text-slate-600 font-sans shrink-0">
+              <div className="w-full px-6 py-4 border-t border-slate-100 bg-slate-50/50 text-center text-[11px] text-slate-500 font-mono shrink-0">
                 <span>CHESTAADOTCOM &copy; 2026 &bull; All Rights Reserved</span>
               </div>
             </motion.div>

@@ -220,10 +220,10 @@ export default function CaseStudyDetailPage() {
     <main className="relative min-h-screen flex flex-col items-center pt-40 md:pt-48 pb-24 px-4 sm:px-6 lg:px-8 overflow-hidden bg-[#FAFAFC] text-slate-900 selection:bg-purple-500/20">
       <MetaTags 
         title={`Case Study: ${study.client} | CHESTAADOTCOM`}
-        description={study.challenge.substring(0, 150) + '...'}
+        description={study.desc}
         path={`/case-studies/${study.slug}`}
         breadcrumbs={[{ name: 'Home', item: '/' }, { name: 'Case Studies', item: '/case-studies' }, { name: study.client, item: `/case-studies/${study.slug}` }]}
-        schemaString={JSON.stringify(generateCaseStudySchema(study.client, study.challenge, `https://chestaa.com/case-studies/${study.slug}`))}
+        schemaString={JSON.stringify(generateCaseStudySchema(study.client, study.desc, `https://chestaa.com/case-studies/${study.slug}`))}
       />
       {/* Enhanced Ambient Background System */}
       <div className="absolute inset-0 -z-10 pointer-events-none overflow-hidden">

@@ -11,6 +11,16 @@ export interface CaseStudy {
 }
 
 export const caseStudyDB: CaseStudy[] = [
+  { 
+    id: 9, 
+    slug: 'contractor-rebranding-milyaran', 
+    title: "Mengubah Website 'Asal Ada' Menjadi Magnet Klien Kontrak Milyaran", 
+    client: 'PT Nusanta Graha Megatama (Fictional Showcase)', 
+    impact: '4x User Engagement', 
+    desc: 'Transformasi digital high-ticket website untuk perusahaan konstruksi. Menghilangkan kesan "asal ada", beralih ke identitas visual korporat elit yang memenangkan tender miliaran.', 
+    roi: '3 leads korporat kelas atas langsung masuk dalam minggu pertama peluncuran; kontrak gudang logistik senilai Rp 45 miliar dimenangkan.', 
+    image: 'https://images.unsplash.com/photo-1541888946425-d0fbb18f15d2?q=80&w=1200&auto=format&fit=crop' 
+  },
   { id: 1, slug: 'nexus-bank', title: 'Fintech Scaling', client: 'Nexus Bank', impact: '+340% Conversions', desc: 'Rewriting a fragile legacy SPA into a robust Next.js App Router architecture, eliminating hydration errors and drastically improving SEO.', roi: 'Saved $2.4M in annual server operational costs by transitioning to Edge caching.', image: 'https://images.unsplash.com/photo-1559526324-4b87b5e36e44?auto=format&fit=crop&q=80&w=1200' },
   { id: 2, slug: 'aura-store', title: 'Global E-Commerce', client: 'Aura Store', impact: '-80% Load Time', desc: 'Implemented edge caching, optimized image delivery, and aggressive static generation to ensure instant load times globally.', roi: 'Mobile checkout abandonment dropped by 45% within the first month.', image: 'https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&q=80&w=1200' },
   { id: 3, slug: 'caresync', title: 'Healthcare Portal', client: 'CareSync', impact: 'Zero Downtime', desc: 'Migrated monolithic infrastructure to decoupled microservices with strict HIPAA-compliant data layers.', roi: 'Improved patient onboarding speed by 60%, increasing clinic throughput.', image: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&q=80&w=1200' },
