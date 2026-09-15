@@ -1,3 +1,4 @@
+import SparkleOverlay from '../atoms/SparkleOverlay';
 import React, { useRef } from 'react';
 import { motion, useScroll, useTransform, useMotionValue, useSpring, Variants } from 'motion/react';
 import { 
