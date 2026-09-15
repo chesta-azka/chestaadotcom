@@ -96,19 +96,23 @@ export default function FooterSection() {
           </div>
 
           {/* Column 2: Navigation */}
-          <div className="lg:col-span-2 lg:col-start-6">
+          <div className="lg:col-span-2 lg:col-start-5">
             <h4 className="text-slate-900 font-sans font-bold tracking-widest uppercase text-[11px] mb-8">Layanan Utama</h4>
             <ul className="space-y-4 text-sm font-sans text-slate-600">
               <li><Link to="/layanan/website-company-profile" onClick={() => window.scrollTo(0,0)} className="hover:text-[#6b21a8] transition-colors">Web Development</Link></li>
               <li><Link to="/layanan/jasa-seo" onClick={() => window.scrollTo(0,0)} className="hover:text-[#6b21a8] transition-colors">Optimasi SEO Expert</Link></li>
               <li><Link to="/layanan/website-toko-online" onClick={() => window.scrollTo(0,0)} className="hover:text-[#6b21a8] transition-colors">E-Commerce Setup</Link></li>
               <li><Link to="/layanan/landing-page" onClick={() => window.scrollTo(0,0)} className="hover:text-[#6b21a8] transition-colors">Landing Page Konversi</Link></li>
-              <li className="pt-2">
-                <Link to="/services" onClick={() => window.scrollTo(0,0)} className="text-slate-900 hover:text-[#6b21a8] transition-colors flex items-center gap-1 group w-max">
-                  <span className="font-medium">Lihat Semua</span> 
-                  <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
-                </Link>
-              </li>
+            </ul>
+          </div>
+
+          {/* Column 2b: Local SEO */}
+          <div className="lg:col-span-2">
+            <h4 className="text-slate-900 font-sans font-bold tracking-widest uppercase text-[11px] mb-8">Area &amp; Solusi</h4>
+            <ul className="space-y-4 text-sm font-sans text-slate-600">
+              <li><Link to="/area/bsd-city" onClick={() => window.scrollTo(0,0)} className="hover:text-[#6b21a8] transition-colors">Jasa IT BSD City</Link></li>
+              <li><Link to="/area/cisauk" onClick={() => window.scrollTo(0,0)} className="hover:text-[#6b21a8] transition-colors">Solusi Web Cisauk</Link></li>
+              <li><Link to="/layanan/agentic-ai-automation" onClick={() => window.scrollTo(0,0)} className="hover:text-[#6b21a8] transition-colors">Agentic AI Indonesia</Link></li>
             </ul>
           </div>
 

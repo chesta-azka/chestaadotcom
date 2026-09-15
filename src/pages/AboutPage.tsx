@@ -7,6 +7,7 @@ import MetaTags from '../components/atoms/MetaTags';
 import { Link } from 'react-router-dom';
 import chestaPhoto from '../assets/images/regenerated_image_1787838669318.png';
 import { generateLocalBusinessSchema } from '../lib/seo';
+import AnimatedCounter from '../components/atoms/AnimatedCounter';
 
 export default function AboutPage() {
   return (
@@ -44,20 +45,41 @@ export default function AboutPage() {
           <h1 className="text-3xl sm:text-5xl font-display font-extrabold tracking-tight text-slate-900 mb-4">
             Membangun Standar Baru <br />
             <span className="text-purple-700">
-              Rekayasa Digital &amp; IT Solution.
+              IT Services & Software Engineering.
             </span>
           </h1>
 
           <p className="text-base sm:text-lg text-slate-600 font-sans max-w-2xl mx-auto leading-relaxed">
-            Agency independen di BSD City yang berfokus pada pembuatan website berperforma tinggi, estetika sinematik, dan otomasi Agentic AI.
+            Konsultan IT Solution dan Software House terpercaya di BSD City dan Cisauk. Kami berfokus pada pembuatan website enterprise, optimasi SEO lokal Jabodetabek, dan solusi otomasi Agentic AI berskala korporat.
           </p>
+        </motion.div>
+
+        {/* Data-Driven Animated Stats Section */}
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+          className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-16"
+        >
+          <div className="bg-white rounded-2xl border border-slate-200 shadow-sm hover:border-purple-300 hover:shadow-md transition-all">
+            <AnimatedCounter value={50} suffix="+" label="Proyek Selesai" />
+          </div>
+          <div className="bg-white rounded-2xl border border-slate-200 shadow-sm hover:border-purple-300 hover:shadow-md transition-all">
+            <AnimatedCounter value={99} suffix="%" label="Uptime Server" />
+          </div>
+          <div className="bg-white rounded-2xl border border-slate-200 shadow-sm hover:border-purple-300 hover:shadow-md transition-all">
+            <AnimatedCounter value={300} suffix="%" label="Peningkatan Konversi" />
+          </div>
+          <div className="bg-white rounded-2xl border border-slate-200 shadow-sm hover:border-purple-300 hover:shadow-md transition-all">
+            <AnimatedCounter value={24} suffix="/7" label="Dukungan Aktif" />
+          </div>
         </motion.div>
 
         {/* Simplified Profile & Philosophy Card */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+          transition={{ duration: 0.7, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
           className="bg-white rounded-xl border border-slate-200 p-6 sm:p-10 shadow-sm mb-12 grid grid-cols-1 md:grid-cols-12 gap-8 items-center"
         >
           <div className="md:col-span-4 flex flex-col items-center text-center">

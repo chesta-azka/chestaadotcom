@@ -149,6 +149,7 @@ function CaseCard({ study }: { study: typeof caseStudyDB[0] }) {
 export function FeaturedCaseStudies() {
   const [displayed, setDisplayed] = useState<typeof caseStudyDB>([]);
   const [page, setPage] = useState(1);
+  const [isLoading, setIsLoading] = useState(true);
   const itemsPerPage = 2;
 
   const { ref, inView } = useInView({
@@ -157,11 +158,15 @@ export function FeaturedCaseStudies() {
   });
 
   useEffect(() => {
-    setDisplayed(caseStudyDB.slice(0, itemsPerPage));
+    const timer = setTimeout(() => {
+      setDisplayed(caseStudyDB.slice(0, itemsPerPage));
+      setIsLoading(false);
+    }, 1500);
+    return () => clearTimeout(timer);
   }, []);
 
   useEffect(() => {
-    if (inView && displayed.length < caseStudyDB.length) {
+    if (inView && !isLoading && displayed.length < caseStudyDB.length) {
       const timer = setTimeout(() => {
         const nextItems = caseStudyDB.slice(0, (page + 1) * itemsPerPage);
         setDisplayed(nextItems);
@@ -169,7 +174,37 @@ export function FeaturedCaseStudies() {
       }, 600);
       return () => clearTimeout(timer);
     }
-  }, [inView, page, displayed.length]);
+  }, [inView, page, displayed.length, isLoading]);
+
+  if (isLoading) {
+    return (
+      <div className="w-full max-w-5xl mx-auto my-6 px-4">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+          {[1, 2].map((i) => (
+            <div key={i} className="w-full h-[22rem] rounded-xl overflow-hidden border border-slate-200 bg-slate-50 animate-pulse flex flex-col justify-between p-6 sm:p-7 shadow-sm">
+              <div>
+                <div className="flex justify-between items-start mb-4">
+                  <div className="h-6 w-24 bg-slate-200 rounded-full" />
+                  <div className="w-5 h-5 bg-slate-200 rounded-full" />
+                </div>
+                <div className="h-8 w-3/4 bg-slate-200 rounded mt-4" />
+                <div className="h-8 w-1/2 bg-slate-200 rounded mt-2" />
+                <div className="h-4 w-full bg-slate-200 rounded mt-6" />
+                <div className="h-4 w-5/6 bg-slate-200 rounded mt-2" />
+              </div>
+              <div className="pt-4 border-t border-slate-200 flex items-center justify-between mt-auto">
+                <div>
+                  <div className="h-3 w-20 bg-slate-200 rounded mb-2" />
+                  <div className="h-6 w-16 bg-slate-200 rounded" />
+                </div>
+                <div className="h-4 w-12 bg-slate-200 rounded" />
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  }
 
   return (
     <div className="w-full max-w-5xl mx-auto my-6 px-4" style={{ perspective: 1500 }}>

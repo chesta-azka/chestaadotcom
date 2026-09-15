@@ -964,6 +964,33 @@ export default function BlogHubPage() {
                     </ul>
                   </div>
 
+                  {/* Local SEO / Internal Links Strategy */}
+                  <div className="bg-gradient-to-br from-purple-900 to-indigo-950 p-6 rounded-xl shadow-lg border border-purple-800/50">
+                    <h4 className="font-bold text-white mb-6 text-xs uppercase tracking-widest border-b border-purple-800/50 pb-4">
+                      Area &amp; Solusi Utama
+                    </h4>
+                    <ul className="flex flex-col gap-3 text-sm font-sans">
+                      <li>
+                        <Link to="/area/bsd-city" onClick={() => window.scrollTo(0,0)} className="flex items-center justify-between text-purple-100 hover:text-white group">
+                          <span>Jasa IT BSD City</span>
+                          <ArrowRight size={14} className="opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all text-emerald-400" />
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/area/cisauk" onClick={() => window.scrollTo(0,0)} className="flex items-center justify-between text-purple-100 hover:text-white group">
+                          <span>Solusi Web Cisauk</span>
+                          <ArrowRight size={14} className="opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all text-emerald-400" />
+                        </Link>
+                      </li>
+                      <li>
+                        <Link to="/layanan/agentic-ai-automation" onClick={() => window.scrollTo(0,0)} className="flex items-center justify-between text-purple-100 hover:text-white group">
+                          <span>Agentic AI Automation Indonesia</span>
+                          <ArrowRight size={14} className="opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all text-emerald-400" />
+                        </Link>
+                      </li>
+                    </ul>
+                  </div>
+
                   <RecentPostsWidget />
                 </aside>
               </div>

@@ -1,45 +1,43 @@
 import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Link } from 'react-router-dom';
-import { ArrowUpRight, Gauge, Smartphone, MessageCircle, Grid2X2, ChevronDown } from 'lucide-react';
+import TiltCard from '../atoms/TiltCard';
+import { ArrowUpRight, Gauge, Smartphone, MessageCircle, Grid2X2, ChevronDown, Sparkles } from 'lucide-react';
 
 const mainServices = [
   {
-    title: "Web Development Next.js & Enterprise",
-    slug: "web-development-nextjs",
-    color: "#A855F7", // Purple dot
-    glow: "rgba(168, 85, 247, 0.3)",
-    number: "L-01"
-  },
-  {
-    title: "AI Integration & Google Gemini Automation",
+    title: "Enterprise Agentic AI",
     slug: "ai-integration",
-    color: "#06B6D4", // Cyan-Teal dot
-    glow: "rgba(6, 182, 212, 0.3)",
-    number: "L-02"
+    color: "#06B6D4",
+    glow: "rgba(6, 182, 212, 0.4)",
+    number: "01",
+    desc: "Otomasi operasional 24/7 menggunakan arsitektur AI otonom tingkat lanjut. Kami mentransformasi bottleneck bisnis menjadi ekosistem cerdas yang bekerja tanpa henti."
   },
   {
-    title: "E-Commerce & Retail Automation",
-    slug: "ecommerce-automation",
-    color: "#E11D48", // Pink-Rose dot
-    glow: "rgba(225, 29, 72, 0.3)",
-    number: "L-03"
+    title: "Bespoke Enterprise Web",
+    slug: "web-development-nextjs",
+    color: "#9333ea",
+    glow: "rgba(147, 51, 234, 0.4)",
+    number: "02",
+    desc: "Rekayasa perangkat lunak eksklusif dengan React & Next.js. Performa sub-detik (Lighthouse 100) dirancang murni untuk dominasi SEO dan retensi pengguna maksimal."
   },
   {
-    title: "High-Conversion Landing Page",
-    slug: "landing-page",
-    color: "#22C55E", // Green dot
-    glow: "rgba(34, 197, 110, 0.3)",
-    number: "L-04"
+    title: "IT Infrastructure Consulting",
+    slug: "it-consulting",
+    color: "#10b981",
+    glow: "rgba(16, 185, 129, 0.4)",
+    number: "03",
+    desc: "Audit strategis, skalabilitas arsitektur cloud, dan blueprint IT komprehensif. Fondasi tahan banting untuk pertumbuhan korporat berskala eksponensial."
   }
 ];
 
 const otherServices = [
-  { title: "IT Consulting & Strategic Advisory", desc: "Audit arsitektur, transformasi digital, dan roadmap sistem", slug: "it-consulting" },
+  { title: "E-Commerce Automation", desc: "Sinkronisasi stok real-time & checkout cerdas", slug: "ecommerce-automation" },
+  { title: "High-Conversion Landing Page", desc: "Sales page teroptimasi konversi dengan psikologi UX premium", slug: "landing-page" },
   { title: "Strategic Web Architecture", desc: "Membangun fondasi digital yang agile dan scalable", slug: "pembuatan-website" },
-  { title: "SEO & Market Dominance", desc: "Mendominasi visibilitas pencarian organik secara konsisten", slug: "seo" },
-  { title: "Performance Marketing Ads", desc: "Akuisisi pelanggan presisi dengan metrik konversi terukur", slug: "digital-marketing" },
-  { title: "Proactive Maintenance", desc: "Infrastruktur tetap tangguh dengan monitoring 24/7", slug: "maintenance" }
+  { title: "Jasa Web BSD & IT Cisauk", desc: "Dominasi SEO Lokal Tangerang dengan High-Performance Web", slug: "jasa-pembuatan-website-bsd-cisauk" },
+  { title: "Performance Marketing Ads", desc: "Akuisisi pelanggan presisi (ROAS terukur)", slug: "digital-marketing" },
+  { title: "Proactive Maintenance", desc: "Monitoring uptime 24/7 & jaminan keamanan", slug: "maintenance" }
 ];
 
 const features = [
@@ -51,7 +49,7 @@ const features = [
   {
     icon: Smartphone,
     title: "Mobile-First Conversion",
-    desc: "Menangkap peluang dari 80% audiens mobile dengan antarmuka UX yang dioptimalkan untuk tap & swipe."
+    desc: "Menangkap peluang dari 80% audiens mobile dengan UX khusus tap & swipe."
   },
   {
     icon: MessageCircle,
@@ -67,92 +65,104 @@ const features = [
 
 export default function ServicesSection() {
   const [showOtherServices, setShowOtherServices] = useState(false);
+
   return (
-    <section className="py-24 md:py-32 bg-transparent text-slate-900 relative overflow-hidden select-none min-h-screen flex items-center justify-center">
+    <section className="py-24 md:py-32 bg-white text-slate-900 relative overflow-hidden select-none min-h-screen flex items-center justify-center border-t border-slate-100">
       {/* Seamless background blending gradients */}
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-purple-50/30 to-transparent pointer-events-none" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(107,33,168,0.08),transparent_40%),radial-gradient(circle_at_bottom_left,rgba(6,182,212,0.05),transparent_40%)] pointer-events-none" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(147,51,234,0.03),transparent_50%),radial-gradient(ellipse_at_bottom_left,rgba(6,182,212,0.03),transparent_50%)] pointer-events-none" />
       
-      <div className="mx-auto max-w-5xl px-6 relative z-10 w-full py-12">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10 w-full py-12">
         
-        {/* Header Section */}
-        <div className="mb-20 max-w-3xl">
-          <h2 className="text-fluid-h2 font-display font-black tracking-tight text-slate-900 mb-6 leading-tight">
-            Kemitraan Untuk Skalabilitas <br className="hidden md:block" />
-            Tanpa Batas.
-          </h2>
-          <p className="text-slate-600 font-sans text-sm md:text-lg leading-relaxed max-w-2xl font-light">
-            Kami membangun arsitektur digital premium yang secara proaktif mempercepat pertumbuhan revenue Anda. Dari automasi eCommerce hingga AI Agentic mandiri, setiap baris kode dirancang murni untuk memaksimalkan ROI (Return on Investment).
-          </p>
+        {/* Header Section - Premium B2B Focus */}
+        <div className="mb-20 flex flex-col md:flex-row md:items-end justify-between gap-10">
+          <div className="max-w-2xl">
+            <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-slate-50 border border-slate-200 mb-6 shadow-sm">
+              <Sparkles size={14} className="text-purple-600" />
+              <span className="text-[11px] font-mono font-bold uppercase tracking-widest text-slate-700">
+                Pilar Rekayasa Digital
+              </span>
+            </div>
+            <h2 className="text-4xl sm:text-5xl md:text-6xl font-display font-black tracking-tight text-slate-900 mb-6 leading-[1.1]">
+              Arsitektur Sistem <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-700 to-purple-500">Kelas Enterprise.</span>
+            </h2>
+            <p className="text-slate-600 font-sans text-base md:text-lg leading-relaxed font-normal">
+              Kami tidak sekadar membuat website. Kami merancang ekosistem digital performa tinggi dan otomasi Agentic AI yang secara agresif mengakselerasi valuasi dan dominasi korporasi Anda.
+            </p>
+          </div>
+          
+          <div className="hidden md:flex shrink-0">
+            <p className="text-xs font-mono font-semibold text-slate-400 uppercase tracking-widest text-right">
+              MENDUKUNG SKALABILITAS <br/>
+              TANPA BATAS (24/7)
+            </p>
+          </div>
         </div>
 
-        {/* High Fidelity Minimalist List (Cards) */}
-        <div className="mb-20 space-y-4">
+        {/* High Fidelity Ultra-Premium Grid (Cards) */}
+        <div className="mb-20 grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
           {mainServices.map((service, index) => (
             <motion.div
               key={service.slug}
-              initial={{ opacity: 0, y: 50 }}
+              initial={{ opacity: 0, y: 40 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
-              transition={{ type: "spring", stiffness: 100, damping: 20, delay: index * 0.1 }}
-              className="group block"
+              transition={{ type: "spring", stiffness: 100, damping: 20, delay: index * 0.15 }}
+              className="group block h-full"
             >
+              <TiltCard className="h-full block z-20">
               <Link
                 to={`/layanan/${service.slug}`}
                 onClick={() => window.scrollTo(0, 0)}
-                className="relative flex flex-col md:flex-row md:items-center justify-between py-8 px-8 sm:px-12 bg-white/20 backdrop-blur-xl border border-white/40 shadow-xl shadow-purple-900/5 rounded-2xl hover:bg-white/40 hover:border-[#6b21a8]/30 transition-all duration-500 overflow-hidden transform hover:scale-[1.02] hover:shadow-[0_20px_60px_-15px_rgba(107,33,168,0.15)] hover:z-20"
+                className="relative flex flex-col h-full justify-between p-8 sm:p-10 bg-white border border-slate-200 shadow-[0_2px_10px_rgba(0,0,0,0.02)] rounded-3xl hover:border-purple-200 transition-all duration-500 overflow-hidden transform"
               >
                 {/* Visual hover color ripple overlay */}
                 <div 
-                  className="absolute inset-0 opacity-0 group-hover:opacity-[0.05] transition-all duration-700 pointer-events-none"
+                  className="absolute inset-0 opacity-0 group-hover:opacity-[0.03] transition-all duration-700 pointer-events-none"
                   style={{
-                    backgroundImage: `radial-gradient(circle at 10% 50%, ${service.color}, transparent 60%)`
+                    backgroundImage: `radial-gradient(circle at top right, ${service.color}, transparent 80%)`
                   }}
                 />
 
-                {/* Left side: Colored dot + Title */}
-                <div className="flex items-center gap-6 sm:gap-10 relative z-10 w-full md:w-auto">
-                  {/* Digital Index number */}
-                  <span className="font-mono text-xs text-slate-400 group-hover:text-purple-500 font-semibold tracking-wider transition-colors pt-0.5 hidden sm:inline">
-                    {service.number}
-                  </span>
-
-                  {/* Bullet Dot with Neon Glow */}
-                  <span className="relative flex h-5 w-5 items-center justify-center shrink-0">
-                    <span 
-                      className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-20 group-hover:opacity-50 transition-all duration-500"
-                      style={{ backgroundColor: service.color }}
-                    />
-                    <span 
-                      className="relative inline-flex rounded-full h-3 w-3 border-2 border-white shadow-[0_0_8px_rgba(0,0,0,0.1)]"
-                      style={{ 
-                        backgroundColor: service.color,
-                        boxShadow: `0 0 15px ${service.glow}`
-                      }}
-                    />
-                  </span>
-
-                  {/* Bold Elegant Title */}
-                  <div className="flex flex-col">
-                    <h3 className="text-xl sm:text-2xl md:text-3xl font-display font-black tracking-tight text-slate-800 group-hover:text-purple-900 transition-all duration-300">
-                      {service.title}
-                    </h3>
+                <div className="relative z-10 flex-grow">
+                  <div className="flex items-center justify-between mb-8">
+                    <span className="font-display text-4xl font-black text-slate-200 group-hover:text-purple-100 transition-colors duration-500">
+                      {service.number}
+                    </span>
+                    <span className="relative flex h-8 w-8 items-center justify-center shrink-0">
+                      <span 
+                        className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-10 group-hover:opacity-30 transition-all duration-500"
+                        style={{ backgroundColor: service.color }}
+                      />
+                      <span 
+                        className="relative inline-flex rounded-full h-3 w-3"
+                        style={{ 
+                          backgroundColor: service.color,
+                          boxShadow: `0 0 12px ${service.glow}`
+                        }}
+                      />
+                    </span>
                   </div>
+
+                  <h3 className="text-2xl lg:text-3xl font-display font-black tracking-tight text-slate-900 group-hover:text-purple-900 transition-colors duration-300 mb-4 leading-tight">
+                    {service.title}
+                  </h3>
+                  <p className="text-slate-600 font-sans text-sm leading-relaxed mb-10">
+                    {service.desc}
+                  </p>
                 </div>
 
-                {/* Right side: Icon chevron/arrow */}
-                <div className="flex items-center justify-end gap-6 relative z-10 mt-6 md:mt-0 w-full md:w-auto">
-                  <span className="text-[10px] font-mono font-bold text-slate-400 uppercase tracking-widest hidden lg:inline group-hover:text-purple-600 transition-colors pt-0.5">
-                    LIHAT SKENARIO
+                <div className="relative z-10 flex items-center justify-between pt-6 border-t border-slate-100 mt-auto">
+                  <span className="text-[10px] font-mono font-bold text-slate-400 uppercase tracking-widest group-hover:text-purple-600 transition-colors">
+                    DETAIL LAYANAN
                   </span>
-                  <div className="w-12 h-12 rounded-full border border-slate-200 flex items-center justify-center bg-white group-hover:bg-purple-600 group-hover:border-purple-600 shadow-sm transition-all duration-300">
-                    <ArrowUpRight strokeWidth={1} 
-                      className="w-5 h-5 text-slate-400 group-hover:text-white group-hover:rotate-45 transition-all duration-300" 
-                     
+                  <div className="w-10 h-10 rounded-full border border-slate-200 flex items-center justify-center bg-slate-50 group-hover:bg-purple-600 group-hover:border-purple-600 transition-all duration-300">
+                    <ArrowUpRight strokeWidth={2} 
+                      className="w-4 h-4 text-slate-500 group-hover:text-white group-hover:scale-110 group-hover:rotate-12 transition-all duration-300" 
                     />
                   </div>
                 </div>
               </Link>
+              </TiltCard>
             </motion.div>
           ))}
         </div>
@@ -161,16 +171,15 @@ export default function ServicesSection() {
         <div className="flex justify-center mb-16 relative z-10">
           <button
             onClick={() => setShowOtherServices(!showOtherServices)}
-            className="group flex items-center gap-3 px-6 py-3.5 rounded-full border border-slate-200 bg-slate-50 hover:bg-slate-50 hover:border-[#6b21a8]/40 transition-all duration-300 shadow-[0_10px_35px_rgba(0,0,0,0.5)] cursor-pointer select-none text-xs font-mono font-bold tracking-wider text-gray-700 hover:text-slate-900"
+            className="group flex items-center gap-3 px-8 py-4 rounded-full border border-slate-200 bg-white hover:bg-slate-50 hover:border-purple-300 transition-all duration-300 shadow-sm hover:shadow-md cursor-pointer select-none text-xs font-mono font-bold tracking-wider text-slate-700 hover:text-purple-900"
           >
             <span className="relative flex h-2 w-2 items-center justify-center shrink-0">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#6b21a8] opacity-75" />
-              <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-[#6b21a8]" />
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-purple-500 opacity-50" />
+              <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-purple-600" />
             </span>
-            <span>{showOtherServices ? 'TUTUP LAYANAN LAINNYA' : 'TAMPILKAN LAYANAN LAINNYA'}</span>
-            <ChevronDown strokeWidth={1} 
-              className={`w-4 h-4 text-slate-600 group-hover:text-[#6b21a8] transition-transform duration-500 ${showOtherServices ? 'rotate-180' : ''}`} 
-             
+            <span>{showOtherServices ? 'TUTUP KATALOG EKSTENSI' : 'LIHAT KATALOG EKSTENSI'}</span>
+            <ChevronDown strokeWidth={2} 
+              className={`w-4 h-4 text-slate-400 group-hover:text-purple-600 transition-transform duration-500 ${showOtherServices ? 'rotate-180' : ''}`}
             />
           </button>
         </div>
@@ -200,40 +209,41 @@ export default function ServicesSection() {
               }}
               className="overflow-hidden"
             >
-              <div className="p-8 sm:p-10 border border-slate-100 rounded-2xl bg-gradient-to-br from-white/[0.01] to-transparent relative overflow-hidden backdrop-blur-md">
-                <div className="absolute top-0 left-12 w-24 h-24 bg-[#6b21a8]/5 rounded-full blur-2xl pointer-events-none" />
+              <div className="p-8 sm:p-12 border border-slate-200 rounded-3xl bg-slate-50 relative overflow-hidden">
+                <div className="absolute top-0 left-12 w-64 h-64 bg-purple-500/5 rounded-full blur-3xl pointer-events-none" />
                 
-                <div className="flex flex-col md:flex-row md:items-center justify-between gap-6 mb-8 border-b border-slate-100 pb-6">
+                <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10 border-b border-slate-200 pb-8 relative z-10">
                   <div>
-                    <span className="text-slate-600 font-mono text-[9px] uppercase tracking-widest block mb-1">STRATEGIC SUPPORT</span>
-                    <h4 className="text-lg sm:text-xl font-display font-black text-slate-900 tracking-tight">Katalog Ekstensi Layanan</h4>
+                    <span className="text-slate-500 font-mono text-[10px] font-bold uppercase tracking-widest block mb-2">SUPPLEMENTARY SERVICES</span>
+                    <h4 className="text-2xl sm:text-3xl font-display font-black text-slate-900 tracking-tight">Katalog Ekstensi Operasional</h4>
                   </div>
-                  <p className="text-xs text-slate-600 font-sans max-w-sm">
-                    Kami mendukung ekosistem digital Anda melalui manajemen operasional yang proaktif dari hulu ke hilir.
+                  <p className="text-sm text-slate-600 font-sans max-w-sm">
+                    Dukungan infrastruktur end-to-end yang menjamin stabilitas dan pertumbuhan tanpa batas.
                   </p>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 relative z-10">
                   {otherServices.map((o) => (
                     <motion.div
                       key={o.slug}
-                      whileHover={{ y: -2 }}
+                      whileHover={{ y: -4 }}
                       transition={{ duration: 0.2 }}
                     >
                       <Link
                         to={`/layanan/${o.slug}`}
                         onClick={() => window.scrollTo(0,0)}
-                        className="flex items-center justify-between p-5 border border-white/60 rounded-2xl bg-white/30 backdrop-blur-md hover:border-white hover:bg-white/50 shadow-sm transition-all duration-300 group hover:scale-[1.02]"
+                        className="flex items-center justify-between p-6 border border-slate-200 rounded-2xl bg-white hover:border-purple-300 hover:bg-purple-50/50 shadow-sm hover:shadow-md transition-all duration-300 group"
                       >
                         <div className="flex flex-col gap-1 pr-4">
-                          <span className="text-sm font-sans font-bold text-gray-700 group-hover:text-[#6b21a8] transition-colors">{o.title}</span>
-                          <span className="text-[11px] font-sans text-slate-600">{o.desc}</span>
+                          <span className="text-sm font-sans font-bold text-slate-900 group-hover:text-purple-900 transition-colors">{o.title}</span>
+                          <span className="text-[11px] font-sans text-slate-500 leading-relaxed">{o.desc}</span>
                         </div>
-                        <div className="w-8 h-8 rounded-full border border-slate-200 flex items-center justify-center shrink-0 bg-slate-100 group-hover:bg-[#6b21a8] group-hover:border-[#6b21a8] transition-colors">
-                          <ArrowUpRight strokeWidth={1} size={14} className="text-slate-600 group-hover:text-white transition-colors" />
+                        <div className="w-8 h-8 rounded-full border border-slate-200 flex items-center justify-center shrink-0 bg-slate-50 group-hover:bg-purple-600 group-hover:border-purple-600 transition-colors">
+                          <ArrowUpRight strokeWidth={2} size={14} className="text-slate-400 group-hover:text-white transition-colors" />
                         </div>
                       </Link>
-                    </motion.div>
+
+            </motion.div>
                   ))}
                 </div>
               </div>
@@ -246,45 +256,48 @@ export default function ServicesSection() {
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
-          className="border border-[#6b21a8]/20 rounded-2xl bg-gradient-to-b from-[#6b21a8]/5 to-transparent relative overflow-hidden shadow-[0_20px_50px_rgba(0,0,0,0.5)]"
+          className="border border-slate-200 rounded-3xl bg-slate-900 relative overflow-hidden shadow-2xl"
         >
-          <div className="absolute inset-0 bg-slate-100 backdrop-blur-md -z-10" />
-          <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-[#6b21a8]/50 to-transparent" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,rgba(147,51,234,0.15),transparent_60%)] pointer-events-none" />
           
-          <div className="p-8 md:p-12">
-            <div className="text-center mb-12 md:mb-16">
-              <span className="text-[#6b21a8] font-sans font-medium text-[10px] uppercase tracking-[0.25em] block mb-4">
-                KEUNGGULAN TEKNIS
-              </span>
-              <h3 className="text-2xl sm:text-3xl md:text-4xl font-display font-black tracking-tight mb-5">Keunggulan Arsitektur Kami.</h3>
-              <p className="text-slate-600 font-sans text-xs md:text-sm max-w-xl mx-auto leading-relaxed font-light">
-                Standar teknis tanpa kompromi memastikan setiap proyek yang kami rilis memiliki fondasi keamanan, kecepatan, dan konversi tertinggi di kelasnya.
-              </p>
-            </div>
-            
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6 lg:gap-10">
-              {features.map((f, i) => (
-                <motion.div 
-                  key={i} 
-                  className="flex gap-4 items-start"
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-50px" }}
-                  transition={{ type: "spring", stiffness: 100, damping: 20, delay: i * 0.1 }}
-                >
-                  <div className="w-10 h-10 shrink-0 flex items-center justify-center text-slate-900 mt-1">
-                    <f.icon size={20} />
-                  </div>
-                  <div>
-                    <h4 className="text-sm sm:text-base font-bold font-sans tracking-tight mb-1 text-slate-900">
-                      {f.title}
-                    </h4>
-                    <p className="text-xs sm:text-sm font-sans text-slate-600 leading-relaxed">
-                      {f.desc}
-                    </p>
-                  </div>
-                </motion.div>
-              ))}
+          <div className="p-8 sm:p-12 lg:p-16 relative z-10">
+            <div className="flex flex-col md:flex-row gap-12 lg:gap-24">
+              <div className="md:w-1/3">
+                <span className="text-purple-400 font-mono font-bold text-[10px] uppercase tracking-widest block mb-4">
+                  KEUNGGULAN ARSITEKTUR
+                </span>
+                <h3 className="text-3xl sm:text-4xl font-display font-black tracking-tight text-white mb-6 leading-tight">
+                  Standar Mutu <br/> Tanpa Kompromi.
+                </h3>
+                <p className="text-slate-400 font-sans text-sm leading-relaxed">
+                  Kami menolak penggunaan template instan. Setiap baris kode ditulis untuk memastikan stabilitas tingkat tinggi, performa kilat, dan arsitektur yang siap di-*scale* kapan saja.
+                </p>
+              </div>
+              
+              <div className="md:w-2/3 grid grid-cols-1 sm:grid-cols-2 gap-8 lg:gap-10">
+                {features.map((f, i) => (
+                  <motion.div 
+                    key={i} 
+                    className="flex gap-4 items-start"
+                    initial={{ opacity: 0, y: 20 }}
+                    whileInView={{ opacity: 1, y: 0 }}
+                    viewport={{ once: true, margin: "-50px" }}
+                    transition={{ type: "spring", stiffness: 100, damping: 20, delay: i * 0.1 }}
+                  >
+                    <div className="w-12 h-12 rounded-xl bg-purple-900/40 border border-purple-500/30 shrink-0 flex items-center justify-center text-purple-400 mt-1 shadow-inner">
+                      <f.icon size={22} strokeWidth={1.5} />
+                    </div>
+                    <div>
+                      <h4 className="text-base font-bold font-display tracking-wide mb-2 text-white">
+                        {f.title}
+                      </h4>
+                      <p className="text-xs sm:text-sm font-sans text-slate-400 leading-relaxed">
+                        {f.desc}
+                      </p>
+                    </div>
+                  </motion.div>
+                ))}
+              </div>
             </div>
           </div>
         </motion.div>

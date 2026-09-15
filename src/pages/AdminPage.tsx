@@ -2356,6 +2356,149 @@ function AdminKanbanAndVaultManager() {
   );
 }
 
+
+function SeoPerformanceSection() {
+  const [gscData, setGscData] = useState<any[]>([]);
+  const [loadingGsc, setLoadingGsc] = useState(false);
+  const [siteUrl, setSiteUrl] = useState('https://chestaa.com/');
+  const [errorMsg, setErrorMsg] = useState('');
+
+  const login = useGoogleLogin({
+    scope: 'https://www.googleapis.com/auth/webmasters.readonly',
+    onSuccess: async (tokenResponse) => {
+      setLoadingGsc(true);
+      setErrorMsg('');
+      try {
+        const endDate = new Date().toISOString().split('T')[0];
+        const startDate = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0];
+        
+        const res = await fetch(`https://searchconsole.googleapis.com/webmasters/v3/sites/${encodeURIComponent(siteUrl)}/searchAnalytics/query`, {
+          method: 'POST',
+          headers: {
+            'Authorization': `Bearer ${tokenResponse.access_token}`,
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({
+            startDate,
+            endDate,
+            dimensions: ['query'],
+            rowLimit: 10
+          })
+        });
+        
+        if (!res.ok) {
+          throw new Error('Gagal mengambil data dari Search Console. Pastikan properti website sudah terverifikasi.');
+        }
+        
+        const data = await res.json();
+        if(data.rows) {
+          setGscData(data.rows);
+        } else {
+          setGscData([]);
+          setErrorMsg('Tidak ada data query yang ditemukan untuk 30 hari terakhir.');
+        }
+      } catch(err: any) {
+        console.error(err);
+        setErrorMsg(err.message || 'Terjadi kesalahan saat menghubungkan ke Google Search Console.');
+      } finally {
+        setLoadingGsc(false);
+      }
+    },
+    onError: () => {
+      setErrorMsg('Autentikasi Google gagal dibatalkan.');
+    }
+  });
+
+  return (
+    <div className="bg-slate-50 border border-slate-200 p-6 sm:p-8 rounded-3xl shadow-sm space-y-6">
+      <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+        <div>
+          <h3 className="text-xl font-display font-black text-slate-900 flex items-center gap-2">
+            <TrendingUp size={22} className="text-purple-600" />
+            SEO Performance (GSC Real-Time)
+          </h3>
+          <p className="text-sm text-slate-600 mt-1">
+            Pantau ranking organik dan impresi pencarian untuk target lokal seperti "Jasa Pembuatan Website BSD" secara real-time.
+          </p>
+        </div>
+        <div className="flex-shrink-0">
+          <button
+            onClick={() => login()}
+            className="px-5 py-2.5 bg-white border border-slate-300 text-slate-700 hover:bg-slate-100 rounded-xl font-mono text-xs font-bold transition-colors flex items-center gap-2 shadow-sm"
+          >
+            <img src="https://www.google.com/favicon.ico" alt="Google" className="w-4 h-4" />
+            Connect Search Console
+          </button>
+        </div>
+      </div>
+
+      <div className="flex flex-col sm:flex-row items-center gap-4">
+        <div className="w-full sm:w-1/2">
+          <label className="block text-xs font-mono font-bold text-slate-700 uppercase tracking-wider mb-2">
+            Property URL (GSC)
+          </label>
+          <input
+            type="text"
+            value={siteUrl}
+            onChange={(e) => setSiteUrl(e.target.value)}
+            placeholder="sc-domain:chestaa.com atau https://chestaa.com/"
+            className="w-full px-4 py-2.5 bg-white border border-slate-200 rounded-xl text-slate-900 text-sm focus:outline-none focus:ring-2 focus:ring-purple-600"
+          />
+        </div>
+      </div>
+
+      {errorMsg && (
+        <div className="p-4 bg-red-50 text-red-700 rounded-xl text-sm flex items-start gap-2 border border-red-100">
+          <AlertCircle size={18} className="mt-0.5 shrink-0" />
+          <p>{errorMsg}</p>
+        </div>
+      )}
+
+      {loadingGsc ? (
+        <div className="p-10 flex flex-col items-center justify-center text-slate-400 gap-3">
+          <Loader2 size={32} className="animate-spin text-purple-600" />
+          <span className="text-xs font-mono uppercase tracking-widest">Menyinkronkan Data GSC...</span>
+        </div>
+      ) : gscData.length > 0 ? (
+        <div className="overflow-x-auto rounded-xl border border-slate-200">
+          <table className="w-full text-left text-sm font-sans">
+            <thead className="bg-slate-100 text-slate-600 font-mono text-[11px] uppercase tracking-wider">
+              <tr>
+                <th className="px-4 py-3">Top Search Query</th>
+                <th className="px-4 py-3 text-right">Clicks</th>
+                <th className="px-4 py-3 text-right">Impressions</th>
+                <th className="px-4 py-3 text-right">CTR</th>
+                <th className="px-4 py-3 text-right">Avg Position</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-100 bg-white">
+              {gscData.map((row, idx) => (
+                <tr key={idx} className="hover:bg-slate-50 transition-colors">
+                  <td className="px-4 py-3 font-medium text-slate-900 flex items-center gap-2">
+                    <Search size={14} className="text-slate-400" />
+                    {row.keys[0]}
+                  </td>
+                  <td className="px-4 py-3 text-right font-mono text-emerald-600">{row.clicks}</td>
+                  <td className="px-4 py-3 text-right font-mono text-slate-600">{row.impressions}</td>
+                  <td className="px-4 py-3 text-right font-mono text-slate-600">{(row.ctr * 100).toFixed(2)}%</td>
+                  <td className="px-4 py-3 text-right font-mono font-bold text-purple-700">{row.position.toFixed(1)}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      ) : (
+        <div className="p-8 border-2 border-dashed border-slate-200 rounded-2xl flex flex-col items-center justify-center text-center text-slate-500 bg-white">
+          <Search size={32} className="text-slate-300 mb-3" />
+          <p className="text-sm">Belum ada data. Silakan hubungkan dengan akun Google Anda terlebih dahulu.</p>
+          <p className="text-xs mt-1 text-slate-400 max-w-sm">Pastikan env VITE_GOOGLE_CLIENT_ID sudah dikonfigurasi dan properti terdaftar di Search Console.</p>
+        </div>
+      )}
+    </div>
+  );
+}
+
+
 export default function AdminPage() {
   return (
     <AuthGuard fallback={<AdminLogin />}>
@@ -2747,9 +2890,13 @@ function BlogOutlineGenerator() {
   };
 
   return (
-    <div className="p-8 max-w-5xl mx-auto font-sans">
-      <div className="mb-8">
-        <span className="text-xs font-mono font-bold text-purple-700 uppercase tracking-widest block mb-1">AI Content Engine</span>
+    <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID || ''}>
+      <div className="p-8 max-w-5xl mx-auto font-sans space-y-12">
+      <SeoPerformanceSection />
+
+      <div>
+        <div className="mb-8">
+          <span className="text-xs font-mono font-bold text-purple-700 uppercase tracking-widest block mb-1">AI Content Engine</span>
         <h2 className="text-2xl sm:text-3xl font-display font-black text-slate-900">
           Generator Outline Artikel 1500+ Kata (SEO &amp; GEO Optimized)
         </h2>
@@ -2872,6 +3019,8 @@ function BlogOutlineGenerator() {
           </div>
         </motion.div>
       )}
+      </div>
     </div>
+    </GoogleOAuthProvider>
   );
 }

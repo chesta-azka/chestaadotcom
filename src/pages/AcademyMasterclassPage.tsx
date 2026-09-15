@@ -1,4 +1,4 @@
-import { Home, Bookmark, BookmarkCheck, ChevronDown, ChevronRight, ArrowLeft, FileCode, Check, Copy, Share2, Printer, Search, Menu, X, AlignLeft } from 'lucide-react';
+import { Home, Bookmark, BookmarkCheck, ChevronDown, ChevronRight, ArrowLeft, FileCode, Check, Copy, Share2, Printer, Search, Menu, X, AlignLeft, BrainCircuit, Target } from 'lucide-react';
 import QuizEngine, { QuizQuestion } from '../components/organisms/QuizEngine';
 
 import { codeToHtml } from 'shiki';
@@ -9,7 +9,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import Markdown from 'markdown-to-jsx';
 import { motion, AnimatePresence } from 'motion/react';
 
-import curriculumData from '../data/academy-curriculum.json';
+import { ACADEMY_DATA } from '../data/academyData';
 import FooterSection from '../components/organisms/FooterSection.tsx';
 import { Breadcrumbs } from '../components/Breadcrumbs.tsx';
 
@@ -169,7 +169,9 @@ export default function AcademyMasterclassPage() {
     'module-1': true
   });
 
-  const modules = curriculumData.tutorialContent || [];
+  const courseData = ACADEMY_DATA.find((path) => path.slug === slug) || ACADEMY_DATA[0];
+  const modules = courseData?.modules || [];
+  const courseTitle = courseData?.title || 'Masterclass Tutorial';
 
   useEffect(() => {
     const savedBookmarks = localStorage.getItem('academy_bookmarks');
@@ -271,7 +273,7 @@ export default function AcademyMasterclassPage() {
           <div className="flex flex-col ml-1 sm:ml-2">
             <span className="text-[9px] sm:text-[10px] font-bold uppercase tracking-wider text-purple-700">Course Path</span>
             <h1 className="text-xs sm:text-sm font-medium text-slate-900 line-clamp-1 max-w-[120px] sm:max-w-xs">
-              {'Music Streaming App'}
+              {courseTitle}
             </h1>
           </div>
         </div>
@@ -322,7 +324,7 @@ export default function AcademyMasterclassPage() {
           
           <div className="flex-1 overflow-y-auto p-3 custom-scrollbar sidebar-nav-container">
             {modules.map((mod: any) => (
-              <div key={mod.id} className="mb-2">
+              <div key={mod.slug} className="mb-2">
                 <button 
                   onClick={() => toggleModule(mod.id)}
                   className="w-full flex items-center justify-between p-3 rounded-2xl hover:bg-slate-100/60 transition-colors text-left"
@@ -392,11 +394,11 @@ export default function AcademyMasterclassPage() {
         <main id="academy-content-area" className="flex-1 h-full overflow-y-auto bg-white custom-scrollbar scroll-smooth">
 
       <MetaTags 
-        title="Masterclass AI & Web Dev di BSD City & Cisauk | CHESTAADOTCOM"
-        description="Ikuti masterclass intensif di BSD City & Cisauk untuk menguasai pengembangan aplikasi web modern dengan Agentic AI dan Next.js."
-        path="/academymasterclass"
-        breadcrumbs={[{ name: 'Home', item: '/' }, { name: 'Academy', item: '/academy' }, { name: 'Masterclass', item: '/academy/masterclass' }]}
-        schemaString={JSON.stringify(generateCourseSchema('Masterclass AI & Web Dev', 'Kelas intensif AI dan Web Dev', 'https://chestaa.com/academy/masterclass'))}
+        title={`${courseTitle} | CHESTAADOTCOM`}
+        description={courseData?.desc || "Ikuti masterclass intensif di BSD City & Cisauk untuk menguasai pengembangan aplikasi web modern dengan Agentic AI dan Next.js."}
+        path={`/academy/${slug || courseData.slug}`}
+        breadcrumbs={[{ name: 'Home', item: '/' }, { name: 'Academy', item: '/academy' }, { name: courseTitle, item: `/academy/${slug || courseData.slug}` }]}
+        schemaString={JSON.stringify(generateCourseSchema(courseTitle, courseData?.desc || 'Kelas intensif AI dan Web Dev', `https://chestaa.com/academy/${slug || courseData.slug}`))}
       />
   
           {/* Breadcrumb Navigation */}
@@ -416,14 +418,51 @@ export default function AcademyMasterclassPage() {
                 Academy & Docs
               </Link>
               <ChevronRight className="w-3.5 h-3.5 text-slate-300 shrink-0" />
-              <span className="text-purple-900 font-semibold shrink-0 line-clamp-1 max-w-[150px] sm:max-w-[200px]">Music Streaming App</span>
+              <span className="text-purple-900 font-semibold shrink-0 line-clamp-1 max-w-[150px] sm:max-w-[200px]">{courseTitle}</span>
             </motion.nav>
           </div>
 
           <div className="max-w-4xl mx-auto w-full px-5 sm:px-8 lg:px-16 py-10 lg:py-16">
             
+            {/* Template Course Header */}
+            <div className="mb-12 border-b border-slate-100 pb-8">
+              <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-purple-50 border border-purple-200 mb-4 shadow-sm">
+                <BrainCircuit size={14} className="text-purple-600" />
+                <span className="text-[11px] font-mono font-bold uppercase tracking-widest text-purple-900">
+                  Path: {slug?.toUpperCase() || 'MASTERCLASS'}
+                </span>
+              </div>
+              <h1 className="text-4xl sm:text-5xl font-display font-black tracking-tight text-slate-900 mb-6">
+                {courseTitle}
+              </h1>
+              <p className="text-lg text-slate-600 font-sans leading-relaxed">
+                Modul ini dirancang secara sistematis dengan pendekatan ReAct (Reasoning and Acting). Anda akan mempelajari dari teori fundamental hingga praktik implementasi dalam skenario industri nyata.
+              </p>
+            </div>
+
+            {/* Template Progress Tracker */}
+            <div className="mb-16 p-6 rounded-2xl bg-slate-50 border border-slate-200 shadow-sm">
+              <div className="flex items-center justify-between mb-4">
+                <h3 className="text-sm font-bold font-sans text-slate-800 flex items-center gap-2">
+                  <Target size={18} className="text-purple-600" />
+                  Progress Modul
+                </h3>
+                <span className="text-xs font-mono font-bold text-slate-500">
+                  {progressPercent}% SELESAI
+                </span>
+              </div>
+              <div className="h-2 w-full bg-slate-200 rounded-full overflow-hidden">
+                <motion.div
+                  initial={{ width: 0 }}
+                  animate={{ width: `${progressPercent}%` }}
+                  className="h-full bg-purple-600 rounded-full"
+                />
+              </div>
+            </div>
+
+            {/* Template Rendering for all courses */}
             {modules.map((mod: any, modIdx: number) => (
-              <div key={mod.id} className="mb-24">
+              <div key={mod.slug} className="mb-24">
                 
                 {mod.submodules?.map((sub: any, subIdx: number) => (
                   <div key={sub.id} id={sub.id} className="scroll-mt-24 mb-24 pb-12 border-b border-slate-100 last:border-0 last:mb-0 last:pb-0">
@@ -508,8 +547,30 @@ export default function AcademyMasterclassPage() {
               />
             </div>
 
+
+            {/* Related Modules Section */}
+            <div className="py-20 border-t border-slate-100">
+              <h2 className="text-3xl font-display font-bold text-slate-900 mb-8 text-center">Modul Masterclass Terkait</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                {ACADEMY_DATA.filter(mod => mod.slug !== courseData?.slug).slice(0, 2).map((mod) => (
+                  <Link key={mod.slug} to={`/academy/${mod.slug}`} className="group flex flex-col bg-white border border-slate-200 rounded-2xl overflow-hidden hover:shadow-xl hover:border-purple-200 transition-all">
+                    <div className="h-48 bg-slate-100 relative overflow-hidden">
+                      <img src={"https://images.unsplash.com/photo-1517245386807-bb43f82c33c4?auto=format&fit=crop&q=80&w=800"} alt={mod.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                    </div>
+                    <div className="p-6">
+                      <h3 className="font-display font-bold text-xl text-slate-900 mb-2 group-hover:text-purple-700 transition-colors line-clamp-2">{mod.title}</h3>
+                      <p className="text-slate-500 text-sm mb-4 line-clamp-2">{mod.desc}</p>
+                      <span className="text-sm font-semibold text-purple-600 flex items-center gap-1">
+                        Mulai Belajar <ChevronRight size={16} />
+                      </span>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </div>
           </div>
           <FooterSection />
+
         </main>
       </div>
     </div>

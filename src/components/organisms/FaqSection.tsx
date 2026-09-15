@@ -4,31 +4,36 @@ import { ChevronDown, Link as LinkIcon, Check } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 const faqs = [
-  { 
-    id: 'durasi-pengerjaan', 
-    q: 'Berapa lama waktu pengembangan arsitektur B2B dan integrasi AI?', 
-    a: 'Untuk website enterprise dan landing page B2B berkonversi tinggi, rata-rata memakan waktu 2-4 minggu. Integrasi Agentic AI dan sistem otomasi backend biasanya membutuhkan tambahan waktu 1-2 minggu tergantung pada kompleksitas alur kerja operasional bisnis Anda.' 
+  {
+    id: 'jasa-pembuatan-website',
+    q: 'Berapa lama waktu pembuatan website untuk bisnis atau perusahaan skala menengah di Tangerang?',
+    a: 'Proses website development di CHESTAADOTCOM umumnya memakan waktu 4 hingga 8 minggu tergantung pada kompleksitas fitur, integrasi sistem pihak ketiga, dan skala arsitektur. Kami menggunakan teknologi mutakhir (React, Next.js) sehingga setiap tenggat waktu (timeline) dieksekusi secara presisi tinggi, memastikan klien kami di BSD dan Tangerang dapat meluncurkan produk lebih cepat ke pasar.'
   },
-  { 
-    id: 'keunggulan-ai', 
-    q: 'Apa keunggulan Agentic AI dibandingkan chatbot konvensional?', 
-    a: 'Chatbot konvensional hanya merespons berdasarkan skrip yang kaku. Agentic AI kami didesain untuk memahami konteks secara semantik, melakukan tindakan otonom (seperti kualifikasi prospek atau penjadwalan), dan beradaptasi dengan kebutuhan klien B2B Anda secara real-time 24/7 tanpa henti.' 
+  {
+    id: 'solusi-it-cisauk-bsd',
+    q: 'Apakah CHESTAADOTCOM melayani pembuatan software kustom & Solusi IT di Cisauk, BSD City, dan sekitarnya?',
+    a: 'Ya, kami adalah Elite Software House yang berpusat dan beroperasi di wilayah BSD City dan sekitarnya, termasuk Cisauk, Gading Serpong, hingga Jakarta. Kami menyediakan solusi IT end-to-end (hulu ke hilir) mulai dari pengembangan aplikasi web kustom (SaaS), modernisasi sistem usang, hingga implementasi Agentic AI untuk otomasi bisnis.'
   },
-  { 
-    id: 'strategi-seo', 
-    q: 'Bagaimana strategi Local SEO untuk area BSD, Cisauk, dan sekitarnya?', 
-    a: 'Kami mengimplementasikan arsitektur Generative Engine Optimization (GEO) dan schema markup tingkat lanjut (JSON-LD LocalBusiness). Ini memastikan algoritma mesin pencari mengidentifikasi infrastruktur digital Anda sebagai otoritas utama secara presisi di area target Anda.' 
+  {
+    id: 'perbedaan-web-development-biasa',
+    q: 'Apa yang membedakan Jasa Web Development CHESTAADOTCOM dengan web agency biasa?',
+    a: 'Alih-alih menggunakan template instan atau CMS konvensional (seperti WordPress), CHESTAADOTCOM berfokus pada "High-Performance Custom Web Development". Kami membangun ekosistem digital dari nol menggunakan pendekatan engineering (Next.js, Tailwind, Cloud Server) yang menjamin skor kecepatan sempurna, keamanan tingkat tinggi, dan pondasi arsitektur SEO-ready secara bawaan.'
   },
-  { 
-    id: 'keamanan-data', 
-    q: 'Apakah infrastruktur web yang dibangun aman untuk data Enterprise?', 
-    a: 'Sangat aman. Kami menerapkan protokol keamanan tingkat enterprise, teknologi Edge computing, dan enkripsi data standar industri. Setiap arsitektur dirancang secara khusus untuk menangani beban trafik tinggi (High-Performance) tanpa mengorbankan keamanan dan privasi data klien Anda.' 
+  {
+    id: 'optimasi-seo-lokal',
+    q: 'Apakah paket pembuatan website sudah termasuk layanan Optimasi SEO Lokal?',
+    a: 'Benar. Kami percaya bahwa website tercanggih pun tidak berguna jika tidak dapat ditemukan oleh target pasar Anda. Semua paket website development kami telah dibekali dengan optimasi SEO On-Page tingkat lanjut, penyematan metadata skema cerdas (Schema Markup), dan geo-targeting untuk mendominasi kata kunci lokal seperti "Solusi IT Cisauk" atau "Jasa Pembuatan Website BSD".'
   },
-  { 
-    id: 'layanan-maintenance', 
-    q: 'Apakah CHESTAADOTCOM menyediakan layanan pemeliharaan proaktif?', 
-    a: 'Tentu. Kami menyediakan dukungan proaktif pasca-peluncuran. Ini mencakup pemantauan uptime 24/7, pembaruan keamanan, optimasi performa berkelanjutan, serta fine-tuning alur kerja AI agar infrastruktur bisnis digital Anda selalu beroperasi pada performa puncak.' 
+  {
+    id: 'integrasi-ai-solusi',
+    q: 'Bagaimana Solusi IT dari CHESTAADOTCOM mengintegrasikan kecerdasan buatan (AI)?',
+    a: 'Kami mengintegrasikan agen AI otonom ke dalam perangkat lunak bisnis Anda. Contoh praktisnya meliputi: chatbot pintar untuk menangani dukungan pelanggan B2B secara otomatis (24/7), generator konten dinamis yang memangkas waktu produksi tim marketing Anda, dan sistem AI yang menganalisis serta mengolah data penjualan mentah menjadi insight berharga secara instan.'
   },
+  {
+    id: 'keamanan-data-layanan',
+    q: 'Apakah infrastruktur IT dan website yang Anda bangun aman dari serangan siber?',
+    a: 'Sangat aman. Komitmen kami terhadap enterprise-grade security tidak bisa dikompromi. Kami menerapkan praktik pengamanan data terbaik di industri (best practices), arsitektur cloud terenkripsi, manajemen akses IAM yang ketat, dan framework modern tanpa kerentanan usang yang sering menjangkiti CMS open-source tradisional.'
+  }
 ];
 
 export default function FaqSection() {
@@ -101,8 +106,8 @@ export default function FaqSection() {
 
       <div className="mx-auto max-w-4xl px-3 sm:px-6 relative z-10 w-full">
         <motion.div 
-           variants={{ hidden: { opacity: 0, scale: 0.95, y: 30 }, visible: { opacity: 1, scale: 1, y: 0, transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] } } }}
-           className="mb-8 sm:mb-14 text-center"
+          variants={{ hidden: { opacity: 0, scale: 0.95, y: 30 }, visible: { opacity: 1, scale: 1, y: 0, transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] } } }} 
+          className="mb-8 sm:mb-14 text-center"
         >
           <h2 className="text-2xl sm:text-4xl md:text-5xl font-display font-black tracking-tight text-slate-900 mb-4">
             Pertanyaan Umum

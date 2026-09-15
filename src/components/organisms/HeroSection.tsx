@@ -126,9 +126,9 @@ export default function HeroSection() {
           variants={fadeInUpVariants}
           className="text-3xl sm:text-5xl md:text-6xl lg:text-[4rem] font-display font-black tracking-tight leading-[1.15] text-slate-900 max-w-4xl text-balance"
         >
-          Arsitektur Website Modern & <br className="hidden sm:block" />
+          Eskalasi Bisnis Tanpa Batas Melalui <br className="hidden sm:block" />
           <span className="text-purple-700">
-            Otomasi Bisnis dengan AI.
+            Website Premium & Agentic AI.
           </span>
         </motion.h1>
 
@@ -145,18 +145,18 @@ export default function HeroSection() {
             transition={{ duration: 0.8, delay: 0.3, ease: 'easeOut' }}
             className="px-1 py-0.5 font-bold"
           >
-            rekayasa perangkat lunak
+            rekayasa software eksklusif
           </motion.span>{' '}
-          profesional oleh <strong>Chesta Azka Sofyan</strong>. Kami merancang website berkinerja tinggi, berkecepatan sub-detik, serta sistem automasi digital dengan{' '}
+          oleh <strong>Chesta Azka Sofyan</strong>. Kami merancang arsitektur website berkecepatan sub-detik yang dioptimasi sempurna untuk SEO, dan sistem automasi digital{' '}
           <motion.span 
             initial={{ backgroundColor: 'transparent', color: '#0f172a' }}
             animate={{ backgroundColor: '#9333ea', color: '#ffffff' }}
             transition={{ duration: 0.8, delay: 0.5, ease: 'easeOut' }}
             className="px-1 py-0.5 font-bold"
           >
-            Agentic AI
+            berbasis Agentic AI
           </motion.span>{' '}
-          yang mendongkrak omset dan kredibilitas korporasi Anda.
+          yang secara proaktif meroketkan revenue dan efisiensi operasional korporasi Anda.
         </motion.p>
 
         {/* Call-To-Action Group */}
@@ -183,6 +183,7 @@ export default function HeroSection() {
             >
               <span className="absolute inset-0 bg-gradient-to-r from-purple-700/0 via-white/15 to-purple-700/0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
               <MessageCircle size={18} className="text-emerald-400 fill-emerald-400/20" />
+              <SparkleOverlay />
               <span>Konsultasi Proyek di WhatsApp</span>
               <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
             </motion.a>
@@ -190,9 +191,10 @@ export default function HeroSection() {
             {/* Secondary CTA - Portfolio */}
             <Link
               to="/portfolio"
-              className="group inline-flex items-center justify-center gap-2 px-7 py-4 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-800 hover:text-purple-900 font-sans text-sm sm:text-base font-semibold border border-slate-200 transition-all cursor-pointer w-full sm:w-auto"
+              className="group relative inline-flex items-center justify-center gap-2 px-7 py-4 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-800 hover:text-purple-900 font-sans text-sm sm:text-base font-semibold border border-slate-200 transition-all cursor-pointer w-full sm:w-auto"
             >
               <BriefcaseBusiness size={17} className="text-slate-600 group-hover:text-purple-700 transition-colors" />
+              <SparkleOverlay />
               <span>Lihat Portofolio</span>
               <ArrowRight size={15} className="text-slate-400 group-hover:translate-x-1 transition-all" />
             </Link>

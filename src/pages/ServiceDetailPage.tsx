@@ -1,6 +1,6 @@
 import { useParams, Link } from 'react-router-dom';
 import { SERVICES_DATA, ServiceDetailData } from '../data/servicesData';
-import { motion } from 'motion/react';
+import { motion, useScroll, useTransform } from 'motion/react';
 import { 
   Check, 
   ArrowRight, 
@@ -98,6 +98,11 @@ export default function ServiceDetailPage() {
   const [openFaq, setOpenFaq] = useState<number | null>(0);
   const [activeTestimonial, setActiveTestimonial] = useState<number>(0);
 
+  // Sticky CTA scroll tracking
+  const { scrollYProgress } = useScroll();
+  const ctaY = useTransform(scrollYProgress, [0.1, 0.2], [100, 0]);
+  const progressWidth = useTransform(scrollYProgress, [0, 1], ['0%', '100%']);
+
   const activeSection = useScrollSpy([
     'overview',
     'inaction',
@@ -112,8 +117,8 @@ export default function ServiceDetailPage() {
   const service: ServiceDetailData | undefined = slug ? SERVICES_DATA[slug] : undefined;
 
   useSEOOptimizer({
-    title: service ? `${service.title} | Software House BSD & Tangerang` : 'Layanan IT | CHESTAADOTCOM',
-    description: service ? service.heroDescription : 'Layanan profesional pengembangan software dan AI automation oleh CHESTAADOTCOM di BSD City dan Jabodetabek.'
+    title: service ? `${service.title} | Jasa IT BSD City & Solusi Web Cisauk` : 'Layanan IT BSD City & Cisauk | CHESTAADOTCOM',
+    description: service ? `${service.heroDescription} Dapatkan solusi rekayasa perangkat lunak dan Agentic AI Automation Indonesia terbaik untuk korporasi di wilayah Jasa IT BSD City, Solusi Web Cisauk, dan sekitarnya.` : 'Konsultan IT Services dan Software House profesional penyedia Jasa IT BSD City dan Solusi Web Cisauk. Spesialisasi pada Web Development Enterprise dan Agentic AI Automation Indonesia.'
   });
 
   // Dynamic Testimonial success stories based on service category / slug
@@ -687,12 +692,38 @@ export default function ServiceDetailPage() {
         </div>
 
         {/* ScrollSpy Active Section Indicator Badge */}
-        <div className="fixed bottom-6 right-6 z-40 hidden md:flex items-center gap-2.5 px-4 py-2.5 rounded-2xl bg-white/90 backdrop-blur-md border border-purple-200 shadow-xl text-xs font-mono text-slate-700">
+        <div className="fixed bottom-24 right-6 z-40 hidden md:flex items-center gap-2.5 px-4 py-2.5 rounded-2xl bg-white/90 backdrop-blur-md border border-purple-200 shadow-xl text-xs font-mono text-slate-700">
           <div className="w-2.5 h-2.5 rounded-full bg-purple-600 animate-pulse" />
           <span>Posisi Halaman: <strong className="text-purple-900 uppercase">{activeSection}</strong></span>
         </div>
 
       </div>
+
+      {/* Sticky CTA Bar */}
+      <motion.div 
+        style={{ y: ctaY }}
+        className="fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-xl border-t border-slate-200 shadow-[0_-10px_40px_rgba(0,0,0,0.05)]"
+      >
+        <div className="absolute top-0 left-0 h-1 bg-slate-100 w-full overflow-hidden">
+          <motion.div style={{ width: progressWidth }} className="h-full bg-purple-600 rounded-r-full" />
+        </div>
+        <div className="max-w-[1200px] mx-auto px-6 py-4 flex items-center justify-between">
+          <div className="hidden sm:flex flex-col">
+            <span className="text-xs font-mono font-bold text-slate-500 uppercase tracking-widest">{service.title}</span>
+            <span className="text-sm font-semibold text-slate-900 mt-0.5">Sudah siap untuk transformasi digital?</span>
+          </div>
+          <a
+            href={whatsappUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-slate-900 hover:bg-slate-800 text-white rounded-full text-sm font-bold shadow-lg transition-all active:scale-95"
+          >
+            <MessageCircle size={16} className="text-emerald-400" />
+            <span>Request Audit Ekosistem</span>
+            <ArrowRight size={16} />
+          </a>
+        </div>
+      </motion.div>
     </div>
   );
 }

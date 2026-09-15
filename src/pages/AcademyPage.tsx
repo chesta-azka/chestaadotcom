@@ -3,9 +3,11 @@ import MetaTags from '../components/atoms/MetaTags';
 import { generateCourseSchema } from '../lib/seo';
 import { motion, AnimatePresence } from 'motion/react';
 import { Link } from 'react-router-dom';
-import { Search, BookOpen, Code, ArrowRight, BrainCircuit, Terminal, Filter, X } from 'lucide-react';
+import { Search, BookOpen, Code, ArrowRight, BrainCircuit, Terminal, Filter, X, ArrowUpRight } from 'lucide-react';
 import { ALL_ARTICLES } from '../data/blogData';
 import { PROJECTS } from '../data/projects';
+
+import { ACADEMY_DATA } from '../data/academyData';
 
 type ResourceType = 'all' | 'article' | 'case-study' | 'quiz';
 
@@ -85,7 +87,7 @@ export default function AcademyPage() {
             className="text-5xl md:text-7xl font-display font-black text-slate-900 mb-6 tracking-tight uppercase"
             style={{ fontFamily: "'Coolvetica', sans-serif" }}
           >
-            Resource Hub
+            Academy &amp; Masterclass
           </motion.h1>
           <motion.p 
             initial={{ opacity: 0, y: 20 }}
@@ -93,8 +95,84 @@ export default function AcademyPage() {
             transition={{ delay: 0.1 }}
             className="text-lg md:text-xl text-slate-600 max-w-2xl font-medium"
           >
-            Indeks komprehensif untuk artikel teknis, studi kasus enterprise, dan modul quiz interaktif dari engineer terbaik di BSD City.
+            Kurikulum intensif dan resource hub teknis untuk mencetak software engineer dan arsitek sistem elit di BSD City.
           </motion.p>
+        </div>
+
+        {/* Premium Learning Paths Grid (Styled like ServicesSection) */}
+        <div className="mb-24">
+          <h2 className="text-2xl font-display font-black tracking-tight text-slate-900 mb-8 flex items-center gap-3">
+            <BrainCircuit className="text-purple-600" size={24} />
+            Learning Paths
+          </h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {ACADEMY_DATA.map((path, index) => (
+              <motion.div
+                key={path.slug}
+                initial={{ opacity: 0, y: 30 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true }}
+                transition={{ type: "spring", stiffness: 100, damping: 20, delay: index * 0.1 }}
+                className="group block h-full"
+              >
+                <Link
+                  to={`/academy/${path.slug}`}
+                  onClick={() => window.scrollTo(0, 0)}
+                  className="relative flex flex-col h-full justify-between py-8 px-8 sm:px-10 bg-white/60 backdrop-blur-xl border border-slate-200 shadow-xl shadow-purple-900/5 rounded-2xl hover:bg-white/80 hover:border-[#6b21a8]/30 transition-all duration-500 overflow-hidden transform hover:scale-[1.02] hover:shadow-[0_20px_60px_-15px_rgba(107,33,168,0.15)] hover:z-20"
+                >
+                  <div 
+                    className="absolute inset-0 opacity-0 group-hover:opacity-[0.03] transition-all duration-700 pointer-events-none"
+                    style={{
+                      backgroundImage: `radial-gradient(circle at top right, ${path.color}, transparent 80%)`
+                    }}
+                  />
+
+                  <div className="relative z-10 flex-grow">
+                    <div className="flex items-center justify-between mb-8">
+                      <span className="font-mono text-xs text-slate-400 group-hover:text-purple-500 font-semibold tracking-wider transition-colors pt-0.5">
+                        {path.number}
+                      </span>
+                      <span className="relative flex h-5 w-5 items-center justify-center shrink-0">
+                        <span 
+                          className="animate-ping absolute inline-flex h-full w-full rounded-full opacity-20 group-hover:opacity-50 transition-all duration-500"
+                          style={{ backgroundColor: path.color }}
+                        />
+                        <span 
+                          className="relative inline-flex rounded-full h-3 w-3 border-2 border-white shadow-[0_0_8px_rgba(0,0,0,0.1)]"
+                          style={{ 
+                            backgroundColor: path.color,
+                            boxShadow: `0 0 15px ${path.glow}`
+                          }}
+                        />
+                      </span>
+                    </div>
+
+                    <h3 className="text-2xl font-display font-black tracking-tight text-slate-800 group-hover:text-[#6b21a8] transition-all duration-300 mb-4 leading-[1.1]">
+                      {path.title}
+                    </h3>
+                    <p className="text-slate-600 font-sans text-sm leading-relaxed mb-8">
+                      {path.desc}
+                    </p>
+                  </div>
+
+                  <div className="relative z-10 flex items-center justify-between pt-4 border-t border-slate-200/50 mt-auto">
+                    <span className="text-[10px] font-mono font-bold text-slate-400 uppercase tracking-widest hidden lg:inline group-hover:text-[#6b21a8] transition-colors pt-0.5">
+                      MULAI BELAJAR
+                    </span>
+                    <div className="w-10 h-10 rounded-full border border-slate-200 flex items-center justify-center bg-white group-hover:bg-[#6b21a8] group-hover:border-[#6b21a8] shadow-sm transition-all duration-300">
+                      <ArrowUpRight strokeWidth={2} 
+                        className="w-4 h-4 text-slate-400 group-hover:text-white group-hover:scale-110 group-hover:rotate-12 transition-all duration-300" 
+                      />
+                    </div>
+                  </div>
+                </Link>
+              </motion.div>
+            ))}
+          </div>
+        </div>
+
+        <div className="mb-12 border-b-2 border-slate-900 pb-4">
+          <h2 className="text-3xl font-display font-black tracking-tight text-slate-900 uppercase" style={{ fontFamily: "'Coolvetica', sans-serif" }}>Resource Hub</h2>
         </div>
 
         {/* Search & Filters */}

@@ -119,12 +119,12 @@ export default function HomePage() {
             </motion.div>
             {/* High-Impact Headline with Typewriter Effect */}
             <motion.h1 variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] } } }} className="text-3xl sm:text-5xl md:text-6xl font-display font-extrabold tracking-tight leading-[1.12] text-slate-900 min-h-[140px] sm:min-h-[160px]">
-              Arsitektur Website Modern &amp; <br />
+              Eskalasi Bisnis Tanpa Batas Melalui <br />
               <TypewriterKeyword />
             </motion.h1>
             {/* Improved Copywriting focused on Agency IT Solution */}
             <motion.p variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] } } }} className="mt-2 text-base sm:text-lg text-slate-600 font-sans max-w-xl leading-relaxed">
-              <strong>CHESTAADOTCOM</strong> adalah agency IT solution terdepan yang berpusat di BSD City. Kami menghadirkan solusi <HighlightWord>rekayasa perangkat lunak</HighlightWord> full-stack, performa web super cepat, dan integrasi <HighlightWord>Agentic AI</HighlightWord> untuk mengakselerasi transformasi digital bisnis Anda secara efisien.
+              <strong>CHESTAADOTCOM</strong> adalah Software House dan konsultan IT Solution eksklusif di BSD City dan Cisauk. Kami merancang <HighlightWord>arsitektur website enterprise</HighlightWord> dengan standar performa global dan membangun infrastruktur <HighlightWord>berbasis Agentic AI</HighlightWord> yang secara agresif meningkatkan revenue serta efisiensi operasional B2B Anda.
             </motion.p>
             {/* Primary CTA Buttons with Pulsating Motion */}
             <motion.div variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] } } }} className="mt-8 flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto">
@@ -297,22 +297,22 @@ export default function HomePage() {
             
             <div className="lg:col-span-6 flex flex-col items-start text-left">
               <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-purple-900 bg-purple-100/80 px-3 py-1 rounded-full mb-4">
-                TENTANG AGENCY KAMI
+                TENTANG KAMI SEBAGAI MITRA STRATEGIS
               </span>
               <h2 className="text-2xl sm:text-3xl font-display font-bold text-slate-900 mb-4 leading-tight">
-                Mitra IT Solution Terpercaya untuk Akselerasi Bisnis Anda
+                Rekayasa Digital Kelas Enterprise yang Mengutamakan Profitabilitas Bisnis Anda
               </h2>
               <p className="text-slate-600 text-sm sm:text-base leading-relaxed mb-6">
-                <strong>CHESTAADOTCOM</strong> hadir sebagai jawaban atas kebutuhan korporasi modern akan infrastruktur digital yang cepat, aman, dan cerdas. Kami menggabungkan keahlian rekayasa perangkat lunak tingkat lanjut dengan otomatisasi berbasis Agentic AI.
+                <strong>CHESTAADOTCOM</strong> bukan sekadar vendor IT—kami adalah arsitek ekosistem digital Anda. Sebagai penyedia <strong>Jasa IT BSD City</strong> terkemuka, kami menghadirkan <strong>Solusi Web Cisauk</strong> kelas enterprise yang memodernisasi infrastruktur korporasi melalui aplikasi web super cepat (SSR/Next.js) dan teknologi <strong>Agentic AI Automation Indonesia</strong> terdepan. Hasil akhirnya? Skalabilitas operasional tanpa henti dan dominasi mutlak di pasar Anda.
               </p>
               <div className="flex flex-wrap gap-3">
                 <div className="flex items-center gap-2 text-xs font-semibold text-slate-800 bg-white px-3.5 py-2 rounded-xl border border-slate-200 shadow-2xs">
                   <CheckCircle2 size={15} className="text-purple-700" />
-                  <span>Bespoke Full-Stack Development</span>
+                  <span>Bespoke Enterprise Web Apps</span>
                 </div>
                 <div className="flex items-center gap-2 text-xs font-semibold text-slate-800 bg-white px-3.5 py-2 rounded-xl border border-slate-200 shadow-2xs">
                   <CheckCircle2 size={15} className="text-purple-700" />
-                  <span>Agentic AI Automation</span>
+                  <span>B2B Agentic AI Automation</span>
                 </div>
               </div>
             </div>

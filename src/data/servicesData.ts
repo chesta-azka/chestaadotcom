@@ -38,6 +38,74 @@ export interface ServiceDetailData {
 }
 
 export const SERVICES_DATA: Record<string, ServiceDetailData> = {
+
+  'jasa-pembuatan-website-bsd-cisauk': {
+    slug: 'jasa-pembuatan-website-bsd-cisauk',
+    title: 'Jasa Pembuatan Website BSD & Solusi IT Cisauk',
+    subtitle: 'Dominasi Pasar Lokal Tangerang dengan SEO & High-Performance Web',
+    category: 'Local SEO & Web Development',
+    badge: 'Spesialis BSD & Cisauk',
+    heroHeadline: 'Jadilah Nomor Satu di BSD City dan Cisauk. Tinggalkan Kompetitor Anda di Belakang.',
+    heroDescription: 'Mencari Jasa Pembuatan Website BSD City atau Solusi IT Cisauk yang benar-benar memberikan hasil? Kami membangun website berkecepatan tinggi dengan integrasi SEO Lokal (Geo-Targeting) mutakhir. Website Anda tidak hanya tampil memukau, tapi mendominasi hasil pencarian Google di radius Tangerang dan sekitarnya.',
+    coreMetrics: [
+      { label: 'Local SEO Ranking', value: 'Top #3', desc: 'Dominasi pencarian lokal di area BSD & Cisauk' },
+      { label: 'Loading Speed', value: '< 0.8s', desc: 'Akses instan memaksimalkan retensi pengunjung' },
+      { label: 'Lead Generation', value: '+45%', desc: 'Lonjakan interaksi WhatsApp & Form masuk' },
+      { label: 'Geo-Targeting', value: 'Akurat', desc: 'Sistem skema lokasi terstruktur standar Google' }
+    ],
+    problemStatement: {
+      title: 'Tantangan Bisnis Lokal di Era Digital',
+      points: [
+        'Bisnis fisik Anda di BSD City atau Cisauk sepi karena sulit ditemukan di Google Maps dan Penelusuran.',
+        'Website Anda lambat, menggunakan template usang, dan tidak responsif saat dibuka di smartphone.',
+        'Kompetitor lokal dengan layanan lebih buruk justru mendapatkan semua pelanggan dari internet.',
+        'Sudah menghabiskan banyak biaya iklan (Ads) namun hasil penjualan tidak sebanding (ROI rendah).'
+      ]
+    },
+    solutionOverview: {
+      title: 'Strategi Agresif CHESTAADOTCOM: SEO Lokal & Arsitektur Elite',
+      description: 'Sebagai Elite Software House dan pakar Solusi IT Cisauk, kami menggabungkan web development super cepat (Next.js) dengan optimasi SEO On-Page dan Local Business Schema. Kami memastikan setiap calon pelanggan di radius Tangerang yang mencari layanan Anda akan berujung di website bisnis Anda.',
+      benefits: [
+        'Injeksi Meta Schema "LocalBusiness" spesifik untuk target pasar Tangerang, BSD, dan Cisauk.',
+        'Desain profesional tingkat korporat yang meyakinkan klien B2B maupun konsumen akhir (B2C).',
+        'Struktur URL dan konten yang secara agresif menargetkan kata kunci komersial tinggi (High-Intent).',
+        'Arsitektur cloud yang menjamin performa website tidak tumbang walau dilanda lonjakan trafik.'
+      ]
+    },
+    processSteps: [
+      { step: '01', title: 'Riset Kata Kunci Lokal', desc: 'Menganalisis volume pencarian spesifik area BSD, Cisauk, Gading Serpong, dan sekitarnya.' },
+      { step: '02', title: 'Pembuatan Web & Copywriting', desc: 'Mengembangkan website custom dengan konten berbasis SEO yang menjual (Conversion Copywriting).' },
+      { step: '03', title: 'Injeksi Teknis SEO & Geo-Tags', desc: 'Menerapkan markup Schema.org, sitemap dinamis, dan optimasi Core Web Vitals tingkat ekstrim.' },
+      { step: '04', title: 'Monitoring & Scaling', desc: 'Pelacakan ranking berkala, integrasi Google Analytics 4, dan penyempurnaan conversion rate.' }
+    ],
+    guarantee: 'Kami memberikan jaminan optimasi skor Google PageSpeed di atas 90+ dan indeksasi Google yang sempurna dalam waktu kurang dari 7 hari setelah website tayang.',
+    investment: {
+      price: 'Mulai dari Rp 4.500.000',
+      duration: 'Pengerjaan 7 - 14 Hari Kerja',
+      features: [
+        'Desain Website Khusus Bisnis Lokal (Tangerang Raya)',
+        'Full Optimasi Local SEO (Geo-Targeting)',
+        'Gratis Instalasi Google Search Console & Analytics',
+        'Formulir Leads Langsung ke WhatsApp',
+        'Infrastruktur Next.js + Tailwind CSS Anti Lemot'
+      ]
+    },
+    faqs: [
+      {
+        q: 'Mengapa bisnis di BSD City sangat membutuhkan Local SEO?',
+        a: 'BSD City adalah salah satu kawasan ekonomi dengan pertumbuhan tercepat. Persaingan bisnis sangat ketat. Dengan Local SEO, saat calon pelanggan mencari "klinik gigi di BSD" atau "jasa interior Cisauk", bisnis Anda akan muncul paling atas, memberikan kredibilitas instan dan lead yang masif.'
+      },
+      {
+        q: 'Apakah solusi IT Cisauk dari CHESTAADOTCOM hanya untuk website?',
+        a: 'Tidak. Selain jasa pembuatan website, kami melayani Solusi IT menyeluruh. Termasuk integrasi sistem kasir (POS), custom web app (ERP/CRM mini), dan sistem otomasi AI untuk memangkas jam kerja admin Anda.'
+      },
+      {
+        q: 'Berapa lama untuk melihat hasil dari optimasi SEO lokal?',
+        a: 'Fondasi teknis (On-Page) akan terindeks dalam beberapa hari. Untuk mulai mendominasi pencarian lokal kompetitif, umumnya dibutuhkan konsistensi konten selama 2-4 minggu. Infrastruktur Next.js kami secara drastis mempercepat proses perayapan (crawling) Google.'
+      }
+    ]
+  },
+
   'web-development-nextjs': {
     slug: 'web-development-nextjs',
     title: 'Web Development Next.js & Enterprise Stack',

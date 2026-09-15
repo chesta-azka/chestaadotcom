@@ -449,126 +449,19 @@ export default function BlogPostPage() {
     );
   }
 
-  const jsonLd = [
-    {
-      "@context": "https://schema.org",
-      "@type": "TechArticle",
-      "headline": post.title,
-      "image": [post.image],
-      "datePublished": post.date || "2026-09-14T08:00:00+08:00",
-      "dateModified": post.date || "2026-09-14T08:00:00+08:00",
-      "author": {
-        "@type": "Person",
-        "name": "Chesta Azka Sofyan",
-        "jobTitle": "Principal Software Engineer & Founder",
-        "worksFor": {
-          "@type": "Organization",
-          "name": "CHESTAADOTCOM"
-        },
-        "url": "https://chestaa.com/about"
-      },
-      "publisher": {
-        "@type": "Organization",
-        "name": "CHESTAADOTCOM",
-        "logo": {
-          "@type": "ImageObject",
-          "url": "https://chestaa.com/logo.png"
-        }
-      },
-      "description": post.desc,
-      "about": {
-        "@type": "Organization",
-        "name": "CHESTAADOTCOM B2B Web Development & AI Automation",
-        "address": {
-          "@type": "PostalAddress",
-          "addressLocality": "BSD City, Cisauk",
-          "addressRegion": "Banten",
-          "addressCountry": "ID"
-        }
-      }
-    },
-    {
-      "@context": "https://schema.org",
-      "@type": "Person",
-      "name": "Chesta Azka Sofyan",
-      "jobTitle": "Principal Software Engineer & Founder",
-      "worksFor": {
-        "@type": "Organization",
-        "name": "CHESTAADOTCOM"
-      },
-      "sameAs": [
-        "https://chestaa.com"
-      ],
-      "description": "Principal Software Engineer and founder of CHESTAADOTCOM, specializing in high-performance Next.js architectures, Vibe Coding, and Agentic AI automation in BSD City and Tangerang."
-    }
-  ];
-
-  // Convert old content array or use raw MDX
-  let unifiedContent = post.mdxContent || post.content.map(c => 
-    typeof c === 'string' ? c : `![${c.alt}](${c.url})`
-  ).join('\n\n');
-
-  // Strip frontmatter if present
-  if (unifiedContent.startsWith('---')) {
-    const endOfFrontmatter = unifiedContent.indexOf('---', 3);
-    if (endOfFrontmatter !== -1) {
-      unifiedContent = unifiedContent.substring(endOfFrontmatter + 3).trim();
-    }
-  }
-
-  // Extract all H2 and H3 tags from the markdown content
-  const headings: { id: string; text: string; level: number }[] = [];
-  let headingCount = 0;
+  const unifiedContent = post.mdxContent || post.content?.map((c: any) => typeof c === 'string' ? c : `![${c.alt}](${c.url})`).join('\n\n') || '';
   
-  // Track unique IDs
-  const idMap = new Map<string, number>();
-
-  unifiedContent = unifiedContent.replace(/^(#{2,3})\s+(.*)$/gm, (match, hashes, title) => {
-    const cleanTitle = title.replace(/<[^>]+>/g, '').trim();
-    let baseId = cleanTitle.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
-    
-    let id = baseId;
-    if (idMap.has(baseId)) {
-      const count = idMap.get(baseId)! + 1;
-      idMap.set(baseId, count);
-      id = `${baseId}-${count}`;
-    } else {
-      idMap.set(baseId, 1);
-    }
-
-    headings.push({ id, text: cleanTitle, level: hashes.length });
-    
-    if (hashes === '##') {
-      headingCount++;
-      if (headingCount === 3) {
-        return `<InlineCTA />
-
-<h2 id="${id}">${title}</h2>`;
-      }
-      return `<h2 id="${id}">${title}</h2>`;
-    }
-    
-    return `<h3 id="${id}">${title}</h3>`;
-  });
+  // Extract headings for TOC
+  const headings = unifiedContent.match(/^##\s+(.*)/gm)?.map((h: string, i: number) => ({ id: `heading-${i}`, text: h.replace(/^##\s+/, ''), level: 2 })) || [];
 
   return (
-    <main className="min-h-screen bg-white pt-36 md:pt-44 font-sans relative">
-      <motion.div
-        className="fixed top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-purple-500 via-indigo-500 to-fuchsia-500 origin-left z-[100]"
-        style={{ scaleX }}
+    <main className="min-h-screen bg-slate-950 font-sans selection:bg-purple-500/30">
+      <MetaTags 
+        title={post.title}
+        description={post.desc}
+        path={`/blog/${post.slug}`}
+        schemaString={JSON.stringify(generateArticleSchema(post.title, post.desc, `https://chestaa.com/blog/${post.slug}`, post.image || "https://chestaa.com/favicon.svg", post.date, post.author?.name || "Chesta Azka Sofyan"))}
       />
-      <TextSelectionToolbar />
-      <div className="hidden 2xl:flex fixed left-8 top-1/2 -translate-y-1/2 flex-col gap-4 z-40">
-        <div className="text-[10px] font-mono font-bold uppercase tracking-widest text-slate-400 rotate-180 mb-2" style={{ writingMode: 'vertical-rl' }}>Bagikan</div>
-        <div className="w-[1px] h-12 bg-slate-200 mx-auto" />
-        <SocialShare title={post.title} description={post.desc} vertical className="relative" />
-      </div>
-      
-      <Helmet>
-        <title>{post.title} | CHESTAADOTCOM Insights</title>
-        <meta name="description" content={post.desc} />
-        <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
-      </Helmet>
 
       {/* Hero Section */}
       <div className="relative h-[62vh] min-h-[560px] w-full overflow-hidden bg-purple-950">

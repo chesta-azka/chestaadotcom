@@ -1,60 +1,58 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
-import SchemaMarkup from './SchemaMarkup';
+import seoConfig from '../../data/seo-config.json';
 
 interface SEOMetadataProps {
   title?: string;
   description?: string;
+  keywords?: string;
   image?: string;
   url?: string;
   type?: string;
-  schema?: Record<string, any>;
 }
 
-export default function SEOMetadata({
-  title = 'CHESTAADOTCOM - Arsitektur Digital & Agentic AI',
-  description = 'Solusi rancang bangun digital premium dan otomatisasi bisnis menggunakan Agentic AI.',
-  image = '/og-image.jpg',
-  url = 'https://chestacode.com',
-  type = 'website',
-  schema,
+export default function SEOMetadata({ 
+  title, 
+  description, 
+  keywords, 
+  image, 
+  url,
+  type 
 }: SEOMetadataProps) {
-  const fullTitle = title.includes('CHESTAADOTCOM') ? title : `${title} | CHESTAADOTCOM`;
-
-  const defaultSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'LocalBusiness',
-    name: 'CHESTAADOTCOM',
-    image: url + image,
-    '@id': url,
-    url: url,
-    telephone: '+6282125447232',
-    address: {
-      '@type': 'PostalAddress',
-      addressLocality: 'Jakarta',
-      addressCountry: 'ID'
-    },
-    description: description,
-    priceRange: '$$'
-  };
+  const defaults = seoConfig.default;
+  
+  const seoTitle = title ? defaults.titleTemplate.replace('%s', title) : defaults.title;
+  const seoDescription = description || defaults.description;
+  const seoKeywords = keywords || defaults.keywords;
+  const seoImage = image || defaults.openGraph.image;
+  const seoUrl = url || defaults.openGraph.url;
+  const seoType = type || defaults.openGraph.type;
 
   return (
-    <>
-      <Helmet>
-        <title>{fullTitle}</title>
-        <meta name="description" content={description} />
-        <meta property="og:title" content={fullTitle} />
-        <meta property="og:description" content={description} />
-        <meta property="og:image" content={image} />
-        <meta property="og:url" content={url} />
-        <meta property="og:type" content={type} />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={fullTitle} />
-        <meta name="twitter:description" content={description} />
-        <meta name="twitter:image" content={image} />
-        <link rel="canonical" href={url} />
-      </Helmet>
-      <SchemaMarkup schema={schema || defaultSchema} />
-    </>
+    <Helmet>
+      <title>{seoTitle}</title>
+      <meta name="description" content={seoDescription} />
+      <meta name="keywords" content={seoKeywords} />
+      <meta name="author" content={defaults.author} />
+
+      {/* OpenGraph */}
+      <meta property="og:type" content={seoType} />
+      <meta property="og:url" content={seoUrl} />
+      <meta property="og:title" content={seoTitle} />
+      <meta property="og:description" content={seoDescription} />
+      <meta property="og:image" content={seoImage} />
+      <meta property="og:image:width" content={defaults.openGraph.imageWidth} />
+      <meta property="og:image:height" content={defaults.openGraph.imageHeight} />
+      <meta property="og:site_name" content={defaults.openGraph.site_name} />
+      <meta property="og:locale" content={defaults.openGraph.locale} />
+
+      {/* Twitter */}
+      <meta name="twitter:card" content={defaults.twitter.cardType} />
+      <meta name="twitter:site" content={defaults.twitter.site} />
+      <meta name="twitter:creator" content={defaults.twitter.handle} />
+      <meta name="twitter:title" content={seoTitle} />
+      <meta name="twitter:description" content={seoDescription} />
+      <meta name="twitter:image" content={seoImage} />
+    </Helmet>
   );
 }

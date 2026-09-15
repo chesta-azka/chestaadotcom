@@ -60,6 +60,8 @@ function ScrollToTop() {
   return null;
 }
 
+import SEOMetadata from './components/atoms/SEOMetadata';
+
 // Inner component to use location for AnimatePresence
 function AppContent({ appLoaded }: { appLoaded: boolean }) {
   const location = useLocation();
@@ -141,14 +143,10 @@ function PageWrapper({ children }: { children: React.ReactNode }) {
 
   return (
     <>
-      <Helmet>
-        <title>{currentMeta.title}</title>
-        <meta name="description" content={currentMeta.description} />
-        <meta property="og:title" content={currentMeta.title} />
-        <meta property="og:description" content={currentMeta.description} />
-        <meta property="twitter:title" content={currentMeta.title} />
-        <meta property="twitter:description" content={currentMeta.description} />
-      </Helmet>
+      <SEOMetadata 
+        title={currentMeta.title}
+        description={currentMeta.description}
+      />
       
       <motion.div
         key={location.pathname}

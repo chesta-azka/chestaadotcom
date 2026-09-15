@@ -1,3 +1,6 @@
+import { chestaaEnterpriseBsdMdx } from '../content/chestaaEnterpriseBsdArticle';
+import { chestaaAiVisionTangerangMdx } from '../content/chestaaAiVisionTangerangArticle';
+import { aiAutomationBsdMdx } from '../content/aiAutomationBsdArticle';
 import { vibeCodingMdx } from '../content/vibeCodingArticle';
 import { filosofiChestaMdx } from '../content/filosofiChestaArticle';
 import { panduanSeoMdx } from '../content/panduanSeoArticle';
@@ -42,6 +45,49 @@ export interface Article {
 }
 
 export const ALL_ARTICLES: Article[] = [
+  {
+    slug: "transformasi-digital-enterprise-chestaa-bsd",
+    title: "Transformasi Digital Skala Enterprise Bersama CHESTAADOTCOM di BSD City",
+    cat: "Bisnis & Teknologi",
+    date: "15 Sep 2026",
+    readTime: "5 MIN READ",
+    readTimeMinutes: 5,
+    desc: "Pelajari bagaimana CHESTAADOTCOM sebagai Elite Software House di BSD City membantu perusahaan skala enterprise mencapai efisiensi maksimal dengan Web Development dan AI Automation.",
+    image: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2070&auto=format&fit=crop",
+    content: [],
+    mdxContent: chestaaEnterpriseBsdMdx,
+    author: { name: "Chesta Azka", role: "Digital Architect" },
+    tags: ["CHESTAADOTCOM", "Software House BSD", "Tangerang", "Cisauk", "Digital Transformation", "Web Agency"]
+  },
+  {
+    slug: "visi-masa-depan-ai-web-development-tangerang",
+    title: "Masa Depan AI Web Development: Visi CHESTAADOTCOM untuk Ekosistem Tech di Tangerang",
+    cat: "AI Web Development",
+    date: "16 Sep 2026",
+    readTime: "4 MIN READ",
+    readTimeMinutes: 4,
+    desc: "Visi CHESTAADOTCOM dalam membawa standar teknologi Silicon Valley dan Agentic AI untuk memberdayakan startup serta UKM di Tangerang, BSD, dan Jakarta.",
+    image: "https://images.unsplash.com/photo-1620712943543-bcc4688e7485?q=80&w=1965&auto=format&fit=crop",
+    content: [],
+    mdxContent: chestaaAiVisionTangerangMdx,
+    author: { name: "Chesta Azka", role: "AI Automation Specialist" },
+    tags: ["CHESTAADOTCOM", "AI Web Development", "Agentic AI", "Tangerang Selatan", "Tech Startup", "Jasa Website Tangerang"]
+  },
+
+  {
+    slug: "implementasi-ai-automation-efisiensi-bisnis-bsd-city",
+    title: "Implementasi AI Automation untuk Efisiensi Bisnis di BSD City",
+    cat: "AI Automation",
+    date: "14 Sep 2026",
+    readTime: "6 MIN READ",
+    readTimeMinutes: 6,
+    desc: "Panduan lengkap bagaimana perusahaan dan UKM di BSD City dapat meningkatkan efisiensi operasional dengan memanfaatkan agen AI (Artificial Intelligence) untuk otomatisasi tugas.",
+    image: "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=2070&auto=format&fit=crop",
+    content: [],
+    mdxContent: aiAutomationBsdMdx,
+    author: { name: "Chesta Azka", role: "AI Automation Specialist" },
+    tags: ["AI Automation", "BSD City", "Bisnis", "Otomatisasi", "Agentic AI"]
+  },
   {
     slug: 'mengenal-chestaa-com',
     title: 'Mengenal CHESTAADOTCOM: Software House & Studio Arsitektur Digital No. 1 di BSD City & Cisauk',

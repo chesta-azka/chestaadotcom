@@ -1,6 +1,7 @@
 import { motion } from 'motion/react';
 import { ArrowRight, Bot, TrendingUp, Clock, Users } from 'lucide-react';
 import LazyImage from '../atoms/LazyImage';
+import { useState, useEffect } from 'react';
 
 const CASE_STUDIES = [
   {
@@ -30,6 +31,15 @@ const CASE_STUDIES = [
 ];
 
 export default function AICaseStudies() {
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsLoading(false);
+    }, 1200);
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <section className="py-24 border-t border-slate-100 bg-slate-50/50">
       <div className="mx-auto max-w-7xl px-6">
@@ -46,61 +56,87 @@ export default function AICaseStudies() {
           </p>
         </div>
 
-        <div className="flex flex-col gap-16 md:gap-24">
-          {CASE_STUDIES.map((study, index) => (
-            <div 
-              key={study.id}
-              className={`flex flex-col lg:flex-row gap-12 items-center ${index % 2 !== 0 ? 'lg:flex-row-reverse' : ''}`}
-            >
-              <div className="w-full lg:w-1/2">
-                <div className="relative rounded-xl overflow-hidden shadow-2xl border border-slate-200 bg-white aspect-[4/3] group">
-                  <LazyImage 
-                    src={study.image} 
-                    alt={study.title}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-90"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-gray-900/60 to-transparent pointer-events-none" />
-                  <div className="absolute bottom-6 left-6 right-6">
-                     <span className="text-white/90 font-mono text-xs font-bold tracking-widest uppercase mb-1 block">Klien: {study.client}</span>
-                     <h3 className="text-2xl font-display font-black text-white">{study.title}</h3>
+        {isLoading ? (
+          <div className="flex flex-col gap-16 md:gap-24">
+            {[1, 2].map((i) => (
+              <div key={i} className={`flex flex-col lg:flex-row gap-12 items-center ${i % 2 !== 0 ? 'lg:flex-row-reverse' : ''}`}>
+                <div className="w-full lg:w-1/2">
+                  <div className="w-full aspect-[4/3] rounded-xl bg-slate-200 animate-pulse shadow-sm" />
+                </div>
+                <div className="w-full lg:w-1/2 flex flex-col gap-8">
+                  <div className="space-y-4">
+                    <div className="h-8 bg-slate-200 rounded animate-pulse w-3/4" />
+                    <div className="h-4 bg-slate-200 rounded animate-pulse w-full" />
+                    <div className="h-4 bg-slate-200 rounded animate-pulse w-5/6" />
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    {[1, 2, 3].map((j) => (
+                      <div key={j} className="h-32 bg-slate-100 rounded-2xl animate-pulse" />
+                    ))}
+                  </div>
+                  <div>
+                    <div className="h-12 w-48 bg-slate-200 rounded-full animate-pulse" />
                   </div>
                 </div>
               </div>
-              
-              <div className="w-full lg:w-1/2 flex flex-col gap-8">
-                <div>
-                  <h3 className="text-3xl font-display font-black text-slate-900 mb-4">{study.title}</h3>
-                  <p className="text-slate-600 font-sans leading-relaxed text-lg">{study.description}</p>
-                </div>
-
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                  {study.metrics.map((metric, idx) => (
-                    <div key={idx} className="bg-white/40 backdrop-blur-xl rounded-2xl p-5 border border-white/60 shadow-xl shadow-purple-900/5 hover:bg-white/60 transition-all relative overflow-hidden group">
-                      <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-purple-100 to-purple-500 opacity-0 group-hover:opacity-100 transition-opacity" />
-                      <metric.icon size={18} className="text-[#6b21a8] mb-4" />
-                      <p className="text-xs font-mono text-slate-600 uppercase tracking-wider mb-2">{metric.label}</p>
-                      <div className="flex flex-col gap-1">
-                        <span className="text-sm text-gray-400 line-through decoration-red-400/50">Before: {metric.before}</span>
-                        <span className="text-lg font-sans font-black text-slate-900">After: {metric.after}</span>
-                      </div>
+            ))}
+          </div>
+        ) : (
+          <div className="flex flex-col gap-16 md:gap-24">
+            {CASE_STUDIES.map((study, index) => (
+              <div 
+                key={study.id}
+                className={`flex flex-col lg:flex-row gap-12 items-center ${index % 2 !== 0 ? 'lg:flex-row-reverse' : ''}`}
+              >
+                <div className="w-full lg:w-1/2">
+                  <div className="relative rounded-xl overflow-hidden shadow-2xl border border-slate-200 bg-white aspect-[4/3] group">
+                    <LazyImage 
+                      src={study.image} 
+                      alt={study.title}
+                      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700 opacity-90"
+                    />
+                    <div className="absolute inset-0 bg-gradient-to-t from-gray-900/60 to-transparent pointer-events-none" />
+                    <div className="absolute bottom-6 left-6 right-6">
+                       <span className="text-white/90 font-mono text-xs font-bold tracking-widest uppercase mb-1 block">Klien: {study.client}</span>
+                       <h3 className="text-2xl font-display font-black text-white">{study.title}</h3>
                     </div>
-                  ))}
+                  </div>
                 </div>
                 
-                <div>
-                  <a 
-                    href={`https://wa.me/6282125447232?text=${encodeURIComponent('Halo Mas Chesta, saya tertarik untuk menerapkan solusi AI Agentic di bisnis saya.')}`}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-purple-600 text-white font-sans font-bold text-sm hover:bg-purple-700 transition-colors shadow-md shadow-purple-600/20"
-                  >
-                    <span>Chat with us on WhatsApp</span> <ArrowRight size={16} />
-                  </a>
+                <div className="w-full lg:w-1/2 flex flex-col gap-8">
+                  <div>
+                    <h3 className="text-3xl font-display font-black text-slate-900 mb-4">{study.title}</h3>
+                    <p className="text-slate-600 font-sans leading-relaxed text-lg">{study.description}</p>
+                  </div>
+                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                    {study.metrics.map((metric, idx) => (
+                      <div key={idx} className="bg-white/40 backdrop-blur-xl rounded-2xl p-5 border border-white/60 shadow-xl shadow-purple-900/5 hover:bg-white/60 transition-all relative overflow-hidden group">
+                        <div className="absolute top-0 inset-x-0 h-1 bg-gradient-to-r from-purple-100 to-purple-500 opacity-0 group-hover:opacity-100 transition-opacity" />
+                        <metric.icon size={18} className="text-[#6b21a8] mb-4" />
+                        <p className="text-xs font-mono text-slate-600 uppercase tracking-wider mb-2">{metric.label}</p>
+                        <div className="flex flex-col gap-1">
+                          <span className="text-sm text-gray-400 line-through decoration-red-400/50">Before: {metric.before}</span>
+                          <span className="text-lg font-sans font-black text-slate-900">After: {metric.after}</span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                  
+                  <div>
+                    <a 
+                      href={`https://wa.me/6282125447232?text=${encodeURIComponent('Halo Mas Chesta, saya tertarik untuk menerapkan solusi AI Agentic di bisnis saya.')}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 px-6 py-3.5 rounded-full bg-purple-600 text-white font-sans font-bold text-sm hover:bg-purple-700 transition-colors shadow-md shadow-purple-600/20"
+                    >
+                      <span>Chat with us on WhatsApp</span> <ArrowRight size={16} />
+                    </a>
+                  </div>
                 </div>
               </div>
-            </div>
-          ))}
-        </div>
+            ))}
+          </div>
+        )}
       </div>
     </section>
   );

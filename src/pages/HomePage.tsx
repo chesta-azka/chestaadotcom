@@ -3,6 +3,7 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import MetaTags from '../components/atoms/MetaTags.tsx';
 import HeroSection from '../components/organisms/HeroSection.tsx';
+import CapabilitiesSection from '../components/organisms/CapabilitiesSection.tsx';
 import ServicesSection from '../components/organisms/ServicesSection.tsx';
 import AboutMeSection from '../components/organisms/AboutMeSection.tsx';
 import ProjectsSection from '../components/organisms/ProjectsSection.tsx';
@@ -13,33 +14,18 @@ import BlogSection from '../components/organisms/BlogSection.tsx';
 import CreativityMarquee from '../components/organisms/CreativityMarquee.tsx';
 import ContactSection from '../components/organisms/ContactSection.tsx';
 import ScrollingTechTicker from '../components/organisms/ScrollingTechTicker.tsx';
+import CompaniesSection from '../components/organisms/CompaniesSection.tsx';
+import AcademyHighlightSection from '../components/organisms/AcademyHighlightSection.tsx';
 import StatsCounter from '../components/organisms/StatsCounter.tsx';
 import SectionGlassCard from '../components/atoms/SectionGlassCard.tsx';
 import SectionSeparator from '../components/atoms/SectionSeparator.tsx';
 import FadeInSection from '../components/atoms/FadeInSection.tsx';
 import { useRevealAnimation } from '../hooks/useRevealAnimation';
 import { useScrollSpy } from '../hooks/useScrollSpy';
-import { ChevronDown, Link as LinkIcon, Check } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
 import { generateLocalBusinessSchema } from '../lib/seo';
-
-const bottomFaqs = [
-  {
-    id: 'faq-bsd-tangerang',
-    q: 'Mengapa perusahaan di BSD City dan Tangerang memilih CHESTAADOTCOM?',
-    a: 'Karena kami menggabungkan standar rekayasa software tingkat global dengan pemahaman mendalam tentang lanskap bisnis lokal di Tangerang Selatan, BSD City, dan Cisauk. Setiap sistem dibangun dengan fokus pada kecepatan sub-detik dan konversi B2B.'
-  },
-  {
-    id: 'faq-ai-automation',
-    q: 'Bagaimana cara kerja Agentic AI dalam mengotomasi operasional bisnis?',
-    a: 'Agentic AI kami terintegrasi secara otonom ke dalam database dan WhatsApp Business Anda. AI mampu merespons prospek, memproses kualifikasi lead, hingga menyusun laporan operasional secara real-time 24/7.'
-  },
-  {
-    id: 'faq-nextjs-stack',
-    q: 'Apa keuntungan menggunakan Next.js 15 dibanding CMS konvensional?',
-    a: 'Next.js 15 memberikan SSR (Server-Side Rendering) instan yang membuat website Anda memuat dalam milidetik. Ini sangat krusial untuk mendominasi peringkat SEO Google di wilayah Jakarta, Bogor, Depok, dan Tangerang.'
-  }
-];
+import FaqSection from '../components/organisms/FaqSection.tsx';
+import ProjectFaqAccordion from '../components/organisms/ProjectFaqAccordion.tsx';
+import ExitIntentPopup from '../components/organisms/ExitIntentPopup.tsx';
 
 export default function HomePage() {
   const reveal1 = useRevealAnimation();
@@ -47,10 +33,6 @@ export default function HomePage() {
   const reveal3 = useRevealAnimation();
   const reveal4 = useRevealAnimation();
   const reveal5 = useRevealAnimation();
-
-  const [openFaq, setOpenFaq] = useState<number | null>(null);
-  const [copiedId, setCopiedId] = useState<string | null>(null);
-  const navigate = useNavigate();
 
   const activeSection = useScrollSpy([
     'hero',
@@ -63,16 +45,6 @@ export default function HomePage() {
     'faq',
     'insights'
   ]);
-
-  const handleCopyLink = (e: React.MouseEvent, id: string) => {
-    e.stopPropagation();
-    const directUrl = `${window.location.origin}${window.location.pathname}#${id}`;
-    navigator.clipboard.writeText(directUrl).then(() => {
-      setCopiedId(id);
-      navigate(`#${id}`, { replace: true });
-      setTimeout(() => setCopiedId(null), 2000);
-    });
-  };
 
   return (
     <div className="flex flex-col w-full bg-transparent relative min-h-screen">
@@ -97,13 +69,13 @@ export default function HomePage() {
       <div className="snap-start relative" id="hero">
         <HeroSection />
       </div>
-      <SectionSeparator />
       
-      <div className="snap-start my-4">
-        <ScrollingTechTicker />
-      </div>
-      <SectionSeparator />
+      <CapabilitiesSection />
       
+      <CompaniesSection />
+      
+      <SectionSeparator />
+            
       <motion.div {...reveal1.revealProps} className="w-full">
         <StatsCounter />
       </motion.div>
@@ -121,6 +93,12 @@ export default function HomePage() {
           <ServicesSection />
         </SectionGlassCard>
       </motion.div>
+      <SectionSeparator />
+      
+      
+      <div className="snap-start my-8">
+        <ScrollingTechTicker />
+      </div>
       <SectionSeparator />
       
       <motion.div {...reveal4.revealProps} id="projects">
@@ -152,6 +130,11 @@ export default function HomePage() {
       </SectionGlassCard>
       <SectionSeparator />
       
+      <div className="snap-start" id="academy">
+        <AcademyHighlightSection />
+      </div>
+      <SectionSeparator />
+
       <SectionGlassCard fluid={true} index={9} metaLabel="TREN TEKNOLOGI" className="snap-start" id="insights">
         <InsightsSection />
       </SectionGlassCard>
@@ -163,62 +146,8 @@ export default function HomePage() {
         <span>Posisi Halaman: <strong className="text-purple-900 uppercase">{activeSection}</strong></span>
       </div>
 
-      {/* New Sharp-Edged, Borderless FAQ Accordion Section at Bottom */}
-      <section className="py-16 px-6 sm:px-12 bg-white border-y border-slate-200">
-        <div className="max-w-4xl mx-auto">
-          <div className="mb-10 text-center">
-            <h2 className="text-3xl sm:text-4xl font-black text-slate-900 tracking-tight" style={{ fontFamily: "'Coolvetica', sans-serif" }}>
-              FAQ Transparansi Layanan &amp; Teknologi
-            </h2>
-            <p className="text-slate-600 font-sans text-sm sm:text-base mt-2">
-              Jawaban atas pertanyaan umum seputar implementasi sistem digital dan ekspansi layanan kami di Jabodetabek.
-            </p>
-          </div>
-          <div className="space-y-4">
-            {bottomFaqs.map((faq, index) => {
-              const isOpen = openFaq === index;
-              const isCopied = copiedId === faq.id;
-              return (
-                <div key={faq.id} id={faq.id} className="border border-slate-200 rounded-none bg-white">
-                  <button
-                    onClick={() => setOpenFaq(isOpen ? null : index)}
-                    className="w-full px-6 py-5 flex items-center justify-between text-left cursor-pointer hover:bg-slate-50 transition-colors"
-                  >
-                    <span className="text-lg font-black text-slate-900" style={{ fontFamily: "'Coolvetica', sans-serif" }}>
-                      {faq.q}
-                    </span>
-                    <div className="flex items-center gap-3">
-                      <span
-                        onClick={(e) => handleCopyLink(e, faq.id)}
-                        className="p-1.5 border border-slate-200 text-slate-500 hover:text-purple-700 bg-white"
-                        title="Salin tautan"
-                      >
-                        {isCopied ? <Check size={14} className="text-emerald-600" /> : <LinkIcon size={14} />}
-                      </span>
-                      <ChevronDown size={18} className={`transition-transform duration-300 ${isOpen ? 'rotate-180 text-purple-700' : 'text-slate-400'}`} />
-                    </div>
-                  </button>
-                  <AnimatePresence>
-                    {isOpen && (
-                      <motion.div
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: 'auto' }}
-                        exit={{ opacity: 0, height: 0 }}
-                        transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-                        className="overflow-hidden border-t border-slate-100 bg-slate-50/50"
-                      >
-                        <div className="px-6 py-4 text-slate-600 text-sm sm:text-base font-sans leading-relaxed">
-                          {faq.a}
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
-                </div>
-              );
-            })}
-          </div>
-        </div>
-      </section>
+      <ProjectFaqAccordion />
+      <FaqSection />
       
       <div className="w-full py-8 bg-slate-50">
         <FadeInSection>
@@ -227,25 +156,26 @@ export default function HomePage() {
       </div>
 
       {/* Persistent High-Contrast Edge-to-Edge CTA Bar */}
-      <div className="w-full bg-purple-950 border-t-2 border-slate-800 text-white py-12 px-6 sm:px-12 flex flex-col md:flex-row items-center justify-between gap-6 rounded-none select-none">
+      <div className="w-full bg-purple-950 border-t-2 border-slate-800 text-white py-14 px-6 sm:px-12 flex flex-col md:flex-row items-center justify-between gap-8 rounded-none select-none">
         <div className="flex flex-col text-center md:text-left">
-          <span className="text-xs font-bold uppercase tracking-widest text-purple-300 mb-1">Mulai Transformasi Digital</span>
-          <h3 className="text-2xl sm:text-3xl font-display font-black tracking-tight text-white" style={{ fontFamily: "'Coolvetica', sans-serif" }}>
-            Siap Mengakselerasi Bisnis Anda dengan Agentic AI &amp; Web Berkualitas Tinggi?
+          <span className="text-xs font-bold uppercase tracking-widest text-emerald-400 mb-2">SESI KONSULTASI EKSKLUSIF</span>
+          <h3 className="text-2xl sm:text-3xl md:text-4xl font-display font-black tracking-tight text-white mb-2" style={{ fontFamily: "'Coolvetica', sans-serif" }}>
+            Dominasi Pasar Digital Anda Mulai Hari Ini.
           </h3>
-          <p className="text-purple-200/80 text-sm mt-1 max-w-2xl font-sans">
-            Diskusikan kebutuhan arsitektur sistem dan otomasi bisnis Anda langsung dengan lead engineer kami di BSD City.
+          <p className="text-purple-200 text-sm sm:text-base max-w-2xl font-sans leading-relaxed">
+            Tinggalkan kompetitor Anda dengan arsitektur web premium dan operasional 24/7 bertenaga Agentic AI. Diskusikan arsitektur sistem korporasi Anda langsung dengan Lead Engineer kami.
           </p>
         </div>
         <a
-          href="https://wa.me/6282125447232?text=Halo%20CHESTAADOTCOM,%20saya%20tertarik%20untuk%20konsultasi%20proyek%20IT%20&%20AI%20Automation"
+          href="https://wa.me/6282125447232?text=Halo%20Mas%20Chesta,%20saya%20tertarik%20berdiskusi%20mengenai%20arsitektur%20Web%20Premium%20dan%20Agentic%20AI%20untuk%20bisnis%20saya."
           target="_blank"
           rel="noopener noreferrer"
-          className="px-8 py-4 bg-white text-slate-900 hover:bg-slate-100 font-sans font-bold text-sm sm:text-base rounded-none border-2 border-white transition-all shadow-[4px_4px_0_0_rgba(255,255,255,0.3)] shrink-0 flex items-center gap-2"
+          className="px-8 py-4 bg-white text-purple-950 hover:bg-purple-50 font-sans font-black text-sm sm:text-base rounded-none border-2 border-white transition-all shadow-[6px_6px_0_0_rgba(255,255,255,0.2)] shrink-0 flex items-center gap-3 transform hover:-translate-y-1"
         >
-          <span>Konsultasi WhatsApp Sekarang</span>
+          <span>Hubungi via WhatsApp</span>
         </a>
       </div>
+      <ExitIntentPopup />
     </div>
   );
 }

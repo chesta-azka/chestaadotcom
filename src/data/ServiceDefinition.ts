@@ -77,5 +77,12 @@ export const SERVICE_DEFINITIONS = [
     description: 'Interactive and user-centric design prototypes for flawless user experiences.',
     benefits: ['Data-driven design', 'Interactive mockups', 'User testing ready'],
     icon: Palette
+  },
+  {
+    slug: 'jasa-pembuatan-website-bsd-cisauk',
+    title: 'Jasa Pembuatan Website BSD & IT Cisauk',
+    description: 'Solusi IT Cisauk & Jasa Web BSD yang fokus mendominasi pasar lokal dengan SEO dan High-Performance Web.',
+    benefits: ['Local SEO Geo-Targeting', 'Kecepatan Muat < 0.8s', 'Lead Generation +45%'],
+    icon: Search
   }
 ];
