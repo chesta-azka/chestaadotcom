@@ -3,6 +3,7 @@ import { motion } from 'motion/react';
 import { ArrowUpRight, Cpu, Zap, Code2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import chestaPhoto from '../../assets/images/regenerated_image_1787838669318.png';
+import TechNodeMap from '../atoms/TechNodeMap';
 
 export default function AboutMeSection() {
   const avatarUrl = chestaPhoto;
@@ -99,6 +100,11 @@ export default function AboutMeSection() {
             </div>
             <p className="text-xs sm:text-sm text-slate-600 font-sans leading-relaxed">Tanpa template kaku. Setiap baris kode dirancang khusus untuk Anda.</p>
           </div>
+        </div>
+
+        {/* Interactive Tech Node Map */}
+        <div className="mt-12">
+          <TechNodeMap />
         </div>
 
       </div>

@@ -7,6 +7,7 @@ import { ArrowLeft, User, Calendar, Globe, ExternalLink, ArrowRight } from 'luci
 import { PROJECTS } from '../data/projects';
 import LazyImage from '../components/atoms/LazyImage';
 import CaseStudyLayout from '../components/CaseStudyLayout';
+import Breadcrumbs from '../components/atoms/Breadcrumbs';
 
 const staggerContainer = {
   hidden: { opacity: 0 },
@@ -72,9 +73,12 @@ export default function ProjectDetailPage() {
       >
         {/* Back Link */}
         <motion.div variants={fadeUpVariant} className="mb-10">
-          <Link to="/portfolio" className="inline-flex items-center gap-2 text-sm font-medium text-slate-500 hover:text-purple-700 transition-colors bg-slate-50 hover:bg-purple-50 px-5 py-2.5 rounded-xl border border-slate-200">
-            <ArrowLeft size={16} /> Back to Portfolio
-          </Link>
+          <Breadcrumbs 
+            items={[
+              { name: 'Portfolio', item: '/portfolio' },
+              { name: project.title, item: `/portfolio/${project.id}` }
+            ]} 
+          />
         </motion.div>
 
         {/* Header Section */}

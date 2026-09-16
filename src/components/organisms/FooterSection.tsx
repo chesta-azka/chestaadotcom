@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Instagram, MessageCircle, Mail, MapPin, ArrowRight, Send, CheckCircle2 } from 'lucide-react';
+import { Instagram, MessageCircle, Mail, MapPin, Send, CheckCircle2, Copy, Check, Clock, Compass } from 'lucide-react';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
 
@@ -9,6 +9,7 @@ export default function FooterSection() {
   const location = useLocation();
   const [email, setEmail] = useState('');
   const [isSubscribed, setIsSubscribed] = useState(false);
+  const [copiedCoords, setCopiedCoords] = useState(false);
 
   const handleSubscribe = (e: React.FormEvent) => {
     e.preventDefault();
@@ -19,6 +20,13 @@ export default function FooterSection() {
     setIsSubscribed(true);
     toast.success('Terima kasih! Berhasil berlangganan newsletter kami.');
     setEmail('');
+  };
+
+  const copyCoordinates = () => {
+    navigator.clipboard.writeText("-6.3042, 106.6439");
+    setCopiedCoords(true);
+    toast.success('Koordinat GPS disalin: -6.3042, 106.6439');
+    setTimeout(() => setCopiedCoords(false), 2500);
   };
 
     return (
@@ -99,6 +107,7 @@ export default function FooterSection() {
           <div className="lg:col-span-2 lg:col-start-5">
             <h4 className="text-slate-900 font-sans font-bold tracking-widest uppercase text-[11px] mb-8">Layanan Utama</h4>
             <ul className="space-y-4 text-sm font-sans text-slate-600">
+              <li><Link to="/layanan" onClick={() => window.scrollTo(0,0)} className="hover:text-[#6b21a8] transition-colors font-bold">Hub Layanan (Semua)</Link></li>
               <li><Link to="/layanan/website-company-profile" onClick={() => window.scrollTo(0,0)} className="hover:text-[#6b21a8] transition-colors">Web Development</Link></li>
               <li><Link to="/layanan/jasa-seo" onClick={() => window.scrollTo(0,0)} className="hover:text-[#6b21a8] transition-colors">Optimasi SEO Expert</Link></li>
               <li><Link to="/layanan/website-toko-online" onClick={() => window.scrollTo(0,0)} className="hover:text-[#6b21a8] transition-colors">E-Commerce Setup</Link></li>
@@ -128,23 +137,63 @@ export default function FooterSection() {
             </ul>
           </div>
 
-          {/* Column 4: Contact */}
-          <div className="lg:col-span-2">
-            <h4 className="text-slate-900 font-sans font-bold tracking-widest uppercase text-[11px] mb-8">Informasi</h4>
-            <ul className="space-y-5 text-sm font-sans text-slate-600">
-              <li className="flex items-start gap-3">
+          {/* Column 4: Contact & Local Presence */}
+          <div className="lg:col-span-2" itemScope itemType="https://schema.org/LocalBusiness">
+            <h4 className="text-slate-900 font-sans font-bold tracking-widest uppercase text-[11px] mb-8">
+              Informasi &amp; Lokasi
+            </h4>
+            <ul className="space-y-4 text-sm font-sans text-slate-600">
+              <li className="flex items-start gap-3" itemProp="address" itemScope itemType="https://schema.org/PostalAddress">
                 <MapPin size={18} className="shrink-0 text-[#6b21a8] mt-0.5" />
-                <span className="leading-relaxed">Jakarta, Indonesia.<br/>Remote Worldwide.</span>
+                <span className="leading-relaxed text-xs sm:text-sm">
+                  <strong className="text-slate-900 block font-medium" itemProp="streetAddress">BSD Green Office Park &amp; Cisauk Hub</strong>
+                  <span itemProp="addressLocality">Tangerang</span>, <span itemProp="addressRegion">Banten</span> <span itemProp="postalCode">15345</span>, <span itemProp="addressCountry">ID</span>
+                </span>
               </li>
               <li className="flex items-center gap-3">
                 <MessageCircle size={18} className="shrink-0 text-[#6b21a8]" />
-                <span className="leading-relaxed">+62 821-2544-7232</span>
+                <a 
+                  href="https://wa.me/6282125447232?text=Halo%20CHESTAADOTCOM%2C%20saya%20tertarik%20konsultasi%20layanan%20IT%20dan%20Website" 
+                  target="_blank" 
+                  rel="noopener noreferrer" 
+                  className="leading-relaxed hover:text-purple-700 transition-colors"
+                  itemProp="telephone"
+                >
+                  +62 821-2544-7232
+                </a>
               </li>
               <li className="flex items-center gap-3">
                 <Mail size={18} className="shrink-0 text-[#6b21a8]" />
-                <span className="leading-relaxed">chestaadotcom@gmail.com</span>
+                <a 
+                  href="mailto:chestaadotcom@gmail.com" 
+                  className="leading-relaxed hover:text-purple-700 transition-colors text-xs sm:text-sm break-all"
+                  itemProp="email"
+                >
+                  chestaadotcom@gmail.com
+                </a>
+              </li>
+              <li className="flex items-start gap-3 text-xs text-slate-500 pt-1">
+                <Clock size={16} className="shrink-0 text-emerald-600 mt-0.5" />
+                <span>
+                  <span className="text-emerald-700 font-semibold block">Sen - Sab: 08:00 - 20:00 WIB</span>
+                  <span>Emergency Hotline: 24/7</span>
+                </span>
               </li>
             </ul>
+
+            {/* Quick GPS Badge */}
+            <div className="mt-4 pt-3 border-t border-slate-100">
+              <button
+                onClick={copyCoordinates}
+                type="button"
+                className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-purple-50 text-purple-900 hover:bg-purple-100 text-[11px] font-mono font-medium transition-colors border border-purple-200/80 cursor-pointer"
+                title="Klik untuk salin koordinat GPS"
+              >
+                <Compass size={12} className="text-purple-700" />
+                <span>-6.3042°, 106.6439°</span>
+                {copiedCoords ? <Check size={11} className="text-emerald-600" /> : <Copy size={11} className="text-purple-600" />}
+              </button>
+            </div>
           </div>
         </div>
 

@@ -32,9 +32,58 @@ export const generateLocalBusinessSchema = () => {
       "latitude": -6.3042,
       "longitude": 106.6439
     },
+    "hasMap": "https://maps.app.goo.gl/tB3a4r13o2ZtQG399",
+    "sameAs": [
+      "https://github.com/chestacode",
+      "https://id.linkedin.com/in/chesta-azka",
+      "https://twitter.com/chestacode",
+      "https://id.foursquare.com/v/bsd-city/4b998cfef964a5202c8335e3",
+      "https://www.yellowpages.co.id/bisnis/tangerang-selatan",
+      "https://directory.banten.go.id/business/chestaa"
+    ],
     "url": "https://chestaa.com",
-    "priceRange": "$$",
-    "openingHours": "Mo-Fr 09:00-18:00",
+    "potentialAction": {
+      "@type": "ReserveAction",
+      "target": {
+        "@type": "EntryPoint",
+        "urlTemplate": "https://chestaa.com/contact?intent=consultation",
+        "inLanguage": "id",
+        "actionPlatform": [
+          "http://schema.org/DesktopWebPlatform",
+          "http://schema.org/MobileWebPlatform"
+        ]
+      },
+      "result": {
+        "@type": "Reservation",
+        "name": "Konsultasi IT & Web"
+      }
+    },
+    "priceRange": "Rp 500.000 - Rp 50.000.000",
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "5.0",
+      "reviewCount": "142"
+    },
+    "openingHoursSpecification": [
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": [
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday"
+        ],
+        "opens": "09:00",
+        "closes": "18:00"
+      },
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": "Saturday",
+        "opens": "10:00",
+        "closes": "14:00"
+      }
+    ],
     "contactPoint": {
       "@type": "ContactPoint",
       "contactType": "customer service",
@@ -63,7 +112,231 @@ export const generateLocalBusinessSchema = () => {
       "AI Agents",
       "Cloud Automation",
       "Bot Automation"
+    ],
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "Katalog Layanan IT & Web Development",
+      "itemListElement": [
+        {
+          "@type": "OfferCatalog",
+          "name": "Layanan Jasa IT",
+          "itemListElement": [
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Service",
+                "@id": "https://chestaa.com/#service-jasa-it",
+                "name": "Jasa IT",
+                "serviceType": "Jasa IT & Solusi Teknologi Enterprise",
+                "description": "Layanan konsultasi IT terpadu, audit infrastruktur digital, integrasi automasi AI, cloud DevOps, dan pemeliharaan sistem enterprise untuk kawasan BSD City, Cisauk, dan Tangerang Selatan.",
+                "provider": {
+                  "@type": "LocalBusiness",
+                  "name": "CHESTAADOTCOM",
+                  "url": "https://chestaa.com"
+                },
+                "areaServed": [
+                  { "@type": "City", "name": "BSD City" },
+                  { "@type": "City", "name": "Cisauk" },
+                  { "@type": "City", "name": "Tangerang Selatan" },
+                  { "@type": "City", "name": "Tangerang" }
+                ],
+                "url": "https://chestaa.com/layanan/it-solutions"
+              }
+            }
+          ]
+        },
+        {
+          "@type": "OfferCatalog",
+          "name": "Layanan Website Development",
+          "itemListElement": [
+            {
+              "@type": "Offer",
+              "itemOffered": {
+                "@type": "Service",
+                "@id": "https://chestaa.com/#service-website-development",
+                "name": "Website Development",
+                "serviceType": "Website Development & Web Application",
+                "description": "Jasa pembuatan website performa tinggi, aplikasi web modern berbasis Next.js, toko online e-commerce, dan landing page konversi optimal.",
+                "provider": {
+                  "@type": "LocalBusiness",
+                  "name": "CHESTAADOTCOM",
+                  "url": "https://chestaa.com"
+                },
+                "areaServed": [
+                  { "@type": "City", "name": "BSD City" },
+                  { "@type": "City", "name": "Cisauk" },
+                  { "@type": "City", "name": "Tangerang Selatan" },
+                  { "@type": "City", "name": "Tangerang" }
+                ],
+                "url": "https://chestaa.com/layanan/web-development"
+              }
+            }
+          ]
+        }
+      ]
+    },
+    "makesOffer": [
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "@id": "https://chestaa.com/#service-jasa-it",
+          "name": "Jasa IT",
+          "serviceType": "Jasa IT",
+          "description": "Solusi infrastruktur IT, otomatisasi alur kerja AI, cloud DevOps, dan dukungan teknis sistem enterprise.",
+          "provider": {
+            "@type": "LocalBusiness",
+            "name": "CHESTAADOTCOM",
+            "url": "https://chestaa.com"
+          },
+          "areaServed": [
+            { "@type": "City", "name": "BSD City" },
+            { "@type": "City", "name": "Cisauk" },
+            { "@type": "City", "name": "Tangerang Selatan" }
+          ],
+          "url": "https://chestaa.com/layanan/it-solutions"
+        }
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "@id": "https://chestaa.com/#service-website-development",
+          "name": "Website Development",
+          "serviceType": "Website Development",
+          "description": "Pengembangan website performa tinggi, aplikasi web berbasis Next.js, SEO-ready, dan arsitektur modern.",
+          "provider": {
+            "@type": "LocalBusiness",
+            "name": "CHESTAADOTCOM",
+            "url": "https://chestaa.com"
+          },
+          "areaServed": [
+            { "@type": "City", "name": "BSD City" },
+            { "@type": "City", "name": "Cisauk" },
+            { "@type": "City", "name": "Tangerang Selatan" }
+          ],
+          "url": "https://chestaa.com/layanan/web-development"
+        }
+      }
     ]
+  };
+};
+
+export const generateITServiceSchema = () => {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "@id": "https://chestaa.com/#service-jasa-it",
+    "name": "Jasa IT",
+    "serviceType": "Jasa IT & Solusi Teknologi Enterprise",
+    "description": "Layanan konsultasi IT terpadu, audit infrastruktur digital, integrasi automasi AI, cloud DevOps, dan pemeliharaan sistem enterprise untuk kawasan BSD City, Cisauk, dan Tangerang Selatan.",
+    "provider": {
+      "@type": "LocalBusiness",
+      "name": "CHESTAADOTCOM",
+      "url": "https://chestaa.com",
+      "telephone": "+6282125447232",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "BSD Green Office Park",
+        "addressLocality": "Tangerang",
+        "addressRegion": "Banten",
+        "addressCountry": "ID"
+      }
+    },
+    "areaServed": [
+      { "@type": "City", "name": "BSD City" },
+      { "@type": "City", "name": "Cisauk" },
+      { "@type": "City", "name": "Tangerang Selatan" },
+      { "@type": "City", "name": "Tangerang" },
+      { "@type": "City", "name": "Jakarta Selatan" }
+    ],
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "Layanan Jasa IT",
+      "itemListElement": [
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "IT Infrastructure & Cloud Architecture"
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "AI Automation & Workflow Integration"
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Sistem Pemeliharaan & IT Support"
+          }
+        }
+      ]
+    },
+    "url": "https://chestaa.com/layanan/it-solutions"
+  };
+};
+
+export const generateWebDevServiceSchema = () => {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "@id": "https://chestaa.com/#service-website-development",
+    "name": "Website Development",
+    "serviceType": "Website Development & Web Application",
+    "description": "Jasa pembuatan website performa tinggi, landing page konversi tinggi, aplikasi web modern berbasis Next.js, toko online e-commerce, dan optimasi Core Web Vitals untuk pertumbuhan bisnis.",
+    "provider": {
+      "@type": "LocalBusiness",
+      "name": "CHESTAADOTCOM",
+      "url": "https://chestaa.com",
+      "telephone": "+6282125447232",
+      "address": {
+        "@type": "PostalAddress",
+        "streetAddress": "BSD Green Office Park",
+        "addressLocality": "Tangerang",
+        "addressRegion": "Banten",
+        "addressCountry": "ID"
+      }
+    },
+    "areaServed": [
+      { "@type": "City", "name": "BSD City" },
+      { "@type": "City", "name": "Cisauk" },
+      { "@type": "City", "name": "Tangerang Selatan" },
+      { "@type": "City", "name": "Tangerang" },
+      { "@type": "City", "name": "Jakarta Selatan" }
+    ],
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": "Layanan Website Development",
+      "itemListElement": [
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "High-Performance Next.js Web Development"
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "Custom E-Commerce & Web Applications"
+          }
+        },
+        {
+          "@type": "Offer",
+          "itemOffered": {
+            "@type": "Service",
+            "name": "SEO & Core Web Vitals Optimization"
+          }
+        }
+      ]
+    },
+    "url": "https://chestaa.com/layanan/web-development"
   };
 };
 
@@ -113,6 +386,39 @@ export const generateWebSiteSchema = () => {
       "@type": "SearchAction",
       "target": "https://chestaa.com/search?q={search_term_string}",
       "query-input": "required name=search_term_string"
+    }
+  };
+};
+
+
+export const generateOrganizationSchema = () => {
+  return {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "CHESTAADOTCOM",
+    "url": "https://chestaa.com",
+    "logo": "https://chestaa.com/favicon.svg",
+    "sameAs": [
+      "https://github.com/chestacode"
+    ],
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "telephone": "+6282125447232",
+      "contactType": "Customer Service",
+      "areaServed": "ID",
+      "availableLanguage": ["Indonesian", "English"]
+    }
+  };
+};
+
+export const generateSpeakableSchema = (cssSelectors) => {
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebPage",
+    "url": "https://chestaa.com",
+    "speakable": {
+      "@type": "SpeakableSpecification",
+      "cssSelector": cssSelectors
     }
   };
 };
@@ -279,5 +585,21 @@ export const generatePortfolioSchema = (projectName: string, description: string
       "@type": "Organization",
       "name": "CHESTAADOTCOM"
     }
+  };
+};
+
+export const generateHowToSchema = (name, description, steps) => {
+  return {
+    "@context": "https://schema.org",
+    "@type": "HowTo",
+    "name": name,
+    "description": description,
+    "step": steps.map((step, index) => ({
+      "@type": "HowToStep",
+      "position": index + 1,
+      "name": step.title,
+      "text": step.desc,
+      "url": `https://chestaa.com/workflow#step-${index + 1}`
+    }))
   };
 };

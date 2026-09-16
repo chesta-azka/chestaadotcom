@@ -206,22 +206,51 @@ export function FeaturedCaseStudies() {
     );
   }
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.15
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { opacity: 0, y: 30, scale: 0.95 },
+    visible: { 
+      opacity: 1, 
+      y: 0, 
+      scale: 1,
+      transition: {
+        type: "spring",
+        stiffness: 100,
+        damping: 15
+      }
+    }
+  } as any;
+
   return (
     <div className="w-full max-w-5xl mx-auto my-6 px-4" style={{ perspective: 1500 }}>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
-        <AnimatePresence>
+      <motion.div 
+        className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8"
+        variants={containerVariants}
+        initial="hidden"
+        whileInView="visible"
+        viewport={{ once: true, margin: "-100px" }}
+      >
+        <AnimatePresence mode="popLayout">
           {displayed.map((study) => (
             <motion.div
               key={study.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 }}
+              variants={itemVariants}
+              layout
             >
               <CaseCard study={study} />
             </motion.div>
           ))}
         </AnimatePresence>
-      </div>
+      </motion.div>
 
       {displayed.length < caseStudyDB.length && (
         <div ref={ref} className="w-full flex justify-center mt-8 pb-4">

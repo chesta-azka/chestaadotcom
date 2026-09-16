@@ -69,7 +69,6 @@ export default function PortfolioPage() {
         <div className="absolute inset-0 bg-purple-50/50 rounded-full blur-[120px] pointer-events-none -z-10 mix-blend-multiply" />
         
         <div className="mx-auto max-w-7xl px-6 w-full relative z-10">
-          <Breadcrumbs items={[{ label: 'Portfolio' }]} />
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-end mt-8">
             <div className="lg:col-span-8">
               <SectionHeader 

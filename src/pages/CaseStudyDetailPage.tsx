@@ -13,6 +13,8 @@ import ArtPlaceholder from '../components/atoms/ArtPlaceholder';
 import ProjectTimeline from '../components/organisms/ProjectTimeline';
 import ROITrendChart from '../components/organisms/ROITrendChart';
 import RelatedCaseStudiesSlider from '../components/organisms/RelatedCaseStudiesSlider';
+import RelatedInternalLinks from '../components/organisms/RelatedInternalLinks';
+import Breadcrumbs from '../components/atoms/Breadcrumbs';
 
 function TechStackBadges() {
   const stack = ['Next.js 15 App Router', 'React Server Components', 'TypeScript', 'Tailwind CSS v4', 'Google Gemini AI', 'PostgreSQL / Cloud SQL', 'Docker & Cloud Run'];
@@ -467,6 +469,7 @@ export default function CaseStudyDetailPage() {
           <SocialShare title={study.title} description={study.desc} />
         </div>
 
+        <RelatedInternalLinks currentPath={`/case-studies/${study.slug}`} tags={study.tags || []} />
         <RelatedCaseStudiesSlider relatedStudies={relatedStudies} />
       </div>
     </main>

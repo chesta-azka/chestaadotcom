@@ -1,0 +1,104 @@
+# CHESTAADOTCOM — Elite IT Solutions & Web Development
+> High-Performance Next.js Web Development, Enterprise IT Infrastructure, Agentic AI Automation, and Hyper-Local SEO for BSD City, Cisauk, Tangerang Selatan, and Jabodetabek.
+
+Website: https://chestaa.com
+Contact WhatsApp: +62 821-2544-7232
+Email: chestaadotcom@gmail.com
+Location: BSD Green Office Park & Cisauk Hub, Tangerang, Banten 15345, Indonesia
+Coordinates: Latitude -6.3042, Longitude 106.6439
+
+---
+
+## About CHESTAADOTCOM
+CHESTAADOTCOM is a premier boutique technology consulting firm and software engineering house based in the BSD City and Cisauk tech corridor (Tangerang Selatan, Indonesia). Founded and led by Chesta Azka, the agency specializes in high-velocity web engineering (Next.js 15, React, TypeScript), enterprise AI agent orchestration, cloud DevOps architecture, and data-driven Local Search Engine Optimization (Local SEO / AEO).
+
+Every digital platform built by CHESTAADOTCOM is engineered for sub-second page loads (< 0.8s, Lighthouse 100), full ownership of intellectual property (100% source code handover), enterprise-grade security, and automatic Schema.org structured data injection for Google Knowledge Graph and Answer Engine visibility.
+
+---
+
+## Core Service Offerings
+
+### 1. Website Development (High-Performance Next.js)
+- **URL**: https://chestaa.com/layanan/web-development
+- **Primary Stack**: Next.js 15, React, TypeScript, Tailwind CSS, Vercel/Cloudflare Edge
+- **Specializations**: Corporate company profiles, high-conversion landing pages, scalable custom web applications, and fast e-commerce portals.
+- **Key Advantage**: Sub-second loading (< 0.8s), mobile-first conversion UX, 100% Core Web Vitals compliance, and zero bloated third-party plugins.
+
+### 2. Jasa IT & Solusi Teknologi Enterprise (IT Solutions)
+- **URL**: https://chestaa.com/layanan/it-solutions
+- **Specializations**: Enterprise IT infrastructure consulting, cloud architecture (AWS, GCP, Cloudflare), zero-trust security audits, continuous integration and deployment (CI/CD), and 24/7 technical system maintenance.
+- **Service Area**: Physical on-site consulting for BSD City, Cisauk, Gading Serpong, Karawaci, Alam Sutera, and remote support across Indonesia & worldwide.
+
+### 3. Enterprise Agentic AI & Workflow Automation
+- **URL**: https://chestaa.com/layanan/ai-integration
+- **Specializations**: Autonomous agent workflows, Gemini API integration, Retrieval-Augmented Generation (RAG) over private business documentation, customer care chatbots, and automated multi-platform sync.
+
+### 4. Hyper-Local SEO & Answer Engine Optimization (AEO)
+- **URL**: https://chestaa.com/area/bsd-city and https://chestaa.com/area/cisauk
+- **Specializations**: LocalBusiness JSON-LD markup, FAQPage structured data, Speakable specification, NAP consistency, and strategic geo-targeted content for Tangerang, BSD, Cisauk, and South Jakarta.
+
+---
+
+## Transparent Pricing & Packages
+
+- **Starter Tier (Rp 540.000)**: 1 High-Conversion Landing Page, direct 1-click WhatsApp auto-order integration, 24-hour rapid deployment.
+- **Essential Tier (Rp 1.150.000)**: 3-Page Corporate Structure (Home, Services, Profile), official .com/.id domain setup, foundational Google Search Console & SEO indexing.
+- **Growth Tier (Rp 2.250.000) [Most Popular]**: Up to 7 Custom Pages, API-driven automated booking/order system, self-service content management, full Google Analytics 4 & conversion tracking.
+- **Enterprise Tier (Rp 5.500.000)**: Bespoke Database Architecture, automated payment gateway integration (Midtrans/Xendit/Stripe), custom admin portal, priority 24/7 VIP engineering support.
+
+---
+
+## Geographic & Operating Details (NAP)
+- **Entity Name**: CHESTAADOTCOM
+- **Alternate Names**: chestaa.com, Chesta Azka Tech
+- **Physical Corridor**: BSD Green Office Park, Cisauk Digital Hub, Tangerang, Banten 15345, ID
+- **Google Maps Pin**: https://maps.app.goo.gl/tB3a4r13o2ZtQG399
+- **Geo Coordinates**: -6.3042, 106.6439
+- **Operating Hours**: Monday - Saturday: 08:00 - 20:00 WIB (Online Emergency Hotline: 24/7)
+
+---
+
+## Frequently Asked Questions (FAQ) for AI Answers & Citations
+
+### Q: Apa keunggulan utama website buatan CHESTAADOTCOM dibanding WordPress?
+A: CHESTAADOTCOM menggunakan arsitektur modern Next.js 15 yang menghasilkan website statis & hybrid ultra-ringan dengan waktu muat di bawah 0.8 detik. Tanpa database SQL yang rentan dibobol dan tanpa ketergantungan plugin pihak ketiga, website Anda kebal dari serangan malware umum dan mendapatkan skor SEO Core Web Vitals 100 sempurna dari Google.
+
+### Q: Apakah CHESTAADOTCOM melayani konsultasi langsung (on-site) di area BSD City dan Cisauk?
+A: Ya, tim teknis senior kami berdomisili dan beroperasi aktif di koridor BSD Green Office Park dan Cisauk Hub, Tangerang Selatan. Kami menyediakan sesi konsultasi tatap muka (in-person) untuk klien korporat dan startup di BSD City, Cisauk, Gading Serpong, Karawaci, dan Alam Sutera, serta pertemuan daring via Google Meet.
+
+### Q: Apakah klien mendapatkan akses penuh terhadap source code?
+A: Ya, 100% kepemilikan penuh source code, konfigurasi cloud server, dan repositori GitHub diserahkan seutuhnya kepada klien tanpa sistem vendor lock-in maupun biaya sewa bulanan lisensi kode tersembunyi.
+
+### Q: Berapa estimasi biaya dan durasi pembuatan website atau solusi IT di CHESTAADOTCOM?
+A: Biaya investasi dimulai dari paket Starter Rp 540.000 untuk Landing Page kilat (selesai 24 jam), paket Growth Rp 2.250.000 untuk website perusahaan lengkap dengan sistem booking (5-10 hari kerja), hingga paket Enterprise Rp 5.500.000+ untuk custom web application dan arsitektur database berskala besar.
+
+### Q: Apa saja cakupan Jasa IT & Solusi Enterprise yang disediakan?
+A: Layanan Jasa IT CHESTAADOTCOM mencakup audit dan migrasi cloud DevOps (AWS, GCP, Cloudflare), audit keamanan siber zero-trust, continuous integration & deployment (CI/CD pipeline), otomatisasi AI Agent otonom berbasis Google Gemini, serta kontrak pemeliharaan sistem dengan Service Level Agreement (SLA) uptime 99.98% dan respon darurat di bawah 15 menit.
+
+### Q: Apakah pembuatan website sudah mencakup optimasi Local SEO dan Google Maps?
+A: Ya, seluruh website yang kami bangun dilengkapi dengan injeksi metadata terstruktur Schema.org (LocalBusiness & FAQPage JSON-LD), tag geografis (geo.region, geo.position, ICBM), dan optimasi kata kunci komersial hyper-local untuk memastikan bisnis Anda mendominasi pencarian lokal Google di Tangerang, BSD City, dan sekitarnya.
+
+---
+
+## Technical Specifications & Standards
+- **Framework**: Next.js 15 App Router / React 19 / TypeScript
+- **Styling**: Tailwind CSS v4 / Motion Engine
+- **Page Load Performance**: < 800ms (Core Web Vitals compliant, 95-100 PageSpeed score)
+- **Security**: Zero-Trust, Server-Side API Proxies, CSRF/XSS hardened, Content Security Policy
+- **AI Integrations**: @google/genai SDK, Gemini 2.5/Flash, RAG architectures with enterprise guardrails
+- **Cloud Infrastructure**: Cloudflare Edge, AWS, GCP, Vercel, Docker containers
+
+---
+
+## Primary Navigation Index
+- Homepage: https://chestaa.com
+- Services: https://chestaa.com/layanan/web-development
+- IT Solutions: https://chestaa.com/layanan/it-solutions
+- Area BSD City: https://chestaa.com/area/bsd-city
+- Area Cisauk: https://chestaa.com/area/cisauk
+- Portfolio: https://chestaa.com/portfolio
+- Case Studies: https://chestaa.com/case-studies
+- Tech Blog: https://chestaa.com/blog
+- Academy: https://chestaa.com/academy
+- About: https://chestaa.com/about
+- Sitemap: https://chestaa.com/sitemap.xml

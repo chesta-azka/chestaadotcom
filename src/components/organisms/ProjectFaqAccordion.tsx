@@ -32,8 +32,25 @@ export default function ProjectFaqAccordion() {
     setOpenIndex(openIndex === index ? null : index);
   };
 
+  const schemaMarkup = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    'mainEntity': faqData.map(faq => ({
+      '@type': 'Question',
+      'name': faq.question,
+      'acceptedAnswer': {
+        '@type': 'Answer',
+        'text': faq.answer
+      }
+    }))
+  };
+
   return (
     <section className="py-16 sm:py-24 bg-slate-50 relative border-t border-slate-200" id="project-faq">
+      <script 
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaMarkup) }}
+      />
       <div className="max-w-4xl mx-auto px-4 sm:px-6 relative z-10">
         <div className="text-center mb-12 sm:mb-16">
           <div className="w-12 h-12 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-4 text-purple-600">

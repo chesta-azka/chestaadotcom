@@ -104,7 +104,11 @@ export default function FaqSection() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaMarkup) }}
       />
 
-      <div className="mx-auto max-w-4xl px-3 sm:px-6 relative z-10 w-full">
+      <div 
+        className="mx-auto max-w-4xl px-3 sm:px-6 relative z-10 w-full"
+        itemScope
+        itemType="https://schema.org/FAQPage"
+      >
         <motion.div 
           variants={{ hidden: { opacity: 0, scale: 0.95, y: 30 }, visible: { opacity: 1, scale: 1, y: 0, transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] } } }} 
           className="mb-8 sm:mb-14 text-center"
@@ -126,6 +130,9 @@ export default function FaqSection() {
               <motion.div 
                 key={faq.id}
                 id={faq.id}
+                itemScope
+                itemProp="mainEntity"
+                itemType="https://schema.org/Question"
                 variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.6 } } }}
                 transition={{ duration: 0.6, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
                 className={`border border-slate-200 rounded-none overflow-hidden transition-all duration-300 ${
@@ -138,7 +145,10 @@ export default function FaqSection() {
                   onClick={() => toggleFaq(i)}
                   className="flex flex-wrap sm:flex-nowrap w-full items-center justify-between py-4 sm:py-5 md:py-6 px-4 sm:px-6 md:px-8 text-left cursor-pointer group gap-3"
                 >
-                  <span className={`text-base sm:text-lg font-display font-black transition-colors flex-1 ${isOpen ? 'text-purple-800 font-black' : 'text-slate-900 group-hover:text-purple-600'}`}>
+                  <span 
+                    itemProp="name"
+                    className={`text-base sm:text-lg font-display font-black transition-colors flex-1 ${isOpen ? 'text-purple-800 font-black' : 'text-slate-900 group-hover:text-purple-600'}`}
+                  >
                     {faq.q}
                   </span>
                   
@@ -185,8 +195,14 @@ export default function FaqSection() {
                       exit={{ height: 0, opacity: 0 }}
                       transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
                       className="overflow-hidden"
+                      itemScope
+                      itemProp="acceptedAnswer"
+                      itemType="https://schema.org/Answer"
                     >
-                      <div className="px-4 sm:px-6 md:px-8 pb-5 sm:pb-7 text-slate-600 leading-relaxed font-sans text-xs sm:text-sm md:text-[15px] pt-1 border-t border-slate-100">
+                      <div 
+                        itemProp="text"
+                        className="px-4 sm:px-6 md:px-8 pb-5 sm:pb-7 text-slate-600 leading-relaxed font-sans text-xs sm:text-sm md:text-[15px] pt-1 border-t border-slate-100"
+                      >
                         {faq.a}
                       </div>
                     </motion.div>

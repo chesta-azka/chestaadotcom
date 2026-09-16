@@ -114,7 +114,8 @@ export default function ServiceDetailPage() {
     'faq'
   ]);
 
-  const service: ServiceDetailData | undefined = slug ? SERVICES_DATA[slug] : undefined;
+  const normalizedSlug = slug ? slug.toLowerCase().replace(/\/+$/, '') : '';
+  const service: ServiceDetailData | undefined = normalizedSlug ? SERVICES_DATA[normalizedSlug] : undefined;
 
   useSEOOptimizer({
     title: service ? `${service.title} | Jasa IT BSD City & Solusi Web Cisauk` : 'Layanan IT BSD City & Cisauk | CHESTAADOTCOM',
@@ -269,20 +270,8 @@ export default function ServiceDetailPage() {
 
       <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Breadcrumb */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-12">
-          <motion.nav 
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4 }}
-            className="flex items-center gap-2 text-xs font-mono text-slate-500"
-          >
-            <Link to="/" className="hover:text-slate-900 transition-colors">Beranda</Link>
-            <ChevronRight size={14} className="text-slate-400" />
-            <span className="text-slate-400">Layanan</span>
-            <ChevronRight size={14} className="text-slate-400" />
-            <span className="text-slate-900 font-semibold">{service.title}</span>
-          </motion.nav>
+        {/* Top Header Actions */}
+        <div className="flex justify-end mb-8">
           <SocialShare title={service.title} description={service.heroDescription} />
         </div>
 

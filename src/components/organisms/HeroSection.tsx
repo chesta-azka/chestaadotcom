@@ -4,14 +4,15 @@ import { motion, useScroll, useTransform, useMotionValue, useSpring, Variants } 
 import { 
   ArrowRight, 
   MessageCircle, 
-  BriefcaseBusiness, 
-  Sparkles
+  BriefcaseBusiness
 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import toast from 'react-hot-toast';
+import { useGeoIntentManager } from '../../hooks/useGeoIntentManager';
 
 export default function HeroSection() {
   const sectionRef = useRef<HTMLElement>(null);
+  const geoIntent = useGeoIntentManager();
   const ctaRef = useRef<HTMLAnchorElement>(null);
   const x = useMotionValue(0);
   const y = useMotionValue(0);
@@ -20,6 +21,10 @@ export default function HeroSection() {
     target: sectionRef,
     offset: ["start start", "end start"]
   });
+
+  const textY = useTransform(scrollYProgress, [0, 1], [0, 120]);
+  const ctaYParallax = useTransform(scrollYProgress, [0, 1], [0, 80]);
+  const opacityScroll = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
 
   const lightSweepX = useTransform(scrollYProgress, [0, 1], ["-20%", "120%"]);
   const bgOpacity = useTransform(scrollYProgress, [0, 0.5, 1], [0.5, 0.9, 0.3]);
@@ -117,7 +122,7 @@ export default function HeroSection() {
             <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500"></span>
           </span>
           <span className="text-[12px] font-sans font-semibold text-slate-700">
-            CHESTAADOTCOM • BSD City &amp; Tangerang
+            CHESTAADOTCOM • {geoIntent.isCustomized ? geoIntent.location : 'BSD City & Tangerang'}
           </span>
         </motion.div>
 
@@ -125,9 +130,10 @@ export default function HeroSection() {
         <motion.h1 
           id="hero-headline"
           variants={fadeInUpVariants}
+          style={{ y: textY, opacity: opacityScroll }}
           className="text-3xl sm:text-5xl md:text-6xl lg:text-[4rem] font-display font-black tracking-tight leading-[1.15] text-slate-900 max-w-4xl text-balance"
         >
-          Eskalasi Bisnis Tanpa Batas Melalui <br className="hidden sm:block" />
+          Eskalasi Bisnis {geoIntent.isCustomized ? `di ${geoIntent.location}` : 'Tanpa Batas'} Melalui <br className="hidden sm:block" />
           <span className="text-purple-700">
             Website Premium & Agentic AI.
           </span>
@@ -137,6 +143,7 @@ export default function HeroSection() {
         <motion.p 
           id="hero-description"
           variants={fadeInUpVariants}
+          style={{ y: textY, opacity: opacityScroll }}
           className="mt-6 text-base sm:text-lg md:text-xl text-slate-600 font-sans max-w-2xl sm:max-w-3xl leading-relaxed text-balance"
         >
           Studio{' '}
@@ -164,6 +171,7 @@ export default function HeroSection() {
         <motion.div
           id="hero-cta-group"
           variants={fadeInUpVariants}
+          style={{ y: ctaYParallax, opacity: opacityScroll }}
           className="mt-10 flex flex-col items-center justify-center gap-5 w-full"
         >
           <div className="flex flex-col sm:flex-row items-center justify-center gap-3 sm:gap-4 w-full max-w-md sm:max-w-none">
@@ -200,51 +208,6 @@ export default function HeroSection() {
               <ArrowRight size={15} className="text-slate-400 group-hover:translate-x-1 transition-all" />
             </Link>
           </div>
-
-          {/* Quick Helper Links */}
-          <div className="flex flex-wrap items-center justify-center gap-3 sm:gap-5 text-xs text-slate-600 mt-2">
-            <span className="flex items-center gap-1.5 text-emerald-700 font-medium">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-              Respon Cepat &lt; 15 Menit
-            </span>
-            <span className="hidden sm:inline text-slate-300">•</span>
-            <button
-              onClick={() => window.dispatchEvent(new CustomEvent('open-floating-ai'))}
-              className="inline-flex items-center gap-1 text-purple-700 hover:text-purple-900 font-semibold hover:underline cursor-pointer"
-            >
-              <Sparkles size={12} />
-              <span>Tanya Estimasi Budget via AI</span>
-            </button>
-          </div>
-        </motion.div>
-
-        {/* Minimalist Trust & Track Record Bar */}
-        <motion.div 
-          variants={{
-            hidden: { opacity: 0 },
-            visible: { opacity: 1, transition: { staggerChildren: 0.05, delayChildren: 0.4 } }
-          }}
-          className="mt-14 pt-8 border-t border-slate-100 flex flex-wrap items-center justify-center gap-6 sm:gap-12 text-slate-600 text-xs font-mono"
-        >
-          <motion.div variants={{ hidden: { opacity: 0, y: 10 }, visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } } }} className="flex items-center gap-2">
-            <span className="font-bold text-slate-900 text-sm">50+</span>
-            <span>Proyek Sukses</span>
-          </motion.div>
-          <motion.span variants={{ hidden: { opacity: 0 }, visible: { opacity: 1 } }} className="hidden sm:inline text-slate-300">•</motion.span>
-          <motion.div variants={{ hidden: { opacity: 0, y: 10 }, visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } } }} className="flex items-center gap-2">
-            <span className="font-bold text-slate-900 text-sm">99.98%</span>
-            <span>Cloud Uptime</span>
-          </motion.div>
-          <motion.span variants={{ hidden: { opacity: 0 }, visible: { opacity: 1 } }} className="hidden sm:inline text-slate-300">•</motion.span>
-          <motion.div variants={{ hidden: { opacity: 0, y: 10 }, visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } } }} className="flex items-center gap-2">
-            <span className="font-bold text-slate-900 text-sm">100%</span>
-            <span>Source Code Klien</span>
-          </motion.div>
-          <motion.span variants={{ hidden: { opacity: 0 }, visible: { opacity: 1 } }} className="hidden sm:inline text-slate-300">•</motion.span>
-          <motion.div variants={{ hidden: { opacity: 0, y: 10 }, visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } } }} className="flex items-center gap-2">
-            <span className="font-bold text-slate-900 text-sm">30 Hari</span>
-            <span>Garansi Perawatan</span>
-          </motion.div>
         </motion.div>
 
       </motion.div>

@@ -41,6 +41,7 @@ import NotFoundPage from './pages/NotFoundPage.tsx';
 import CaseStudiesPage from './pages/CaseStudiesPage.tsx';
 import CaseStudyDetailPage from './pages/CaseStudyDetailPage.tsx';
 import ServiceDetailPage from './pages/ServiceDetailPage.tsx';
+import ServicesHubPage from './pages/ServicesHubPage.tsx';
 
 import KeyboardShortcutsModal from './components/organisms/KeyboardShortcutsModal.tsx';
 
@@ -61,16 +62,27 @@ function ScrollToTop() {
 }
 
 import SEOMetadata from './components/atoms/SEOMetadata';
+import PremiumTransition from './components/atoms/PremiumTransition';
+import BreadcrumbNavigation from './components/atoms/BreadcrumbNavigation';
+import GeoContextManager from './components/atoms/GeoContextManager';
+
+import ScrollToTopButton from './components/atoms/ScrollToTop.tsx';
 
 // Inner component to use location for AnimatePresence
 function AppContent({ appLoaded }: { appLoaded: boolean }) {
   const location = useLocation();
+  const { scrollYProgress } = useScroll();
   useVisitorTracker();
   useClickTracker();
   
   return (
     <div className="relative z-10 w-full max-w-7xl mx-auto flex flex-col">
+      <motion.div
+        className="fixed top-0 left-0 right-0 h-[3px] bg-purple-600 origin-left z-[100]"
+        style={{ scaleX: scrollYProgress }}
+      />
       <LoadingScreen onComplete={() => {}} />
+      <GeoContextManager />
       
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -84,6 +96,10 @@ function AppContent({ appLoaded }: { appLoaded: boolean }) {
           <Routes location={location} >
             <Route path="/" element={<PageWrapper><HomePage /></PageWrapper>} />
             <Route path="/blog" element={<PageWrapper><BlogHubPage /></PageWrapper>} />
+            <Route path="/blog/category/:categorySlug" element={<PageWrapper><BlogHubPage /></PageWrapper>} />
+            <Route path="/blog/topic/:topicSlug" element={<PageWrapper><BlogHubPage /></PageWrapper>} />
+            <Route path="/blog/topic/:topicSlug/:subTopicSlug" element={<PageWrapper><BlogHubPage /></PageWrapper>} />
+            <Route path="/blog/:categorySlug/:geoSlug" element={<PageWrapper><BlogHubPage /></PageWrapper>} />
             <Route path="/blog/:slug" element={<PageWrapper><BlogPostPage /></PageWrapper>} />
             <Route path="/portfolio" element={<PageWrapper><PortfolioPage /></PageWrapper>} />
             <Route path="/portfolio/:id" element={<PageWrapper><ProjectDetailPage /></PageWrapper>} />
@@ -102,12 +118,14 @@ function AppContent({ appLoaded }: { appLoaded: boolean }) {
             
             <Route path="/case-studies" element={<PageWrapper><CaseStudiesPage /></PageWrapper>} />
             <Route path="/case-studies/:slug" element={<PageWrapper><CaseStudyDetailPage /></PageWrapper>} />
+            <Route path="/layanan" element={<PageWrapper><ServicesHubPage /></PageWrapper>} />
             <Route path="/layanan/:slug" element={<PageWrapper><ServiceDetailPage /></PageWrapper>} />
             <Route path="*" element={<PageWrapper><NotFoundPage /></PageWrapper>} />
           </Routes>
         </AnimatePresence>
         
         {!/^\/academy\/.+/.test(location.pathname) ? <FooterSection /> : null}
+        <ScrollToTopButton />
       </motion.div>
       <FloatingAIAssistant isLoaded={appLoaded} />
     </div>
@@ -157,28 +175,20 @@ function PageWrapper({ children }: { children: React.ReactNode }) {
         className="flex flex-col flex-1"
       >
         <motion.div variants={itemVariants} className="flex flex-col flex-1">
+          {location.pathname !== '/' && (
+            <div className="max-w-7xl mx-auto px-6 w-full pt-8">
+              <BreadcrumbNavigation />
+            </div>
+          )}
           {children}
         </motion.div>
       </motion.div>
 
-      {/* Wipe Animations */}
-      <motion.div
-        className="fixed top-0 left-0 w-full h-full bg-white z-50 origin-bottom pointer-events-none"
-        initial={{ scaleY: 1 }}
-        animate={{ scaleY: 0 }}
-        exit={{ scaleY: 1 }}
-        transition={{ duration: 0.5 }}
-      />
-      <motion.div
-        className="fixed top-0 left-0 w-full h-full bg-black z-50 origin-bottom pointer-events-none"
-        initial={{ scaleY: 1 }}
-        animate={{ scaleY: 0 }}
-        exit={{ scaleY: 1 }}
-        transition={{ duration: 0.5, delay: 0.1 }}
-      />
+      <PremiumTransition />
     </>
   );
 }
+
 
 
 export default function App() {
@@ -190,7 +200,16 @@ export default function App() {
       setAppLoaded(true);
     }, 800);
     
-    const lenis = new Lenis();
+    const lenis = new Lenis({
+      duration: 1.2,
+      easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+      orientation: 'vertical',
+      gestureOrientation: 'vertical',
+      smoothWheel: true,
+      wheelMultiplier: 1,
+      touchMultiplier: 2,
+      infinite: false,
+    });
     function raf(time: number) {
       lenis.raf(time);
       requestAnimationFrame(raf);

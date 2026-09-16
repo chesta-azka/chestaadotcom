@@ -7,11 +7,11 @@ export const ROUTE_METADATA: Record<string, { title: string; description: string
     title: 'Insights & Blog Arsitektur Digital | CHESTAADOTCOM',
     description: 'Kumpulan artikel seputar SEO lokal Cisauk/BSD, optimasi Google Maps, tech stack modern, dan filosofi coding Chesta Azka Sofyan.',
   },
-  '/services': {
-    title: 'Layanan Pembuatan Website & AI | CHESTAADOTCOM Cisauk & BSD',
-    description: 'Layanan website company profile, landing page konversi, toko online e-commerce, dan integrasi Live Chat bot AI cerdas.',
+  '/layanan': {
+    title: 'Layanan Digital Premium | Web Dev, AI & IT Consulting | CHESTAADOTCOM',
+    description: 'Solusi teknologi komprehensif: Web Development Next.js, Otomatisasi AI Gemini, E-Commerce, dan Infrastruktur IT Enterprise di BSD City.',
   },
-  '/projects': {
+  '/portfolio': {
     title: 'Showcase Portofolio Proyek | CHESTAADOTCOM',
     description: 'Portofolio karya desain website bespoke dan solusi sistem digital karya Chesta Azka Sofyan.',
   },

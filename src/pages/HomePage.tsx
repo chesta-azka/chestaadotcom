@@ -3,9 +3,9 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import MetaTags from '../components/atoms/MetaTags.tsx';
 import HeroSection from '../components/organisms/HeroSection.tsx';
-import CapabilitiesSection from '../components/organisms/CapabilitiesSection.tsx';
 import ServicesSection from '../components/organisms/ServicesSection.tsx';
 import AboutMeSection from '../components/organisms/AboutMeSection.tsx';
+import ServiceHighlightsSection from '../components/organisms/ServiceHighlightsSection.tsx';
 import ProjectsSection from '../components/organisms/ProjectsSection.tsx';
 import TestimonialSection from '../components/organisms/TestimonialSection.tsx';
 import PricingSection from '../components/organisms/PricingSection.tsx';
@@ -15,34 +15,38 @@ import CreativityMarquee from '../components/organisms/CreativityMarquee.tsx';
 import ContactSection from '../components/organisms/ContactSection.tsx';
 import ScrollingTechTicker from '../components/organisms/ScrollingTechTicker.tsx';
 import CompaniesSection from '../components/organisms/CompaniesSection.tsx';
+import LocalTrustMarquee from '../components/organisms/LocalTrustMarquee.tsx';
 import AcademyHighlightSection from '../components/organisms/AcademyHighlightSection.tsx';
 import StatsCounter from '../components/organisms/StatsCounter.tsx';
+import TechStackSection from '../components/organisms/TechStackSection.tsx';
+import EnterpriseFAQ from '../components/organisms/EnterpriseFAQ.tsx';
 import SectionGlassCard from '../components/atoms/SectionGlassCard.tsx';
-import SectionSeparator from '../components/atoms/SectionSeparator.tsx';
 import FadeInSection from '../components/atoms/FadeInSection.tsx';
-import { useRevealAnimation } from '../hooks/useRevealAnimation';
 import { useScrollSpy } from '../hooks/useScrollSpy';
-import { generateLocalBusinessSchema } from '../lib/seo';
+import { generateLocalBusinessSchema, generateOrganizationSchema, generateSpeakableSchema, generateWebSiteSchema } from '../lib/seo';
 import FaqSection from '../components/organisms/FaqSection.tsx';
 import ProjectFaqAccordion from '../components/organisms/ProjectFaqAccordion.tsx';
+import AEOKeyTakeaways from '../components/atoms/AEOKeyTakeaways.tsx';
 import ExitIntentPopup from '../components/organisms/ExitIntentPopup.tsx';
+import { useGeoIntentManager } from '../hooks/useGeoIntentManager';
+import FAQSchema from '../components/atoms/FAQSchema';
 
 export default function HomePage() {
-  const reveal1 = useRevealAnimation();
-  const reveal2 = useRevealAnimation();
-  const reveal3 = useRevealAnimation();
-  const reveal4 = useRevealAnimation();
-  const reveal5 = useRevealAnimation();
+  const geoIntent = useGeoIntentManager();
 
   const activeSection = useScrollSpy([
     'hero',
     'about',
+    'stats',
     'services',
+    'tech-stack',
     'projects',
-    'pricing',
-    'contact',
     'testimonials',
+    'pricing',
     'faq',
+    'contact',
+    'blog',
+    'academy',
     'insights'
   ]);
 
@@ -55,95 +59,127 @@ export default function HomePage() {
 
       <script 
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(generateLocalBusinessSchema()) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify([
+          generateLocalBusinessSchema(),
+          generateOrganizationSchema(),
+          generateWebSiteSchema(),
+          generateSpeakableSchema(['#aeo-speakable-takeaways', '#hero-headline', '#hero-description'])
+        ]) }}
       />
       
       <MetaTags 
-        title="Software House BSD City & Tangerang | Web Dev & AI Automation" 
-        description="Software House premium di BSD City, Tangerang Selatan, Jakarta, Depok, dan Bogor. Layanan IT Services, High-Performance Web Development, dan AI Automation." 
+        title={geoIntent.getLocalizedTitle("Software House Berkualitas | Web Dev & AI Automation")} 
+        description={geoIntent.getLocalizedDesc("Software House premium untuk Layanan IT Services, High-Performance Web Development, dan AI Automation.")} 
         breadcrumbs={[
           { name: 'Home', item: '/' }
         ]}
+      />
+      
+      <FAQSchema 
+        faqs={[
+          {
+            question: `Apakah CHESTAADOTCOM melayani pembuatan website dan AI di ${geoIntent.isCustomized ? geoIntent.location : 'BSD City dan sekitarnya'}?`,
+            answer: `Ya, kami menyediakan layanan IT Services, pembuatan website high-performance, dan otomatisasi AI khusus untuk membantu bisnis di ${geoIntent.isCustomized ? geoIntent.location : 'Tangerang Selatan, Jakarta, Depok, dan Bogor'}.`
+          },
+          {
+            question: `Bagaimana cara kerja teknologi AI Automation yang ditawarkan di area ${geoIntent.isCustomized ? geoIntent.location : 'Tangerang'}?`,
+            answer: `Kami mengintegrasikan Agentic AI ke dalam operasional bisnis Anda untuk mengotomatiskan layanan pelanggan, analisis data, dan manajemen operasional agar lebih efisien dan inovatif.`
+          }
+        ]}
+        areasServed={geoIntent.isCustomized ? [geoIntent.location] : ['BSD City', 'Cisauk', 'Tangerang', 'Tangerang Selatan', 'Jakarta']}
       />
 
       <div className="snap-start relative" id="hero">
         <HeroSection />
       </div>
       
-      <CapabilitiesSection />
+      <FadeInSection delay={0.1} className="w-full">
+        <ScrollingTechTicker />
+      </FadeInSection>
       
-      <CompaniesSection />
-      
-      <SectionSeparator />
+      <FadeInSection delay={0.2} className="w-full">
+        <LocalTrustMarquee currentArea={geoIntent.isCustomized ? geoIntent.location : 'BSD & Tangerang'} />
+      </FadeInSection>
+
+      <FadeInSection delay={0.3} className="w-full">
+        <CompaniesSection />
+      </FadeInSection>
             
-      <motion.div {...reveal1.revealProps} className="w-full">
+      <SectionGlassCard fluid={true} index={0} metaLabel="TENTANG CHESTAADOTCOM" className="snap-start" id="about">
+        <AboutMeSection />
+      </SectionGlassCard>
+
+      <SectionGlassCard fluid={true} index={1} metaLabel="STATISTIK" className="snap-start" id="stats">
         <StatsCounter />
-      </motion.div>
-      <SectionSeparator />
-      
-      <motion.div {...reveal2.revealProps} id="about">
-        <SectionGlassCard fluid={true} index={0} metaLabel="TENTANG CHESTAADOTCOM" className="snap-start">
-          <AboutMeSection />
-        </SectionGlassCard>
-      </motion.div>
-      <SectionSeparator />
-      
-      <motion.div {...reveal3.revealProps} id="services">
-        <SectionGlassCard fluid={true} index={1} metaLabel="LAYANAN KAMI" className="snap-start" serviceType="software">
+      </SectionGlassCard>
+            
+      <div id="services" className="scroll-mt-20">
+        <FadeInSection>
+          <ServiceHighlightsSection />
+        </FadeInSection>
+        
+        <SectionGlassCard fluid={true} index={2} metaLabel="LAYANAN KAMI" className="snap-start" serviceType="software">
           <ServicesSection />
         </SectionGlassCard>
-      </motion.div>
-      <SectionSeparator />
-      
-      
-      <div className="snap-start my-8">
-        <ScrollingTechTicker />
       </div>
-      <SectionSeparator />
-      
-      <motion.div {...reveal4.revealProps} id="projects">
-        <SectionGlassCard fluid={true} index={2} metaLabel="GALERI PROYEK" className="snap-start">
-          <ProjectsSection />
-        </SectionGlassCard>
-      </motion.div>
-      <SectionSeparator />
-      
-      <motion.div {...reveal5.revealProps} id="pricing">
-        <SectionGlassCard fluid={true} index={5} metaLabel="INVESTASI & PAKET" className="snap-start">
-          <PricingSection />
-        </SectionGlassCard>
-      </motion.div>
-      <SectionSeparator />
-      
-      <SectionGlassCard fluid={true} index={6} metaLabel="HUBUNGI KAMI" className="snap-start" id="contact">
-        <ContactSection />
+
+      <SectionGlassCard fluid={true} index={3} metaLabel="TEKNOLOGI KAMI" className="snap-start" id="tech-stack">
+        <TechStackSection />
       </SectionGlassCard>
-      <SectionSeparator />
       
-      <SectionGlassCard fluid={true} index={7} metaLabel="KESUKSESAN KLIEN" className="snap-start" id="testimonials">
+      
+
+      
+      <SectionGlassCard fluid={true} index={4} metaLabel="GALERI PROYEK" className="snap-start" id="projects">
+        <ProjectsSection />
+      </SectionGlassCard>
+
+      <SectionGlassCard fluid={true} index={5} metaLabel="KESUKSESAN KLIEN" className="snap-start" id="testimonials">
         <TestimonialSection />
       </SectionGlassCard>
-      <SectionSeparator />
       
-      <SectionGlassCard fluid={true} index={8} metaLabel="TANYA JAWAB (FAQ)" className="snap-start" id="faq">
+      <SectionGlassCard fluid={true} index={6} metaLabel="INVESTASI & PAKET" className="snap-start" id="pricing">
+        <PricingSection />
+      </SectionGlassCard>
+
+      <SectionGlassCard fluid={true} index={7} metaLabel="TANYA JAWAB" className="snap-start" id="faq">
+        <EnterpriseFAQ />
+      </SectionGlassCard>
+      
+      <SectionGlassCard fluid={true} index={8} metaLabel="HUBUNGI KAMI" className="snap-start" id="contact">
+        <ContactSection />
+      </SectionGlassCard>
+      <SectionGlassCard fluid={true} index={9} metaLabel="WAWASAN & ARTIKEL" className="snap-start" id="blog">
         <BlogSection />
       </SectionGlassCard>
-      <SectionSeparator />
-      
-      <div className="snap-start" id="academy">
-        <AcademyHighlightSection />
-      </div>
-      <SectionSeparator />
-
-      <SectionGlassCard fluid={true} index={9} metaLabel="TREN TEKNOLOGI" className="snap-start" id="insights">
+      <FadeInSection className="w-full snap-start">
+        <div id="academy">
+          <AcademyHighlightSection />
+        </div>
+      </FadeInSection>
+      <SectionGlassCard fluid={true} index={10} metaLabel="TREN TEKNOLOGI" className="snap-start" id="insights">
         <InsightsSection />
       </SectionGlassCard>
-      <SectionSeparator />
 
       {/* ScrollSpy Active Section Indicator Badge */}
       <div className="fixed bottom-6 right-6 z-40 hidden md:flex items-center gap-2.5 px-4 py-2.5 rounded-2xl bg-white/90 backdrop-blur-md border border-purple-200 shadow-xl text-xs font-mono text-slate-700">
         <div className="w-2.5 h-2.5 rounded-full bg-purple-600 animate-pulse" />
         <span>Posisi Halaman: <strong className="text-purple-900 uppercase">{activeSection}</strong></span>
+      </div>
+
+      
+      <div className="w-full max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+        <FadeInSection delay={0.1}>
+          <AEOKeyTakeaways 
+            title="Executive Summary (AI & Client Brief)"
+          takeaways={[
+            "CHESTAADOTCOM adalah studio software rekayasa premium yang berspesialisasi pada Website High-Performance dan AI Automation.",
+            "Berlokasi di BSD City / Tangerang, melayani klien B2B dan enterprise secara nasional maupun internasional.",
+            "Fokus utama: Kecepatan load website sub-detik (Core Web Vitals), optimasi SEO ekstrem, dan integrasi Agentic AI (LLMs).",
+            "Transparansi penuh: 100% source code milik klien, tanpa biaya tersembunyi, dan garansi maintenance 30 hari."
+          ]}
+          />
+        </FadeInSection>
       </div>
 
       <ProjectFaqAccordion />

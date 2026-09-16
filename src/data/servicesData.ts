@@ -92,16 +92,20 @@ export const SERVICES_DATA: Record<string, ServiceDetailData> = {
     },
     faqs: [
       {
-        q: 'Mengapa bisnis di BSD City sangat membutuhkan Local SEO?',
-        a: 'BSD City adalah salah satu kawasan ekonomi dengan pertumbuhan tercepat. Persaingan bisnis sangat ketat. Dengan Local SEO, saat calon pelanggan mencari "klinik gigi di BSD" atau "jasa interior Cisauk", bisnis Anda akan muncul paling atas, memberikan kredibilitas instan dan lead yang masif.'
+        q: 'Mengapa bisnis di BSD City dan Cisauk sangat membutuhkan Local SEO & Geo-Targeting?',
+        a: 'BSD City dan Cisauk berkembang pesat sebagai tech dan business hub di Tangerang Selatan. Dengan Local SEO terstruktur (skema LocalBusiness JSON-LD, koordinat GPS terverifikasi, dan konten berbasis geografi), bisnis Anda akan menduduki peringkat teratas Google Search dan Google Maps saat prospek mencari layanan spesifik seperti "Jasa Pembuatan Website BSD" atau "Solusi IT Cisauk", mendatangkan lead berkualitas tinggi tanpa bergantung pada biaya iklan terus-menerus.'
       },
       {
-        q: 'Apakah solusi IT Cisauk dari CHESTAADOTCOM hanya untuk website?',
-        a: 'Tidak. Selain jasa pembuatan website, kami melayani Solusi IT menyeluruh. Termasuk integrasi sistem kasir (POS), custom web app (ERP/CRM mini), dan sistem otomasi AI untuk memangkas jam kerja admin Anda.'
+        q: 'Apakah solusi IT Cisauk dari CHESTAADOTCOM hanya melayani pembuatan website?',
+        a: 'Tidak. CHESTAADOTCOM adalah boutique IT consultancy dan software house komprehensif. Selain website performa tinggi, kami menyediakan audit arsitektur cloud, integrasi sistem kasir/POS, web app bisnis kustom (CRM/ERP), otomatisasi alur kerja AI Agent otonom, dan dukungan pemeliharaan SLA 24/7.'
       },
       {
-        q: 'Berapa lama untuk melihat hasil dari optimasi SEO lokal?',
-        a: 'Fondasi teknis (On-Page) akan terindeks dalam beberapa hari. Untuk mulai mendominasi pencarian lokal kompetitif, umumnya dibutuhkan konsistensi konten selama 2-4 minggu. Infrastruktur Next.js kami secara drastis mempercepat proses perayapan (crawling) Google.'
+        q: 'Berapa lama waktu yang dibutuhkan hingga website terindeks dan mendominasi kata kunci lokal?',
+        a: 'Struktur kode Next.js 15 dan Schema.org kami memungkinkan bot Google mengindeks halaman dalam waktu 24 hingga 72 jam. Untuk kata kunci lokal spesifik di Tangerang Selatan, peningkatan peringkat organik rata-rata tercapai dalam 2 hingga 4 minggu berkat optimasi Core Web Vitals (< 0.8s) dan relevansi hyper-local.'
+      },
+      {
+        q: 'Apakah CHESTAADOTCOM melayani konsultasi langsung tatap muka (in-person) di BSD City dan Cisauk?',
+        a: 'Ya, tim teknis kami berdomisili dan beroperasi aktif di koridor BSD Green Office Park dan Cisauk. Kami siap mengadakan pertemuan konsultasi langsung (on-site) di kantor Anda untuk kawasan BSD City, Cisauk, Gading Serpong, Karawaci, dan Alam Sutera, maupun via Google Meet untuk fleksibilitas.'
       }
     ]
   },
@@ -159,16 +163,28 @@ export const SERVICES_DATA: Record<string, ServiceDetailData> = {
     },
     faqs: [
       {
-        q: 'Berapa lama waktu pengerjaan rata-rata?',
-        a: 'Untuk website company profile / business standard, pengerjaan memakan waktu antara 7 hingga 14 hari kerja sejak data dan materi lengkap diterima.'
+        q: 'Mengapa Next.js 15 lebih unggul dibanding WordPress untuk website bisnis dan SEO?',
+        a: 'Next.js 15 menggunakan arsitektur modern Server-Side Rendering (SSR) dan Edge Caching yang menghasilkan waktu muat sub-detik (< 0.8s) dengan skor Google Lighthouse 99+. Berbeda dengan WordPress yang sering melambat akibat plugin menumpuk dan rentan malware, Next.js dibangun dengan kode bersih, keamanan tingkat enterprise, dan otomatis diprioritaskan Google Core Web Vitals.'
       },
       {
-        q: 'Apakah saya memiliki hak penuh atas website?',
-        a: 'Ya, 100%. Seluruh source code, domain, dan hosting berada di bawah kepemilikan mutlak Anda tanpa ada ikatan vendor lock-in.'
+        q: 'Berapa lama estimasi waktu pengerjaan website sampai siap live?',
+        a: 'Untuk landing page konversi cepat dan website company profile esensial, pengerjaan memakan waktu 3 hingga 7 hari kerja. Untuk platform web custom dengan integrasi API, database, atau e-commerce, waktu pengerjaan rata-rata antara 7 hingga 14 hari kerja.'
       },
       {
-        q: 'Apakah bisa diupdate sendiri isinya?',
-        a: 'Tentu. Kami menyediakan panel admin yang sangat mudah digunakan (user-friendly) disertai video panduan eksklusif.'
+        q: 'Apakah website sudah otomatis dilengkapi optimasi SEO On-Page dan Schema LocalBusiness?',
+        a: 'Ya, 100%. Setiap website otomatis kami bekali dengan metadata SEO lengkap, OpenGraph, sitemap XML, dan markup Schema.org (LocalBusiness, Service, FAQPage, BreadcrumbList) yang ditargetkan untuk wilayah BSD City, Cisauk, Tangerang, dan Jabodetabek agar cepat tampil di Google Knowledge Graph dan Google Maps.'
+      },
+      {
+        q: 'Apakah saya dan tim bisa mengupdate konten teks atau produk sendiri secara mandiri?',
+        a: 'Tentu saja. Kami menyediakan panel admin atau CMS headless modern yang sangat mudah digunakan tanpa perlu keahlian teknis atau coding. Kami juga menyertakan sesi training singkat dan video panduan eksklusif.'
+      },
+      {
+        q: 'Berapa biaya pembuatan website di CHESTAADOTCOM dan apa saja fasilitas yang didapat?',
+        a: 'Paket investasi kami sangat transparan: mulai dari Starter (Rp 540.000) untuk landing page konversi, Essential (Rp 1.150.000) untuk 3 halaman brand authority, Growth (Rp 2.250.000) hingga 7 halaman dengan formulir API otomatis, dan Enterprise (Rp 5.500.000) untuk database kustom dan payment gateway.'
+      },
+      {
+        q: 'Apakah seluruh source code dan aset website menjadi milik saya 100%?',
+        a: 'Ya, mutlak. Seluruh hak cipta source code, repositori Git, domain, dan konfigurasi hosting diserahkan penuh kepada Anda tanpa adanya ikatan vendor lock-in maupun biaya lisensi tersembunyi.'
       }
     ]
   },
@@ -225,12 +241,20 @@ export const SERVICES_DATA: Record<string, ServiceDetailData> = {
     },
     faqs: [
       {
-        q: 'Apakah AI bisa salah menjawab?',
-        a: 'Kami menggunakan teknik guardrails dan basis pengetahuan terstruktur (RAG) sehingga AI hanya menjawab berdasarkan data valid perusahaan Anda.'
+        q: 'Apakah AI Agent bisa salah menjawab (halusinasi)?',
+        a: 'Tidak, kami menggunakan teknik Enterprise Guardrails yang ketat dikombinasikan dengan arsitektur RAG (Retrieval-Augmented Generation). AI hanya diperbolehkan menjawab berdasarkan dokumen SOP, database inventaris, dan basis data resmi perusahaan Anda tanpa membuat asumsi fiktif.'
       },
       {
-        q: 'Apakah butuh biaya langganan API yang mahal?',
-        a: 'Biaya API Google Gemini sangat efisien, umumnya kurang dari $10 - $20 per bulan untuk ribuan percakapan.'
+        q: 'Bagaimana integrasi AI Agent dengan WhatsApp Business dan CRM bisnis?',
+        a: 'Kami mengintegrasikan model Google Gemini dan LLM enterprise melalui WhatsApp Business Cloud API resmi atau webhook CRM internal. Sistem mampu melayani percakapan pelanggan 24/7, melakukan kualifikasi prospek otomatis, dan mencatat data tiket langsung ke dashboard bisnis Anda.'
+      },
+      {
+        q: 'Berapa biaya operasional pemakaian API Google Gemini?',
+        a: 'Biaya API Google Gemini (Flash series) sangat terjangkau, rata-rata kurang dari $5 - $20 USD per bulan untuk puluhan ribu percakapan. CHESTAADOTCOM melakukan caching token pintar untuk meminimalkan pengeluaran API hingga 60%.'
+      },
+      {
+        q: 'Apakah data rahasia perusahaan aman saat menggunakan AI?',
+        a: 'Ya, 100% aman. Data bisnis Anda tidak pernah digunakan untuk melatih model publik. Kami menerapkan enkripsi end-to-end (AES-256) serta isolasi environment data sesuai standar privasi GDPR dan regulasi perlindungan data pribadi (UU PDP).'
       }
     ]
   },
@@ -287,12 +311,16 @@ export const SERVICES_DATA: Record<string, ServiceDetailData> = {
     },
     faqs: [
       {
-        q: 'Apakah ada potongan komisi dari penjualan?',
-        a: 'Tidak ada sama sekali! 100% keuntungan penjualan masuk ke rekening Anda (hanya potongan standar dari payment gateway pilihan Anda).'
+        q: 'Apakah ada potongan komisi platform per transaksi di website toko online ini?',
+        a: 'Sama sekali tidak ada potongan komisi dari CHESTAADOTCOM (0% Platform Fee). Seluruh hasil penjualan 100% masuk langsung ke rekening bank Anda, hanya dikenakan biaya gateway standar resmi (seperti QRIS ~0.7% oleh Bank Indonesia/Midtrans).'
       },
       {
-        q: 'Berapa banyak produk yang bisa dimasukkan?',
-        a: 'Tidak ada batasan produk. Sistem kami sanggup menampung ribuan produk dengan performa tetap stabil.'
+        q: 'Berapa banyak produk yang dapat ditampung di sistem e-commerce ini?',
+        a: 'Sistem arsitektur database modern yang kami bangun sanggup menampung puluhan ribu SKU produk dengan performa pencarian instan (< 100ms) menggunakan teknologi indexing teroptimasi.'
+      },
+      {
+        q: 'Apakah toko online ini terhubung dengan sistem notifikasi WhatsApp otomatis?',
+        a: 'Ya, begitu pembeli menyelesaikan pembayaran, invoice dan detail pesanan otomatis terkirim ke nomor WhatsApp pelanggan serta alert notifikasi ke tim gudang Anda untuk segera diproses.'
       }
     ]
   },
@@ -349,13 +377,109 @@ export const SERVICES_DATA: Record<string, ServiceDetailData> = {
     },
     faqs: [
       {
-        q: 'Apakah cocok untuk produk fizikal maupun jasa?',
-        a: 'Sangat cocok! Baik Anda menjual produk skincare, fashion, jasa konsultasi, properti, maupun seminar/course online.'
+        q: 'Apakah landing page ini cocok untuk iklan produk fisik maupun jasa B2B?',
+        a: 'Sangat cocok. Format landing page disesuaikan secara spesifik: checkout cepat (1-click direct purchase) untuk produk fisik/retail dan formulir kualifikasi leads interaktif terhubung langsung ke WhatsApp untuk penawaran jasa korporat B2B.'
       },
       {
-        q: 'Apakah bisa dihubungkan langsung ke Meta Ads Pixel?',
-        a: 'Ya, kami memasang seluruh tracking pixel dan event tracking secara akurat untuk kebutuhan optimasi iklan Anda.'
+        q: 'Bagaimana integrasi tracking iklan (Meta Pixel, Google Tag, TikTok Pixel)?',
+        a: 'Kami mengintegrasikan seluruh conversion pixel dan Conversions API (CAPI) di tingkat server-side untuk memastikan pelacakan data konversi 100% akurat meskipun pengguna mengaktifkan fitur iOS ATT AdBlock.'
+      },
+      {
+        q: 'Mengapa kecepatan loading di bawah 0.4 detik sangat menentukan keberhasilan iklan?',
+        a: 'Data industri membuktikan 53% calon pelanggan meninggalkan halaman jika loading lebih dari 3 detik. Dengan kecepatan di bawah 0.4 detik pada Next.js, Quality Score Google Ads dan relevansi Meta Ads meningkat, memangkas biaya per klik (CPC) dan melipatgandakan Return on Ad Spend (ROAS).'
+      }
+    ]
+  },
+
+  'jasa-it': {
+    slug: 'jasa-it',
+    title: 'Jasa IT & Solusi Infrastruktur Enterprise',
+    subtitle: 'Audit Arsitektur Cloud, Automasi AI & IT Consulting di BSD City',
+    category: 'IT Infrastructure & Consulting',
+    badge: 'Enterprise SLA 99.98%',
+    heroHeadline: 'Infrastruktur IT Tangguh, Aman, dan Siap Berskala Eksponensial.',
+    heroDescription: 'Mengelola sistem IT bisnis modern tidak boleh mengandalkan coba-coba. CHESTAADOTCOM menyediakan Jasa IT profesional, konsultasi cloud DevOps (AWS/GCP/Cloudflare), audit keamanan zero-trust, serta otomasi alur kerja AI untuk perusahaan dan startup di BSD City, Cisauk, dan Jabodetabek.',
+    coreMetrics: [
+      { label: 'Uptime SLA', value: '99.98%', desc: 'Keandalan infrastruktur cloud tingkat enterprise' },
+      { label: 'Response Time', value: '< 15 Mins', desc: 'Tanggap darurat teknis prioritas VIP' },
+      { label: 'Cost Optimization', value: '-40%', desc: 'Pemangkasan biaya cloud yang tidak efisien' },
+      { label: 'Service Coverage', value: 'BSD & Global', desc: 'On-site di BSD City/Cisauk & remote worldwide' }
+    ],
+    problemStatement: {
+      title: 'Tantangan Infrastruktur IT Bisnis Modern',
+      points: [
+        'Downtime server dan aplikasi sering terjadi tanpa peringatan dini, menghentikan transaksi operasional bisnis.',
+        'Tagihan cloud membengkak drastis akibat arsitektur sistem yang tidak teroptimasi dengan efisien.',
+        'Sistem digital rentan terhadap ancaman ransomware, kebocoran data klien, dan serangan siber DDoS.',
+        'Ketergantungan pada tim internal yang kewalahan mengadopsi teknologi modern seperti CI/CD dan AI Agent.'
+      ]
+    },
+    solutionOverview: {
+      title: 'Pendekatan Komprehensif Jasa IT CHESTAADOTCOM',
+      description: 'Kami bertindak sebagai mitra teknologi strategis jangka panjang Anda. Kami merancang, mengamankan, dan mengotomatiskan seluruh ekosistem komputasi bisnis Anda dengan standar industri internasional.',
+      benefits: [
+        'Audit mendalam arsitektur cloud untuk memangkas pemborosan resource hingga 40%.',
+        'Implementasi keamanan siber Zero-Trust dan enkripsi data end-to-end berstandar global.',
+        'Automasi alur kerja operasional menggunakan integrasi API & AI Agent otonom 24/7.',
+        'Monitoring proaktif dengan jaminan Service Level Agreement (SLA) uptime 99.98%.'
+      ]
+    },
+    processSteps: [
+      { step: '01', title: 'Audit Komprehensif & Diagnosis', desc: 'Pemetaan mendalam terhadap arsitektur jaringan, cloud server, dan risiko keamanan sistem Anda.' },
+      { step: '02', title: 'Perancangan Blueprint & Arsitektur', desc: 'Penyusunan peta jalan perbaikan teknis, efisiensi biaya infrastruktur, dan mitigasi downtime.' },
+      { step: '03', title: 'Migrasi & Implementasi Zero-Downtime', desc: 'Eksekusi deployment dan konfigurasi server di environment terisolasi tanpa mengganggu operasional harian.' },
+      { step: '04', title: 'Monitoring Proaktif & SLA 24/7', desc: 'Dukungan teknis berkelanjutan, backup berkala, dan respon cepat tanggap darurat teknis.' }
+    ],
+    guarantee: 'Jaminan Uptime 99.98% dan respon darurat teknis di bawah 15 menit dengan kontrak SLA resmi.',
+    investment: {
+      price: 'Mulai dari Rp 5.500.000',
+      duration: 'Audit & Implementasi 7 - 21 Hari Kerja',
+      features: [
+        'Cloud Infrastructure Design (AWS, GCP, Cloudflare)',
+        'Zero-Trust Security Audit & Vulnerability Assessment',
+        'Automated CI/CD Deployment Pipeline Setup',
+        'Real-time Uptime Monitoring & Alerting 24/7',
+        '100% Hak Milik Repositori & Dokumentasi Arsitektur'
+      ]
+    },
+    faqs: [
+      {
+        q: 'Apa saja cakupan Jasa IT & Solusi Enterprise yang disediakan CHESTAADOTCOM di area BSD City dan Tangerang?',
+        a: 'Layanan Jasa IT kami mencakup konsultasi arsitektur cloud (AWS, GCP, Cloudflare), audit keamanan siber zero-trust, otomatisasi alur kerja AI Agent, continuous integration & deployment (CI/CD), setup server performa tinggi, hingga monitoring dan pemeliharaan teknis sistem 24/7 dengan Service Level Agreement (SLA) terjamin untuk korporasi dan startup di BSD City, Cisauk, dan Jabodetabek.'
+      },
+      {
+        q: 'Bagaimana metode integrasi dan implementasi IT untuk sistem bisnis yang sudah berjalan?',
+        a: 'Kami menerapkan metodologi non-disruptive migration. Tahap awal dimulai dengan audit komprehensif arsitektur eksisting, dilanjutkan dengan pembuatan staging environment, rekayasa API middleware untuk sinkronisasi data real-time, dan migrasi bertahap tanpa downtime operasional bisnis Anda.'
+      },
+      {
+        q: 'Berapa estimasi biaya dan durasi pengerjaan solusi IT enterprise?',
+        a: 'Biaya investasi disesuaikan dengan skala kompleksitas sistem, mulai dari paket Starter Rp 540.000 untuk integrasi otomatisasi esensial, hingga level Enterprise kustom (Rp 5.500.000+) untuk infrastruktur berskala besar. Durasi implementasi berkisar antara 7 hingga 21 hari kerja dengan roadmap timeline yang transparan.'
+      },
+      {
+        q: 'Apakah tersedia garansi pemeliharaan (maintenance SLA) dan respons cepat?',
+        a: 'Ya, seluruh kontrak Jasa IT dilengkapi dengan garansi pemeliharaan 30 hari pasca-peluncuran, pemantauan uptime 99.98%, serta opsi SLA prioritas VIP dengan waktu respons teknis darurat di bawah 15 menit.'
+      },
+      {
+        q: 'Apakah hak cipta dan source code sistem diserahkan 100% kepada klien?',
+        a: 'Ya, 100% kepemilikan source code, konfigurasi cloud, repositori Git, dan dokumentasi arsitektur diserahkan seutuhnya kepada klien tanpa adanya sistem vendor lock-in maupun royalti tersembunyi.'
+      },
+      {
+        q: 'Apakah CHESTAADOTCOM melayani konsultasi tatap muka (on-site) di BSD City dan Cisauk?',
+        a: 'Ya, tim teknis senior kami berbasis langsung di koridor BSD Green Office Park dan Cisauk. Kami siap mengadakan sesi audit dan konsultasi langsung (on-site) di kantor Anda untuk area Tangerang Selatan, Tangerang Kota, dan Jakarta Selatan.'
       }
     ]
   }
 };
+
+// Aliases for SEO-friendly and localized URLs
+SERVICES_DATA['it-solutions'] = SERVICES_DATA['jasa-it'];
+SERVICES_DATA['it-consulting'] = SERVICES_DATA['jasa-it'];
+SERVICES_DATA['maintenance'] = SERVICES_DATA['jasa-it'];
+SERVICES_DATA['web-development'] = SERVICES_DATA['web-development-nextjs'];
+SERVICES_DATA['pembuatan-website'] = SERVICES_DATA['web-development-nextjs'];
+SERVICES_DATA['website-company-profile'] = SERVICES_DATA['web-development-nextjs'];
+SERVICES_DATA['website-toko-online'] = SERVICES_DATA['ecommerce-automation'];
+SERVICES_DATA['jasa-seo'] = SERVICES_DATA['jasa-pembuatan-website-bsd-cisauk'];
+SERVICES_DATA['agentic-ai-automation'] = SERVICES_DATA['ai-integration'];
+SERVICES_DATA['digital-marketing'] = SERVICES_DATA['landing-page'];
+

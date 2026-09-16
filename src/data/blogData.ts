@@ -1,3 +1,4 @@
+import { SEEDED_ARTICLES } from './seededBlogs';
 import { chestaaEnterpriseBsdMdx } from '../content/chestaaEnterpriseBsdArticle';
 import { chestaaAiVisionTangerangMdx } from '../content/chestaaAiVisionTangerangArticle';
 import { aiAutomationBsdMdx } from '../content/aiAutomationBsdArticle';
@@ -45,6 +46,201 @@ export interface Article {
 }
 
 export const ALL_ARTICLES: Article[] = [
+  ...SEEDED_ARTICLES,
+
+  {
+    title: "Mengapa Bisnis di Serpong Harus Upgrade ke Website Modern",
+    slug: "upgrade-website-modern-serpong",
+    desc: "Panduan teknis dan bisnis untuk migrasi ke platform web modern bagi UMKM di Gading Serpong.",
+    cat: "Tech Architecture",
+    readTimeMinutes: 6, readTime: "6 min read",
+    date: "01 Sep 2026",
+    image: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?q=80&w=2072&auto=format&fit=crop",
+    author: { name: "Chesta Azka", role: "Digital Architect", avatar: "https://ui-avatars.com/api/?name=Chesta+Azka&background=random" },
+    content: [
+      "Serpong telah berkembang menjadi digital hub baru. Jika website Anda masih menggunakan teknologi usang, Anda akan tertinggal.",
+      "Infrastruktur modern memastikan keamanan data dan pengalaman pengguna yang seamless.",
+      "## Keuntungan Web Modern",
+      "1. Waktu muat di bawah 1 detik.",
+      "2. Responsif sempurna di semua perangkat mobile.",
+      "3. Struktur URL dan metadata yang ramah SEO lokal."
+    ],
+    tags: ["Web Dev", "Serpong", "UMKM"]
+  },
+  {
+    title: "Memilih Digital Agency Terbaik di BSD City",
+    slug: "memilih-digital-agency-terbaik-bsd",
+    desc: "Kriteria esensial dalam memilih partner agensi digital untuk eskalasi bisnis Anda di kawasan BSD.",
+    cat: "Digital Strategy",
+    readTimeMinutes: 7, readTime: "7 min read",
+    date: "28 Aug 2026",
+    image: "https://images.unsplash.com/photo-1542744173-8e7e53415bb0?q=80&w=2070&auto=format&fit=crop",
+    author: { name: "Chesta Azka", role: "Digital Architect", avatar: "https://ui-avatars.com/api/?name=Chesta+Azka&background=random" },
+    content: [
+      "Tidak semua agensi digital memiliki pemahaman teknis yang mendalam. Kebanyakan hanya fokus pada desain tanpa memperhatikan performa.",
+      "Agensi yang tepat harus mampu memberikan solusi end-to-end dari arsitektur backend hingga optimasi SEO.",
+      "## Checklist Memilih Agensi",
+      "1. Portofolio teknis dan metrik performa (Core Web Vitals).",
+      "2. Pemahaman tentang tren Agentic AI dan otomatisasi.",
+      "3. Transparansi dalam pelaporan dan ROI."
+    ],
+    tags: ["Agency", "BSD City", "Partner"]
+  },
+  {
+    title: "Implementasi AI Chatbot untuk Layanan Pelanggan di Jakarta",
+    slug: "ai-chatbot-layanan-pelanggan-jakarta",
+    desc: "Studi kasus efisiensi CS menggunakan asisten virtual berbasis LLM untuk perusahaan di Jakarta.",
+    cat: "AI Engineering",
+    readTimeMinutes: 8, readTime: "8 min read",
+    date: "25 Aug 2026",
+    image: "https://images.unsplash.com/photo-1531482615713-2afd69097998?q=80&w=2070&auto=format&fit=crop",
+    author: { name: "Chesta Azka", role: "Digital Architect", avatar: "https://ui-avatars.com/api/?name=Chesta+Azka&background=random" },
+    content: [
+      "Layanan pelanggan 24/7 kini bukan lagi monopoli perusahaan enterprise. AI Chatbot berbasis LLM mendemokratisasi fitur ini.",
+      "Dengan RAG (Retrieval-Augmented Generation), chatbot dapat menjawab pertanyaan spesifik sesuai konteks bisnis Anda secara akurat.",
+      "## Manfaat AI Chatbot",
+      "1. Mengurangi beban CS manusia hingga 70%.",
+      "2. Memberikan respons instan tanpa waktu tunggu.",
+      "3. Mengumpulkan data behavior pelanggan secara real-time."
+    ],
+    tags: ["AI Chatbot", "LLM", "Jakarta", "Customer Service"]
+  },
+  {
+    title: "Panduan Local SEO 2026 untuk Bisnis di Depok",
+    slug: "panduan-local-seo-depok-2026",
+    desc: "Taktik jitu mendominasi hasil pencarian lokal dan Google Maps untuk UMKM di kawasan Depok.",
+    cat: "Digital Strategy",
+    readTimeMinutes: 5, readTime: "5 min read",
+    date: "20 Aug 2026",
+    image: "https://images.unsplash.com/photo-1432821596592-e2c18b78144f?q=80&w=2070&auto=format&fit=crop",
+    author: { name: "Chesta Azka", role: "Digital Architect", avatar: "https://ui-avatars.com/api/?name=Chesta+Azka&background=random" },
+    content: [
+      "Persaingan bisnis lokal di Depok semakin ketat. Optimalisasi profil Google Business dan review lokal sangat menentukan.",
+      "Google kini lebih memprioritaskan Answer Engine Optimization (AEO) yang memberikan jawaban langsung di SERP.",
+      "## Taktik Local SEO Depok",
+      "1. Optimasi Google Business Profile dengan keyword spesifik wilayah.",
+      "2. Minta ulasan positif dan balas setiap ulasan dengan kata kunci lokal.",
+      "3. Bangun konten blog yang relevan dengan komunitas Depok."
+    ],
+    tags: ["Local SEO", "Depok", "Google Business"]
+  },
+  {
+    title: "Infrastruktur Cloud Skalabel untuk Aplikasi di Bogor",
+    slug: "infrastruktur-cloud-skalabel-bogor",
+    desc: "Membangun arsitektur serverless yang efisien dan hemat biaya untuk startup di wilayah Bogor.",
+    cat: "Tech Architecture",
+    readTimeMinutes: 7, readTime: "7 min read",
+    date: "15 Aug 2026",
+    image: "https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2072&auto=format&fit=crop",
+    author: { name: "Chesta Azka", role: "Digital Architect", avatar: "https://ui-avatars.com/api/?name=Chesta+Azka&background=random" },
+    content: [
+      "Startup di Bogor seringkali kesulitan mengelola biaya infrastruktur server. Pendekatan Serverless dan Edge Computing adalah solusinya.",
+      "Dengan infrastruktur cloud modern, Anda hanya membayar apa yang Anda gunakan, memungkinkan penskalaan otomatis saat traffic melonjak.",
+      "## Keunggulan Serverless Cloud",
+      "1. Zero server management, tim dapat fokus pada kode.",
+      "2. Auto-scaling dari 0 hingga ribuan request per detik.",
+      "3. Penghematan biaya operasional hingga 80% di tahap awal."
+    ],
+    tags: ["Cloud", "Serverless", "Bogor", "Architecture"]
+  }
+,
+
+  {
+    title: "Mendominasi SEO dan AEO untuk Bisnis di BSD City 2026",
+    slug: "seo-aeo-bsd-city-2026",
+    desc: "Panduan lengkap memenangkan Featured Snippets dan local search dengan strategi AEO untuk perusahaan di kawasan BSD.",
+    cat: "Digital Strategy",
+    readTimeMinutes: 6, readTime: "6 min read",
+    date: "14 Sep 2026",
+    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?q=80&w=2426&auto=format&fit=crop",
+    author: { name: "Chesta Azka", role: "Digital Architect", avatar: "https://ui-avatars.com/api/?name=Chesta+Azka&background=random" },
+    content: [
+      "Secara definitif, Answer Engine Optimization (AEO) adalah proses optimasi konten agar dapat dibaca, dipahami, dan direkomendasikan langsung oleh AI. Strategi ini sangat krusial karena memberikan jawaban instan dan meningkatkan visibilitas brand.",
+      "Khususnya bagi ekosistem bisnis di BSD City, adopsi AEO mengakselerasi dominasi pasar secara signifikan.",
+      "## Bagaimana Cara Kerja AEO?",
+      "1. Struktur Data (Schema Markup): Pastikan menggunakan FAQPage atau LocalBusiness schema.",
+      "2. Jawaban Langsung: Gunakan paragraf pendek (40-60 kata) untuk menjawab pertanyaan 'Apa itu' atau 'Bagaimana cara'.",
+      "3. Mobile & Voice Search: Optimalkan performa dan loading speed website."
+    ],
+    tags: ["SEO", "AEO", "BSD City", "Local SEO"]
+  },
+  {
+    title: "Transformasi Digital: Otomatisasi AI untuk Startup di Cisauk",
+    slug: "ai-automation-startup-cisauk",
+    desc: "Bagaimana startup dan UMKM di Cisauk dapat memanfaatkan Agentic AI untuk mereduksi biaya operasional hingga 60%.",
+    cat: "AI Engineering",
+    readTimeMinutes: 8, readTime: "8 min read",
+    date: "12 Sep 2026",
+    image: "https://images.unsplash.com/photo-1518770660439-4636190af475?q=80&w=2070&auto=format&fit=crop",
+    author: { name: "Chesta Azka", role: "Digital Architect", avatar: "https://ui-avatars.com/api/?name=Chesta+Azka&background=random" },
+    content: [
+      "Otomatisasi AI bukan lagi kemewahan, melainkan kebutuhan esensial bagi startup di Cisauk dan sekitarnya.",
+      "Dengan mengimplementasikan LLM dan Agentic Workflows, perusahaan dapat mendelegasikan tugas repetitif seperti customer support dan data entry kepada AI.",
+      "## Langkah Implementasi AI",
+      "1. Audit Proses Bisnis: Identifikasi bottleneck operasional.",
+      "2. Pilih Tools AI: Gunakan OpenAI API, Gemini, atau Claude.",
+      "3. Pelatihan Tim: Pastikan karyawan siap berkolaborasi dengan asisten AI."
+    ],
+    tags: ["Agentic AI", "Automation", "Cisauk", "Startup"]
+  },
+  {
+    title: "Membangun Web Performa Tinggi untuk E-Commerce di Tangerang",
+    slug: "high-performance-web-ecommerce-tangerang",
+    desc: "Arsitektur Next.js dan optimasi Core Web Vitals untuk toko online di wilayah Tangerang.",
+    cat: "Tech Architecture",
+    readTimeMinutes: 7, readTime: "7 min read",
+    date: "10 Sep 2026",
+    image: "https://images.unsplash.com/photo-1555066931-4365d14bab8c?q=80&w=2070&auto=format&fit=crop",
+    author: { name: "Chesta Azka", role: "Digital Architect", avatar: "https://ui-avatars.com/api/?name=Chesta+Azka&background=random" },
+    content: [
+      "Kecepatan website berkorelasi langsung dengan tingkat konversi, terutama untuk e-commerce kompetitif di Tangerang.",
+      "Penggunaan framework modern seperti Next.js dipadukan dengan Edge Caching memungkinkan loading di bawah 1 detik.",
+      "## Pilar Performa Web",
+      "1. Server-Side Rendering (SSR) & Static Site Generation (SSG).",
+      "2. Optimasi Gambar dengan format WebP/AVIF dan lazy loading.",
+      "3. Minimalisasi JavaScript bundle size."
+    ],
+    tags: ["Web Dev", "Performance", "E-Commerce", "Tangerang"]
+  },
+  {
+    title: "Strategi Digital Marketing B2B Efektif di Bintaro 2026",
+    slug: "b2b-digital-marketing-bintaro",
+    desc: "Taktik lead generation, LinkedIn outreach, dan content marketing B2B untuk korporasi di Bintaro Jaya.",
+    cat: "Digital Strategy",
+    readTimeMinutes: 9, readTime: "9 min read",
+    date: "08 Sep 2026",
+    image: "https://images.unsplash.com/photo-1552664730-d307ca884978?q=80&w=2070&auto=format&fit=crop",
+    author: { name: "Chesta Azka", role: "Digital Architect", avatar: "https://ui-avatars.com/api/?name=Chesta+Azka&background=random" },
+    content: [
+      "Memasarkan layanan B2B di kawasan premium seperti Bintaro membutuhkan pendekatan multi-channel yang solid.",
+      "Fokus pada Thought Leadership melalui publikasi artikel dan studi kasus yang mendalam.",
+      "## Channel Utama B2B",
+      "1. LinkedIn Marketing: Bangun personal branding eksekutif.",
+      "2. SEO & AEO: Pastikan solusi Anda muncul saat prospek mencari masalah spesifik.",
+      "3. Account-Based Marketing (ABM): Targetkan decision-maker di perusahaan spesifik."
+    ],
+    tags: ["B2B", "Marketing", "Bintaro", "Lead Gen"]
+  },
+  {
+    title: "Pentingnya Keamanan Siber untuk UMKM di Pamulang",
+    slug: "cybersecurity-umkm-pamulang",
+    desc: "Langkah preventif melindungi data pelanggan dan transaksi digital bagi bisnis skala kecil menengah di Pamulang.",
+    cat: "Tech Architecture",
+    readTimeMinutes: 5, readTime: "5 min read",
+    date: "05 Sep 2026",
+    image: "https://images.unsplash.com/photo-1510511459019-5efa7ae5ca6c?q=80&w=2070&auto=format&fit=crop",
+    author: { name: "Chesta Azka", role: "Digital Architect", avatar: "https://ui-avatars.com/api/?name=Chesta+Azka&background=random" },
+    content: [
+      "Serangan siber tidak hanya menargetkan korporasi besar. UMKM di Pamulang semakin sering menjadi korban ransomware dan data breach.",
+      "Investasi pada infrastruktur keamanan dasar dapat menyelamatkan reputasi dan kelangsungan bisnis Anda.",
+      "## Best Practices Keamanan",
+      "1. Implementasi HTTPS dan SSL certificate.",
+      "2. Penggunaan Password Manager dan Two-Factor Authentication (2FA).",
+      "3. Backup data secara berkala ke cloud atau cold storage."
+    ],
+    tags: ["Security", "UMKM", "Pamulang", "Data"]
+  }
+,
   {
     slug: "transformasi-digital-enterprise-chestaa-bsd",
     title: "Transformasi Digital Skala Enterprise Bersama CHESTAADOTCOM di BSD City",

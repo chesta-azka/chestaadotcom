@@ -1,6 +1,7 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import seoConfig from '../../data/seo-config.json';
+import { useLocation } from 'react-router-dom';
 
 interface SEOMetadataProps {
   title?: string;
@@ -24,8 +25,13 @@ export default function SEOMetadata({
   const seoTitle = title ? defaults.titleTemplate.replace('%s', title) : defaults.title;
   const seoDescription = description || defaults.description;
   const seoKeywords = keywords || defaults.keywords;
-  const seoImage = image || defaults.openGraph.image;
-  const seoUrl = url || defaults.openGraph.url;
+    const location = useLocation();
+  const currentPath = location ? location.pathname : '';
+  const seoUrl = url || (currentPath && currentPath !== '/' ? `https://chestaa.com${currentPath}` : defaults.openGraph.url);
+  
+  // Auto-generate OpenGraph image placeholders if one is not provided, making it highly shareable
+  const dynamicOgImage = image || `https://og-image.vercel.app/${encodeURIComponent(seoTitle)}.png?theme=light&md=1&fontSize=100px`;
+  const seoImage = dynamicOgImage;
   const seoType = type || defaults.openGraph.type;
 
   return (
@@ -34,7 +40,8 @@ export default function SEOMetadata({
       <meta name="description" content={seoDescription} />
       <meta name="keywords" content={seoKeywords} />
       <meta name="author" content={defaults.author} />
-
+      <link rel="canonical" href={seoUrl} />
+      <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
       {/* OpenGraph */}
       <meta property="og:type" content={seoType} />
       <meta property="og:url" content={seoUrl} />
@@ -45,7 +52,6 @@ export default function SEOMetadata({
       <meta property="og:image:height" content={defaults.openGraph.imageHeight} />
       <meta property="og:site_name" content={defaults.openGraph.site_name} />
       <meta property="og:locale" content={defaults.openGraph.locale} />
-
       {/* Twitter */}
       <meta name="twitter:card" content={defaults.twitter.cardType} />
       <meta name="twitter:site" content={defaults.twitter.site} />

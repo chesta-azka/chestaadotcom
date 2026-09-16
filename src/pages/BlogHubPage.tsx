@@ -1,6 +1,6 @@
 import SEOProvider from '../components/atoms/SEOProvider';
 import { useEffect, useState, useMemo } from 'react';
-import { motion, AnimatePresence, useScroll, useSpring } from 'motion/react';
+import { motion, AnimatePresence, useScroll, useSpring, useTransform } from 'motion/react';
 import ReactMarkdown from 'react-markdown';
 import { 
   ArrowLeft, 
@@ -20,7 +20,7 @@ import {
   TrendingUp,
   ChevronDown
 } from 'lucide-react';
-import { useSearchParams, Link, useNavigate } from 'react-router-dom';
+import { useSearchParams, Link, useNavigate, useParams } from 'react-router-dom';
 import MetaTags from '../components/atoms/MetaTags.tsx';
 import BlogSEO from '../components/atoms/BlogSEO.tsx';
 import Breadcrumbs from '../components/atoms/Breadcrumbs';
@@ -32,6 +32,12 @@ import RecentPostsWidget from '../components/organisms/RecentPostsWidget';
 import SocialShareWidget from '../components/organisms/SocialShareWidget';
 import BlogInteractions from '../components/organisms/BlogInteractions';
 import TableOfContents, { TOCItem } from '../components/molecules/TableOfContents';
+import BlogCategoryDropdown from '../components/organisms/BlogCategoryDropdown';
+import QuickReadModal from '../components/organisms/QuickReadModal';
+import AEOLocalContentBlock from '../components/organisms/AEOLocalContentBlock';
+import { generateNicheSEOMetadata } from '../utils/seoHelper';
+import { useGeoIntentManager } from '../hooks/useGeoIntentManager';
+import FAQSchema from '../components/atoms/FAQSchema';
 
 const BlogHubSkeleton = () => (
   <div className="relative flex flex-col h-full bg-white p-6 rounded-xl border border-slate-100 animate-pulse text-left shadow-sm">
@@ -57,10 +63,37 @@ const BlogHubSkeleton = () => (
 );
 
 export default function BlogHubPage() {
+  const { categorySlug, topicSlug, subTopicSlug, geoSlug } = useParams<{ categorySlug?: string; topicSlug?: string; subTopicSlug?: string; geoSlug?: string }>();
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
-  const [selectedCategory, setSelectedCategory] = useState('All');
+  
+  const geoIntent = useGeoIntentManager();
+
+  const { scrollYProgress } = useScroll();
+  const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "15%"]);
+  
+  // Dynamic categories from all articles
+  const categories = ['All', ...Array.from(new Set(ALL_ARTICLES.map(a => a.cat)))];
+
+  // Combine URL parameter logic (from both categorySlug and topicSlug)
+  const getInitialCategory = () => {
+    const targetSlug = categorySlug || topicSlug;
+    if (!targetSlug) return 'All';
+    const matched = categories.find(cat => cat.toLowerCase().replace(/[^a-z0-9]+/g, '-') === targetSlug);
+    return matched || 'All';
+  };
+
+  const [selectedCategory, setSelectedCategory] = useState(getInitialCategory());
+  const [quickReadArticle, setQuickReadArticle] = useState<Article | null>(null);
+
+  useEffect(() => {
+    setSelectedCategory(getInitialCategory());
+  }, [categorySlug, topicSlug]);
+
+  // Generate localized SEO/AEO metadata
+  const seoData = generateNicheSEOMetadata(categorySlug || topicSlug, subTopicSlug, geoSlug);
+
   const [onlyRecommended, setOnlyRecommended] = useState(false);
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
@@ -126,9 +159,6 @@ export default function BlogHubPage() {
 
   const [currentPage, setCurrentPage] = useState(1);
   const postsPerPage = 6;
-
-  // Categories list
-  const categories = ['All', 'Tech Architecture', 'AI Engineering', 'Digital Strategy'];
 
   // Trending tags list
   const popularTags = ['Agentic AI', 'Local SEO', 'Core Web Vitals', 'Conversion', 'Automation', 'Live Chat Bot', 'Micro-Interactions'];
@@ -206,6 +236,10 @@ export default function BlogHubPage() {
 
   return (
     <>
+      <QuickReadModal 
+        article={quickReadArticle} 
+        onClose={() => setQuickReadArticle(null)} 
+      />
       <SEOProvider 
         title="Insights & AI Engineering Blog | CHESTAADOTCOM"
         description="Deep dives into digital architecture, AI implementations, and enterprise solutions."
@@ -214,8 +248,16 @@ export default function BlogHubPage() {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="pb-32 min-h-screen relative"
+      className="pb-32 min-h-screen relative overflow-hidden"
     >
+      {/* Scroll Parallax Background Decoration */}
+      <motion.div 
+        style={{ y: bgY }}
+        className="absolute inset-0 -z-10 pointer-events-none opacity-20"
+      >
+        <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-purple-100/30 rounded-full blur-[120px]" />
+        <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-slate-100/50 rounded-full blur-[100px]" />
+      </motion.div>
 
       <AnimatePresence mode="wait">
         {activeArticle ? (
@@ -228,7 +270,6 @@ export default function BlogHubPage() {
             transition={{ duration: 0.4, ease: "easeOut" }}
             className="mx-auto max-w-4xl px-6 pt-40 md:pt-48 pb-20 relative z-10 flex flex-col items-center"
           >
-            <Breadcrumbs items={[{ label: 'Insight', path: '/blog' }, { label: activeArticle.title }]} />
             <MetaTags 
               title={`${activeArticle.title} — CHESTAADOTCOM Journal`} 
               description={activeArticle.desc} 
@@ -538,8 +579,16 @@ export default function BlogHubPage() {
                         {art.desc}
                       </p>
                     </div>
-                    <div className="flex items-center justify-between text-[10px] font-mono text-slate-400 pt-4 border-t border-slate-200/60">
-                      <span>{art.readTime}</span>
+                    <div className="flex items-center justify-between text-[10px] font-mono text-slate-400 pt-4 border-t border-slate-200/60 w-full">
+                      <div className="flex items-center gap-2">
+                        <button 
+                          onClick={(e) => { e.preventDefault(); e.stopPropagation(); setQuickReadArticle(art); }}
+                          className="bg-purple-100 hover:bg-purple-200 text-purple-700 px-2 py-1 rounded font-bold uppercase transition-colors z-10 relative"
+                        >
+                          Quick Read
+                        </button>
+                        <span>{art.readTime}</span>
+                      </div>
                       <span className="text-[#6b21a8] font-semibold group-hover:translate-x-1 transition-transform flex items-center gap-1">
                         Baca Artikel <ArrowRight size={12} />
                       </span>
@@ -581,13 +630,32 @@ export default function BlogHubPage() {
             exit={{ opacity: 0 }}
             className="w-full"
           >
+            {seoData.schema && (
+              <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(seoData.schema) }} />
+            )}
             <MetaTags 
-              title="Journal & Insight — CHESTAADOTCOM Digital Strategy" 
-              description="Kurasi strategi digital tier-1: Otomasi Agentic AI, Framework SEO 2026, Psikologi Konversi, dan Arsitektur Web Berperforma Tinggi." 
+              title={geoIntent.getLocalizedTitle((topicSlug || categorySlug) ? seoData.title : (selectedCategory !== 'All' ? `${selectedCategory} Journal — CHESTAADOTCOM Insight` : "Journal & Insight — CHESTAADOTCOM Digital Strategy"))} 
+              description={geoIntent.getLocalizedDesc((topicSlug || categorySlug) ? seoData.description : (selectedCategory !== 'All' ? `Baca artikel terbaru dan panduan seputar ${selectedCategory} dari tim ahli CHESTAADOTCOM.` : "Kurasi strategi digital tier-1: Otomasi Agentic AI, Framework SEO 2026, Psikologi Konversi, dan Arsitektur Web Berperforma Tinggi."))} 
               breadcrumbs={[
                 { name: 'Home', item: '/' },
                 { name: 'Insight', item: '/blog' },
+                ...((topicSlug || categorySlug) && selectedCategory !== 'All' ? [{ name: selectedCategory, item: `/blog/topic/${selectedCategory.toLowerCase().replace(/[^a-z0-9]+/g, '-')}` }] : []),
+                ...(subTopicSlug ? [{ name: subTopicSlug.replace(/-/g, ' '), item: `/blog/topic/${topicSlug}/${subTopicSlug}` }] : [])
               ]}
+            />
+            
+            <FAQSchema 
+              faqs={[
+                {
+                  question: `Apa saja tren digital terbaru di ${geoIntent.isCustomized ? geoIntent.location : 'BSD City'}?`,
+                  answer: `Tren utama mencakup adopsi Agentic AI dan strategi Local AEO untuk memperkuat dominasi pencarian spesifik di area ${geoIntent.isCustomized ? geoIntent.location : 'BSD dan sekitarnya'}.`
+                },
+                {
+                  question: `Mengapa optimasi AEO penting untuk bisnis di ${geoIntent.isCustomized ? geoIntent.location : 'Tangerang'}?`,
+                  answer: `Answer Engine Optimization (AEO) memastikan bisnis Anda muncul langsung sebagai jawaban instan di Google SGE, memberikan visibilitas maksimal bagi pelanggan lokal di area tersebut.`
+                }
+              ]}
+              areasServed={geoIntent.isCustomized ? [geoIntent.location] : ['BSD City', 'Cisauk', 'Tangerang', 'Tangerang Selatan']}
             />
 
             {/* Header Hero Section */}
@@ -595,7 +663,6 @@ export default function BlogHubPage() {
               <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-gradient-to-bl from-purple-500/10 via-purple-500/5 to-transparent blur-3xl rounded-full pointer-events-none" />
 
               <div className="mx-auto max-w-7xl px-6 w-full relative z-10">
-                <Breadcrumbs items={[{ label: 'Insight', path: '/blog' }]} />
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-end mt-4">
                   <div className="lg:col-span-7">
                     <motion.div
@@ -608,12 +675,18 @@ export default function BlogHubPage() {
                         Digital Insights & Strategies 2026
                       </div>
                       
-                      <h1 className="text-5xl sm:text-6xl lg:text-7xl font-serif font-medium tracking-tight leading-[1.05] text-slate-900">
-                        The <span className="text-purple-700 italic">Journal.</span>
+                      <h1 className="text-5xl sm:text-6xl lg:text-7xl font-serif font-medium tracking-tight leading-[1.05] text-slate-900 capitalize">
+                        {(topicSlug || categorySlug) ? (
+                          <>{(topicSlug || categorySlug)?.replace(/-/g, ' ')} <span className="text-purple-700 italic">Journal.</span></>
+                        ) : (
+                          <>{geoIntent.getLocalizedH1('The')} <span className="text-purple-700 italic">Journal.</span></>
+                        )}
                       </h1>
                       
                       <p className="text-base sm:text-lg text-slate-600 font-sans max-w-xl leading-relaxed mt-6 border-l-2 border-purple-200 pl-5">
-                        Eksplorasi wawasan mendalam seputar inovasi Agentic AI, optimasi SEO terkini, arsitektur web performa tinggi, dan psikologi konversi digital.
+                        {(topicSlug || categorySlug) 
+                          ? seoData.description 
+                          : "Eksplorasi wawasan mendalam seputar inovasi Agentic AI, optimasi SEO terkini, arsitektur web performa tinggi, dan psikologi konversi digital."}
                       </p>
                     </motion.div>
                   </div>
@@ -640,7 +713,16 @@ export default function BlogHubPage() {
                           />
                         </div>
                         
-                        {/* Removed Category Dropdown */}
+                        {/* Category Dropdown */}
+                        <div className="hidden sm:block h-6 w-px bg-slate-200 mx-2 shrink-0"></div>
+                        <div className="flex items-center shrink-0 border-t border-slate-100 sm:border-none mt-2 sm:mt-0 pt-2 sm:pt-0">
+                          <BlogCategoryDropdown 
+                            categories={categories}
+                            selectedCategory={selectedCategory}
+                            onSelectCategory={setSelectedCategory}
+                          />
+                        </div>
+                        
                         <div className="hidden sm:block h-6 w-px bg-slate-200 mx-2 shrink-0"></div>
                         
                         {/* Action Buttons */}
@@ -776,9 +858,17 @@ export default function BlogHubPage() {
                             {featuredArticle.desc}
                           </p>
 
-                          <div className="flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-widest text-[#6b21a8]">
-                            <span>Baca Ulasan Lengkap</span>
-                            <ArrowRight size={14} className="transform group-hover:translate-x-1.5 transition-transform" />
+                          <div className="flex items-center gap-4">
+                            <div className="flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-widest text-[#6b21a8]">
+                              <span>Baca Ulasan Lengkap</span>
+                              <ArrowRight size={14} className="transform group-hover:translate-x-1.5 transition-transform" />
+                            </div>
+                            <button 
+                              onClick={(e) => { e.preventDefault(); e.stopPropagation(); setQuickReadArticle(featuredArticle); }}
+                              className="bg-purple-100 hover:bg-purple-200 text-purple-700 px-3 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider transition-colors z-10 relative"
+                            >
+                              Quick Read
+                            </button>
                           </div>
                         </div>
                         
@@ -909,9 +999,17 @@ export default function BlogHubPage() {
                         </div>
                       )}
 
-                      <div className="pt-4 border-t border-slate-100 flex items-center justify-between text-xs font-mono font-semibold tracking-wider text-[#6b21a8]">
-                        <span>Baca Selengkapnya</span>
-                        <ArrowRight size={14} className="transform group-hover:translate-x-1 transition-transform" />
+                      <div className="pt-4 border-t border-slate-100 flex items-center justify-between text-xs font-mono font-semibold tracking-wider text-[#6b21a8] w-full relative">
+                        <button 
+                          onClick={(e) => { e.preventDefault(); e.stopPropagation(); setQuickReadArticle(art); }}
+                          className="bg-purple-100 hover:bg-purple-200 text-purple-700 px-2 py-1 rounded uppercase transition-colors z-10"
+                        >
+                          Quick Read
+                        </button>
+                        <div className="flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+                          <span>Baca Selengkapnya</span>
+                          <ArrowRight size={14} />
+                        </div>
                       </div>
                     </motion.article>
                   ))
@@ -948,6 +1046,11 @@ export default function BlogHubPage() {
                               onClick={() => {
                                 setSelectedCategory(cat);
                                 setSelectedTag(null);
+                                if (cat === 'All') {
+                                  navigate('/blog');
+                                } else {
+                                  navigate(`/blog/category/${cat.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`);
+                                }
                               }}
                               className={`w-full text-left px-4 py-3 rounded-xl transition-all duration-300 flex items-center justify-between group ${
                                 isActive 
@@ -995,6 +1098,7 @@ export default function BlogHubPage() {
                 </aside>
               </div>
               
+              <AEOLocalContentBlock seoData={seoData} topicSlug={topicSlug} categorySlug={categorySlug} />
               <div className="mt-24">
                 <NewsletterForm />
               </div>

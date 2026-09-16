@@ -13,7 +13,11 @@ interface ServiceFaqSectionProps {
 
 export default function ServiceFaqSection({ faqs, openFaq, setOpenFaq }: ServiceFaqSectionProps) {
   return (
-    <div className="max-w-3xl mx-auto mb-16 text-slate-900">
+    <div 
+      className="max-w-3xl mx-auto mb-16 text-slate-900"
+      itemScope 
+      itemType="https://schema.org/FAQPage"
+    >
       <div className="text-center mb-12">
         <span className="text-xs font-mono font-bold text-purple-700 uppercase tracking-widest block mb-2">Pusat Bantuan &amp; FAQ</span>
         <h2 className="text-3xl sm:text-4xl font-display font-black text-slate-900 tracking-tight">
@@ -34,12 +38,18 @@ export default function ServiceFaqSection({ faqs, openFaq, setOpenFaq }: Service
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: idx * 0.05 }}
               className="rounded-2xl bg-white/80 backdrop-blur-md border border-slate-200/90 overflow-hidden transition-all shadow-xs hover:border-purple-300"
+              itemScope
+              itemProp="mainEntity"
+              itemType="https://schema.org/Question"
             >
               <button
                 onClick={() => setOpenFaq(isOpen ? null : idx)}
                 className="w-full flex items-center justify-between p-6 text-left font-display font-bold text-slate-900 text-base sm:text-lg hover:bg-purple-50/50 transition-colors cursor-pointer group"
+                aria-expanded={isOpen}
               >
-                <span className="group-hover:text-purple-950 transition-colors">{faq.q}</span>
+                <span className="group-hover:text-purple-950 transition-colors" itemProp="name">
+                  {faq.q}
+                </span>
                 <motion.span 
                   animate={{ rotate: isOpen ? 180 : 0 }}
                   transition={{ duration: 0.2 }}
@@ -60,8 +70,14 @@ export default function ServiceFaqSection({ faqs, openFaq, setOpenFaq }: Service
                     animate={{ height: 'auto', opacity: 1 }}
                     exit={{ height: 0, opacity: 0 }}
                     transition={{ duration: 0.3, ease: 'easeInOut' }}
+                    itemScope
+                    itemProp="acceptedAnswer"
+                    itemType="https://schema.org/Answer"
                   >
-                    <div className="px-6 pb-6 text-slate-700 font-sans text-sm sm:text-base leading-relaxed border-t border-slate-100/80 pt-4 bg-purple-50/20">
+                    <div 
+                      className="px-6 pb-6 text-slate-700 font-sans text-sm sm:text-base leading-relaxed border-t border-slate-100/80 pt-4 bg-purple-50/20"
+                      itemProp="text"
+                    >
                       {faq.a}
                     </div>
                   </motion.div>

@@ -4,8 +4,8 @@ import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../../lib/firebase';
 
 import SchemaMarkup from './SchemaMarkup';
+import LocalBusinessSchema from './LocalBusinessSchema';
 import { 
-  generateLocalBusinessSchema, 
   generateWebSiteSchema, 
   generateSiteNavigationElement, 
   generateBreadcrumbs, 
@@ -21,9 +21,12 @@ interface MetaTagsProps {
   breadcrumbs?: { name: string; item: string }[];
   serviceName?: string;
   cityName?: string;
+  keywords?: string[];
+  searchIntent?: string;
+  snippetFormat?: string;
 }
 
-export default function MetaTags({ title, description, path = '/', breadcrumbs, serviceName, cityName, schemaString }: MetaTagsProps) {
+export default function MetaTags({ title, description, path = '/', breadcrumbs, serviceName, cityName, schemaString, keywords, searchIntent, snippetFormat }: MetaTagsProps) {
   const defaultTitle = "chestaa.com | Arsitek Web & AI Automation di BSD & Cisauk";
   const defaultDesc = "Solusi B2B Software House elit. Tingkatkan skala bisnis Enterprise dan Tech Startup Anda dengan High-Performance Web Development dan AI Automation di BSD City & Cisauk.";
   
@@ -71,7 +74,6 @@ export default function MetaTags({ title, description, path = '/', breadcrumbs, 
   const url = `https://chestaa.com${path.startsWith('/') ? path : '/' + path}`.replace(/\/+$/, '');
   
   const websiteLd = generateWebSiteSchema();
-  const localBusinessLd = generateLocalBusinessSchema();
   const siteNavLd = generateSiteNavigationElement();
   const breadcrumbLd = breadcrumbs ? generateBreadcrumbs(breadcrumbs) : null;
   const serviceLd = serviceName ? generateServiceSchema(serviceName, description, url) : null;
@@ -82,10 +84,12 @@ export default function MetaTags({ title, description, path = '/', breadcrumbs, 
   return (
     <>
       <SchemaMarkup />
+      <LocalBusinessSchema />
     <Helmet>
       <title>{finalTitle}</title>
       <meta name="description" content={finalDesc} />
       <link rel="canonical" href={url || "https://chestaa.com"} />
+      <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
       
       {/* Open Graph / Facebook */}
       <meta property="og:type" content="website" />
@@ -102,6 +106,17 @@ export default function MetaTags({ title, description, path = '/', breadcrumbs, 
       <meta name="twitter:description" content={finalDesc} />
       <meta name="twitter:image" content={ogImage} />
 
+      {/* Search Intent & Featured Snippet Optimization */}
+      {keywords && keywords.length > 0 && (
+        <meta name="keywords" content={keywords.join(', ')} />
+      )}
+      {searchIntent && (
+        <meta name="search-intent" content={searchIntent} />
+      )}
+      {snippetFormat && (
+        <meta name="google-snippet-format" content={snippetFormat} />
+      )}
+
       {/* Local SEO / Geo Tags */}
       <meta name="geo.region" content="ID-BT" />
       <meta name="geo.placename" content={cityName || "BSD City, Cisauk"} />
@@ -111,7 +126,6 @@ export default function MetaTags({ title, description, path = '/', breadcrumbs, 
 
       
       <script type="application/ld+json">{JSON.stringify(websiteLd)}</script>
-      <script type="application/ld+json">{JSON.stringify(localBusinessLd)}</script>
       <script type="application/ld+json">{JSON.stringify(siteNavLd)}</script>
       {breadcrumbLd && <script type="application/ld+json">{JSON.stringify(breadcrumbLd)}</script>}
       {serviceLd && <script type="application/ld+json">{JSON.stringify(serviceLd)}</script>}

@@ -8,6 +8,8 @@ import { Link } from 'react-router-dom';
 import chestaPhoto from '../assets/images/regenerated_image_1787838669318.png';
 import { generateLocalBusinessSchema } from '../lib/seo';
 import AnimatedCounter from '../components/atoms/AnimatedCounter';
+import TechNodeMap from '../components/atoms/TechNodeMap';
+import ServiceAreaMap from '../components/atoms/ServiceAreaMap';
 
 export default function AboutPage() {
   return (
@@ -123,6 +125,35 @@ export default function AboutPage() {
               </span>
             </div>
           </div>
+        </motion.div>
+
+        {/* Tech Ecosystem Visualization */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+          className="mb-12"
+        >
+          <div className="mb-6">
+            <h3 className="text-xl sm:text-2xl font-display font-extrabold text-slate-900 mb-2">
+              Ekosistem Teknologi Kami
+            </h3>
+            <p className="text-sm text-slate-500 max-w-xl">
+              Visualisasi interaktif keterkaitan antara framework, layanan cloud, dan kecerdasan buatan yang kami gunakan untuk membangun solusi Anda.
+            </p>
+          </div>
+          <TechNodeMap />
+        </motion.div>
+        
+        {/* Service Area Map */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.7, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+        >
+          <ServiceAreaMap />
         </motion.div>
 
         {/* Minimalist Call-To-Action Box */}

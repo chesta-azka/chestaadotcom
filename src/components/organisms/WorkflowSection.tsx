@@ -2,6 +2,7 @@ import { motion, useScroll, useTransform } from 'motion/react';
 import { MessageCircle, CheckCircle2, Code2, Globe2, ArrowRight, Bot } from 'lucide-react';
 import SectionHeader from './SectionHeader';
 import { useRef } from 'react';
+import { generateHowToSchema } from '../../lib/seo';
 
 const steps = [
     { 
@@ -49,8 +50,18 @@ export default function WorkflowSection() {
       window.dispatchEvent(new CustomEvent('open-floating-ai'));
     };
 
+    const howToSchema = generateHowToSchema(
+        "Cara Memesan Website via WhatsApp",
+        "Proses cepat tanpa birokrasi formulir web. Konsultasi langsung dengan Principal Engineer.",
+        steps
+    );
+
     return (
         <section className="py-4 sm:py-8 text-slate-900 relative overflow-hidden" ref={containerRef}>
+            <script 
+              type="application/ld+json"
+              dangerouslySetInnerHTML={{ __html: JSON.stringify(howToSchema) }}
+            />
             {/* Subtle Clean Accents */}
             <div className="absolute top-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-purple-200/50 to-transparent" />
             <div className="absolute bottom-0 inset-x-0 h-px bg-gradient-to-r from-transparent via-purple-200/50 to-transparent" />

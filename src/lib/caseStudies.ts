@@ -8,6 +8,7 @@ export interface CaseStudy {
   roi: string;
   image?: string;
   generated_by_ai?: boolean;
+  tags?: string[];
 }
 
 export const caseStudyDB: CaseStudy[] = [

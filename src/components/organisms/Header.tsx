@@ -16,6 +16,7 @@ const NAV_ITEMS: NavItem[] = [
   { name: 'Home', href: '/', icon: Home, subtitle: 'Beranda' },
   {
     name: 'Layanan',
+    href: '/layanan',
     icon: Code2,
     children: [
       { name: 'Web Dev Next.js', href: '/layanan/web-development-nextjs', icon: Code2, subtitle: 'Website Super Cepat & Enterprise' },
@@ -167,17 +168,19 @@ export default function Header() {
             </Link>
 
             {/* Desktop Navigation Links */}
-            <nav className="hidden md:flex items-center gap-1.5">
+            <nav className="hidden md:flex items-center gap-1.5" aria-label="Main Navigation">
+              <ul className="flex items-center gap-1.5 list-none p-0 m-0">
               {NAV_ITEMS.map((item) => {
                 const isActive = item.href 
                   ? location.pathname === item.href || (item.href !== '/' && location.pathname.startsWith(item.href))
                   : item.children?.some(child => location.pathname === child.href || location.pathname.startsWith(child.href));
                   
                 return (
-                  <div key={item.name} className="relative group/navitem">
+                  <li key={item.name} className="relative group/navitem list-none">
                     {item.href ? (
                       <Link
                         to={item.href}
+                        aria-current={isActive ? 'page' : undefined}
                         className={`rounded-xl text-xs font-mono font-bold uppercase tracking-wider transition-colors duration-200 relative flex items-center px-4 py-2 ${
                           isActive
                             ? 'text-purple-900 bg-purple-50 border border-purple-200 shadow-2xs'
@@ -187,7 +190,9 @@ export default function Header() {
                         {item.name}
                       </Link>
                     ) : (
-                      <div
+                      <button
+                        aria-haspopup="true"
+                        aria-expanded="false"
                         className={`rounded-xl text-xs font-mono font-bold uppercase tracking-wider transition-colors duration-200 relative flex items-center px-4 py-2 gap-1.5 cursor-pointer ${
                           isActive
                             ? 'text-purple-900 bg-purple-50 border border-purple-200 shadow-2xs'
@@ -196,13 +201,13 @@ export default function Header() {
                       >
                         {item.name}
                         <ChevronDown size={12} className="group-hover/navitem:rotate-180 transition-transform duration-200 text-slate-400" />
-                      </div>
+                      </button>
                     )}
 
                     {/* Dropdown Menu */}
                     {item.children && (
                       <div className="absolute top-full left-1/2 -translate-x-1/2 pt-3 opacity-0 translate-y-2 pointer-events-none group-hover/navitem:opacity-100 group-hover/navitem:translate-y-0 group-hover/navitem:pointer-events-auto transition-all duration-300 z-50">
-                        <div className="w-64 bg-white border border-slate-200 shadow-xl rounded-2xl p-2.5 flex flex-col gap-1.5 relative">
+                        <ul className="w-64 bg-white border border-slate-200 shadow-xl rounded-2xl p-2.5 flex flex-col gap-1.5 relative list-none m-0">
                           {/* Triangle indicator */}
                           <div className="absolute -top-1.5 left-1/2 -translate-x-1/2 w-3 h-3 bg-white border-t border-l border-slate-200 rotate-45" />
                           
@@ -210,31 +215,34 @@ export default function Header() {
                             const Icon = child.icon;
                             const isChildActive = location.pathname === child.href || location.pathname.startsWith(child.href);
                             return (
-                              <Link
-                                key={child.name}
-                                to={child.href}
-                                className={`flex items-center gap-3 p-3 rounded-xl transition-all border ${
-                                  isChildActive 
-                                    ? 'bg-purple-50 text-purple-950 border-purple-200 font-bold' 
-                                    : 'bg-white hover:bg-slate-50 text-slate-700 hover:text-slate-900 border-transparent'
-                                }`}
-                              >
-                                <div className={`p-2 rounded-xl border ${isChildActive ? 'bg-purple-100 text-purple-800 border-purple-200' : 'bg-slate-100 text-slate-600 border-slate-200'}`}>
-                                  <Icon size={16} />
-                                </div>
-                                <div className="flex flex-col text-left">
-                                  <span className="text-xs font-bold font-sans">{child.name}</span>
-                                  <span className="text-[10px] text-slate-500 font-sans tracking-wide">{child.subtitle}</span>
-                                </div>
-                              </Link>
-                            )
+                              <li key={child.name} className="list-none">
+                                <Link
+                                  to={child.href}
+                                  aria-current={isChildActive ? 'page' : undefined}
+                                  className={`flex items-center gap-3 p-3 rounded-xl transition-all border ${
+                                    isChildActive
+                                       ? 'bg-purple-50 text-purple-950 border-purple-200 font-bold'
+                                       : 'bg-white hover:bg-slate-50 text-slate-700 hover:text-slate-900 border-transparent'
+                                  }`}
+                                >
+                                  <div className={`p-2 rounded-xl border ${isChildActive ? 'bg-purple-100 text-purple-800 border-purple-200' : 'bg-slate-100 text-slate-600 border-slate-200'}`}>
+                                    <Icon size={16} />
+                                  </div>
+                                  <div className="flex flex-col text-left">
+                                    <span className="text-xs font-bold font-sans">{child.name}</span>
+                                    <span className="text-[10px] text-slate-500 font-sans tracking-wide">{child.subtitle}</span>
+                                  </div>
+                                </Link>
+                              </li>
+                            );
                           })}
-                        </div>
+                        </ul>
                       </div>
                     )}
-                  </div>
+                  </li>
                 );
               })}
+              </ul>
             </nav>
             
             {/* Action Area */}
@@ -320,6 +328,9 @@ export default function Header() {
               transition={{ type: 'spring', damping: 25, stiffness: 240 }}
               className="fixed inset-y-0 right-0 z-50 w-full max-w-sm md:hidden bg-white border-l border-slate-200 shadow-2xl flex flex-col justify-between overflow-y-auto rounded-l-3xl"
               style={{ overscrollBehavior: 'contain' }}
+              role="dialog"
+              aria-modal="true"
+              aria-label="Mobile Menu Drawer"
             >
               {/* Top Bar inside Drawer */}
               <div className="w-full flex items-center justify-between px-6 py-5 border-b border-slate-100 shrink-0 bg-slate-50/50">
@@ -372,7 +383,8 @@ export default function Header() {
                 </motion.button>
 
                 {/* Navigation Links List */}
-                <nav className="space-y-2.5">
+                <nav className="space-y-2.5" aria-label="Mobile Navigation">
+                  <ul className="space-y-2.5 list-none p-0 m-0">
                   {NAV_ITEMS.map((item, index) => {
                     const Icon = item.icon || ChevronRight;
                     const isActive = item.href 
@@ -381,17 +393,18 @@ export default function Header() {
                     const isExpanded = expandedMenus.includes(item.name);
 
                     return (
-                      <motion.div
+                      <motion.li
                         key={item.name}
                         initial={{ opacity: 0, x: 20 }}
                         animate={{ opacity: 1, x: 0 }}
                         transition={{ duration: 0.25, delay: 0.1 + index * 0.04 }}
-                        className="flex flex-col gap-1"
+                        className="flex flex-col gap-1 list-none"
                       >
                         {item.href ? (
                           <Link
                             to={item.href}
                             onClick={() => setMobileMenuOpen(false)}
+                            aria-current={isActive ? 'page' : undefined}
                             className={`flex items-center justify-between p-3.5 rounded-2xl transition-all border ${
                               isActive
                                 ? 'bg-purple-50 border-purple-200 text-purple-950 font-bold shadow-2xs'
@@ -411,6 +424,8 @@ export default function Header() {
                         ) : (
                           <button
                             onClick={() => toggleMenu(item.name)}
+                            aria-expanded={isExpanded}
+                            aria-haspopup="true"
                             className={`flex items-center justify-between p-3.5 rounded-2xl transition-all w-full border ${
                               isActive || isExpanded
                                 ? 'bg-purple-50 border-purple-200 text-purple-950 font-bold'
@@ -439,40 +454,43 @@ export default function Header() {
                               transition={{ duration: 0.25 }}
                               className="overflow-hidden"
                             >
-                              <div className="pl-3 pr-1 py-2 space-y-2 border-l-2 border-purple-200 ml-6 mt-1 bg-slate-50/50">
+                              <ul className="pl-3 pr-1 py-2 space-y-2 border-l-2 border-purple-200 ml-6 mt-1 bg-slate-50/50 list-none m-0">
                                 {item.children.map((child) => {
                                   const ChildIcon = child.icon;
                                   const isChildActive = location.pathname === child.href || location.pathname.startsWith(child.href);
                                   return (
-                                    <Link
-                                      key={child.name}
-                                      to={child.href}
-                                      onClick={() => setMobileMenuOpen(false)}
-                                      className={`flex items-center justify-between p-3 rounded-xl transition-all border ${
-                                        isChildActive
-                                          ? 'bg-purple-100 text-purple-950 font-bold border-purple-200'
-                                          : 'bg-white text-slate-700 hover:bg-slate-100 border-slate-200'
-                                      }`}
-                                    >
-                                      <div className="flex items-center gap-3">
-                                        <div className={`p-2 rounded-xl border ${isChildActive ? 'bg-purple-200 text-purple-800 border-purple-300' : 'bg-slate-100 text-slate-600 border-slate-200'}`}>
-                                          <ChildIcon size={15} />
+                                    <li key={child.name} className="list-none">
+                                      <Link
+                                        to={child.href}
+                                        onClick={() => setMobileMenuOpen(false)}
+                                        aria-current={isChildActive ? 'page' : undefined}
+                                        className={`flex items-center justify-between p-3 rounded-xl transition-all border ${
+                                          isChildActive
+                                            ? 'bg-purple-100 text-purple-950 font-bold border-purple-200'
+                                            : 'bg-white text-slate-700 hover:bg-slate-100 border-slate-200'
+                                        }`}
+                                      >
+                                        <div className="flex items-center gap-3">
+                                          <div className={`p-2 rounded-xl border ${isChildActive ? 'bg-purple-200 text-purple-800 border-purple-300' : 'bg-slate-100 text-slate-600 border-slate-200'}`}>
+                                            <ChildIcon size={15} />
+                                          </div>
+                                          <div className="flex flex-col text-left">
+                                            <span className="font-sans text-xs font-bold">{child.name}</span>
+                                            <span className="text-[10px] text-slate-500 font-sans">{child.subtitle}</span>
+                                          </div>
                                         </div>
-                                        <div className="flex flex-col text-left">
-                                          <span className="font-sans text-xs font-bold">{child.name}</span>
-                                          <span className="text-[10px] text-slate-500 font-sans">{child.subtitle}</span>
-                                        </div>
-                                      </div>
-                                    </Link>
+                                      </Link>
+                                    </li>
                                   );
                                 })}
-                              </div>
+                              </ul>
                             </motion.div>
                           )}
                         </AnimatePresence>
-                      </motion.div>
+                      </motion.li>
                     );
                   })}
+                  </ul>
                 </nav>
 
                 {/* Direct Contact Action Button */}

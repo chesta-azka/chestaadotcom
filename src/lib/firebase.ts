@@ -27,6 +27,7 @@ const firebaseConfig = {
 };
 
 const app = getApps().length > 0 ? getApp() : initializeApp(firebaseConfig);
+// @ts-ignore
 const databaseId = firebaseAppletConfig.firestoreDatabaseId || "ai-studio-07319849-f721-4705-badf-87d9debdf6a5";
 
 // Use initializeFirestore with experimentalForceLongPolling for better connection stability in restricted network environments like AI Studio Preview Iframe

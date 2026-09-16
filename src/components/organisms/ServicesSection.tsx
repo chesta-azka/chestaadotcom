@@ -1,5 +1,5 @@
-import { useState } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
+import { useState, useRef } from 'react';
+import { motion, AnimatePresence, useScroll, useTransform } from 'motion/react';
 import { Link } from 'react-router-dom';
 import TiltCard from '../atoms/TiltCard';
 import { ArrowUpRight, Gauge, Smartphone, MessageCircle, Grid2X2, ChevronDown, Sparkles } from 'lucide-react';
@@ -65,11 +65,21 @@ const features = [
 
 export default function ServicesSection() {
   const [showOtherServices, setShowOtherServices] = useState(false);
+  const containerRef = useRef<HTMLElement>(null);
+  const { scrollYProgress } = useScroll({
+    target: containerRef,
+    offset: ["start end", "end start"]
+  });
+
+  const bgY = useTransform(scrollYProgress, [0, 1], [-50, 50]);
 
   return (
-    <section className="py-24 md:py-32 bg-white text-slate-900 relative overflow-hidden select-none min-h-screen flex items-center justify-center border-t border-slate-100">
+    <section ref={containerRef} className="py-24 md:py-32 bg-white text-slate-900 relative overflow-hidden select-none min-h-screen flex items-center justify-center border-t border-slate-100">
       {/* Seamless background blending gradients */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(147,51,234,0.03),transparent_50%),radial-gradient(ellipse_at_bottom_left,rgba(6,182,212,0.03),transparent_50%)] pointer-events-none" />
+      <motion.div 
+        style={{ y: bgY }}
+        className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(147,51,234,0.03),transparent_50%),radial-gradient(ellipse_at_bottom_left,rgba(6,182,212,0.03),transparent_50%)] pointer-events-none" 
+      />
       
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10 w-full py-12">
         
@@ -269,7 +279,7 @@ export default function ServicesSection() {
                 <h3 className="text-3xl sm:text-4xl font-display font-black tracking-tight text-white mb-6 leading-tight">
                   Standar Mutu <br/> Tanpa Kompromi.
                 </h3>
-                <p className="text-slate-400 font-sans text-sm leading-relaxed">
+                <p className="text-white font-sans text-sm leading-relaxed opacity-90">
                   Kami menolak penggunaan template instan. Setiap baris kode ditulis untuk memastikan stabilitas tingkat tinggi, performa kilat, dan arsitektur yang siap di-*scale* kapan saja.
                 </p>
               </div>
@@ -291,7 +301,7 @@ export default function ServicesSection() {
                       <h4 className="text-base font-bold font-display tracking-wide mb-2 text-white">
                         {f.title}
                       </h4>
-                      <p className="text-xs sm:text-sm font-sans text-slate-400 leading-relaxed">
+                      <p className="text-xs sm:text-sm font-sans text-white leading-relaxed opacity-80">
                         {f.desc}
                       </p>
                     </div>
@@ -301,6 +311,18 @@ export default function ServicesSection() {
             </div>
           </div>
         </motion.div>
+        
+        {/* View All Services Hub CTA */}
+        <div className="mt-16 flex justify-center">
+          <Link
+            to="/layanan"
+            onClick={() => window.scrollTo(0, 0)}
+            className="flex items-center gap-3 px-10 py-5 bg-slate-900 hover:bg-purple-900 text-white rounded-2xl font-sans font-black text-sm uppercase tracking-widest transition-all shadow-xl hover:-translate-y-1 group"
+          >
+            <span>Eksplor Semua Layanan</span>
+            <ArrowUpRight size={18} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
+          </Link>
+        </div>
 
       </div>
     </section>

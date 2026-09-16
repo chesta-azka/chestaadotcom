@@ -15,9 +15,13 @@ import SocialShare from '../components/molecules/SocialShare.tsx';
 import { SocialPreviewGenerator } from '../components/molecules/SocialPreviewGenerator.tsx';
 import LazyImage from '../components/atoms/LazyImage.tsx';
 import ReadNextSection from '../components/organisms/ReadNextSection.tsx';
+import RelatedInternalLinks from '../components/organisms/RelatedInternalLinks';
+import InternalLinkingWidget from '../components/organisms/InternalLinkingWidget';
 import { ALL_ARTICLES, Article } from '../data/blogData';
 import { TextSelectionToolbar } from '../components/organisms/TextSelectionToolbar.tsx';
+import Breadcrumbs from '../components/atoms/Breadcrumbs.tsx';
 import { useSEOOptimizer } from '../hooks/useSEOOptimizer';
+import { analyzeArticleSearchIntent } from '../utils/searchIntentAnalyzer';
 
 // Skeleton Component for Blog Post Loading State
 const BlogPostSkeleton = () => (
@@ -207,17 +211,17 @@ const CheckList = ({ title, items }: { title: string; items: string[] }) => (
 );
 
 const StatCard = ({ percentage, label, caption }: { percentage: string; label: string; caption?: string }) => (
-  <div className="my-14 p-8 sm:p-10 rounded-xl bg-gradient-to-br from-slate-950 via-purple-950 to-slate-900 text-white shadow-2xl flex flex-col sm:flex-row items-start sm:items-center gap-6 sm:gap-10 border border-purple-500/25 relative overflow-hidden group">
-    <div className="absolute -right-10 -top-10 w-48 h-48 bg-purple-500/25 blur-3xl rounded-full group-hover:bg-purple-500/35 transition-colors duration-500" />
-    <div className="text-6xl sm:text-7xl font-display font-black text-purple-700 drop-shadow-md shrink-0">
+  <div className="my-14 p-8 sm:p-10 rounded-xl bg-slate-50 text-slate-900 shadow-xl flex flex-col sm:flex-row items-start sm:items-center gap-6 sm:gap-10 border border-purple-100 relative overflow-hidden group">
+    <div className="absolute -right-10 -top-10 w-48 h-48 bg-purple-500/5 blur-3xl rounded-full group-hover:bg-purple-500/10 transition-colors duration-500" />
+    <div className="text-6xl sm:text-7xl font-display font-black text-purple-600 drop-shadow-sm shrink-0">
       {percentage}
     </div>
     <div className="space-y-1 max-w-lg">
-      <div className="text-lg sm:text-xl font-display font-bold text-white leading-snug">
+      <div className="text-lg sm:text-xl font-display font-bold text-slate-900 leading-snug">
         {label}
       </div>
       {caption && (
-        <p className="text-xs sm:text-sm font-sans text-purple-200/80 leading-relaxed m-0">
+        <p className="text-xs sm:text-sm font-sans text-slate-600 leading-relaxed m-0">
           {caption}
         </p>
       )}
@@ -314,12 +318,12 @@ const Heading2 = ({ children, id, ...props }: any) => {
     <h2
       id={headingId}
       {...props}
-      className="scroll-mt-32 font-display font-extrabold tracking-tight text-white text-3xl sm:text-4xl mt-28 md:mt-36 mb-8 pt-10 border-t-2 border-purple-800/80 flex items-center justify-between group"
+      className="scroll-mt-32 font-display font-extrabold tracking-tight text-slate-900 text-3xl sm:text-4xl mt-28 md:mt-36 mb-8 pt-10 border-t-2 border-purple-100 flex items-center justify-between group"
     >
       <span>{children}</span>
       <a 
         href={`#${headingId}`} 
-        className="opacity-0 group-hover:opacity-100 transition-opacity text-purple-300 hover:text-purple-400 ml-3 text-2xl no-underline font-normal"
+        className="opacity-0 group-hover:opacity-100 transition-opacity text-purple-300 hover:text-purple-600 ml-3 text-2xl no-underline font-normal"
         aria-label="Tautan ke bagian ini"
       >
         #
@@ -335,12 +339,12 @@ const Heading3 = ({ children, id, ...props }: any) => {
     <h3
       id={headingId}
       {...props}
-      className="scroll-mt-32 font-display font-bold tracking-tight text-white text-2xl sm:text-3xl mt-20 md:mt-24 mb-6 flex items-center justify-between group"
+      className="scroll-mt-32 font-display font-bold tracking-tight text-slate-900 text-2xl sm:text-3xl mt-20 md:mt-24 mb-6 flex items-center justify-between group"
     >
       <span>{children}</span>
       <a 
         href={`#${headingId}`} 
-        className="opacity-0 group-hover:opacity-100 transition-opacity text-purple-300 hover:text-purple-400 ml-3 text-xl no-underline font-normal"
+        className="opacity-0 group-hover:opacity-100 transition-opacity text-purple-300 hover:text-purple-600 ml-3 text-xl no-underline font-normal"
         aria-label="Tautan ke bagian ini"
       >
         #
@@ -352,7 +356,7 @@ const Heading3 = ({ children, id, ...props }: any) => {
 const Heading4 = ({ children, ...props }: any) => (
   <h4
     {...props}
-    className="scroll-mt-32 font-display font-bold tracking-tight text-white text-xl sm:text-2xl mt-14 md:mt-16 mb-5"
+    className="scroll-mt-32 font-display font-bold tracking-tight text-slate-900 text-xl sm:text-2xl mt-14 md:mt-16 mb-5"
   >
     {children}
   </h4>
@@ -454,17 +458,23 @@ export default function BlogPostPage() {
   // Extract headings for TOC
   const headings = unifiedContent.match(/^##\s+(.*)/gm)?.map((h: string, i: number) => ({ id: `heading-${i}`, text: h.replace(/^##\s+/, ''), level: 2 })) || [];
 
+  // Analyze search intent and extract QAR-driven meta-tags
+  const searchIntentData = analyzeArticleSearchIntent(post);
+
   return (
-    <main className="min-h-screen bg-slate-950 font-sans selection:bg-purple-500/30">
+    <main className="min-h-screen bg-white font-sans selection:bg-purple-100">
       <MetaTags 
         title={post.title}
         description={post.desc}
         path={`/blog/${post.slug}`}
+        keywords={searchIntentData.generatedMetaTags.metaKeywords}
+        searchIntent={searchIntentData.primaryIntent}
+        snippetFormat={searchIntentData.snippetFormat}
         schemaString={JSON.stringify(generateArticleSchema(post.title, post.desc, `https://chestaa.com/blog/${post.slug}`, post.image || "https://chestaa.com/favicon.svg", post.date, post.author?.name || "Chesta Azka Sofyan"))}
       />
 
       {/* Hero Section */}
-      <div className="relative h-[62vh] min-h-[560px] w-full overflow-hidden bg-purple-950">
+      <div className="relative h-[62vh] min-h-[560px] w-full overflow-hidden bg-slate-50">
         <motion.div 
           style={{ y, opacity }}
           className="absolute inset-0"
@@ -473,49 +483,46 @@ export default function BlogPostPage() {
             src={post.image || 'https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=2000'} 
             blurSrc={(post.image || 'https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=20') + '&blur=20'}
             alt={post.title}
-            className="w-full h-full object-cover opacity-30 scale-105 mix-blend-overlay"
+            className="w-full h-full object-cover opacity-10 scale-105"
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-purple-950 via-slate-950 to-purple-950/95" />
+          <div className="absolute inset-0 bg-gradient-to-t from-white via-white/80 to-purple-50/40" />
         </motion.div>
 
         <div className="absolute inset-0 flex items-end">
           <div className="max-w-5xl mx-auto px-6 pb-16 md:pb-20 w-full">
-            <Link to="/blog" className="inline-flex items-center gap-2 text-white hover:text-purple-200 transition-colors mb-8 text-xs font-bold tracking-widest uppercase bg-white/20 hover:bg-white/30 px-4 py-2 rounded-full backdrop-blur-md border border-white/30 shadow-md">
-              <ChevronLeft size={16} /> KEMBALI KE BLOG HUB
-            </Link>
             
             <div className="flex flex-wrap items-center gap-2.5 mb-6">
               {post.tags?.slice(0, 4).map(tag => (
-                <span key={tag} className="px-3.5 py-1.5 rounded-full bg-white/20 backdrop-blur-md border border-white/30 text-[10px] font-bold text-white tracking-widest uppercase shadow-sm">
+                <span key={tag} className="px-3.5 py-1.5 rounded-full bg-purple-50 border border-purple-100 text-[10px] font-bold text-purple-700 tracking-widest uppercase shadow-xs">
                   {tag}
                 </span>
               ))}
             </div>
             
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-extrabold text-white leading-[1.14] tracking-tight mb-8 drop-shadow-lg">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-extrabold text-slate-900 leading-[1.14] tracking-tight mb-8">
               {post.title}
             </h1>
             
-            <div className="flex flex-wrap items-center gap-6 text-white text-sm font-sans pt-4 border-t border-white/25">
+            <div className="flex flex-wrap items-center gap-6 text-slate-600 text-sm font-sans pt-4 border-t border-slate-100">
                <div className="flex items-center gap-3">
                  <LazyImage 
                    src={post.author?.avatar || 'https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=256'} 
                    blurSrc={(post.author?.avatar || 'https://images.unsplash.com/photo-1560250097-0b93528c311a?q=20&w=20') + '&blur=10'}
                    alt={post.author?.name}
-                   className="w-11 h-11 rounded-full bg-purple-700 border-2 border-white object-cover shadow-md"
+                   className="w-11 h-11 rounded-full bg-slate-100 border-2 border-white object-cover shadow-sm"
                  />
                  <div className="flex flex-col">
-                   <span className="font-bold text-white text-base leading-tight">{post.author?.name || 'Chesta Azka'}</span>
-                   <span className="text-xs text-purple-200 font-medium">{post.author?.role || 'Lead Architect & Engineer'}</span>
+                   <span className="font-bold text-slate-900 text-base leading-tight">{post.author?.name || 'Chesta Azka'}</span>
+                   <span className="text-xs text-purple-600 font-medium">{post.author?.role || 'Lead Architect & Engineer'}</span>
                  </div>
                </div>
-               <div className="hidden sm:block w-1.5 h-1.5 rounded-full bg-white/60" />
-               <div className="flex items-center gap-2 text-white font-semibold">
-                 <Calendar size={15} className="text-purple-300" /> {post.date}
+               <div className="hidden sm:block w-1.5 h-1.5 rounded-full bg-slate-200" />
+               <div className="flex items-center gap-2 text-slate-600 font-semibold">
+                 <Calendar size={15} className="text-purple-600" /> {post.date}
                </div>
-               <div className="hidden sm:block w-1.5 h-1.5 rounded-full bg-white/60" />
-               <div className="flex items-center gap-2 text-white font-semibold">
-                 <Clock size={15} className="text-purple-300" /> {post.readTime}
+               <div className="hidden sm:block w-1.5 h-1.5 rounded-full bg-slate-200" />
+               <div className="flex items-center gap-2 text-slate-600 font-semibold">
+                 <Clock size={15} className="text-purple-600" /> {post.readTime}
                </div>
             </div>
           </div>
@@ -535,20 +542,20 @@ export default function BlogPostPage() {
 
            <SocialPreviewGenerator title={post.title} category={post.cat} author={post.author?.name} />
 
-           <div className="prose prose-lg prose-invert max-w-none prose-h1:hidden
-                        prose-headings:font-display prose-headings:font-extrabold prose-headings:tracking-tight prose-headings:text-white
-                        prose-h2:text-3xl md:prose-h2:text-4xl prose-h2:mt-28 md:prose-h2:mt-36 prose-h2:mb-8 prose-h2:pt-10 prose-h2:border-t-2 prose-h2:border-purple-800/80
-                        prose-h3:text-2xl md:prose-h3:text-3xl prose-h3:mt-20 md:prose-h3:mt-24 prose-h3:mb-6 prose-h3:text-white
-                        prose-h4:text-xl md:prose-h4:text-2xl prose-h4:mt-14 md:prose-h4:mt-16 prose-h4:mb-5 prose-h4:font-display prose-h4:text-white
-                        prose-p:font-sans prose-p:leading-[2.1] md:prose-p:leading-[2.2] prose-p:tracking-[0.012em] prose-p:text-slate-300 prose-p:text-[1.125rem] prose-p:mb-12 prose-p:mt-0
-                        prose-a:text-purple-400 prose-a:font-semibold hover:prose-a:text-purple-300 prose-a:underline-offset-4
-                        prose-strong:text-white prose-strong:font-bold
-                        prose-blockquote:my-16 prose-blockquote:py-8 prose-blockquote:px-8 sm:prose-blockquote:px-10 prose-blockquote:bg-gradient-to-r prose-blockquote:from-purple-950/90 prose-blockquote:to-indigo-950/50 prose-blockquote:border-l-4 prose-blockquote:border-purple-500 prose-blockquote:rounded-r-3xl prose-blockquote:font-sans prose-blockquote:italic prose-blockquote:text-slate-200 prose-blockquote:leading-[1.95] prose-blockquote:text-lg prose-blockquote:shadow-sm
-                        prose-img:rounded-xl prose-img:shadow-2xl prose-img:my-16 prose-img:border prose-img:border-slate-800
+           <div className="prose prose-lg max-w-none prose-h1:hidden
+                        prose-headings:font-display prose-headings:font-extrabold prose-headings:tracking-tight prose-headings:text-slate-900
+                        prose-h2:text-3xl md:prose-h2:text-4xl prose-h2:mt-28 md:prose-h2:mt-36 prose-h2:mb-8 prose-h2:pt-10 prose-h2:border-t-2 prose-h2:border-purple-100
+                        prose-h3:text-2xl md:prose-h3:text-3xl prose-h3:mt-20 md:prose-h3:mt-24 prose-h3:mb-6 prose-h3:text-slate-900
+                        prose-h4:text-xl md:prose-h4:text-2xl prose-h4:mt-14 md:prose-h4:mt-16 prose-h4:mb-5 prose-h4:font-display prose-h4:text-slate-900
+                        prose-p:font-sans prose-p:leading-[2.1] md:prose-p:leading-[2.2] prose-p:tracking-[0.012em] prose-p:text-slate-600 prose-p:text-[1.125rem] prose-p:mb-12 prose-p:mt-0
+                        prose-a:text-purple-700 prose-a:font-semibold hover:prose-a:text-purple-900 prose-a:underline-offset-4
+                        prose-strong:text-slate-900 prose-strong:font-bold
+                        prose-blockquote:my-16 prose-blockquote:py-8 prose-blockquote:px-8 sm:prose-blockquote:px-10 prose-blockquote:bg-gradient-to-r prose-blockquote:from-purple-50 prose-blockquote:to-indigo-50/30 prose-blockquote:border-l-4 prose-blockquote:border-purple-600 prose-blockquote:rounded-r-3xl prose-blockquote:font-sans prose-blockquote:italic prose-blockquote:text-slate-700 prose-blockquote:leading-[1.95] prose-blockquote:text-lg prose-blockquote:shadow-sm
+                        prose-img:rounded-xl prose-img:shadow-2xl prose-img:my-16 prose-img:border prose-img:border-slate-100
                         prose-ul:list-disc prose-ul:pl-8 prose-ul:my-12 prose-ul:space-y-4 prose-ul:leading-[1.95]
                         prose-ol:list-decimal prose-ol:pl-8 prose-ol:my-12 prose-ol:space-y-4 prose-ol:leading-[1.95]
-                        prose-li:text-slate-300 prose-li:text-[1.075rem] marker:text-purple-400 marker:font-bold
-                        prose-hr:my-24 prose-hr:border-slate-800">
+                        prose-li:text-slate-600 prose-li:text-[1.075rem] marker:text-purple-600 marker:font-bold
+                        prose-hr:my-24 prose-hr:border-slate-100">
              <Markdown
                options={{
                  overrides: {
@@ -616,6 +623,8 @@ export default function BlogPostPage() {
             </div>
 
             {/* Dynamic Intelligent Read Next Section */}
+            <InternalLinkingWidget currentArticle={post} allArticles={ALL_ARTICLES} />
+            <RelatedInternalLinks currentPath={`/blog/${post.slug}`} tags={post.tags || []} />
             <ReadNextSection currentArticle={post} allArticles={ALL_ARTICLES} />
          </article>
          
