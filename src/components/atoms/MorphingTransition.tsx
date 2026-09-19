@@ -18,36 +18,36 @@ export default function MorphingTransition({ children }: { children: React.React
   const targetPath = `M0 0 L${dimensions.width} 0 L${dimensions.width} 0 Q${dimensions.width/2} 0 0 0  L0 0`;
   const exitPath = `M0 ${dimensions.height} L${dimensions.width} ${dimensions.height} L${dimensions.width} ${dimensions.height} Q${dimensions.width/2} ${dimensions.height} 0 ${dimensions.height} L0 ${dimensions.height}`;
 
-  const curve = {
+  const curve: any = {
     initial: {
         d: initialPath
     },
     enter: {
         d: targetPath,
-        transition: {duration: 0.75, delay: 0.3, ease: [0.76, 0, 0.24, 1]}
+        transition: {duration: 0.75, delay: 0.3, ease: [0.76, 0, 0.24, 1] as any}
     },
     exit: {
         d: initialPath,
-        transition: {duration: 0.75, ease: [0.76, 0, 0.24, 1]}
+        transition: {duration: 0.75, ease: [0.76, 0, 0.24, 1] as any}
     }
-  } as any;
+  }
 
-  const slide = {
+  const slide: any = {
     initial: {
         top: "0vh"
     },
     enter: {
         top: "-100vh",
-        transition: {duration: 0.75, delay: 0.3, ease: [0.76, 0, 0.24, 1]},
+        transition: {duration: 0.75, delay: 0.3, ease: [0.76, 0, 0.24, 1] as any},
         transitionEnd: {
             top: "100vh"
         }
     },
     exit: {
         top: "0vh",
-        transition: {duration: 0.75, ease: [0.76, 0, 0.24, 1]}
+        transition: {duration: 0.75, ease: [0.76, 0, 0.24, 1] as any}
     }
-  } as any;
+  }
 
   return (
     <>

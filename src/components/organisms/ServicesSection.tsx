@@ -1,8 +1,9 @@
-import { useState, useRef } from 'react';
-import { motion, AnimatePresence, useScroll, useTransform } from 'motion/react';
+import { useState } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
 import { Link } from 'react-router-dom';
 import TiltCard from '../atoms/TiltCard';
 import { ArrowUpRight, Gauge, Smartphone, MessageCircle, Grid2X2, ChevronDown, Sparkles } from 'lucide-react';
+import AnimatedHeading from '../atoms/AnimatedHeading';
 
 const mainServices = [
   {
@@ -20,14 +21,6 @@ const mainServices = [
     glow: "rgba(147, 51, 234, 0.4)",
     number: "02",
     desc: "Rekayasa perangkat lunak eksklusif dengan React & Next.js. Performa sub-detik (Lighthouse 100) dirancang murni untuk dominasi SEO dan retensi pengguna maksimal."
-  },
-  {
-    title: "IT Infrastructure Consulting",
-    slug: "it-consulting",
-    color: "#10b981",
-    glow: "rgba(16, 185, 129, 0.4)",
-    number: "03",
-    desc: "Audit strategis, skalabilitas arsitektur cloud, dan blueprint IT komprehensif. Fondasi tahan banting untuk pertumbuhan korporat berskala eksponensial."
   }
 ];
 
@@ -65,21 +58,11 @@ const features = [
 
 export default function ServicesSection() {
   const [showOtherServices, setShowOtherServices] = useState(false);
-  const containerRef = useRef<HTMLElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start end", "end start"]
-  });
-
-  const bgY = useTransform(scrollYProgress, [0, 1], [-50, 50]);
 
   return (
-    <section ref={containerRef} className="py-24 md:py-32 bg-white text-slate-900 relative overflow-hidden select-none min-h-screen flex items-center justify-center border-t border-slate-100">
+    <section className="py-24 md:py-32 bg-white text-slate-900 relative overflow-hidden select-none min-h-screen flex items-center justify-center border-t border-slate-100">
       {/* Seamless background blending gradients */}
-      <motion.div 
-        style={{ y: bgY }}
-        className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(147,51,234,0.03),transparent_50%),radial-gradient(ellipse_at_bottom_left,rgba(6,182,212,0.03),transparent_50%)] pointer-events-none" 
-      />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(147,51,234,0.03),transparent_50%),radial-gradient(ellipse_at_bottom_left,rgba(6,182,212,0.03),transparent_50%)] pointer-events-none" />
       
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10 w-full py-12">
         
@@ -92,9 +75,9 @@ export default function ServicesSection() {
                 Pilar Rekayasa Digital
               </span>
             </div>
-            <h2 className="text-4xl sm:text-5xl md:text-6xl font-display font-black tracking-tight text-slate-900 mb-6 leading-[1.1]">
+            <AnimatedHeading as="h2" className="text-4xl sm:text-5xl md:text-6xl font-display font-black tracking-tight text-slate-900 mb-6 leading-[1.1]">
               Arsitektur Sistem <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-700 to-purple-500">Kelas Enterprise.</span>
-            </h2>
+            </AnimatedHeading>
             <p className="text-slate-600 font-sans text-base md:text-lg leading-relaxed font-normal">
               Kami tidak sekadar membuat website. Kami merancang ekosistem digital performa tinggi dan otomasi Agentic AI yang secara agresif mengakselerasi valuasi dan dominasi korporasi Anda.
             </p>
@@ -108,8 +91,8 @@ export default function ServicesSection() {
           </div>
         </div>
 
-        {/* High Fidelity Ultra-Premium Grid (Cards) */}
-        <div className="mb-20 grid grid-cols-1 md:grid-cols-3 gap-6 lg:gap-8">
+        {/* High Fidelity Ultra-Premium Grid (Cards) - 1 Column Mobile, 3 Columns on Large/Desktop */}
+        <div className="mb-20 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8 items-stretch">
           {mainServices.map((service, index) => (
             <motion.div
               key={service.slug}
@@ -117,25 +100,29 @@ export default function ServicesSection() {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true, margin: "-50px" }}
               transition={{ type: "spring", stiffness: 100, damping: 20, delay: index * 0.15 }}
-              className="group block h-full"
+              whileHover={{ 
+                scale: 1.02,
+                transition: { duration: 0.4, ease: [0.16, 1, 0.3, 1] }
+              }}
+              className="group flex flex-col h-full w-full"
             >
-              <TiltCard className="h-full block z-20">
+              <TiltCard className="h-full w-full flex flex-col z-20">
               <Link
                 to={`/layanan/${service.slug}`}
                 onClick={() => window.scrollTo(0, 0)}
-                className="relative flex flex-col h-full justify-between p-8 sm:p-10 bg-white border border-slate-200 shadow-[0_2px_10px_rgba(0,0,0,0.02)] rounded-3xl hover:border-purple-200 transition-all duration-500 overflow-hidden transform"
+                className="relative flex flex-col h-full min-h-[380px] sm:min-h-[420px] justify-between p-7 sm:p-8 md:p-9 lg:p-10 bg-white/40 backdrop-blur-xl border border-white/50 shadow-2xl shadow-slate-200/50 rounded-3xl hover:border-purple-300 transition-all duration-500 overflow-hidden transform group-hover:bg-white/60"
               >
-                {/* Visual hover color ripple overlay */}
+                {/* Visual hover color ripple overlay - refined for glass */}
                 <div 
-                  className="absolute inset-0 opacity-0 group-hover:opacity-[0.03] transition-all duration-700 pointer-events-none"
+                  className="absolute inset-0 opacity-0 group-hover:opacity-10 transition-all duration-700 pointer-events-none"
                   style={{
-                    backgroundImage: `radial-gradient(circle at top right, ${service.color}, transparent 80%)`
+                    backgroundImage: `radial-gradient(circle at center, ${service.color}15, transparent 70%)`
                   }}
                 />
 
-                <div className="relative z-10 flex-grow">
-                  <div className="flex items-center justify-between mb-8">
-                    <span className="font-display text-4xl font-black text-slate-200 group-hover:text-purple-100 transition-colors duration-500">
+                <div className="relative z-10 flex flex-col flex-grow">
+                  <div className="flex items-center justify-between mb-6 sm:mb-8">
+                    <span className="font-display text-3xl sm:text-4xl font-black text-slate-200/60 group-hover:text-purple-200 transition-colors duration-500">
                       {service.number}
                     </span>
                     <span className="relative flex h-8 w-8 items-center justify-center shrink-0">
@@ -147,29 +134,32 @@ export default function ServicesSection() {
                         className="relative inline-flex rounded-full h-3 w-3"
                         style={{ 
                           backgroundColor: service.color,
-                          boxShadow: `0 0 12px ${service.glow}`
+                          boxShadow: `0 0 20px ${service.glow}`
                         }}
                       />
                     </span>
                   </div>
 
-                  <h3 className="text-2xl lg:text-3xl font-display font-black tracking-tight text-slate-900 group-hover:text-purple-900 transition-colors duration-300 mb-4 leading-tight">
+                  <h3 className="text-xl sm:text-2xl lg:text-3xl font-display font-black tracking-tight text-slate-900 group-hover:text-purple-900 transition-colors duration-300 mb-3 sm:mb-4 leading-snug">
                     {service.title}
                   </h3>
-                  <p className="text-slate-600 font-sans text-sm leading-relaxed mb-10">
+                  <p className="text-slate-600 font-sans text-xs sm:text-sm leading-relaxed mb-6 sm:mb-8 flex-grow">
                     {service.desc}
                   </p>
                 </div>
 
-                <div className="relative z-10 flex items-center justify-between pt-6 border-t border-slate-100 mt-auto">
+                <div className="relative z-10 flex items-center justify-between pt-5 sm:pt-6 border-t border-white/40 mt-auto">
                   <span className="text-[10px] font-mono font-bold text-slate-400 uppercase tracking-widest group-hover:text-purple-600 transition-colors">
                     DETAIL LAYANAN
                   </span>
-                  <div className="w-10 h-10 rounded-full border border-slate-200 flex items-center justify-center bg-slate-50 group-hover:bg-purple-600 group-hover:border-purple-600 transition-all duration-300">
+                  <motion.div 
+                    whileHover={{ scale: 1.1, rotate: 5 }}
+                    className="w-9 h-9 sm:w-10 sm:h-10 rounded-full border border-white/60 flex items-center justify-center bg-white/50 backdrop-blur-sm group-hover:bg-purple-600 group-hover:border-purple-600 transition-all duration-300 shadow-sm"
+                  >
                     <ArrowUpRight strokeWidth={2} 
-                      className="w-4 h-4 text-slate-500 group-hover:text-white group-hover:scale-110 group-hover:rotate-12 transition-all duration-300" 
+                      className="w-4 h-4 text-slate-500 group-hover:text-white transition-all duration-300" 
                     />
-                  </div>
+                  </motion.div>
                 </div>
               </Link>
               </TiltCard>
@@ -276,10 +266,10 @@ export default function ServicesSection() {
                 <span className="text-purple-400 font-mono font-bold text-[10px] uppercase tracking-widest block mb-4">
                   KEUNGGULAN ARSITEKTUR
                 </span>
-                <h3 className="text-3xl sm:text-4xl font-display font-black tracking-tight text-white mb-6 leading-tight">
+                <AnimatedHeading as="h3" className="text-3xl sm:text-4xl font-display font-black tracking-tight text-white mb-6 leading-tight">
                   Standar Mutu <br/> Tanpa Kompromi.
-                </h3>
-                <p className="text-white font-sans text-sm leading-relaxed opacity-90">
+                </AnimatedHeading>
+                <p className="text-slate-50 font-sans text-base leading-relaxed drop-shadow-sm font-medium">
                   Kami menolak penggunaan template instan. Setiap baris kode ditulis untuk memastikan stabilitas tingkat tinggi, performa kilat, dan arsitektur yang siap di-*scale* kapan saja.
                 </p>
               </div>
@@ -288,20 +278,34 @@ export default function ServicesSection() {
                 {features.map((f, i) => (
                   <motion.div 
                     key={i} 
-                    className="flex gap-4 items-start"
+                    className="flex gap-4 items-start group/feature cursor-default"
                     initial={{ opacity: 0, y: 20 }}
                     whileInView={{ opacity: 1, y: 0 }}
                     viewport={{ once: true, margin: "-50px" }}
                     transition={{ type: "spring", stiffness: 100, damping: 20, delay: i * 0.1 }}
                   >
-                    <div className="w-12 h-12 rounded-xl bg-purple-900/40 border border-purple-500/30 shrink-0 flex items-center justify-center text-purple-400 mt-1 shadow-inner">
-                      <f.icon size={22} strokeWidth={1.5} />
-                    </div>
+                    <motion.div 
+                      className="w-12 h-12 rounded-xl bg-purple-900/40 border border-purple-500/30 shrink-0 flex items-center justify-center text-purple-400 mt-1 shadow-inner relative overflow-hidden"
+                      whileHover={{ 
+                        scale: 1.1,
+                        rotate: [0, -3, 3, 0],
+                        borderColor: "rgba(216, 180, 254, 0.7)",
+                        backgroundColor: "rgba(107, 33, 168, 0.6)"
+                      }}
+                      transition={{ duration: 0.35, ease: "easeOut" }}
+                    >
+                      <motion.div
+                        whileHover={{ rotate: 12, scale: 1.1 }}
+                        transition={{ type: "spring", stiffness: 300, damping: 15 }}
+                      >
+                        <f.icon size={22} strokeWidth={1.5} className="group-hover/feature:text-purple-200 transition-colors duration-300" />
+                      </motion.div>
+                    </motion.div>
                     <div>
-                      <h4 className="text-base font-bold font-display tracking-wide mb-2 text-white">
+                      <h4 className="text-lg font-bold font-display tracking-wide mb-2 text-white drop-shadow-sm group-hover/feature:text-purple-200 transition-colors duration-200">
                         {f.title}
                       </h4>
-                      <p className="text-xs sm:text-sm font-sans text-white leading-relaxed opacity-80">
+                      <p className="text-sm font-sans text-slate-100/90 leading-relaxed font-normal">
                         {f.desc}
                       </p>
                     </div>
@@ -311,18 +315,6 @@ export default function ServicesSection() {
             </div>
           </div>
         </motion.div>
-        
-        {/* View All Services Hub CTA */}
-        <div className="mt-16 flex justify-center">
-          <Link
-            to="/layanan"
-            onClick={() => window.scrollTo(0, 0)}
-            className="flex items-center gap-3 px-10 py-5 bg-slate-900 hover:bg-purple-900 text-white rounded-2xl font-sans font-black text-sm uppercase tracking-widest transition-all shadow-xl hover:-translate-y-1 group"
-          >
-            <span>Eksplor Semua Layanan</span>
-            <ArrowUpRight size={18} className="group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-          </Link>
-        </div>
 
       </div>
     </section>

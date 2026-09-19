@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { motion } from 'motion/react';
 import ProjectCard, { ProjectType } from '../molecules/ProjectCard.tsx';
 import TextRevealSmooth from '../atoms/TextRevealSmooth';
+import ProjectQuickViewModal from './ProjectQuickViewModal.tsx';
 import { PROJECTS } from '../../data/projects.ts';
 
 const ProjectSkeleton = () => (
@@ -64,13 +65,15 @@ const projects: ProjectType[] = PROJECTS.map((p, index) => {
     duration: p.duration,
     overview: p.overview || p.description,
     challenges: p.challenges ? [p.challenges] : [],
-    solutions: p.solution ? [p.solution] : []
+    solutions: p.solution ? [p.solution] : [],
+    techStack: p.techStack
   };
 });
 
 export default function ProjectsSection() {
-  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true);
+  const [selectedProject, setSelectedProject] = useState<ProjectType | null>(null);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -78,6 +81,11 @@ export default function ProjectsSection() {
     }, 1500);
     return () => clearTimeout(timer);
   }, []);
+
+  const handleProjectClick = (project: ProjectType) => {
+    setSelectedProject(project);
+    setIsModalOpen(true);
+  };
   
   const containerVariants = {
     hidden: { opacity: 0 },
@@ -109,6 +117,12 @@ export default function ProjectsSection() {
   };
   return (
     <section id="work" className="py-24 md:py-32 relative overflow-hidden bg-transparent">
+      <ProjectQuickViewModal 
+        project={selectedProject}
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+      />
+
       <div className="mx-auto max-w-7xl px-6 relative z-10 w-full">
         <motion.div
           initial={{ opacity: 0, scale: 0.8, y: 30 }}
@@ -150,7 +164,7 @@ export default function ProjectsSection() {
                 key={project.title} 
                 project={project} 
                 index={i} 
-                onClick={() => navigate(`/portfolio/${project.id}`)}
+                onClick={() => handleProjectClick(project)}
                 variants={cardVariants}
               />
             ))}

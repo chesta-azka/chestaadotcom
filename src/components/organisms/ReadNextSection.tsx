@@ -99,10 +99,10 @@ export default function ReadNextSection({ currentArticle, allArticles = ALL_ARTI
         <div className="space-y-3 max-w-2xl">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-purple-50 border border-purple-200/80 text-purple-700 text-xs font-bold uppercase tracking-wider">
             <Sparkles size={14} className="text-purple-600 animate-pulse" />
-            <span>Rekomendasi Cerdas &bull; Read Next</span>
+            <span>Related Articles &bull; Rekomendasi Cerdas</span>
           </div>
           <h3 className="font-display font-black text-2xl sm:text-3xl lg:text-4xl text-slate-950 tracking-tight">
-            Lanjutkan Membaca Topik Terkait
+            Artikel Terkait Lainnya
           </h3>
           <p className="text-slate-600 font-sans text-sm sm:text-base leading-relaxed">
             Artikel pilihan yang relevan secara kontekstual dengan fokus riset{' '}
@@ -122,10 +122,8 @@ export default function ReadNextSection({ currentArticle, allArticles = ALL_ARTI
       </div>
 
       {/* Recommended Articles Grid */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {recommendations.map(({ article, matchedTags, relevancePercent }, index) => {
-          const isPrimary = index === 0;
-
           return (
             <motion.div
               key={article.slug}
@@ -137,105 +135,62 @@ export default function ReadNextSection({ currentArticle, allArticles = ALL_ARTI
             >
               <Link
                 to={`/blog/${article.slug}`}
-                className="group flex flex-col w-full bg-white rounded-xl border border-slate-200/90 hover:border-purple-400/80 shadow-md hover:shadow-2xl hover:shadow-purple-900/10 transition-all duration-400 overflow-hidden relative"
+                className="group flex flex-row w-full bg-white rounded-2xl border border-slate-200/90 hover:border-purple-400/80 shadow-sm hover:shadow-xl hover:shadow-purple-900/5 transition-all duration-400 overflow-hidden relative p-4 gap-4"
               >
-                {/* Visual Cover Header */}
-                <div className="relative w-full h-48 sm:h-52 overflow-hidden bg-slate-900">
+                {/* Small Strategic Thumbnail */}
+                <div className="relative w-24 h-24 sm:w-28 sm:h-28 rounded-xl overflow-hidden bg-slate-900 shrink-0 shadow-inner">
                   {article.image ? (
                     <LazyImage
                       src={article.image}
                       blurSrc={article.image + '?w=20&blur=10'}
                       alt={article.title}
-                      className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-108"
+                      className="w-full h-full object-cover transition-transform duration-700 ease-out group-hover:scale-110"
                     />
                   ) : (
                     <div className="w-full h-full bg-gradient-to-br from-purple-900 to-indigo-950 flex items-center justify-center">
-                      <Layers className="text-purple-300/40" size={48} />
+                      <Layers className="text-purple-300/40" size={24} />
                     </div>
                   )}
-
-                  {/* Gradient Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-transparent to-black/20" />
-
-                  {/* Badges on Image */}
-                  <div className="absolute top-4 left-4 right-4 flex items-center justify-between gap-2 z-10">
-                    <span className="text-[10px] font-mono font-bold text-white bg-slate-900/80 backdrop-blur-md px-3 py-1 rounded-full uppercase tracking-wider border border-white/20">
-                      {article.cat}
-                    </span>
-
-                    <span className="inline-flex items-center gap-1 text-[10px] font-mono font-bold text-emerald-300 bg-emerald-950/80 backdrop-blur-md px-2.5 py-1 rounded-full border border-emerald-500/40 shadow-sm">
-                      <Sparkles size={11} className="text-emerald-400" />
-                      {relevancePercent}% Relevan
-                    </span>
-                  </div>
-
-                  {/* Reading time indicator */}
-                  <div className="absolute bottom-3 left-4 right-4 flex items-center justify-between text-white/90 text-xs font-sans z-10">
-                    <span className="flex items-center gap-1.5 drop-shadow-sm font-medium">
-                      <Clock size={13} className="text-purple-300" />
-                      {article.readTime}
-                    </span>
-                    <span className="flex items-center gap-1.5 drop-shadow-sm text-slate-300 text-[11px]">
-                      <Calendar size={13} />
-                      {article.date}
-                    </span>
-                  </div>
+                  
+                  {/* Category Accent Stripe */}
+                  <div className="absolute bottom-0 inset-x-0 h-1 bg-purple-600 group-hover:h-2 transition-all" />
                 </div>
 
-                {/* Card Content Body */}
-                <div className="p-6 sm:p-7 flex-1 flex flex-col justify-between space-y-4">
-                  <div className="space-y-3">
-                    {/* Shared / Matched Topic Tags */}
-                    {matchedTags.length > 0 && (
-                      <div className="flex flex-wrap items-center gap-1.5">
-                        <span className="text-[10px] font-bold text-purple-700 uppercase tracking-wider flex items-center gap-1 mr-1">
-                          <Tag size={10} /> Topik Sama:
-                        </span>
-                        {matchedTags.slice(0, 2).map((tag, tIdx) => (
-                          <span
-                            key={tIdx}
-                            className="text-[10px] font-medium bg-purple-50 text-purple-800 border border-purple-200/80 px-2 py-0.5 rounded-md font-sans"
-                          >
-                            #{tag}
-                          </span>
-                        ))}
-                      </div>
-                    )}
-
-                    {/* Title */}
-                    <h4 className="font-display font-black text-lg sm:text-xl text-slate-900 leading-snug group-hover:text-purple-700 transition-colors line-clamp-2">
-                      {article.title}
-                    </h4>
-
-                    {/* Excerpt */}
-                    <p className="text-slate-600 font-sans text-xs sm:text-sm leading-relaxed line-clamp-3">
-                      {article.desc}
-                    </p>
-                  </div>
-
-                  {/* Card Footer: Author & Action */}
-                  <div className="pt-4 border-t border-slate-100 flex items-center justify-between gap-3 mt-auto">
-                    <div className="flex items-center gap-2.5 min-w-0">
-                      <div className="w-7 h-7 rounded-full bg-purple-100 ring-2 ring-purple-50 text-purple-800 font-bold flex items-center justify-center text-[10px] shrink-0 overflow-hidden">
-                        {article.author?.avatar ? (
-                          <img
-                            src={article.author.avatar}
-                            alt={article.author.name}
-                            className="w-full h-full object-cover"
-                          />
-                        ) : (
-                          (article.author?.name || 'C').charAt(0)
-                        )}
-                      </div>
-                      <span className="text-xs font-semibold text-slate-700 truncate font-sans">
-                        {article.author?.name || 'Chesta Azka'}
+                {/* Card Content Body - Focused & Compact */}
+                <div className="flex-1 flex flex-col justify-between min-w-0">
+                  <div className="space-y-1.5">
+                    <div className="flex items-center justify-between gap-2">
+                      <span className="text-[9px] font-mono font-black text-purple-700 uppercase tracking-widest bg-purple-50 px-2 py-0.5 rounded border border-purple-100">
+                        {article.cat}
+                      </span>
+                      <span className="text-[9px] font-bold text-emerald-600 bg-emerald-50 px-1.5 py-0.5 rounded">
+                        {relevancePercent}% Match
                       </span>
                     </div>
 
-                    <div className="inline-flex items-center gap-1 text-xs font-bold text-purple-700 group-hover:text-purple-950 group-hover:translate-x-1 transition-all shrink-0">
-                      <span>Baca</span>
-                      <ArrowRight size={14} />
+                    <h4 className="font-display font-black text-sm sm:text-base text-slate-900 leading-tight group-hover:text-purple-700 transition-colors line-clamp-2">
+                      {article.title}
+                    </h4>
+
+                    <div className="flex items-center gap-2 text-[10px] text-slate-500 font-mono">
+                      <Clock size={10} className="text-purple-400" />
+                      <span>{article.readTime}</span>
                     </div>
+                  </div>
+
+                  <div className="flex items-center justify-between pt-2 border-t border-slate-50">
+                    <div className="flex items-center gap-1.5">
+                      <div className="w-5 h-5 rounded-full bg-slate-100 border border-slate-200 overflow-hidden">
+                        {article.author?.avatar ? (
+                          <img src={article.author.avatar} alt="" className="w-full h-full object-cover" />
+                        ) : (
+                          <div className="w-full h-full flex items-center justify-center text-[8px] font-bold text-slate-400">CA</div>
+                        )}
+                      </div>
+                      <span className="text-[10px] font-semibold text-slate-600 truncate">{article.author?.name?.split(' ')[0]}</span>
+                    </div>
+                    
+                    <ArrowRight size={12} className="text-purple-300 group-hover:text-purple-600 group-hover:translate-x-1 transition-all" />
                   </div>
                 </div>
               </Link>

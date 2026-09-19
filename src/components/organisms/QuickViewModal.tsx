@@ -70,7 +70,7 @@ export default function QuickViewModal({ isOpen, onClose, data }: QuickViewModal
                 )}
               </div>
               
-              <h2 className="text-2xl sm:text-3xl font-display font-black text-slate-900 mb-4" style={{ fontFamily: "'Coolvetica', sans-serif" }}>
+              <h2 className="text-2xl sm:text-3xl font-display font-black text-slate-900 mb-4">
                 {data.title}
               </h2>
               

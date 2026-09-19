@@ -437,19 +437,14 @@ export default function AcademyQuizPage() {
           </div>
         </div>
 
-        {/* Progress Bar */}
-        <div className="mb-10 bg-white p-4 rounded-xl shadow-sm border border-slate-200 flex flex-col sm:flex-row sm:items-center gap-4">
-           <div className="text-xs font-bold uppercase tracking-widest text-slate-500 whitespace-nowrap">
-             Soal {currentQIndex + 1} / {questions.length}
+        {/* Question Counter */}
+        <div className="mb-10 bg-white p-4 rounded-xl shadow-sm border border-slate-200 flex items-center justify-between">
+           <div className="text-xs font-bold uppercase tracking-widest text-slate-700">
+             Soal {currentQIndex + 1} dari {questions.length}
            </div>
-           <div className="h-2 flex-1 bg-slate-100 rounded-full overflow-hidden w-full relative">
-              <motion.div 
-                className="absolute top-0 left-0 h-full bg-gradient-to-r from-purple-500 to-cyan-500 rounded-full"
-                initial={{ width: 0 }}
-                animate={{ width: `${progressPercentage}%` }}
-                transition={{ duration: 0.5, ease: 'easeOut' }}
-              />
-            </div>
+           <div className="text-xs font-mono text-slate-400">
+             Pilihan Ganda
+           </div>
         </div>
 
         {/* Quiz Box */}

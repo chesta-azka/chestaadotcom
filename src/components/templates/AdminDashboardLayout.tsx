@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { LogOut, MessageSquare, BarChart, PenTool, LayoutDashboard, Search, Home, Users, Menu, X, Shield, Bot, Briefcase, Plus, FileText, Activity, MapPin, Sparkles, Target } from 'lucide-react';
+import { LogOut, MessageSquare, BarChart, PenTool, LayoutDashboard, Search, Home, Users, Menu, X, Shield, Bot, Briefcase, Plus, FileText, Activity, MapPin, Sparkles } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import SystemHealthHeader from '../organisms/SystemHealthHeader';
 
@@ -14,16 +14,17 @@ interface LayoutProps {
 export default function AdminDashboardLayout({ children, onLogout, activeTab, setActiveTab }: LayoutProps) {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   
-  // Phase 3 Features: AI Lead Scoring, Workspace Generator, One-Click Document, SLA Node Health, Localized GEO-SEO, Search Intent Dashboard
+  // Phase 3 Features: AI Lead Scoring, Workspace Generator, One-Click Document, SLA Node Health, Localized GEO-SEO
   const tabs = [
     { id: 'dashboard', label: 'Dashboard & Analytics', icon: Activity },
     { id: 'kanban', label: 'Live Kanban & Vault', icon: Briefcase },
-    { id: 'search_intent', label: 'Search Intent & QAR', icon: Target },
     { id: 'blog_generator', label: 'Blog Outline AI', icon: PenTool },
+    { id: 'blog_performance', label: 'Editorial Performance', icon: BarChart },
     { id: 'ai_leads', label: 'AI Lead Scoring', icon: Users },
     { id: 'ai_training', label: 'AI Feedback & Training', icon: Sparkles },
     { id: 'business_config', label: 'Workspace Generator', icon: Plus },
     { id: 'chat', label: 'Comm-Link Audit', icon: MessageSquare },
+    { id: 'blog_moderation', label: 'Blog Moderation', icon: Sparkles },
     { id: 'stats', label: 'Document Generator', icon: FileText },
     { id: 'seo', label: 'SLA Node Health', icon: Shield },
     { id: 'seo_manager', label: 'GEO-SEO Radar', icon: MapPin },

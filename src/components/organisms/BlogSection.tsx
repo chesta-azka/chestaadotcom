@@ -58,13 +58,13 @@ export default function BlogSection() {
           <div>
             <div className="text-fluid-h2 font-serif font-medium tracking-tight text-slate-900 leading-[1.05] mb-2 flex flex-wrap">
               <TextRevealSmooth 
-                text="Insight & Rekomendasi." 
-                highlightWords={["Rekomendasi."]}
+                text="Knowledge Hub & Edukasi." 
+                highlightWords={["Edukasi."]}
                 highlightClass="text-purple-700 font-serif italic pr-2"
               />
             </div>
             <p className="text-slate-600 font-sans text-sm md:text-base max-w-lg mt-2">
-              Pelajari tren otomasi Agentic AI, framework SEO 2026, dan strategi optimasi konversi untuk memimpin pasar.
+              Akses panduan eksklusif mengenai transformasi digital B2B, ROI otomasi AI, dan strategi arsitektur web untuk pengusaha modern.
             </p>
           </div>
           <Link 

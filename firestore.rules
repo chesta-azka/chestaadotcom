@@ -1,8 +1,54 @@
 rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
+    // Helper to check if user is admin
+    function isAdmin() {
+      return request.auth != null && request.auth.token.email == 'chestacode@gmail.com';
+    }
+
+    match /blogs/{blogId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /blog_interactions/{slug} {
+      allow read: if true;
+      allow write: if isAdmin();
+
+      match /comments/{commentId} {
+        allow read: if isAdmin() || (resource.data.moderationStatus == 'approved');
+        allow create: if true;
+        allow update: if isAdmin() || (request.auth != null && (request.resource.data.diff(resource.data).affectedKeys().hasOnly(['likes'])));
+        allow delete: if isAdmin();
+      }
+    }
+
+    // Rule for collection group query in Admin Dashboard
+    match /{path=**}/comments/{commentId} {
+      allow read: if isAdmin();
+    }
+
+    match /polls/{pollId} {
+      allow read: if true;
+      allow write: if isAdmin();
+
+      match /votes/{voteId} {
+        allow create: if true;
+        allow read: if true;
+      }
+    }
+
+    match /content_performance/{id} {
+      allow create: if true; // Allow visitors to report performance
+      allow read, update, delete: if isAdmin();
+    }
+
+    match /workspaces/{workspaceId}/{document=**} {
+      allow read, write: if true; // Keeping existing permissive behavior for workspaces for now
+    }
+
     match /{document=**} {
-      allow read, write: if true;
+      allow read, write: if isAdmin();
     }
   }
 }

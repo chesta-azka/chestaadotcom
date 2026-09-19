@@ -85,7 +85,6 @@ export default function AcademyPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             className="text-5xl md:text-7xl font-display font-black text-slate-900 mb-6 tracking-tight uppercase"
-            style={{ fontFamily: "'Coolvetica', sans-serif" }}
           >
             Academy &amp; Masterclass
           </motion.h1>
@@ -172,7 +171,7 @@ export default function AcademyPage() {
         </div>
 
         <div className="mb-12 border-b-2 border-slate-900 pb-4">
-          <h2 className="text-3xl font-display font-black tracking-tight text-slate-900 uppercase" style={{ fontFamily: "'Coolvetica', sans-serif" }}>Resource Hub</h2>
+          <h2 className="text-3xl font-display font-black tracking-tight text-slate-900 uppercase">Resource Hub</h2>
         </div>
 
         {/* Search & Filters */}
@@ -240,7 +239,7 @@ export default function AcademyPage() {
                       </span>
                     </div>
                     
-                    <h3 className="text-xl sm:text-2xl font-display font-black text-slate-900 mb-3 leading-tight" style={{ fontFamily: "'Coolvetica', sans-serif" }}>
+                    <h3 className="text-xl sm:text-2xl font-display font-black text-slate-900 mb-3 leading-tight">
                       {resource.title}
                     </h3>
                     
@@ -279,7 +278,7 @@ export default function AcademyPage() {
         
         {unifiedResources.length === 0 && (
           <div className="py-24 text-center border-2 border-slate-900 bg-white shadow-[6px_6px_0_0_rgba(15,23,42,1)]">
-            <h3 className="text-2xl font-display font-black text-slate-900 mb-2" style={{ fontFamily: "'Coolvetica', sans-serif" }}>Tidak ada hasil ditemukan</h3>
+            <h3 className="text-2xl font-display font-black text-slate-900 mb-2">Tidak ada hasil ditemukan</h3>
             <p className="text-slate-600">Coba ubah kata kunci pencarian Anda.</p>
           </div>
         )}

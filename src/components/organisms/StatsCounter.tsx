@@ -101,9 +101,10 @@ function StatCard({ stat, index }: { stat: StatItem; index: number }) {
       onMouseLeave={() => setOpacity(0)}
       initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
+      whileHover={{ scale: 1.02, y: -8 }}
       viewport={{ once: true }}
       transition={{ duration: 0.5, delay: index * 0.1 }}
-      className="flex flex-col relative group p-8 rounded-xl bg-slate-50/70 hover:bg-white border border-slate-200/90 hover:border-purple-300 shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden cursor-default"
+      className="flex flex-col relative group p-8 rounded-xl bg-slate-50/70 hover:bg-white border border-slate-200/90 hover:border-purple-400 shadow-sm hover:shadow-2xl transition-all duration-300 overflow-hidden cursor-default"
     >
       {/* Mouse-following spotlight glow effect */}
       <div

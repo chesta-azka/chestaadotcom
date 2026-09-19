@@ -3,7 +3,7 @@ import { motion } from 'motion/react';
 import { ArrowUpRight, Cpu, Zap, Code2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import chestaPhoto from '../../assets/images/regenerated_image_1787838669318.png';
-import TechNodeMap from '../atoms/TechNodeMap';
+import AnimatedHeading from '../atoms/AnimatedHeading';
 
 export default function AboutMeSection() {
   const avatarUrl = chestaPhoto;
@@ -17,9 +17,9 @@ export default function AboutMeSection() {
           <span className="text-xs font-mono font-bold uppercase tracking-widest text-purple-700 bg-purple-50 px-3 py-1.5 rounded-full border border-purple-200 inline-block mb-3 shadow-2xs">
             TENTANG KAMI
           </span>
-          <h2 className="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight" style={{ fontFamily: "'Coolvetica', sans-serif" }}>
+          <AnimatedHeading as="h2" className="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight font-display">
             Arsitektur Digital Berkualitas Tinggi &amp; Agentic AI
-          </h2>
+          </AnimatedHeading>
         </div>
 
         {/* Profile & Bio Box with refined border radius */}
@@ -40,14 +40,14 @@ export default function AboutMeSection() {
 
           <div className="flex-1 text-center md:text-left space-y-3 relative z-10">
             <div className="flex flex-wrap items-center justify-center md:justify-start gap-2">
-              <h3 className="text-xl sm:text-2xl font-black text-slate-900" style={{ fontFamily: "'Coolvetica', sans-serif" }}>
+              <AnimatedHeading as="h3" className="text-xl sm:text-2xl font-black text-slate-900 font-display">
                 Chesta Azka Sofyan
-              </h3>
+              </AnimatedHeading>
               <span className="px-3 py-1 bg-purple-100 text-purple-900 text-xs font-mono font-bold uppercase rounded-full">
                 Lead Architect
               </span>
             </div>
-            <p className="text-slate-600 font-sans text-sm sm:text-base leading-relaxed">
+            <p className="text-slate-700 font-sans text-base sm:text-base leading-[1.8] tracking-[0.015em] text-balance">
               Halo! Saya Chesta, Lead Digital Architect di balik CHESTAADOTCOM. Saya mengkhususkan diri dalam merancang website berkinerja tinggi dan integrasi Agentic AI untuk korporasi serta UMKM di BSD City, Tangerang, Jakarta, Bogor, dan Depok.
             </p>
             <div className="pt-3 flex flex-wrap items-center justify-center md:justify-start gap-3">
@@ -78,33 +78,28 @@ export default function AboutMeSection() {
               <div className="p-2 rounded-lg bg-purple-50 text-purple-700">
                 <Cpu size={18} />
               </div>
-              <h4 className="font-bold text-slate-900 text-base" style={{ fontFamily: "'Coolvetica', sans-serif" }}>Agentic AI</h4>
+              <h4 className="font-bold text-slate-900 text-base font-display">Agentic AI</h4>
             </div>
-            <p className="text-xs sm:text-sm text-slate-600 font-sans leading-relaxed">Otomasi otonom 24/7 untuk interaksi klien dan operasional bisnis.</p>
+            <p className="text-sm sm:text-sm text-slate-700 font-sans leading-[1.75] tracking-[0.015em]">Otomasi otonom 24/7 untuk interaksi klien dan operasional bisnis.</p>
           </div>
           <div className="bg-white border border-slate-200/90 rounded-xl p-6 shadow-sm hover:border-purple-300 transition-all">
             <div className="flex items-center gap-2.5 mb-2">
               <div className="p-2 rounded-lg bg-purple-50 text-purple-700">
                 <Zap size={18} />
               </div>
-              <h4 className="font-bold text-slate-900 text-base" style={{ fontFamily: "'Coolvetica', sans-serif" }}>Zero-Latency</h4>
+              <h4 className="font-bold text-slate-900 text-base font-display">Zero-Latency</h4>
             </div>
-            <p className="text-xs sm:text-sm text-slate-600 font-sans leading-relaxed">Performa instan dengan Next.js 15 dan Cloud infrastructure.</p>
+            <p className="text-sm sm:text-sm text-slate-700 font-sans leading-[1.75] tracking-[0.015em]">Performa instan dengan Next.js 15 dan Cloud infrastructure.</p>
           </div>
           <div className="bg-white border border-slate-200/90 rounded-xl p-6 shadow-sm hover:border-purple-300 transition-all">
             <div className="flex items-center gap-2.5 mb-2">
               <div className="p-2 rounded-lg bg-purple-50 text-purple-700">
                 <Code2 size={18} />
               </div>
-              <h4 className="font-bold text-slate-900 text-base" style={{ fontFamily: "'Coolvetica', sans-serif" }}>Bespoke Code</h4>
+              <h4 className="font-bold text-slate-900 text-base font-display">Bespoke Code</h4>
             </div>
-            <p className="text-xs sm:text-sm text-slate-600 font-sans leading-relaxed">Tanpa template kaku. Setiap baris kode dirancang khusus untuk Anda.</p>
+            <p className="text-sm sm:text-sm text-slate-700 font-sans leading-[1.75] tracking-[0.015em]">Tanpa template kaku. Setiap baris kode dirancang khusus untuk Anda.</p>
           </div>
-        </div>
-
-        {/* Interactive Tech Node Map */}
-        <div className="mt-12">
-          <TechNodeMap />
         </div>
 
       </div>

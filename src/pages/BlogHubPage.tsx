@@ -1,6 +1,6 @@
 import SEOProvider from '../components/atoms/SEOProvider';
 import { useEffect, useState, useMemo } from 'react';
-import { motion, AnimatePresence, useScroll, useSpring, useTransform } from 'motion/react';
+import { motion, AnimatePresence, useScroll, useSpring } from 'motion/react';
 import ReactMarkdown from 'react-markdown';
 import { 
   ArrowLeft, 
@@ -20,11 +20,12 @@ import {
   TrendingUp,
   ChevronDown
 } from 'lucide-react';
-import { useSearchParams, Link, useNavigate, useParams } from 'react-router-dom';
+import { useSearchParams, Link, useNavigate } from 'react-router-dom';
 import MetaTags from '../components/atoms/MetaTags.tsx';
 import BlogSEO from '../components/atoms/BlogSEO.tsx';
 import Breadcrumbs from '../components/atoms/Breadcrumbs';
 import { ALL_ARTICLES, Article } from '../data/blogData';
+import { generateBlogSchema } from '../lib/seo';
 import { parseDateToISOString } from '../utils/dateUtils';
 import CreativityMarquee from '../components/organisms/CreativityMarquee.tsx';
 import NewsletterForm from '../components/organisms/NewsletterForm';
@@ -32,12 +33,6 @@ import RecentPostsWidget from '../components/organisms/RecentPostsWidget';
 import SocialShareWidget from '../components/organisms/SocialShareWidget';
 import BlogInteractions from '../components/organisms/BlogInteractions';
 import TableOfContents, { TOCItem } from '../components/molecules/TableOfContents';
-import BlogCategoryDropdown from '../components/organisms/BlogCategoryDropdown';
-import QuickReadModal from '../components/organisms/QuickReadModal';
-import AEOLocalContentBlock from '../components/organisms/AEOLocalContentBlock';
-import { generateNicheSEOMetadata } from '../utils/seoHelper';
-import { useGeoIntentManager } from '../hooks/useGeoIntentManager';
-import FAQSchema from '../components/atoms/FAQSchema';
 
 const BlogHubSkeleton = () => (
   <div className="relative flex flex-col h-full bg-white p-6 rounded-xl border border-slate-100 animate-pulse text-left shadow-sm">
@@ -63,37 +58,10 @@ const BlogHubSkeleton = () => (
 );
 
 export default function BlogHubPage() {
-  const { categorySlug, topicSlug, subTopicSlug, geoSlug } = useParams<{ categorySlug?: string; topicSlug?: string; subTopicSlug?: string; geoSlug?: string }>();
   const [searchParams, setSearchParams] = useSearchParams();
   const navigate = useNavigate();
   const [searchQuery, setSearchQuery] = useState('');
-  
-  const geoIntent = useGeoIntentManager();
-
-  const { scrollYProgress } = useScroll();
-  const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "15%"]);
-  
-  // Dynamic categories from all articles
-  const categories = ['All', ...Array.from(new Set(ALL_ARTICLES.map(a => a.cat)))];
-
-  // Combine URL parameter logic (from both categorySlug and topicSlug)
-  const getInitialCategory = () => {
-    const targetSlug = categorySlug || topicSlug;
-    if (!targetSlug) return 'All';
-    const matched = categories.find(cat => cat.toLowerCase().replace(/[^a-z0-9]+/g, '-') === targetSlug);
-    return matched || 'All';
-  };
-
-  const [selectedCategory, setSelectedCategory] = useState(getInitialCategory());
-  const [quickReadArticle, setQuickReadArticle] = useState<Article | null>(null);
-
-  useEffect(() => {
-    setSelectedCategory(getInitialCategory());
-  }, [categorySlug, topicSlug]);
-
-  // Generate localized SEO/AEO metadata
-  const seoData = generateNicheSEOMetadata(categorySlug || topicSlug, subTopicSlug, geoSlug);
-
+  const [selectedCategory, setSelectedCategory] = useState('All');
   const [onlyRecommended, setOnlyRecommended] = useState(false);
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
   const [copied, setCopied] = useState(false);
@@ -160,13 +128,25 @@ export default function BlogHubPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const postsPerPage = 6;
 
+  // Categories list
+  const categories = ['All', 'Transformasi Digital', 'AI Engineering', 'Cloud Enterprise'];
+
   // Trending tags list
   const popularTags = ['Agentic AI', 'Local SEO', 'Core Web Vitals', 'Conversion', 'Automation', 'Live Chat Bot', 'Micro-Interactions'];
 
   // Filter articles based on category, search query, recommended toggle, and tags
   const filteredArticles = useMemo(() => {
     return combinedAllArticles.filter(art => {
-      const matchesCategory = selectedCategory === 'All' || art.cat.toLowerCase() === selectedCategory.toLowerCase();
+      // Map existing categories to new ones for filtering consistency
+      const mappedCat = art.cat === 'Strategic Transformation' || art.cat === 'Strategic Insight' || art.cat === 'Bisnis & Teknologi' || art.cat === 'Profil Perusahaan'
+        ? 'Transformasi Digital'
+        : art.cat === 'AI Innovation' || art.cat === 'AI Automation' || art.cat === 'AI Web Development'
+          ? 'AI Engineering'
+          : art.cat === 'Security' || art.cat === 'Technical Strategy' || art.cat === 'Digital Education'
+            ? 'Cloud Enterprise'
+            : art.cat;
+
+      const matchesCategory = selectedCategory === 'All' || mappedCat.toLowerCase() === selectedCategory.toLowerCase();
       const matchesQuery = searchQuery.trim() === '' || 
         art.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
         art.desc.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -187,14 +167,19 @@ export default function BlogHubPage() {
     return combinedAllArticles.filter(a => a.recommended);
   }, [combinedAllArticles]);
 
+  // Find the primary featured article (the one marked featured: true)
+  const primaryFeaturedArticle = useMemo(() => {
+    return combinedAllArticles.find(a => a.featured) || featuredArticle;
+  }, [combinedAllArticles, featuredArticle]);
+
   const displayArticles = useMemo(() => {
     const isDefaultView = selectedCategory === 'All' && searchQuery.trim() === '' && !onlyRecommended && !selectedTag;
     const base = isDefaultView
-      ? filteredArticles.filter(a => a.slug !== featuredArticle?.slug)
+      ? filteredArticles.filter(a => a.slug !== primaryFeaturedArticle?.slug)
       : filteredArticles;
     
     return base.slice(0, currentPage * postsPerPage);
-  }, [filteredArticles, featuredArticle, selectedCategory, searchQuery, onlyRecommended, selectedTag, currentPage]);
+  }, [filteredArticles, primaryFeaturedArticle, selectedCategory, searchQuery, onlyRecommended, selectedTag, currentPage]);
 
   const totalFilteredCount = filteredArticles.length;
   const hasMore = displayArticles.length < (
@@ -236,28 +221,17 @@ export default function BlogHubPage() {
 
   return (
     <>
-      <QuickReadModal 
-        article={quickReadArticle} 
-        onClose={() => setQuickReadArticle(null)} 
-      />
       <SEOProvider 
         title="Insights & AI Engineering Blog | CHESTAADOTCOM"
         description="Deep dives into digital architecture, AI implementations, and enterprise solutions."
+        schema={generateBlogSchema(combinedAllArticles)}
       />
     <motion.div 
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="pb-32 min-h-screen relative overflow-hidden"
+      className="pb-32 min-h-screen relative"
     >
-      {/* Scroll Parallax Background Decoration */}
-      <motion.div 
-        style={{ y: bgY }}
-        className="absolute inset-0 -z-10 pointer-events-none opacity-20"
-      >
-        <div className="absolute top-0 right-0 w-[800px] h-[800px] bg-purple-100/30 rounded-full blur-[120px]" />
-        <div className="absolute bottom-0 left-0 w-[600px] h-[600px] bg-slate-100/50 rounded-full blur-[100px]" />
-      </motion.div>
 
       <AnimatePresence mode="wait">
         {activeArticle ? (
@@ -270,6 +244,7 @@ export default function BlogHubPage() {
             transition={{ duration: 0.4, ease: "easeOut" }}
             className="mx-auto max-w-4xl px-6 pt-40 md:pt-48 pb-20 relative z-10 flex flex-col items-center"
           >
+            <Breadcrumbs items={[{ label: 'Insight', path: '/blog' }, { label: activeArticle.title }]} />
             <MetaTags 
               title={`${activeArticle.title} — CHESTAADOTCOM Journal`} 
               description={activeArticle.desc} 
@@ -579,16 +554,8 @@ export default function BlogHubPage() {
                         {art.desc}
                       </p>
                     </div>
-                    <div className="flex items-center justify-between text-[10px] font-mono text-slate-400 pt-4 border-t border-slate-200/60 w-full">
-                      <div className="flex items-center gap-2">
-                        <button 
-                          onClick={(e) => { e.preventDefault(); e.stopPropagation(); setQuickReadArticle(art); }}
-                          className="bg-purple-100 hover:bg-purple-200 text-purple-700 px-2 py-1 rounded font-bold uppercase transition-colors z-10 relative"
-                        >
-                          Quick Read
-                        </button>
-                        <span>{art.readTime}</span>
-                      </div>
+                    <div className="flex items-center justify-between text-[10px] font-mono text-slate-400 pt-4 border-t border-slate-200/60">
+                      <span>{art.readTime}</span>
                       <span className="text-[#6b21a8] font-semibold group-hover:translate-x-1 transition-transform flex items-center gap-1">
                         Baca Artikel <ArrowRight size={12} />
                       </span>
@@ -630,32 +597,13 @@ export default function BlogHubPage() {
             exit={{ opacity: 0 }}
             className="w-full"
           >
-            {seoData.schema && (
-              <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(seoData.schema) }} />
-            )}
             <MetaTags 
-              title={geoIntent.getLocalizedTitle((topicSlug || categorySlug) ? seoData.title : (selectedCategory !== 'All' ? `${selectedCategory} Journal — CHESTAADOTCOM Insight` : "Journal & Insight — CHESTAADOTCOM Digital Strategy"))} 
-              description={geoIntent.getLocalizedDesc((topicSlug || categorySlug) ? seoData.description : (selectedCategory !== 'All' ? `Baca artikel terbaru dan panduan seputar ${selectedCategory} dari tim ahli CHESTAADOTCOM.` : "Kurasi strategi digital tier-1: Otomasi Agentic AI, Framework SEO 2026, Psikologi Konversi, dan Arsitektur Web Berperforma Tinggi."))} 
+              title="Journal & Insight — CHESTAADOTCOM Digital Strategy" 
+              description="Kurasi strategi digital tier-1: Otomasi Agentic AI, Framework SEO 2026, Psikologi Konversi, dan Arsitektur Web Berperforma Tinggi." 
               breadcrumbs={[
                 { name: 'Home', item: '/' },
                 { name: 'Insight', item: '/blog' },
-                ...((topicSlug || categorySlug) && selectedCategory !== 'All' ? [{ name: selectedCategory, item: `/blog/topic/${selectedCategory.toLowerCase().replace(/[^a-z0-9]+/g, '-')}` }] : []),
-                ...(subTopicSlug ? [{ name: subTopicSlug.replace(/-/g, ' '), item: `/blog/topic/${topicSlug}/${subTopicSlug}` }] : [])
               ]}
-            />
-            
-            <FAQSchema 
-              faqs={[
-                {
-                  question: `Apa saja tren digital terbaru di ${geoIntent.isCustomized ? geoIntent.location : 'BSD City'}?`,
-                  answer: `Tren utama mencakup adopsi Agentic AI dan strategi Local AEO untuk memperkuat dominasi pencarian spesifik di area ${geoIntent.isCustomized ? geoIntent.location : 'BSD dan sekitarnya'}.`
-                },
-                {
-                  question: `Mengapa optimasi AEO penting untuk bisnis di ${geoIntent.isCustomized ? geoIntent.location : 'Tangerang'}?`,
-                  answer: `Answer Engine Optimization (AEO) memastikan bisnis Anda muncul langsung sebagai jawaban instan di Google SGE, memberikan visibilitas maksimal bagi pelanggan lokal di area tersebut.`
-                }
-              ]}
-              areasServed={geoIntent.isCustomized ? [geoIntent.location] : ['BSD City', 'Cisauk', 'Tangerang', 'Tangerang Selatan']}
             />
 
             {/* Header Hero Section */}
@@ -663,6 +611,7 @@ export default function BlogHubPage() {
               <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-gradient-to-bl from-purple-500/10 via-purple-500/5 to-transparent blur-3xl rounded-full pointer-events-none" />
 
               <div className="mx-auto max-w-7xl px-6 w-full relative z-10">
+                <Breadcrumbs items={[{ label: 'Insight', path: '/blog' }]} />
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-end mt-4">
                   <div className="lg:col-span-7">
                     <motion.div
@@ -675,18 +624,12 @@ export default function BlogHubPage() {
                         Digital Insights & Strategies 2026
                       </div>
                       
-                      <h1 className="text-5xl sm:text-6xl lg:text-7xl font-serif font-medium tracking-tight leading-[1.05] text-slate-900 capitalize">
-                        {(topicSlug || categorySlug) ? (
-                          <>{(topicSlug || categorySlug)?.replace(/-/g, ' ')} <span className="text-purple-700 italic">Journal.</span></>
-                        ) : (
-                          <>{geoIntent.getLocalizedH1('The')} <span className="text-purple-700 italic">Journal.</span></>
-                        )}
+                      <h1 className="text-5xl sm:text-6xl lg:text-7xl font-serif font-medium tracking-tight leading-[1.05] text-slate-900">
+                        The <span className="text-purple-700 italic">Journal.</span>
                       </h1>
                       
                       <p className="text-base sm:text-lg text-slate-600 font-sans max-w-xl leading-relaxed mt-6 border-l-2 border-purple-200 pl-5">
-                        {(topicSlug || categorySlug) 
-                          ? seoData.description 
-                          : "Eksplorasi wawasan mendalam seputar inovasi Agentic AI, optimasi SEO terkini, arsitektur web performa tinggi, dan psikologi konversi digital."}
+                        Eksplorasi wawasan mendalam seputar inovasi Agentic AI, optimasi SEO terkini, arsitektur web performa tinggi, dan psikologi konversi digital.
                       </p>
                     </motion.div>
                   </div>
@@ -713,16 +656,7 @@ export default function BlogHubPage() {
                           />
                         </div>
                         
-                        {/* Category Dropdown */}
-                        <div className="hidden sm:block h-6 w-px bg-slate-200 mx-2 shrink-0"></div>
-                        <div className="flex items-center shrink-0 border-t border-slate-100 sm:border-none mt-2 sm:mt-0 pt-2 sm:pt-0">
-                          <BlogCategoryDropdown 
-                            categories={categories}
-                            selectedCategory={selectedCategory}
-                            onSelectCategory={setSelectedCategory}
-                          />
-                        </div>
-                        
+                        {/* Removed Category Dropdown */}
                         <div className="hidden sm:block h-6 w-px bg-slate-200 mx-2 shrink-0"></div>
                         
                         {/* Action Buttons */}
@@ -792,104 +726,159 @@ export default function BlogHubPage() {
             </section>
 
             <div className="mx-auto max-w-7xl px-6 w-full relative z-10">
+              
+              {/* ================= PRIMARY FEATURED HIGHLIGHT (Hero Style) ================= */}
+              {!searchQuery && selectedCategory === 'All' && !selectedTag && primaryFeaturedArticle && (
+                <motion.section 
+                  initial={{ opacity: 0, scale: 0.98 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+                  className="mb-24 relative group"
+                >
+                  {/* Outer Ambient Glow - Dynamic Pulsing */}
+                  <div className="absolute -inset-4 bg-gradient-to-r from-purple-500/20 via-indigo-500/20 to-purple-500/20 blur-3xl opacity-50 group-hover:opacity-80 transition-opacity duration-1000 animate-pulse-slow pointer-events-none" />
 
-              {/* ================= REKOMENDASI TERPILIH (EDITOR'S PICKS) STRIP ================= */}
+                  <div 
+                    onClick={() => navigate('/blog/' + primaryFeaturedArticle.slug)}
+                    className="relative w-full aspect-[21/9] md:aspect-[2.4/1] rounded-[2.5rem] overflow-hidden cursor-pointer border border-white/20 shadow-2xl transition-all duration-700 group/hero"
+                  >
+                    {/* Background Image with Ken Burns effect on hover */}
+                    {primaryFeaturedArticle.image ? (
+                      <div className="absolute inset-0 overflow-hidden">
+                        <img 
+                          src={primaryFeaturedArticle.image} 
+                          alt={primaryFeaturedArticle.title} 
+                          className="w-full h-full object-cover transition-transform duration-[2000ms] ease-out group-hover/hero:scale-110" 
+                        />
+                      </div>
+                    ) : (
+                      <div className="absolute inset-0 bg-slate-950" />
+                    )}
+                    
+                    {/* Multi-layered Overlay for Depth */}
+                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/60 to-transparent opacity-90 group-hover/hero:opacity-80 transition-opacity duration-700" />
+                    <div className="absolute inset-0 bg-gradient-to-r from-slate-950/80 via-transparent to-transparent opacity-60" />
+                    
+                    {/* Glass Pattern Overlay */}
+                    <div className="absolute inset-0 opacity-[0.03] pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]" />
+
+                    {/* Content Overlay */}
+                    <div className="absolute inset-0 p-10 md:p-20 flex flex-col justify-end items-start">
+                      <div className="max-w-4xl relative z-10">
+                        <motion.div 
+                          initial={{ opacity: 0, x: -20 }}
+                          animate={{ opacity: 1, x: 0 }}
+                          transition={{ delay: 0.3, duration: 0.6 }}
+                          className="flex flex-wrap gap-4 items-center mb-8"
+                        >
+                          <span className="px-5 py-2 rounded-full bg-purple-600/90 backdrop-blur-md text-white text-[11px] font-mono font-black uppercase tracking-[0.25em] shadow-xl shadow-purple-900/40 border border-white/20">
+                            {primaryFeaturedArticle.cat}
+                          </span>
+                          
+                          <span className="relative flex items-center gap-2 px-5 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/30 text-white text-[11px] font-mono font-black uppercase tracking-[0.25em] overflow-hidden group/shimmer">
+                            <Star size={14} className="text-amber-400 fill-amber-400 animate-bounce" />
+                            <span>Featured Strategic Post</span>
+                            {/* Shimmer Effect */}
+                            <div className="absolute inset-0 translate-x-[-100%] group-hover/shimmer:translate-x-[100%] transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-12" />
+                          </span>
+
+                          <span className="flex items-center gap-2 text-[11px] font-mono text-purple-200 uppercase tracking-widest font-bold opacity-80">
+                            <Clock size={13} />
+                            {primaryFeaturedArticle.readTime}
+                          </span>
+                        </motion.div>
+                        
+                        <motion.h2 
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: 0.4, duration: 0.6 }}
+                          className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-display font-black text-white leading-[1.05] mb-8 tracking-tighter group-hover/hero:text-purple-200 transition-colors duration-500"
+                        >
+                          {primaryFeaturedArticle.title}
+                        </motion.h2>
+                        
+                        <motion.p 
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: 0.5, duration: 0.6 }}
+                          className="text-slate-300 text-base md:text-xl max-w-3xl leading-relaxed mb-10 font-medium line-clamp-3 md:line-clamp-none opacity-90 group-hover/hero:opacity-100 transition-opacity duration-500"
+                        >
+                          {primaryFeaturedArticle.desc}
+                        </motion.p>
+                        
+                        <motion.div 
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: 0.6, duration: 0.6 }}
+                          className="flex items-center gap-6"
+                        >
+                          <div className="flex items-center gap-4 p-1.5 pr-6 rounded-full bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/10 transition-colors">
+                            <div className="w-14 h-14 rounded-full overflow-hidden border-2 border-purple-500/50 shadow-2xl">
+                              <img 
+                                src={primaryFeaturedArticle.author?.avatar || '/chesta.png'} 
+                                alt={primaryFeaturedArticle.author?.name} 
+                                className="w-full h-full object-cover"
+                              />
+                            </div>
+                            <div className="text-left">
+                              <div className="text-base font-sans font-black text-white uppercase tracking-wider">{primaryFeaturedArticle.author?.name}</div>
+                              <div className="text-[11px] font-mono text-purple-300 uppercase tracking-[0.2em] font-bold">{primaryFeaturedArticle.author?.role}</div>
+                            </div>
+                          </div>
+
+                          <div className="hidden sm:flex items-center gap-3 text-white/40 font-mono text-[10px] uppercase tracking-widest">
+                            <div className="w-12 h-px bg-white/20" />
+                            <span>Digital Journal vol. 2026</span>
+                          </div>
+                        </motion.div>
+                      </div>
+                    </div>
+
+                    {/* Interactive Lens Flare Effect */}
+                    <div className="absolute top-0 right-0 w-[60%] h-[60%] bg-gradient-to-br from-purple-500/20 to-transparent blur-[120px] opacity-0 group-hover/hero:opacity-100 transition-opacity duration-1000 pointer-events-none" />
+                  </div>
+                </motion.section>
+              )}
+
+              {/* ================= EDITOR'S CHOICE STRIP ================= */}
               {!searchQuery && selectedCategory === 'All' && !selectedTag && (
                 <div className="mb-16">
-                  <div className="flex items-center justify-between mb-6">
-                    <div className="flex items-center gap-2">
-                      <div className="w-8 h-8 rounded-full bg-amber-500/10 border border-amber-500/20 flex items-center justify-center">
-                        <Star size={16} className="text-amber-600 fill-amber-500" />
+                  <div className="flex items-center justify-between mb-8">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-2xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center shadow-inner">
+                        <Flame size={20} className="text-amber-600 animate-pulse" />
                       </div>
                       <div>
-                        <h2 className="text-xl font-display font-medium text-slate-900">
-                          Rekomendasi Pilihan Editor
+                        <h2 className="text-2xl font-display font-medium text-slate-900 tracking-tight">
+                          Wawasan Prioritas
                         </h2>
-                        <p className="text-xs text-slate-500 font-sans">
-                          Wawasan prioritas yang paling berdampak untuk akselerasi bisnis Anda
+                        <p className="text-xs text-slate-500 font-sans tracking-wide">
+                          Kurasi strategis untuk akselerasi ekosistem enterprise
                         </p>
                       </div>
                     </div>
 
                     <button
                       onClick={() => setOnlyRecommended(!onlyRecommended)}
-                      className={`text-xs font-mono uppercase tracking-wider px-4 py-2 rounded-full border transition-all ${
+                      className={`group flex items-center gap-2 text-[10px] font-mono font-black uppercase tracking-[0.2em] px-6 py-2.5 rounded-xl border transition-all ${
                         onlyRecommended 
-                          ? 'bg-amber-500 text-white border-amber-600 font-bold' 
-                          : 'bg-white text-slate-600 border-slate-200 hover:border-amber-400'
+                          ? 'bg-amber-600 text-white border-amber-700 shadow-lg shadow-amber-900/20' 
+                          : 'bg-white text-slate-500 border-slate-200 hover:border-amber-400 hover:text-amber-700'
                       }`}
                     >
-                      {onlyRecommended ? '✓ Menampilkan Rekomendasi Saja' : 'Lihat Semua Rekomendasi'}
+                      {onlyRecommended ? (
+                        <>
+                          <Check size={14} />
+                          Recommended Only
+                        </>
+                      ) : (
+                        <>
+                          <span>Show All Recommended</span>
+                          <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
+                        </>
+                      )}
                     </button>
                   </div>
-
-                  {/* Featured Article Card */}
-                  {featuredArticle && (
-                    <motion.article 
-                      initial={{ opacity: 0, y: 15 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.1, duration: 0.6, ease: "easeOut" }}
-                      onClick={() => navigate('/blog/' + featuredArticle.slug)}
-                      className="group relative bg-white border border-slate-200/90 rounded-xl p-6 md:p-10 hover:border-purple-300 hover:shadow-2xl transition-all duration-500 cursor-pointer overflow-hidden shadow-sm"
-                    >
-                      <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity">
-                        <ArrowUpRight size={100} className="text-slate-900" />
-                      </div>
-                      
-                      <div className="relative z-10 grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-                        <div className="lg:col-span-7">
-                          <div className="flex flex-wrap gap-2.5 items-center mb-6">
-                            <span className="text-[10px] font-mono font-bold text-white bg-[#6b21a8] px-3.5 py-1.5 rounded-full uppercase tracking-widest shadow-sm">
-                              {featuredArticle.cat}
-                            </span>
-                            <span className="inline-flex items-center gap-1 text-[10px] font-mono font-bold text-amber-700 bg-amber-50 border border-amber-200 px-3 py-1 rounded-full uppercase tracking-wider">
-                              <Star size={11} className="fill-amber-500 text-amber-500" /> Rekomendasi Utama
-                            </span>
-                            <span className="text-xs font-mono text-slate-500">
-                              {featuredArticle.readTime}
-                            </span>
-                          </div>
-
-                          <h3 className="text-2xl sm:text-3xl lg:text-4xl font-serif font-medium text-slate-900 leading-snug mb-4 group-hover:text-[#6b21a8] transition-colors tracking-tight">
-                            {featuredArticle.title}
-                          </h3>
-
-                          <p className="text-sm sm:text-base text-slate-600 leading-relaxed font-sans max-w-2xl mb-6">
-                            {featuredArticle.desc}
-                          </p>
-
-                          <div className="flex items-center gap-4">
-                            <div className="flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-widest text-[#6b21a8]">
-                              <span>Baca Ulasan Lengkap</span>
-                              <ArrowRight size={14} className="transform group-hover:translate-x-1.5 transition-transform" />
-                            </div>
-                            <button 
-                              onClick={(e) => { e.preventDefault(); e.stopPropagation(); setQuickReadArticle(featuredArticle); }}
-                              className="bg-purple-100 hover:bg-purple-200 text-purple-700 px-3 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider transition-colors z-10 relative"
-                            >
-                              Quick Read
-                            </button>
-                          </div>
-                        </div>
-                        
-                        <div className="lg:col-span-5 h-full">
-                          {featuredArticle.image ? (
-                            <div className="w-full h-56 sm:h-72 overflow-hidden rounded-2xl border border-slate-100 shadow-md">
-                              <img 
-                                src={featuredArticle.image} 
-                                alt={featuredArticle.title} 
-                                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" 
-                              />
-                            </div>
-                          ) : (
-                            <div className="w-full h-56 rounded-2xl bg-gradient-to-br from-purple-500/10 to-purple-500/10 flex items-center justify-center">
-                              <BookOpen size={48} className="text-purple-400" />
-                            </div>
-                          )}
-                        </div>
-                      </div>
-                    </motion.article>
-                  )}
                 </div>
               )}
 
@@ -999,17 +988,9 @@ export default function BlogHubPage() {
                         </div>
                       )}
 
-                      <div className="pt-4 border-t border-slate-100 flex items-center justify-between text-xs font-mono font-semibold tracking-wider text-[#6b21a8] w-full relative">
-                        <button 
-                          onClick={(e) => { e.preventDefault(); e.stopPropagation(); setQuickReadArticle(art); }}
-                          className="bg-purple-100 hover:bg-purple-200 text-purple-700 px-2 py-1 rounded uppercase transition-colors z-10"
-                        >
-                          Quick Read
-                        </button>
-                        <div className="flex items-center gap-1 group-hover:translate-x-1 transition-transform">
-                          <span>Baca Selengkapnya</span>
-                          <ArrowRight size={14} />
-                        </div>
+                      <div className="pt-4 border-t border-slate-100 flex items-center justify-between text-xs font-mono font-semibold tracking-wider text-[#6b21a8]">
+                        <span>Baca Selengkapnya</span>
+                        <ArrowRight size={14} className="transform group-hover:translate-x-1 transition-transform" />
                       </div>
                     </motion.article>
                   ))
@@ -1046,11 +1027,6 @@ export default function BlogHubPage() {
                               onClick={() => {
                                 setSelectedCategory(cat);
                                 setSelectedTag(null);
-                                if (cat === 'All') {
-                                  navigate('/blog');
-                                } else {
-                                  navigate(`/blog/category/${cat.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`);
-                                }
                               }}
                               className={`w-full text-left px-4 py-3 rounded-xl transition-all duration-300 flex items-center justify-between group ${
                                 isActive 
@@ -1098,7 +1074,6 @@ export default function BlogHubPage() {
                 </aside>
               </div>
               
-              <AEOLocalContentBlock seoData={seoData} topicSlug={topicSlug} categorySlug={categorySlug} />
               <div className="mt-24">
                 <NewsletterForm />
               </div>

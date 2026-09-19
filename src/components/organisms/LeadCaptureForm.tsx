@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ArrowRight, CheckCircle2, MessageCircle, AlertCircle } from 'lucide-react';
 import toast from 'react-hot-toast';
+import MagneticButton from '../atoms/MagneticButton';
 
 const PROJECT_TYPES = [
   'Paket Promo UMKM (Rp540K)',
@@ -183,15 +184,17 @@ export default function LeadCaptureForm() {
 
         {/* Direct Action Button to WhatsApp */}
         <div className="pt-2">
-          <button
-            type="button"
-            onClick={handleOpenWhatsApp}
-            className="w-full py-4 px-6 rounded-2xl bg-purple-900 hover:bg-purple-800 text-white font-sans font-semibold text-sm flex items-center justify-center gap-2.5 shadow-md shadow-purple-950/10 transition-all cursor-pointer group"
-          >
-            <MessageCircle size={18} />
-            <span>Kirim Permintaan ke WhatsApp</span>
-            <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
-          </button>
+          <MagneticButton strength={0.25} className="w-full">
+            <button
+              type="button"
+              onClick={handleOpenWhatsApp}
+              className="w-full py-4 px-6 rounded-2xl bg-purple-900 hover:bg-purple-800 text-white font-sans font-semibold text-sm flex items-center justify-center gap-2.5 shadow-md shadow-purple-950/10 transition-all cursor-pointer group"
+            >
+              <MessageCircle size={18} />
+              <span>Kirim Permintaan ke WhatsApp</span>
+              <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
+            </button>
+          </MagneticButton>
           <p className="text-center text-[11px] text-slate-400 font-sans mt-2.5">
             Terhubung langsung dengan Tim CHESTAADOTCOM &bull; Respon Cepat 1-on-1
           </p>

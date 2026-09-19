@@ -297,19 +297,9 @@ export default function AcademyMasterclassPage() {
         <aside className={`sidebar-wrapper fixed inset-y-0 left-0 top-16 h-[calc(100vh-4rem)] lg:static lg:h-full lg:top-auto bg-white border-r lg:border-r-0 lg:border-l border-slate-200/80 lg:order-2 w-80 max-w-[85vw] flex-shrink-0 flex flex-col box-border transition-transform duration-300 z-50 shadow-2xl lg:shadow-none ${sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}`}>
           
           <div className="p-4 border-b border-slate-200/60 shrink-0 bg-white/80 backdrop-blur-md sticky top-0 z-10">
-            <div className="mb-4">
-              <div className="flex justify-between items-center mb-1.5">
-                <span className="text-xs font-bold text-slate-700 uppercase tracking-wider">Progress Kursus</span>
-                <span className="text-xs font-bold text-purple-700">{progressPercent}%</span>
-              </div>
-              <div className="h-2 w-full bg-slate-100 rounded-full overflow-hidden">
-                <motion.div 
-                  className="h-full bg-gradient-to-r from-purple-500 to-indigo-600 rounded-full"
-                  initial={{ width: 0 }}
-                  animate={{ width: `${progressPercent}%` }}
-                  transition={{ duration: 0.8, ease: "easeOut" }}
-                />
-              </div>
+            <div className="mb-4 flex justify-between items-center bg-slate-50 px-3 py-2.5 rounded-lg border border-slate-100">
+              <span className="text-xs font-bold text-slate-700 uppercase tracking-wider">Status</span>
+              <span className="text-xs font-bold text-purple-700">{completedCount} Pelajaran Selesai</span>
             </div>
 
             <div className="relative">
@@ -440,24 +430,15 @@ export default function AcademyMasterclassPage() {
               </p>
             </div>
 
-            {/* Template Progress Tracker */}
-            <div className="mb-16 p-6 rounded-2xl bg-slate-50 border border-slate-200 shadow-sm">
-              <div className="flex items-center justify-between mb-4">
-                <h3 className="text-sm font-bold font-sans text-slate-800 flex items-center gap-2">
-                  <Target size={18} className="text-purple-600" />
-                  Progress Modul
-                </h3>
-                <span className="text-xs font-mono font-bold text-slate-500">
-                  {progressPercent}% SELESAI
-                </span>
-              </div>
-              <div className="h-2 w-full bg-slate-200 rounded-full overflow-hidden">
-                <motion.div
-                  initial={{ width: 0 }}
-                  animate={{ width: `${progressPercent}%` }}
-                  className="h-full bg-purple-600 rounded-full"
-                />
-              </div>
+            {/* Template Module Status */}
+            <div className="mb-16 p-5 rounded-2xl bg-slate-50 border border-slate-200 shadow-sm flex items-center justify-between">
+              <h3 className="text-sm font-bold font-sans text-slate-800 flex items-center gap-2">
+                <Target size={18} className="text-purple-600" />
+                Modul Pembelajaran
+              </h3>
+              <span className="text-xs font-mono font-bold text-slate-600">
+                {completedCount} Diselesaikan
+              </span>
             </div>
 
             {/* Template Rendering for all courses */}

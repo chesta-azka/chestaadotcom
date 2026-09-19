@@ -46,34 +46,40 @@ const containerVariants = {
       staggerChildren: 0.1
     }
   }
-} as any;
+};
 
 const cardVariants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } }
-} as any;
+  hidden: { opacity: 0, y: 24 },
+  visible: { 
+    opacity: 1, 
+    y: 0, 
+    transition: { 
+      duration: 0.5, 
+      ease: [0.16, 1, 0.3, 1] as const 
+    } 
+  }
+};
 
 export default function ServiceHighlightsSection() {
   return (
-    <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
+    <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 sm:py-16">
       <div className="text-center mb-12 sm:mb-16">
-        <motion.h2 
+        <motion.div
           initial={{ opacity: 0, y: 15 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-50px" }}
-          className="text-2xl sm:text-4xl font-display font-black text-slate-900 tracking-tight"
+          viewport={{ once: true, margin: "-40px" }}
+          transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
         >
-          Specialized Service Highlights
-        </motion.h2>
-        <motion.p 
-          initial={{ opacity: 0, y: 15 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-50px" }}
-          transition={{ delay: 0.1 }}
-          className="mt-4 text-slate-600 font-sans max-w-2xl mx-auto"
-        >
-          Elevating your enterprise with cutting-edge technical expertise and specialized strategic consulting.
-        </motion.p>
+          <span className="text-[11px] font-mono font-bold uppercase tracking-widest text-purple-700 bg-purple-50 px-3 py-1 rounded-full border border-purple-200/70 inline-block mb-3">
+            Layanan Spesialis
+          </span>
+          <h2 className="text-2xl sm:text-4xl font-display font-black text-slate-900 tracking-tight">
+            Specialized Engineering Highlights
+          </h2>
+          <p className="mt-3 text-slate-600 font-sans text-sm sm:text-base max-w-2xl mx-auto leading-relaxed">
+            Meningkatkan daya saing enterprise melalui audit mendalam, arsitektur cloud terpercaya, dan eksekusi teknis berstandar global.
+          </p>
+        </motion.div>
       </div>
 
       <motion.div 
@@ -81,20 +87,33 @@ export default function ServiceHighlightsSection() {
         initial="hidden"
         whileInView="visible"
         viewport={{ once: true, margin: "-50px" }}
-        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
+        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 sm:gap-6"
       >
         {highlights.map((item, index) => (
           <motion.div 
             key={index}
             variants={cardVariants}
-            whileHover={{ y: -5 }}
-            className="group relative bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 hover:shadow-xl hover:shadow-purple-900/5 hover:border-purple-200 transition-all duration-300"
+            whileHover={{ y: -4 }}
+            className="group relative bg-white border border-slate-200/90 rounded-2xl p-6 sm:p-7 hover:shadow-lg hover:shadow-purple-900/5 hover:border-purple-300 transition-all duration-300 flex flex-col justify-between"
           >
-            <div className={`w-12 h-12 rounded-xl ${item.bg} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
-              <item.icon className={`w-6 h-6 ${item.color}`} />
+            <div>
+              <motion.div 
+                className={`w-11 h-11 rounded-xl ${item.bg} flex items-center justify-center mb-5 transition-colors duration-300 border border-transparent group-hover:border-purple-200`}
+                whileHover={{ scale: 1.12, rotate: [0, -4, 4, 0] }}
+                transition={{ type: "spring", stiffness: 350, damping: 18 }}
+              >
+                <item.icon className={`w-5 h-5 ${item.color} transition-transform duration-300 group-hover:scale-105`} />
+              </motion.div>
+              <h3 className="text-base sm:text-lg font-bold font-display text-slate-900 mb-2.5 group-hover:text-purple-900 transition-colors">
+                {item.title}
+              </h3>
+              <p className="text-slate-600 text-xs sm:text-sm leading-relaxed font-sans">
+                {item.description}
+              </p>
             </div>
-            <h3 className="text-lg font-bold font-display text-slate-900 mb-3">{item.title}</h3>
-            <p className="text-slate-600 text-sm leading-relaxed">{item.description}</p>
+            <div className="pt-5 mt-4 border-t border-slate-100 flex items-center text-[11px] font-mono font-semibold text-slate-400 group-hover:text-purple-600 transition-colors">
+              <span>AUDIT &amp; STRATEGI</span>
+            </div>
           </motion.div>
         ))}
       </motion.div>

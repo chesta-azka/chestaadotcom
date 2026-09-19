@@ -16,7 +16,6 @@ const NAV_ITEMS: NavItem[] = [
   { name: 'Home', href: '/', icon: Home, subtitle: 'Beranda' },
   {
     name: 'Layanan',
-    href: '/layanan',
     icon: Code2,
     children: [
       { name: 'Web Dev Next.js', href: '/layanan/web-development-nextjs', icon: Code2, subtitle: 'Website Super Cepat & Enterprise' },
@@ -284,10 +283,10 @@ export default function Header() {
                 target="_blank"
                 rel="noopener noreferrer"
                 whileTap={{ scale: 0.92 }}
-                className="md:hidden flex items-center justify-center min-w-[38px] min-h-[38px] rounded-xl bg-slate-900 text-white border border-slate-800 shadow-2xs cursor-pointer"
-                aria-label="Chat with us via WhatsApp"
+                className="md:hidden flex items-center justify-center min-w-[44px] min-h-[44px] rounded-xl bg-slate-900 text-white border border-slate-800 shadow-2xs cursor-pointer"
+                aria-label="Chat via WhatsApp"
               >
-                <MessageCircle size={16} className="text-purple-400" />
+                <MessageCircle size={18} className="text-purple-400" />
               </motion.a>
 
               {/* Mobile Hamburger Toggle Button */}
@@ -295,57 +294,57 @@ export default function Header() {
                 id="mobile-hamburger-btn"
                 whileTap={{ scale: 0.92 }}
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="md:hidden flex items-center justify-center min-w-[38px] min-h-[38px] rounded-xl bg-purple-50 hover:bg-purple-100 text-purple-950 border border-purple-200 transition-colors cursor-pointer shadow-2xs"
+                className="md:hidden flex items-center justify-center min-w-[44px] min-h-[44px] rounded-xl bg-purple-50 hover:bg-purple-100 text-purple-950 border border-purple-200 transition-colors cursor-pointer shadow-2xs"
                 aria-label={mobileMenuOpen ? 'Tutup menu navigasi' : 'Buka menu navigasi'}
                 aria-expanded={mobileMenuOpen}
               >
-                <Menu size={18} />
+                {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
               </motion.button>
             </div>
           </motion.div>
         </div>
       </header>
 
-      {/* Mobile Navigation Drawer Overlay (Polished Rounded Corners) */}
+      {/* Enhanced Slide-out Mobile Navigation Drawer */}
       <AnimatePresence>
         {mobileMenuOpen && (
           <>
-            {/* Backdrop */}
+            {/* Backdrop with smooth blur */}
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.2 }}
+              transition={{ duration: 0.25, ease: "easeOut" }}
               onClick={() => setMobileMenuOpen(false)}
-              className="fixed inset-0 z-50 md:hidden bg-slate-900/40 backdrop-blur-xs"
+              className="fixed inset-0 z-50 md:hidden bg-slate-950/60 backdrop-blur-xs"
             />
 
-            {/* Slide-in Drawer */}
+            {/* Slide-out Drawer Menu */}
             <motion.div
               initial={{ x: '100%' }}
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
-              transition={{ type: 'spring', damping: 25, stiffness: 240 }}
-              className="fixed inset-y-0 right-0 z-50 w-full max-w-sm md:hidden bg-white border-l border-slate-200 shadow-2xl flex flex-col justify-between overflow-y-auto rounded-l-3xl"
+              transition={{ type: 'spring', damping: 28, stiffness: 280 }}
+              className="fixed inset-y-0 right-0 z-50 w-[86vw] max-w-[360px] md:hidden bg-white border-l border-slate-200/90 shadow-2xl flex flex-col justify-between overflow-hidden"
               style={{ overscrollBehavior: 'contain' }}
               role="dialog"
               aria-modal="true"
-              aria-label="Mobile Menu Drawer"
+              aria-label="Mobile Navigation Drawer"
             >
-              {/* Top Bar inside Drawer */}
-              <div className="w-full flex items-center justify-between px-6 py-5 border-b border-slate-100 shrink-0 bg-slate-50/50">
+              {/* Drawer Header with Chesta's Brand & Close */}
+              <div className="px-5 py-4 border-b border-slate-100 bg-slate-50/70 flex items-center justify-between shrink-0">
                 <Link
                   to="/"
                   onClick={() => setMobileMenuOpen(false)}
                   className="flex items-center gap-2.5 group select-none"
                 >
-                  <div className="flex items-center justify-center w-9 h-9 rounded-xl bg-purple-50 border border-purple-200">
+                  <div className="flex items-center justify-center w-8 h-8 rounded-xl bg-purple-100/70 border border-purple-200">
                     <svg className="w-4 h-4 text-purple-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                       <path d="m12 3-8 8 8 8 8-8-8-8z" />
                       <path d="m12 8-4 4 4 4 4-4-4-4z" />
                     </svg>
                   </div>
-                  <span className="font-display text-lg font-black tracking-tight text-slate-900">
+                  <span className="font-display text-base font-black tracking-tight text-slate-900">
                     chestaa<span className="text-purple-600">dot</span>com
                   </span>
                 </Link>
@@ -353,39 +352,57 @@ export default function Header() {
                 <motion.button
                   whileTap={{ scale: 0.9 }}
                   onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center justify-center w-10 h-10 rounded-xl bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 transition-all cursor-pointer shadow-2xs"
+                  className="flex items-center justify-center w-9 h-9 rounded-xl bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 transition-colors cursor-pointer shadow-2xs"
                   aria-label="Tutup navigasi"
                 >
-                  <X size={20} />
+                  <X size={18} />
                 </motion.button>
               </div>
 
               {/* Scrollable Center Content */}
-              <div className="flex-1 flex flex-col px-6 py-6 space-y-6 w-full">
+              <div className="flex-1 overflow-y-auto px-5 py-4 space-y-4">
+                {/* Founder Identity Card with Chesta's Photo */}
+                <div className="p-3.5 rounded-2xl bg-gradient-to-br from-purple-50/60 to-slate-50 border border-purple-100 flex items-center gap-3 shadow-2xs">
+                  <div className="relative shrink-0">
+                    <img 
+                      src="/chesta.png" 
+                      alt="Chesta Azka Sofyan - Founder & Lead Architect" 
+                      className="w-12 h-12 rounded-xl object-cover object-top border border-purple-200 shadow-xs"
+                    />
+                    <span className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 bg-emerald-500 border-2 border-white rounded-full"></span>
+                  </div>
+                  <div className="flex flex-col min-w-0">
+                    <div className="flex items-center gap-1.5">
+                      <span className="font-display text-sm font-bold text-slate-900 truncate">Chesta Azka Sofyan</span>
+                    </div>
+                    <span className="text-[11px] font-mono text-purple-800 font-bold uppercase tracking-wider">Lead Digital Architect</span>
+                    <span className="text-[10px] text-slate-500 flex items-center gap-1 mt-0.5">
+                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+                      BSD City &bull; Siap Konsultasi
+                    </span>
+                  </div>
+                </div>
+
                 {/* Quick Search Bar */}
-                <motion.button
-                  initial={{ opacity: 0, y: -10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  transition={{ duration: 0.3, delay: 0.08 }}
+                <button
                   onClick={() => {
                     setMobileMenuOpen(false);
                     window.dispatchEvent(new CustomEvent('open-command-palette'));
                   }}
-                  className="w-full flex items-center justify-between px-4 py-3.5 rounded-2xl bg-slate-50 border border-slate-200 text-slate-700 text-sm font-medium cursor-pointer hover:bg-slate-100 transition-all shadow-2xs"
+                  className="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-700 text-xs font-medium cursor-pointer transition-colors"
                 >
-                  <div className="flex items-center gap-3">
-                    <Search size={18} className="text-purple-700 shrink-0" />
-                    <span className="text-slate-800 font-sans font-medium">Cari Layanan, Portfolio...</span>
+                  <div className="flex items-center gap-2.5">
+                    <Search size={15} className="text-purple-700 shrink-0" />
+                    <span className="text-slate-600 font-sans">Cari Layanan &amp; Artikel...</span>
                   </div>
-                  <kbd className="px-2.5 py-1 rounded-xl bg-white text-[11px] font-mono font-bold text-purple-900 border border-slate-200 shadow-2xs">
+                  <kbd className="px-1.5 py-0.5 rounded-md bg-white text-[10px] font-mono font-bold text-purple-900 border border-slate-200">
                     ⌘K
                   </kbd>
-                </motion.button>
+                </button>
 
-                {/* Navigation Links List */}
-                <nav className="space-y-2.5" aria-label="Mobile Navigation">
-                  <ul className="space-y-2.5 list-none p-0 m-0">
-                  {NAV_ITEMS.map((item, index) => {
+                {/* Main Nav Links Accordion with Staggered Animation */}
+                <nav className="space-y-1.5 pt-1" aria-label="Mobile Drawer Navigation">
+                  {NAV_ITEMS.map((item, idx) => {
                     const Icon = item.icon || ChevronRight;
                     const isActive = item.href 
                       ? location.pathname === item.href || (item.href !== '/' && location.pathname.startsWith(item.href))
@@ -393,133 +410,119 @@ export default function Header() {
                     const isExpanded = expandedMenus.includes(item.name);
 
                     return (
-                      <motion.li
-                        key={item.name}
+                      <motion.div 
+                        key={item.name} 
                         initial={{ opacity: 0, x: 20 }}
                         animate={{ opacity: 1, x: 0 }}
-                        transition={{ duration: 0.25, delay: 0.1 + index * 0.04 }}
-                        className="flex flex-col gap-1 list-none"
+                        transition={{ delay: 0.1 + (idx * 0.05), duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
+                        className="flex flex-col"
                       >
                         {item.href ? (
                           <Link
                             to={item.href}
                             onClick={() => setMobileMenuOpen(false)}
-                            aria-current={isActive ? 'page' : undefined}
-                            className={`flex items-center justify-between p-3.5 rounded-2xl transition-all border ${
+                            className={`flex items-center justify-between px-3.5 py-2.5 rounded-xl transition-colors ${
                               isActive
-                                ? 'bg-purple-50 border-purple-200 text-purple-950 font-bold shadow-2xs'
-                                : 'bg-white border-slate-200 text-slate-800 hover:bg-slate-50'
+                                ? 'bg-purple-50 text-purple-950 font-bold border border-purple-200/80 shadow-2xs'
+                                : 'text-slate-700 hover:bg-slate-50 hover:text-slate-900'
                             }`}
                           >
-                            <div className="flex items-center gap-3.5">
-                              <div className={`p-2.5 rounded-xl border ${isActive ? 'bg-purple-100 text-purple-900 border-purple-200' : 'bg-slate-100 text-slate-600 border-slate-200'}`}>
-                                <Icon size={18} />
+                            <div className="flex items-center gap-3">
+                              <div className={`p-1.5 rounded-lg ${isActive ? 'bg-purple-100 text-purple-900' : 'bg-slate-100 text-slate-500'}`}>
+                                <Icon size={16} />
                               </div>
-                              <span className="font-display text-base tracking-tight font-bold">
+                              <span className="font-sans text-xs font-semibold tracking-tight uppercase">
                                 {item.name}
                               </span>
                             </div>
-                            <ChevronRight size={16} className="text-slate-400" />
+                            <ChevronRight size={14} className="text-slate-400" />
                           </Link>
                         ) : (
                           <button
                             onClick={() => toggleMenu(item.name)}
                             aria-expanded={isExpanded}
-                            aria-haspopup="true"
-                            className={`flex items-center justify-between p-3.5 rounded-2xl transition-all w-full border ${
+                            className={`flex items-center justify-between px-3.5 py-2.5 rounded-xl transition-colors w-full cursor-pointer ${
                               isActive || isExpanded
-                                ? 'bg-purple-50 border-purple-200 text-purple-950 font-bold'
-                                : 'bg-white border-slate-200 text-slate-800 hover:bg-slate-50'
+                                ? 'bg-purple-50/70 text-purple-950 font-bold border border-purple-200/60'
+                                : 'text-slate-700 hover:bg-slate-50 hover:text-slate-900'
                             }`}
                           >
-                            <div className="flex items-center gap-3.5">
-                              <div className={`p-2.5 rounded-xl border ${isActive || isExpanded ? 'bg-purple-100 text-purple-900 border-purple-200' : 'bg-slate-100 text-slate-600 border-slate-200'}`}>
-                                <Icon size={18} />
+                            <div className="flex items-center gap-3">
+                              <div className={`p-1.5 rounded-lg ${isActive || isExpanded ? 'bg-purple-100 text-purple-900' : 'bg-slate-100 text-slate-500'}`}>
+                                <Icon size={16} />
                               </div>
-                              <span className="font-display text-base tracking-tight font-bold">
+                              <span className="font-sans text-xs font-semibold tracking-tight uppercase">
                                 {item.name}
                               </span>
                             </div>
-                            <ChevronDown size={18} className={`transition-transform duration-300 text-slate-400 ${isExpanded ? 'rotate-180 text-purple-700' : ''}`} />
+                            <ChevronDown size={15} className={`transition-transform duration-200 text-slate-400 ${isExpanded ? 'rotate-180 text-purple-700' : ''}`} />
                           </button>
                         )}
 
-                        {/* Mobile Dropdown Items */}
+                        {/* Submenu Dropdown */}
                         <AnimatePresence>
                           {item.children && isExpanded && (
                             <motion.div
                               initial={{ height: 0, opacity: 0 }}
                               animate={{ height: 'auto', opacity: 1 }}
                               exit={{ height: 0, opacity: 0 }}
-                              transition={{ duration: 0.25 }}
+                              transition={{ duration: 0.2 }}
                               className="overflow-hidden"
                             >
-                              <ul className="pl-3 pr-1 py-2 space-y-2 border-l-2 border-purple-200 ml-6 mt-1 bg-slate-50/50 list-none m-0">
+                              <div className="pl-8 pr-1 py-1.5 space-y-1">
                                 {item.children.map((child) => {
                                   const ChildIcon = child.icon;
                                   const isChildActive = location.pathname === child.href || location.pathname.startsWith(child.href);
                                   return (
-                                    <li key={child.name} className="list-none">
-                                      <Link
-                                        to={child.href}
-                                        onClick={() => setMobileMenuOpen(false)}
-                                        aria-current={isChildActive ? 'page' : undefined}
-                                        className={`flex items-center justify-between p-3 rounded-xl transition-all border ${
-                                          isChildActive
-                                            ? 'bg-purple-100 text-purple-950 font-bold border-purple-200'
-                                            : 'bg-white text-slate-700 hover:bg-slate-100 border-slate-200'
-                                        }`}
-                                      >
-                                        <div className="flex items-center gap-3">
-                                          <div className={`p-2 rounded-xl border ${isChildActive ? 'bg-purple-200 text-purple-800 border-purple-300' : 'bg-slate-100 text-slate-600 border-slate-200'}`}>
-                                            <ChildIcon size={15} />
-                                          </div>
-                                          <div className="flex flex-col text-left">
-                                            <span className="font-sans text-xs font-bold">{child.name}</span>
-                                            <span className="text-[10px] text-slate-500 font-sans">{child.subtitle}</span>
-                                          </div>
-                                        </div>
-                                      </Link>
-                                    </li>
+                                    <Link
+                                      key={child.name}
+                                      to={child.href}
+                                      onClick={() => setMobileMenuOpen(false)}
+                                      className={`flex items-center gap-2.5 p-2 rounded-lg transition-colors text-left ${
+                                        isChildActive
+                                          ? 'bg-purple-100 text-purple-950 font-bold'
+                                          : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100/70'
+                                      }`}
+                                    >
+                                      <ChildIcon size={14} className={isChildActive ? 'text-purple-700' : 'text-slate-400'} />
+                                      <div className="flex flex-col min-w-0">
+                                        <span className="font-sans text-xs font-semibold">{child.name}</span>
+                                        <span className="text-[10px] text-slate-400 truncate">{child.subtitle}</span>
+                                      </div>
+                                    </Link>
                                   );
                                 })}
-                              </ul>
+                              </div>
                             </motion.div>
                           )}
                         </AnimatePresence>
-                      </motion.li>
+                      </motion.div>
                     );
                   })}
-                  </ul>
                 </nav>
-
-                {/* Direct Contact Action Button */}
-                <div className="pt-4 border-t border-slate-200 space-y-3">
-                  <a
-                    id="mobile-drawer-whatsapp-btn"
-                    href={whatsappUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={() => setMobileMenuOpen(false)}
-                    className="flex items-center justify-between w-full py-4 px-5 bg-slate-900 hover:bg-purple-900 active:scale-[0.98] text-white rounded-2xl font-mono font-bold text-xs uppercase tracking-widest shadow-md transition-all cursor-pointer group"
-                  >
-                    <div className="flex items-center gap-3">
-                      <MessageCircle size={18} className="text-purple-400" />
-                      <span>Konsultasi WhatsApp</span>
-                    </div>
-                    <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
-                  </a>
-
-                  <div className="flex items-center justify-center gap-2 text-xs text-slate-500 font-mono py-1">
-                    <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                    <span>Lead Architect Online &bull; BSD City</span>
-                  </div>
-                </div>
               </div>
 
-              {/* Bottom Footer Info */}
-              <div className="w-full px-6 py-4 border-t border-slate-100 bg-slate-50/50 text-center text-[11px] text-slate-500 font-mono shrink-0">
-                <span>CHESTAADOTCOM &copy; 2026 &bull; All Rights Reserved</span>
+              {/* Drawer Footer Actions */}
+              <div className="px-5 py-4 border-t border-slate-200 bg-slate-50/80 space-y-2.5 shrink-0">
+                <a
+                  id="mobile-drawer-whatsapp-btn"
+                  href={whatsappUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className="flex items-center justify-between w-full py-3 px-4 bg-slate-900 hover:bg-purple-900 active:scale-[0.98] text-white rounded-xl font-mono font-bold text-xs uppercase tracking-wider shadow-sm transition-all cursor-pointer group"
+                >
+                  <div className="flex items-center gap-2.5">
+                    <MessageCircle size={16} className="text-purple-400" />
+                    <span>Chat WhatsApp</span>
+                  </div>
+                  <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+                </a>
+
+                <div className="flex items-center justify-between text-[11px] text-slate-500 font-mono px-1">
+                  <span>BSD City &bull; Cisauk</span>
+                  <span className="text-purple-700 font-bold">CHESTAADOTCOM</span>
+                </div>
               </div>
             </motion.div>
           </>

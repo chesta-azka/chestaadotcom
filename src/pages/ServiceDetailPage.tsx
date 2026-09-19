@@ -1,6 +1,7 @@
 import { useParams, Link } from 'react-router-dom';
 import { SERVICES_DATA, ServiceDetailData } from '../data/servicesData';
 import { motion, useScroll, useTransform } from 'motion/react';
+import Breadcrumbs from '../components/atoms/Breadcrumbs.tsx';
 import { 
   Check, 
   ArrowRight, 
@@ -101,7 +102,6 @@ export default function ServiceDetailPage() {
   // Sticky CTA scroll tracking
   const { scrollYProgress } = useScroll();
   const ctaY = useTransform(scrollYProgress, [0.1, 0.2], [100, 0]);
-  const progressWidth = useTransform(scrollYProgress, [0, 1], ['0%', '100%']);
 
   const activeSection = useScrollSpy([
     'overview',
@@ -114,8 +114,7 @@ export default function ServiceDetailPage() {
     'faq'
   ]);
 
-  const normalizedSlug = slug ? slug.toLowerCase().replace(/\/+$/, '') : '';
-  const service: ServiceDetailData | undefined = normalizedSlug ? SERVICES_DATA[normalizedSlug] : undefined;
+  const service: ServiceDetailData | undefined = slug ? SERVICES_DATA[slug] : undefined;
 
   useSEOOptimizer({
     title: service ? `${service.title} | Jasa IT BSD City & Solusi Web Cisauk` : 'Layanan IT BSD City & Cisauk | CHESTAADOTCOM',
@@ -270,8 +269,20 @@ export default function ServiceDetailPage() {
 
       <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Top Header Actions */}
-        <div className="flex justify-end mb-8">
+        {/* Breadcrumb */}
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-12">
+          <motion.div
+            initial={{ opacity: 0, y: -10 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.4 }}
+          >
+            <Breadcrumbs 
+              items={[
+                { name: 'Layanan', item: '/#services' },
+                { name: service.title, item: `/service/${slug}` }
+              ]} 
+            />
+          </motion.div>
           <SocialShare title={service.title} description={service.heroDescription} />
         </div>
 
@@ -693,9 +704,6 @@ export default function ServiceDetailPage() {
         style={{ y: ctaY }}
         className="fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-xl border-t border-slate-200 shadow-[0_-10px_40px_rgba(0,0,0,0.05)]"
       >
-        <div className="absolute top-0 left-0 h-1 bg-slate-100 w-full overflow-hidden">
-          <motion.div style={{ width: progressWidth }} className="h-full bg-purple-600 rounded-r-full" />
-        </div>
         <div className="max-w-[1200px] mx-auto px-6 py-4 flex items-center justify-between">
           <div className="hidden sm:flex flex-col">
             <span className="text-xs font-mono font-bold text-slate-500 uppercase tracking-widest">{service.title}</span>

@@ -18,6 +18,8 @@ export default function TiltCard({ children, className = '' }: TiltCardProps) {
 
   const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["7deg", "-7deg"]);
   const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-7deg", "7deg"]);
+  const translateX = useTransform(mouseXSpring, [-0.5, 0.5], ["-10px", "10px"]);
+  const translateY = useTransform(mouseYSpring, [-0.5, 0.5], ["-10px", "10px"]);
   const brightness = useTransform(mouseYSpring, [-0.5, 0.5], [1.1, 0.9]);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -48,6 +50,8 @@ export default function TiltCard({ children, className = '' }: TiltCardProps) {
       style={{
         rotateX,
         rotateY,
+        x: translateX,
+        y: translateY,
         filter: isHovered ? `brightness(${brightness.get()})` : 'brightness(1)',
         transformStyle: "preserve-3d",
       }}

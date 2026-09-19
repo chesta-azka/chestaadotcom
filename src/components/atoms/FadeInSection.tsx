@@ -5,23 +5,56 @@ interface FadeInSectionProps {
   children: ReactNode;
   className?: string;
   delay?: number;
+  id?: string;
+  direction?: 'up' | 'down' | 'left' | 'right' | 'none';
+  scale?: number;
 }
 
-export default function FadeInSection({ children, className = '', delay = 0 }: FadeInSectionProps) {
+export default function FadeInSection({ 
+  children, 
+  className = '', 
+  delay = 0, 
+  id,
+  direction = 'up',
+  scale = 0.98
+}: FadeInSectionProps) {
+  const getInitialY = () => {
+    if (direction === 'up') return 40;
+    if (direction === 'down') return -40;
+    return 0;
+  };
+
+  const getInitialX = () => {
+    if (direction === 'left') return 40;
+    if (direction === 'right') return -40;
+    return 0;
+  };
+
   return (
     <motion.div
+      id={id}
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: true, margin: "-10%" }}
+      viewport={{ once: true, amount: 0.2 }}
       variants={{
-        hidden: { opacity: 0, y: 30 },
+        hidden: { 
+          opacity: 0, 
+          y: getInitialY(), 
+          x: getInitialX(),
+          scale: scale,
+          filter: 'blur(4px)' 
+        },
         visible: {
-          opacity: 1, y: 0,
+          opacity: 1, 
+          y: 0, 
+          x: 0, 
+          scale: 1,
+          filter: 'blur(0px)',
           transition: {
-            duration: 0.6,
-            ease: [0.22, 1, 0.36, 1],
+            duration: 0.9,
+            ease: [0.16, 1, 0.3, 1],
             delay: delay,
-            staggerChildren: 0.05
+            staggerChildren: 0.12
           }
         }
       }}

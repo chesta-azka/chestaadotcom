@@ -97,16 +97,12 @@ export default function AcademyResourcesPage() {
             </button>
           </nav>
 
-          {/* Mini Progress Card in Sidebar */}
+          {/* Mini Status Card in Sidebar */}
           <div className="bg-slate-50 rounded-2xl p-4 border border-slate-200/60">
-            <div className="flex justify-between items-center mb-1.5 text-xs font-bold text-slate-700">
-              <span>Progress Checklist</span>
-              <span className="text-purple-700">{progressPercent}%</span>
+            <div className="flex justify-between items-center text-xs font-bold text-slate-700">
+              <span>Checklist</span>
+              <span className="text-purple-700 font-mono">{completedCount} / {totalCount} Selesai</span>
             </div>
-            <div className="h-2 w-full bg-slate-200 rounded-full overflow-hidden mb-2">
-              <div className="h-full bg-purple-700 rounded-full transition-all duration-300" style={{ width: `${progressPercent}%` }} />
-            </div>
-            <span className="text-[11px] text-slate-500 font-mono">{completedCount} dari {totalCount} selesai</span>
           </div>
         </aside>
 

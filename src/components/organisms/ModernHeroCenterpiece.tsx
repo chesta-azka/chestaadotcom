@@ -3,6 +3,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
+import MagneticButton from '../atoms/MagneticButton';
 import { 
   ArrowRight, 
   MessageCircle, 
@@ -156,34 +157,38 @@ export function ModernHeroCenterpiece() {
             className="mt-8 flex flex-col sm:flex-row items-stretch sm:items-center gap-3.5 w-full sm:w-auto"
           >
             {/* Primary Action Button (WhatsApp) */}
-            <motion.a
-              href="https://wa.me/6282125447232?text=Halo%20Mas%20Chesta!%20Saya%20tertarik%20untuk%20konsultasi%20pembuatan%20website%20arsitektur%20modern%20di%20CHESTADOTCOM."
-              target="_blank"
-              rel="noopener noreferrer"
-              whileHover={{ scale: 1.025 }}
-              whileTap={{ scale: 0.975 }}
-              className="relative group inline-flex items-center justify-center gap-3 px-8 py-4 rounded-2xl bg-gradient-to-r from-purple-950 via-purple-900 to-indigo-950 text-white font-sans text-sm sm:text-base font-bold shadow-xl shadow-purple-950/20 hover:shadow-2xl hover:shadow-purple-900/30 transition-all cursor-pointer overflow-hidden border border-purple-700/40"
-            >
-              {/* Subtle light sweep reflection */}
-              <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out bg-gradient-to-r from-transparent via-white/15 to-transparent pointer-events-none" />
-              
-              <div className="w-6 h-6 rounded-lg bg-emerald-500/20 flex items-center justify-center border border-emerald-400/40">
-                <MessageCircle size={15} className="text-emerald-400" />
-              </div>
-              <span>Konsultasi Cepat di WhatsApp</span>
-              <ArrowRight size={16} className="text-purple-300 transition-transform duration-300 group-hover:translate-x-1" />
-            </motion.a>
+            <MagneticButton strength={0.35} className="w-full sm:w-auto">
+              <motion.a
+                href="https://wa.me/6282125447232?text=Halo%20Mas%20Chesta!%20Saya%20tertarik%20untuk%20konsultasi%20pembuatan%20website%20arsitektur%20modern%20di%20CHESTADOTCOM."
+                target="_blank"
+                rel="noopener noreferrer"
+                whileHover={{ scale: 1.025 }}
+                whileTap={{ scale: 0.975 }}
+                className="relative group inline-flex items-center justify-center gap-3 px-8 py-4 rounded-2xl bg-gradient-to-r from-purple-950 via-purple-900 to-indigo-950 text-white font-sans text-sm sm:text-base font-bold shadow-xl shadow-purple-950/20 hover:shadow-2xl hover:shadow-purple-900/30 transition-all cursor-pointer overflow-hidden border border-purple-700/40 w-full sm:w-auto"
+              >
+                {/* Subtle light sweep reflection */}
+                <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000 ease-out bg-gradient-to-r from-transparent via-white/15 to-transparent pointer-events-none" />
+                
+                <div className="w-6 h-6 rounded-lg bg-emerald-500/20 flex items-center justify-center border border-emerald-400/40">
+                  <MessageCircle size={15} className="text-emerald-400" />
+                </div>
+                <span>Konsultasi Cepat di WhatsApp</span>
+                <ArrowRight size={16} className="text-purple-300 transition-transform duration-300 group-hover:translate-x-1" />
+              </motion.a>
+            </MagneticButton>
 
             {/* Secondary Action Button (Portfolio / Case Studies) */}
-            <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-              <Link
-                to="/case-studies"
-                className="group inline-flex items-center justify-center gap-2.5 px-7 py-4 rounded-2xl bg-white hover:bg-purple-50/50 text-slate-800 font-sans text-sm sm:text-base font-semibold border border-slate-200 hover:border-purple-300 shadow-sm transition-all cursor-pointer w-full sm:w-auto"
-              >
-                <span>Lihat Portofolio</span>
-                <span className="w-1.5 h-1.5 rounded-full bg-purple-500 transition-transform group-hover:scale-150" />
-              </Link>
-            </motion.div>
+            <MagneticButton strength={0.25} className="w-full sm:w-auto">
+              <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                <Link
+                  to="/case-studies"
+                  className="group inline-flex items-center justify-center gap-2.5 px-7 py-4 rounded-2xl bg-white hover:bg-purple-50/50 text-slate-800 font-sans text-sm sm:text-base font-semibold border border-slate-200 hover:border-purple-300 shadow-sm transition-all cursor-pointer w-full sm:w-auto"
+                >
+                  <span>Lihat Portofolio</span>
+                  <span className="w-1.5 h-1.5 rounded-full bg-purple-500 transition-transform group-hover:scale-150" />
+                </Link>
+              </motion.div>
+            </MagneticButton>
           </motion.div>
 
           {/* Quick Estimator CTA Link */}
@@ -250,7 +255,7 @@ export function ModernHeroCenterpiece() {
           transition={{ duration: 0.7, delay: 0.2, ease: "easeOut" }}
           className="lg:col-span-5 w-full"
         >
-          <div className="bg-slate-950/85 backdrop-blur-xl text-slate-200 rounded-xl p-5 sm:p-6 shadow-2xl border border-slate-800 relative overflow-hidden ring-1 ring-purple-500/20">
+          <div className="bg-slate-950/80 backdrop-blur-2xl text-slate-200 rounded-xl p-5 sm:p-6 shadow-2xl border border-slate-700/60 relative overflow-hidden ring-1 ring-purple-500/25">
             
             {/* Ambient Corner Flare inside terminal */}
             <div className="absolute top-0 right-0 w-48 h-48 " />

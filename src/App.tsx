@@ -20,6 +20,8 @@ import FloatingAIAssistant from './components/organisms/FloatingAIAssistant.tsx'
 import CommLinkAdmin from './components/CommLinkAdmin.tsx';
 import LoadingScreen from './components/organisms/LoadingScreen.tsx';
 import InteractiveBackground from './components/atoms/InteractiveBackground.tsx';
+import CustomCursor from './components/atoms/CustomCursor.tsx';
+import MobileActionBar from './components/atoms/MobileActionBar.tsx';
 
 import HomePage from './pages/HomePage.tsx';
 import BlogHubPage from './pages/BlogHubPage.tsx';
@@ -41,7 +43,6 @@ import NotFoundPage from './pages/NotFoundPage.tsx';
 import CaseStudiesPage from './pages/CaseStudiesPage.tsx';
 import CaseStudyDetailPage from './pages/CaseStudyDetailPage.tsx';
 import ServiceDetailPage from './pages/ServiceDetailPage.tsx';
-import ServicesHubPage from './pages/ServicesHubPage.tsx';
 
 import KeyboardShortcutsModal from './components/organisms/KeyboardShortcutsModal.tsx';
 
@@ -63,26 +64,17 @@ function ScrollToTop() {
 
 import SEOMetadata from './components/atoms/SEOMetadata';
 import PremiumTransition from './components/atoms/PremiumTransition';
-import BreadcrumbNavigation from './components/atoms/BreadcrumbNavigation';
-import GeoContextManager from './components/atoms/GeoContextManager';
-
-import ScrollToTopButton from './components/atoms/ScrollToTop.tsx';
+import DynamicBreadcrumbSchema from './components/atoms/DynamicBreadcrumbSchema';
 
 // Inner component to use location for AnimatePresence
-function AppContent({ appLoaded }: { appLoaded: boolean }) {
+function AppContent({ appLoaded, onLoadingComplete }: { appLoaded: boolean; onLoadingComplete: () => void }) {
   const location = useLocation();
-  const { scrollYProgress } = useScroll();
   useVisitorTracker();
   useClickTracker();
   
   return (
     <div className="relative z-10 w-full max-w-7xl mx-auto flex flex-col">
-      <motion.div
-        className="fixed top-0 left-0 right-0 h-[3px] bg-purple-600 origin-left z-[100]"
-        style={{ scaleX: scrollYProgress }}
-      />
-      <LoadingScreen onComplete={() => {}} />
-      <GeoContextManager />
+      <LoadingScreen onComplete={onLoadingComplete} />
       
       <motion.div
         initial={{ opacity: 0, y: 20 }}
@@ -96,10 +88,6 @@ function AppContent({ appLoaded }: { appLoaded: boolean }) {
           <Routes location={location} >
             <Route path="/" element={<PageWrapper><HomePage /></PageWrapper>} />
             <Route path="/blog" element={<PageWrapper><BlogHubPage /></PageWrapper>} />
-            <Route path="/blog/category/:categorySlug" element={<PageWrapper><BlogHubPage /></PageWrapper>} />
-            <Route path="/blog/topic/:topicSlug" element={<PageWrapper><BlogHubPage /></PageWrapper>} />
-            <Route path="/blog/topic/:topicSlug/:subTopicSlug" element={<PageWrapper><BlogHubPage /></PageWrapper>} />
-            <Route path="/blog/:categorySlug/:geoSlug" element={<PageWrapper><BlogHubPage /></PageWrapper>} />
             <Route path="/blog/:slug" element={<PageWrapper><BlogPostPage /></PageWrapper>} />
             <Route path="/portfolio" element={<PageWrapper><PortfolioPage /></PageWrapper>} />
             <Route path="/portfolio/:id" element={<PageWrapper><ProjectDetailPage /></PageWrapper>} />
@@ -118,16 +106,15 @@ function AppContent({ appLoaded }: { appLoaded: boolean }) {
             
             <Route path="/case-studies" element={<PageWrapper><CaseStudiesPage /></PageWrapper>} />
             <Route path="/case-studies/:slug" element={<PageWrapper><CaseStudyDetailPage /></PageWrapper>} />
-            <Route path="/layanan" element={<PageWrapper><ServicesHubPage /></PageWrapper>} />
             <Route path="/layanan/:slug" element={<PageWrapper><ServiceDetailPage /></PageWrapper>} />
             <Route path="*" element={<PageWrapper><NotFoundPage /></PageWrapper>} />
           </Routes>
         </AnimatePresence>
         
         {!/^\/academy\/.+/.test(location.pathname) ? <FooterSection /> : null}
-        <ScrollToTopButton />
       </motion.div>
       <FloatingAIAssistant isLoaded={appLoaded} />
+      <MobileActionBar />
     </div>
   );
 }
@@ -155,8 +142,8 @@ const itemVariants = {
 function PageWrapper({ children }: { children: React.ReactNode }) {
   const location = useLocation();
   const currentMeta = ROUTE_METADATA[location.pathname] || {
-    title: 'ChestaCode | Premium Digital Solutions',
-    description: 'Bespoke web applications, AI integration, and enterprise software.'
+    title: 'CHESTAADOTCOM | Arsitek Web Next.js & Otomasi AI',
+    description: 'A high-performance B2B website development, Next.js architecture, and AI automation software house in BSD City, Cisauk, and Tangerang.'
   };
 
   return (
@@ -165,6 +152,7 @@ function PageWrapper({ children }: { children: React.ReactNode }) {
         title={currentMeta.title}
         description={currentMeta.description}
       />
+      <DynamicBreadcrumbSchema currentTitle={currentMeta.title} />
       
       <motion.div
         key={location.pathname}
@@ -175,11 +163,6 @@ function PageWrapper({ children }: { children: React.ReactNode }) {
         className="flex flex-col flex-1"
       >
         <motion.div variants={itemVariants} className="flex flex-col flex-1">
-          {location.pathname !== '/' && (
-            <div className="max-w-7xl mx-auto px-6 w-full pt-8">
-              <BreadcrumbNavigation />
-            </div>
-          )}
           {children}
         </motion.div>
       </motion.div>
@@ -188,7 +171,6 @@ function PageWrapper({ children }: { children: React.ReactNode }) {
     </>
   );
 }
-
 
 
 export default function App() {
@@ -200,6 +182,7 @@ export default function App() {
       setAppLoaded(true);
     }, 800);
     
+    // BUTTERY SMOOTH SCROLL (LENIS)
     const lenis = new Lenis({
       duration: 1.2,
       easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
@@ -210,10 +193,12 @@ export default function App() {
       touchMultiplier: 2,
       infinite: false,
     });
+
     function raf(time: number) {
       lenis.raf(time);
       requestAnimationFrame(raf);
     }
+
     requestAnimationFrame(raf);
     
     return () => {
@@ -231,11 +216,12 @@ export default function App() {
       <ScrollToTop />
       <Analytics />
       <main className="bg-[#fbfbfd] text-gray-900 relative min-h-screen">
+        <CustomCursor />
         <InteractiveBackground />
         <WebVitalsTracker />
         <CommandPalette />
         
-        <ErrorBoundary><AppContent appLoaded={appLoaded} /></ErrorBoundary>
+        <ErrorBoundary><AppContent appLoaded={appLoaded} onLoadingComplete={() => setAppLoaded(true)} /></ErrorBoundary>
         <CommLinkAdmin />
         <KeyboardShortcutsModal />
         <Toaster position="bottom-left" toastOptions={{ style: { background: "#1e293b", color: "#fff", fontSize: "14px", borderRadius: "12px", fontFamily: "sans-serif" } }} />

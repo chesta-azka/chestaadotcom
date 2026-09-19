@@ -2,6 +2,7 @@ import { motion } from 'motion/react';
 import { ArrowUpRight, MessageCircle, Sparkles, Check } from 'lucide-react';
 import TextRevealSmooth from '../atoms/TextRevealSmooth';
 import LeadCaptureForm from './LeadCaptureForm';
+import AnimatedHeading from '../atoms/AnimatedHeading';
 
 interface ChoicePackage {
   title: string;
@@ -102,9 +103,9 @@ export default function ContactSection() {
         </motion.div>
 
         <div className="text-center mb-10">
-          <h3 className="text-xl md:text-2xl font-display font-black text-slate-900">
+          <AnimatedHeading as="h3" className="text-xl md:text-2xl font-display font-black text-slate-900">
             Pilihan Paket Siap Pakai
-          </h3>
+          </AnimatedHeading>
           <p className="text-slate-600 text-xs sm:text-sm font-sans mt-1">
             Transparansi penuh tanpa biaya tersembunyi & 100% hak milik.
           </p>

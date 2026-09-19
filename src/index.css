@@ -1,19 +1,15 @@
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@0,400;0,500;0,600;1,400;1,500;1,600&family=JetBrains+Mono:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=JetBrains+Mono:wght@400;500;600&display=swap');
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "Plus Jakarta Sans", "Helvetica Neue", Helvetica, Arial, sans-serif;
+  --font-sans: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
-  --font-display: "Plus Jakarta Sans", "Helvetica Neue", sans-serif;
-  --font-serif: "Playfair Display", ui-serif, Georgia, serif;
+  --font-display: "Plus Jakarta Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-serif: "Plus Jakarta Sans", Georgia, serif;
   
-  --text-fluid-h1: clamp(2.75rem, 7vw + 1rem, 6rem);
-  --text-fluid-h2: clamp(2.25rem, 5vw + 1rem, 4.5rem);
-  --text-fluid-h3: clamp(1.75rem, 3.5vw + 1rem, 3.25rem);
-  
-  --color-slate-950: #020617;
-  --color-slate-900: #0f172a;
-  --color-slate-800: #1e293b;
+  --text-fluid-h1: clamp(2.25rem, 5vw + 1rem, 4.75rem);
+  --text-fluid-h2: clamp(1.75rem, 3.5vw + 1rem, 3.5rem);
+  --text-fluid-h3: clamp(1.25rem, 2.5vw + 1rem, 2.25rem);
 }
 
 @keyframes shimmer {
@@ -24,7 +20,6 @@
 
 html {
   scroll-behavior: smooth;
-  scroll-snap-type: y proximity;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -32,48 +27,53 @@ html {
 
 body {
   background-color: #FFFFFF;
-  color: var(--color-slate-900);
-  overflow-x: hidden;
+  color: #0f172a;
   font-family: var(--font-sans);
   font-size: 16px;
-  line-height: 1.75;
-  letter-spacing: -0.011em; /* Tighter for modern sans */
-}
-
-h1, h2, h3, h4, h5, h6 {
-  font-family: var(--font-display);
-  color: var(--color-slate-950);
-  font-weight: 800;
-  letter-spacing: -0.04em;
-  line-height: 1.1;
+  line-height: 1.85;
+  letter-spacing: 0.015em;
 }
 
 h1 {
+  font-family: var(--font-display);
   font-size: var(--text-fluid-h1);
+  letter-spacing: -0.05em;
+  line-height: 1.1;
+  font-weight: 900;
+  color: #0f172a;
 }
 
 h2 {
+  font-family: var(--font-display);
   font-size: var(--text-fluid-h2);
+  letter-spacing: -0.05em;
   line-height: 1.15;
+  font-weight: 900;
+  color: #0f172a;
 }
 
 h3 {
+  font-family: var(--font-display);
   font-size: var(--text-fluid-h3);
-  line-height: 1.2;
+  letter-spacing: -0.025em;
+  line-height: 1.25;
+  font-weight: 700;
+  color: #0f172a;
+}
+
+h4, h5, h6 {
+  font-family: var(--font-display);
+  letter-spacing: -0.025em;
+  line-height: 1.25;
+  font-weight: 700;
+  color: #0f172a;
 }
 
 p {
-  line-height: 1.75;
-  letter-spacing: -0.011em;
-  color: #475569; /* slate-600 */
-}
-
-.section-padding {
-  @apply py-20 md:py-32 lg:py-40;
-}
-
-.container-wide {
-  @apply w-full max-w-7xl mx-auto px-6 md:px-12 lg:px-16;
+  line-height: 1.85;
+  letter-spacing: 0.015em;
+  color: #475569;
+  font-family: var(--font-sans);
 }
 
 ::selection {
@@ -129,86 +129,5 @@ p {
   }
   .markdown-body strong {
     @apply text-slate-900 font-semibold;
-  }
-}
-
-
-@media print {
-  /* General Print Settings */
-  body {
-    background-color: white !important;
-    color: black !important;
-    font-size: 11pt;
-    line-height: 1.5;
-  }
-  
-  /* Hide Unnecessary UI Elements */
-  header, 
-  footer, 
-  nav, 
-  .no-print, 
-  [role="dialog"], 
-  #mobile-hamburger-btn,
-  #mobile-drawer-whatsapp-btn,
-  .whatsapp-fab,
-  .toast,
-  .fixed {
-    display: none !important;
-  }
-  
-  /* Adjust Layouts */
-  main {
-    margin: 0 !important;
-    padding: 0 !important;
-    max-width: 100% !important;
-    width: 100% !important;
-  }
-  
-  /* Typography Adjustments */
-  h1 { font-size: 24pt !important; page-break-after: avoid; }
-  h2 { font-size: 18pt !important; page-break-after: avoid; }
-  h3 { font-size: 14pt !important; page-break-after: avoid; }
-  p, li { font-size: 11pt !important; orphans: 3; widows: 3; }
-  
-  /* Link Styling */
-  a {
-    text-decoration: none !important;
-    color: black !important;
-  }
-  a[href^="http"]:after {
-    content: " (" attr(href) ")";
-    font-size: 90%;
-    color: #555;
-  }
-  
-  /* Page Breaks */
-  .page-break { page-break-before: always; }
-  .avoid-break { page-break-inside: avoid; }
-  
-  /* Images and Code Blocks */
-  img, svg, canvas {
-    max-width: 100% !important;
-    page-break-inside: avoid;
-  }
-  pre, code {
-    background: transparent !important;
-    border: 1px solid #ccc !important;
-    page-break-inside: avoid;
-    white-space: pre-wrap !important;
-    word-break: break-all;
-  }
-  
-  /* Colors & Backgrounds (Force Printing if supported) */
-  * {
-    -webkit-print-color-adjust: exact !important;
-    print-color-adjust: exact !important;
-  }
-  
-  /* Specific component overrides */
-  .glass-panel {
-    border: 1px solid #ccc !important;
-    background: white !important;
-    box-shadow: none !important;
-    backdrop-filter: none !important;
   }
 }

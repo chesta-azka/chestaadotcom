@@ -9,9 +9,10 @@ interface SEOProviderProps {
   keywords?: string;
   ogImage?: string;
   type?: 'website' | 'article';
+  schema?: any;
 }
 
-export default function SEOProvider({ title: defaultTitle, description: defaultDesc, canonicalUrl, keywords, ogImage, type = 'website' }: SEOProviderProps) {
+export default function SEOProvider({ title: defaultTitle, description: defaultDesc, canonicalUrl, keywords, ogImage, type = 'website', schema }: SEOProviderProps) {
   const location = useLocation();
   const canonical = canonicalUrl || `https://chestaadotcom.com${location.pathname}`;
   
@@ -41,6 +42,12 @@ export default function SEOProvider({ title: defaultTitle, description: defaultD
       {seo.ogImage && <meta name="twitter:image" content={seo.ogImage} />}
       
       <link rel="canonical" href={canonical} />
+
+      {schema && (
+        <script type="application/ld+json">
+          {JSON.stringify(schema)}
+        </script>
+      )}
     </Helmet>
   );
 }

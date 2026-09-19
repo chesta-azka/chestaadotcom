@@ -4,5 +4,3 @@ Disallow: /admin
 Disallow: /api
 
 Sitemap: https://chestaa.com/sitemap.xml
-# LLMs and AI Search Crawlers documentation
-# Reference: https://chestaa.com/llms.txt

@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Star, MessageSquare, ShieldCheck, ArrowUpRight, ArrowLeft, ArrowRight, Quote } from 'lucide-react';
 import TextRevealSmooth from '../atoms/TextRevealSmooth';
+import AnimatedHeading from '../atoms/AnimatedHeading';
 
 interface Testimonial {
   name: string;
@@ -127,9 +128,9 @@ export default function TestimonialSection() {
       <div className="mx-auto max-w-4xl px-3 sm:px-6 relative z-10 w-full">
         
         <div className="mb-8 sm:mb-12">
-          <h2 className="text-2xl sm:text-4xl md:text-5xl font-display font-black tracking-tight text-slate-900 mb-3">
+          <AnimatedHeading as="h2" className="text-2xl sm:text-4xl md:text-5xl font-display font-black tracking-tight text-slate-900 mb-3">
             Dipercaya oleh Bisnis Terkemuka.
-          </h2>
+          </AnimatedHeading>
           <p className="text-slate-600 text-sm sm:text-base font-sans">
             Testimoni otentik dari pemilik bisnis, founder startup, dan pimpinan korporasi.
           </p>

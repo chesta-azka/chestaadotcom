@@ -4,11 +4,12 @@ import { doc, getDoc } from 'firebase/firestore';
 import { db } from '../../lib/firebase';
 
 import SchemaMarkup from './SchemaMarkup';
-import LocalBusinessSchema from './LocalBusinessSchema';
 import { 
+  generateLocalBusinessSchema, 
   generateWebSiteSchema, 
   generateSiteNavigationElement, 
   generateBreadcrumbs, 
+  getBreadcrumbsForRoute,
   generateServiceSchema,
   generateCityGeoSchema
 } from '../../lib/seo';
@@ -17,18 +18,32 @@ interface MetaTagsProps {
   schemaString?: string;
   title?: string;
   description?: string;
+  image?: string;
   path?: string;
   breadcrumbs?: { name: string; item: string }[];
   serviceName?: string;
   cityName?: string;
-  keywords?: string[];
-  searchIntent?: string;
-  snippetFormat?: string;
+  ogType?: 'website' | 'article';
+  publishedTime?: string;
+  author?: string;
 }
 
-export default function MetaTags({ title, description, path = '/', breadcrumbs, serviceName, cityName, schemaString, keywords, searchIntent, snippetFormat }: MetaTagsProps) {
+export default function MetaTags({ 
+  title, 
+  description, 
+  image,
+  path = '/', 
+  breadcrumbs, 
+  serviceName, 
+  cityName, 
+  schemaString,
+  ogType = 'website',
+  publishedTime,
+  author
+}: MetaTagsProps) {
   const defaultTitle = "chestaa.com | Arsitek Web & AI Automation di BSD & Cisauk";
   const defaultDesc = "Solusi B2B Software House elit. Tingkatkan skala bisnis Enterprise dan Tech Startup Anda dengan High-Performance Web Development dan AI Automation di BSD City & Cisauk.";
+  const defaultImage = 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1200&q=80';
   
   // Enforce high-density local keywords dynamically across all routes
   
@@ -74,17 +89,17 @@ export default function MetaTags({ title, description, path = '/', breadcrumbs, 
   const url = `https://chestaa.com${path.startsWith('/') ? path : '/' + path}`.replace(/\/+$/, '');
   
   const websiteLd = generateWebSiteSchema();
+  const localBusinessLd = generateLocalBusinessSchema();
   const siteNavLd = generateSiteNavigationElement();
-  const breadcrumbLd = breadcrumbs ? generateBreadcrumbs(breadcrumbs) : null;
+  const breadcrumbLd = generateBreadcrumbs(breadcrumbs && breadcrumbs.length > 0 ? breadcrumbs : getBreadcrumbsForRoute(path, title));
   const serviceLd = serviceName ? generateServiceSchema(serviceName, description, url) : null;
   const cityGeoLd = cityName ? generateCityGeoSchema(cityName) : null;
   
-  const ogImage = 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&w=1200&q=80';
+  const finalOgImage = image || defaultImage;
 
   return (
     <>
       <SchemaMarkup />
-      <LocalBusinessSchema />
     <Helmet>
       <title>{finalTitle}</title>
       <meta name="description" content={finalDesc} />
@@ -92,11 +107,13 @@ export default function MetaTags({ title, description, path = '/', breadcrumbs, 
       <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
       
       {/* Open Graph / Facebook */}
-      <meta property="og:type" content="website" />
+      <meta property="og:type" content={ogType} />
       <meta property="og:title" content={finalTitle} />
       <meta property="og:description" content={finalDesc} />
       <meta property="og:url" content={url} />
-      <meta property="og:image" content={ogImage} />
+      <meta property="og:image" content={finalOgImage} />
+      <meta property="og:image:secure_url" content={finalOgImage} />
+      <meta property="og:image:alt" content={finalTitle} />
       <meta property="og:site_name" content="CHESTAADOTCOM" />
       
       {/* Twitter */}
@@ -104,17 +121,15 @@ export default function MetaTags({ title, description, path = '/', breadcrumbs, 
       <meta name="twitter:site" content="@chestaadotcom" />
       <meta name="twitter:title" content={finalTitle} />
       <meta name="twitter:description" content={finalDesc} />
-      <meta name="twitter:image" content={ogImage} />
+      <meta name="twitter:image" content={finalOgImage} />
+      <meta name="twitter:image:alt" content={finalTitle} />
 
-      {/* Search Intent & Featured Snippet Optimization */}
-      {keywords && keywords.length > 0 && (
-        <meta name="keywords" content={keywords.join(', ')} />
+      {/* Article Specific Metadata */}
+      {ogType === 'article' && publishedTime && (
+        <meta property="article:published_time" content={publishedTime} />
       )}
-      {searchIntent && (
-        <meta name="search-intent" content={searchIntent} />
-      )}
-      {snippetFormat && (
-        <meta name="google-snippet-format" content={snippetFormat} />
+      {ogType === 'article' && author && (
+        <meta property="article:author" content={author} />
       )}
 
       {/* Local SEO / Geo Tags */}
@@ -126,6 +141,7 @@ export default function MetaTags({ title, description, path = '/', breadcrumbs, 
 
       
       <script type="application/ld+json">{JSON.stringify(websiteLd)}</script>
+      <script type="application/ld+json">{JSON.stringify(localBusinessLd)}</script>
       <script type="application/ld+json">{JSON.stringify(siteNavLd)}</script>
       {breadcrumbLd && <script type="application/ld+json">{JSON.stringify(breadcrumbLd)}</script>}
       {serviceLd && <script type="application/ld+json">{JSON.stringify(serviceLd)}</script>}

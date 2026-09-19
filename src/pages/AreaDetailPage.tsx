@@ -8,9 +8,6 @@ import MetaTags from '../components/atoms/MetaTags';
 import TextRevealSmooth from '../components/atoms/TextRevealSmooth';
 import { Skeleton } from '../components/atoms/Skeleton';
 import Breadcrumbs from '../components/atoms/Breadcrumbs';
-import ServiceAreaManager from '../components/organisms/ServiceAreaManager';
-import AEOAnswerBox from '../components/organisms/AEOAnswerBox';
-import FAQSchema from '../components/atoms/FAQSchema';
 
 export default function AreaDetailPage() {
   const { cityName } = useParams<{ cityName: string }>();
@@ -82,6 +79,14 @@ export default function AreaDetailPage() {
         <div className="absolute top-0 inset-x-0 h-[400px] bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-[#6b21a8]/4 via-transparent to-transparent -z-10 pointer-events-none" />
 
         <div className="max-w-5xl mx-auto px-6">
+          {/* Breadcrumb Navigation for SEO with City Scope */}
+          <div className="flex justify-center md:justify-start select-none mb-8">
+            <Breadcrumbs items={[
+              { label: 'Layanan', path: '/services' },
+              { label: formattedCityName }
+            ]} />
+          </div>
+
           <motion.div
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
@@ -126,42 +131,6 @@ export default function AreaDetailPage() {
           </motion.div>
         </div>
       </section>
-
-      <FAQSchema 
-        faqs={[
-          {
-            question: `Layanan IT apa saja yang tersedia di ${formattedCityName}?`,
-            answer: `Kami menyediakan layanan pembuatan website kustom, digital marketing B2B, otomatisasi Agentic AI, dan optimasi AEO khusus untuk korporasi dan UMKM di area ${formattedCityName}.`
-          },
-          {
-            question: `Berapa lama proses pembuatan website di ${formattedCityName}?`,
-            answer: `Pembuatan website premium untuk bisnis di ${formattedCityName} umumnya memakan waktu 1 hingga 3 minggu, bergantung pada kompleksitas integrasi sistem yang dibutuhkan.`
-          }
-        ]}
-        areasServed={[formattedCityName]}
-      />
-
-      <ServiceAreaManager 
-        baseServiceTitle={`Layanan Digital & IT Solutions ${formattedCityName}`}
-        baseDescription={`Solusi teknologi dari web development hingga integrasi AI untuk perusahaan di ${formattedCityName}.`}
-        nicheContext="IT Solutions"
-      />
-
-      <div className="max-w-5xl mx-auto px-6 mb-20 mt-16">
-        <AEOAnswerBox 
-          config={{
-            topic: `Solusi Digital ${formattedCityName}`,
-            definition: "kumpulan layanan teknologi mulai dari pengembangan website high-performance hingga otomasi berbasis AI yang dirancang secara spesifik untuk lanskap bisnis lokal",
-            howItWorks: [
-              "Analisis Kebutuhan Bisnis Lokal secara tatap muka atau virtual",
-              "Pengembangan Arsitektur Web & AI yang disesuaikan dengan infrastruktur bisnis",
-              "Deployment & Optimasi AEO (Answer Engine Optimization) untuk mendominasi pencarian lokal"
-            ],
-            benefits: ["Akselerasi visibilitas di Google SGE", "Peningkatan efisiensi operasional drastis"],
-            localContext: formattedCityName
-          }}
-        />
-      </div>
 
       {/* Main Stats Bento & Local Advantage Grid */}
       <section className="max-w-5xl mx-auto px-6 mb-20">

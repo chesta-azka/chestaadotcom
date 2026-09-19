@@ -108,13 +108,47 @@
         },
         "createdAt": {
           "type": "string"
+        },
+        "moderationStatus": {
+          "type": "string",
+          "enum": ["pending", "approved", "rejected"]
+        },
+        "parentId": {
+          "type": "string",
+          "description": "ID of the parent comment if this is a reply"
+        },
+        "likes": {
+          "type": "number"
         }
       },
       "required": [
         "authorName",
         "content",
-        "createdAt"
+        "createdAt",
+        "moderationStatus"
       ]
+    },
+    "Poll": {
+      "title": "Interactive Poll",
+      "type": "object",
+      "properties": {
+        "question": { "type": "string" },
+        "options": {
+          "type": "array",
+          "items": { "type": "string" }
+        },
+        "createdAt": { "type": "string" }
+      }
+    },
+    "PollVote": {
+      "title": "Poll Vote",
+      "type": "object",
+      "properties": {
+        "pollId": { "type": "string" },
+        "optionIndex": { "type": "number" },
+        "userId": { "type": "string" },
+        "votedAt": { "type": "string" }
+      }
     },
     "FAQ": {
       "title": "Service FAQ",
@@ -169,6 +203,14 @@
     "/blog_interactions/{slug}/comments/{commentId}": {
       "schema": "Comment",
       "description": "Comments on a blog post"
+    },
+    "/polls/{pollId}": {
+      "schema": "Poll",
+      "description": "Global poll questions"
+    },
+    "/polls/{pollId}/votes/{voteId}": {
+      "schema": "PollVote",
+      "description": "Individual votes for a poll"
     },
     "/faqs/{faqId}": {
       "schema": "FAQ",

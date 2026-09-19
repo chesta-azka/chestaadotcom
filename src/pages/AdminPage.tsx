@@ -2,10 +2,10 @@
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import CalendarHeatmap from 'react-calendar-heatmap';
 import 'react-calendar-heatmap/dist/styles.css';
-import { doc, setDoc, getDoc, addDoc, serverTimestamp, collection, query, orderBy, limit, getDocs, onSnapshot, updateDoc, deleteDoc, where } from 'firebase/firestore';
+import { doc, setDoc, getDoc, addDoc, serverTimestamp, collection, query, orderBy, limit, getDocs, onSnapshot, updateDoc, deleteDoc, where, collectionGroup } from 'firebase/firestore';
 import { motion, AnimatePresence } from 'motion/react';
 import { Briefcase, Search, Sparkles, Loader2, Eye, EyeOff, AlertTriangle, FileText, CheckCircle2, Lock, LogOut, MessageSquare, Clock, BarChart as BarChartIcon, Users as UsersIcon, PenTool, Shield, Zap, ChevronDown, Folder, Activity, Send, X, TrendingUp, AlertCircle } from 'lucide-react';
-import { useGoogleLogin, GoogleOAuthProvider } from '@react-oauth/google';
+import { GoogleOAuthProvider, useGoogleLogin } from '@react-oauth/google';
 import MetaTags from '../components/atoms/MetaTags';
 import ReactMarkdown from 'react-markdown';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer, LineChart, Line } from 'recharts';
@@ -16,18 +16,9 @@ import { useSearchParams } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import AdminDashboardLayout from '../components/templates/AdminDashboardLayout';
 import AuthGuard from '../components/atoms/AuthGuard';
+import { PerformanceDashboard } from '../components/organisms/PerformanceDashboard';
 import { AdminKanbanBoard } from '../components/AdminKanbanBoard';
 import { ClientVault } from '../components/ClientVault';
-import AEOOptimizer from '../components/organisms/AEOOptimizer';
-import AEOContentAuditor from '../components/organisms/AEOContentAuditor';
-import AEOSnippetAuditor from '../components/organisms/AEOSnippetAuditor';
-import AEOContentGenerator from '../components/organisms/AEOContentGenerator';
-import ContextualInternalLinker from '../components/organisms/ContextualInternalLinker';
-import SEORadarWidget from '../components/organisms/SEORadarWidget';
-import AdminLocalSEOAuditor from '../components/organisms/AdminLocalSEOAuditor';
-import WebVitalsAdminWidget from '../components/organisms/WebVitalsAdminWidget';
-import BlogGenerator from '../components/organisms/BlogGenerator';
-import SearchIntentDashboard from '../components/organisms/SearchIntentDashboard';
 
 function LiveTakeoverManager() {
   const [takeoverSession, setTakeoverSession] = useState<string | null>(null);
@@ -716,17 +707,14 @@ function AdminDashboard() {
   return (
     <AdminDashboardLayout onLogout={handleLogout} activeTab={activeTab} setActiveTab={setActiveTab}>
       
+      {activeTab === 'blog_performance' && (
+        <PerformanceDashboard />
+      )}
       {activeTab === 'dashboard' && (
-        <div className="space-y-6">
-          <WebVitalsAdminWidget />
-          <AnalyticsDashboard />
-        </div>
+        <AnalyticsDashboard />
       )}
       {activeTab === 'kanban' && (
         <AdminKanbanAndVaultManager />
-      )}
-      {activeTab === 'search_intent' && (
-        <SearchIntentDashboard />
       )}
       {activeTab === 'ai_leads' && (
         <AILeadsScoringDashboard />
@@ -908,22 +896,7 @@ function AdminDashboard() {
         <AITrainingTab />
       )}
 {activeTab === 'seo_manager' && (
-        <div className="space-y-6">
-          <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
-            <AEOOptimizer />
-            <AEOContentAuditor />
-          </div>
-          <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
-            <AEOContentGenerator />
-            <AEOSnippetAuditor />
-          </div>
-          <div className="grid grid-cols-1 xl:grid-cols-2 gap-6">
-            <SEORadarWidget />
-            <ContextualInternalLinker />
-          </div>
-          <AdminLocalSEOAuditor />
-          <SEOManager />
-        </div>
+        <SEOManager />
       )}
 
       {activeTab === 'business_config' && (
@@ -932,8 +905,11 @@ function AdminDashboard() {
       {activeTab === 'content' && (
         <PageManager />
       )}
+      {activeTab === 'blog_moderation' && (
+        <BlogModeration />
+      )}
       {activeTab === 'blog_generator' && (
-        <BlogGenerator />
+        <BlogOutlineGenerator />
       )}
 
     </AdminDashboardLayout>
@@ -1805,6 +1781,7 @@ function AnalyticsDashboard() {
   const [prunableCount, setPrunableCount] = useState<number | null>(null);
   const [clickStats, setClickStats] = useState<any[]>([]);
   const [leadStats, setLeadStats] = useState<any[]>([]);
+  const [pageViewStats, setPageViewStats] = useState<any[]>([]);
   
   useEffect(() => {
     // 1. Live Visitors
@@ -1862,7 +1839,28 @@ function AnalyticsDashboard() {
       }
     );
 
-    // 4. Prunable Messages Count
+    // 4. Page Views (Popular Pages)
+    const unsubPageViews = onSnapshot(
+      query(collection(db, 'page_views'), orderBy('timestamp', 'desc'), limit(1000)),
+      (snapshot) => {
+        const data = snapshot.docs.map(doc => doc.data());
+        const counts: Record<string, number> = {};
+        data.forEach(pv => {
+          const path = pv.path || '/';
+          counts[path] = (counts[path] || 0) + 1;
+        });
+        const topPages = Object.entries(counts)
+          .sort((a, b) => b[1] - a[1])
+          .slice(0, 8)
+          .map(([name, count]) => ({ name, count }));
+        setPageViewStats(topPages);
+      },
+      (err) => {
+        console.warn("page_views onSnapshot notice:", err);
+      }
+    );
+
+    // 5. Prunable Messages Count
     const fetchPrunable = async () => {
       try {
         const token = await auth.currentUser?.getIdToken();
@@ -1881,6 +1879,7 @@ function AnalyticsDashboard() {
       unsubVisitors();
       unsubClicks();
       unsubLeads();
+      unsubPageViews();
     };
   }, []);
 
@@ -1889,6 +1888,42 @@ function AnalyticsDashboard() {
       <div>
         <h2 className="text-xl font-display font-medium text-slate-900 mb-2">Omniscient Analytics</h2>
         <p className="text-slate-900 font-sans text-sm border-b border-slate-200 pb-4">Real-time telemetry and intelligence node.</p>
+      </div>
+
+      {/* Analytics Summary Cards */}
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+        <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-sm">
+          <div className="flex items-center justify-between mb-2">
+            <UsersIcon size={20} className="text-purple-600" />
+            <span className="text-[10px] font-mono font-bold text-emerald-500 uppercase">Live</span>
+          </div>
+          <div className="text-2xl font-black text-slate-900">{liveVisitors.length}</div>
+          <p className="text-xs text-slate-500 mt-1 font-sans">Active Sessions</p>
+        </div>
+        <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-sm">
+          <div className="flex items-center justify-between mb-2">
+            <BarChartIcon size={20} className="text-blue-600" />
+            <span className="text-[10px] font-mono font-bold text-slate-400 uppercase">Historical</span>
+          </div>
+          <div className="text-2xl font-black text-slate-900">{pageViewStats.reduce((acc, curr) => acc + curr.count, 0)}+</div>
+          <p className="text-xs text-slate-500 mt-1 font-sans">Sampled Page Views</p>
+        </div>
+        <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-sm">
+          <div className="flex items-center justify-between mb-2">
+            <TrendingUp size={20} className="text-emerald-600" />
+            <span className="text-[10px] font-mono font-bold text-slate-400 uppercase">Conversion</span>
+          </div>
+          <div className="text-2xl font-black text-slate-900">{leadStats.length}</div>
+          <p className="text-xs text-slate-500 mt-1 font-sans">AI Leads Generated</p>
+        </div>
+        <div className="bg-white border border-slate-200 rounded-xl p-5 shadow-sm">
+          <div className="flex items-center justify-between mb-2">
+            <Activity size={20} className="text-orange-600" />
+            <span className="text-[10px] font-mono font-bold text-slate-400 uppercase">Engagement</span>
+          </div>
+          <div className="text-2xl font-black text-slate-900">{clickStats.length}</div>
+          <p className="text-xs text-slate-500 mt-1 font-sans">Hot Click Targets</p>
+        </div>
       </div>
       
       {/* Real-Time Visitors Table */}
@@ -1982,6 +2017,32 @@ function AnalyticsDashboard() {
                 <RechartsTooltip cursor={{ stroke: '#000', strokeWidth: 1, strokeDasharray: '3 3' }} contentStyle={{ backgroundColor: '#000', color: '#fff', border: 'none', borderRadius: 0, fontFamily: 'monospace' }} />
                 <Line type="step" dataKey="count" stroke="#000" strokeWidth={3} dot={{ r: 4, fill: '#000', strokeWidth: 2, stroke: '#fff' }} activeDot={{ r: 6, fill: '#000' }} />
               </LineChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
+
+        {/* Popular Pages (Historical) */}
+        <div className="border border-slate-200 rounded-xl bg-white flex flex-col lg:col-span-2">
+          <div className="bg-white text-slate-800 px-4 py-3 border-b border-slate-200">
+             <h3 className="font-medium text-slate-700 text-sm">Most Popular Nodes (Historical Views)</h3>
+          </div>
+          <div className="p-6 h-[350px] flex-1">
+             <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={pageViewStats} margin={{ top: 10, right: 30, left: 20, bottom: 60 }}>
+                <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
+                <XAxis 
+                  dataKey="name" 
+                  axisLine={{ stroke: '#cbd5e1' }} 
+                  tickLine={{ stroke: '#cbd5e1' }} 
+                  tick={{ fill: '#64748b', fontSize: 10 }} 
+                  angle={-45} 
+                  textAnchor="end"
+                  height={80}
+                />
+                <YAxis axisLine={{ stroke: '#cbd5e1' }} tickLine={{ stroke: '#cbd5e1' }} tick={{ fill: '#64748b', fontSize: 10 }} />
+                <RechartsTooltip contentStyle={{ borderRadius: '12px', border: '1px solid #e2e8f0', boxShadow: '0 4px 6px -1px rgb(0 0 0 / 0.1)' }} />
+                <Bar dataKey="count" fill="#8b5cf6" radius={[4, 4, 0, 0]} barSize={40} />
+              </BarChart>
             </ResponsiveContainer>
           </div>
         </div>
@@ -2828,3 +2889,375 @@ function BusinessConfigManager() {
   );
 }
 
+function BlogOutlineGenerator() {
+  const [keyword, setKeyword] = useState('');
+  const [category, setCategory] = useState('AI Automation');
+  const [loading, setLoading] = useState(false);
+  const [outline, setOutline] = useState<any>(null);
+
+  const handleGenerate = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!keyword.trim()) return;
+    setLoading(true);
+    
+    setTimeout(() => {
+      const generated = {
+        title: `${keyword}: Panduan Komprehensif & Strategi Enterprise 2026`,
+        targetWordCount: '1,850+ Kata',
+        author: 'Chesta Azka Sofyan (Founder CHESTAADOTCOM)',
+        primaryKeyword: keyword,
+        lsiKeywords: [
+          `${keyword} BSD City`,
+          `Jasa ${keyword} Tangerang`,
+          'Software House B2B Indonesia',
+          'Next.js 15 & AI Automation',
+          'Chesta Azka Sofyan'
+        ],
+        metaDescription: `Pelajari secara mendalam mengenai ${keyword} bersama CHESTAADOTCOM. Solusi arsitektur digital & automasi AI kelas enterprise di BSD City & Jabodetabek.`,
+        sections: [
+          {
+            heading: 'H2: Pendahuluan: Mengapa ' + keyword + ' Menjadi Standar Korporat 2026',
+            wordCount: '250 Kata',
+            subsections: [
+              'H3: Paradigma Baru Transformasi Digital di BSD City & Jakarta',
+              'H3: Tantangan Konvensional dan Solusi Arsitektur Modern'
+            ],
+            keyPoints: [
+              'Analisis pasar regional Jabodetabek',
+              'Dampak lambatnya adopsi teknologi bagi bisnis B2B'
+            ]
+          },
+          {
+            heading: 'H2: Analisis Mendalam: Apa dan Bagaimana ' + keyword + ' Bekerja',
+            wordCount: '400 Kata',
+            subsections: [
+              'H3: Infrastruktur Inti di Balik Sistem Otonom',
+              'H3: Integrasi Next.js 15 dan Firebase Real-Time Database'
+            ],
+            keyPoints: [
+              'Penjelasan teknis stack modern',
+              'Keunggulan performa Core Web Vitals < 0.8s'
+            ]
+          },
+          {
+            heading: 'H2: Studi Kasus & Dampak Nyata untuk Bisnis di Tangerang Raya',
+            wordCount: '450 Kata',
+            subsections: [
+              'H3: Studi Kasus Klien Enterprise Sektor Logistik & FinTech',
+              'H3: Peningkatan Konversi & Efisiensi Operasional hingga 92%'
+            ],
+            keyPoints: [
+              'Metrik ROI terukur pasca implementasi',
+              'Testimoni langsung dari stakeholder korporat'
+            ]
+          },
+          {
+            heading: 'H2: Kerangka Kerja & Metodologi Implementasi oleh CHESTAADOTCOM',
+            wordCount: '400 Kata',
+            subsections: [
+              'H3: Fase 01: Audit, Arsitektur, & Desain UI/UX Mewah',
+              'H3: Fase 02: Eksekusi Vibe Coding & QA Stress Testing'
+            ],
+            keyPoints: [
+              'Transparansi penuh timeline 14 hari kerja',
+              'Garansi performa 99+ Lighthouse'
+            ]
+          },
+          {
+            heading: 'H2: Kesimpulan & Call to Action: Memulai Transformasi Bersama Chesta Azka Sofyan',
+            wordCount: '250 Kata',
+            subsections: [
+              'H3: Langkah Pertama Menuju Dominasi Pasar Digital'
+            ],
+            keyPoints: [
+              'Undangan konsultasi arsitektur gratis via WhatsApp',
+              'Komitmen kepemilikan penuh 100% source code'
+            ]
+          }
+        ]
+      };
+      setOutline(generated);
+      setLoading(false);
+      toast.success("Outline 1500+ kata berhasil digenerate!");
+    }, 1200);
+  };
+
+  return (
+    <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID || ''}>
+      <div className="p-8 max-w-5xl mx-auto font-sans space-y-12">
+      <SeoPerformanceSection />
+
+      <div>
+        <div className="mb-8">
+          <span className="text-xs font-mono font-bold text-purple-700 uppercase tracking-widest block mb-1">AI Content Engine</span>
+        <h2 className="text-2xl sm:text-3xl font-display font-black text-slate-900">
+          Generator Outline Artikel 1500+ Kata (SEO &amp; GEO Optimized)
+        </h2>
+        <p className="text-slate-600 text-sm mt-1">
+          Masukkan keyword target untuk mengenerate struktur artikel mendalam yang dioptimalkan untuk chestaa.com dan otoritas author Chesta Azka Sofyan.
+        </p>
+      </div>
+
+      <form onSubmit={handleGenerate} className="bg-slate-50 border border-slate-200 p-6 rounded-2xl mb-8 shadow-sm space-y-4">
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+          <div className="sm:col-span-2">
+            <label className="block text-xs font-mono font-bold text-slate-700 uppercase tracking-wider mb-2">
+              Keyword Utama Artikel / Topik
+            </label>
+            <input
+              type="text"
+              value={keyword}
+              onChange={(e) => setKeyword(e.target.value)}
+              placeholder="Contoh: AI-Driven Document Automation / Software House BSD"
+              className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl text-slate-900 text-sm focus:outline-none focus:ring-2 focus:ring-purple-600"
+              required
+            />
+          </div>
+          <div>
+            <label className="block text-xs font-mono font-bold text-slate-700 uppercase tracking-wider mb-2">
+              Kategori Artikel
+            </label>
+            <select
+              value={category}
+              onChange={(e) => setCategory(e.target.value)}
+              className="w-full px-4 py-3 bg-white border border-slate-200 rounded-xl text-slate-900 text-sm focus:outline-none focus:ring-2 focus:ring-purple-600"
+            >
+              <option value="AI Automation">AI Automation</option>
+              <option value="Tech Architecture">Tech Architecture</option>
+              <option value="Profil Perusahaan">Profil Perusahaan</option>
+              <option value="Visi & Founder">Visi &amp; Founder</option>
+            </select>
+          </div>
+        </div>
+
+        <button
+          type="submit"
+          disabled={loading}
+          className="w-full sm:w-auto px-8 py-3.5 bg-purple-900 text-white rounded-xl font-mono font-bold text-xs uppercase tracking-wider hover:bg-purple-950 transition-all flex items-center justify-center gap-2 shadow-lg disabled:opacity-50 cursor-pointer"
+        >
+          {loading ? <Loader2 size={16} className="animate-spin" /> : <Sparkles size={16} />}
+          Generate 1500+ Word Structural Outline
+        </button>
+      </form>
+
+      {outline && (
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="bg-white border border-purple-200 p-8 rounded-3xl shadow-xl space-y-8"
+        >
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 pb-6 border-b border-slate-100">
+            <div>
+              <span className="inline-block px-3 py-1 bg-purple-50 text-purple-700 border border-purple-100 rounded-lg text-xs font-mono font-bold mb-2">
+                {category} • {outline.targetWordCount}
+              </span>
+              <h3 className="text-xl sm:text-2xl font-display font-black text-slate-900">
+                {outline.title}
+              </h3>
+            </div>
+            <button
+              onClick={() => {
+                navigator.clipboard.writeText(JSON.stringify(outline, null, 2));
+                toast.success("Outline disalin ke clipboard!");
+              }}
+              className="px-4 py-2 bg-slate-900 text-white text-xs font-mono rounded-xl hover:bg-slate-800 transition-colors"
+            >
+              Salin Format JSON
+            </button>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 bg-slate-50 p-6 rounded-2xl border border-slate-200">
+            <div>
+              <h4 className="text-xs font-mono font-bold text-slate-700 uppercase tracking-widest mb-2">Metadata SEO</h4>
+              <p className="text-xs text-slate-600 mb-1"><strong>Author:</strong> {outline.author}</p>
+              <p className="text-xs text-slate-600 mb-1"><strong>Primary Keyword:</strong> {outline.primaryKeyword}</p>
+              <p className="text-xs text-slate-600"><strong>Meta Description:</strong> {outline.metaDescription}</p>
+            </div>
+            <div>
+              <h4 className="text-xs font-mono font-bold text-slate-700 uppercase tracking-widest mb-2">Target LSI Keywords</h4>
+              <div className="flex flex-wrap gap-1.5">
+                {outline.lsiKeywords.map((kw: string, i: number) => (
+                  <span key={i} className="px-2.5 py-1 bg-purple-100/70 text-purple-900 text-[11px] font-mono rounded-md">
+                    {kw}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          <div className="space-y-6">
+            <h4 className="text-sm font-mono font-bold text-slate-900 uppercase tracking-wider">
+              Struktur Bab &amp; Sub-Heading (1500+ Kata)
+            </h4>
+            {outline.sections.map((sec: any, idx: number) => (
+              <div key={idx} className="p-6 rounded-2xl bg-white border border-slate-200 shadow-2xs space-y-3">
+                <div className="flex items-center justify-between">
+                  <h5 className="font-display font-bold text-slate-900 text-base">{sec.heading}</h5>
+                  <span className="text-xs font-mono text-purple-700 bg-purple-50 px-2.5 py-1 rounded-md">{sec.wordCount}</span>
+                </div>
+                <div className="space-y-1.5 pl-4 border-l-2 border-purple-200">
+                  {sec.subsections.map((sub: string, sIdx: number) => (
+                    <div key={sIdx} className="text-xs font-sans text-slate-700 font-medium">{sub}</div>
+                  ))}
+                </div>
+                <div className="pt-2 flex flex-wrap gap-2">
+                  {sec.keyPoints.map((kp: string, kIdx: number) => (
+                    <span key={kIdx} className="inline-flex items-center gap-1 text-[11px] font-sans text-slate-600 bg-slate-100 px-2.5 py-1 rounded-full">
+                      <CheckCircle2 size={12} className="text-emerald-600" /> {kp}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </motion.div>
+      )}
+      </div>
+    </div>
+    </GoogleOAuthProvider>
+  );
+}
+
+function BlogModeration() {
+  const [comments, setComments] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    // We use a collection group query to get all comments from all blog posts
+    // Note: This requires a Firestore index for collection group 'comments'
+    const commentsQuery = query(collectionGroup(db, 'comments'), orderBy('createdAt', 'desc'));
+    
+    const unsubscribe = onSnapshot(commentsQuery, (snapshot) => {
+      const fetchedComments: any[] = [];
+      snapshot.forEach((doc) => {
+        fetchedComments.push({ 
+          id: doc.id, 
+          path: doc.ref.path,
+          ...(doc.data() as object)
+        });
+      });
+      setComments(fetchedComments);
+      setLoading(false);
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  const handleAction = async (comment: any, action: 'approve' | 'delete') => {
+    try {
+      const commentRef = doc(db, comment.path);
+      if (action === 'delete') {
+        await deleteDoc(commentRef);
+        toast.success('Komentar berhasil dihapus! 🗑️');
+      } else {
+        await updateDoc(commentRef, { moderationStatus: 'approved' });
+        toast.success('Komentar berhasil di-approve! ✅');
+      }
+    } catch (error) {
+      console.error('Error updating comment:', error);
+      toast.error('Gagal memproses komentar.');
+    }
+  };
+
+  return (
+    <div className="space-y-8 bg-white p-1 border-2 border-black">
+      <div className="bg-black text-white p-6 flex items-center justify-between">
+        <div>
+          <h2 className="text-2xl font-black uppercase tracking-tighter">Blog Moderation Hub</h2>
+          <p className="font-mono text-[10px] opacity-70 uppercase tracking-widest mt-1 flex items-center gap-2">
+            <span className="w-2 h-2 bg-emerald-400 animate-pulse" /> Live Stream Active
+          </p>
+        </div>
+        <div className="flex gap-4">
+           <div className="px-4 py-2 border border-white text-xs font-bold uppercase tracking-widest">
+             {comments.filter(c => c.moderationStatus === 'pending').length} Pending
+           </div>
+        </div>
+      </div>
+
+      {loading ? (
+        <div className="py-20 text-center">
+          <p className="font-mono text-xs uppercase tracking-widest animate-pulse">Establishing Connection...</p>
+        </div>
+      ) : (
+        <div className="divide-y-2 divide-black border-2 border-black">
+          {comments.map((comment) => (
+            <motion.div
+              key={comment.id}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              className={`p-6 transition-all hover:bg-slate-50 ${
+                comment.moderationStatus === 'pending' ? 'bg-amber-50' : 'bg-white'
+              }`}
+            >
+              <div className="flex flex-col md:flex-row md:items-start justify-between gap-6">
+                <div className="flex-1 space-y-4">
+                  <div className="flex items-center gap-3">
+                    <span className="bg-black text-white px-3 py-1 text-[10px] font-bold font-mono">
+                      {comment.authorName}
+                    </span>
+                    <span className="text-[10px] font-mono text-slate-500">
+                      {new Date(comment.createdAt).toISOString()}
+                    </span>
+                    <span className={`text-[10px] font-bold px-2 py-0.5 border ${
+                      comment.moderationStatus === 'approved' 
+                        ? 'border-emerald-600 text-emerald-600' 
+                        : 'border-amber-600 text-amber-600'
+                    }`}>
+                      {comment.moderationStatus.toUpperCase()}
+                    </span>
+                  </div>
+                  
+                  <div className="relative">
+                     <p className="text-lg font-medium leading-tight text-black font-sans">
+                       {comment.content}
+                     </p>
+                     {comment.parentId && (
+                        <div className="mt-2 text-[10px] font-mono text-slate-400 flex items-center gap-1">
+                          <span className="w-4 h-px bg-slate-200" /> REPLIES TO: {comment.parentId}
+                        </div>
+                     )}
+                  </div>
+
+                  <div className="flex items-center gap-4 pt-2">
+                    <div className="flex items-center gap-2 px-2 py-1 bg-slate-100 border border-slate-200">
+                      <span className="text-[10px] font-bold uppercase tracking-tighter">Likes</span>
+                      <span className="text-[10px] font-mono">{comment.likes || 0}</span>
+                    </div>
+                    <div className="flex items-center gap-2 px-2 py-1 bg-slate-100 border border-slate-200">
+                      <span className="text-[10px] font-bold uppercase tracking-tighter">Helpful</span>
+                      <span className="text-[10px] font-mono">{comment.helpfulCount || 0}</span>
+                    </div>
+                  </div>
+                </div>
+
+                <div className="flex flex-row md:flex-col gap-2 shrink-0">
+                  {comment.moderationStatus !== 'approved' && (
+                    <button
+                      onClick={() => handleAction(comment, 'approve')}
+                      className="px-6 py-3 bg-emerald-600 text-white text-xs font-black uppercase tracking-widest hover:bg-black transition-colors border-2 border-black"
+                    >
+                      Approve
+                    </button>
+                  )}
+                  <button
+                    onClick={() => handleAction(comment, 'delete')}
+                    className="px-6 py-3 bg-white text-rose-600 text-xs font-black uppercase tracking-widest hover:bg-rose-600 hover:text-white transition-colors border-2 border-black"
+                  >
+                    Delete
+                  </button>
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      )}
+
+      {comments.length === 0 && !loading && (
+        <div className="text-center py-20 border-2 border-black border-dashed">
+          <p className="font-mono text-xs uppercase tracking-widest text-slate-400">Zero active signals detected.</p>
+        </div>
+      )}
+    </div>
+  );
+}

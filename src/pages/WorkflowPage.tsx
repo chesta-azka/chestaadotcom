@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { motion, useScroll, useTransform, useSpring } from 'motion/react';
+import { motion } from 'motion/react';
 import { ShieldCheck, ArrowRight, Sparkles, MessageCircle, Clock, CheckCircle2, Code2, Globe2, Bot } from 'lucide-react';
 import MetaTags from '../components/atoms/MetaTags';
 
@@ -52,13 +52,6 @@ const phases = [
 
 export default function WorkflowPage() {
   const containerRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start center", "end center"]
-  });
-
-  const smoothProgress = useSpring(scrollYProgress, { damping: 20, stiffness: 100 });
-  const lineHeight = useTransform(smoothProgress, [0, 1], ["0%", "100%"]);
 
   useEffect(() => {
     window.scrollTo(0, 0);
@@ -145,13 +138,8 @@ export default function WorkflowPage() {
         {/* Timeline Section */}
         <div className="relative max-w-5xl mx-auto" ref={containerRef}>
           
-          {/* Animated Purple Gradient Line */}
-          <div className="absolute left-[28px] md:left-1/2 top-4 bottom-4 w-px bg-purple-100 -translate-x-1/2 hidden md:block rounded-full">
-            <motion.div 
-              className="w-full w-[3px] -ml-[1px] bg-gradient-to-b from-purple-700 via-purple-600 to-indigo-600 origin-top rounded-full shadow-[0_0_12px_rgba(107,33,168,0.4)]"
-              style={{ scaleY: lineHeight }}
-            />
-          </div>
+          {/* Timeline Connector Line */}
+          <div className="absolute left-[28px] md:left-1/2 top-4 bottom-4 w-px bg-purple-100 -translate-x-1/2 hidden md:block rounded-full" />
 
           <div className="space-y-24 md:space-y-36">
             {phases.map((phase, index) => {

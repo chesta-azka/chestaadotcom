@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { motion, useScroll, useSpring, AnimatePresence } from 'motion/react';
+import { motion, AnimatePresence } from 'motion/react';
 import { ListTree, ArrowUp, ChevronRight, Hash, Sparkles, X, MessageSquare } from 'lucide-react';
 
 export interface Heading {
@@ -11,22 +11,7 @@ export interface Heading {
 export default function TableOfContents({ headings }: { headings: Heading[] }) {
   const [activeId, setActiveId] = useState<string>('');
   const [isMobileOpen, setIsMobileOpen] = useState(false);
-  const [readingPercent, setReadingPercent] = useState(0);
   const tocListRef = useRef<HTMLUListElement>(null);
-  
-  const { scrollYProgress } = useScroll();
-  const scaleY = useSpring(scrollYProgress, {
-    stiffness: 100,
-    damping: 30,
-    restDelta: 0.001
-  });
-
-  useEffect(() => {
-    const unsubscribe = scrollYProgress.on('change', (latest) => {
-      setReadingPercent(Math.round(latest * 100));
-    });
-    return () => unsubscribe();
-  }, [scrollYProgress]);
 
   // Observer to track which heading is currently in viewport
   useEffect(() => {
@@ -91,8 +76,8 @@ export default function TableOfContents({ headings }: { headings: Heading[] }) {
 
   return (
     <>
-      {/* Desktop Floating Sticky Sidebar */}
-      <aside className="hidden lg:block sticky top-28 w-80 shrink-0">
+      {/* Desktop Floating Sidebar Content */}
+      <aside className="hidden lg:block w-80 shrink-0">
         <div className="rounded-xl bg-white/95 backdrop-blur-md border border-slate-200/90 shadow-xl shadow-purple-950/5 p-6 relative overflow-hidden transition-all duration-300 hover:border-purple-300/80">
           {/* Subtle Ambient Glow */}
           <div className="absolute top-0 right-0 w-32 h-32 bg-purple-500/10 blur-2xl rounded-full pointer-events-none" />
@@ -107,29 +92,15 @@ export default function TableOfContents({ headings }: { headings: Heading[] }) {
                 Daftar Isi
               </span>
             </div>
-            <span className="text-[11px] font-mono font-bold text-purple-700 bg-purple-50 px-2.5 py-1 rounded-full border border-purple-100">
-              {readingPercent}% Selesai
+            <span className="text-[11px] font-mono font-bold text-slate-500 bg-slate-50 px-2.5 py-1 rounded-full border border-slate-100">
+              {headings.length} Bagian
             </span>
           </div>
 
-          {/* Progress Bar inside TOC */}
-          <div className="w-full bg-slate-100 h-1 rounded-full overflow-hidden mb-5">
-            <motion.div
-              className="h-full bg-gradient-to-r from-purple-600 to-indigo-600 rounded-full"
-              style={{ width: `${Math.min(readingPercent, 100)}%` }}
-            />
-          </div>
-
           {/* Scrollable List with Max Height */}
-          <div className="relative pl-3 max-h-[calc(100vh-22rem)] overflow-y-auto pr-2 custom-scrollbar">
+          <div className="relative pl-3 max-h-[calc(100vh-20rem)] overflow-y-auto pr-2 custom-scrollbar">
             {/* Continuous Track Line */}
             <div className="absolute left-[7px] top-2 bottom-2 w-[2px] bg-slate-100 rounded-full" />
-            
-            {/* Animated Progress Spine */}
-            <motion.div 
-              className="absolute left-[7px] top-2 bottom-2 w-[2px] bg-purple-600 origin-top rounded-full"
-              style={{ scaleY }}
-            />
 
             <ul ref={tocListRef} className="space-y-2.5 relative z-10 m-0 p-0 list-none">
               {headings.map((heading, idx) => {
@@ -202,13 +173,10 @@ export default function TableOfContents({ headings }: { headings: Heading[] }) {
           animate={{ scale: 1, opacity: 1 }}
           whileTap={{ scale: 0.95 }}
           onClick={() => setIsMobileOpen(true)}
-          className="flex items-center gap-2 bg-gradient-to-r from-purple-900 to-indigo-900 text-white px-4 py-3 rounded-full shadow-2xl border border-purple-400/30 text-xs font-bold uppercase tracking-wider backdrop-blur-md cursor-pointer"
+          className="flex items-center gap-2 bg-gradient-to-r from-purple-900 to-indigo-900 text-white px-5 py-3 rounded-full shadow-2xl border border-purple-400/30 text-xs font-bold uppercase tracking-wider backdrop-blur-md cursor-pointer"
         >
           <ListTree size={16} className="text-purple-300" />
           <span>Daftar Isi</span>
-          <span className="bg-white/20 px-2 py-0.5 rounded-full text-[10px] font-mono">
-            {readingPercent}%
-          </span>
         </motion.button>
       </div>
 
@@ -293,8 +261,8 @@ export default function TableOfContents({ headings }: { headings: Heading[] }) {
                 >
                   <ArrowUp size={14} /> Ke Bagian Paling Atas
                 </button>
-                <span className="text-xs font-mono font-bold text-purple-700">
-                  {readingPercent}% Dibaca
+                <span className="text-xs font-mono font-bold text-slate-500">
+                  {headings.length} Bagian
                 </span>
               </div>
             </motion.div>

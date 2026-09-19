@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
-import { doc, setDoc, serverTimestamp } from 'firebase/firestore';
+import { doc, setDoc, serverTimestamp, addDoc, collection } from 'firebase/firestore';
 import { db } from '../lib/firebase';
 
 export function useVisitorTracker() {
@@ -53,10 +53,22 @@ export function useVisitorTracker() {
       }
     };
 
-    // Initial ping on route change
+    // Initial ping and historical record on route change
     updatePresence();
+    
+    const recordPageView = async () => {
+      try {
+        await addDoc(collection(db, 'page_views'), {
+          path: location.pathname,
+          sessionId,
+          timestamp: serverTimestamp(),
+          source: sourceRef.current || 'Direct'
+        });
+      } catch (e) {}
+    };
+    recordPageView();
 
-    // Setup 5-second interval
+    // Setup 5-second interval for presence only
     const interval = setInterval(updatePresence, 5000);
 
     // Attempt offline status on page leave

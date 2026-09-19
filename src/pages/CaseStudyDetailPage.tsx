@@ -13,7 +13,6 @@ import ArtPlaceholder from '../components/atoms/ArtPlaceholder';
 import ProjectTimeline from '../components/organisms/ProjectTimeline';
 import ROITrendChart from '../components/organisms/ROITrendChart';
 import RelatedCaseStudiesSlider from '../components/organisms/RelatedCaseStudiesSlider';
-import RelatedInternalLinks from '../components/organisms/RelatedInternalLinks';
 import Breadcrumbs from '../components/atoms/Breadcrumbs';
 
 function TechStackBadges() {
@@ -247,18 +246,14 @@ export default function CaseStudyDetailPage() {
       
       <div className="w-full max-w-4xl mx-auto mb-12 z-10">
         
-        {/* Breadcrumb Navigation with clearance */}
-        <nav className="flex items-center gap-2 mb-10 text-sm font-medium text-slate-500 animate-in fade-in slide-in-from-top-6 duration-700">
-          <Link to="/" className="hover:text-purple-600 transition-colors flex items-center gap-1.5 font-mono text-xs uppercase tracking-wider">
-            <Home className="w-3.5 h-3.5" /> Beranda
-          </Link>
-          <ChevronRight className="w-3.5 h-3.5 text-slate-300" />
-          <Link to="/case-studies" className="hover:text-purple-600 transition-colors font-mono text-xs uppercase tracking-wider">
-            Studi Kasus
-          </Link>
-          <ChevronRight className="w-3.5 h-3.5 text-slate-300" />
-          <span className="text-slate-900 truncate font-mono text-xs uppercase tracking-wider">{study.client}</span>
-        </nav>
+        {/* Unified Breadcrumb Navigation */}
+        <Breadcrumbs 
+          items={[
+            { name: 'Studi Kasus', item: '/case-studies' },
+            { name: study.client, item: `/case-studies/${study.slug}` }
+          ]}
+          className="mb-8"
+        />
 
         <Link 
           to="/case-studies" 
@@ -469,7 +464,6 @@ export default function CaseStudyDetailPage() {
           <SocialShare title={study.title} description={study.desc} />
         </div>
 
-        <RelatedInternalLinks currentPath={`/case-studies/${study.slug}`} tags={study.tags || []} />
         <RelatedCaseStudiesSlider relatedStudies={relatedStudies} />
       </div>
     </main>

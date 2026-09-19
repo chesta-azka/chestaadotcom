@@ -47,7 +47,12 @@ app.get("/api/admin/prunable-count", verifyFirebaseToken, async (req, res) => {
 
 // API: Admin Verification
 app.get("/api/admin/verify", verifyFirebaseToken, (req: any, res: any) => {
-  res.status(200).json({ success: true, user: req.user });
+  const adminEmail = "chestacode@gmail.com";
+  if (req.user && req.user.email === adminEmail) {
+    res.status(200).json({ success: true, user: req.user });
+  } else {
+    res.status(403).json({ success: false, error: "Forbidden: You are not an admin." });
+  }
 });
 
 

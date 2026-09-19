@@ -1,4 +1,4 @@
-import { motion, useScroll, useTransform } from 'motion/react';
+import { motion } from 'motion/react';
 import { MessageCircle, CheckCircle2, Code2, Globe2, ArrowRight, Bot } from 'lucide-react';
 import SectionHeader from './SectionHeader';
 import { useRef } from 'react';
@@ -33,13 +33,6 @@ const steps = [
 
 export default function WorkflowSection() {
     const containerRef = useRef<HTMLDivElement>(null);
-    const { scrollYProgress } = useScroll({
-        target: containerRef,
-        offset: ["start center", "end center"]
-    });
-
-    const scaleX = useTransform(scrollYProgress, [0, 1], [0, 1]);
-    const scaleY = useTransform(scrollYProgress, [0, 1], [0, 1]);
 
     const openWhatsApp = () => {
       const url = `https://wa.me/6282125447232?text=${encodeURIComponent('Halo Mas Chesta, saya ingin konsultasi alur pemesanan website untuk bisnis saya.')}`;
@@ -79,22 +72,6 @@ export default function WorkflowSection() {
                 </div>
                 
                 <div className="@container w-full relative">
-                    {/* Scroll-triggered progress bar track (Desktop) */}
-                    <div className="hidden @4xl:block absolute top-[60px] left-[12.5%] right-[12.5%] h-1 bg-purple-100/70 rounded-full overflow-hidden z-0">
-                        <motion.div 
-                            className="absolute inset-y-0 left-0 bg-purple-600 rounded-full origin-left"
-                            style={{ scaleX }}
-                        />
-                    </div>
-
-                    {/* Scroll-triggered progress bar track (Mobile & Tablet) */}
-                    <div className="block @4xl:hidden absolute left-[60px] top-[12.5%] bottom-[12.5%] w-1 bg-purple-100/70 rounded-full overflow-hidden z-0">
-                        <motion.div 
-                            className="absolute inset-x-0 top-0 bg-purple-600 rounded-full origin-top"
-                            style={{ scaleY }}
-                        />
-                    </div>
-
                     <div className="grid grid-cols-1 @4xl:grid-cols-4 gap-6 @md:gap-8 relative z-10 max-w-md @4xl:max-w-none mx-auto">
                         {steps.map((step, i) => (
                             <motion.div 
