@@ -2,6 +2,8 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Quote, ChevronLeft, ChevronRight, Star } from 'lucide-react';
 
+import OptimizedImage from '../atoms/OptimizedImage';
+
 const TESTIMONIALS = [
   {
     id: 1,
@@ -56,8 +58,8 @@ export default function ClientTestimonials() {
               className="flex flex-col md:flex-row items-center gap-8 md:gap-16 bg-white/60 backdrop-blur-xl border border-white/60 p-8 md:p-12 rounded-2xl shadow-xl shadow-purple-900/5"
             >
               <div className="relative flex-shrink-0">
-                <div className="w-32 h-32 md:w-48 md:h-48 rounded-full overflow-hidden border-4 border-white shadow-lg">
-                  <img 
+                <div className="w-32 h-32 md:w-48 md:h-48 rounded-full overflow-hidden border-4 border-white shadow-lg relative">
+                  <OptimizedImage 
                     src={TESTIMONIALS[currentIndex].image} 
                     alt={TESTIMONIALS[currentIndex].author}
                     className="w-full h-full object-cover"

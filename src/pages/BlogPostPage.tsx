@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import MetaTags from '../components/atoms/MetaTags';
+import SEOMetadata from '../components/atoms/SEOMetadata';
 import { generateArticleSchema } from '../lib/seo';
 import { useParams, Link } from 'react-router-dom';
 import { motion } from 'motion/react';
@@ -500,7 +500,7 @@ export default function BlogPostPage() {
 
   return (
     <main className="min-h-screen bg-white font-sans text-slate-900 selection:bg-purple-100 selection:text-purple-900">
-      <MetaTags 
+      <SEOMetadata 
         title={post.title}
         description={optimizedDescription}
         image={post.image}
@@ -516,13 +516,6 @@ export default function BlogPostPage() {
       {/* Clean Editorial Article Header */}
       <header className="pt-28 md:pt-36 pb-10 bg-slate-50/70 border-b border-slate-200/80">
         <div className="max-w-5xl mx-auto px-6">
-          <Breadcrumbs 
-            items={[
-              { name: 'Blog', item: '/blog' },
-              { name: post.title, item: `/blog/${post.slug}` }
-            ]} 
-          />
-          
           <div className="flex flex-wrap items-center gap-2 mb-6">
             {post.tags?.slice(0, 4).map(tag => (
               <span key={tag} className="px-3 py-1 rounded-full bg-purple-100/70 border border-purple-200 text-[11px] font-bold text-purple-900 tracking-wider font-mono uppercase">

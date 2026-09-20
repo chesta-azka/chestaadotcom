@@ -17,11 +17,11 @@ import CommandPalette from './components/organisms/CommandPalette.tsx';
 import Header from './components/organisms/Header.tsx';
 import FooterSection from './components/organisms/FooterSection.tsx';
 import FloatingAIAssistant from './components/organisms/FloatingAIAssistant.tsx';
+import LiveChatWidget from './components/organisms/LiveChatWidget.tsx';
 import CommLinkAdmin from './components/CommLinkAdmin.tsx';
 import LoadingScreen from './components/organisms/LoadingScreen.tsx';
 import InteractiveBackground from './components/atoms/InteractiveBackground.tsx';
 import CustomCursor from './components/atoms/CustomCursor.tsx';
-import MobileActionBar from './components/atoms/MobileActionBar.tsx';
 
 import HomePage from './pages/HomePage.tsx';
 import BlogHubPage from './pages/BlogHubPage.tsx';
@@ -66,6 +66,8 @@ import SEOMetadata from './components/atoms/SEOMetadata';
 import PremiumTransition from './components/atoms/PremiumTransition';
 import DynamicBreadcrumbSchema from './components/atoms/DynamicBreadcrumbSchema';
 
+import LocalSchema from './components/atoms/LocalSchema.tsx';
+
 // Inner component to use location for AnimatePresence
 function AppContent({ appLoaded, onLoadingComplete }: { appLoaded: boolean; onLoadingComplete: () => void }) {
   const location = useLocation();
@@ -74,6 +76,7 @@ function AppContent({ appLoaded, onLoadingComplete }: { appLoaded: boolean; onLo
   
   return (
     <div className="relative z-10 w-full max-w-7xl mx-auto flex flex-col">
+      <LocalSchema />
       <LoadingScreen onComplete={onLoadingComplete} />
       
       <motion.div
@@ -114,7 +117,7 @@ function AppContent({ appLoaded, onLoadingComplete }: { appLoaded: boolean; onLo
         {!/^\/academy\/.+/.test(location.pathname) ? <FooterSection /> : null}
       </motion.div>
       <FloatingAIAssistant isLoaded={appLoaded} />
-      <MobileActionBar />
+      <LiveChatWidget />
     </div>
   );
 }
@@ -137,6 +140,8 @@ const itemVariants = {
   show: { opacity: 1, y: 0, transition: { duration: 0.5 } },
   exit: { opacity: 0, y: -10, transition: { duration: 0.3 } }
 };
+
+import Breadcrumbs from './components/atoms/Breadcrumbs';
 
 // Simple page transition wrapper
 function PageWrapper({ children }: { children: React.ReactNode }) {
@@ -162,6 +167,10 @@ function PageWrapper({ children }: { children: React.ReactNode }) {
         exit="exit"
         className="flex flex-col flex-1"
       >
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 w-full pt-2">
+          <Breadcrumbs currentTitle={currentMeta.title} />
+        </div>
+        
         <motion.div variants={itemVariants} className="flex flex-col flex-1">
           {children}
         </motion.div>

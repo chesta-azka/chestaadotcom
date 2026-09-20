@@ -1,5 +1,5 @@
 import React, { useState, useMemo } from 'react';
-import MetaTags from '../components/atoms/MetaTags';
+import SEOMetadata from '../components/atoms/SEOMetadata';
 import { generateCourseSchema } from '../lib/seo';
 import { motion, AnimatePresence } from 'motion/react';
 import { Link } from 'react-router-dom';
@@ -69,12 +69,10 @@ export default function AcademyPage() {
 
   return (
     <div className="min-h-screen bg-[#fbfbfd] pt-32 pb-24 font-sans select-none relative overflow-hidden">
-      <MetaTags 
-        title="CHESTAADOTCOM Academy | Belajar Web Dev & AI di BSD City & Cisauk"
+      <SEOMetadata 
+        title="CHESTAADOTCOM Academy | Belajar Web Dev & AI"
         description="Tingkatkan skill coding Anda dengan materi eksklusif React, Next.js, dan AI. Tech academy & resource hub terkemuka di BSD City & Cisauk, Tangerang."
-        path="/academy"
-        breadcrumbs={[{ name: 'Home', item: '/' }, { name: 'Academy', item: '/academy' }]}
-        schemaString={JSON.stringify(generateCourseSchema('Full-Stack Web Development & AI', 'Belajar programming modern dan AI integration', 'https://chestaa.com/academy'))}
+        schema={generateCourseSchema('Full-Stack Web Development & AI', 'Belajar programming modern dan AI integration', 'https://chestaa.com/academy')}
       />
       
       <main className="max-w-7xl mx-auto px-6 relative z-10">

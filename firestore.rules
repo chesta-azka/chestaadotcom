@@ -38,8 +38,8 @@ service cloud.firestore {
       }
     }
 
-    match /content_performance/{id} {
-      allow create: if true; // Allow visitors to report performance
+    match /ai_chat_sessions/{sessionId} {
+      allow create: if true;
       allow read, update, delete: if isAdmin();
     }
 

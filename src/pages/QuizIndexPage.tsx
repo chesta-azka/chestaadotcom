@@ -2,7 +2,7 @@ import React from 'react';
 import { motion } from 'motion/react';
 import { Home, ChevronRight, BookOpen } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import MetaTags from '../components/atoms/MetaTags';
+import SEOMetadata from '../components/atoms/SEOMetadata';
 import QuizEngine, { QuizQuestion } from '../components/organisms/QuizEngine';
 import { generateQuizSchema } from '../lib/seo';
 
@@ -48,7 +48,7 @@ const assessmentQuestions: QuizQuestion[] = [
 export default function QuizIndexPage() {
   return (
     <div className="min-h-screen bg-slate-50 font-sans selection:bg-purple-100 selection:text-purple-900 pt-24 md:pt-32 pb-24">
-      <MetaTags 
+      <SEOMetadata 
         title="Technical Quiz & Assessment | CHESTAADOTCOM Academy BSD & Cisauk"
         description="Uji kemampuan teknis Anda di bidang modern web architecture dan AI. Dapatkan roadmap belajar khusus dari software house elit di BSD City & Cisauk."
         path="/academy/quiz"

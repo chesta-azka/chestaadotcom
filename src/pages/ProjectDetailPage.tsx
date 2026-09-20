@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import MetaTags from '../components/atoms/MetaTags';
+import SEOMetadata from '../components/atoms/SEOMetadata';
 import { generatePortfolioSchema } from '../lib/seo';
 import { useParams, Link } from 'react-router-dom';
 import { motion } from 'motion/react';
@@ -57,12 +57,10 @@ export default function ProjectDetailPage() {
 
   return (
     <div className="min-h-screen bg-white font-sans text-slate-900 pt-32 pb-20 selection:bg-purple-100 selection:text-purple-900">
-      <MetaTags 
-        title={`${project.title} - Portfolio | CHESTAADOTCOM`}
+      <SEOMetadata 
+        title={project.title}
         description={project.description}
-        path={`/portfolio/${project.id}`}
-        breadcrumbs={[{ name: 'Home', item: '/' }, { name: 'Portfolio', item: '/portfolio' }, { name: project.title, item: `/portfolio/${project.id}` }]}
-        schemaString={JSON.stringify(generatePortfolioSchema(project.title, project.description, `https://chestaa.com/portfolio/${project.id}`, project.thumbnail))}
+        schema={generatePortfolioSchema(project.title, project.description, `https://chestaa.com/portfolio/${project.id}`, project.thumbnail)}
       />
       
       <motion.div 
@@ -71,16 +69,6 @@ export default function ProjectDetailPage() {
         initial="hidden"
         animate="show"
       >
-        {/* Back Link */}
-        <motion.div variants={fadeUpVariant} className="mb-10">
-          <Breadcrumbs 
-            items={[
-              { name: 'Portfolio', item: '/portfolio' },
-              { name: project.title, item: `/portfolio/${project.id}` }
-            ]} 
-          />
-        </motion.div>
-
         {/* Header Section */}
         <motion.header variants={fadeUpVariant} className="mb-12">
           <div className="flex items-center gap-3 mb-6">

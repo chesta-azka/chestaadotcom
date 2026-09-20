@@ -1,5 +1,5 @@
 import React from 'react';
-import MetaTags from '../components/atoms/MetaTags';
+import SEOMetadata from '../components/atoms/SEOMetadata';
 import { generateCaseStudySchema } from '../lib/seo';
 import { Helmet } from "react-helmet-async";
 import { useParams, Navigate } from "react-router-dom";
@@ -219,7 +219,7 @@ export default function CaseStudyDetailPage() {
 
   return (
     <main className="relative min-h-screen flex flex-col items-center pt-40 md:pt-48 pb-24 px-4 sm:px-6 lg:px-8 overflow-hidden bg-[#FAFAFC] text-slate-900 selection:bg-purple-500/20">
-      <MetaTags 
+      <SEOMetadata 
         title={`Case Study: ${study.client} | CHESTAADOTCOM`}
         description={study.desc}
         path={`/case-studies/${study.slug}`}
@@ -245,16 +245,6 @@ export default function CaseStudyDetailPage() {
       />
       
       <div className="w-full max-w-4xl mx-auto mb-12 z-10">
-        
-        {/* Unified Breadcrumb Navigation */}
-        <Breadcrumbs 
-          items={[
-            { name: 'Studi Kasus', item: '/case-studies' },
-            { name: study.client, item: `/case-studies/${study.slug}` }
-          ]}
-          className="mb-8"
-        />
-
         <Link 
           to="/case-studies" 
           className="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white/90 hover:bg-purple-50 text-purple-900 border border-purple-200/80 font-mono text-xs font-bold uppercase tracking-wider mb-8 transition-all shadow-xs backdrop-blur-md animate-in fade-in slide-in-from-left-6 duration-700"

@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from 'react';
 import { motion } from 'motion/react';
 import { ShieldCheck, ArrowRight, Sparkles, MessageCircle, Clock, CheckCircle2, Code2, Globe2, Bot } from 'lucide-react';
-import MetaTags from '../components/atoms/MetaTags';
+import SEOMetadata from '../components/atoms/SEOMetadata';
 
 const phases = [
   {
@@ -68,7 +68,7 @@ export default function WorkflowPage() {
 
   return (
     <main className="min-h-screen bg-[#FAFAFC] text-slate-900 pt-40 md:pt-48 pb-32 overflow-hidden selection:bg-purple-500/20">
-      <MetaTags 
+      <SEOMetadata 
         title="Alur Pemesanan & Konsultasi WhatsApp | CHESTAADOTCOM" 
         description="Workflow pembuatan website praktis tanpa ribet. Konsultasi langsung 1-on-1 via WhatsApp atau Floating Assistant dengan Chesta Azka Sofyan."
       />

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import MetaTags from '../components/atoms/MetaTags';
+import SEOMetadata from '../components/atoms/SEOMetadata';
 import { generateCourseSchema } from '../lib/seo';
 import { motion } from 'motion/react';
 import { Link } from 'react-router-dom';
@@ -40,7 +40,7 @@ export default function AcademyResourcesPage() {
   return (
     <div className="min-h-screen bg-white font-sans text-slate-900 pt-24 md:pt-32 selection:bg-purple-100 selection:text-purple-900">
 
-      <MetaTags 
+      <SEOMetadata 
         title="Resource Library - Web Dev & AI | CHESTAADOTCOM BSD & Cisauk"
         description="Kumpulan resource gratis, e-book, dan snippet kode dari pakar tech di BSD City & Cisauk untuk membantu perjalanan Anda menjadi top-tier developer."
         path="/academyresources"

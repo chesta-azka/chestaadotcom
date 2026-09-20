@@ -14,9 +14,9 @@ if (getApps().length === 0) {
   initializeApp({ projectId: firebaseConfig.projectId }); 
 }
 
-
 import Groq from "groq-sdk";
 import { injectSocialMeta } from "./src/lib/social-meta";
+import { z } from "zod";
 
 const app = express();
 
@@ -48,7 +48,8 @@ app.get("/api/admin/prunable-count", verifyFirebaseToken, async (req, res) => {
 // API: Admin Verification
 app.get("/api/admin/verify", verifyFirebaseToken, (req: any, res: any) => {
   const adminEmail = "chestacode@gmail.com";
-  if (req.user && req.user.email === adminEmail) {
+  const isAdminClaim = req.user && (req.user.email === adminEmail || req.user.admin === true || req.user.role === 'admin' || req.user.claims?.admin === true);
+  if (isAdminClaim) {
     res.status(200).json({ success: true, user: req.user });
   } else {
     res.status(403).json({ success: false, error: "Forbidden: You are not an admin." });
@@ -60,7 +61,8 @@ app.use(express.json());
 
 const PORT = 3000;
 
-const groq = process.env.GROQ_API_KEY ? new Groq({ apiKey: process.env.GROQ_API_KEY }) : null;
+const groqApiKey = process.env.GROQ_API_KEY;
+const groq = (groqApiKey && groqApiKey.startsWith('gsk_') && groqApiKey.length > 10) ? new Groq({ apiKey: groqApiKey }) : null;
 
 // Gemini initialization (optional fallback)
 let genAI: any = null;
@@ -87,8 +89,8 @@ app.post("/api/posts/validate", async (req, res) => {
   }
 
   const groqApiKey = process.env.GROQ_API_KEY;
-  if (!groqApiKey) {
-    // Silently skip to fallback if no key
+  if (!groqApiKey || !groqApiKey.startsWith('gsk_')) {
+    // Silently skip to fallback if no valid key
     throw new Error("SKIP_GROQ");
   }
 
@@ -140,9 +142,13 @@ app.post("/api/posts/validate", async (req, res) => {
       console.error("Groq API error response:", errText);
       throw new Error(`Groq API returned status ${response.status}`);
     }
-  } catch (groqError) {
+  } catch (groqError: any) {
     if (groqError.message !== "SKIP_GROQ") {
-      console.warn("Groq API call failed, falling back to Gemini API...", groqError.message);
+      if (groqError.message?.includes('401') || groqError.message?.includes('Invalid API Key') || groqError.message?.includes('status 401')) {
+        console.log("Groq API 401 unauthorized in validate, falling back to Gemini.");
+      } else {
+        console.warn("Groq API call failed, falling back to Gemini API...", groqError.message);
+      }
     }
 
     // Fallback to Gemini if Groq is unavailable
@@ -184,111 +190,140 @@ app.post("/api/posts/validate", async (req, res) => {
 });
 
 
-// Chat Assistant Route (Groq API with Gemini fallback)
+// Chat Assistant Route (Groq Llama 3 API with Gemini fallback)
 app.post("/api/chat", async (req, res) => {
-  const { messages, pagePath, pageTitle, systemContext } = req.body;
+  const { messages, pagePath, pageTitle, pageContext, systemContext, stream } = req.body;
   if (!messages || !Array.isArray(messages)) {
     return res.status(400).json({ error: "Messages array is required." });
   }
 
-  // Set headers for plain text streaming
-  res.setHeader('Content-Type', 'text/plain; charset=utf-8');
-  res.setHeader('Transfer-Encoding', 'chunked');
-  res.setHeader('Cache-Control', 'no-cache');
-  res.setHeader('Connection', 'keep-alive');
-
   try {
     const lastMsg = messages[messages.length - 1]?.content || '';
-    const isPricingIntent = /(harga|biaya|price|pricing|paket|cost|tarif|tagihan|rekening|transfer|quote|quotation|diskon|discount|bca|gopay|dana|bayar|pembayaran|budget|invoice|dp|principal engineer|nego|penawaran|order|beli|pesan)/i.test(lastMsg);
 
-    if (isPricingIntent) {
-      res.write("Connecting you to our Principal Engineer...");
-      res.end();
-      return;
-    }
+    const messageCount = messages.length;
+    const isHardSelling = messageCount >= 2;
 
-    const systemPrompt = `Anda adalah Konsultan AI Eksklusif dari CHESTADOTCOM (Bespoke Software, AI Engineering, & Enterprise Digital Solutions). Jawab dengan ramah, lugas, cerdas, dan profesional. Saat ini user berada di halaman "${pageTitle || 'Beranda'}" (Path: ${pagePath || '/'}). Gunakan konteks halaman ini untuk memberikan konsultasi arsitektur dan solusi terbaik.
+    const systemPrompt = `[ROLE]
+Asisten Penjualan & Konsultasi Profesional CHESTADOTCOM.
 
-${systemContext ? 'Konteks Tambahan (Wajib Diperhatikan):\n' + systemContext : ''}
+[CURRENT USER PAGE CONTEXT]
+- Active Path: ${pagePath || '/'}
+- Page Title: ${pageTitle || 'CHESTADOTCOM'}
+- Page Context Details: ${pageContext ? JSON.stringify(pageContext) : 'Umum'}
 
-ATURAN UTAMA:
-1. Berikan jawaban yang terstruktur, elegan, dan solutif.
-2. Jika user menanyakan estimasi harga, rincian biaya, atau paket kustom, jawab langsung: "Connecting you to our Principal Engineer..." agar tim engineer kami dapat langsung menganalisis kebutuhan teknis mereka.
-3. Anda dapat memberikan saran pertanyaan lanjutan di akhir jawaban dengan format:
-<opsi>Pertanyaan atau pilihan 1</opsi>
-<opsi>Pertanyaan atau pilihan 2</opsi>
-<opsi>Konsultasi dengan Principal Engineer 👨‍💻</opsi>`;
+[SALES FUNNEL STAGE: ${isHardSelling ? 'HARD SELLING / CLOSING' : 'SOFT SELLING / CONSULTATION'}]
+${isHardSelling ? `
+- Berikan penawaran tegas dan menarik (Hard Selling) dengan mereferensikan halaman yang sedang dikunjungi (${pageTitle || pagePath}).
+- Soroti Paket Spesial Website UMKM Rp540K (Super Hemat, Profesional, Siap Pakai).
+- Berikan penekanan urgensi dan langsung arahkan ke penutupan penjualan (closing).
+- Akhiri dengan opsi interaktif:
+<opsi>Amankan Paket UMKM Rp540K</opsi>
+<opsi>Hubungi via WhatsApp</opsi>
+` : `
+- Gunakan pendekatan ramah, konsultatif, dan santai (Soft Selling), sesuaikan dengan konteks halaman yang dilihat user (${pageTitle || pagePath}).
+- Pahami kebutuhan bisnis klien tanpa memaksa membeli langsung.
+- Ajak berdiskusi tentang impian digital bisnis mereka.
+- Akhiri dengan opsi interaktif:
+<opsi>Paket Website UMKM Rp540K</opsi>
+<opsi>Konsultasi Kebutuhan Bisnis</opsi>
+`}
 
-    let streamed = false;
+[RULES]
+1. Bahasa Indonesia yang elegan, profesional, dan to the point (maksimal 2-3 kalimat).
+2. DILARANG KERAS menyebutkan detail teknis arsitektur backend atau kode internal.`;
 
-    // 1. Try Groq SDK if configured
+    let replyText = "";
+
+    // 1. Try Groq Llama 3 if configured
     if (groq) {
       try {
         const groqMessages = [
           { role: "system" as const, content: systemPrompt },
           ...messages.map((m: any) => ({
             role: (m.role === "assistant" || m.role === "ai" ? "assistant" : "user") as "assistant" | "user",
-            content: m.content
+            content: m.content || m.text || ''
           }))
         ];
 
-        const groqStream = await groq.chat.completions.create({
-          model: "llama-3.3-70b-versatile",
-          messages: groqMessages,
-          stream: true,
-          temperature: 0.6,
-          max_tokens: 1024,
-        });
+        if (stream) {
+          res.setHeader('Content-Type', 'text/plain; charset=utf-8');
+          res.setHeader('Transfer-Encoding', 'chunked');
+          const groqStream = await groq.chat.completions.create({
+            model: "llama-3.3-70b-versatile",
+            messages: groqMessages,
+            stream: true,
+            temperature: 0.6,
+            max_tokens: 1024,
+          });
 
-        for await (const chunk of groqStream) {
-          const content = chunk.choices[0]?.delta?.content || '';
-          if (content) {
-            res.write(content);
-            streamed = true;
+          for await (const chunk of groqStream) {
+            const content = chunk.choices[0]?.delta?.content || '';
+            if (content) res.write(content);
           }
+          res.end();
+          return;
+        } else {
+          const completion = await groq.chat.completions.create({
+            model: "llama-3.3-70b-versatile",
+            messages: groqMessages,
+            temperature: 0.6,
+            max_tokens: 1024,
+          });
+          replyText = completion.choices[0]?.message?.content || "";
         }
-        res.end();
-        return;
-      } catch (groqErr) {
-        console.warn("Groq streaming error, falling back to Gemini:", groqErr);
+      } catch (groqErr: any) {
+        if (groqErr?.status === 401 || groqErr?.message?.includes('401') || groqErr?.message?.includes('Invalid API Key')) {
+          console.log("Groq API key invalid/unauthorized, using Gemini fallback.");
+        } else {
+          console.warn("Groq API error, falling back to Gemini:", groqErr?.message || groqErr);
+        }
       }
     }
 
     // 2. Fallback to Gemini if Groq unavailable or failed
-    if (genAI) {
-      const geminiContents = messages.map((m) => ({
-        role: (m.role === 'assistant' || m.role === 'ai') ? 'model' : 'user',
-        parts: [{ text: m.content }]
-      }));
+    if (!replyText && genAI) {
+      try {
+        const conversationText = messages.map((m: any) => `${m.role === 'assistant' || m.role === 'ai' ? 'Assistant' : 'User'}: ${m.content || m.text || ''}`).join('\n');
 
-      const streamResponse = await genAI.models.generateContentStream({
-        model: "gemini-2.5-flash",
-        config: {
-          systemInstruction: systemPrompt,
-        },
-        contents: geminiContents,
-      });
-      
-      for await (const chunk of streamResponse) {
-        if (chunk.text) {
-          res.write(chunk.text);
-          streamed = true;
+        if (stream) {
+          res.setHeader('Content-Type', 'text/plain; charset=utf-8');
+          res.setHeader('Transfer-Encoding', 'chunked');
+          const streamResponse = await genAI.models.generateContentStream({
+            model: "gemini-2.5-flash",
+            config: { systemInstruction: systemPrompt },
+            contents: conversationText,
+          });
+
+          for await (const chunk of streamResponse) {
+            if (chunk.text) res.write(chunk.text);
+          }
+          res.end();
+          return;
+        } else {
+          const result = await genAI.models.generateContent({
+            model: "gemini-2.5-flash",
+            config: { systemInstruction: systemPrompt },
+            contents: conversationText,
+          });
+          replyText = result.text || "";
         }
+      } catch (gemErr) {
+        console.warn("Gemini fallback error:", gemErr);
       }
-      res.end();
-      return;
     }
 
-    if (!streamed) {
-      res.write("Halo! Saya asisten AI CHESTADOTCOM. Silakan ajukan pertanyaan seputar arsitektur sistem, automasi AI, atau solusi digital kami.");
-      res.end();
+    if (!replyText) {
+      replyText = "Halo! Saya adalah asisten AI Llama 3 di CHESTADOTCOM. Silakan ajukan pertanyaan seputar arsitektur sistem, automasi AI, atau solusi digital kami.";
     }
+
+    return res.json({ reply: replyText });
   } catch (error) {
     console.error("Chat API failed:", error);
-    if (!res.headersSent) {
-      res.status(500).json({ error: "Mohon maaf, layanan AI sedang mengalami gangguan jaringan. Silakan coba beberapa saat lagi." });
+    if (stream) {
+      if (!res.headersSent) res.status(500).send("Mohon maaf, layanan AI sedang mengalami gangguan.");
+      else res.end();
     } else {
-      res.end();
+      return res.status(500).json({ reply: "Mohon maaf, layanan AI sedang mengalami gangguan jaringan. Silakan coba beberapa saat lagi atau hubungi via WhatsApp." });
     }
   }
 });
@@ -587,51 +622,220 @@ app.post("/api/score-lead", async (req, res) => {
     return res.status(400).json({ error: "Missing transcript" });
   }
 
+  const LeadScoringSchema = z.object({
+    score: z.number().min(1).max(100),
+    tier: z.enum(["Cold Lead", "Warm Lead", "Hot Lead"]),
+    matchedKeywords: z.array(z.string()),
+    summary: z.string()
+  });
+
   try {
     const adminDb = getFirestore();
-    let score = "Cold";
+    let analysisResult: z.infer<typeof LeadScoringSchema> = {
+      score: 45,
+      tier: "Warm Lead",
+      matchedKeywords: ["layanan", "tanya"],
+      summary: "Klien mengeksplorasi layanan digital secara umum."
+    };
+    let scoredByAI = false;
 
     if (groq) {
-      const prompt = `You are a B2B sales lead analyst. Evaluate the following chat transcript between a user and an AI assistant.
-Determine the lead score/category for this user.
-Choose EXACTLY ONE from:
-- Hot (Very interested, asking for pricing, wants contact, ready to buy)
-- Warm (Interested, asking about features, exploring)
-- Cold (Just browsing, short conversation, no clear intent)
+      try {
+        const prompt = `You are a Senior B2B sales lead analyst for CHESTADOTCOM. Analyze this chat transcript and return a JSON object strictly matching this schema:
+{
+  "score": number (1 to 100),
+  "tier": "Cold Lead" | "Warm Lead" | "Hot Lead",
+  "matchedKeywords": array of strings (e.g. ["harga", "umkm", "booking"]),
+  "summary": string (brief summary in Indonesian)
+}
 
-Return ONLY the category word (Hot, Warm, or Cold).
+Classification rules:
+- Hot Lead (score 75-100): Asking about pricing (e.g. 540k, biaya), scheduling a call/booking, or enterprise custom systems.
+- Warm Lead (score 40-74): Asking about features, timelines, or services.
+- Cold Lead (score 1-39): General browsing, curiosity, or short casual messages.
 
 Transcript:
 ${transcript}`;
 
-      const chatCompletion = await groq.chat.completions.create({
-        messages: [{ role: "user", content: prompt }],
-        model: "llama-3.3-70b-versatile",
-        temperature: 0.1,
-        max_tokens: 10,
-      });
+        const chatCompletion = await groq.chat.completions.create({
+          messages: [{ role: "user", content: prompt }],
+          model: "llama-3.3-70b-versatile",
+          temperature: 0.1,
+          response_format: { type: "json_object" }
+        });
 
-      const raw = chatCompletion.choices[0]?.message?.content?.trim() || "Cold";
-      if (raw.toLowerCase().includes("hot")) score = "Hot";
-      else if (raw.toLowerCase().includes("warm")) score = "Warm";
-      else score = "Cold";
+        const raw = chatCompletion.choices[0]?.message?.content?.trim() || "{}";
+        const parsed = JSON.parse(raw);
+        const validated = LeadScoringSchema.parse(parsed);
+        analysisResult = validated;
+        scoredByAI = true;
+      } catch (groqErr: any) {
+        console.warn("Groq Zod lead scoring error, trying Gemini fallback:", groqErr?.message);
+      }
     }
+
+    if (!scoredByAI && genAI) {
+      try {
+        const prompt = `Analyze this chat transcript and return JSON strictly with keys: score (1-100), tier ("Cold Lead" | "Warm Lead" | "Hot Lead"), matchedKeywords (array of strings), summary (string in Indonesian).\nTranscript: ${transcript}`;
+        const result = await genAI.models.generateContent({
+          model: "gemini-2.5-flash",
+          contents: prompt
+        });
+        const text = result.text || "";
+        const jsonMatch = text.match(/\{[\s\S]*\}/);
+        if (jsonMatch) {
+          const parsed = JSON.parse(jsonMatch[0]);
+          const validated = LeadScoringSchema.parse(parsed);
+          analysisResult = validated;
+          scoredByAI = true;
+        }
+      } catch (gemErr) {
+        console.warn("Gemini lead scoring fallback failed:", gemErr);
+      }
+    }
+
+    if (!scoredByAI) {
+      const lower = transcript.toLowerCase();
+      if (lower.includes("harga") || lower.includes("biaya") || lower.includes("booking") || lower.includes("call") || lower.includes("beli") || lower.includes("rp540k")) {
+        analysisResult = { score: 85, tier: "Hot Lead", matchedKeywords: ["harga", "booking"], summary: "Klien menunjukkan ketertarikan tinggi pada harga dan pemesanan." };
+      } else if (lower.includes("fitur") || lower.includes("tanya") || lower.includes("bagaimana") || lower.includes("layanan")) {
+        analysisResult = { score: 55, tier: "Warm Lead", matchedKeywords: ["layanan", "fitur"], summary: "Klien mengeksplorasi informasi layanan." };
+      } else {
+        analysisResult = { score: 25, tier: "Cold Lead", matchedKeywords: ["umum"], summary: "Klien melakukan penelusuran umum." };
+      }
+    }
+
+    const shortScoreTag = analysisResult.tier.includes('Hot') ? 'Hot' : analysisResult.tier.includes('Warm') ? 'Warm' : 'Cold';
 
     if (leadId) {
       await adminDb.collection('ai_leads').doc(leadId).set({
         sessionId: leadId,
-        score: score,
+        score: shortScoreTag,
+        fullScore: analysisResult.score,
+        tier: analysisResult.tier,
+        matchedKeywords: analysisResult.matchedKeywords,
+        summary: analysisResult.summary,
         createdAt: new Date(),
         messageCount: messages.length,
         userId: sessionData.userId || 'anonymous'
       }, { merge: true });
 
-      await adminDb.collection('ai_chat_sessions').doc(leadId).update({ leadScored: true });
+      try {
+        await adminDb.collection('ai_chat_sessions').doc(leadId).update({ 
+          leadScored: true, 
+          ai_score: shortScoreTag,
+          leadAnalysis: analysisResult
+        });
+      } catch (e) {
+        // ignore if doc missing
+      }
     }
 
-    res.json({ success: true, ai_score: score });
+    res.json({ success: true, ai_score: shortScoreTag, analysis: analysisResult });
   } catch (error: any) {
-    console.error("Lead scoring failed:", error);
+    console.error("Lead scoring failed gracefully:", error);
+    res.json({ 
+      success: true, 
+      ai_score: "Warm", 
+      analysis: { score: 50, tier: "Warm Lead", matchedKeywords: ["default"], summary: "Analisis default fallback." } 
+    });
+  }
+});
+
+app.post("/api/ai/summarize-conversation", async (req, res) => {
+  const { sessionId, transcript, messages = [], leadScore = "Warm" } = req.body;
+  if (!transcript && (!messages || messages.length === 0)) {
+    return res.status(400).json({ error: "Missing transcript or messages" });
+  }
+
+  const SummarySchema = z.object({
+    clientIntent: z.string(),
+    projectScope: z.string(),
+    leadTier: z.enum(["Cold Lead", "Warm Lead", "Hot Lead"]),
+    bulletPoints: z.array(z.string()),
+    recommendedAction: z.string()
+  });
+
+  try {
+    const adminDb = getFirestore();
+    const chatText = transcript || messages.map((m: any) => `${m.role}: ${m.content}`).join('\n');
+
+    let summaryData: z.infer<typeof SummarySchema> = {
+      clientIntent: "Eksplorasi layanan website profesional",
+      projectScope: "Pembuatan website company profile / UMKM",
+      leadTier: leadScore === 'Hot' ? "Hot Lead" : leadScore === 'Cold' ? "Cold Lead" : "Warm Lead",
+      bulletPoints: [
+        "Klien tertarik dengan layanan pembuatan website modern Next.js.",
+        "Menanyakan rincian fasilitas dan estimasi pengerjaan.",
+        "Potensi konversi tinggi untuk paket promo."
+      ],
+      recommendedAction: "Kirimkan proposal penawaran via WhatsApp atau jadwalkan discovery call."
+    };
+
+    let generatedByAI = false;
+
+    if (groq) {
+      try {
+        const prompt = `You are an expert B2B Sales AI for CHESTADOTCOM. Analyze the following chat transcript and return a JSON object strictly matching this schema:
+{
+  "clientIntent": string (e.g., "Membeli paket promo UMKM Rp540K"),
+  "projectScope": string (e.g., "Website portofolio & landing page e-commerce"),
+  "leadTier": "Cold Lead" | "Warm Lead" | "Hot Lead",
+  "bulletPoints": array of 3 professional summary strings in Indonesian,
+  "recommendedAction": string (actionable next step for sales team)
+}
+
+Transcript:
+${chatText}`;
+
+        const chatCompletion = await groq.chat.completions.create({
+          messages: [{ role: "user", content: prompt }],
+          model: "llama-3.3-70b-versatile",
+          temperature: 0.2,
+          response_format: { type: "json_object" }
+        });
+
+        const raw = chatCompletion.choices[0]?.message?.content?.trim() || "{}";
+        const parsed = JSON.parse(raw);
+        const validated = SummarySchema.parse(parsed);
+        summaryData = validated;
+        generatedByAI = true;
+      } catch (err: any) {
+        console.warn("Groq summary generation failed, trying Gemini:", err?.message);
+      }
+    }
+
+    if (!generatedByAI && genAI) {
+      try {
+        const prompt = `Summarize this client chat for sales admin in JSON with keys: clientIntent, projectScope, leadTier ("Cold Lead" | "Warm Lead" | "Hot Lead"), bulletPoints (array of 3 strings), recommendedAction. Transcript: ${chatText}`;
+        const result = await genAI.models.generateContent({
+          model: "gemini-2.5-flash",
+          contents: prompt
+        });
+        const text = result.text || "";
+        const jsonMatch = text.match(/\{[\s\S]*\}/);
+        if (jsonMatch) {
+          const parsed = JSON.parse(jsonMatch[0]);
+          const validated = SummarySchema.parse(parsed);
+          summaryData = validated;
+          generatedByAI = true;
+        }
+      } catch (gemErr) {
+        console.warn("Gemini summary fallback failed:", gemErr);
+      }
+    }
+
+    const docId = sessionId || `SESSION-${Date.now()}`;
+    await adminDb.collection('admin_leads_summary').doc(docId).set({
+      sessionId: docId,
+      ...summaryData,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    }, { merge: true });
+
+    res.json({ success: true, summary: summaryData });
+  } catch (error: any) {
+    console.error("Conversation summarization failed:", error);
     res.status(500).json({ error: error.message });
   }
 });
@@ -642,6 +846,88 @@ ${transcript}`;
 app.post("/api/ai/prune-workspace", async (req, res) => {
   res.json({ success: true, pruned: 0, reason: "Pruning delegated to client side." });
 });
+
+// API: Get Available Calendar Slots for Smart AI Meeting Scheduler
+app.get("/api/calendar/slots", async (req, res) => {
+  try {
+    const now = new Date();
+    const slots = [
+      {
+        id: 'slot_1',
+        dateStr: 'Hari Ini',
+        timeStr: '15:00 WIB',
+        label: 'Hari Ini, 15:00 WIB',
+        datetime: new Date(now.getTime() + 3600000 * 2).toISOString()
+      },
+      {
+        id: 'slot_2',
+        dateStr: 'Hari Ini',
+        timeStr: '17:00 WIB',
+        label: 'Hari Ini, 17:00 WIB',
+        datetime: new Date(now.getTime() + 3600000 * 4).toISOString()
+      },
+      {
+        id: 'slot_3',
+        dateStr: 'Besok',
+        timeStr: '10:00 WIB',
+        label: 'Besok, 10:00 WIB',
+        datetime: new Date(now.getTime() + 86400000).toISOString()
+      },
+      {
+        id: 'slot_4',
+        dateStr: 'Besok',
+        timeStr: '14:00 WIB',
+        label: 'Besok, 14:00 WIB',
+        datetime: new Date(now.getTime() + 86400000 + 14400000).toISOString()
+      },
+      {
+        id: 'slot_5',
+        dateStr: 'Lusa',
+        timeStr: '11:00 WIB',
+        label: 'Lusa, 11:00 WIB',
+        datetime: new Date(now.getTime() + 172800000).toISOString()
+      }
+    ];
+    res.json({ success: true, slots });
+  } catch (error: any) {
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
+// API: Book Calendar Slot & Sync to Firestore & Admin
+app.post("/api/calendar/book", async (req, res) => {
+  const { sessionId, slot, clientName, clientPhone, service } = req.body;
+  if (!slot || !clientName || !clientPhone) {
+    return res.status(400).json({ success: false, error: "Missing slot, clientName, or clientPhone" });
+  }
+
+  try {
+    const adminDb = getFirestore();
+    const bookingId = sessionId || `booking_${Date.now()}`;
+    
+    const bookingData = {
+      isBooking: true,
+      sessionId: bookingId,
+      clientName,
+      phone: clientPhone,
+      date: slot.dateStr,
+      time: slot.timeStr,
+      label: slot.label,
+      service: service || 'Discovery Call Konsultasi Website & AI',
+      status: 'confirmed',
+      createdAt: new Date(),
+      source: 'Smart AI Meeting Scheduler'
+    };
+
+    await adminDb.collection('ai_chat_sessions').doc(bookingId).set(bookingData, { merge: true });
+
+    res.json({ success: true, bookingId, message: "Discovery Call successfully scheduled." });
+  } catch (error: any) {
+    console.error("Booking error:", error);
+    res.status(500).json({ success: false, error: error.message });
+  }
+});
+
 // Vite middleware for development / Production Static Fallback
 (async () => {
   if (process.env.NODE_ENV !== "production") {

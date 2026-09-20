@@ -21,6 +21,8 @@ import { Link } from 'react-router-dom';
 import toast from 'react-hot-toast';
 import MagneticButton from '../atoms/MagneticButton';
 
+import OptimizedImage from '../atoms/OptimizedImage';
+
 export default function HeroSection() {
   const sectionRef = useRef<HTMLElement>(null);
   const [activeConsoleTab, setActiveConsoleTab] = useState<'architecture' | 'vitals' | 'stack'>('architecture');
@@ -187,7 +189,7 @@ export default function HeroSection() {
                 transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
                 className="block font-medium"
               >
-                Transformasi Digital.
+                Ubah Aset Digital.
               </motion.span>
             </span>
             <span className="block overflow-hidden h-[1.35em] -mt-2 sm:-mt-8">
@@ -197,7 +199,7 @@ export default function HeroSection() {
                 transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1], delay: 0.4 }}
                 className="block font-light text-purple-600/90 italic"
               >
-                Solusi B2B Enterprise.
+                Mesin Pertumbuhan Otonom.
               </motion.span>
             </span>
           </motion.h1>
@@ -208,7 +210,7 @@ export default function HeroSection() {
             variants={fadeInUpVariants}
             className="mt-6 text-base sm:text-lg lg:text-xl text-slate-500 font-sans max-w-2xl leading-[1.8] text-balance font-light tracking-wide"
           >
-            Elevasi operasional bisnis Anda melalui arsitektur software kelas dunia. Kami menghadirkan <strong className="text-slate-800 font-medium">B2B Digital Transformation</strong> yang memadukan <span className="text-purple-600 font-medium bg-purple-50/50 px-2 py-0.5 rounded-lg border border-purple-100/50">Enterprise Software Solutions</span> dengan inteligensi otonom Agentic AI untuk skalabilitas perusahaan Anda.
+            We don't just build sites; we architect <span className="text-slate-900 font-bold">digital engines</span> that drive growth through <span className="text-purple-600 font-medium bg-purple-50/50 px-2 py-0.5 rounded-lg border border-purple-100/50">automated workflows</span> and high-conversion web experiences.
           </motion.p>
 
           {/* Actions */}
@@ -226,7 +228,7 @@ export default function HeroSection() {
               >
                 <div className="absolute inset-0 bg-gradient-to-r from-purple-500/20 to-transparent -translate-x-full group-hover:translate-x-0 transition-transform duration-500" />
                 <MessageCircle size={20} className="text-emerald-400 fill-emerald-400/20" />
-                <span>Mulai Konsultasi</span>
+                <span>Mulai Konsultasi Strategis</span>
                 <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
               </a>
             </MagneticButton>
@@ -248,8 +250,12 @@ export default function HeroSection() {
             <div className="flex items-center gap-2">
               <div className="flex -space-x-2">
                 {[1, 2, 3].map(i => (
-                  <div key={i} className="w-8 h-8 rounded-full border-2 border-white bg-slate-200 flex items-center justify-center text-[10px] font-bold text-slate-500">
-                    {i}
+                  <div key={i} className="w-8 h-8 rounded-full border-2 border-white bg-slate-200 flex items-center justify-center text-[10px] font-bold text-slate-500 relative overflow-hidden">
+                    <OptimizedImage 
+                      src={`https://picsum.photos/seed/trust${i}/64/64`} 
+                      alt={`Trustee ${i}`}
+                      className="w-full h-full object-cover"
+                    />
                   </div>
                 ))}
               </div>

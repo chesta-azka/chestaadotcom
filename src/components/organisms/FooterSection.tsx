@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Instagram, MessageCircle, Mail, MapPin, ArrowRight, Send, CheckCircle2 } from 'lucide-react';
+import { MessageCircle, Mail, MapPin, ArrowRight, Send, CheckCircle2, Camera } from 'lucide-react';
 import { useState } from 'react';
 import toast from 'react-hot-toast';
 
@@ -79,7 +79,11 @@ export default function FooterSection() {
 
             <div className="flex gap-3">
               <a href="https://instagram.com/chestaadotcom" target="_blank" rel="noopener noreferrer" title="Instagram @chestaadotcom" className="w-10 h-10 rounded-full bg-slate-50 border border-slate-200 flex items-center justify-center hover:bg-purple-600 hover:text-white hover:border-purple-600 transition-all duration-300">
-                <Instagram size={18} strokeWidth={1.5} />
+                <svg className="w-4 h-4 fill-none stroke-current" strokeWidth="2" viewBox="0 0 24 24">
+                  <rect width="20" height="20" x="2" y="2" rx="5" ry="5"/>
+                  <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
+                  <line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/>
+                </svg>
               </a>
               <a href="https://tiktok.com/@chesta_azka" target="_blank" rel="noopener noreferrer" title="TikTok @chesta_azka" className="w-10 h-10 rounded-full bg-slate-50 border border-slate-200 flex items-center justify-center hover:bg-purple-600 hover:text-white hover:border-purple-600 transition-all duration-300">
                 <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">

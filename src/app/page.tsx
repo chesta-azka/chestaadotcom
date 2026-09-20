@@ -60,6 +60,10 @@ function TypewriterKeyword() {
   );
 }
 
+import WhyChooseUs from '../components/organisms/WhyChooseUs';
+import InvestmentTiers from '../components/organisms/InvestmentTiers';
+import FAQAccordion from '../components/organisms/FAQAccordion';
+
 export default function HomePage() {
   const [scrollY, setScrollY] = useState(0);
 
@@ -113,60 +117,41 @@ export default function HomePage() {
   className="lg:col-span-7 flex flex-col items-start text-left"
 >
             {/* Agency Tag */}
-            <motion.div variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] } } }} className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-purple-50 text-purple-900 text-xs font-mono font-semibold mb-6 border border-purple-100">
-              <Zap size={13} className="text-purple-700 fill-purple-700" />
-              <span>CHESTAADOTCOM • Premier IT Solution Agency</span>
+            <motion.div variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] } } }} className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded bg-purple-50 text-purple-900 text-[10px] font-mono font-bold uppercase tracking-widest mb-6 border border-purple-100">
+              <Zap size={11} className="text-purple-700" />
+              <span>Premier IT Solution Agency</span>
             </motion.div>
             {/* High-Impact Headline with Typewriter Effect */}
-            <motion.h1 variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] } } }} className="text-3xl sm:text-5xl md:text-6xl font-display font-extrabold tracking-tight leading-[1.12] text-slate-900 min-h-[140px] sm:min-h-[160px]">
+            <motion.h1 variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] } } }} className="text-3xl sm:text-5xl md:text-7xl font-display font-black tracking-tighter leading-[0.95] text-slate-900 min-h-[140px] sm:min-h-[160px]">
               Eskalasi Bisnis Tanpa Batas Melalui <br />
               <TypewriterKeyword />
             </motion.h1>
             {/* Improved Copywriting focused on Agency IT Solution */}
-            <motion.p variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] } } }} className="mt-2 text-base sm:text-lg text-slate-600 font-sans max-w-xl leading-relaxed">
-              <strong>CHESTAADOTCOM</strong> adalah Software House dan konsultan IT Solution eksklusif di BSD City dan Cisauk. Kami merancang <HighlightWord>arsitektur website enterprise</HighlightWord> dengan standar performa global dan membangun infrastruktur <HighlightWord>berbasis Agentic AI</HighlightWord> yang secara agresif meningkatkan revenue serta efisiensi operasional B2B Anda.
+            <motion.p variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] } } }} className="mt-6 text-base sm:text-lg text-slate-500 font-sans max-w-xl leading-relaxed">
+              <strong>CHESTAADOTCOM</strong> adalah Software House eksklusif di BSD City. Kami merancang arsitektur website enterprise dengan standar performa global yang secara agresif meningkatkan revenue bisnis Anda.
             </motion.p>
             {/* Primary CTA Buttons with Pulsating Motion */}
             <motion.div variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] } } }} className="mt-8 flex flex-col sm:flex-row items-center gap-4 w-full sm:w-auto">
               <motion.a
-                href="https://wa.me/6282125447232?text=Halo%20CHESTADOTCOM,%20saya%20tertarik%20untuk%20konsultasi%20solusi%20IT%20dan%20pembuatan%20website%20korporat."
+                href="https://wa.me/6282125447232"
                 target="_blank"
                 rel="noopener noreferrer"
-                animate={{ scale: [1, 1.03, 1] }}
-                transition={{ duration: 2.5, repeat: Infinity, ease: 'easeInOut' }}
-                whileHover={{ scale: 1.05 }}
+                whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                className="group inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded-full bg-purple-950 hover:bg-purple-900 text-white font-sans text-sm sm:text-base font-bold shadow-lg shadow-purple-950/20 transition-colors cursor-pointer w-full sm:w-auto"
+                className="group inline-flex items-center justify-center gap-2.5 px-8 py-4 rounded bg-purple-600 hover:bg-purple-700 text-white font-mono text-xs font-bold tracking-widest uppercase shadow-lg shadow-purple-600/20 transition-colors cursor-pointer w-full sm:w-auto"
               >
-                <MessageCircle size={18} className="text-emerald-400 fill-emerald-400/20" />
-                <span>Konsultasi Proyek di WhatsApp</span>
-                <ArrowRight size={16} className="transition-transform group-hover:translate-x-1" />
+                <MessageCircle size={16} />
+                <span>Mulai Konsultasi</span>
+                <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
               </motion.a>
 
               <Link
                 to="/portfolio"
-                className="group inline-flex items-center justify-center gap-2 px-7 py-4 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-800 font-sans text-sm sm:text-base font-semibold border border-slate-200 transition-all cursor-pointer w-full sm:w-auto"
+                className="group inline-flex items-center justify-center gap-2 px-8 py-4 rounded bg-white hover:bg-slate-50 text-slate-900 font-mono text-xs font-bold tracking-widest uppercase border border-slate-200 transition-all cursor-pointer w-full sm:w-auto"
               >
                 <span>Lihat Portofolio</span>
-                <ArrowRight size={15} className="text-slate-400 group-hover:translate-x-1" />
+                <ArrowRight size={14} className="text-slate-400 group-hover:translate-x-1" />
               </Link>
-            </motion.div>
-            {/* Quick Metrics */}
-            <motion.div variants={{ hidden: { opacity: 0, y: 20 }, visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.16, 1, 0.3, 1] } } }} className="mt-10 pt-6 border-t border-slate-100 flex items-center gap-8 text-xs font-mono text-slate-500">
-              <div>
-                <span className="font-bold text-slate-900 text-base block">50+</span>
-                <span>Proyek Enterprise</span>
-              </div>
-              <div className="w-px h-8 bg-slate-200" />
-              <div>
-                <span className="font-bold text-slate-900 text-base block">99.98%</span>
-                <span>Uptime Cloud</span>
-              </div>
-              <div className="w-px h-8 bg-slate-200" />
-              <div>
-                <span className="font-bold text-slate-900 text-base block">&lt;0.5s</span>
-                <span>Sub-Second Response</span>
-              </div>
             </motion.div>
           </motion.div>
 
@@ -180,67 +165,39 @@ export default function HomePage() {
             }}
             className="lg:col-span-5 flex justify-center"
           >
-            <div className="relative w-full max-w-md bg-gradient-to-br from-slate-900 via-slate-800 to-purple-950 rounded-xl p-6 sm:p-8 text-white shadow-2xl border border-slate-800/80 overflow-hidden">
-              {/* Glow accent */}
-              <div className="absolute -top-24 -right-24 w-64 h-64 " />
-              <div className="absolute -bottom-24 -left-24 w-64 h-64 " />
-
-              <div className="relative z-10 flex flex-col gap-5">
-                <div className="flex items-center justify-between border-b border-slate-700/60 pb-4">
+            <div className="relative w-full max-w-md bg-white rounded-lg p-8 shadow-2xl border border-slate-100 overflow-hidden">
+              <div className="relative z-10 flex flex-col gap-6">
+                <div className="flex items-center justify-between border-b border-slate-50 pb-4">
                   <div className="flex items-center gap-2">
-                    <span className="w-3 h-3 rounded-full bg-rose-500" />
-                    <span className="w-3 h-3 rounded-full bg-amber-500" />
-                    <span className="w-3 h-3 rounded-full bg-emerald-500" />
+                    <span className="w-2.5 h-2.5 rounded-full bg-slate-200" />
+                    <span className="w-2.5 h-2.5 rounded-full bg-slate-200" />
+                    <span className="w-2.5 h-2.5 rounded-full bg-slate-200" />
                   </div>
-                  <span className="text-xs font-mono text-purple-300 bg-purple-950/80 px-2.5 py-1 rounded border border-purple-800/60">
-                    system.runtime.active
+                  <span className="text-[10px] font-mono text-purple-600 bg-purple-50 px-2 py-0.5 rounded border border-purple-100">
+                    performance.optimized
                   </span>
                 </div>
 
-                <div className="space-y-3 font-mono text-xs text-slate-300">
-                  <motion.div variants={{ hidden: { opacity: 0, x: 10 }, visible: { opacity: 1, x: 0, transition: { type: 'spring', stiffness: 300, damping: 24 } } }} whileHover={{ scale: 1.03, x: 4 }} transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-                    className="flex items-center gap-2 bg-slate-800/60 p-3 rounded-xl border border-slate-700/50 cursor-pointer"
-                  >
-                    <motion.div whileHover={{ rotate: 15, scale: 1.2 }} transition={{ duration: 0.2 }}>
-                      <Terminal size={16} className="text-purple-400 shrink-0" />
-                    </motion.div>
-                    <span className="truncate">Next.js 15 App Router &amp; SSR</span>
-                  </motion.div>
-
-                  <motion.div variants={{ hidden: { opacity: 0, x: 10 }, visible: { opacity: 1, x: 0, transition: { type: 'spring', stiffness: 300, damping: 24 } } }} whileHover={{ scale: 1.03, x: 4 }} transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-                    className="flex items-center gap-2 bg-slate-800/60 p-3 rounded-xl border border-slate-700/50 cursor-pointer"
-                  >
-                    <motion.div whileHover={{ rotate: 15, scale: 1.2 }} transition={{ duration: 0.2 }}>
-                      <Cpu size={16} className="text-emerald-400 shrink-0" />
-                    </motion.div>
-                    <span className="truncate">Agentic AI &amp; LLM Integration</span>
-                  </motion.div>
-
-                  <motion.div variants={{ hidden: { opacity: 0, x: 10 }, visible: { opacity: 1, x: 0, transition: { type: 'spring', stiffness: 300, damping: 24 } } }} whileHover={{ scale: 1.03, x: 4 }} transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-                    className="flex items-center gap-2 bg-slate-800/60 p-3 rounded-xl border border-slate-700/50 cursor-pointer"
-                  >
-                    <motion.div whileHover={{ rotate: 15, scale: 1.2 }} transition={{ duration: 0.2 }}>
-                      <Globe size={16} className="text-indigo-400 shrink-0" />
-                    </motion.div>
-                    <span className="truncate">Cloud Firestore &amp; GCP Enterprise</span>
-                  </motion.div>
-
-                  <motion.div variants={{ hidden: { opacity: 0, x: 10 }, visible: { opacity: 1, x: 0, transition: { type: 'spring', stiffness: 300, damping: 24 } } }} whileHover={{ scale: 1.03, x: 4 }} transition={{ type: 'spring', stiffness: 300, damping: 20 }}
-                    className="flex items-center gap-2 bg-slate-800/60 p-3 rounded-xl border border-slate-700/50 cursor-pointer"
-                  >
-                    <motion.div whileHover={{ rotate: 15, scale: 1.2 }} transition={{ duration: 0.2 }}>
-                      <Shield size={16} className="text-amber-400 shrink-0" />
-                    </motion.div>
-                    <span className="truncate">Strict CSP &amp; WCAG AA Security</span>
-                  </motion.div>
+                <div className="space-y-4 font-mono text-[10px] text-slate-500">
+                  <div className="flex items-center gap-3 bg-slate-50 p-4 rounded border border-slate-100">
+                    <Terminal size={14} className="text-purple-600" />
+                    <span>NEXT.JS 15 ARCHITECTURE</span>
+                  </div>
+                  <div className="flex items-center gap-3 bg-slate-50 p-4 rounded border border-slate-100">
+                    <Cpu size={14} className="text-purple-600" />
+                    <span>AGENTIC AI INTEGRATION</span>
+                  </div>
+                  <div className="flex items-center gap-3 bg-slate-50 p-4 rounded border border-slate-100">
+                    <Globe size={14} className="text-purple-600" />
+                    <span>EDGE CLOUD DEPLOYMENT</span>
+                  </div>
                 </div>
 
-                <div className="pt-2 flex items-center justify-between text-[11px] font-mono text-slate-400 border-t border-slate-700/60">
-                  <span>Status: Operational</span>
-                  <span className="text-emerald-400 font-bold">100/100 Score</span>
+                <div className="pt-2 flex items-center justify-between text-[10px] font-mono text-slate-400 border-t border-slate-50">
+                  <span>Status: Ready to Scale</span>
+                  <span className="text-purple-600 font-bold uppercase tracking-widest">Enterprise Tier</span>
                 </div>
               </div>
-
             </div>
           </motion.div>
 
@@ -249,15 +206,17 @@ export default function HomePage() {
         {/* Scroll-Down Indicator */}
         <div 
           style={{ opacity: scrollOpacity }}
-          className="absolute bottom-4 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-slate-400 transition-opacity duration-300 pointer-events-none"
+          className="absolute bottom-4 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-slate-300 transition-opacity duration-300 pointer-events-none"
         >
-          <span className="text-[10px] font-mono tracking-widest uppercase">Scroll to Explore</span>
-          <ChevronDown size={18} className="animate-bounce text-purple-700" />
+          <ChevronDown size={20} className="animate-bounce" />
         </div>
 
       </section>
+
+      {/* Value Proposition Section */}
+      <WhyChooseUs />
       
-      <hr className="w-full border-t border-slate-200 m-0 p-0" />
+      <hr className="w-full border-t border-slate-100 m-0 p-0" />
 
       {/* Portfolio / Featured Case Studies Section */}
       <motion.section 
@@ -268,19 +227,25 @@ export default function HomePage() {
           hidden: { opacity: 0, y: 30 },
           visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } }
         }}
-        className="w-full max-w-6xl mx-auto mt-12 flex flex-col items-center relative z-10 px-4">
-        <div className="text-center mb-8">
-           <h2 className="text-2xl md:text-4xl font-display font-bold tracking-tight text-slate-900 mb-2">
-              Portofolio &amp; Hasil Nyata
-           </h2>
-           <p className="text-slate-500 max-w-lg mx-auto text-xs sm:text-sm">
-              Studi kasus arsitektur website dan dampak konversi klien kami.
-           </p>
+        className="w-full py-24 bg-white px-4">
+        <div className="max-w-7xl mx-auto">
+          <div className="text-center mb-16">
+            <span className="text-[11px] font-mono font-bold uppercase tracking-widest text-purple-600">Selected Works</span>
+            <h2 className="mt-4 text-3xl md:text-4xl font-display font-black tracking-tight text-slate-900">
+                Portofolio & Hasil Nyata
+            </h2>
+          </div>
+          <FeaturedCaseStudies />
         </div>
-        <FeaturedCaseStudies />
       </motion.section>
+
+      {/* Investment Tiers Section */}
+      <InvestmentTiers />
+
+      {/* FAQ Section */}
+      <FAQAccordion />
       
-      <hr className="w-full border-t border-slate-200 m-0 p-0" />
+      <hr className="w-full border-t border-slate-100 m-0 p-0" />
 
       {/* Simplified 'About' Section focused on IT Solution Expertise */}
       <motion.section 
@@ -291,45 +256,42 @@ export default function HomePage() {
           hidden: { opacity: 0, y: 30 },
           visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.16, 1, 0.3, 1] } }
         }}
-        className="w-full max-w-6xl mx-auto mt-24 mb-16 px-4 relative z-10">
-        <div className="bg-slate-50 border border-slate-200 rounded-xl p-8 sm:p-12 shadow-sm">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
+        className="w-full max-w-7xl mx-auto py-24 px-4 relative z-10">
+        <div className="bg-white border border-slate-100 rounded-lg p-12 shadow-2xl shadow-slate-200/50">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
             
-            <div className="lg:col-span-6 flex flex-col items-start text-left">
-              <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-purple-900 bg-purple-100/80 px-3 py-1 rounded-full mb-4">
-                TENTANG KAMI SEBAGAI MITRA STRATEGIS
+            <div className="lg:col-span-7 flex flex-col items-start text-left">
+              <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-purple-600 mb-6">
+                Strategic Partner
               </span>
-              <h2 className="text-2xl sm:text-3xl font-display font-bold text-slate-900 mb-4 leading-tight">
+              <h2 className="text-3xl sm:text-4xl font-display font-black text-slate-900 mb-6 leading-[0.95] tracking-tighter">
                 Rekayasa Digital Kelas Enterprise yang Mengutamakan Profitabilitas Bisnis Anda
               </h2>
-              <p className="text-slate-600 text-sm sm:text-base leading-relaxed mb-6">
-                <strong>CHESTAADOTCOM</strong> bukan sekadar vendor IT—kami adalah arsitek ekosistem digital Anda. Sebagai penyedia <strong>Jasa IT BSD City</strong> terkemuka, kami menghadirkan <strong>Solusi Web Cisauk</strong> kelas enterprise yang memodernisasi infrastruktur korporasi melalui aplikasi web super cepat (SSR/Next.js) dan teknologi <strong>Agentic AI Automation Indonesia</strong> terdepan. Hasil akhirnya? Skalabilitas operasional tanpa henti dan dominasi mutlak di pasar Anda.
+              <p className="text-slate-500 text-sm sm:text-base leading-relaxed mb-8 max-w-xl">
+                <strong>CHESTAADOTCOM</strong> bukan sekadar vendor IT—kami adalah arsitek ekosistem digital Anda. Kami menghadirkan solusi yang memodernisasi infrastruktur korporasi melalui aplikasi web super cepat dan teknologi otomatisasi terdepan.
               </p>
-              <div className="flex flex-wrap gap-3">
-                <div className="flex items-center gap-2 text-xs font-semibold text-slate-800 bg-white px-3.5 py-2 rounded-xl border border-slate-200 shadow-2xs">
-                  <CheckCircle2 size={15} className="text-purple-700" />
-                  <span>Bespoke Enterprise Web Apps</span>
+              <div className="flex flex-wrap gap-4">
+                <div className="flex items-center gap-2 text-[11px] font-bold text-slate-900 uppercase tracking-widest">
+                  <CheckCircle2 size={16} className="text-purple-600" />
+                  <span>Bespoke Web Apps</span>
                 </div>
-                <div className="flex items-center gap-2 text-xs font-semibold text-slate-800 bg-white px-3.5 py-2 rounded-xl border border-slate-200 shadow-2xs">
-                  <CheckCircle2 size={15} className="text-purple-700" />
-                  <span>B2B Agentic AI Automation</span>
+                <div className="flex items-center gap-2 text-[11px] font-bold text-slate-900 uppercase tracking-widest">
+                  <CheckCircle2 size={16} className="text-purple-600" />
+                  <span>AI Automation</span>
                 </div>
               </div>
             </div>
 
-            <div className="lg:col-span-6 bg-white rounded-2xl p-6 sm:p-8 border border-slate-200 shadow-xs flex flex-col justify-between">
-              <h3 className="text-lg font-bold font-display text-slate-900 mb-3">
-                Misi &amp; Komitmen IT Solution
+            <div className="lg:col-span-5 bg-slate-50 rounded-lg p-8 border border-slate-100">
+              <h3 className="text-sm font-black font-display text-slate-900 mb-4 uppercase tracking-widest">
+                Our Mission
               </h3>
-              <p className="text-slate-600 text-xs sm:text-sm leading-relaxed mb-6">
-                Kami berkomitmen untuk memberikan hak kepemilikan source code 100% kepada klien, didukung performa audit Google Lighthouse sempurna dan garansi pemeliharaan jangka panjang.
+              <p className="text-slate-500 text-xs sm:text-sm leading-relaxed mb-8">
+                Memberikan hak kepemilikan source code 100% kepada klien, didukung performa audit Google Lighthouse sempurna dan garansi pemeliharaan jangka panjang.
               </p>
-              <div className="pt-4 border-t border-slate-100 flex items-center justify-between">
-                <span className="text-xs font-mono text-slate-500">BSD City &bull; Tangerang</span>
-                <Link to="/about" className="text-xs font-bold text-purple-900 hover:underline flex items-center gap-1">
-                  Pelajari Profil Lengkap &rarr;
-                </Link>
-              </div>
+              <Link to="/about" className="inline-flex items-center gap-2 text-[11px] font-bold text-purple-600 uppercase tracking-widest hover:underline">
+                Pelajari Profil Lengkap &rarr;
+              </Link>
             </div>
 
           </div>

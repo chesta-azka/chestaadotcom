@@ -1,11 +1,9 @@
-import SEOProvider from '../components/atoms/SEOProvider';
+import SEOMetadata from '../components/atoms/SEOMetadata';
 import { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { ArrowUpRight, CheckCircle2, Eye, MessageCircle, Search } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { PROJECTS } from '../data/projects';
-import MetaTags from '../components/atoms/MetaTags';
-import { generatePortfolioSchema } from '../lib/seo';
 import Breadcrumbs from '../components/atoms/Breadcrumbs';
 import CreativityMarquee from '../components/organisms/CreativityMarquee.tsx';
 import AICaseStudies from '../components/organisms/AICaseStudies.tsx';
@@ -52,16 +50,9 @@ export default function PortfolioPage() {
   return (
     <div className="pb-32 min-h-screen relative bg-transparent select-none">
       <QuickViewModal isOpen={!!quickViewData} onClose={() => setQuickViewData(null)} data={quickViewData} />
-      <SEOProvider 
-        title="Client Case Studies & Portfolio | CHESTAADOTCOM"
-        description="Explore our track record of transforming enterprise operations through AI and web technology."
-      />
-      
-      <MetaTags 
-        title="Showcase Portfolio — CHESTAADOTCOM" 
+      <SEOMetadata 
+        title="Client Case Studies & Portfolio"
         description="Jelajahi portfolio digital masterpieces yang dirancang khusus untuk bisnis modern B2B & Enterprise di Indonesia."
-        path="/portfolio"
-        breadcrumbs={[{ name: 'Home', item: '/' }, { name: 'Portfolio', item: '/portfolio' }]}
       />
 
       {/* Cinematic Hero */}
@@ -69,7 +60,6 @@ export default function PortfolioPage() {
         <div className="absolute inset-0 bg-purple-50/50 rounded-full blur-[120px] pointer-events-none -z-10 mix-blend-multiply" />
         
         <div className="mx-auto max-w-7xl px-6 w-full relative z-10">
-          <Breadcrumbs items={[{ label: 'Portfolio' }]} />
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-end mt-8">
             <div className="lg:col-span-8">
               <SectionHeader 

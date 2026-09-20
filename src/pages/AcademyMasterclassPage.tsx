@@ -3,7 +3,7 @@ import QuizEngine, { QuizQuestion } from '../components/organisms/QuizEngine';
 
 import { codeToHtml } from 'shiki';
 import React, { useState, useEffect }  from 'react';
-import MetaTags from '../components/atoms/MetaTags';
+import SEOMetadata from '../components/atoms/SEOMetadata';
 import { generateCourseSchema } from '../lib/seo';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import Markdown from 'markdown-to-jsx';
@@ -11,7 +11,6 @@ import { motion, AnimatePresence } from 'motion/react';
 
 import { ACADEMY_DATA } from '../data/academyData';
 import FooterSection from '../components/organisms/FooterSection.tsx';
-import { Breadcrumbs } from '../components/Breadcrumbs.tsx';
 
 // --- Premium Code Block Component ---
 
@@ -383,7 +382,7 @@ export default function AcademyMasterclassPage() {
         {/* Scrollable Content Area - CONTINUOUS SCROLL */}
         <main id="academy-content-area" className="flex-1 h-full overflow-y-auto bg-white custom-scrollbar scroll-smooth">
 
-      <MetaTags 
+      <SEOMetadata 
         title={`${courseTitle} | CHESTAADOTCOM`}
         description={courseData?.desc || "Ikuti masterclass intensif di BSD City & Cisauk untuk menguasai pengembangan aplikasi web modern dengan Agentic AI dan Next.js."}
         path={`/academy/${slug || courseData.slug}`}

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from 'react';
-import MetaTags from '../components/atoms/MetaTags';
+import SEOMetadata from '../components/atoms/SEOMetadata';
 import { generateQuizSchema } from '../lib/seo';
 import { Link, useNavigate } from 'react-router-dom';
 import { submitQuizLead } from '../lib/quizDb';
@@ -175,7 +175,7 @@ export default function AcademyQuizPage() {
     return (
       <div className="min-h-screen flex items-center justify-center bg-[#fbfbfd]">
 
-      <MetaTags 
+      <SEOMetadata 
         title="Interactive Coding Quiz di BSD City & Cisauk | CHESTAADOTCOM"
         description="Evaluasi pemahaman tech stack Next.js dan AI Anda dengan tes interaktif dari software house elit di BSD City & Cisauk."
         path="/academyquiz"

@@ -138,37 +138,32 @@ export default function Header() {
           <LocalSEOBanner />
         </div>
 
-        {/* Floating Clean Header Pill */}
-        <div className="w-full px-4 sm:px-6 pt-3">
+        {/* Desktop Navbar */}
+        <div className="w-full pointer-events-auto">
           <motion.div
             initial={{ y: -20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
-            transition={{ type: 'spring', stiffness: 120, damping: 20, delay: 0.1 }}
-            className={`transition-all duration-300 ease-out flex items-center justify-between w-full max-w-7xl mx-auto px-4 md:px-6 pointer-events-auto rounded-2xl ${
-              scrolled
-                ? 'bg-white/90 backdrop-blur-xl border border-slate-200 shadow-lg py-3' 
-                : 'bg-white/80 backdrop-blur-xl border border-slate-200/80 py-3.5 shadow-sm'
+            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+            className={`transition-all duration-300 ease-out flex items-center justify-between w-full px-4 md:px-12 bg-white border-b border-slate-200 ${
+              scrolled ? 'py-3 shadow-sm' : 'py-5'
             }`}
           >
             {/* Brand Logo */}
-            <Link to="/" className="flex items-center gap-2.5 md:gap-2 group select-none pointer-events-auto shrink-0">
-              <div className="relative flex items-center justify-center w-8 md:w-8 h-8 md:h-8 rounded-xl bg-purple-50 border border-purple-200 group-hover:bg-purple-100 transition-all duration-300 shadow-xs">
-                <svg className="w-4 h-4 md:w-4 md:h-4 text-purple-700 group-hover:scale-110 transition-transform duration-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+            <Link to="/" className="flex items-center gap-2.5 group select-none pointer-events-auto">
+              <div className="relative flex items-center justify-center w-9 h-9 rounded-lg bg-slate-900 group-hover:bg-slate-800 transition-all duration-300 shadow-sm">
+                <svg className="w-5 h-5 text-white group-hover:scale-110 transition-transform duration-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
                   <path d="m12 3-8 8 8 8 8-8-8-8z" />
-                  <path d="m12 8-4 4 4 4 4-4-4-4z" />
                 </svg>
               </div>
               
-              <div className="flex flex-col text-left">
-                <span className="font-display text-base md:text-[16px] font-black tracking-tight text-slate-900 leading-none">
-                  chestaa<span className="text-purple-600">dot</span>com
-                </span>
-              </div>
+              <span className="font-display text-xl font-black tracking-tighter text-slate-900 leading-none">
+                CHESTAA<span className="text-slate-900">DOT</span>COM
+              </span>
             </Link>
 
             {/* Desktop Navigation Links */}
-            <nav className="hidden md:flex items-center gap-1.5" aria-label="Main Navigation">
-              <ul className="flex items-center gap-1.5 list-none p-0 m-0">
+            <nav className="hidden md:flex items-center gap-2" aria-label="Main Navigation">
+              <ul className="flex items-center gap-1 list-none p-0 m-0">
               {NAV_ITEMS.map((item) => {
                 const isActive = item.href 
                   ? location.pathname === item.href || (item.href !== '/' && location.pathname.startsWith(item.href))
@@ -180,10 +175,10 @@ export default function Header() {
                       <Link
                         to={item.href}
                         aria-current={isActive ? 'page' : undefined}
-                        className={`rounded-xl text-xs font-mono font-bold uppercase tracking-wider transition-colors duration-200 relative flex items-center px-4 py-2 ${
+                        className={`text-[12px] font-sans font-semibold tracking-wide transition-all duration-200 px-4 py-2 rounded-lg ${
                           isActive
-                            ? 'text-purple-900 bg-purple-50 border border-purple-200 shadow-2xs'
-                            : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100/80 border border-transparent'
+                            ? 'text-slate-900 bg-slate-100'
+                            : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
                         }`}
                       >
                         {item.name}
@@ -192,24 +187,21 @@ export default function Header() {
                       <button
                         aria-haspopup="true"
                         aria-expanded="false"
-                        className={`rounded-xl text-xs font-mono font-bold uppercase tracking-wider transition-colors duration-200 relative flex items-center px-4 py-2 gap-1.5 cursor-pointer ${
+                        className={`text-[12px] font-sans font-semibold tracking-wide transition-all duration-200 px-4 py-2 rounded-lg flex items-center gap-1.5 cursor-pointer ${
                           isActive
-                            ? 'text-purple-900 bg-purple-50 border border-purple-200 shadow-2xs'
-                            : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100/80 border border-transparent'
+                            ? 'text-slate-900 bg-slate-100'
+                            : 'text-slate-600 hover:text-slate-900 hover:bg-slate-50'
                         }`}
                       >
                         {item.name}
-                        <ChevronDown size={12} className="group-hover/navitem:rotate-180 transition-transform duration-200 text-slate-400" />
+                        <ChevronDown size={14} className="group-hover/navitem:rotate-180 transition-transform duration-200 opacity-70" />
                       </button>
                     )}
 
                     {/* Dropdown Menu */}
                     {item.children && (
-                      <div className="absolute top-full left-1/2 -translate-x-1/2 pt-3 opacity-0 translate-y-2 pointer-events-none group-hover/navitem:opacity-100 group-hover/navitem:translate-y-0 group-hover/navitem:pointer-events-auto transition-all duration-300 z-50">
-                        <ul className="w-64 bg-white border border-slate-200 shadow-xl rounded-2xl p-2.5 flex flex-col gap-1.5 relative list-none m-0">
-                          {/* Triangle indicator */}
-                          <div className="absolute -top-1.5 left-1/2 -translate-x-1/2 w-3 h-3 bg-white border-t border-l border-slate-200 rotate-45" />
-                          
+                      <div className="absolute top-full left-0 pt-3 opacity-0 translate-y-2 pointer-events-none group-hover/navitem:opacity-100 group-hover/navitem:translate-y-0 group-hover/navitem:pointer-events-auto transition-all duration-200 z-50">
+                        <ul className="w-72 bg-white border border-slate-200 shadow-2xl rounded-xl p-2 flex flex-col gap-1 relative list-none m-0">
                           {item.children.map(child => {
                             const Icon = child.icon;
                             const isChildActive = location.pathname === child.href || location.pathname.startsWith(child.href);
@@ -218,18 +210,18 @@ export default function Header() {
                                 <Link
                                   to={child.href}
                                   aria-current={isChildActive ? 'page' : undefined}
-                                  className={`flex items-center gap-3 p-3 rounded-xl transition-all border ${
+                                  className={`flex items-center gap-4 p-3 rounded-lg transition-all ${
                                     isChildActive
-                                       ? 'bg-purple-50 text-purple-950 border-purple-200 font-bold'
-                                       : 'bg-white hover:bg-slate-50 text-slate-700 hover:text-slate-900 border-transparent'
+                                        ? 'bg-slate-100 text-slate-900 font-bold'
+                                        : 'bg-white hover:bg-slate-50 text-slate-600 hover:text-slate-900'
                                   }`}
                                 >
-                                  <div className={`p-2 rounded-xl border ${isChildActive ? 'bg-purple-100 text-purple-800 border-purple-200' : 'bg-slate-100 text-slate-600 border-slate-200'}`}>
+                                  <div className={`p-2 rounded-lg ${isChildActive ? 'bg-slate-200 text-slate-900' : 'bg-slate-100 text-slate-500'}`}>
                                     <Icon size={16} />
                                   </div>
                                   <div className="flex flex-col text-left">
-                                    <span className="text-xs font-bold font-sans">{child.name}</span>
-                                    <span className="text-[10px] text-slate-500 font-sans tracking-wide">{child.subtitle}</span>
+                                    <span className="text-sm font-bold">{child.name}</span>
+                                    <span className="text-xs text-slate-400 font-normal leading-tight mt-0.5">{child.subtitle}</span>
                                   </div>
                                 </Link>
                               </li>
@@ -245,60 +237,33 @@ export default function Header() {
             </nav>
             
             {/* Action Area */}
-            <div className="flex items-center gap-2 pointer-events-auto">
-              {/* Search Trigger Button */}
+            <div className="flex items-center gap-4 pointer-events-auto">
               <motion.button
-                id="header-search-btn"
                 onClick={() => window.dispatchEvent(new CustomEvent('open-command-palette'))}
-                whileHover={{ scale: 1.02 }}
-                whileTap={{ scale: 0.98 }}
-                className="flex items-center gap-2 px-3.5 py-2 rounded-xl bg-purple-50 hover:bg-purple-100 text-purple-950 border border-purple-200 text-xs font-mono font-bold uppercase tracking-wider transition-all cursor-pointer shadow-2xs group"
-                title="Cari Halaman, Layanan & Artikel (⌘K)"
-                aria-label="Cari Website (⌘K)"
+                className="p-2.5 rounded-lg hover:bg-slate-50 text-slate-400 hover:text-slate-900 transition-colors cursor-pointer"
+                aria-label="Cari (⌘K)"
               >
-                <Search size={14} className="text-purple-700 group-hover:scale-110 transition-transform shrink-0" />
-                <span className="hidden sm:inline text-slate-800 group-hover:text-purple-950">Cari</span>
-                <kbd className="hidden md:inline-flex items-center text-[10px] font-mono font-bold px-1.5 py-0.5 rounded-lg bg-white border border-purple-200 text-purple-900 shadow-2xs">
-                  ⌘K
-                </kbd>
+                <Search size={20} />
               </motion.button>
 
-              {/* Desktop Direct Contact Button */}
               <motion.a 
                 href={whatsappUrl}
                 target="_blank"
                 rel="noopener noreferrer"
-                whileHover={{ scale: 1.02, y: -1 }}
+                whileHover={{ scale: 1.02 }}
                 whileTap={{ scale: 0.98 }}
-                transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                className="hidden md:flex items-center gap-1.5 text-[11px] font-mono font-bold text-white bg-slate-900 hover:bg-purple-900 active:scale-95 px-4 py-2.5 rounded-xl shadow-xs transition-all cursor-pointer uppercase tracking-widest border border-slate-800"
+                className="hidden md:flex items-center gap-2 text-sm font-bold text-white bg-slate-900 hover:bg-slate-800 px-6 py-2.5 rounded-lg shadow-sm transition-all cursor-pointer"
               >
-                <MessageCircle size={13} className="shrink-0 text-purple-400" />
-                <span>Chat</span>
+                <MessageCircle size={18} />
+                <span>Konsultasi</span>
               </motion.a>
 
-              {/* Mobile Chat Quick Icon */}
-              <motion.a
-                href={whatsappUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                whileTap={{ scale: 0.92 }}
-                className="md:hidden flex items-center justify-center min-w-[44px] min-h-[44px] rounded-xl bg-slate-900 text-white border border-slate-800 shadow-2xs cursor-pointer"
-                aria-label="Chat via WhatsApp"
-              >
-                <MessageCircle size={18} className="text-purple-400" />
-              </motion.a>
-
-              {/* Mobile Hamburger Toggle Button */}
               <motion.button
-                id="mobile-hamburger-btn"
-                whileTap={{ scale: 0.92 }}
                 onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                className="md:hidden flex items-center justify-center min-w-[44px] min-h-[44px] rounded-xl bg-purple-50 hover:bg-purple-100 text-purple-950 border border-purple-200 transition-colors cursor-pointer shadow-2xs"
-                aria-label={mobileMenuOpen ? 'Tutup menu navigasi' : 'Buka menu navigasi'}
-                aria-expanded={mobileMenuOpen}
+                className="md:hidden p-2 text-slate-900 cursor-pointer"
+                aria-label="Menu"
               >
-                {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}
+                {mobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
               </motion.button>
             </div>
           </motion.div>

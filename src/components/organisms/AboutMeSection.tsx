@@ -5,6 +5,8 @@ import { Link } from 'react-router-dom';
 import chestaPhoto from '../../assets/images/regenerated_image_1787838669318.png';
 import AnimatedHeading from '../atoms/AnimatedHeading';
 
+import OptimizedImage from '../atoms/OptimizedImage';
+
 export default function AboutMeSection() {
   const avatarUrl = chestaPhoto;
 
@@ -14,91 +16,107 @@ export default function AboutMeSection() {
         
         {/* Section Header */}
         <div className="text-center mb-12">
-          <span className="text-xs font-mono font-bold uppercase tracking-widest text-purple-700 bg-purple-50 px-3 py-1.5 rounded-full border border-purple-200 inline-block mb-3 shadow-2xs">
-            TENTANG KAMI
+          <span className="text-[10px] font-mono font-bold uppercase tracking-[0.2em] text-purple-700 bg-purple-50 px-3 py-1.5 rounded-full border border-purple-200 inline-block mb-4 shadow-sm">
+            THE ARCHITECT
           </span>
-          <AnimatedHeading as="h2" className="text-3xl sm:text-5xl font-black text-slate-900 tracking-tight font-display">
-            Arsitektur Digital Berkualitas Tinggi &amp; Agentic AI
+          <AnimatedHeading as="h2" className="text-4xl sm:text-5xl lg:text-6xl font-black text-slate-900 tracking-tight font-display mb-4">
+            Membangun Standar Baru <br className="hidden sm:block" /> di Era Digital &amp; AI.
           </AnimatedHeading>
+          <p className="text-slate-500 font-sans text-sm sm:text-base max-w-2xl mx-auto">
+            Visi kami adalah mentransformasi kompleksitas teknis menjadi keunggulan kompetitif yang nyata bagi bisnis Anda.
+          </p>
         </div>
 
         {/* Profile & Bio Box with refined border radius */}
-        <div className="bg-white border border-slate-200/90 rounded-2xl p-6 sm:p-10 shadow-lg shadow-purple-900/5 flex flex-col md:flex-row items-center gap-8 relative overflow-hidden">
-          <div className="absolute top-0 right-0 w-64 h-64 bg-purple-500/5 rounded-full blur-3xl pointer-events-none" />
+        <div className="bg-white border border-slate-200/90 rounded-3xl p-6 sm:p-12 shadow-xl shadow-purple-900/[0.03] flex flex-col md:flex-row items-center gap-10 relative overflow-hidden group">
+          <div className="absolute top-0 right-0 w-80 h-80 bg-purple-500/5 rounded-full blur-[100px] pointer-events-none group-hover:bg-purple-500/10 transition-colors duration-700" />
           
           <div className="relative shrink-0">
-            <div className="w-28 h-28 sm:w-36 sm:h-36 bg-slate-200 overflow-hidden rounded-2xl border-2 border-purple-200 shadow-md">
-              <img 
+            <div className="w-32 h-32 sm:w-44 sm:h-44 bg-slate-100 overflow-hidden rounded-3xl border-2 border-white shadow-2xl shadow-purple-900/10 relative z-10">
+              <OptimizedImage 
                 src={avatarUrl} 
                 alt="Chesta - Lead Digital Architect"
-                referrerPolicy="no-referrer"
-                className="w-full h-full object-cover object-top rounded-xl"
+                className="w-full h-full object-cover object-top transition-transform duration-700 group-hover:scale-105"
               />
             </div>
-            <span className="absolute bottom-1 right-1 w-4 h-4 bg-emerald-500 border-2 border-white rounded-full"></span>
+            <div className="absolute -bottom-2 -right-2 bg-emerald-500 text-white p-2.5 rounded-2xl border-4 border-white shadow-lg z-20">
+              <Zap size={16} fill="currentColor" />
+            </div>
+            {/* Experience Badge */}
+            <div className="absolute -top-4 -left-4 bg-white border border-slate-100 p-3 rounded-2xl shadow-xl z-20 hidden sm:block">
+              <div className="text-center">
+                <span className="block text-lg font-black text-slate-900 font-display">8+</span>
+                <span className="block text-[8px] font-mono font-bold text-slate-400 uppercase tracking-tighter">Years Exp</span>
+              </div>
+            </div>
           </div>
 
-          <div className="flex-1 text-center md:text-left space-y-3 relative z-10">
-            <div className="flex flex-wrap items-center justify-center md:justify-start gap-2">
-              <AnimatedHeading as="h3" className="text-xl sm:text-2xl font-black text-slate-900 font-display">
+          <div className="flex-1 text-center md:text-left space-y-4 relative z-10">
+            <div className="flex flex-wrap items-center justify-center md:justify-start gap-3">
+              <AnimatedHeading as="h3" className="text-2xl sm:text-3xl font-black text-slate-900 font-display tracking-tight">
                 Chesta Azka Sofyan
               </AnimatedHeading>
-              <span className="px-3 py-1 bg-purple-100 text-purple-900 text-xs font-mono font-bold uppercase rounded-full">
-                Lead Architect
-              </span>
+              <div className="flex gap-1">
+                <span className="px-3 py-1 bg-purple-600 text-white text-[10px] font-mono font-bold uppercase rounded-lg shadow-sm">
+                  Lead Architect
+                </span>
+                <span className="px-3 py-1 bg-slate-900 text-white text-[10px] font-mono font-bold uppercase rounded-lg shadow-sm">
+                  AI Engineer
+                </span>
+              </div>
             </div>
-            <p className="text-slate-700 font-sans text-base sm:text-base leading-[1.8] tracking-[0.015em] text-balance">
-              Halo! Saya Chesta, Lead Digital Architect di balik CHESTAADOTCOM. Saya mengkhususkan diri dalam merancang website berkinerja tinggi dan integrasi Agentic AI untuk korporasi serta UMKM di BSD City, Tangerang, Jakarta, Bogor, dan Depok.
+            <p className="text-slate-600 font-sans text-base sm:text-lg leading-relaxed tracking-tight text-balance">
+              "Saya tidak sekadar menulis kode; saya merancang <span className="text-slate-900 font-bold">fondasi digital</span> yang memungkinkan bisnis Anda beroperasi secara otonom dan tumbuh tanpa batas. Fokus saya adalah <span className="text-purple-700 font-bold">ROI teknis</span> dan dominasi pasar."
             </p>
-            <div className="pt-3 flex flex-wrap items-center justify-center md:justify-start gap-3">
+            <div className="pt-4 flex flex-wrap items-center justify-center md:justify-start gap-4">
               <Link
                 to="/about"
-                className="inline-flex items-center gap-1.5 px-6 py-3 bg-slate-900 text-white hover:bg-purple-900 text-xs font-mono font-bold uppercase tracking-wider rounded-full transition-all shadow-md hover:-translate-y-0.5"
+                className="inline-flex items-center gap-2 px-8 py-4 bg-slate-900 text-white hover:bg-purple-700 text-[11px] font-mono font-bold uppercase tracking-widest rounded-2xl transition-all shadow-lg hover:shadow-purple-900/20 hover:-translate-y-1"
               >
-                <span>Baca Profil Lengkap</span>
-                <ArrowUpRight size={14} />
+                <span>Eksplorasi Visi</span>
+                <ArrowUpRight size={16} />
               </Link>
               <a
-                href="https://wa.me/6282125447232?text=Halo%20Mas%20Chesta,%20saya%20ingin%20konsultasi%20pembuatan%20website"
+                href="https://wa.me/6282125447232?text=Halo%20Mas%20Chesta,%20saya%20ingin%20konsultasi%20strategis%20untuk%20sistem%20bisnis%20saya"
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 px-6 py-3 bg-white text-slate-900 border border-slate-300 hover:bg-slate-50 text-xs font-mono font-bold uppercase tracking-wider rounded-full transition-all shadow-sm hover:-translate-y-0.5"
+                className="inline-flex items-center gap-2 px-8 py-4 bg-white text-slate-900 border border-slate-200 hover:border-purple-300 hover:text-purple-700 text-[11px] font-mono font-bold uppercase tracking-widest rounded-2xl transition-all shadow-sm hover:-translate-y-1"
               >
-                <span>WhatsApp Konsultasi</span>
-                <ArrowUpRight size={14} />
+                <span>Konsultasi Strategis</span>
+                <ArrowUpRight size={16} />
               </a>
             </div>
           </div>
         </div>
 
         {/* 3 Highlight Cards with rounded-xl */}
-        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-8">
-          <div className="bg-white border border-slate-200/90 rounded-xl p-6 shadow-sm hover:border-purple-300 transition-all">
-            <div className="flex items-center gap-2.5 mb-2">
-              <div className="p-2 rounded-lg bg-purple-50 text-purple-700">
-                <Cpu size={18} />
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 mt-10">
+          <div className="bg-white border border-slate-200/90 rounded-2xl p-7 shadow-sm hover:border-purple-300 hover:shadow-md transition-all group">
+            <div className="flex items-center gap-3 mb-3">
+              <div className="p-2.5 rounded-xl bg-purple-50 text-purple-700 group-hover:bg-purple-600 group-hover:text-white transition-colors duration-300">
+                <Cpu size={20} />
               </div>
-              <h4 className="font-bold text-slate-900 text-base font-display">Agentic AI</h4>
+              <h4 className="font-bold text-slate-900 text-lg font-display">Operational Autonomy</h4>
             </div>
-            <p className="text-sm sm:text-sm text-slate-700 font-sans leading-[1.75] tracking-[0.015em]">Otomasi otonom 24/7 untuk interaksi klien dan operasional bisnis.</p>
+            <p className="text-sm text-slate-500 font-sans leading-relaxed">Membangun agen AI otonom yang menangani beban kerja 24/7 tanpa intervensi manual.</p>
           </div>
-          <div className="bg-white border border-slate-200/90 rounded-xl p-6 shadow-sm hover:border-purple-300 transition-all">
-            <div className="flex items-center gap-2.5 mb-2">
-              <div className="p-2 rounded-lg bg-purple-50 text-purple-700">
-                <Zap size={18} />
+          <div className="bg-white border border-slate-200/90 rounded-2xl p-7 shadow-sm hover:border-purple-300 hover:shadow-md transition-all group">
+            <div className="flex items-center gap-3 mb-3">
+              <div className="p-2.5 rounded-xl bg-purple-50 text-purple-700 group-hover:bg-purple-600 group-hover:text-white transition-colors duration-300">
+                <Zap size={20} />
               </div>
-              <h4 className="font-bold text-slate-900 text-base font-display">Zero-Latency</h4>
+              <h4 className="font-bold text-slate-900 text-lg font-display">Technical Superiority</h4>
             </div>
-            <p className="text-sm sm:text-sm text-slate-700 font-sans leading-[1.75] tracking-[0.015em]">Performa instan dengan Next.js 15 dan Cloud infrastructure.</p>
+            <p className="text-sm text-slate-500 font-sans leading-relaxed">Arsitektur Next.js 15 yang dioptimasi untuk kecepatan ekstrem dan skor SEO sempurna.</p>
           </div>
-          <div className="bg-white border border-slate-200/90 rounded-xl p-6 shadow-sm hover:border-purple-300 transition-all">
-            <div className="flex items-center gap-2.5 mb-2">
-              <div className="p-2 rounded-lg bg-purple-50 text-purple-700">
-                <Code2 size={18} />
+          <div className="bg-white border border-slate-200/90 rounded-2xl p-7 shadow-sm hover:border-purple-300 hover:shadow-md transition-all group">
+            <div className="flex items-center gap-3 mb-3">
+              <div className="p-2.5 rounded-xl bg-purple-50 text-purple-700 group-hover:bg-purple-600 group-hover:text-white transition-colors duration-300">
+                <Code2 size={20} />
               </div>
-              <h4 className="font-bold text-slate-900 text-base font-display">Bespoke Code</h4>
+              <h4 className="font-bold text-slate-900 text-lg font-display">Strategic Scaling</h4>
             </div>
-            <p className="text-sm sm:text-sm text-slate-700 font-sans leading-[1.75] tracking-[0.015em]">Tanpa template kaku. Setiap baris kode dirancang khusus untuk Anda.</p>
+            <p className="text-sm text-slate-500 font-sans leading-relaxed">Sistem modular yang dirancang untuk tumbuh bersama valuasi bisnis Anda di masa depan.</p>
           </div>
         </div>
 

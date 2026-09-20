@@ -9,29 +9,29 @@ import {
 
 const highlights = [
   {
-    title: "Cybersecurity Auditing",
-    description: "Vulnerability assessments and penetration testing to fortify your digital assets against modern attack vectors.",
+    title: "Strategic Security Fortress",
+    description: "Audit keamanan mendalam dan pengerasan sistem untuk melindungi aset digital Anda dari ancaman siber modern.",
     icon: ShieldCheck,
     color: "text-rose-500",
     bg: "bg-rose-100/50"
   },
   {
-    title: "Cloud Architecture Consulting",
-    description: "Scalable, resilient cloud infrastructure consulting tailored for AWS, Google Cloud, and high-availability systems.",
+    title: "Cloud Infrastructure Engineering",
+    description: "Arsitektur cloud yang scalable dan tangguh, dioptimasi untuk ketersediaan tinggi (High-Availability) pada AWS dan GCP.",
     icon: CloudCog,
     color: "text-blue-500",
     bg: "bg-blue-100/50"
   },
   {
-    title: "AI & Machine Learning",
-    description: "Integration of Agentic LLMs and automated workflows to radically enhance operational efficiency and data intelligence.",
+    title: "Agentic LLM Operations",
+    description: "Integrasi model bahasa besar (LLM) yang otonom untuk merevolusi efisiensi operasional dan intelijen data bisnis.",
     icon: Cpu,
     color: "text-purple-500",
     bg: "bg-purple-100/50"
   },
   {
-    title: "Performance Audits",
-    description: "Deep-dive codebase reviews and sub-second performance tuning for enterprise React and Next.js applications.",
+    title: "Precision Performance Audits",
+    description: "Analisis mendalam terhadap codebase dan infrastruktur untuk mencapai performa sub-detik pada aplikasi enterprise.",
     icon: SearchCode,
     color: "text-emerald-500",
     bg: "bg-emerald-100/50"

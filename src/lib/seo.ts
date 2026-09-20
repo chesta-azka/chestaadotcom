@@ -27,14 +27,17 @@ export const generateLocalBusinessSchema = () => {
   return {
     "@context": "https://schema.org",
     "@type": ["Organization", "LocalBusiness", "ProfessionalService"],
-    "name": "chestaa.com - Arsitek Web & AI Automation",
+    "name": "CHESTAADOTCOM - Digital Architect & AI Automation",
     "image": "https://chestaa.com/favicon.svg",
-    "description": "Elite B2B Software House specializing in High-Performance Web Development and AI Automation.",
+    "description": "Elite B2B Software House specializing in High-Performance Web Development (Next.js) and Agentic AI Automation targeting BSD City, Cisauk, and Tangerang.",
+    "url": "https://chestaa.com",
+    "telephone": "+6282125447232",
+    "priceRange": "$$$",
     "address": {
       "@type": "PostalAddress",
       "streetAddress": "BSD Green Office Park, Level 3",
-      "addressLocality": "Cisauk, Tangerang Selatan",
-      "addressRegion": "Banten",
+      "addressLocality": "Cisauk",
+      "addressRegion": "Tangerang",
       "postalCode": "15345",
       "addressCountry": "ID"
     },
@@ -43,33 +46,30 @@ export const generateLocalBusinessSchema = () => {
       "latitude": -6.3024,
       "longitude": 106.6522
     },
-    "hasMap": "https://maps.app.goo.gl/tB3a4r13o2ZtQG399",
+    "openingHoursSpecification": {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": [
+        "Monday",
+        "Tuesday",
+        "Wednesday",
+        "Thursday",
+        "Friday"
+      ],
+      "opens": "09:00",
+      "closes": "18:00"
+    },
+    "areaServed": [
+      { "@type": "City", "name": "BSD City" },
+      { "@type": "City", "name": "Cisauk" },
+      { "@type": "City", "name": "Tangerang" },
+      { "@type": "City", "name": "Tangerang Selatan" },
+      { "@type": "City", "name": "Gading Serpong" },
+      { "@type": "City", "name": "Alam Sutera" }
+    ],
     "sameAs": [
       "https://github.com/chestacode",
       "https://id.linkedin.com/in/chesta-azka",
       "https://twitter.com/chestacode"
-    ],
-    "url": "https://chestaa.com",
-    "priceRange": "Rp 500.000 - Rp 50.000.000",
-    "aggregateRating": {
-      "@type": "AggregateRating",
-      "ratingValue": "4.9",
-      "reviewCount": "124"
-    },
-    "openingHours": "Mo-Fr 09:00-18:00",
-    "contactPoint": {
-      "@type": "ContactPoint",
-      "contactType": "customer service",
-      "email": "hello@chestaa.com",
-      "telephone": "+6282125447232"
-    },
-        "areaServed": [
-      { "@type": "City", "name": "BSD City" },
-      { "@type": "City", "name": "Cisauk" },
-      { "@type": "City", "name": "Tangerang Selatan" },
-      { "@type": "City", "name": "Tangerang" },
-      { "@type": "District", "name": "Gading Serpong" },
-      { "@type": "District", "name": "Alam Sutera" }
     ],
     "knowsAbout": [
       "IT Services",

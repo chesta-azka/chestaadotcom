@@ -1,7 +1,7 @@
-import SEOProvider from '../components/atoms/SEOProvider';
 import { useEffect, useState, useMemo } from 'react';
 import { motion, AnimatePresence, useScroll, useSpring } from 'motion/react';
 import ReactMarkdown from 'react-markdown';
+import SEOMetadata from '../components/atoms/SEOMetadata';
 import { 
   ArrowLeft, 
   ArrowRight, 
@@ -21,11 +21,9 @@ import {
   ChevronDown
 } from 'lucide-react';
 import { useSearchParams, Link, useNavigate } from 'react-router-dom';
-import MetaTags from '../components/atoms/MetaTags.tsx';
-import BlogSEO from '../components/atoms/BlogSEO.tsx';
 import Breadcrumbs from '../components/atoms/Breadcrumbs';
 import { ALL_ARTICLES, Article } from '../data/blogData';
-import { generateBlogSchema } from '../lib/seo';
+import { generateBlogSchema, generateArticleSchema } from '../lib/seo';
 import { parseDateToISOString } from '../utils/dateUtils';
 import CreativityMarquee from '../components/organisms/CreativityMarquee.tsx';
 import NewsletterForm from '../components/organisms/NewsletterForm';
@@ -33,6 +31,8 @@ import RecentPostsWidget from '../components/organisms/RecentPostsWidget';
 import SocialShareWidget from '../components/organisms/SocialShareWidget';
 import BlogInteractions from '../components/organisms/BlogInteractions';
 import TableOfContents, { TOCItem } from '../components/molecules/TableOfContents';
+
+import OptimizedImage from '../components/atoms/OptimizedImage';
 
 const BlogHubSkeleton = () => (
   <div className="relative flex flex-col h-full bg-white p-6 rounded-xl border border-slate-100 animate-pulse text-left shadow-sm">
@@ -221,11 +221,6 @@ export default function BlogHubPage() {
 
   return (
     <>
-      <SEOProvider 
-        title="Insights & AI Engineering Blog | CHESTAADOTCOM"
-        description="Deep dives into digital architecture, AI implementations, and enterprise solutions."
-        schema={generateBlogSchema(combinedAllArticles)}
-      />
     <motion.div 
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
@@ -244,26 +239,19 @@ export default function BlogHubPage() {
             transition={{ duration: 0.4, ease: "easeOut" }}
             className="mx-auto max-w-4xl px-6 pt-40 md:pt-48 pb-20 relative z-10 flex flex-col items-center"
           >
-            <Breadcrumbs items={[{ label: 'Insight', path: '/blog' }, { label: activeArticle.title }]} />
-            <MetaTags 
-              title={`${activeArticle.title} — CHESTAADOTCOM Journal`} 
+            <SEOMetadata 
+              title={activeArticle.title} 
               description={activeArticle.desc} 
-              path={`/blog?read=${activeArticle.slug}`}
-              breadcrumbs={[
-                { name: 'Home', item: '/' },
-                { name: 'Insight', item: '/blog' },
-                { name: activeArticle.title, item: `/blog?read=${activeArticle.slug}` },
-              ]}
-            />
-            
-            <BlogSEO 
-              title={activeArticle.title}
-              description={activeArticle.desc}
-              url={`https://chestaadotcom.com/blog?read=${activeArticle.slug}`}
-              image={activeArticle.image || 'https://chestaadotcom.com/default-og.png'}
+              image={activeArticle.image}
               type="article"
-              authorName={typeof activeArticle.author === 'string' ? activeArticle.author : activeArticle.author?.name || 'Chesta Azka Sofyan'}
-              publishedTime={parseDateToISOString(activeArticle.date)}
+              schema={generateArticleSchema(
+                activeArticle.title,
+                activeArticle.desc,
+                `https://chestaadotcom.com/blog?read=${activeArticle.slug}`,
+                activeArticle.image || 'https://chestaadotcom.com/default-og.png',
+                parseDateToISOString(activeArticle.date),
+                typeof activeArticle.author === 'string' ? activeArticle.author : activeArticle.author?.name || 'Chesta Azka Sofyan'
+              )}
             />
 
             {/* Top Navigation & Share Bar */}
@@ -351,8 +339,13 @@ export default function BlogHubPage() {
               )}
 
               {activeArticle.image && (
-                <div className="w-full overflow-hidden rounded-xl mb-8 border border-slate-100 shadow-xl max-h-[460px]">
-                  <img src={activeArticle.image} alt={activeArticle.title} className="w-full h-full object-cover" />
+                <div className="w-full overflow-hidden rounded-xl mb-8 border border-slate-100 shadow-xl max-h-[460px] relative">
+                  <OptimizedImage 
+                    src={activeArticle.image} 
+                    alt={activeArticle.title} 
+                    className="w-full h-full object-cover" 
+                    priority={true}
+                  />
                 </div>
               )}
 
@@ -469,8 +462,12 @@ export default function BlogHubPage() {
                   );
                 } else if (block.type === 'image') {
                   return (
-                    <div key={idx} className="w-full my-8">
-                      <img src={block.url} alt={block.alt} className="w-full h-auto rounded-2xl shadow-lg border border-slate-100 object-cover" />
+                    <div key={idx} className="w-full my-8 relative aspect-video">
+                      <OptimizedImage 
+                        src={block.url} 
+                        alt={block.alt} 
+                        className="w-full h-full rounded-2xl shadow-lg border border-slate-100 object-cover" 
+                      />
                       <span className="block text-center text-xs font-mono text-slate-400 mt-2">{block.alt}</span>
                     </div>
                   );
@@ -597,21 +594,11 @@ export default function BlogHubPage() {
             exit={{ opacity: 0 }}
             className="w-full"
           >
-            <MetaTags 
-              title="Journal & Insight — CHESTAADOTCOM Digital Strategy" 
-              description="Kurasi strategi digital tier-1: Otomasi Agentic AI, Framework SEO 2026, Psikologi Konversi, dan Arsitektur Web Berperforma Tinggi." 
-              breadcrumbs={[
-                { name: 'Home', item: '/' },
-                { name: 'Insight', item: '/blog' },
-              ]}
-            />
-
             {/* Header Hero Section */}
             <section className="relative pt-40 md:pt-48 pb-16 border-b border-slate-100 mb-12 overflow-hidden">
               <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-gradient-to-bl from-purple-500/10 via-purple-500/5 to-transparent blur-3xl rounded-full pointer-events-none" />
 
               <div className="mx-auto max-w-7xl px-6 w-full relative z-10">
-                <Breadcrumbs items={[{ label: 'Insight', path: '/blog' }]} />
                 <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-end mt-4">
                   <div className="lg:col-span-7">
                     <motion.div
@@ -745,10 +732,11 @@ export default function BlogHubPage() {
                     {/* Background Image with Ken Burns effect on hover */}
                     {primaryFeaturedArticle.image ? (
                       <div className="absolute inset-0 overflow-hidden">
-                        <img 
+                        <OptimizedImage 
                           src={primaryFeaturedArticle.image} 
                           alt={primaryFeaturedArticle.title} 
                           className="w-full h-full object-cover transition-transform duration-[2000ms] ease-out group-hover/hero:scale-110" 
+                          priority={true}
                         />
                       </div>
                     ) : (
@@ -813,10 +801,10 @@ export default function BlogHubPage() {
                           className="flex items-center gap-6"
                         >
                           <div className="flex items-center gap-4 p-1.5 pr-6 rounded-full bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/10 transition-colors">
-                            <div className="w-14 h-14 rounded-full overflow-hidden border-2 border-purple-500/50 shadow-2xl">
-                              <img 
+                            <div className="w-14 h-14 rounded-full overflow-hidden border-2 border-purple-500/50 shadow-2xl relative">
+                              <OptimizedImage 
                                 src={primaryFeaturedArticle.author?.avatar || '/chesta.png'} 
-                                alt={primaryFeaturedArticle.author?.name} 
+                                alt={primaryFeaturedArticle.author?.name || 'Author'} 
                                 className="w-full h-full object-cover"
                               />
                             </div>

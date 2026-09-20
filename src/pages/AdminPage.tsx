@@ -6,7 +6,7 @@ import { doc, setDoc, getDoc, addDoc, serverTimestamp, collection, query, orderB
 import { motion, AnimatePresence } from 'motion/react';
 import { Briefcase, Search, Sparkles, Loader2, Eye, EyeOff, AlertTriangle, FileText, CheckCircle2, Lock, LogOut, MessageSquare, Clock, BarChart as BarChartIcon, Users as UsersIcon, PenTool, Shield, Zap, ChevronDown, Folder, Activity, Send, X, TrendingUp, AlertCircle } from 'lucide-react';
 import { GoogleOAuthProvider, useGoogleLogin } from '@react-oauth/google';
-import MetaTags from '../components/atoms/MetaTags';
+import SEOMetadata from '../components/atoms/SEOMetadata';
 import ReactMarkdown from 'react-markdown';
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip as RechartsTooltip, ResponsiveContainer, LineChart, Line } from 'recharts';
 import { db, auth } from '../lib/firebase';
@@ -19,6 +19,232 @@ import AuthGuard from '../components/atoms/AuthGuard';
 import { PerformanceDashboard } from '../components/organisms/PerformanceDashboard';
 import { AdminKanbanBoard } from '../components/AdminKanbanBoard';
 import { ClientVault } from '../components/ClientVault';
+import LeadBadge from '../components/atoms/LeadBadge';
+import AdminConversationSummaries from '../components/organisms/AdminConversationSummaries';
+
+function AppointmentsDashboard() {
+  const [appointments, setAppointments] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [filterStatus, setFilterStatus] = useState<string>('all');
+
+  useEffect(() => {
+    const q = query(collection(db, 'ai_chat_sessions'), orderBy('createdAt', 'desc'));
+    const unsub = onSnapshot(q, (snapshot) => {
+      snapshot.docChanges().forEach((change) => {
+        if (change.type === 'added') {
+          const data = change.doc.data();
+          if (data.isBooking) {
+            // Check if it's a recent booking (created within last 60 seconds or just new)
+            toast.success(`📅 Discovery Call Baru: ${data.date || ''} (${data.time || ''}) - ${data.phone || ''}`);
+          }
+        }
+      });
+
+      const appts: any[] = [];
+      snapshot.forEach(docSnap => {
+        const data = docSnap.data();
+        if (data.isBooking) {
+          appts.push({ id: docSnap.id, ...data });
+        }
+      });
+      setAppointments(appts);
+      setLoading(false);
+    }, (err) => {
+      console.error("Error fetching appointments:", err);
+      setLoading(false);
+    });
+
+    return () => unsub();
+  }, []);
+
+  const updateStatus = async (id: string, newStatus: string) => {
+    try {
+      await updateDoc(doc(db, 'ai_chat_sessions', id), {
+        status: newStatus,
+        lastUpdated: serverTimestamp()
+      });
+      toast.success(`Status janji temu diperbarui menjadi ${newStatus.toUpperCase()}`);
+    } catch (err) {
+      console.error("Error updating appointment status:", err);
+      toast.error("Gagal memperbarui status janji temu");
+    }
+  };
+
+  const filteredAppointments = appointments.filter(appt => {
+    if (filterStatus === 'all') return true;
+    return (appt.status || 'pending') === filterStatus;
+  });
+
+  const totalCount = appointments.length;
+  const pendingCount = appointments.filter(a => (a.status || 'pending') === 'pending').length;
+  const confirmedCount = appointments.filter(a => a.status === 'confirmed').length;
+  const completedCount = appointments.filter(a => a.status === 'completed').length;
+
+  return (
+    <div className="space-y-6 font-sans">
+      <div className="flex flex-col md:flex-row md:items-end justify-between border-b border-slate-200 pb-4 gap-4">
+        <div>
+          <h2 className="text-xl font-display font-medium text-slate-900 mb-1">Discovery Call Appointments</h2>
+          <p className="text-slate-600 text-sm">Kelola jadwal konsultasi, prospek promo Rp540K / Rp650K, dan sesi klien secara real-time.</p>
+        </div>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={() => setFilterStatus('all')}
+            className={`px-3 py-1.5 rounded-xl text-xs font-mono font-medium transition-all cursor-pointer ${
+              filterStatus === 'all' ? 'bg-slate-900 text-white shadow-xs' : 'bg-white text-slate-700 border border-slate-200 hover:bg-slate-50'
+            }`}
+          >
+            Semua ({totalCount})
+          </button>
+          <button
+            onClick={() => setFilterStatus('pending')}
+            className={`px-3 py-1.5 rounded-xl text-xs font-mono font-medium transition-all cursor-pointer ${
+              filterStatus === 'pending' ? 'bg-amber-600 text-white shadow-xs' : 'bg-white text-slate-700 border border-slate-200 hover:bg-slate-50'
+            }`}
+          >
+            Pending ({pendingCount})
+          </button>
+          <button
+            onClick={() => setFilterStatus('confirmed')}
+            className={`px-3 py-1.5 rounded-xl text-xs font-mono font-medium transition-all cursor-pointer ${
+              filterStatus === 'confirmed' ? 'bg-emerald-600 text-white shadow-xs' : 'bg-white text-slate-700 border border-slate-200 hover:bg-slate-50'
+            }`}
+          >
+            Confirmed ({confirmedCount})
+          </button>
+        </div>
+      </div>
+
+      {/* Metric Cards */}
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+        <div className="p-4 rounded-2xl bg-white border border-slate-200 shadow-xs flex items-center justify-between">
+          <div>
+            <p className="text-xs font-mono text-slate-500 uppercase tracking-wider">Total Booking</p>
+            <p className="text-2xl font-display font-bold text-slate-900 mt-1">{totalCount}</p>
+          </div>
+          <div className="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center text-slate-900 font-mono font-bold">
+            📅
+          </div>
+        </div>
+        <div className="p-4 rounded-2xl bg-white border border-slate-200 shadow-xs flex items-center justify-between">
+          <div>
+            <p className="text-xs font-mono text-amber-600 uppercase tracking-wider">Pending Review</p>
+            <p className="text-2xl font-display font-bold text-amber-700 mt-1">{pendingCount}</p>
+          </div>
+          <div className="w-10 h-10 rounded-xl bg-amber-50 flex items-center justify-center text-amber-600 font-mono font-bold">
+            ⏳
+          </div>
+        </div>
+        <div className="p-4 rounded-2xl bg-white border border-slate-200 shadow-xs flex items-center justify-between">
+          <div>
+            <p className="text-xs font-mono text-emerald-600 uppercase tracking-wider">Confirmed / Active</p>
+            <p className="text-2xl font-display font-bold text-emerald-700 mt-1">{confirmedCount}</p>
+          </div>
+          <div className="w-10 h-10 rounded-xl bg-emerald-50 flex items-center justify-center text-emerald-600 font-mono font-bold">
+            ✅
+          </div>
+        </div>
+      </div>
+
+      <div className="border border-slate-200 rounded-2xl bg-white overflow-hidden shadow-xs">
+        <div className="bg-slate-50 text-slate-700 px-6 py-3.5 border-b border-slate-200 flex items-center justify-between">
+          <h3 className="font-mono font-bold text-xs uppercase tracking-wider text-slate-800">Daftar Janji Temu Klien (Real-time Synced)</h3>
+          <span className="text-[11px] font-mono text-slate-500">Menampilkan {filteredAppointments.length} dari {totalCount} data</span>
+        </div>
+        <div className="overflow-x-auto">
+          <table className="w-full text-left border-collapse">
+            <thead className="bg-slate-50/80 text-[11px] font-mono font-semibold text-slate-500 uppercase tracking-wider border-b border-slate-200">
+              <tr>
+                <th className="px-6 py-3.5">Tanggal &amp; Waktu</th>
+                <th className="px-6 py-3.5">Nomor WhatsApp</th>
+                <th className="px-6 py-3.5">Pesan / Detail</th>
+                <th className="px-6 py-3.5">Status</th>
+                <th className="px-6 py-3.5 text-right">Aksi &amp; WhatsApp</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-100 text-xs font-sans">
+              {loading ? (
+                <tr>
+                  <td colSpan={5} className="px-6 py-12 text-center text-slate-400 font-mono">Memuat data janji temu...</td>
+                </tr>
+              ) : filteredAppointments.length > 0 ? (
+                filteredAppointments.map(appt => {
+                  const status = appt.status || 'pending';
+                  const phoneClean = appt.phone || '';
+                  return (
+                    <tr key={appt.id} className="hover:bg-slate-50/60 transition-colors">
+                      <td className="px-6 py-4 font-mono font-medium text-slate-900">
+                        <div className="flex items-center gap-2">
+                          <Clock size={14} className="text-slate-400" />
+                          <span>{appt.date || '-'} ({appt.time || '-'})</span>
+                        </div>
+                      </td>
+                      <td className="px-6 py-4 font-mono font-bold text-slate-900">
+                        📞 {phoneClean || '-'}
+                      </td>
+                      <td className="px-6 py-4 text-slate-600 max-w-xs truncate">
+                        {appt.visitorMessage || 'Discovery Call Booking'}
+                      </td>
+                      <td className="px-6 py-4">
+                        <span className={`inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[10px] font-mono font-bold uppercase tracking-wide ${
+                          status === 'confirmed' 
+                            ? 'bg-emerald-50 text-emerald-700 border border-emerald-200'
+                            : status === 'completed'
+                            ? 'bg-blue-50 text-blue-700 border border-blue-200'
+                            : 'bg-amber-50 text-amber-700 border border-amber-200'
+                        }`}>
+                          <span className={`w-1.5 h-1.5 rounded-full ${
+                            status === 'confirmed' ? 'bg-emerald-500' : status === 'completed' ? 'bg-blue-500' : 'bg-amber-500 animate-pulse'
+                          }`} />
+                          {status}
+                        </span>
+                      </td>
+                      <td className="px-6 py-4 text-right space-x-2 whitespace-nowrap">
+                        {phoneClean && (
+                          <a
+                            href={`https://wa.me/${phoneClean.startsWith('0') ? '62' + phoneClean.slice(1) : phoneClean}?text=${encodeURIComponent(`Halo, ini Chesta Azka dari CHESTAADOTCOM mengenai jadwal Discovery Call Anda pada ${appt.date} (${appt.time}).`)}`}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-1 px-2.5 py-1.5 bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl text-[11px] font-mono font-medium transition-colors shadow-xs"
+                          >
+                            <span>💬 WA</span>
+                          </a>
+                        )}
+                        {status === 'pending' && (
+                          <button
+                            onClick={() => updateStatus(appt.id, 'confirmed')}
+                            className="px-3 py-1.5 bg-slate-900 text-white rounded-xl text-[11px] font-mono font-medium hover:bg-slate-800 transition-colors cursor-pointer shadow-xs"
+                          >
+                            Konfirmasi
+                          </button>
+                        )}
+                        {status !== 'completed' && (
+                          <button
+                            onClick={() => updateStatus(appt.id, 'completed')}
+                            className="px-3 py-1.5 bg-slate-700 text-white rounded-xl text-[11px] font-mono font-medium hover:bg-slate-800 transition-colors cursor-pointer shadow-xs"
+                          >
+                            Selesai
+                          </button>
+                        )}
+                        {status === 'completed' && (
+                          <span className="text-slate-400 font-mono text-[11px]">Selesai ✅</span>
+                        )}
+                      </td>
+                    </tr>
+                  );
+                })
+              ) : (
+                <tr>
+                  <td colSpan={5} className="px-6 py-16 text-center text-slate-400 font-mono">Belum ada jadwal Discovery Call dengan filter ini.</td>
+                </tr>
+              )}
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  );
+}
 
 function LiveTakeoverManager() {
   const [takeoverSession, setTakeoverSession] = useState<string | null>(null);
@@ -707,6 +933,9 @@ function AdminDashboard() {
   return (
     <AdminDashboardLayout onLogout={handleLogout} activeTab={activeTab} setActiveTab={setActiveTab}>
       
+      {activeTab === 'appointments' && (
+        <AppointmentsDashboard />
+      )}
       {activeTab === 'blog_performance' && (
         <PerformanceDashboard />
       )}
@@ -718,6 +947,9 @@ function AdminDashboard() {
       )}
       {activeTab === 'ai_leads' && (
         <AILeadsScoringDashboard />
+      )}
+      {activeTab === 'ai_summaries' && (
+        <AdminConversationSummaries />
       )}
       {activeTab === 'chat' && (
         <div className="space-y-8">
@@ -907,6 +1139,9 @@ function AdminDashboard() {
       )}
       {activeTab === 'blog_moderation' && (
         <BlogModeration />
+      )}
+      {activeTab === 'content_crud' && (
+        <ContentCRUDManager />
       )}
       {activeTab === 'blog_generator' && (
         <BlogOutlineGenerator />
@@ -1175,12 +1410,6 @@ function UserManagement() {
             Kelola peran pengguna (Admin/User).
           </p>
         </div>
-        <button
-          onClick={makeMeAdmin}
-          className="px-4 py-2 bg-purple-50 text-purple-700 text-sm font-medium rounded-xl hover:bg-purple-100 transition-colors"
-        >
-          Darurat: Jadikan Saya Admin
-        </button>
       </div>
 
       {loading ? (
@@ -2184,15 +2413,13 @@ function AILeadsScoringDashboard() {
             <tbody className="divide-y-2 divide-black">
               {loading ? (
                 <tr>
-                  <td colSpan={4} className="px-4 py-8 text-center font-sans text-sm text-slate-900">Loading leads...</td>
+                  <td colSpan={5} className="px-4 py-8 text-center font-sans text-sm text-slate-900">Loading leads...</td>
                 </tr>
               ) : leads.length > 0 ? leads.map((lead, i) => (
                 <tr key={i} className="hover:bg-slate-100 transition-colors">
                   <td className="px-4 py-3 font-sans text-xs text-slate-900 truncate max-w-[200px]">{lead.sessionId}</td>
-                  <td className="px-4 py-3 font-sans text-xs font-black uppercase">
-                    {lead.score === 'Hot' && <span className="bg-white text-slate-800 px-2 py-1">HOT LEAD</span>}
-                    {lead.score === 'Warm' && <span className="border border-slate-200 rounded-xl px-2 py-1">WARM</span>}
-                    {lead.score === 'Cold' && <span className="text-slate-500">COLD</span>}
+                  <td className="px-4 py-3 font-sans text-xs text-slate-900">
+                    <LeadBadge tier={lead.tier || lead.score} score={lead.fullScore} />
                   </td>
                   <td className="px-4 py-3 font-sans text-xs text-slate-900">{lead.messageCount}</td>
                   <td className="px-4 py-3 font-sans text-xs text-slate-900">{lead.createdAt?.toDate ? lead.createdAt.toDate().toLocaleString('id-ID') : '-'}</td>
@@ -2207,7 +2434,7 @@ function AILeadsScoringDashboard() {
                 </tr>
               )) : (
                 <tr>
-                  <td colSpan={4} className="px-4 py-8 text-center font-sans text-sm text-slate-900">No leads scored yet.</td>
+                  <td colSpan={5} className="px-4 py-8 text-center font-sans text-sm text-slate-900">No leads scored yet.</td>
                 </tr>
               )}
             </tbody>
@@ -2456,6 +2683,19 @@ function SeoPerformanceSection() {
   const [siteUrl, setSiteUrl] = useState('https://chestaa.com/');
   const [errorMsg, setErrorMsg] = useState('');
 
+  const clientId = import.meta.env.VITE_GOOGLE_CLIENT_ID;
+  const hasClientId = Boolean(clientId);
+
+  return hasClientId ? (
+    <GoogleOAuthProvider clientId={clientId}>
+      <SeoWithAuth siteUrl={siteUrl} setSiteUrl={setSiteUrl} gscData={gscData} setGscData={setGscData} loadingGsc={loadingGsc} setLoadingGsc={setLoadingGsc} errorMsg={errorMsg} setErrorMsg={setErrorMsg} />
+    </GoogleOAuthProvider>
+  ) : (
+    <SeoDemoSection siteUrl={siteUrl} setSiteUrl={setSiteUrl} gscData={gscData} setGscData={setGscData} loadingGsc={loadingGsc} setLoadingGsc={setLoadingGsc} errorMsg={errorMsg} setErrorMsg={setErrorMsg} />
+  );
+}
+
+function SeoWithAuth({ siteUrl, setSiteUrl, gscData, setGscData, loadingGsc, setLoadingGsc, errorMsg, setErrorMsg }: any) {
   const login = useGoogleLogin({
     scope: 'https://www.googleapis.com/auth/webmasters.readonly',
     onSuccess: async (tokenResponse) => {
@@ -2498,14 +2738,61 @@ function SeoPerformanceSection() {
       }
     },
     onError: () => {
-      setErrorMsg('Autentikasi Google gagal dibatalkan.');
+      setErrorMsg('Autentikasi Google dibatalkan.');
     }
   });
 
   return (
+    <SeoUI
+      siteUrl={siteUrl}
+      setSiteUrl={setSiteUrl}
+      gscData={gscData}
+      loadingGsc={loadingGsc}
+      errorMsg={errorMsg}
+      onConnect={() => login()}
+      modeLabel="Google Search Console (Live API)"
+    />
+  );
+}
+
+function SeoDemoSection({ siteUrl, setSiteUrl, gscData, setGscData, loadingGsc, setLoadingGsc, errorMsg, setErrorMsg }: any) {
+  const handleDemoConnect = () => {
+    setLoadingGsc(true);
+    setErrorMsg('');
+    setTimeout(() => {
+      setGscData([
+        { keys: ['jasa pembuatan website bsd'], clicks: 142, impressions: 3850, ctr: 0.0368, position: 1.4 },
+        { keys: ['software house jakarta tangerang'], clicks: 98, impressions: 2420, ctr: 0.0404, position: 2.1 },
+        { keys: ['jasa pembuatan web custom react nextjs'], clicks: 84, impressions: 1950, ctr: 0.043, position: 1.8 },
+        { keys: ['konsultan arsitektur web enterprise'], clicks: 45, impressions: 920, ctr: 0.048, position: 2.5 },
+        { keys: ['biaya pembuatan website perusahaan'], clicks: 38, impressions: 1120, ctr: 0.033, position: 3.2 }
+      ]);
+      setLoadingGsc(false);
+      toast.success("Berhasil memuat data GSC (Mode Simulasi)");
+    }, 700);
+  };
+
+  return (
+    <SeoUI
+      siteUrl={siteUrl}
+      setSiteUrl={setSiteUrl}
+      gscData={gscData}
+      loadingGsc={loadingGsc}
+      errorMsg={errorMsg}
+      onConnect={handleDemoConnect}
+      modeLabel="Google Search Console (Mode Simulasi)"
+    />
+  );
+}
+
+function SeoUI({ siteUrl, setSiteUrl, gscData, loadingGsc, errorMsg, onConnect, modeLabel }: any) {
+  return (
     <div className="bg-slate-50 border border-slate-200 p-6 sm:p-8 rounded-3xl shadow-sm space-y-6">
       <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
         <div>
+          <div className="flex items-center gap-2 mb-1">
+            <span className="text-[10px] font-mono px-2 py-0.5 rounded-full bg-slate-200 text-slate-700 font-bold">{modeLabel}</span>
+          </div>
           <h3 className="text-xl font-display font-black text-slate-900 flex items-center gap-2">
             <TrendingUp size={22} className="text-purple-600" />
             SEO Performance (GSC Real-Time)
@@ -2516,8 +2803,8 @@ function SeoPerformanceSection() {
         </div>
         <div className="flex-shrink-0">
           <button
-            onClick={() => login()}
-            className="px-5 py-2.5 bg-white border border-slate-300 text-slate-700 hover:bg-slate-100 rounded-xl font-mono text-xs font-bold transition-colors flex items-center gap-2 shadow-sm"
+            onClick={onConnect}
+            className="px-5 py-2.5 bg-white border border-slate-300 text-slate-700 hover:bg-slate-100 rounded-xl font-mono text-xs font-bold transition-colors flex items-center gap-2 shadow-sm cursor-pointer"
           >
             <img src="https://www.google.com/favicon.ico" alt="Google" className="w-4 h-4" />
             Connect Search Console
@@ -2565,7 +2852,7 @@ function SeoPerformanceSection() {
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100 bg-white">
-              {gscData.map((row, idx) => (
+              {gscData.map((row: any, idx: number) => (
                 <tr key={idx} className="hover:bg-slate-50 transition-colors">
                   <td className="px-4 py-3 font-medium text-slate-900 flex items-center gap-2">
                     <Search size={14} className="text-slate-400" />
@@ -2583,8 +2870,8 @@ function SeoPerformanceSection() {
       ) : (
         <div className="p-8 border-2 border-dashed border-slate-200 rounded-2xl flex flex-col items-center justify-center text-center text-slate-500 bg-white">
           <Search size={32} className="text-slate-300 mb-3" />
-          <p className="text-sm">Belum ada data. Silakan hubungkan dengan akun Google Anda terlebih dahulu.</p>
-          <p className="text-xs mt-1 text-slate-400 max-w-sm">Pastikan env VITE_GOOGLE_CLIENT_ID sudah dikonfigurasi dan properti terdaftar di Search Console.</p>
+          <p className="text-sm">Belum ada data. Silakan klik "Connect Search Console" untuk memuat analitik.</p>
+          <p className="text-xs mt-1 text-slate-400 max-w-sm">Mode demo otomatis aktif jika VITE_GOOGLE_CLIENT_ID belum dikonfigurasi.</p>
         </div>
       )}
     </div>
@@ -2595,7 +2882,10 @@ function SeoPerformanceSection() {
 export default function AdminPage() {
   return (
     <AuthGuard fallback={<AdminLogin />}>
-      <MetaTags title="Admin Area | CHESTAADOTCOM" description="Secure Admin Dashboard" />
+      <SEOMetadata 
+        title="Admin Area" 
+        description="Secure Admin Dashboard" 
+      />
       <AdminDashboard />
     </AuthGuard>
   );
@@ -2983,7 +3273,6 @@ function BlogOutlineGenerator() {
   };
 
   return (
-    <GoogleOAuthProvider clientId={import.meta.env.VITE_GOOGLE_CLIENT_ID || ''}>
       <div className="p-8 max-w-5xl mx-auto font-sans space-y-12">
       <SeoPerformanceSection />
 
@@ -3114,7 +3403,6 @@ function BlogOutlineGenerator() {
       )}
       </div>
     </div>
-    </GoogleOAuthProvider>
   );
 }
 
@@ -3204,7 +3492,7 @@ function BlogModeration() {
                         ? 'border-emerald-600 text-emerald-600' 
                         : 'border-amber-600 text-amber-600'
                     }`}>
-                      {comment.moderationStatus.toUpperCase()}
+                      {(comment.moderationStatus || 'pending').toUpperCase()}
                     </span>
                   </div>
                   
@@ -3256,6 +3544,237 @@ function BlogModeration() {
       {comments.length === 0 && !loading && (
         <div className="text-center py-20 border-2 border-black border-dashed">
           <p className="font-mono text-xs uppercase tracking-widest text-slate-400">Zero active signals detected.</p>
+        </div>
+      )}
+    </div>
+  );
+}
+
+function ContentCRUDManager() {
+  const [subTab, setSubTab] = useState<'blogs' | 'case_studies' | 'academy_courses' | 'quizzes'>('blogs');
+  const [items, setItems] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
+  const [showModal, setShowModal] = useState(false);
+  const [formData, setFormData] = useState({ title: '', category: '', description: '', author: 'Admin' });
+  const [editingId, setEditingId] = useState<string | null>(null);
+
+  const collectionName = subTab;
+
+  useEffect(() => {
+    const fetchItems = async () => {
+      setLoading(true);
+      try {
+        const snap = await getDocs(collection(db, collectionName));
+        const list: any[] = [];
+        snap.forEach(docSnap => {
+          list.push({ id: docSnap.id, ...docSnap.data() });
+        });
+        setItems(list);
+      } catch (err) {
+        console.error("Error fetching collection:", err);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchItems();
+  }, [subTab]);
+
+  const handleSave = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!formData.title) {
+      toast.error("Judul wajib diisi");
+      return;
+    }
+    try {
+      if (editingId) {
+        await updateDoc(doc(db, collectionName, editingId), {
+          ...formData,
+          updatedAt: serverTimestamp()
+        });
+        toast.success("Berhasil memperbarui data");
+      } else {
+        await addDoc(collection(db, collectionName), {
+          ...formData,
+          createdAt: serverTimestamp()
+        });
+        toast.success("Berhasil menambahkan data baru");
+      }
+      setShowModal(false);
+      setEditingId(null);
+      setFormData({ title: '', category: '', description: '', author: 'Admin' });
+      const snap = await getDocs(collection(db, collectionName));
+      const list: any[] = [];
+      snap.forEach(d => list.push({ id: d.id, ...d.data() }));
+      setItems(list);
+    } catch (err) {
+      console.error("Error saving:", err);
+      toast.error("Gagal menyimpan data ke Firestore");
+    }
+  };
+
+  const handleDelete = async (id: string) => {
+    if (!window.confirm("Yakin ingin menghapus item ini?")) return;
+    try {
+      await deleteDoc(doc(db, collectionName, id));
+      setItems(prev => prev.filter(i => i.id !== id));
+      toast.success("Item berhasil dihapus");
+    } catch (err) {
+      console.error("Error deleting:", err);
+      toast.error("Gagal menghapus item");
+    }
+  };
+
+  return (
+    <div className="space-y-6 font-sans">
+      <div className="flex flex-col md:flex-row md:items-end justify-between border-b border-slate-200 pb-4 gap-4">
+        <div>
+          <h2 className="text-xl font-display font-medium text-slate-900 mb-1">Content CRUD Hub</h2>
+          <p className="text-slate-600 text-sm">Kelola data Blog, Case Studies, Academy Courses, dan Quizzes secara langsung (Tambah, Edit, Delete).</p>
+        </div>
+        <button
+          onClick={() => {
+            setEditingId(null);
+            setFormData({ title: '', category: '', description: '', author: 'Admin' });
+            setShowModal(true);
+          }}
+          className="px-4 py-2.5 bg-slate-900 text-white rounded-xl text-xs font-mono font-medium hover:bg-slate-800 transition-colors cursor-pointer shadow-sm flex items-center gap-2"
+        >
+          + Tambah {subTab === 'blogs' ? 'Blog' : subTab === 'case_studies' ? 'Case Study' : subTab === 'academy_courses' ? 'Academy' : 'Quiz'} Baru
+        </button>
+      </div>
+
+      <div className="flex items-center gap-2 border-b border-slate-200 pb-3 overflow-x-auto">
+        {[
+          { id: 'blogs', label: 'Blog Articles' },
+          { id: 'case_studies', label: 'Case Studies' },
+          { id: 'academy_courses', label: 'Academy Courses' },
+          { id: 'quizzes', label: 'Quizzes' },
+        ].map(tab => (
+          <button
+            key={tab.id}
+            onClick={() => setSubTab(tab.id as any)}
+            className={`px-4 py-2 rounded-xl text-xs font-mono font-semibold transition-all cursor-pointer whitespace-nowrap ${
+              subTab === tab.id ? 'bg-slate-900 text-white shadow-xs' : 'bg-white text-slate-700 border border-slate-200 hover:bg-slate-50'
+            }`}
+          >
+            {tab.label}
+          </button>
+        ))}
+      </div>
+
+      <div className="border border-slate-200 rounded-2xl bg-white overflow-hidden shadow-xs">
+        <div className="bg-slate-50 px-6 py-3.5 border-b border-slate-200 flex items-center justify-between">
+          <span className="font-mono font-bold text-xs uppercase tracking-wider text-slate-800">Koleksi: {collectionName}</span>
+          <span className="text-[11px] font-mono text-slate-500">{items.length} item total</span>
+        </div>
+        {loading ? (
+          <div className="p-12 text-center">
+            <Loader2 size={24} className="animate-spin text-slate-900 mx-auto" />
+          </div>
+        ) : items.length === 0 ? (
+          <div className="p-12 text-center text-slate-400 font-mono text-xs uppercase">Belum ada data dalam koleksi ini. Silakan buat baru.</div>
+        ) : (
+          <div className="divide-y divide-slate-100">
+            {items.map(item => (
+              <div key={item.id} className="p-5 flex items-center justify-between hover:bg-slate-50/80 transition-colors">
+                <div className="space-y-1 max-w-2xl">
+                  <h4 className="font-display font-bold text-slate-900 text-sm">{item.title || 'Tanpa Judul'}</h4>
+                  <p className="text-xs text-slate-600 line-clamp-1">{item.description || item.category || 'Tidak ada deskripsi'}</p>
+                  <span className="text-[10px] font-mono bg-slate-100 text-slate-600 px-2 py-0.5 rounded-md inline-block">ID: {item.id}</span>
+                </div>
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={() => {
+                      setEditingId(item.id);
+                      setFormData({
+                        title: item.title || '',
+                        category: item.category || '',
+                        description: item.description || '',
+                        author: item.author || 'Admin'
+                      });
+                      setShowModal(true);
+                    }}
+                    className="px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs font-mono font-medium text-slate-700 hover:bg-slate-50 cursor-pointer"
+                  >
+                    Edit
+                  </button>
+                  <button
+                    onClick={() => handleDelete(item.id)}
+                    className="px-3 py-1.5 bg-rose-50 border border-rose-200 rounded-lg text-xs font-mono font-medium text-rose-700 hover:bg-rose-100 cursor-pointer"
+                  >
+                    Delete
+                  </button>
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
+      </div>
+
+      {showModal && (
+        <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-xs z-50 flex items-center justify-center p-4">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            className="bg-white border border-slate-200 rounded-2xl p-6 w-full max-w-lg shadow-xl space-y-4"
+          >
+            <div className="flex items-center justify-between pb-3 border-b border-slate-200">
+              <h3 className="font-display font-bold text-slate-900 text-sm uppercase">
+                {editingId ? 'Edit Item' : 'Tambah Item Baru'} ({subTab})
+              </h3>
+              <button onClick={() => setShowModal(false)} className="text-slate-400 hover:text-slate-600 cursor-pointer">
+                <X size={16} />
+              </button>
+            </div>
+            <form onSubmit={handleSave} className="space-y-4">
+              <div>
+                <label className="block text-xs font-mono font-semibold text-slate-700 mb-1">Judul / Nama</label>
+                <input
+                  type="text"
+                  required
+                  value={formData.title}
+                  onChange={e => setFormData({ ...formData, title: e.target.value })}
+                  className="w-full px-3 py-2 border border-slate-200 rounded-xl text-sm font-sans focus:outline-none focus:border-slate-900"
+                  placeholder="Masukkan judul..."
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-mono font-semibold text-slate-700 mb-1">Kategori / Level</label>
+                <input
+                  type="text"
+                  value={formData.category}
+                  onChange={e => setFormData({ ...formData, category: e.target.value })}
+                  className="w-full px-3 py-2 border border-slate-200 rounded-xl text-sm font-sans focus:outline-none focus:border-slate-900"
+                  placeholder="Mis. Engineering / Advanced"
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-mono font-semibold text-slate-700 mb-1">Deskripsi / Konten Ringkas</label>
+                <textarea
+                  rows={3}
+                  value={formData.description}
+                  onChange={e => setFormData({ ...formData, description: e.target.value })}
+                  className="w-full px-3 py-2 border border-slate-200 rounded-xl text-sm font-sans focus:outline-none focus:border-slate-900 resize-none"
+                  placeholder="Tulis deskripsi..."
+                />
+              </div>
+              <div className="flex items-center justify-end gap-2 pt-3 border-t border-slate-200">
+                <button
+                  type="button"
+                  onClick={() => setShowModal(false)}
+                  className="px-4 py-2 border border-slate-200 rounded-xl text-xs font-mono font-medium text-slate-700 hover:bg-slate-50 cursor-pointer"
+                >
+                  Batal
+                </button>
+                <button
+                  type="submit"
+                  className="px-4 py-2 bg-slate-900 text-white rounded-xl text-xs font-mono font-medium hover:bg-slate-800 cursor-pointer"
+                >
+                  {editingId ? 'Simpan Perubahan' : 'Tambah ke Koleksi'}
+                </button>
+              </div>
+            </form>
+          </motion.div>
         </div>
       )}
     </div>

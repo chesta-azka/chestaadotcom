@@ -7,52 +7,52 @@ import AnimatedHeading from '../atoms/AnimatedHeading';
 
 const mainServices = [
   {
-    title: "Enterprise Agentic AI",
+    title: "Autonomous Agentic AI",
     slug: "ai-integration",
     color: "#06B6D4",
     glow: "rgba(6, 182, 212, 0.4)",
     number: "01",
-    desc: "Otomasi operasional 24/7 menggunakan arsitektur AI otonom tingkat lanjut. Kami mentransformasi bottleneck bisnis menjadi ekosistem cerdas yang bekerja tanpa henti."
+    desc: "Membangun tenaga kerja digital yang cerdas dan otonom. Dari layanan pelanggan otomatis hingga optimasi rantai pasok, agen AI kami bekerja 24/7 untuk meningkatkan efisiensi operasional Anda secara radikal."
   },
   {
-    title: "Bespoke Enterprise Web",
+    title: "High-Performance Web Architecture",
     slug: "web-development-nextjs",
     color: "#9333ea",
     glow: "rgba(147, 51, 234, 0.4)",
     number: "02",
-    desc: "Rekayasa perangkat lunak eksklusif dengan React & Next.js. Performa sub-detik (Lighthouse 100) dirancang murni untuk dominasi SEO dan retensi pengguna maksimal."
+    desc: "Rekayasa website eksklusif dengan Next.js 15. Kami fokus pada kecepatan 'Zero-Latency', aksesibilitas sempurna, dan arsitektur yang dirancang untuk mendominasi peringkat mesin pencari secara global."
   }
 ];
 
 const otherServices = [
-  { title: "E-Commerce Automation", desc: "Sinkronisasi stok real-time & checkout cerdas", slug: "ecommerce-automation" },
-  { title: "High-Conversion Landing Page", desc: "Sales page teroptimasi konversi dengan psikologi UX premium", slug: "landing-page" },
-  { title: "Strategic Web Architecture", desc: "Membangun fondasi digital yang agile dan scalable", slug: "pembuatan-website" },
-  { title: "Jasa Web BSD & IT Cisauk", desc: "Dominasi SEO Lokal Tangerang dengan High-Performance Web", slug: "jasa-pembuatan-website-bsd-cisauk" },
-  { title: "Performance Marketing Ads", desc: "Akuisisi pelanggan presisi (ROAS terukur)", slug: "digital-marketing" },
-  { title: "Proactive Maintenance", desc: "Monitoring uptime 24/7 & jaminan keamanan", slug: "maintenance" }
+  { title: "Unified Commerce Engines", desc: "Sistem e-commerce terintegrasi dengan otomasi stok & logistik", slug: "ecommerce-automation" },
+  { title: "Strategic Growth Funnels", desc: "Landing page yang dirancang secara psikologis untuk konversi maksimal", slug: "landing-page" },
+  { title: "Enterprise Systems Design", desc: "Arsitektur software kustom yang scalable untuk kebutuhan korporasi", slug: "pembuatan-website" },
+  { title: "Local SEO Dominance", desc: "Otoritas digital di BSD, Tangerang, & Jakarta melalui optimasi lokal", slug: "jasa-pembuatan-website-bsd-cisauk" },
+  { title: "ROI-Driven Marketing", desc: "Kampanye digital berbasis data dengan performa yang dapat diukur", slug: "digital-marketing" },
+  { title: "Continuous Evolution Support", desc: "Pemeliharaan proaktif dan update teknologi berkala", slug: "maintenance" }
 ];
 
 const features = [
   {
     icon: Gauge,
-    title: "Infrastruktur Ultra-Ringan",
-    desc: "Akselerasi retensi pengguna dengan load time di bawah 0.8 detik pada traffic tinggi."
+    title: "The Zero-Latency Protocol",
+    desc: "Memastikan website Anda memuat secara instan, meningkatkan retensi pengguna hingga 40%."
   },
   {
     icon: Smartphone,
-    title: "Mobile-First Conversion",
-    desc: "Menangkap peluang dari 80% audiens mobile dengan UX khusus tap & swipe."
+    title: "Adaptive Fluid Interface",
+    desc: "Pengalaman pengguna yang sempurna di setiap perangkat, dari smartphone hingga ultra-wide monitor."
   },
   {
     icon: MessageCircle,
-    title: "Direct Live Chat Funnel",
-    desc: "Persingkat journey pelanggan dengan integrasi direct-chat yang mendorong close-rate seketika."
+    title: "Instant Conversion Funnels",
+    desc: "Integrasi komunikasi langsung yang mempercepat siklus penjualan dari hari menjadi menit."
   },
   {
     icon: Grid2X2,
-    title: "Bespoke Brand Aesthetics",
-    desc: "Tinggalkan template. Kami merancang identitas eksklusif yang memproyeksikan otoritas pasar Anda."
+    title: "Proprietary Brand DNA",
+    desc: "Desain unik yang memproyeksikan identitas eksklusif dan otoritas industri Anda."
   }
 ];
 

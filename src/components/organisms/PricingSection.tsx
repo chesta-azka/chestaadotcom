@@ -20,14 +20,14 @@ interface PricingTier {
 
 const pricingTiers: PricingTier[] = [
   {
-    id: "umkm-starter",
-    name: "UMKM Starter",
-    badge: "Paling Populer • Promo Spesial",
+    id: "starter",
+    name: "Starter (UMKM)",
+    badge: "Promo Spesial 2026",
     price: "Rp 540.000",
     originalPrice: "Rp 650.000",
     period: "all-in tahun pertama",
     description: "Solusi cepat, elegan, dan siap online untuk pemilik bisnis UMKM, toko fisik, dan profesional yang ingin eksis di Google dengan anggaran terukur.",
-    highlighted: true,
+    highlighted: false,
     features: [
       "Gratis Domain .COM / .ID (1 Tahun Penuh)",
       "Desain Visual Modern Inter & Mobile Responsive",
@@ -38,18 +38,18 @@ const pricingTiers: PricingTier[] = [
       "100% Hak Milik Source Code Tanpa Vendor Lock-in",
       "Pengerjaan Kilat 1–3 Hari Kerja Selesai"
     ],
-    ctaText: "Pesan Paket UMKM Rp540K",
-    ctaMessage: "Halo Mas Chesta! Saya ingin memesan Paket Promo UMKM Rp540K all-in domain .com. Mohon info langkah pengerjaannya."
+    ctaText: "Pilih Paket Starter",
+    ctaMessage: "Halo Mas Chesta! Saya ingin memesan Paket Starter UMKM Rp540K all-in domain .com. Mohon info langkah pengerjaannya."
   },
   {
-    id: "business-growth",
-    name: "Business Growth & Next.js",
-    badge: "B2B & Korporat Berkembang",
+    id: "professional",
+    name: "Professional (B2B)",
+    badge: "Paling Populer • Best Value",
     price: "Rp 2.450.000",
     originalPrice: "Rp 3.500.000",
     period: "investasi per proyek",
-    description: "Arsitektur kustom React & Next.js untuk bisnis yang butuh multi-halaman profesional, CMS manajemen konten, dan kecepatan sub-detik untuk konversi tinggi.",
-    highlighted: false,
+    description: "Arsitektur kustom Next.js untuk bisnis yang butuh multi-halaman profesional, CMS manajemen konten, dan kecepatan sub-detik untuk konversi tinggi.",
+    highlighted: true,
     features: [
       "Arsitektur Kustom Next.js 15 App Router",
       "Multi-Halaman Interaktif (Hingga 7–10 Halaman)",
@@ -60,12 +60,12 @@ const pricingTiers: PricingTier[] = [
       "Setup Analitik Google Tag Manager & Meta Pixel",
       "Garansi Maintenance & Pemeliharaan 30 Hari Penuh"
     ],
-    ctaText: "Konsultasi Paket Business",
-    ctaMessage: "Halo Mas Chesta! Saya tertarik dengan Paket Business Growth & Next.js. Bisa jadwalkan diskusi kebutuhan proyek saya?"
+    ctaText: "Pilih Paket Professional",
+    ctaMessage: "Halo Mas Chesta! Saya tertarik dengan Paket Professional (B2B). Bisa jadwalkan diskusi kebutuhan proyek saya?"
   },
   {
-    id: "enterprise-ai",
-    name: "Enterprise Agentic AI",
+    id: "enterprise",
+    name: "Enterprise (AI)",
     badge: "Custom Engineering",
     price: "Mulai Rp 5.800.000",
     period: "berdasarkan cakupan modul",

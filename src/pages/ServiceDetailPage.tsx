@@ -1,7 +1,6 @@
 import { useParams, Link } from 'react-router-dom';
 import { SERVICES_DATA, ServiceDetailData } from '../data/servicesData';
 import { motion, useScroll, useTransform } from 'motion/react';
-import Breadcrumbs from '../components/atoms/Breadcrumbs.tsx';
 import { 
   Check, 
   ArrowRight, 
@@ -20,20 +19,21 @@ import {
   TrendingUp,
   XCircle,
   ClockAlert,
-  EyeOff,
-  Calendar,
   Clock,
   Star,
-  Quote,
-  ChevronLeft
+  ChevronLeft,
+  CheckCircle2,
+  Lock,
+  Headphones
 } from 'lucide-react';
-import { useState, useEffect, useMemo, lazy, Suspense } from 'react';
+import { useState, useMemo, lazy, Suspense } from 'react';
 import toast from 'react-hot-toast';
-import { generateServiceSchema, injectSchemaScript } from '../utils/schemaMarkup';
+import { generateServiceSchema } from '../utils/schemaMarkup';
 import { useScrollSpy } from '../hooks/useScrollSpy';
-import { useSEOOptimizer } from '../hooks/useSEOOptimizer';
-import SocialShare from '../components/molecules/SocialShare';
-import { SocialPreviewGenerator } from '../components/molecules/SocialPreviewGenerator';
+import SEOMetadata from '../components/atoms/SEOMetadata';
+import ServiceValueComparison from '../components/organisms/ServiceValueComparison';
+import TrustSignalsSection from '../components/organisms/TrustSignalsSection';
+import ServiceROIGraphSection from '../components/organisms/ServiceROIGraphSection';
 
 // Lazy-loaded heavy components for code-splitting & Lighthouse performance optimization
 const LazyPricingSection = lazy(() => import('../components/organisms/ServicePricingSection'));
@@ -116,11 +116,6 @@ export default function ServiceDetailPage() {
 
   const service: ServiceDetailData | undefined = slug ? SERVICES_DATA[slug] : undefined;
 
-  useSEOOptimizer({
-    title: service ? `${service.title} | Jasa IT BSD City & Solusi Web Cisauk` : 'Layanan IT BSD City & Cisauk | CHESTAADOTCOM',
-    description: service ? `${service.heroDescription} Dapatkan solusi rekayasa perangkat lunak dan Agentic AI Automation Indonesia terbaik untuk korporasi di wilayah Jasa IT BSD City, Solusi Web Cisauk, dan sekitarnya.` : 'Konsultan IT Services dan Software House profesional penyedia Jasa IT BSD City dan Solusi Web Cisauk. Spesialisasi pada Web Development Enterprise dan Agentic AI Automation Indonesia.'
-  });
-
   // Dynamic Testimonial success stories based on service category / slug
   const successStories = useMemo(() => {
     if (slug === 'ai-integration') {
@@ -178,58 +173,49 @@ export default function ServiceDetailPage() {
   }, [slug]);
 
   // Comprehensive Article and FAQ JSON-LD Schema Injection for SEO & Regional Indexing
-  useEffect(() => {
-    if (service) {
-      const baseSchema = generateServiceSchema({
-        name: service.title,
-        description: service.heroDescription,
-        url: window.location.href,
-        priceRange: "Rp 540k - Rp 5.500.000",
-        providerName: 'ChestaAzka Enterprise Tech'
-      });
+  const serviceSchema = useMemo(() => {
+    if (!service) return null;
+    
+    const baseSchema = generateServiceSchema({
+      name: service.title,
+      description: service.heroDescription,
+      url: window.location.href,
+      priceRange: "Rp 540k - Rp 5.500.000",
+      providerName: 'ChestaAzka Enterprise Tech'
+    });
 
-      const articleAndFaqSchema = {
-        "@context": "https://schema.org",
-        "@graph": [
-          baseSchema,
-          {
-            "@type": "TechArticle",
-            "headline": service.heroHeadline,
-            "description": service.heroDescription,
-            "author": {
-              "@type": "Person",
-              "name": "Chesta Azka"
-            },
-            "publisher": {
-              "@type": "Organization",
-              "name": "CHESTAADOTCOM",
-              "logo": {
-                "@type": "ImageObject",
-                "url": "https://chestaa.com/icon.png"
-              }
-            },
-            "areaServed": ["Jakarta", "Tangerang", "BSD City", "Indonesia"]
-          },
-          {
-            "@type": "FAQPage",
-            "mainEntity": service.faqs.map(faq => ({
-              "@type": "Question",
-              "name": faq.q,
-              "acceptedAnswer": {
-                "@type": "Answer",
-                "text": faq.a
-              }
-            }))
+    return [
+      baseSchema,
+      {
+        "@type": "TechArticle",
+        "headline": service.heroHeadline,
+        "description": service.heroDescription,
+        "author": {
+          "@type": "Person",
+          "name": "Chesta Azka"
+        },
+        "publisher": {
+          "@type": "Organization",
+          "name": "CHESTAADOTCOM",
+          "logo": {
+            "@type": "ImageObject",
+            "url": "https://chestaa.com/icon.png"
           }
-        ]
-      };
-
-      injectSchemaScript(articleAndFaqSchema, 'service-article-faq-jsonld');
-    }
-    return () => {
-      const existing = document.getElementById('service-article-faq-jsonld');
-      if (existing) existing.remove();
-    };
+        },
+        "areaServed": ["Jakarta", "Tangerang", "BSD City", "Indonesia"]
+      },
+      {
+        "@type": "FAQPage",
+        "mainEntity": service.faqs.map(faq => ({
+          "@type": "Question",
+          "name": faq.q,
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": faq.a
+          }
+        }))
+      }
+    ];
   }, [service]);
 
   if (!service) {
@@ -264,26 +250,27 @@ export default function ServiceDetailPage() {
 
   return (
     <div className="min-h-screen pt-32 pb-24 bg-white text-slate-900 selection:bg-purple-900 selection:text-white">
+      <SEOMetadata 
+        title={service.title} 
+        description={service.heroDescription} 
+        schema={serviceSchema}
+      />
       {/* Subtle top background glow */}
       <div className="absolute top-0 left-0 right-0 h-96 bg-gradient-to-b from-purple-100/50 via-purple-50/20 to-transparent pointer-events-none -z-10" />
 
       <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Breadcrumb */}
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-12">
-          <motion.div
-            initial={{ opacity: 0, y: -10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.4 }}
-          >
-            <Breadcrumbs 
-              items={[
-                { name: 'Layanan', item: '/#services' },
-                { name: service.title, item: `/service/${slug}` }
-              ]} 
-            />
-          </motion.div>
-          <SocialShare title={service.title} description={service.heroDescription} />
+        {/* Elite B2B Assurance Bar (Replaces blog share header) */}
+        <div className="mb-10 p-4 rounded-2xl bg-slate-50 border border-slate-200/80 flex flex-wrap items-center justify-between gap-4 text-xs font-mono">
+          <div className="flex items-center gap-2 text-slate-700">
+            <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
+            <span className="font-bold text-slate-900">Status Layanan:</span>
+            <span>Tersedia untuk Penugasan Q1/Q2</span>
+          </div>
+          <div className="flex items-center gap-6 text-slate-600">
+            <span className="hidden sm:inline">✨ Dipimpin Langsung oleh Principal Engineer</span>
+            <span className="text-purple-700 font-bold">100% Kepemilikan Source Code</span>
+          </div>
         </div>
 
         {/* Hero Section */}
@@ -312,7 +299,7 @@ export default function ServiceDetailPage() {
               className="px-8 py-4 bg-slate-900 hover:bg-purple-900 text-white rounded-2xl font-sans font-bold text-xs uppercase tracking-wider shadow-lg transition-all flex items-center justify-center gap-3 cursor-pointer group"
             >
               <MessageCircle size={18} strokeWidth={1.5} className="text-purple-400 group-hover:text-white transition-colors" />
-              <span>Konsultasi &amp; Amankan Slot</span>
+              <span>Dapatkan Audit Strategi Gratis</span>
               <ArrowRight size={16} strokeWidth={1.5} />
             </motion.a>
             
@@ -322,8 +309,13 @@ export default function ServiceDetailPage() {
               whileTap={{ scale: 0.98 }}
               className="px-7 py-4 bg-white hover:bg-slate-50 text-slate-900 rounded-2xl font-sans font-bold text-xs uppercase tracking-wider border border-slate-200 transition-all flex items-center justify-center gap-2 cursor-pointer shadow-sm"
             >
-              <span>Lihat Detail Investasi</span>
+              <span>Lihat Skema Investasi</span>
             </motion.a>
+          </div>
+
+          {/* Trust Signals Section integrated right below hero */}
+          <div className="mt-16">
+            <TrustSignalsSection />
           </div>
 
           {/* Trust badges strip */}
@@ -409,7 +401,7 @@ export default function ServiceDetailPage() {
                   transition={{ type: "spring", stiffness: 400, damping: 15 }}
                   className="p-3 rounded-xl bg-rose-500/20 text-rose-300 border border-rose-500/40 w-fit mb-4 cursor-pointer"
                 >
-                  <EyeOff size={20} strokeWidth={1.5} />
+                  <ShieldCheck size={20} strokeWidth={1.5} />
                 </motion.div>
                 <h3 className="text-lg font-display font-bold text-white mb-2 tracking-tight">Tampilan Murahan = Hilangnya Kepercayaan</h3>
                 <p className="text-xs sm:text-sm font-sans text-slate-200 leading-relaxed">
@@ -540,7 +532,6 @@ export default function ServiceDetailPage() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {service.processSteps.map((phaseItem, idx) => {
-              // Men-generate timeline simulasi secara dinamis
               let timelineStr = "";
               if (idx === 0) timelineStr = "Minggu 1";
               else if (idx === 1) timelineStr = "Minggu 1-2";
@@ -665,17 +656,65 @@ export default function ServiceDetailPage() {
           </div>
         </div>
 
-        {/* Social Preview Generator & Bottom Share */}
-        <div className="my-16">
-          <SocialPreviewGenerator title={service.title} category="Enterprise Services" author="Chesta Azka Sofyan" />
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-8 rounded-2xl bg-slate-50 border border-slate-200 mt-6">
-            <div>
-              <h4 className="font-display font-bold text-slate-900 text-lg mb-1">Bagikan Layanan Ini</h4>
-              <p className="text-xs text-slate-600 font-sans">Bantu kolega atau partner bisnis Anda menemukan solusi arsitektur digital terbaik.</p>
+        {/* ELITE TRUST VAULT / PRINCIPAL GUARANTEE SECTION (Replaces blog preview generator) */}
+        <div className="my-20 p-8 sm:p-12 rounded-3xl bg-slate-50 border border-slate-200/90 relative overflow-hidden shadow-sm">
+          <div className="absolute top-0 right-0 w-72 h-72 bg-purple-500/5 rounded-full blur-3xl pointer-events-none" />
+          <div className="max-w-3xl mx-auto text-center relative z-10">
+            <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-purple-100 text-purple-900 text-xs font-mono font-bold uppercase tracking-wider mb-4">
+              <ShieldCheck size={16} className="text-purple-700" />
+              Garansi Jaminan Mutu &amp; Keamanan Klien
+            </span>
+            <h3 className="text-2xl sm:text-3xl font-display font-black text-slate-900 mb-4 tracking-tight">
+              Komitmen Profesional Langsung dari Principal Engineer
+            </h3>
+            <p className="text-slate-600 font-sans text-sm sm:text-base leading-relaxed mb-8">
+              Kami percaya pada transparansi mutlak dan kepemilikan penuh. Setiap proyek dikerjakan langsung oleh tim arsitek senior dengan standar korporat tertinggi di BSD City, Tangerang Selatan.
+            </p>
+
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 text-left mb-8">
+              <div className="p-5 rounded-2xl bg-white border border-slate-200 shadow-2xs">
+                <div className="w-10 h-10 rounded-xl bg-purple-50 text-purple-700 flex items-center justify-center mb-3">
+                  <Lock size={20} />
+                </div>
+                <h4 className="font-display font-bold text-slate-900 text-sm mb-1">100% Full Ownership</h4>
+                <p className="text-xs text-slate-500 leading-relaxed">Source code dan repositori sepenuhnya milik Anda tanpa biaya lisensi tersembunyi.</p>
+              </div>
+
+              <div className="p-5 rounded-2xl bg-white border border-slate-200 shadow-2xs">
+                <div className="w-10 h-10 rounded-xl bg-purple-50 text-purple-700 flex items-center justify-center mb-3">
+                  <Zap size={20} />
+                </div>
+                <h4 className="font-display font-bold text-slate-900 text-sm mb-1">Garansi Performa SLA</h4>
+                <p className="text-xs text-slate-500 leading-relaxed">Skor Google Lighthouse 95-100 diuji sebelum serah terima proyek.</p>
+              </div>
+
+              <div className="p-5 rounded-2xl bg-white border border-slate-200 shadow-2xs">
+                <div className="w-10 h-10 rounded-xl bg-purple-50 text-purple-700 flex items-center justify-center mb-3">
+                  <Headphones size={20} />
+                </div>
+                <h4 className="font-display font-bold text-slate-900 text-sm mb-1">Dedicated Support</h4>
+                <p className="text-xs text-slate-500 leading-relaxed">Komunikasi langsung via WhatsApp dengan tim developer tanpa perantara sales.</p>
+              </div>
             </div>
-            <SocialShare title={service.title} description={service.heroDescription} />
+
+            <a
+              href={whatsappUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={handleWhatsAppClick}
+              className="inline-flex items-center gap-2 px-8 py-4 bg-purple-600 hover:bg-purple-700 text-white rounded-2xl font-bold text-xs uppercase tracking-wider shadow-lg shadow-purple-600/20 transition-all cursor-pointer"
+            >
+              <MessageCircle size={16} />
+              <span>Dapatkan Audit Strategi Gratis</span>
+            </a>
           </div>
         </div>
+
+        {/* Value Comparison Component */}
+        <ServiceValueComparison />
+
+        {/* ROI Graph Section Component */}
+        <ServiceROIGraphSection />
 
         {/* LAZY LOADED: 4-TIER IMPACT-DRIVEN PRICING GRID */}
         <div id="pricing">
@@ -691,10 +730,65 @@ export default function ServiceDetailPage() {
           </Suspense>
         </div>
 
-        {/* ScrollSpy Active Section Indicator Badge */}
-        <div className="fixed bottom-24 right-6 z-40 hidden md:flex items-center gap-2.5 px-4 py-2.5 rounded-2xl bg-white/90 backdrop-blur-md border border-purple-200 shadow-xl text-xs font-mono text-slate-700">
-          <div className="w-2.5 h-2.5 rounded-full bg-purple-600 animate-pulse" />
-          <span>Posisi Halaman: <strong className="text-purple-900 uppercase">{activeSection}</strong></span>
+        {/* RELATED SERVICES / DISCOVER OTHER SOLUTIONS */}
+        <div className="mt-32 pt-24 border-t border-slate-100">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
+            <div className="max-w-2xl">
+              <span className="text-[10px] font-mono font-bold uppercase tracking-[0.2em] text-slate-400 mb-4 block">
+                EXPLORE ECOSYSTEM
+              </span>
+              <h2 className="text-3xl sm:text-4xl font-display font-black text-slate-900 tracking-tight">
+                Solusi Arsitektur <br className="hidden sm:block" /> Digital Lainnya.
+              </h2>
+              <p className="text-slate-500 text-sm sm:text-base max-w-xl mt-4 leading-relaxed">
+                Tingkatkan skala bisnis Anda lebih jauh dengan mengintegrasikan solusi rekayasa dan otomasi AI kami yang saling terhubung.
+              </p>
+            </div>
+            <Link 
+              to="/#services" 
+              className="group flex items-center gap-2 text-[11px] font-mono font-bold text-purple-600 uppercase tracking-widest hover:text-purple-800 transition-colors"
+            >
+              <span>Lihat Semua Layanan</span>
+              <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+            </Link>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+            {Object.entries(SERVICES_DATA)
+              .filter(([key]) => key !== slug)
+              .slice(0, 3)
+              .map(([key, data]) => (
+                <motion.div
+                  key={key}
+                  whileHover={{ y: -8 }}
+                  className="group"
+                >
+                  <Link 
+                    to={`/layanan/${key}`}
+                    onClick={() => window.scrollTo(0, 0)}
+                    className="flex flex-col h-full p-8 rounded-3xl bg-slate-50 border border-slate-200 hover:border-purple-300 hover:bg-white hover:shadow-xl hover:shadow-purple-900/[0.03] transition-all duration-500"
+                  >
+                    <div className="w-12 h-12 rounded-2xl bg-white border border-slate-200 flex items-center justify-center text-slate-400 group-hover:text-purple-600 group-hover:border-purple-200 group-hover:scale-110 transition-all duration-500 mb-8 shadow-xs">
+                      {key === 'ai-integration' ? <Cpu size={24} /> : 
+                       key === 'ecommerce-automation' ? <Database size={24} /> : 
+                       <Globe size={24} />}
+                    </div>
+                    <h3 className="text-xl font-display font-bold text-slate-900 mb-3 tracking-tight group-hover:text-purple-900 transition-colors">
+                      {data.title}
+                    </h3>
+                    <p className="text-sm text-slate-500 leading-relaxed font-sans mb-8 flex-grow">
+                      {data.heroDescription.split('.')[0]}.
+                    </p>
+                    <div className="flex items-center justify-between pt-6 border-t border-slate-200 group-hover:border-purple-100">
+                      <span className="text-[10px] font-mono font-bold text-slate-400 group-hover:text-purple-600 uppercase tracking-widest">Detail Solusi</span>
+                      <div className="w-8 h-8 rounded-full border border-slate-200 flex items-center justify-center group-hover:bg-purple-600 group-hover:border-purple-600 transition-all duration-300">
+                        <ArrowRight size={14} className="text-slate-400 group-hover:text-white transition-colors" />
+                      </div>
+                    </div>
+                  </Link>
+                </motion.div>
+              ))}
+          </div>
         </div>
 
       </div>
@@ -716,7 +810,7 @@ export default function ServiceDetailPage() {
             className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-slate-900 hover:bg-slate-800 text-white rounded-full text-sm font-bold shadow-lg transition-all active:scale-95"
           >
             <MessageCircle size={16} className="text-emerald-400" />
-            <span>Request Audit Ekosistem</span>
+            <span>Dapatkan Audit Strategi Gratis</span>
             <ArrowRight size={16} />
           </a>
         </div>

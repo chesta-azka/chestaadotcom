@@ -3,6 +3,8 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Sparkles, Image as ImageIcon } from 'lucide-react';
 
+import OptimizedImage from './OptimizedImage';
+
 interface ArtPlaceholderProps {
   src?: string;
   alt?: string;
@@ -48,13 +50,12 @@ export default function ArtPlaceholder({ src, alt = 'Visual Showcase', className
 
       {/* Actual Image if provided */}
       {src && !hasError ? (
-        <img
+        <OptimizedImage
           src={src}
           alt={alt}
           onLoad={() => setIsLoaded(true)}
           onError={() => setHasError(true)}
           className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ${isLoaded ? 'opacity-100 z-20' : 'opacity-0 z-0'}`}
-          referrerPolicy="no-referrer"
         />
       ) : (
         /* Fallback decorative placeholder when no src is provided */

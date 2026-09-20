@@ -5,6 +5,7 @@ import { db, logAnalyticsEvent } from '../../lib/firebase';
 import { doc, setDoc, serverTimestamp } from 'firebase/firestore';
 import { useAuth } from '../../contexts/AuthContext';
 import { useLocation } from 'react-router-dom';
+import QuickReplyChips from '../atoms/QuickReplyChips';
 
 const floatingSpringTransition = {
   type: 'spring' as const,
@@ -32,7 +33,7 @@ const assistantButtonVariants: Variants = {
 
 export interface ActionButton {
   label: string;
-  actionType: 'prompt' | 'whatsapp' | 'link';
+  actionType: 'prompt' | 'whatsapp' | 'link' | 'schedule';
   value: string;
   variant?: 'whatsapp' | 'primary' | 'secondary';
 }
@@ -47,6 +48,10 @@ export interface FloatingChatMessage {
 
 // Quick AI suggestion starters always visible above input
 const QUICK_AI_SUGGESTIONS = [
+  {
+    label: '📅 Jadwal Konsultasi',
+    prompt: 'Saya ingin menjadwalkan Discovery Call atau konsultasi.',
+  },
   {
     label: '💰 Promo Web Rp540K',
     prompt: 'Berapa biaya paket promo website dan apa saja fasilitas yang didapat?',
@@ -300,6 +305,31 @@ Untuk menerapkan strategi dari artikel ini ke dalam operasional perusahaan Anda,
           actionType: 'prompt',
           value: 'Bagaimana langkah mudah memesan website di CHESTADOTCOM?',
           variant: 'secondary',
+        },
+      ],
+    };
+  }
+
+  // Jadwal / Meeting / Konsultasi / Discovery Call / Booking
+  if (/(jadwal|meeting|konsultasi|discovery call|janji temu|slot|ketemu|atur waktu|booking|bikin janji)/.test(q)) {
+    return {
+      content: `### Jadwalkan Discovery Call (15 Menit)
+
+Kami siap mendiskusikan kebutuhan arsitektur digital dan proyek web Anda secara langsung bersama tim ahli.
+
+Silakan pilih waktu luang yang tersedia di bawah ini untuk mengonfirmasi sesi konsultasi langsung secara instan:`,
+      actions: [
+        {
+          label: '📅 Pilih Jadwal Konsultasi',
+          actionType: 'schedule',
+          value: 'show_scheduler',
+          variant: 'primary',
+        },
+        {
+          label: '💬 Chat Langsung via WhatsApp',
+          actionType: 'whatsapp',
+          value: 'Halo Mas Chesta, saya ingin menjadwalkan konsultasi langsung via WhatsApp.',
+          variant: 'whatsapp',
         },
       ],
     };
@@ -648,6 +678,27 @@ export default function FloatingAIAssistant({ isLoaded = true }: { isLoaded?: bo
     return [...contextSpecific, ...QUICK_AI_SUGGESTIONS].slice(0, 7);
   }, [location.pathname]);
 
+  const pageContext = useMemo(() => {
+    const path = location.pathname;
+    let serviceName = 'Layanan Digital & Web Development Profesional';
+    let pricingTier = 'Paket Promo UMKM Rp540K';
+    if (path.includes('service') || path.includes('layanan')) {
+      serviceName = 'High-Performance Web Systems & Cloud Architecture';
+    } else if (path.includes('pricing') || path.includes('quotation')) {
+      serviceName = 'Custom Quotation & Tiers Calculator';
+    } else if (path.includes('case-study') || path.includes('portfolio')) {
+      serviceName = 'Enterprise Case Studies & Portfolio Showcase';
+    } else if (path.includes('academy') || path.includes('blog')) {
+      serviceName = 'Academy & Tech Insights';
+    }
+    return {
+      path,
+      serviceName,
+      pricingTier,
+      title: document.title || 'CHESTADOTCOM'
+    };
+  }, [location.pathname]);
+
   const quickActionsGrid = useMemo(() => {
     const path = location.pathname;
     if (path.includes('/portfolio') || path.includes('/case-study')) {
@@ -772,10 +823,23 @@ export default function FloatingAIAssistant({ isLoaded = true }: { isLoaded?: bo
     const nextHistory = [...chatHistory, userMsg];
     setChatHistory(nextHistory);
 
-    setTimeout(async () => {
-      const { content, actions } = getStructuredAIResponse(textToSend);
+    try {
+      const res = await fetch('/api/chat', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          messages: nextHistory.map(m => ({
+            role: m.role === 'admin' ? 'assistant' : m.role,
+            content: m.content
+          })),
+          pagePath: location.pathname,
+          pageTitle: document.title,
+          pageContext,
+          stream: true
+        })
+      });
 
-      // Ensure every AI message includes an explicit WhatsApp consultation action
+      const { actions } = getStructuredAIResponse(textToSend);
       const hasWhatsAppAction = actions.some((a) => a.actionType === 'whatsapp');
       const enhancedActions = hasWhatsAppAction
         ? actions
@@ -791,16 +855,64 @@ export default function FloatingAIAssistant({ isLoaded = true }: { isLoaded?: bo
 
       const aiResponse: FloatingChatMessage = {
         role: 'admin',
-        content,
+        content: '',
         timestamp: new Date().toISOString(),
         actions: enhancedActions,
       };
 
+      const historyWithEmptyAI = [...nextHistory, aiResponse];
+      setChatHistory(historyWithEmptyAI);
+
+      const reader = res.body?.getReader();
+      const decoder = new TextDecoder();
+      let accumulatedReply = '';
+
+      if (reader) {
+        while (true) {
+          const { done, value } = await reader.read();
+          if (done) break;
+          const chunk = decoder.decode(value, { stream: true });
+          accumulatedReply += chunk;
+          
+          setChatHistory(prev => {
+            const copy = [...prev];
+            const last = copy[copy.length - 1];
+            if (last && last.role === 'admin') {
+              last.content = accumulatedReply;
+            }
+            return copy;
+          });
+        }
+      }
+
+      if (!accumulatedReply) {
+        accumulatedReply = getStructuredAIResponse(textToSend).content;
+        setChatHistory(prev => {
+          const copy = [...prev];
+          const last = copy[copy.length - 1];
+          if (last && last.role === 'admin') {
+            last.content = accumulatedReply;
+          }
+          return copy;
+        });
+      }
+
+      await saveToFirestore(chatHistory);
+      setIsSubmitting(false);
+    } catch (err) {
+      console.error("Floating AI chat error:", err);
+      const { content, actions } = getStructuredAIResponse(textToSend);
+      const aiResponse: FloatingChatMessage = {
+        role: 'admin',
+        content,
+        timestamp: new Date().toISOString(),
+        actions,
+      };
       const finalHistory = [...nextHistory, aiResponse];
       setChatHistory(finalHistory);
       await saveToFirestore(finalHistory);
       setIsSubmitting(false);
-    }, 350);
+    }
   };
 
   const openWhatsAppUrl = (customText?: string) => {
@@ -843,8 +955,10 @@ export default function FloatingAIAssistant({ isLoaded = true }: { isLoaded?: bo
                     </span>
                   </div>
                   <div className="flex items-center gap-1.5 mt-0.5">
-                    <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-                    <span className="text-[11px] text-slate-600 font-medium">Asisten Konsultasi Siap Membantu</span>
+                    <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shrink-0" />
+                    <span className="text-[11px] text-slate-600 font-medium truncate max-w-[220px]">
+                      ⚡ {pageContext.serviceName}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -887,35 +1001,19 @@ export default function FloatingAIAssistant({ isLoaded = true }: { isLoaded?: bo
                         <FormattedMessageView content={msg.content} isUser={isUser} />
                       </div>
 
-                      {/* Integrated Action Buttons & Guaranteed WhatsApp Quick-Action CTA */}
+                      {/* Integrated Quick-Reply Chips */}
                       {!isUser && msg.actions && msg.actions.length > 0 && (
-                        <div className="max-w-[98%] sm:max-w-[92%] flex flex-wrap gap-1.5 pt-1">
-                          {msg.actions.map((action, aIdx) => {
+                        <QuickReplyChips
+                          actions={msg.actions}
+                          sessionId={sessionId}
+                          onSelect={(action) => {
                             if (action.actionType === 'whatsapp') {
-                              return (
-                                <button
-                                  key={aIdx}
-                                  onClick={() => openWhatsAppUrl(action.value)}
-                                  className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-purple-600 hover:bg-purple-700 active:bg-purple-800 text-white font-sans text-xs font-semibold shadow-xs hover:shadow-sm transition-all cursor-pointer group"
-                                >
-                                  <MessageCircle size={13} className="text-white shrink-0" />
-                                  <span className="text-white">{action.label}</span>
-                                  <ArrowRight size={12} className="text-white/80 group-hover:translate-x-0.5 transition-transform shrink-0" />
-                                </button>
-                              );
+                              openWhatsAppUrl(action.value);
+                            } else {
+                              handleSendMessage(undefined, action.value);
                             }
-
-                            return (
-                              <button
-                                key={aIdx}
-                                onClick={() => handleSendMessage(undefined, action.value)}
-                                className="inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl bg-white hover:bg-purple-50 active:bg-purple-100 text-purple-950 hover:text-purple-900 border border-purple-200 font-sans text-xs font-medium transition-all cursor-pointer text-left shadow-2xs"
-                              >
-                                <span>{action.label}</span>
-                              </button>
-                            );
-                          })}
-                        </div>
+                          }}
+                        />
                       )}
                     </motion.div>
                   );

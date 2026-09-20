@@ -1,31 +1,21 @@
-import SEOProvider from '../components/atoms/SEOProvider';
+import SEOMetadata from '../components/atoms/SEOMetadata';
 import React from 'react';
 import { motion } from 'motion/react';
 import { Sparkles, MessageCircle, ArrowRight, ShieldCheck, Zap, Bot, Globe } from 'lucide-react';
 import LocalWeatherWidget from '../components/atoms/LocalWeatherWidget';
-import MetaTags from '../components/atoms/MetaTags';
 import { Link } from 'react-router-dom';
 import chestaPhoto from '../assets/images/regenerated_image_1787838669318.png';
-import { generateLocalBusinessSchema } from '../lib/seo';
 import AnimatedCounter from '../components/atoms/AnimatedCounter';
 import AnimatedHeading from '../components/atoms/AnimatedHeading';
 
 export default function AboutPage() {
   return (
     <div className="flex flex-col w-full min-h-screen bg-transparent relative overflow-hidden select-none">
-      <SEOProvider 
-        title="Tentang Kami | CHESTAADOTCOM"
-        description="Mengenal CHESTAADOTCOM sebagai agency IT solution dan rekayasa website modern di BSD City oleh Chesta Azka Sofyan."
-      />
-      <script 
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(generateLocalBusinessSchema()) }}
-      />
-      <LocalWeatherWidget />
-      <MetaTags 
+      <SEOMetadata 
         title="Tentang Kami | Software House BSD City & Cisauk"
         description="Pelajari visi CHESTAADOTCOM sebagai software house elit di BSD City dan Cisauk yang berfokus pada Web Development dan AI Automation."
       />
+      <LocalWeatherWidget />
 
       <div className="relative z-10 w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-36 md:pt-44 pb-24">
         

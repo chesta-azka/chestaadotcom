@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import { MessageCircle, Shield, Sparkles, MapPin, Search, ArrowRight, Target, Star, Quote, CheckCircle, Globe, Zap, ArrowUpRight } from 'lucide-react';
 import { CITIES } from '../data/AreasData';
 import { SERVICE_DEFINITIONS } from '../data/ServiceDefinition';
-import MetaTags from '../components/atoms/MetaTags';
+import SEOMetadata from '../components/atoms/SEOMetadata';
 import TextRevealSmooth from '../components/atoms/TextRevealSmooth';
 import { Skeleton } from '../components/atoms/Skeleton';
 import Breadcrumbs from '../components/atoms/Breadcrumbs';
@@ -68,10 +68,9 @@ export default function AreaDetailPage() {
 
   return (
     <div className="pt-40 md:pt-48 pb-28 min-h-screen relative bg-transparent text-slate-900 overflow-hidden">
-      <MetaTags 
-        title={`Jasa Pembuatan Website ${formattedCityName} Premium — CHESTAADOTCOM`} 
+      <SEOMetadata 
+        title={`Jasa Pembuatan Website ${formattedCityName} Premium`} 
         description={`Arsitek digital 2026 pembuatan website profesional, cepat, SEO-ready, dan mobile-first untuk UMKM & brand lokal di ${formattedCityName} mulai Rp650K (Promo Rp540K).`}
-        path={`/area/${cityName.toLowerCase()}`}
       />
 
       {/* Hero Section */}
@@ -79,14 +78,6 @@ export default function AreaDetailPage() {
         <div className="absolute top-0 inset-x-0 h-[400px] bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-[#6b21a8]/4 via-transparent to-transparent -z-10 pointer-events-none" />
 
         <div className="max-w-5xl mx-auto px-6">
-          {/* Breadcrumb Navigation for SEO with City Scope */}
-          <div className="flex justify-center md:justify-start select-none mb-8">
-            <Breadcrumbs items={[
-              { label: 'Layanan', path: '/services' },
-              { label: formattedCityName }
-            ]} />
-          </div>
-
           <motion.div
             initial={{ opacity: 0, y: 15 }}
             animate={{ opacity: 1, y: 0 }}
