@@ -4,6 +4,7 @@ import { ArrowUpRight, Cpu, Zap, Code2 } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import chestaPhoto from '../../assets/images/regenerated_image_1787838669318.png';
 import AnimatedHeading from '../atoms/AnimatedHeading';
+import MagneticButton from '../atoms/MagneticButton';
 
 import OptimizedImage from '../atoms/OptimizedImage';
 
@@ -19,7 +20,7 @@ export default function AboutMeSection() {
           <span className="text-[10px] font-mono font-bold uppercase tracking-[0.2em] text-purple-700 bg-purple-50 px-3 py-1.5 rounded-full border border-purple-200 inline-block mb-4 shadow-sm">
             THE ARCHITECT
           </span>
-          <AnimatedHeading as="h2" className="text-4xl sm:text-5xl lg:text-6xl font-black text-slate-900 tracking-tight font-display mb-4">
+          <AnimatedHeading as="h2" className="text-4xl sm:text-5xl lg:text-6xl font-semibold text-slate-900 tracking-tight font-display mb-4">
             Membangun Standar Baru <br className="hidden sm:block" /> di Era Digital &amp; AI.
           </AnimatedHeading>
           <p className="text-slate-500 font-sans text-sm sm:text-base max-w-2xl mx-auto">
@@ -45,7 +46,7 @@ export default function AboutMeSection() {
             {/* Experience Badge */}
             <div className="absolute -top-4 -left-4 bg-white border border-slate-100 p-3 rounded-2xl shadow-xl z-20 hidden sm:block">
               <div className="text-center">
-                <span className="block text-lg font-black text-slate-900 font-display">8+</span>
+                <span className="block text-lg font-semibold text-slate-900 font-display">8+</span>
                 <span className="block text-[8px] font-mono font-bold text-slate-400 uppercase tracking-tighter">Years Exp</span>
               </div>
             </div>
@@ -53,7 +54,7 @@ export default function AboutMeSection() {
 
           <div className="flex-1 text-center md:text-left space-y-4 relative z-10">
             <div className="flex flex-wrap items-center justify-center md:justify-start gap-3">
-              <AnimatedHeading as="h3" className="text-2xl sm:text-3xl font-black text-slate-900 font-display tracking-tight">
+              <AnimatedHeading as="h3" className="text-2xl sm:text-3xl font-semibold text-slate-900 font-display tracking-tight">
                 Chesta Azka Sofyan
               </AnimatedHeading>
               <div className="flex gap-1">
@@ -69,22 +70,22 @@ export default function AboutMeSection() {
               "Saya tidak sekadar menulis kode; saya merancang <span className="text-slate-900 font-bold">fondasi digital</span> yang memungkinkan bisnis Anda beroperasi secara otonom dan tumbuh tanpa batas. Fokus saya adalah <span className="text-purple-700 font-bold">ROI teknis</span> dan dominasi pasar."
             </p>
             <div className="pt-4 flex flex-wrap items-center justify-center md:justify-start gap-4">
-              <Link
-                to="/about"
-                className="inline-flex items-center gap-2 px-8 py-4 bg-slate-900 text-white hover:bg-purple-700 text-[11px] font-mono font-bold uppercase tracking-widest rounded-2xl transition-all shadow-lg hover:shadow-purple-900/20 hover:-translate-y-1"
+              <MagneticButton
+                href="/about"
+                className="px-8 py-4 bg-slate-900 text-white hover:bg-purple-700 text-[11px] font-mono font-bold uppercase tracking-widest rounded-2xl transition-all shadow-lg hover:shadow-purple-900/20"
+                strength={15}
               >
                 <span>Eksplorasi Visi</span>
                 <ArrowUpRight size={16} />
-              </Link>
-              <a
+              </MagneticButton>
+              <MagneticButton
                 href="https://wa.me/6282125447232?text=Halo%20Mas%20Chesta,%20saya%20ingin%20konsultasi%20strategis%20untuk%20sistem%20bisnis%20saya"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-8 py-4 bg-white text-slate-900 border border-slate-200 hover:border-purple-300 hover:text-purple-700 text-[11px] font-mono font-bold uppercase tracking-widest rounded-2xl transition-all shadow-sm hover:-translate-y-1"
+                className="px-8 py-4 bg-white text-slate-900 border border-slate-200 hover:border-purple-300 hover:text-purple-700 text-[11px] font-mono font-bold uppercase tracking-widest rounded-2xl transition-all shadow-sm"
+                strength={15}
               >
                 <span>Konsultasi Strategis</span>
                 <ArrowUpRight size={16} />
-              </a>
+              </MagneticButton>
             </div>
           </div>
         </div>
@@ -107,7 +108,7 @@ export default function AboutMeSection() {
               </div>
               <h4 className="font-bold text-slate-900 text-lg font-display">Technical Superiority</h4>
             </div>
-            <p className="text-sm text-slate-500 font-sans leading-relaxed">Arsitektur Next.js 15 yang dioptimasi untuk kecepatan ekstrem dan skor SEO sempurna.</p>
+            <p className="text-sm text-slate-500 font-sans leading-relaxed">Arsitektur web tingkat lanjut yang dioptimasi untuk kecepatan ekstrem dan skor SEO sempurna.</p>
           </div>
           <div className="bg-white border border-slate-200/90 rounded-2xl p-7 shadow-sm hover:border-purple-300 hover:shadow-md transition-all group">
             <div className="flex items-center gap-3 mb-3">

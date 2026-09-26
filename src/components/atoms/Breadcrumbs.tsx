@@ -89,7 +89,7 @@ export default function Breadcrumbs({ items, currentTitle, className = '', hideO
               ) : isLast ? (
                 <span 
                   aria-current="page"
-                  className="text-purple-600 font-black truncate max-w-[150px] sm:max-w-xs md:max-w-md"
+                  className="text-purple-600 font-semibold truncate max-w-[150px] sm:max-w-xs md:max-w-md"
                   title={bc.name}
                 >
                   {bc.name.toUpperCase()}

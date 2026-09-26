@@ -19,7 +19,7 @@ const FAQS = [
   },
   {
     q: 'Apakah website saya akan SEO Friendly?',
-    a: 'Setiap baris kode yang kami tulis dioptimalkan untuk mesin pencari. Kami menggunakan arsitektur SSR (Server Side Rendering) Next.js yang memberikan performa indexing superior dibandingkan website SPA biasa.',
+    a: 'Setiap baris kode yang kami tulis dioptimalkan untuk mesin pencari. Kami menggunakan arsitektur rendering sisi server berkecepatan tinggi yang memberikan performa indexing superior dibandingkan website SPA biasa.',
   },
   {
     q: 'Berapa biaya untuk integrasi AI?',
@@ -38,7 +38,7 @@ export default function FAQAccordion() {
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
-            className="text-[11px] font-mono font-bold uppercase tracking-widest text-purple-600"
+            className="text-[11px] font-mono font-medium uppercase tracking-widest text-purple-600"
           >
             Pusat Bantuan
           </motion.span>
@@ -47,7 +47,7 @@ export default function FAQAccordion() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ delay: 0.1 }}
-            className="mt-4 text-3xl md:text-4xl font-display font-black text-slate-900 tracking-tight"
+            className="mt-4 text-3xl md:text-4xl font-display font-semibold text-slate-900 tracking-tight"
           >
             Pertanyaan yang Sering Diajukan
           </motion.h2>

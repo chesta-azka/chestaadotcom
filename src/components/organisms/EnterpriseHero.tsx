@@ -58,7 +58,7 @@ export default function EnterpriseHero({
           <div className="flex h-5 w-5 items-center justify-center rounded-full bg-purple-600 text-white shadow-lg shadow-purple-600/20">
             <Sparkles size={12} fill="currentColor" />
           </div>
-          <span className="text-[11px] font-mono font-black uppercase tracking-[0.15em]">
+          <span className="text-[11px] font-mono font-medium uppercase tracking-[0.15em]">
             {badgeText}
           </span>
         </motion.div>
@@ -70,7 +70,7 @@ export default function EnterpriseHero({
           transition={{ duration: 0.8, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
           className="max-w-5xl mx-auto mb-8"
         >
-          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-[5rem] font-display font-black text-slate-900 leading-[1.05] tracking-tight">
+          <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-[5rem] font-display font-semibold text-slate-900 leading-[1.05] tracking-tight">
             {title} <br className="hidden md:block" />
             <span className="relative inline-block mt-2">
               <span className="relative z-10 bg-clip-text text-transparent bg-gradient-to-r from-purple-700 via-violet-800 to-indigo-900">
@@ -100,7 +100,7 @@ export default function EnterpriseHero({
         >
           <a
             href={primaryCtaHref}
-            className="group relative inline-flex h-14 items-center justify-center gap-2 overflow-hidden rounded-2xl bg-purple-900 px-10 text-sm font-black uppercase tracking-widest text-white shadow-xl shadow-purple-900/20 transition-all hover:bg-purple-950 hover:shadow-2xl hover:-translate-y-1 w-full sm:w-auto"
+            className="group relative inline-flex h-14 items-center justify-center gap-2 overflow-hidden rounded-2xl bg-purple-900 px-10 text-sm font-semibold uppercase tracking-widest text-white shadow-xl shadow-purple-900/20 transition-all hover:bg-purple-950 hover:shadow-2xl hover:-translate-y-1 w-full sm:w-auto"
           >
             <span>{primaryCtaText}</span>
             <ChevronRight className="transition-transform group-hover:translate-x-1" size={18} />
@@ -108,7 +108,7 @@ export default function EnterpriseHero({
           
           <a
             href={secondaryCtaHref}
-            className="inline-flex h-14 items-center justify-center gap-2 rounded-2xl border-2 border-slate-200 bg-white px-10 text-sm font-black uppercase tracking-widest text-slate-900 transition-all hover:bg-slate-50 hover:border-slate-300 hover:-translate-y-1 w-full sm:w-auto"
+            className="inline-flex h-14 items-center justify-center gap-2 rounded-2xl border-2 border-slate-200 bg-white px-10 text-sm font-semibold uppercase tracking-widest text-slate-900 transition-all hover:bg-slate-50 hover:border-slate-300 hover:-translate-y-1 w-full sm:w-auto"
           >
             <span>{secondaryCtaText}</span>
           </a>
@@ -130,7 +130,7 @@ export default function EnterpriseHero({
             SUB-SECOND PERFORMANCE
           </div>
           <div className="flex items-center gap-2 font-mono text-[11px] font-bold text-slate-500 text-center">
-            MEMBER OF NEXT.JS CERTIFIED DEVELOPERS
+            CERTIFIED ENTERPRISE ARCHITECTS
           </div>
         </motion.div>
       </div>

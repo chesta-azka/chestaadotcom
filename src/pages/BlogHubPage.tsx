@@ -278,12 +278,12 @@ export default function BlogHubPage() {
             <header className="mb-12 w-full text-left bg-purple-950 p-8 sm:p-12 rounded-xl text-white shadow-xl relative overflow-hidden">
               <div className="absolute inset-0 bg-gradient-to-tr from-purple-950 via-slate-950 to-purple-900 opacity-95 -z-10" />
               <div className="flex flex-wrap gap-3 items-center mb-6">
-                <span className="text-[10px] font-mono font-bold text-white bg-purple-600 px-3.5 py-1.5 rounded-full uppercase tracking-widest shadow-sm">
+                <span className="text-[10px] font-mono font-medium text-white bg-gradient-to-r from-purple-600 to-indigo-600 px-3.5 py-1.5 rounded-full uppercase tracking-widest shadow-sm">
                   {activeArticle.cat}
                 </span>
 
                 {activeArticle.recommended && (
-                  <span className="inline-flex items-center gap-1 text-[10px] font-mono font-bold text-amber-300 bg-amber-950/85 border border-amber-500/40 px-3 py-1.5 rounded-full uppercase tracking-wider">
+                  <span className="inline-flex items-center gap-1 text-[10px] font-mono font-medium text-amber-300 bg-amber-950/85 border border-amber-500/40 px-3 py-1.5 rounded-full uppercase tracking-wider">
                     <Star size={11} className="fill-amber-400 text-amber-400" />
                     Rekomendasi Editor
                   </span>
@@ -305,13 +305,13 @@ export default function BlogHubPage() {
 
               {/* Author Strip */}
               {activeArticle.author && (
-                <div className="flex flex-wrap items-center justify-between gap-4 py-3 px-4 rounded-2xl bg-slate-50 border border-slate-100 mb-8 w-full">
+                <div className="flex flex-wrap items-center justify-between gap-4 py-3 px-4 rounded-2xl bg-white/95 border border-purple-100 mb-8 w-full shadow-xs">
                   <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-purple-600 to-purple-600 text-white font-mono text-xs font-bold flex items-center justify-center shadow-sm">
+                    <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-purple-700 to-indigo-600 text-white font-mono text-xs font-medium flex items-center justify-center shadow-sm">
                       CA
                     </div>
                     <div className="text-left">
-                      <div className="text-sm font-sans font-bold text-slate-900">{activeArticle.author.name}</div>
+                      <div className="text-sm font-sans font-medium text-slate-900">{activeArticle.author.name}</div>
                       <div className="text-[10px] font-mono text-slate-500 uppercase tracking-wider">{activeArticle.author.role}</div>
                     </div>
                   </div>
@@ -380,9 +380,9 @@ export default function BlogHubPage() {
                             return (
                               <h2 
                                 id={id} 
-                                className="text-3xl sm:text-4xl font-display font-bold text-slate-900 mt-14 mb-6 pt-4 border-t-2 border-purple-100 scroll-mt-28 flex items-center gap-3 group tracking-tight"
+                                className="text-3xl sm:text-4xl font-display font-medium text-slate-900 mt-14 mb-6 pt-4 border-t-2 border-purple-100 scroll-mt-28 flex items-center gap-3 group tracking-tight"
                               >
-                                <span className="w-3 h-8 rounded-full bg-purple-700 inline-block shrink-0 shadow-sm shadow-purple-500/20" />
+                                <span className="w-2.5 h-7 rounded-full bg-purple-700 inline-block shrink-0 shadow-sm shadow-purple-500/20" />
                                 <span>{children}</span>
                               </h2>
                             );
@@ -397,9 +397,9 @@ export default function BlogHubPage() {
                             return (
                               <h3 
                                 id={id} 
-                                className="text-2xl sm:text-3xl font-display font-semibold text-slate-900 mt-10 mb-4 pt-2 scroll-mt-28 flex items-center gap-2 group tracking-tight"
+                                className="text-2xl sm:text-3xl font-display font-medium text-slate-900 mt-10 mb-4 pt-2 scroll-mt-28 flex items-center gap-2 group tracking-tight"
                               >
-                                <span className="w-2.5 h-2.5 rounded-full bg-purple-600 inline-block shrink-0 opacity-80 group-hover:opacity-100 shadow-sm" />
+                                <span className="w-2 h-2 rounded-full bg-purple-600 inline-block shrink-0 opacity-80 group-hover:opacity-100 shadow-sm" />
                                 <span>{children}</span>
                               </h3>
                             );
@@ -410,7 +410,7 @@ export default function BlogHubPage() {
                             </p>
                           ),
                           strong: ({ children }) => (
-                            <strong className="font-bold text-slate-900 bg-purple-50/80 px-1.5 py-0.5 rounded text-purple-900 font-sans shadow-sm border border-purple-100/50">
+                            <strong className="font-medium text-slate-900 bg-purple-50/80 px-1.5 py-0.5 rounded text-purple-900 font-sans shadow-xs border border-purple-100/50">
                               {children}
                             </strong>
                           ),
@@ -424,7 +424,7 @@ export default function BlogHubPage() {
                               href={href}
                               target="_blank"
                               rel="noopener noreferrer"
-                              className="text-purple-700 hover:text-purple-900 font-semibold underline underline-offset-4 decoration-purple-300 hover:decoration-purple-600 transition-colors inline-flex items-center gap-1"
+                              className="text-purple-700 hover:text-purple-900 font-medium underline underline-offset-4 decoration-purple-300 hover:decoration-purple-600 transition-colors inline-flex items-center gap-1"
                             >
                               {children}
                             </a>
@@ -435,7 +435,7 @@ export default function BlogHubPage() {
                             </ul>
                           ),
                           ol: ({ children }) => (
-                            <ol className="space-y-3 my-6 pl-8 list-decimal marker:text-purple-700 marker:font-bold text-slate-700 leading-[1.8] text-[1.05rem] sm:text-lg">
+                            <ol className="space-y-3 my-6 pl-8 list-decimal marker:text-purple-700 marker:font-medium text-slate-700 leading-[1.8] text-[1.05rem] sm:text-lg">
                               {children}
                             </ol>
                           ),
@@ -511,7 +511,7 @@ export default function BlogHubPage() {
             <div className="mt-16 border-t border-slate-100 pt-12 w-full">
               <div className="flex items-center justify-between mb-8">
                 <div>
-                  <span className="text-[10px] font-mono uppercase tracking-widest text-[#6b21a8] font-bold block mb-2">
+                  <span className="text-[10px] font-mono uppercase tracking-widest text-[#6b21a8] font-medium block mb-2">
                     Keep Reading
                   </span>
                   <h3 className="text-2xl font-display font-medium text-slate-900 tracking-tight">
@@ -520,7 +520,7 @@ export default function BlogHubPage() {
                 </div>
                 <button
                   onClick={() => setSearchParams({})}
-                  className="text-xs font-sans font-semibold text-[#6b21a8] hover:underline inline-flex items-center gap-1"
+                  className="text-xs font-sans font-medium text-[#6b21a8] hover:underline inline-flex items-center gap-1"
                 >
                   Lihat Semua Artikel <ArrowRight size={14} />
                 </button>
@@ -535,11 +535,11 @@ export default function BlogHubPage() {
                   >
                     <div>
                       <div className="flex items-center gap-2.5 mb-4">
-                        <span className="text-[#6b21a8] text-[10px] font-mono uppercase tracking-widest font-bold bg-purple-50 px-2.5 py-1 rounded-full">
+                        <span className="text-[#6b21a8] text-[10px] font-mono uppercase tracking-widest font-medium bg-purple-50 px-2.5 py-1 rounded-full">
                           {art.cat}
                         </span>
                         {art.recommended && (
-                          <span className="flex items-center gap-1 text-[10px] font-mono font-bold text-amber-700 bg-amber-50 px-2.5 py-1 rounded-full border border-amber-200/50">
+                          <span className="flex items-center gap-1 text-[10px] font-mono font-medium text-amber-700 bg-amber-50 px-2.5 py-1 rounded-full border border-amber-200/50">
                             <Star size={10} className="fill-amber-500 text-amber-500" /> Rekomendasi
                           </span>
                         )}
@@ -553,7 +553,7 @@ export default function BlogHubPage() {
                     </div>
                     <div className="flex items-center justify-between text-[10px] font-mono text-slate-400 pt-4 border-t border-slate-200/60">
                       <span>{art.readTime}</span>
-                      <span className="text-[#6b21a8] font-semibold group-hover:translate-x-1 transition-transform flex items-center gap-1">
+                      <span className="text-[#6b21a8] font-medium group-hover:translate-x-1 transition-transform flex items-center gap-1">
                         Baca Artikel <ArrowRight size={12} />
                       </span>
                     </div>
@@ -567,7 +567,7 @@ export default function BlogHubPage() {
               <div className="absolute top-0 right-0 w-64 h-64 " />
               <div className="relative z-10 max-w-xl mx-auto">
                 <BookOpen size={36} className="text-purple-600 mx-auto mb-4" />
-                <h3 className="text-2xl sm:text-3xl font-serif font-bold text-slate-900 mb-3">
+                <h3 className="text-2xl sm:text-3xl font-serif font-medium text-slate-900 mb-3">
                   Wujudkan Arsitektur Digital Bisnis Anda
                 </h3>
                 <p className="text-sm text-slate-600 mb-8 font-sans leading-relaxed">
@@ -577,7 +577,7 @@ export default function BlogHubPage() {
                   href={`https://wa.me/6282125447232?text=${encodeURIComponent('Halo Mas Chesta, saya baru membaca artikel di CHESTAADOTCOM dan ingin berkonsultasi mengenai strategi digital bisnis saya.')}`}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 rounded-full bg-purple-600 px-8 py-4 font-mono text-xs font-bold uppercase tracking-widest text-white hover:bg-purple-700 transition-all duration-300 shadow-lg shadow-purple-600/20 cursor-pointer"
+                  className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-purple-700 via-purple-800 to-indigo-900 hover:from-purple-600 hover:to-indigo-800 px-8 py-4 font-mono text-xs font-medium uppercase tracking-widest text-white transition-all duration-300 shadow-lg shadow-purple-600/25 cursor-pointer"
                 >
                   <span>Chat with us on WhatsApp</span>
                   <ArrowUpRight size={14} />
@@ -651,16 +651,16 @@ export default function BlogHubPage() {
                           {searchQuery || selectedCategory !== 'All' ? (
                             <button 
                               onClick={() => { setSearchQuery(''); setSelectedCategory('All'); }}
-                              className="text-[10px] text-slate-400 hover:text-slate-700 bg-slate-100 px-3 py-1.5 rounded-full font-mono uppercase font-bold cursor-pointer transition-colors"
+                              className="text-[10px] text-slate-400 hover:text-slate-700 bg-slate-100 px-3 py-1.5 rounded-full font-mono uppercase font-medium cursor-pointer transition-colors"
                             >
                               Clear
                             </button>
                           ) : (
                             <button
                               type="button"
-                              onClick={() => window.dispatchEvent(new CustomEvent('open-command-palette'))}
-                              className="inline-flex items-center gap-1 text-[10px] font-mono text-[#6b21a8] bg-purple-50 hover:bg-purple-100 border border-purple-200 px-2 py-1.5 rounded-lg font-bold uppercase transition-colors cursor-pointer"
-                              title="Buka Pencarian Global (⌘K)"
+                              onClick={() => window.dispatchEvent(new CustomEvent('open-command-palette', { detail: { category: 'articles' } }))}
+                              className="inline-flex items-center gap-1 text-[10px] font-mono text-[#6b21a8] bg-purple-50 hover:bg-purple-100 border border-purple-200 px-2 py-1.5 rounded-lg font-medium uppercase transition-colors cursor-pointer"
+                              title="Buka Pencarian Global Artikel (⌘K)"
                             >
                               <span>⌘K</span>
                             </button>
@@ -672,7 +672,7 @@ export default function BlogHubPage() {
                           {searchQuery || selectedCategory !== 'All' ? (
                             <button 
                               onClick={() => { setSearchQuery(''); setSelectedCategory('All'); }}
-                              className="text-[10px] text-slate-400 hover:text-slate-700 bg-slate-100 px-2.5 py-1 rounded-full font-mono uppercase font-bold cursor-pointer"
+                              className="text-[10px] text-slate-400 hover:text-slate-700 bg-slate-100 px-2.5 py-1 rounded-full font-mono uppercase font-medium cursor-pointer"
                             >
                               Clear
                             </button>
@@ -759,18 +759,18 @@ export default function BlogHubPage() {
                           transition={{ delay: 0.3, duration: 0.6 }}
                           className="flex flex-wrap gap-4 items-center mb-8"
                         >
-                          <span className="px-5 py-2 rounded-full bg-purple-600/90 backdrop-blur-md text-white text-[11px] font-mono font-black uppercase tracking-[0.25em] shadow-xl shadow-purple-900/40 border border-white/20">
+                          <span className="px-5 py-2 rounded-full bg-purple-600/90 backdrop-blur-md text-white text-[11px] font-mono font-medium uppercase tracking-[0.2em] shadow-xl shadow-purple-900/40 border border-white/20">
                             {primaryFeaturedArticle.cat}
                           </span>
                           
-                          <span className="relative flex items-center gap-2 px-5 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/30 text-white text-[11px] font-mono font-black uppercase tracking-[0.25em] overflow-hidden group/shimmer">
+                          <span className="relative flex items-center gap-2 px-5 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/30 text-white text-[11px] font-mono font-medium uppercase tracking-[0.2em] overflow-hidden group/shimmer">
                             <Star size={14} className="text-amber-400 fill-amber-400 animate-bounce" />
                             <span>Featured Strategic Post</span>
                             {/* Shimmer Effect */}
                             <div className="absolute inset-0 translate-x-[-100%] group-hover/shimmer:translate-x-[100%] transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-12" />
                           </span>
 
-                          <span className="flex items-center gap-2 text-[11px] font-mono text-purple-200 uppercase tracking-widest font-bold opacity-80">
+                          <span className="flex items-center gap-2 text-[11px] font-mono text-purple-200 uppercase tracking-widest font-medium opacity-80">
                             <Clock size={13} />
                             {primaryFeaturedArticle.readTime}
                           </span>
@@ -780,7 +780,7 @@ export default function BlogHubPage() {
                           initial={{ opacity: 0, y: 20 }}
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ delay: 0.4, duration: 0.6 }}
-                          className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-display font-black text-white leading-[1.05] mb-8 tracking-tighter group-hover/hero:text-purple-200 transition-colors duration-500"
+                          className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-display font-semibold text-white leading-[1.05] mb-8 tracking-tight group-hover/hero:text-purple-200 transition-colors duration-500"
                         >
                           {primaryFeaturedArticle.title}
                         </motion.h2>
@@ -789,7 +789,7 @@ export default function BlogHubPage() {
                           initial={{ opacity: 0, y: 20 }}
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ delay: 0.5, duration: 0.6 }}
-                          className="text-slate-300 text-base md:text-xl max-w-3xl leading-relaxed mb-10 font-medium line-clamp-3 md:line-clamp-none opacity-90 group-hover/hero:opacity-100 transition-opacity duration-500"
+                          className="text-slate-300 text-base md:text-xl max-w-3xl leading-relaxed mb-10 font-normal line-clamp-3 md:line-clamp-none opacity-90 group-hover/hero:opacity-100 transition-opacity duration-500"
                         >
                           {primaryFeaturedArticle.desc}
                         </motion.p>
@@ -809,8 +809,8 @@ export default function BlogHubPage() {
                               />
                             </div>
                             <div className="text-left">
-                              <div className="text-base font-sans font-black text-white uppercase tracking-wider">{primaryFeaturedArticle.author?.name}</div>
-                              <div className="text-[11px] font-mono text-purple-300 uppercase tracking-[0.2em] font-bold">{primaryFeaturedArticle.author?.role}</div>
+                              <div className="text-base font-sans font-semibold text-white uppercase tracking-wider">{primaryFeaturedArticle.author?.name}</div>
+                              <div className="text-[11px] font-mono text-purple-300 uppercase tracking-[0.2em] font-medium">{primaryFeaturedArticle.author?.role}</div>
                             </div>
                           </div>
 
@@ -848,7 +848,7 @@ export default function BlogHubPage() {
 
                     <button
                       onClick={() => setOnlyRecommended(!onlyRecommended)}
-                      className={`group flex items-center gap-2 text-[10px] font-mono font-black uppercase tracking-[0.2em] px-6 py-2.5 rounded-xl border transition-all ${
+                      className={`group flex items-center gap-2 text-[10px] font-mono font-medium uppercase tracking-[0.2em] px-6 py-2.5 rounded-xl border transition-all ${
                         onlyRecommended 
                           ? 'bg-amber-600 text-white border-amber-700 shadow-lg shadow-amber-900/20' 
                           : 'bg-white text-slate-500 border-slate-200 hover:border-amber-400 hover:text-amber-700'
@@ -940,7 +940,7 @@ export default function BlogHubPage() {
                             className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" 
                           />
                           {art.recommended && (
-                            <div className="absolute top-3 right-3 bg-white/95 backdrop-blur-md px-2.5 py-1 rounded-full border border-amber-200/80 shadow-sm flex items-center gap-1 text-[10px] font-mono font-bold text-amber-800">
+                            <div className="absolute top-3 right-3 bg-white/95 backdrop-blur-md px-2.5 py-1 rounded-full border border-amber-200/80 shadow-sm flex items-center gap-1 text-[10px] font-mono font-medium text-amber-800">
                               <Star size={10} className="fill-amber-500 text-amber-500" />
                               <span>Rekomendasi</span>
                             </div>
@@ -949,7 +949,7 @@ export default function BlogHubPage() {
                       )}
 
                       <div className="flex gap-2.5 items-center mb-3">
-                        <span className="text-[10px] font-mono font-bold text-purple-700 bg-purple-50 px-2.5 py-1 rounded-full uppercase tracking-wider">
+                        <span className="text-[10px] font-mono font-medium text-purple-700 bg-purple-50 px-2.5 py-1 rounded-full uppercase tracking-wider">
                           {art.cat}
                         </span>
                         <span className="text-[10px] font-mono text-slate-400">
@@ -976,7 +976,7 @@ export default function BlogHubPage() {
                         </div>
                       )}
 
-                      <div className="pt-4 border-t border-slate-100 flex items-center justify-between text-xs font-mono font-semibold tracking-wider text-[#6b21a8]">
+                      <div className="pt-4 border-t border-slate-100 flex items-center justify-between text-xs font-mono font-medium tracking-wider text-[#6b21a8]">
                         <span>Baca Selengkapnya</span>
                         <ArrowRight size={14} className="transform group-hover:translate-x-1 transition-transform" />
                       </div>
@@ -990,7 +990,7 @@ export default function BlogHubPage() {
                     <div className="mt-16 flex justify-center">
                       <button
                         onClick={handleLoadMore}
-                        className="px-8 py-3.5 rounded-full bg-slate-900 text-white hover:bg-[#6b21a8] text-xs font-mono font-bold uppercase tracking-widest transition-colors shadow-sm"
+                        className="px-8 py-3.5 rounded-full bg-slate-900 text-white hover:bg-[#6b21a8] text-xs font-mono font-medium uppercase tracking-widest transition-colors shadow-sm cursor-pointer"
                       >
                         Muat Lebih Banyak Insight
                       </button>
@@ -1003,7 +1003,7 @@ export default function BlogHubPage() {
                   
                   {/* Categories Vertical List */}
                   <div className="bg-white p-6 rounded-xl border border-slate-100 shadow-sm">
-                    <h4 className="font-bold text-slate-900 mb-6 text-xs uppercase tracking-widest bg-slate-50 border border-slate-100 px-4 py-2 rounded-lg inline-block">
+                    <h4 className="font-medium text-slate-900 mb-6 text-xs uppercase tracking-widest bg-purple-50/70 border border-purple-100/80 px-4 py-2 rounded-lg inline-block text-purple-950">
                       Kategori Topik
                     </h4>
                     <ul className="flex flex-col gap-2">
@@ -1033,7 +1033,7 @@ export default function BlogHubPage() {
 
                   {/* Local SEO / Internal Links Strategy */}
                   <div className="bg-gradient-to-br from-purple-900 to-indigo-950 p-6 rounded-xl shadow-lg border border-purple-800/50">
-                    <h4 className="font-bold text-white mb-6 text-xs uppercase tracking-widest border-b border-purple-800/50 pb-4">
+                    <h4 className="font-medium text-white mb-6 text-xs uppercase tracking-widest border-b border-purple-800/50 pb-4">
                       Area &amp; Solusi Utama
                     </h4>
                     <ul className="flex flex-col gap-3 text-sm font-sans">

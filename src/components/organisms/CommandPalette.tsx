@@ -33,6 +33,11 @@ import {
   SearchDocument, 
   SearchCategory 
 } from '../../lib/searchEngine';
+import { 
+  searchContentIndex, 
+  extractMatchingSnippet, 
+  getSearchIndexStats 
+} from '../../lib/contentSearchIndex';
 import { useSearchAnalytics, analyzeSearchAudience } from '../../hooks/useSearchAnalytics';
 
 interface SearchResultItem extends SearchDocument {
@@ -136,9 +141,9 @@ export default function CommandPalette() {
           // Extract snippet from matching fields
           let matchedSnippet = item.subtitle;
           if (matches && matches.length > 0) {
-            const contentMatch = matches.find(m => m.key === 'fullContent' || m.key === 'benefits');
+            const contentMatch = matches.find(m => m.key === 'fullContent' || m.key === 'benefits' || m.key === 'subtitle');
             if (contentMatch && contentMatch.value) {
-              const snippet = extractSnippet(contentMatch.value, q);
+              const snippet = extractMatchingSnippet(contentMatch.value, q) || extractSnippet(contentMatch.value, q);
               if (snippet) matchedSnippet = snippet;
             }
           }
@@ -167,11 +172,30 @@ export default function CommandPalette() {
     setSelectedIndex(0);
   }, [searchQuery, selectedCategory]);
 
+  const getSearchPlaceholder = () => {
+    if (selectedCategory === 'articles') return 'Cari artikel blog, panduan SEO BSD, insight AI... (⌘K)';
+    if (selectedCategory === 'portfolio') return 'Cari proyek, klien B2B, tech stack Next.js, studi kasus... (⌘K)';
+    if (selectedCategory === 'services') return 'Cari layanan, paket website UMKM, promo Rp540K... (⌘K)';
+    return 'Cari studi kasus, layanan, artikel, wilayah BSD/Cisauk, atau ketik pertanyaan... (⌘K)';
+  };
+
   // Keyboard navigation & global shortcuts
   useEffect(() => {
-    const handleOpenCommandPalette = () => {
+    const handleOpenCommandPalette = (event?: Event) => {
+      const customEvent = event as CustomEvent<{ category?: SearchCategory; query?: string }>;
+      if (customEvent?.detail?.category) {
+        setSelectedCategory(customEvent.detail.category);
+      }
+      if (customEvent?.detail?.query !== undefined) {
+        setSearchQuery(customEvent.detail.query);
+      }
       setIsOpen(true);
-      setTimeout(() => inputRef.current?.focus(), 50);
+      setTimeout(() => {
+        inputRef.current?.focus();
+        if (customEvent?.detail?.query) {
+          inputRef.current?.select();
+        }
+      }, 50);
     };
 
     window.addEventListener('open-command-palette', handleOpenCommandPalette);
@@ -266,7 +290,7 @@ export default function CommandPalette() {
   const POPULAR_SEARCH_TERMS = [
     'Jasa Web Cisauk',
     'Landing Page BSD',
-    'Next.js 15',
+    'High-Speed Web',
     'Promo Rp540K',
     'Integrasi AI Gemini',
     'Studi Kasus Fintech',
@@ -326,7 +350,7 @@ export default function CommandPalette() {
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Cari studi kasus, layanan, artikel, wilayah BSD/Cisauk, atau ketik pertanyaan..."
+                placeholder={getSearchPlaceholder()}
                 className="flex-1 bg-transparent border-none outline-none text-slate-900 placeholder:text-slate-400 font-sans text-sm sm:text-base font-medium"
                 autoFocus
               />
@@ -343,7 +367,7 @@ export default function CommandPalette() {
               )}
 
               <div className="hidden sm:flex items-center gap-1.5 shrink-0">
-                <span className="text-[10px] font-mono px-2 py-1 rounded-lg bg-purple-50 text-purple-700 border border-purple-200/80 font-bold">
+                <span className="text-[10px] font-mono px-2 py-1 rounded-lg bg-purple-50 text-purple-700 border border-purple-200/80 font-medium">
                   ESC
                 </span>
               </div>
@@ -359,10 +383,10 @@ export default function CommandPalette() {
                     key={tab.key}
                     id={`filter-tab-${tab.key}`}
                     onClick={() => setSelectedCategory(tab.key)}
-                    className={`px-3 py-1 rounded-full text-xs font-semibold whitespace-nowrap transition-all cursor-pointer ${
+                    className={`px-3 py-1 rounded-full text-xs font-medium whitespace-nowrap transition-all cursor-pointer ${
                       isSelected
-                        ? 'bg-purple-700 text-white shadow-xs'
-                        : 'bg-white text-slate-600 hover:text-purple-900 hover:bg-purple-50 border border-slate-200/70'
+                        ? 'bg-purple-900 text-white shadow-xs border border-purple-800'
+                        : 'bg-white text-slate-600 hover:text-purple-700 hover:bg-purple-50 border border-slate-200/70'
                     }`}
                   >
                     {tab.label}
@@ -372,7 +396,7 @@ export default function CommandPalette() {
 
               {/* BSD / Cisauk Local Intent Badge Indicator */}
               {detectedAudience.isBsdCisaukAudience && (
-                <div className="ml-auto hidden md:inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200 text-[11px] font-bold shrink-0">
+                <div className="ml-auto hidden md:inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200 text-[11px] font-medium shrink-0">
                   <MapPin size={11} />
                   <span>Target: {detectedAudience.localityTag?.toUpperCase()}</span>
                 </div>
@@ -383,7 +407,7 @@ export default function CommandPalette() {
             {!searchQuery && recentSearches.length > 0 && (
               <div className="px-4 sm:px-6 py-2.5 bg-purple-50/30 border-b border-purple-50 flex items-center justify-between gap-3 overflow-x-auto no-scrollbar">
                 <div className="flex items-center gap-2 overflow-x-auto no-scrollbar">
-                  <span className="text-[11px] font-bold text-slate-600 flex items-center gap-1 shrink-0">
+                  <span className="text-[11px] font-medium text-slate-600 flex items-center gap-1 shrink-0">
                     <History size={12} className="text-purple-600" />
                     Terkini:
                   </span>
@@ -414,7 +438,7 @@ export default function CommandPalette() {
 
                 <button
                   onClick={clearRecentSearches}
-                  className="text-[10px] text-slate-400 hover:text-rose-600 font-semibold whitespace-nowrap shrink-0 transition-colors cursor-pointer flex items-center gap-1"
+                  className="text-[10px] text-slate-400 hover:text-rose-600 font-medium whitespace-nowrap shrink-0 transition-colors cursor-pointer flex items-center gap-1"
                 >
                   <Trash2 size={11} />
                   <span>Bersihkan</span>
@@ -425,7 +449,7 @@ export default function CommandPalette() {
             {/* Popular Curated Intent Chips */}
             {!searchQuery && (
               <div className="px-4 sm:px-6 py-2.5 bg-white border-b border-purple-50 flex items-center gap-2 overflow-x-auto no-scrollbar">
-                <span className="text-[11px] font-bold text-slate-400 flex items-center gap-1 shrink-0">
+                <span className="text-[11px] font-medium text-slate-400 flex items-center gap-1 shrink-0">
                   <TrendingUp size={12} className="text-purple-600" />
                   Populer BSD & Cisauk:
                 </span>
@@ -434,7 +458,7 @@ export default function CommandPalette() {
                     key={tag}
                     id={`chip-popular-${tag.toLowerCase().replace(/[^a-z0-9]/g, '-')}`}
                     onClick={() => handleQuickTagClick(tag)}
-                    className="px-2.5 py-0.5 rounded-md bg-purple-50 hover:bg-purple-100 text-purple-900 text-[11px] font-semibold border border-purple-100/80 whitespace-nowrap transition-colors cursor-pointer"
+                    className="px-2.5 py-0.5 rounded-md bg-purple-50 hover:bg-purple-100 text-purple-700 text-[11px] font-medium border border-purple-100/80 whitespace-nowrap transition-colors cursor-pointer"
                   >
                     {tag}
                   </button>
@@ -482,14 +506,14 @@ export default function CommandPalette() {
 
                         <div className="min-w-0 flex-1">
                           <div className="flex items-center gap-2 flex-wrap">
-                            <span className={`text-sm font-bold truncate ${
-                              isSelected ? 'text-purple-950 font-extrabold' : 'text-slate-900'
+                            <span className={`text-sm truncate ${
+                              isSelected ? 'text-purple-950 font-medium' : 'text-slate-900 font-normal'
                             }`}>
                               {item.title}
                             </span>
                             
                             {item.badge && (
-                              <span className={`px-2 py-0.5 rounded-md text-[10px] font-bold uppercase tracking-wider shrink-0 border ${
+                              <span className={`px-2 py-0.5 rounded-md text-[10px] font-medium uppercase tracking-wider shrink-0 border ${
                                 isPromo 
                                   ? 'bg-amber-100 text-amber-900 border-amber-300'
                                   : 'bg-purple-100/90 text-purple-900 border-purple-200'
@@ -515,7 +539,7 @@ export default function CommandPalette() {
                             <div className="flex items-center gap-1.5 mt-1.5 flex-wrap">
                               {item.tags.slice(0, 3).map((tag, tIdx) => (
                                 <span 
-                                  key={tIdx} 
+                                  key={tag} 
                                   className="text-[10px] text-slate-600 bg-white/90 px-2 py-0.5 rounded border border-slate-200 font-mono"
                                 >
                                   {tag}
@@ -533,7 +557,7 @@ export default function CommandPalette() {
 
                       <div className="flex items-center gap-2.5 shrink-0 pl-2">
                         {item.shortcut && (
-                          <kbd className="hidden md:inline-flex items-center px-2 py-0.5 text-[10px] font-mono font-semibold text-purple-900 bg-white border border-purple-200 rounded shadow-2xs">
+                          <kbd className="hidden md:inline-flex items-center px-2 py-0.5 text-[10px] font-mono font-medium text-purple-900 bg-white border border-purple-200 rounded shadow-2xs">
                             {item.shortcut.toUpperCase()}
                           </kbd>
                         )}
@@ -553,10 +577,10 @@ export default function CommandPalette() {
                     <Search size={24} />
                   </div>
                   <div>
-                    <h4 className="text-base font-bold text-slate-900">
+                    <h4 className="text-base font-medium text-slate-900">
                       Tidak ada hasil langsung untuk "{searchQuery}"
                     </h4>
-                    <p className="text-xs text-slate-600 mt-1 max-w-md mx-auto leading-relaxed">
+                    <p className="text-xs text-slate-600 mt-1 max-w-md mx-auto leading-relaxed font-normal">
                       Sistem kami telah mencatat kata kunci ini untuk optimasi konten BSD & Cisauk. Anda dapat menanyakan langsung kebutuhan kustom ke AI Assistant kami atau hubungi Mas Chesta.
                     </p>
                   </div>
@@ -564,7 +588,7 @@ export default function CommandPalette() {
                     <button
                       id="btn-ask-ai-palette-fallback"
                       onClick={() => askAIAssistant(searchQuery)}
-                      className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-purple-700 hover:bg-purple-800 text-white text-xs font-bold transition-all shadow-xs cursor-pointer"
+                      className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-purple-900 hover:bg-purple-800 text-white text-xs font-medium transition-all shadow-xs border border-purple-800 cursor-pointer"
                     >
                       <Sparkles size={14} />
                       <span>Tanya AI Assistant</span>
@@ -572,7 +596,7 @@ export default function CommandPalette() {
                     <button
                       id="btn-ask-wa-palette-fallback"
                       onClick={() => openWhatsApp(`Halo Mas Chesta, saya sedang mencari solusi website mengenai: "${searchQuery}"`)}
-                      className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-purple-50 hover:bg-purple-100 text-purple-900 border border-purple-200 text-xs font-bold transition-all cursor-pointer"
+                      className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-purple-50 hover:bg-purple-100 text-purple-700 border border-purple-200 text-xs font-medium transition-all cursor-pointer"
                     >
                       <MessageCircle size={14} />
                       <span>Konsultasi WhatsApp</span>
@@ -584,20 +608,20 @@ export default function CommandPalette() {
               {/* Dynamic Direct Action Buttons when searching */}
               {searchQuery && searchResults.length > 0 && (
                 <div className="pt-3 pb-1 border-t border-purple-100/80 flex items-center justify-between gap-2 flex-wrap">
-                  <span className="text-[11px] font-semibold text-slate-600">
+                  <span className="text-[11px] font-medium text-slate-600">
                     Perlu solusi kustom seputar "{searchQuery}"?
                   </span>
                   <div className="flex items-center gap-2">
                     <button
                       onClick={() => askAIAssistant(searchQuery)}
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-purple-50 hover:bg-purple-100 text-purple-900 text-xs font-semibold border border-purple-200 transition-colors cursor-pointer"
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-purple-50 hover:bg-purple-100 text-purple-700 text-xs font-medium border border-purple-200 transition-colors cursor-pointer"
                     >
-                      <Sparkles size={12} className="text-purple-700" />
+                      <Sparkles size={12} className="text-purple-600" />
                       <span>Tanya AI</span>
                     </button>
                     <button
                       onClick={() => openWhatsApp(`Halo Mas Chesta, saya ingin diskusi mengenai: "${searchQuery}"`)}
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-50 hover:bg-emerald-100 text-emerald-900 text-xs font-semibold border border-emerald-200 transition-colors cursor-pointer"
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-50 hover:bg-emerald-100 text-emerald-900 text-xs font-medium border border-emerald-200 transition-colors cursor-pointer"
                     >
                       <MessageCircle size={12} className="text-emerald-700" />
                       <span>Chat WhatsApp</span>
@@ -626,11 +650,11 @@ export default function CommandPalette() {
               </div>
 
               <div className="flex items-center gap-3 ml-auto text-slate-600">
-                <span className="inline-flex items-center gap-1 text-[10px] font-mono bg-purple-50 text-purple-900 px-2 py-0.5 rounded border border-purple-200 font-semibold">
+                <span className="inline-flex items-center gap-1 text-[10px] font-mono bg-purple-50 text-purple-700 px-2 py-0.5 rounded border border-purple-200 font-medium">
                   <Clock size={10} />
                   <span>{searchLatencyMs}ms</span>
                 </span>
-                <div className="flex items-center gap-1.5 text-purple-900 font-bold text-xs">
+                <div className="flex items-center gap-1.5 text-purple-700 font-medium text-xs">
                   <Sparkles size={13} className="text-purple-600" />
                   <span>CHESTAADOTCOM Full-Text Search</span>
                 </div>

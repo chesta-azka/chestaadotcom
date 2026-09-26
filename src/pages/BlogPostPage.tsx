@@ -72,8 +72,8 @@ const BlogPostSkeleton = () => (
 const KeyTakeaways = ({ title = "Executive Summary & Key Takeaways", items }: { title?: string, items?: string[] }) => {
   const defaultItems = [
     "Vibe Coding menggantikan penulisan kode manual berulang dengan orkestrasi arsitektural berbasis AI intensif.",
-    "Next.js Server-Side Rendering (SSR) & Edge Caching menjamin skor Core Web Vitals < 0.8s dan dominasi Local SEO Google BSD City.",
-    "Firebase NoSQL memangkas latensi query hingga -82% dengan sinkronisasi data real-time instan.",
+    "Arsitektur Server-Side Rendering (SSR) & Edge Caching menjamin skor Core Web Vitals < 0.8s dan dominasi Local SEO Google BSD City.",
+    "Secure Cloud Data Vault memangkas latensi query hingga -82% dengan sinkronisasi data real-time instan.",
     "AI Lead Scoring mengotomatisasi kualifikasi prospek B2B bernilai tinggi secara real-time via WhatsApp."
   ];
   const list = items || defaultItems;
@@ -122,9 +122,9 @@ const ArchitectureComparison = ({
   ];
   const defaultRight = [
     "Scaffolding instan dalam menit via AI System Prompting",
-    "Firebase NoSQL fleksibel dengan latensi query milidetik",
+    "Secure Cloud Data Vault fleksibel dengan latensi query milidetik",
     "AI Lead Scoring prediktif & notifikasi sales otomatis",
-    "Next.js SSR & Server Components di Edge Server terdekat"
+    "Arsitektur SSR & Server Components di Edge Server terdekat"
   ];
 
   const leftList = leftItems || defaultLeft;
@@ -216,11 +216,11 @@ const CheckList = ({ title, items }: { title: string; items: string[] }) => (
 
 const StatCard = ({ percentage, label, caption }: { percentage: string; label: string; caption?: string }) => (
   <div className="my-10 p-6 sm:p-8 rounded-2xl bg-slate-50 border border-slate-200 text-slate-900 flex flex-col sm:flex-row items-start sm:items-center gap-6 sm:gap-8 shadow-2xs">
-    <div className="text-5xl sm:text-6xl font-display font-black text-purple-700 shrink-0 tracking-tight">
+    <div className="text-5xl sm:text-6xl font-display font-semibold text-purple-700 shrink-0 tracking-tight">
       {percentage}
     </div>
     <div className="space-y-1">
-      <div className="text-base sm:text-lg font-display font-bold text-slate-900 leading-snug">
+      <div className="text-base sm:text-lg font-display font-semibold text-slate-900 leading-snug">
         {label}
       </div>
       {caption && (
@@ -518,13 +518,13 @@ export default function BlogPostPage() {
         <div className="max-w-5xl mx-auto px-6">
           <div className="flex flex-wrap items-center gap-2 mb-6">
             {post.tags?.slice(0, 4).map(tag => (
-              <span key={tag} className="px-3 py-1 rounded-full bg-purple-100/70 border border-purple-200 text-[11px] font-bold text-purple-900 tracking-wider font-mono uppercase">
+              <span key={tag} className="px-3 py-1 rounded-full bg-purple-100/70 border border-purple-200 text-[11px] font-medium text-purple-900 tracking-wider font-mono uppercase">
                 {tag}
               </span>
             ))}
           </div>
           
-          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.25rem] font-display font-black text-slate-900 leading-[1.14] tracking-tight mb-6">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.25rem] font-display font-semibold text-slate-900 leading-[1.14] tracking-tight mb-6">
             {post.title}
           </h1>
 

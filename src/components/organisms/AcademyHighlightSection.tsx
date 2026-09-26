@@ -37,11 +37,11 @@ export default function AcademyHighlightSection() {
               <GraduationCap size={15} className="text-purple-400" />
               <span>CHESTAADOTCOM Academy</span>
             </div>
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-black tracking-tight text-white leading-[1.12]">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-semibold tracking-tight text-white leading-[1.12]">
               Kuasai Rekayasa Perangkat Lunak Modern.
             </h2>
             <p className="mt-4 text-slate-300 font-sans text-sm sm:text-base leading-relaxed">
-              Kami tidak hanya membangun sistem—kami melatih talenta elit. Dapatkan bimbingan langsung mengenai arsitektur React/Next.js produksi, otomasi Agentic AI, dan strategi delivery berstandar industri.
+              Kami tidak hanya membangun sistem—kami melatih talenta elit. Dapatkan bimbingan langsung mengenai rekayasa web produksi berkecepatan tinggi, otomasi Agentic AI, dan strategi delivery berstandar industri.
             </p>
           </div>
 
@@ -92,7 +92,7 @@ export default function AcademyHighlightSection() {
                 TRACK 01 • FRONTEND ARCHITECTURE
               </div>
               <h3 className="text-xl font-display font-bold text-white mb-3 group-hover:text-purple-300 transition-colors">
-                Next.js &amp; Production Architecture
+                Enterprise Web &amp; Production Architecture
               </h3>
               <p className="text-sm text-slate-300 font-sans leading-relaxed mb-6">
                 Belajar Server Components, Server-Side Rendering (SSR), Streaming UI, serta teknik optimasi Core Web Vitals sub-detik untuk produk komersial.

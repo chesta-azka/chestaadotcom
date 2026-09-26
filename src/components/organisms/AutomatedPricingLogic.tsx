@@ -138,7 +138,7 @@ export default function AutomatedPricingLogic({ onEstimateGenerated, onCancel }:
 
         <div className="p-4 bg-purple-50 rounded-xl border border-purple-100 flex items-center justify-between">
           <span className="text-xs font-semibold text-purple-800 uppercase">Estimasi</span>
-          <span className="text-lg font-display font-black text-[#6b21a8]">
+          <span className="text-lg font-display font-semibold text-[#6b21a8]">
             {new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', maximumFractionDigits: 0 }).format(totalPrice)}
           </span>
         </div>

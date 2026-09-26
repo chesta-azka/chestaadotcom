@@ -13,11 +13,11 @@ export function ArchitecturalEfficiency() {
   return (
     <div className="w-full max-w-4xl mx-auto my-12 p-6 md:p-8 bg-white border border-purple-100 rounded-xl shadow-sm font-sans">
       <div className="mb-6">
-        <h2 className="text-xl md:text-2xl font-display font-black tracking-tight text-slate-900 mb-1">
+        <h2 className="text-xl md:text-2xl font-display font-semibold tracking-tight text-slate-900 mb-1">
           Efisiensi Arsitektur Website
         </h2>
         <p className="text-slate-600 text-xs sm:text-sm font-sans">
-          Perbandingan performa platform konvensional vs. Next.js App Router berkecepatan tinggi.
+          Perbandingan performa platform konvensional vs. arsitektur App Router berkecepatan tinggi.
         </p>
       </div>
 
@@ -58,7 +58,7 @@ export function ArchitecturalEfficiency() {
               itemStyle={{ fontWeight: 600, fontSize: '12px' }}
             />
             <Area type="monotone" dataKey="Legacy" stroke="#94a3b8" strokeWidth={2} fillOpacity={1} fill="url(#colorLegacy)" name="Platform Lama" />
-            <Area type="monotone" dataKey="NextJS" stroke="#6b21a8" strokeWidth={3} fillOpacity={1} fill="url(#colorNext)" name="Next.js CHESTA" />
+            <Area type="monotone" dataKey="NextJS" stroke="#6b21a8" strokeWidth={3} fillOpacity={1} fill="url(#colorNext)" name="Enterprise CHESTA" />
           </AreaChart>
         </ResponsiveContainer>
       </div>

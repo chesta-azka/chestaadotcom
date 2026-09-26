@@ -13,7 +13,7 @@ import LazyImage from '../components/atoms/LazyImage.tsx';
 import SectionHeader from '../components/organisms/SectionHeader';
 import QuickViewModal, { QuickViewData } from '../components/organisms/QuickViewModal';
 
-const CATEGORIES = ['All', 'Website', 'Landing Page', 'Company Profile', 'Next.js', 'AI'];
+const CATEGORIES = ['All', 'Website', 'Landing Page', 'Company Profile', 'Enterprise', 'AI'];
 
 const PortfolioSkeleton = () => (
   <div className="relative flex flex-col h-full bg-white/40 backdrop-blur-xl p-6 rounded-xl border border-white/60 animate-pulse text-left shadow-xl shadow-purple-900/5">
@@ -92,12 +92,13 @@ export default function PortfolioPage() {
                     </button>
                   ))}
                   <button
-                    onClick={() => window.dispatchEvent(new CustomEvent('open-command-palette'))}
+                    onClick={() => window.dispatchEvent(new CustomEvent('open-command-palette', { detail: { category: 'portfolio' } }))}
                     className="px-5 py-2.5 rounded-full font-sans font-semibold text-[11px] uppercase tracking-widest bg-purple-50 hover:bg-purple-100 text-purple-900 border border-purple-200 transition-all flex items-center gap-1.5 cursor-pointer shadow-2xs"
                     title="Cari seluruh proyek & studi kasus (⌘K)"
                   >
                     <Search size={13} className="text-purple-700" />
                     <span>Cari Proyek</span>
+                    <kbd className="text-[9px] font-mono px-1 py-0.5 rounded bg-white text-purple-900 border border-purple-200 font-bold ml-1">⌘K</kbd>
                   </button>
                </div>
             </motion.div>

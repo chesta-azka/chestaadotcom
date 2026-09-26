@@ -6,6 +6,7 @@ import { doc, setDoc, serverTimestamp } from 'firebase/firestore';
 import { useAuth } from '../../contexts/AuthContext';
 import { useLocation } from 'react-router-dom';
 import QuickReplyChips from '../atoms/QuickReplyChips';
+import { useRouteContext } from '../../hooks/useRouteContext';
 
 const floatingSpringTransition = {
   type: 'spring' as const,
@@ -65,8 +66,8 @@ const QUICK_AI_SUGGESTIONS = [
     prompt: 'Bagaimana langkah mudah memesan website di CHESTADOTCOM?',
   },
   {
-    label: '⚡ Keunggulan Next.js',
-    prompt: 'Mengapa website Next.js lebih cepat dan aman dibanding platform biasa?',
+    label: '⚡ Keunggulan Web Modern',
+    prompt: 'Mengapa arsitektur web modern lebih cepat dan aman dibanding platform biasa?',
   },
   {
     label: '🎨 Lihat Portofolio',
@@ -165,7 +166,7 @@ Pengerjaan langsung dimulai setelah materi dasar (nama bisnis, deskripsi, & kont
    Pilih paket yang diinginkan dan tentukan nama domain .com Anda.
 
 3. **Pengerjaan & Live Review**
-   Website dirakit dengan teknologi Next.js. Kami kirimkan tautan preview untuk Anda tinjau.
+   Website dirakit dengan arsitektur berperforma tinggi. Kami kirimkan tautan preview untuk Anda tinjau.
 
 4. **Peluncuran (Go-Live)**
    Website resmi dihubungkan ke domain .com dan siap digunakan untuk promosi.`,
@@ -183,9 +184,9 @@ Pengerjaan langsung dimulai setelah materi dasar (nama bisnis, deskripsi, & kont
           variant: 'secondary',
         },
         {
-          label: '⚡ Kenapa pakai Next.js?',
+          label: '⚡ Mengapa Web Berperforma Tinggi?',
           actionType: 'prompt',
-          value: 'Mengapa website Next.js lebih cepat dan aman dibanding platform biasa?',
+          value: 'Mengapa arsitektur web modern lebih cepat dan aman dibanding platform biasa?',
           variant: 'secondary',
         },
       ],
@@ -198,9 +199,9 @@ Pengerjaan langsung dimulai setelah materi dasar (nama bisnis, deskripsi, & kont
       content: `### Informasi Proyek & Solusi Teknis
 
 Proyek-proyek skala enterprise kami umumnya dibangun menggunakan arsitektur modern:
-• **Next.js 15 & React Server Components**: Untuk performa rendering ultra-cepat dan SEO maksimal.
-• **Tailwind CSS & Framer Motion**: Untuk desain UI premium dan animasi yang mulus.
-• **Agentic AI & Firebase**: Untuk otomatisasi alur kerja dan database real-time yang terukur.
+• **Arsitektur Rendering Ultra-Cepat & Server Optimization**: Untuk performa rendering ultra-cepat dan SEO maksimal.
+• **Design System & Motion Animation**: Untuk desain UI premium dan animasi yang mulus.
+• **Agentic AI & Encrypted Cloud Data Vault**: Untuk otomatisasi alur kerja dan database real-time yang terukur.
 
 Apakah Anda tertarik membangun sistem serupa untuk bisnis Anda?`,
       actions: [
@@ -248,7 +249,7 @@ Untuk menerapkan strategi dari artikel ini ke dalam operasional perusahaan Anda,
   // Keunggulan Teknologi / Next.js
   if (/(teknologi|tech|next\.?js|stack|kecepatan|speed|pagespeed|wordpress|keunggulan|fitur)/.test(q)) {
     return {
-      content: `### Keunggulan Arsitektur Next.js
+      content: `### Keunggulan Arsitektur Web Modern
 
 • **Loading Super Cepat (<1 Detik)**
   Skor Google PageSpeed 95–100 memastikan pengunjung tidak meninggalkan website karena lambat.
@@ -265,7 +266,7 @@ Untuk menerapkan strategi dari artikel ini ke dalam operasional perusahaan Anda,
         {
           label: '💬 Tanya Teknis di WhatsApp',
           actionType: 'whatsapp',
-          value: 'Halo Mas Chesta, saya ingin tanya lebih lanjut tentang pembuatan website kustom dengan Next.js.',
+          value: 'Halo Mas Chesta, saya ingin tanya lebih lanjut tentang pembuatan website kustom berkinerja tinggi.',
           variant: 'whatsapp',
         },
         {
@@ -433,7 +434,7 @@ Jadwalkan sesi konsultasi teknis pertama (gratis) untuk mendiskusikan bottleneck
   return {
     content: `### Asisten Layanan CHESTADOTCOM
 
-Terima kasih atas pertanyaan Anda. CHESTADOTCOM menyediakan layanan pembuatan website modern dengan arsitektur **Next.js** berkecepatan tinggi.
+Terima kasih atas pertanyaan Anda. CHESTADOTCOM menyediakan layanan pembuatan website modern dengan arsitektur **berperforma tinggi** dan kecepatan ekstrem.
 
 • **Paket Promo UMKM**: Rp540.000 all-in (Domain .com + Cloud Server + Desain Responsif).
 • **Pengerjaan Cepat**: 1–3 hari kerja dengan 100% kepemilikan penuh.
@@ -538,7 +539,7 @@ function FormattedMessageView({ content, isUser }: { content: string; isUser: bo
       renderedElements.push(
         <h4
           key={`h4-${renderedElements.length}`}
-          className="text-sm sm:text-base font-display font-black text-purple-950 mt-1 mb-2 tracking-tight border-b border-purple-100 pb-1.5 flex items-center gap-1.5"
+          className="text-sm sm:text-base font-display font-semibold text-purple-950 mt-1 mb-2 tracking-tight border-b border-purple-100 pb-1.5 flex items-center gap-1.5"
         >
           <span className="w-1.5 h-3.5 bg-purple-600 rounded-full inline-block shrink-0" />
           <span>{title}</span>
@@ -594,6 +595,7 @@ export default function FloatingAIAssistant({ isLoaded = true }: { isLoaded?: bo
   const [isHovered, setIsHovered] = useState(false);
   const [message, setMessage] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const pageContext = useRouteContext();
 
   const [sessionId] = useState<string>(() => {
     if (typeof window === 'undefined') return 'sess_default';
@@ -676,27 +678,6 @@ export default function FloatingAIAssistant({ isLoaded = true }: { isLoaded?: bo
     
     // Combine context specific with generic ones
     return [...contextSpecific, ...QUICK_AI_SUGGESTIONS].slice(0, 7);
-  }, [location.pathname]);
-
-  const pageContext = useMemo(() => {
-    const path = location.pathname;
-    let serviceName = 'Layanan Digital & Web Development Profesional';
-    let pricingTier = 'Paket Promo UMKM Rp540K';
-    if (path.includes('service') || path.includes('layanan')) {
-      serviceName = 'High-Performance Web Systems & Cloud Architecture';
-    } else if (path.includes('pricing') || path.includes('quotation')) {
-      serviceName = 'Custom Quotation & Tiers Calculator';
-    } else if (path.includes('case-study') || path.includes('portfolio')) {
-      serviceName = 'Enterprise Case Studies & Portfolio Showcase';
-    } else if (path.includes('academy') || path.includes('blog')) {
-      serviceName = 'Academy & Tech Insights';
-    }
-    return {
-      path,
-      serviceName,
-      pricingTier,
-      title: document.title || 'CHESTADOTCOM'
-    };
   }, [location.pathname]);
 
   const quickActionsGrid = useMemo(() => {
@@ -947,7 +928,7 @@ export default function FloatingAIAssistant({ isLoaded = true }: { isLoaded?: bo
                 </div>
                 <div>
                   <div className="flex items-center gap-1.5">
-                    <h3 className="font-display font-black text-sm text-slate-950 leading-tight">
+                    <h3 className="font-display font-semibold text-sm text-slate-950 leading-tight">
                       CHESTADOTCOM AI
                     </h3>
                     <span className="px-1.5 py-0.2 rounded bg-purple-50 border border-purple-200 text-[10px] font-semibold text-purple-700">

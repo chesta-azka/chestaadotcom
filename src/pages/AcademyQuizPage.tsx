@@ -209,7 +209,7 @@ export default function AcademyQuizPage() {
             </Link>
             <button
               onClick={() => setReviewMode(!reviewMode)}
-              className="px-4 py-2 bg-purple-50 hover:bg-purple-100 text-purple-900 font-bold rounded-xl text-xs transition-colors border border-purple-200"
+              className="px-4 py-2 bg-purple-50 hover:bg-purple-100 text-purple-900 font-medium rounded-xl text-xs transition-colors border border-purple-200"
             >
               {reviewMode ? 'Sembunyikan Pembahasan' : 'Lihat Pembahasan Soal'}
             </button>
@@ -230,30 +230,30 @@ export default function AcademyQuizPage() {
                     <Award size={40} className={score >= 80 ? 'text-amber-500' : 'text-slate-400'} />
                   </div>
                   
-                  <h2 className="text-3xl font-display font-extrabold text-slate-900 mb-2">Evaluasi Selesai!</h2>
+                  <h2 className="text-3xl font-display font-medium text-slate-900 mb-2">Evaluasi Selesai!</h2>
                   <p className="text-slate-500 mb-8">{score >= 80 ? 'Luar biasa! Anda menguasai materi dengan sangat baik.' : 'Tetap semangat! Coba pelajari kembali materi dan ulangi evaluasi.'}</p>
                   
                   <div className="flex justify-center gap-4 mb-10">
                     <div className={`p-4 rounded-2xl min-w-[100px] border ${score >= 80 ? 'bg-amber-50 border-amber-200' : 'bg-slate-50 border-slate-200'}`}>
-                      <div className={`text-4xl font-black ${score >= 80 ? 'text-amber-600' : 'text-slate-700'}`}>{score}%</div>
-                      <div className="text-[10px] text-slate-500 uppercase tracking-wider font-bold mt-1">Skor Akhir</div>
+                      <div className={`text-4xl font-medium ${score >= 80 ? 'text-amber-600' : 'text-slate-700'}`}>{score}%</div>
+                      <div className="text-[10px] text-slate-500 uppercase tracking-wider font-medium mt-1">Skor Akhir</div>
                     </div>
                     <div className="bg-slate-50 p-4 rounded-2xl min-w-[100px] border border-slate-100">
-                      <div className="text-3xl font-black text-emerald-600 mt-1">{correctAnswers}/{totalQuestions}</div>
-                      <div className="text-[10px] text-slate-500 uppercase tracking-wider font-bold mt-2">Benar</div>
+                      <div className="text-3xl font-medium text-emerald-600 mt-1">{correctAnswers}/{totalQuestions}</div>
+                      <div className="text-[10px] text-slate-500 uppercase tracking-wider font-medium mt-2">Benar</div>
                     </div>
                   </div>
 
                   <div className="flex flex-col gap-3">
                     <button 
                       onClick={handleRetryFullQuiz}
-                      className="w-full px-6 py-4 bg-slate-900 hover:bg-purple-700 text-white font-bold rounded-xl text-sm transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2 cursor-pointer"
+                      className="w-full px-6 py-4 bg-gradient-to-r from-purple-800 to-indigo-950 hover:from-purple-700 hover:to-indigo-900 text-white font-medium rounded-xl text-sm transition-all shadow-md hover:shadow-lg flex items-center justify-center gap-2 cursor-pointer"
                     >
                       <RotateCcw size={18} /> Ulangi Evaluasi
                     </button>
                     <Link
                       to="/quiz"
-                      className="w-full px-6 py-4 bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 font-bold rounded-xl text-sm transition-shadow shadow-sm flex items-center justify-center gap-2"
+                      className="w-full px-6 py-4 bg-white hover:bg-slate-50 text-slate-700 border border-slate-200 font-medium rounded-xl text-sm transition-shadow shadow-sm flex items-center justify-center gap-2"
                     >
                       <BookOpen size={18} /> Kembali ke Menu
                     </Link>
@@ -273,7 +273,7 @@ export default function AcademyQuizPage() {
                     <Trophy size={24} />
                   </div>
                   <div>
-                    <h3 className="text-xl font-display font-bold text-slate-900 leading-tight">Papan Peringkat</h3>
+                    <h3 className="text-xl font-display font-medium text-slate-900 leading-tight">Papan Peringkat</h3>
                     <p className="text-xs font-sans text-slate-500 mt-1">Top Evaluasi Global</p>
                   </div>
                 </div>
@@ -283,11 +283,11 @@ export default function AcademyQuizPage() {
                     <div className="flex items-center justify-between p-4 rounded-2xl bg-purple-50 border border-purple-200 shadow-sm relative overflow-hidden transform scale-[1.02] z-10">
                       <div className="absolute left-0 top-0 bottom-0 w-1.5 bg-purple-500" />
                       <div className="flex items-center gap-4 pl-3">
-                        <span className="font-bold text-purple-700 w-4 text-center">?</span>
-                        <div className="font-bold text-slate-900 text-sm">Anda (Baru Saja)</div>
+                        <span className="font-medium text-purple-700 w-4 text-center">?</span>
+                        <div className="font-medium text-slate-900 text-sm">Anda (Baru Saja)</div>
                       </div>
                       <div className="flex flex-col items-end">
-                        <span className="font-black text-purple-700 text-base">{score} Poin</span>
+                        <span className="font-medium text-purple-700 text-base">{score} Poin</span>
                       </div>
                     </div>
                   )}
@@ -299,12 +299,12 @@ export default function AcademyQuizPage() {
                           {user.rank === 1 ? <Medal size={18} className="text-amber-500" /> 
                            : user.rank === 2 ? <Medal size={18} className="text-slate-400" /> 
                            : user.rank === 3 ? <Medal size={18} className="text-amber-700" /> 
-                           : <span className="font-bold text-slate-400 text-sm">{user.rank}</span>}
+                           : <span className="font-medium text-slate-400 text-sm">{user.rank}</span>}
                         </div>
-                        <div className="font-bold text-slate-800 text-sm">{user.name}</div>
+                        <div className="font-medium text-slate-800 text-sm">{user.name}</div>
                       </div>
                       <div className="flex flex-col items-end">
-                        <span className="font-black text-slate-900 text-sm">{user.score} Poin</span>
+                        <span className="font-medium text-slate-900 text-sm">{user.score} Poin</span>
                         <span className="text-[10px] text-slate-400 font-medium">{user.time}</span>
                       </div>
                     </div>
@@ -317,12 +317,12 @@ export default function AcademyQuizPage() {
             <div className="w-full space-y-6">
               <div className="bg-white p-6 rounded-2xl border border-slate-200 mb-6 flex justify-between items-center">
                 <div>
-                  <h3 className="text-lg font-bold text-slate-900 font-display">Pembahasan &amp; Kunci Jawaban</h3>
+                  <h3 className="text-lg font-medium text-slate-900 font-display">Pembahasan &amp; Kunci Jawaban</h3>
                   <p className="text-xs text-slate-500">Tinjau seluruh pertanyaan dan penjelasan detail.</p>
                 </div>
                 <button
                   onClick={() => setReviewMode(false)}
-                  className="px-4 py-2 bg-slate-900 text-white text-xs font-bold rounded-xl"
+                  className="px-4 py-2 bg-slate-900 text-white text-xs font-medium rounded-xl"
                 >
                   Kembali ke Ringkasan
                 </button>
@@ -334,21 +334,21 @@ export default function AcademyQuizPage() {
                 return (
                   <div key={idx} className={`bg-white rounded-2xl p-6 border ${isCorrect ? 'border-emerald-200 bg-emerald-50/20' : 'border-rose-200 bg-rose-50/20'}`}>
                     <div className="flex items-start justify-between gap-4 mb-4">
-                      <span className="text-xs font-mono font-bold text-slate-500 bg-slate-100 px-3 py-1 rounded-full">
+                      <span className="text-xs font-mono font-medium text-slate-500 bg-slate-100 px-3 py-1 rounded-full">
                         Soal {idx + 1}
                       </span>
                       {isCorrect ? (
-                        <span className="inline-flex items-center gap-1 text-xs font-bold text-emerald-700 bg-emerald-100 px-3 py-1 rounded-full">
+                        <span className="inline-flex items-center gap-1 text-xs font-medium text-emerald-700 bg-emerald-100 px-3 py-1 rounded-full">
                           <CheckCircle2 size={14} /> Benar
                         </span>
                       ) : (
-                        <span className="inline-flex items-center gap-1 text-xs font-bold text-rose-700 bg-rose-100 px-3 py-1 rounded-full">
+                        <span className="inline-flex items-center gap-1 text-xs font-medium text-rose-700 bg-rose-100 px-3 py-1 rounded-full">
                           <XCircle size={14} /> Salah / Tidak Terjawab
                         </span>
                       )}
                     </div>
 
-                    <h4 className="text-base font-display font-bold text-slate-900 mb-4">
+                    <h4 className="text-base font-display font-medium text-slate-900 mb-4">
                       {q.question}
                     </h4>
 
@@ -359,19 +359,19 @@ export default function AcademyQuizPage() {
                         let optStyle = 'border-slate-200 bg-white text-slate-700';
 
                         if (isTrueAns) {
-                          optStyle = 'border-emerald-500 bg-emerald-50 text-emerald-900 font-bold';
+                          optStyle = 'border-emerald-500 bg-emerald-50 text-emerald-900 font-medium';
                         } else if (isUserChoice && !isCorrect) {
-                          optStyle = 'border-rose-500 bg-rose-50 text-rose-900 font-bold';
+                          optStyle = 'border-rose-500 bg-rose-50 text-rose-900 font-medium';
                         }
 
                         return (
                           <div key={optIdx} className={`p-3 rounded-xl border text-xs sm:text-sm flex items-center gap-3 ${optStyle}`}>
-                            <span className="w-6 h-6 rounded-lg bg-slate-100 flex items-center justify-center font-bold text-xs shrink-0">
+                            <span className="w-6 h-6 rounded-lg bg-slate-100 flex items-center justify-center font-medium text-xs shrink-0">
                               {String.fromCharCode(65 + optIdx)}
                             </span>
                             <span className="flex-1">{opt}</span>
-                            {isTrueAns && <span className="text-[10px] font-bold text-emerald-700 uppercase bg-emerald-200/60 px-2 py-0.5 rounded">Jawaban Benar</span>}
-                            {isUserChoice && !isTrueAns && <span className="text-[10px] font-bold text-rose-700 uppercase bg-rose-200/60 px-2 py-0.5 rounded">Pilihan Anda</span>}
+                            {isTrueAns && <span className="text-[10px] font-medium text-emerald-700 uppercase bg-emerald-200/60 px-2 py-0.5 rounded">Jawaban Benar</span>}
+                            {isUserChoice && !isTrueAns && <span className="text-[10px] font-medium text-rose-700 uppercase bg-rose-200/60 px-2 py-0.5 rounded">Pilihan Anda</span>}
                           </div>
                         );
                       })}
@@ -397,7 +397,7 @@ export default function AcademyQuizPage() {
         <p className="text-sm font-mono text-slate-500">Memuat soal evaluasi...</p>
         <button
           onClick={handleRetryFullQuiz}
-          className="px-4 py-2 bg-slate-900 text-white rounded-xl text-xs font-bold"
+          className="px-4 py-2 bg-slate-900 text-white rounded-xl text-xs font-medium"
         >
           Mulai Ulang Kuis
         </button>
@@ -418,13 +418,13 @@ export default function AcademyQuizPage() {
         <div className="flex items-center justify-between mb-8">
           <Link 
             to="/quiz" 
-            className="inline-flex items-center gap-2 text-sm font-semibold text-slate-500 hover:text-slate-900 transition-colors bg-white px-4 py-2 rounded-full shadow-sm border border-slate-200"
+            className="inline-flex items-center gap-2 text-sm font-medium text-slate-500 hover:text-slate-900 transition-colors bg-white px-4 py-2 rounded-full shadow-sm border border-slate-200"
           >
             <ArrowLeft size={16} /> Batal
           </Link>
           <div className="flex items-center gap-3">
             {/* Timer Badge */}
-            <div className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-bold shadow-sm border ${
+            <div className={`flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium shadow-sm border ${
               timeLeft <= 30 
                 ? 'bg-rose-50 text-rose-700 border-rose-200 animate-pulse' 
                 : 'bg-white text-slate-700 border-slate-200'
@@ -439,7 +439,7 @@ export default function AcademyQuizPage() {
 
         {/* Question Counter */}
         <div className="mb-10 bg-white p-4 rounded-xl shadow-sm border border-slate-200 flex items-center justify-between">
-           <div className="text-xs font-bold uppercase tracking-widest text-slate-700">
+           <div className="text-xs font-medium uppercase tracking-widest text-slate-700">
              Soal {currentQIndex + 1} dari {questions.length}
            </div>
            <div className="text-xs font-mono text-slate-400">
@@ -467,7 +467,7 @@ export default function AcademyQuizPage() {
                   let optionStyle = 'border-slate-200 bg-white text-slate-600 hover:border-purple-300 hover:bg-purple-50 hover:shadow-md hover:text-slate-900';
                   
                   if (isSelected) {
-                    optionStyle = 'border-purple-600 bg-purple-50 text-purple-950 font-semibold shadow-md ring-4 ring-purple-600/20 scale-[1.01]';
+                    optionStyle = 'border-purple-600 bg-purple-50 text-purple-950 font-medium shadow-md ring-4 ring-purple-600/20 scale-[1.01]';
                   }
 
                   return (
@@ -478,7 +478,7 @@ export default function AcademyQuizPage() {
                       onClick={() => handleSelectOption(idx)}
                       className={`text-left p-4 sm:p-5 rounded-2xl border-2 transition-all duration-300 text-sm sm:text-base flex items-start gap-4 ${optionStyle} cursor-pointer`}
                     >
-                      <span className={`w-8 h-8 rounded-xl flex items-center justify-center text-xs font-bold flex-shrink-0 transition-all duration-300 shadow-inner ${
+                      <span className={`w-8 h-8 rounded-xl flex items-center justify-center text-xs font-medium flex-shrink-0 transition-all duration-300 shadow-inner ${
                         isSelected 
                           ? 'bg-purple-600 text-white shadow-purple-600/50'
                           : 'bg-slate-100 text-slate-500 group-hover:bg-purple-100 group-hover:text-purple-700'

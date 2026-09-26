@@ -5,155 +5,288 @@ import { motion, AnimatePresence } from 'motion/react';
 import { 
   Globe, 
   Cpu, 
-  Cloud, 
-  Shield, 
-  Search, 
-  Code2, 
+  Workflow, 
+  Bot, 
+  Database, 
   Zap, 
-  ArrowUpRight,
-  Database,
-  Lock,
-  Workflow
+  CheckCircle2, 
+  ArrowRight, 
+  Sparkles,
+  ShoppingBag,
+  Layers
 } from 'lucide-react';
-import { Link } from 'react-router-dom';
 
-const services = [
+interface ServiceItem {
+  id: string;
+  title: string;
+  category: 'web' | 'ai';
+  categoryLabel: string;
+  description: string;
+  timeline: string;
+  price: string;
+  features: string[];
+  icon: React.ElementType;
+  popular?: boolean;
+}
+
+const aiWebServices: ServiceItem[] = [
   {
-    title: "Enterprise Web Architecture",
-    slug: "web-development-nextjs",
+    id: 'base-umkm',
+    title: 'Paket Base UMKM & Company Profile',
+    category: 'web',
+    categoryLabel: 'High-Performance Web',
+    description: 'Solusi kilat profesional untuk bisnis lokal dan korporasi yang membutuhkan kehadiran digital berkecepatan tinggi, domain, dan hosting kilat.',
+    timeline: '⚡ Pengerjaan 3-5 Hari',
+    price: 'Rp 540K',
+    features: [
+      'Domain .com / .id & Hosting kilat',
+      'Desain Apple-Grade Responsive',
+      'Optimasi SEO On-Page Dasar',
+      'Integrasi WhatsApp Lead Button'
+    ],
     icon: Globe,
-    description: "Rekayasa website performa tinggi menggunakan Next.js 15+ dengan fokus pada skalabilitas dan SEO ekstrem.",
-    features: ["Zero-Latency Protocol", "Edge-First Rendering", "Core Web Vitals 100"],
-    color: "from-blue-500/20 to-indigo-500/20",
-    accent: "text-blue-600"
+    popular: true
   },
   {
-    title: "Agentic AI Automation",
-    slug: "ai-integration",
-    icon: Cpu,
-    description: "Otomasi operasional 24/7 menggunakan agen AI otonom yang cerdas untuk meningkatkan efisiensi tim Anda.",
-    features: ["Autonomous Agents", "Custom LLM Training", "Workflow Integration"],
-    color: "from-purple-500/20 to-pink-500/20",
-    accent: "text-purple-600"
+    id: 'nextjs-enterprise',
+    title: 'Enterprise High-Performance Web Architecture',
+    category: 'web',
+    categoryLabel: 'High-Performance Web',
+    description: 'Arsitektur web tingkat lanjut dengan Server-Side Rendering untuk performa sub-detik, SEO ekstrem, dan zero latency.',
+    timeline: '⚡ Pengerjaan 7-14 Hari',
+    price: 'Rp 1.850K',
+    features: [
+      'High-Speed App Router & TypeScript',
+      'Google Lighthouse 99+ Performance',
+      'Secure PostgreSQL / Cloud Data Vault',
+      'Full 100% Source Code Ownership'
+    ],
+    icon: Workflow
   },
   {
-    title: "Cloud Infrastructure",
-    slug: "cloud-infrastructure",
-    icon: Cloud,
-    description: "Penyusunan arsitektur cloud yang tangguh (High-Availability) pada AWS, Google Cloud, dan Azure.",
-    features: ["Auto-Scaling Systems", "Disaster Recovery", "Cost Optimization"],
-    color: "from-emerald-500/20 to-teal-500/20",
-    accent: "text-emerald-600"
+    id: 'headless-ecommerce',
+    title: 'High-Performance Headless E-Commerce & AI Search',
+    category: 'web',
+    categoryLabel: 'High-Performance Web',
+    description: 'Platform toko online modern berbasis Headless CMS dengan pencarian produk cerdas bertenaga AI untuk konversi penjualan maksimal.',
+    timeline: '⚡ Pengerjaan 10-14 Hari',
+    price: 'Rp 2.850K',
+    features: [
+      'Lightning-Fast Headless Checkout',
+      'AI Semantic Product Search',
+      'Midtrans & Stripe Payment Gateway',
+      'Advanced Inventory Dashboard'
+    ],
+    icon: ShoppingBag
   },
   {
-    title: "Cybersecurity Hardening",
-    slug: "security-audit",
-    icon: Shield,
-    description: "Audit keamanan mendalam dan pengerasan sistem untuk melindungi aset digital dari ancaman siber.",
-    features: ["Penetration Testing", "Security Audits", "Data Encryption"],
-    color: "from-rose-500/20 to-orange-500/20",
-    accent: "text-rose-600"
+    id: 'agentic-ai-support',
+    title: 'Agentic AI Customer Support 24/7',
+    category: 'ai',
+    categoryLabel: 'Agentic AI & Automation',
+    description: 'Integrasi agen AI otonom cerdas berbasis Google Gemini 2.5 untuk melayani pelanggan, menjawab pertanyaan produk, dan menutup transaksi 24 jam.',
+    timeline: '⚡ Pengerjaan 5-7 Hari',
+    price: 'Rp 2.500K',
+    features: [
+      'Autonomous WhatsApp & Web Agents',
+      'Zero Halusinasi Prompt Engineering',
+      'Real-Time Human Handover Trigger',
+      'Automated Sentiment & FAQ Logging'
+    ],
+    icon: Bot,
+    popular: true
   },
   {
-    title: "Advanced SEO & AEO",
-    slug: "seo-aeo",
-    icon: Search,
-    description: "Optimasi untuk mesin pencari tradisional dan algoritma AI (ChatGPT, Perplexity) agar brand Anda tetap relevan.",
-    features: ["Local SEO Dominance", "AI Recommendation Engine", "Schema Markup"],
-    color: "from-amber-500/20 to-yellow-500/20",
-    accent: "text-amber-600"
+    id: 'ai-lead-qualifier',
+    title: 'Autonomous AI Lead Qualification & CRM Sync',
+    category: 'ai',
+    categoryLabel: 'Agentic AI & Automation',
+    description: 'Sistem agen AI otomatis yang menyaring prospek masuk, melakukan *scoring* prospek berkualitas, dan langsung menyimpannya ke CRM Anda.',
+    timeline: '⚡ Pengerjaan 7-10 Hari',
+    price: 'Rp 3.500K',
+    features: [
+      'Instant Lead Screening & Scoring',
+      'Automated HubSpot / Sheets Sync',
+      'Personalized Outreach Sequences',
+      'Instant Sales Team Alert Notification'
+    ],
+    icon: Cpu
   },
   {
-    title: "Custom Systems & ERP",
-    slug: "pembuatan-website",
-    icon: Workflow,
-    description: "Pengembangan sistem internal kustom, dashboard, dan ERP yang dirancang khusus untuk proses bisnis Anda.",
-    features: ["Legacy Migration", "API Orchestration", "Real-time Dashboards"],
-    color: "from-slate-500/20 to-slate-700/20",
-    accent: "text-slate-700"
+    id: 'custom-rag-knowledge',
+    title: 'Custom RAG Knowledge Base & Enterprise LLM',
+    category: 'ai',
+    categoryLabel: 'Agentic AI & Automation',
+    description: 'Implementasi Retrieval-Augmented Generation (RAG) untuk melatih AI menggunakan dokumen internal perusahaan (PDF, SOP, Database) secara aman.',
+    timeline: '⚡ Pengerjaan 10-14 Hari',
+    price: 'Rp 4.500K',
+    features: [
+      'Secure Vector Database Embedding',
+      'Internal SOP & Manual Training',
+      'Strict Data Privacy & Encryption',
+      'Executive Analytics & Query Logs'
+    ],
+    icon: Database
   }
 ];
 
+const categories = [
+  { id: 'all', label: 'Semua Solusi' },
+  { id: 'web', label: 'High-Performance Web' },
+  { id: 'ai', label: 'Agentic AI & Automation' },
+];
+
 export default function ServiceCatalog() {
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [activeCategory, setActiveCategory] = useState<string>('all');
+
+  const filteredServices = activeCategory === 'all' 
+    ? aiWebServices 
+    : aiWebServices.filter(s => s.category === activeCategory);
 
   return (
-    <section className="py-24 bg-white relative overflow-hidden" id="service-catalog">
+    <section className="py-16 md:py-20 bg-slate-50/40 relative overflow-hidden [background-image:linear-gradient(to_right,#e2e8f0_1px,transparent_1px),linear-gradient(to_bottom,#e2e8f0_1px,transparent_1px)] [background-size:4rem_4rem]" id="service-catalog">
+      
+      {/* Background Ambient Glow */}
+      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] bg-purple-200/25 rounded-full blur-[140px] pointer-events-none" />
+
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
-          <div className="max-w-2xl">
-            <span className="text-[10px] font-mono font-bold uppercase tracking-[0.2em] text-purple-600 mb-4 block">
-              SERVICE CATALOG v3.0
-            </span>
-            <h2 className="text-4xl md:text-5xl font-black text-slate-900 tracking-tight font-display mb-4">
-              Katalog Rekayasa & <br className="hidden sm:block" /> Solusi Strategis.
-            </h2>
-            <p className="text-slate-500 text-sm sm:text-base max-w-xl font-sans leading-relaxed">
-              Eksplorasi ekosistem layanan kami yang dirancang untuk mentransformasi kompleksitas teknis menjadi keunggulan kompetitif yang nyata.
-            </p>
+        {/* Section Header */}
+        <motion.div 
+          initial={{ opacity: 0, y: 15 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.5 }}
+          className="text-center max-w-3xl mx-auto mb-12"
+        >
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-purple-50 border border-purple-200/80 text-purple-700 text-xs font-semibold mb-3 shadow-sm">
+            <Sparkles className="w-3.5 h-3.5 text-purple-600 animate-pulse" />
+            <span>Spesialisasi Arsitektur Web &amp; Agentic AI</span>
           </div>
-          
-          <div className="flex items-center gap-2 px-4 py-2 rounded-xl bg-slate-50 border border-slate-100 text-[10px] font-mono font-bold text-slate-400 uppercase tracking-widest">
-            <Zap size={12} className="text-amber-500" />
-            <span>High-Fidelity Engineering</span>
-          </div>
+          <h2 className="text-3xl md:text-4xl font-semibold tracking-tight text-slate-900 font-display">
+            Katalog Solusi High-Performance Web &amp; AI
+          </h2>
+          <p className="text-slate-600 mt-3 text-base">
+            Solusi rekayasa tingkat lanjut yang dirancang khusus untuk mendominasi konversi penjualan dan mengotomatisasi operasional bisnis Anda 24/7.
+          </p>
+        </motion.div>
+
+        {/* Filter Category Tabs with layoutId */}
+        <div className="flex flex-wrap items-center justify-center gap-2.5 mb-12">
+          {categories.map((cat) => {
+            const isActive = activeCategory === cat.id;
+            return (
+              <button
+                key={cat.id}
+                onClick={() => setActiveCategory(cat.id)}
+                className={`relative px-6 py-3 rounded-full text-xs font-bold tracking-wide transition-all cursor-pointer ${
+                  isActive 
+                    ? 'text-white' 
+                    : 'text-slate-600 hover:text-slate-900 bg-white/80 hover:bg-white border border-purple-100/80 shadow-xs'
+                }`}
+              >
+                {isActive && (
+                  <motion.div
+                    layoutId="activeTab"
+                    className="absolute inset-0 bg-purple-900 rounded-full shadow-md shadow-purple-950/20 -z-10"
+                    transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                  />
+                )}
+                <span className="relative z-10">{cat.label}</span>
+              </button>
+            );
+          })}
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {services.map((service, index) => (
-            <motion.div
-              key={service.slug}
-              onMouseEnter={() => setHoveredIndex(index)}
-              onMouseLeave={() => setHoveredIndex(null)}
-              className="relative group"
-            >
-              <Link
-                to={`/layanan/${service.slug}`}
-                className="block h-full bg-white border border-slate-100 rounded-[2rem] p-8 transition-all duration-500 hover:border-transparent hover:shadow-2xl hover:shadow-slate-200/50 overflow-hidden relative"
-              >
-                {/* Background Gradient Reveal */}
-                <div className={`absolute inset-0 bg-gradient-to-br ${service.color} opacity-0 group-hover:opacity-100 transition-opacity duration-700 -z-10`} />
-                
-                <div className="relative z-10">
-                  <div className={`w-14 h-14 rounded-2xl bg-slate-50 border border-slate-100 flex items-center justify-center mb-8 group-hover:scale-110 group-hover:bg-white group-hover:border-transparent transition-all duration-500 shadow-sm ${service.accent}`}>
-                    <service.icon size={28} />
-                  </div>
-                  
-                  <h3 className="text-xl font-black text-slate-900 font-display mb-4 tracking-tight group-hover:translate-x-2 transition-transform duration-500">
-                    {service.title}
-                  </h3>
-                  
-                  <p className="text-sm text-slate-500 leading-relaxed mb-8 font-sans group-hover:text-slate-700 transition-colors duration-500">
-                    {service.description}
-                  </p>
+        {/* Services Grid with AnimatePresence popLayout */}
+        <motion.div 
+          layout
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch"
+        >
+          <AnimatePresence mode="popLayout">
+            {filteredServices.map((service, index) => {
+              const Icon = service.icon;
+              const whatsappMsg = encodeURIComponent(`Halo Mas Chesta, saya tertarik untuk memesan layanan "${service.title}" dengan investasi ${service.price}. Mohon informasi lebih lanjut.`);
+              const whatsappUrl = `https://wa.me/6282125447232?text=${whatsappMsg}`;
 
-                  {/* Feature Pills Reveal */}
-                  <div className="flex flex-wrap gap-2 mb-8">
-                    {service.features.map((feature, fIndex) => (
-                      <span 
-                        key={fIndex}
-                        className="px-3 py-1 rounded-full bg-slate-50 border border-slate-100 text-[9px] font-mono font-bold text-slate-400 uppercase tracking-wider group-hover:bg-white group-hover:border-white/50 group-hover:text-slate-600 transition-all duration-300"
-                        style={{ transitionDelay: `${fIndex * 50}ms` }}
-                      >
-                        {feature}
+              return (
+                <motion.div
+                  key={service.id}
+                  layout
+                  initial={{ opacity: 0, y: 25, scale: 0.96 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, scale: 0.94 }}
+                  transition={{ 
+                    type: "spring", 
+                    stiffness: 280, 
+                    damping: 24, 
+                    delay: index * 0.05 
+                  }}
+                  className="rounded-3xl bg-white/80 backdrop-blur-2xl border border-purple-100/90 p-8 shadow-xl shadow-purple-900/5 hover:border-purple-300 hover:shadow-2xl hover:shadow-purple-900/10 transition-all duration-300 flex flex-col justify-between relative group overflow-hidden"
+                >
+                  {/* Popular Badge */}
+                  {service.popular && (
+                    <div className="absolute top-6 right-6 bg-purple-50 border border-purple-200/80 text-purple-700 text-[10px] font-mono font-bold uppercase tracking-wider px-3 py-1 rounded-full shadow-2xs">
+                      Paling Diminati
+                    </div>
+                  )}
+
+                  <div>
+                    {/* Icon & Timeline */}
+                    <div className="flex items-center justify-between mb-6">
+                      <div className="w-12 h-12 rounded-2xl bg-purple-900 text-white flex items-center justify-center shadow-md shadow-purple-950/20 group-hover:scale-105 transition-transform">
+                        <Icon size={22} />
+                      </div>
+                      <span className="text-[11px] font-mono font-semibold text-purple-700 bg-purple-50 px-3 py-1 rounded-full border border-purple-100/80">
+                        {service.timeline}
                       </span>
-                    ))}
-                  </div>
+                    </div>
 
-                  <div className="flex items-center justify-between pt-6 border-t border-slate-50 group-hover:border-white/20">
-                    <span className="text-[10px] font-mono font-black text-slate-400 uppercase tracking-widest group-hover:text-slate-900 transition-colors">
-                      Pelajari Solusi
+                    <span className="text-[11px] font-mono font-medium uppercase tracking-widest text-purple-600 block mb-1">
+                      {service.categoryLabel}
                     </span>
-                    <div className="w-10 h-10 rounded-full border border-slate-100 flex items-center justify-center bg-white group-hover:bg-slate-900 group-hover:border-slate-900 transition-all duration-500 group-hover:translate-x-1">
-                      <ArrowUpRight size={16} className="text-slate-400 group-hover:text-white transition-colors" />
+
+                    <h3 className="text-xl font-medium font-display text-slate-900 tracking-tight mb-2 group-hover:text-purple-900 transition-colors">
+                      {service.title}
+                    </h3>
+
+                    <p className="text-slate-600 font-sans text-xs sm:text-sm leading-relaxed mb-6 font-normal">
+                      {service.description}
+                    </p>
+
+                    {/* Deliverables Checklist */}
+                    <div className="space-y-2 mb-8 pt-4 border-t border-purple-100/60">
+                      {service.features.map((feat, fIdx) => (
+                        <div key={fIdx} className="flex items-center gap-2 text-xs text-slate-700 font-sans">
+                          <CheckCircle2 size={14} className="text-purple-600 shrink-0" />
+                          <span>{feat}</span>
+                        </div>
+                      ))}
                     </div>
                   </div>
-                </div>
-              </Link>
-            </motion.div>
-          ))}
-        </div>
+
+                  {/* Pricing & WhatsApp Handover CTA */}
+                  <div className="pt-6 border-t border-purple-100/80 flex items-center justify-between gap-4 mt-auto">
+                    <div>
+                      <span className="text-[10px] font-mono uppercase tracking-wider text-slate-400 block">Mulai Investasi</span>
+                      <span className="text-lg font-medium font-display text-slate-950">{service.price}</span>
+                    </div>
+
+                    <a
+                      href={whatsappUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl bg-gradient-to-r from-purple-800 to-indigo-900 hover:from-purple-700 hover:to-indigo-800 text-white text-xs font-medium transition-all shadow-md shadow-purple-950/20 group-hover:scale-105 cursor-pointer"
+                    >
+                      <span>Pesan Layanan</span>
+                      <ArrowRight size={14} />
+                    </a>
+                  </div>
+                </motion.div>
+              );
+            })}
+          </AnimatePresence>
+        </motion.div>
 
       </div>
     </section>

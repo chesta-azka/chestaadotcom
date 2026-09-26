@@ -184,7 +184,7 @@ export default function LeadCaptureForm() {
 
         {/* Direct Action Button to WhatsApp */}
         <div className="pt-2">
-          <MagneticButton strength={0.25} className="w-full">
+          <MagneticButton strength={20} className="w-full">
             <button
               type="button"
               onClick={handleOpenWhatsApp}

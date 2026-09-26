@@ -28,14 +28,14 @@ const DecorativeDivider = () => (
 
 const MarqueeTrack = () => (
   <div className="flex items-center shrink-0">
-    <div className="flex items-center font-display font-black uppercase text-5xl sm:text-7xl md:text-[7rem] tracking-tighter text-slate-900 shrink-0 leading-none">
+    <div className="flex items-center font-display font-semibold uppercase text-5xl sm:text-7xl md:text-[7rem] tracking-tighter text-slate-900 shrink-0 leading-none">
       <span>BRING</span>
       <span className="font-serif italic font-normal text-purple-700 ml-4 lowercase tracking-normal">creatifity</span>
     </div>
 
     <NavbarLogoIcon />
 
-    <div className="flex items-center font-display font-black uppercase text-5xl sm:text-7xl md:text-[7rem] tracking-tighter text-slate-900 shrink-0 leading-none">
+    <div className="flex items-center font-display font-semibold uppercase text-5xl sm:text-7xl md:text-[7rem] tracking-tighter text-slate-900 shrink-0 leading-none">
       <span>TO YOUR</span>
       <span className="font-serif italic font-normal text-slate-900 underline decoration-[#6b21a8] decoration-[4px] underline-offset-8 ml-4 lowercase tracking-normal">business</span>
     </div>

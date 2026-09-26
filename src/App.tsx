@@ -4,7 +4,7 @@ import { Toaster } from 'react-hot-toast';
 import React from "react";
 import { AuthProvider } from './contexts/AuthContext';
 
-import { motion, useScroll, useTransform, AnimatePresence } from 'motion/react';
+import { motion, AnimatePresence } from 'motion/react';
 import { useEffect, useState } from 'react';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 import { ROUTE_METADATA } from './data/seo-metadata';
@@ -16,8 +16,8 @@ import WebVitalsTracker from './components/atoms/WebVitalsTracker.tsx';
 import CommandPalette from './components/organisms/CommandPalette.tsx';
 import Header from './components/organisms/Header.tsx';
 import FooterSection from './components/organisms/FooterSection.tsx';
-import FloatingAIAssistant from './components/organisms/FloatingAIAssistant.tsx';
 import LiveChatWidget from './components/organisms/LiveChatWidget.tsx';
+
 import CommLinkAdmin from './components/CommLinkAdmin.tsx';
 import LoadingScreen from './components/organisms/LoadingScreen.tsx';
 import InteractiveBackground from './components/atoms/InteractiveBackground.tsx';
@@ -66,8 +66,6 @@ import SEOMetadata from './components/atoms/SEOMetadata';
 import PremiumTransition from './components/atoms/PremiumTransition';
 import DynamicBreadcrumbSchema from './components/atoms/DynamicBreadcrumbSchema';
 
-import LocalSchema from './components/atoms/LocalSchema.tsx';
-
 // Inner component to use location for AnimatePresence
 function AppContent({ appLoaded, onLoadingComplete }: { appLoaded: boolean; onLoadingComplete: () => void }) {
   const location = useLocation();
@@ -75,15 +73,15 @@ function AppContent({ appLoaded, onLoadingComplete }: { appLoaded: boolean; onLo
   useClickTracker();
   
   return (
-    <div className="relative z-10 w-full max-w-7xl mx-auto flex flex-col">
-      <LocalSchema />
+    <div className="relative w-full flex flex-col overflow-x-hidden min-h-screen">
       <LoadingScreen onComplete={onLoadingComplete} />
       
+      {/* Main Content Area */}
       <motion.div
         initial={{ opacity: 0, y: 20 }}
         animate={appLoaded ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
         transition={{ duration: 0.8, delay: 0.2 }}
-        className="flex flex-col flex-1"
+        className="relative z-10 flex flex-col flex-1 bg-[#fbfbfd]"
       >
         {!/^\/academy\/.+/.test(location.pathname) && <Header />}
         
@@ -113,10 +111,11 @@ function AppContent({ appLoaded, onLoadingComplete }: { appLoaded: boolean; onLo
             <Route path="*" element={<PageWrapper><NotFoundPage /></PageWrapper>} />
           </Routes>
         </AnimatePresence>
-        
-        {!/^\/academy\/.+/.test(location.pathname) ? <FooterSection /> : null}
+
+        {/* Global Footer */}
+        {!/^\/academy\/.+/.test(location.pathname) && <FooterSection />}
       </motion.div>
-      <FloatingAIAssistant isLoaded={appLoaded} />
+
       <LiveChatWidget />
     </div>
   );
@@ -147,8 +146,8 @@ import Breadcrumbs from './components/atoms/Breadcrumbs';
 function PageWrapper({ children }: { children: React.ReactNode }) {
   const location = useLocation();
   const currentMeta = ROUTE_METADATA[location.pathname] || {
-    title: 'CHESTAADOTCOM | Arsitek Web Next.js & Otomasi AI',
-    description: 'A high-performance B2B website development, Next.js architecture, and AI automation software house in BSD City, Cisauk, and Tangerang.'
+    title: 'CHESTAADOTCOM | Arsitek Web & Otomasi AI',
+    description: 'A high-performance B2B website development, enterprise architecture, and AI automation software house in BSD City, Cisauk, and Tangerang.'
   };
 
   return (

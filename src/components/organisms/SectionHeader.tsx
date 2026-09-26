@@ -21,7 +21,7 @@ export default function SectionHeader({ metaTag, title, description, align = 'le
         className={`flex items-center gap-3 mb-4 ${isCenter ? 'justify-center' : ''}`}
       >
         {!isCenter && <span className="w-8 h-[1px] bg-purple-600" />}
-        <span className="text-[10px] font-mono font-bold tracking-[0.3em] text-purple-600 uppercase pt-0.5">
+        <span className="text-[10px] font-mono font-medium tracking-[0.25em] text-purple-600 uppercase pt-0.5">
           {metaTag}
         </span>
         {!isCenter && <span className="w-8 h-[1px] bg-transparent" /> /* Balance spacing if needed, but usually omitted */}
@@ -31,7 +31,7 @@ export default function SectionHeader({ metaTag, title, description, align = 'le
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: '-50px' }}
         transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
-        className="text-3xl md:text-4xl font-display font-black tracking-tight text-slate-900 mb-4 leading-none"
+        className="text-3xl md:text-4xl font-display font-semibold tracking-tight text-slate-900 mb-4 leading-snug"
       >
         {title}
       </motion.h2>

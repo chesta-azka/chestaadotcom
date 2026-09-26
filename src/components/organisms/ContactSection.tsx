@@ -78,7 +78,7 @@ export default function ContactSection() {
             transition={{ duration: 0.5 }}
             className="space-y-3"
           >
-            <div className="text-fluid-h2 font-display font-black tracking-tight text-slate-900 px-2">
+            <div className="text-fluid-h2 font-display font-semibold tracking-tight text-slate-900 px-2">
               <TextRevealSmooth 
                 text="Mulai Proyek Website Anda Hari Ini." 
                 highlightWords={["Website", "Hari Ini"]}
@@ -103,7 +103,7 @@ export default function ContactSection() {
         </motion.div>
 
         <div className="text-center mb-10">
-          <AnimatedHeading as="h3" className="text-xl md:text-2xl font-display font-black text-slate-900">
+          <AnimatedHeading as="h3" className="text-xl md:text-2xl font-display font-semibold text-slate-900">
             Pilihan Paket Siap Pakai
           </AnimatedHeading>
           <p className="text-slate-600 text-xs sm:text-sm font-sans mt-1">
@@ -143,7 +143,7 @@ export default function ContactSection() {
 
                   <div className="flex flex-col gap-0.5 mb-3">
                     <div className="flex items-baseline gap-1.5">
-                      <span className="text-3xl font-display font-black text-slate-900 tracking-tight">{pkg.price}</span>
+                      <span className="text-3xl font-display font-semibold text-slate-900 tracking-tight">{pkg.price}</span>
                       <span className="text-xs text-slate-600 font-sans">all-in</span>
                     </div>
                     {pkg.originalPrice && (
@@ -190,7 +190,7 @@ export default function ContactSection() {
           className="mt-16 max-w-5xl mx-auto"
         >
           <div className="text-center mb-6">
-            <h3 className="text-lg md:text-xl font-display font-black text-slate-900">
+            <h3 className="text-lg md:text-xl font-display font-semibold text-slate-900">
               Jangkauan Layanan
             </h3>
             <p className="text-xs sm:text-sm text-slate-600 font-sans mt-1">

@@ -32,7 +32,7 @@ export default function AnimatedCounter({ value, label, suffix = '', prefix = ''
 
   return (
     <div ref={ref} className="flex flex-col items-center justify-center p-6 text-center group">
-      <div className="flex items-baseline justify-center font-display font-black tracking-tighter text-slate-900 group-hover:text-purple-900 transition-colors duration-300">
+      <div className="flex items-baseline justify-center font-display font-semibold tracking-tighter text-slate-900 group-hover:text-purple-900 transition-colors duration-300">
         {prefix && <span className="text-3xl sm:text-4xl text-slate-400 mr-1">{prefix}</span>}
         <motion.span className="text-5xl sm:text-7xl tabular-nums">
           {displayValue}

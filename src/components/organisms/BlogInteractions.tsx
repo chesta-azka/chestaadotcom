@@ -195,7 +195,7 @@ export default function BlogInteractions({ slug }: BlogInteractionsProps) {
             <MessageSquare size={18} />
           </div>
           <div>
-            <h4 className="text-base sm:text-lg font-display font-black text-slate-900">
+            <h4 className="text-base sm:text-lg font-display font-semibold text-slate-900">
               Tinggalkan Tanggapan
             </h4>
             <p className="text-xs font-sans text-slate-600">

@@ -122,7 +122,7 @@ export default function TestimonialSection() {
 
   return (
     <section 
-      className="py-4 sm:py-8 md:py-12 relative overflow-hidden bg-transparent text-slate-900 w-full select-none" 
+      className="py-16 md:py-20 relative overflow-hidden bg-transparent text-slate-900 w-full select-none" 
       id="testimonials"
     >
       <div className="mx-auto max-w-4xl px-3 sm:px-6 relative z-10 w-full">

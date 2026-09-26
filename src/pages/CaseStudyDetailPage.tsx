@@ -16,7 +16,7 @@ import RelatedCaseStudiesSlider from '../components/organisms/RelatedCaseStudies
 import Breadcrumbs from '../components/atoms/Breadcrumbs';
 
 function TechStackBadges() {
-  const stack = ['Next.js 15 App Router', 'React Server Components', 'TypeScript', 'Tailwind CSS v4', 'Google Gemini AI', 'PostgreSQL / Cloud SQL', 'Docker & Cloud Run'];
+  const stack = ['Enterprise App Router', 'Server Components', 'TypeScript', 'Tailwind CSS v4', 'Google Gemini AI', 'PostgreSQL / Cloud SQL', 'Docker & Cloud Run'];
   return (
     <div className="flex flex-wrap gap-2 my-6">
       {stack.map((tech, idx) => (
@@ -35,7 +35,7 @@ function InteractiveRoiEstimator({ clientName }: { clientName: string }) {
   const annualSavings = (monthlyRevenueGain * 12).toLocaleString('id-ID');
 
   return (
-    <div className="bg-gradient-to-br from-purple-900 via-purple-950 to-slate-900 text-white rounded-xl p-6 sm:p-8 my-10 shadow-xl border border-purple-800/60 relative overflow-hidden">
+    <div className="bg-[#120f1d] text-white rounded-xl p-6 sm:p-8 my-10 shadow-xl border border-purple-900/40 relative overflow-hidden">
       <div className="absolute top-0 right-0 w-64 h-64 " />
       <h3 className="text-xl font-display font-bold mb-2">Simulator Estimasi Dampak &amp; ROI ({clientName})</h3>
       <p className="text-xs text-purple-200 mb-6">Simulasikan potensi peningkatan pendapatan berdasarkan skala trafik bulanan.</p>
@@ -61,10 +61,10 @@ function InteractiveRoiEstimator({ clientName }: { clientName: string }) {
       <div className="p-4 rounded-2xl bg-white/10 backdrop-blur-md border border-white/10 flex items-center justify-between">
         <div>
           <div className="text-[10px] uppercase font-mono text-purple-300">Estimasi Potensi Tambahan Pendapatan / Thn</div>
-          <div className="text-2xl sm:text-3xl font-display font-black text-emerald-400 mt-0.5">Rp {annualSavings}</div>
+          <div className="text-2xl sm:text-3xl font-display font-semibold text-emerald-400 mt-0.5">Rp {annualSavings}</div>
         </div>
         <div className="text-right">
-          <span className="inline-block px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 text-[10px] font-mono font-bold uppercase tracking-wider">
+          <span className="inline-block px-3 py-1 rounded-full bg-emerald-500/20 text-emerald-300 text-[10px] font-mono font-medium uppercase tracking-wider">
             Verified Benchmark
           </span>
         </div>
@@ -117,7 +117,7 @@ export default function CaseStudyDetailPage() {
           "Arsitektur Website BSD City",
           "Solusi AI Korporat Cisauk",
           "B2B SaaS Indonesia",
-          "Next.js App Router Engineering",
+          "Enterprise App Router Engineering",
           "Konsultan IT BSD City",
           "Software House Cisauk",
           "Digital Transformation BSD",
@@ -289,14 +289,14 @@ export default function CaseStudyDetailPage() {
                 {study.desc} In an era where digital latency directly correlates with customer churn and enterprise revenue loss, {study.client} partnered with our elite engineering task force to completely re-engineer their core digital infrastructure. The objective was clear: eradicate single-point bottlenecks, transition from brittle legacy monolithic frameworks to a resilient cloud-native paradigm, and establish an uncompromised user experience that scales seamlessly across global markets.
               </p>
               <p className="font-sans text-[16px] sm:text-[17px] md:text-[18px] text-slate-700 leading-loose tracking-[-0.014em] mb-12 font-normal antialiased">
-                Our initial audit revealed critical technical debt: unoptimized server-side rendering loops, lack of edge caching policies, synchronous database queries causing thread starvation during peak traffic surges, and inconsistent state management across client sessions. Over a rigorous 12-week delivery cycle, we implemented a modern, high-performance stack centered on Next.js 15 App Router, React Server Components (RSCs), automated CI/CD pipelines, and PostgreSQL database replication across multi-region edge nodes.
+                Our initial audit revealed critical technical debt: unoptimized server-side rendering loops, lack of edge caching policies, synchronous database queries causing thread starvation during peak traffic surges, and inconsistent state management across client sessions. Over a rigorous 12-week delivery cycle, we implemented a modern, high-performance stack centered on enterprise App Router, Server Components, automated CI/CD pipelines, and PostgreSQL database replication across multi-region edge nodes.
               </p>
             </motion.div>
 
             <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true, margin: "-50px" }} transition={{ duration: 0.6, ease: "easeOut" }}>
               <h2 id="core-strategy" className="text-xl sm:text-2xl font-display font-bold mb-4 text-slate-900 tracking-tight scroll-mt-32">Architectural Strategy &amp; Decoupling</h2>
               <p className="font-sans text-[16px] sm:text-[17px] md:text-[18px] text-slate-700 leading-loose tracking-[-0.014em] mb-6 font-normal antialiased">
-                Through rigorous architectural planning and execution, our Next.js App Router implementation bypassed legacy limitations. We focused on decoupling the monolithic backend into micro-services and serverless API endpoints, providing organizational agility and accelerating time-to-market for future feature releases.
+                Through rigorous architectural planning and execution, our enterprise implementation bypassed legacy limitations. We focused on decoupling the monolithic backend into micro-services and serverless API endpoints, providing organizational agility and accelerating time-to-market for future feature releases.
               </p>
               <p className="font-sans text-[16px] sm:text-[17px] md:text-[18px] text-slate-700 leading-loose tracking-[-0.014em] mb-12 font-normal antialiased">
                 Key strategic pillars included:
@@ -381,16 +381,16 @@ export default function CaseStudyDetailPage() {
               <motion.div 
                 whileHover={{ scale: 1.02 }} 
                 variants={{ hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0, transition: { type: "spring", stiffness: 300, damping: 24 } } }} 
-                className="col-span-2 bg-gradient-to-br from-purple-900 via-purple-950 to-indigo-950 text-white rounded-xl p-6 shadow-lg border border-purple-800/60 relative overflow-hidden group cursor-pointer"
+                className="col-span-2 bg-[#120f1d] text-white rounded-xl p-6 shadow-lg border border-purple-900/40 relative overflow-hidden group cursor-pointer"
               >
                 <TrendingUp className="absolute -right-4 -bottom-4 text-white/10 group-hover:text-white/20 transition-colors" size={100} strokeWidth={1} />
                 <div className="flex items-center gap-2 mb-2">
                   <div className="w-6 h-6 rounded-full bg-emerald-500/20 border border-emerald-400/40 flex items-center justify-center">
                     <TrendingUp size={13} className="text-emerald-400" />
                   </div>
-                  <p className="text-xs text-purple-200 font-mono font-bold uppercase tracking-widest">Primary Business Impact</p>
+                  <p className="text-xs text-purple-200 font-mono font-medium uppercase tracking-widest">Primary Business Impact</p>
                 </div>
-                <p className="text-2xl sm:text-3xl font-display font-black text-white leading-tight relative z-10">{study.impact}</p>
+                <p className="text-2xl sm:text-3xl font-display font-semibold text-white leading-tight relative z-10">{study.impact}</p>
               </motion.div>
 
               {/* Card 2: Client */}
@@ -402,7 +402,7 @@ export default function CaseStudyDetailPage() {
                 <User className="absolute -right-2 -bottom-2 text-slate-200/40 group-hover:text-slate-200 transition-colors" size={56} strokeWidth={1} />
                 <div className="flex items-center gap-1.5 mb-2">
                   <User size={12} className="text-slate-500" />
-                  <p className="text-[10px] text-slate-500 font-mono font-bold uppercase tracking-widest">Client</p>
+                  <p className="text-[10px] text-slate-500 font-mono font-medium uppercase tracking-widest">Client</p>
                 </div>
                 <p className="text-base sm:text-lg font-display font-bold text-slate-900 relative z-10 truncate">{study.client}</p>
               </motion.div>

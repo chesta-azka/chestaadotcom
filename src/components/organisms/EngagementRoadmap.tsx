@@ -56,10 +56,10 @@ export default function EngagementRoadmap() {
       
       <div className="max-w-7xl mx-auto px-6 relative z-10 w-full">
         <div className="text-center mb-16">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-50 border border-slate-200 text-xs font-mono font-bold tracking-widest text-purple-600 uppercase mb-4 shadow-sm">
+          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-slate-50 border border-slate-200 text-xs font-mono font-medium tracking-widest text-purple-600 uppercase mb-4 shadow-sm">
             Service Delivery Lifecycle
           </div>
-          <h2 className="text-fluid-h2 font-display font-black text-slate-900 tracking-tight mb-4">
+          <h2 className="text-fluid-h2 font-display font-semibold text-slate-900 tracking-tight mb-4">
             Eksekusi Kemitraan Strategis
           </h2>
           <p className="text-slate-600 font-sans max-w-2xl mx-auto text-lg leading-relaxed font-light">
@@ -134,7 +134,7 @@ export default function EngagementRoadmap() {
                     </AnimatePresence>
                   </div>
                   <div>
-                    <h3 className={`font-display font-black transition-colors ${
+                    <h3 className={`font-display font-semibold transition-colors ${
                       activeStep === idx ? 'text-purple-600 text-lg' : 'text-slate-600 text-base group-hover:text-slate-900'
                     }`}>
                       {step.title}
@@ -167,7 +167,7 @@ export default function EngagementRoadmap() {
                     {React.createElement(ROADMAP_STEPS[activeStep].icon, { size: 28, className: "relative z-10" })}
                   </div>
                   
-                  <h3 className="text-3xl md:text-4xl font-display font-black text-slate-900 mb-4">
+                  <h3 className="text-3xl md:text-4xl font-display font-semibold text-slate-900 mb-4">
                     {ROADMAP_STEPS[activeStep].title}
                   </h3>
                   

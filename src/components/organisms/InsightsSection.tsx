@@ -102,14 +102,14 @@ export default function InsightsSection() {
                 transition={{ duration: 0.5, delay: i * 0.1 }}
               >
                 <div className="flex gap-3 items-center mb-4">
-                  <span className="text-[10px] font-mono font-bold text-[#6b21a8] bg-purple-50 px-3 py-1 rounded-full uppercase tracking-wider">
+                  <span className="text-[10px] font-mono font-medium text-[#6b21a8] bg-purple-50 px-3 py-1 rounded-full uppercase tracking-wider">
                     Tren Terbaru
                   </span>
                   <span className="text-[10px] font-mono text-slate-400">
                     {insight.date || 'Update Hari Ini'}
                   </span>
                 </div>
-                <h3 className="text-lg font-display font-black text-slate-900 leading-snug mb-3 group-hover:text-[#6b21a8] transition-colors tracking-tight text-left">
+                <h3 className="text-lg font-display font-semibold text-slate-900 leading-snug mb-3 group-hover:text-[#6b21a8] transition-colors tracking-tight text-left">
                   {insight.title}
                 </h3>
                 <p className="text-sm text-slate-600 leading-relaxed font-sans mb-6 text-left">

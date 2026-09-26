@@ -13,14 +13,14 @@ export default function SchemaMarkup({ schema }: SchemaMarkupProps) {
         "name": "CHESTAADOTCOM",
         "url": "https://chestaa.com",
         "areaServed": ["BSD City", "Cisauk"],
-        "knowsAbout": ["Next.js", "AI Agents", "High-Performance Web"]
+        "knowsAbout": ["High-Performance Web", "AI Agents", "Enterprise Software"]
       },
       {
         "@type": "LocalBusiness",
         "name": "CHESTAADOTCOM",
         "url": "https://chestaa.com",
         "areaServed": ["BSD City", "Cisauk"],
-        "knowsAbout": ["Next.js", "AI Agents", "High-Performance Web"]
+        "knowsAbout": ["High-Performance Web", "AI Agents", "Enterprise Software"]
       }
     ]
   };

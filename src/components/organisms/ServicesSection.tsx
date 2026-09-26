@@ -20,7 +20,7 @@ const mainServices = [
     color: "#9333ea",
     glow: "rgba(147, 51, 234, 0.4)",
     number: "02",
-    desc: "Rekayasa website eksklusif dengan Next.js 15. Kami fokus pada kecepatan 'Zero-Latency', aksesibilitas sempurna, dan arsitektur yang dirancang untuk mendominasi peringkat mesin pencari secara global."
+    desc: "Rekayasa website eksklusif dengan arsitektur berperforma tinggi. Kami fokus pada kecepatan 'Zero-Latency', aksesibilitas sempurna, dan arsitektur yang dirancang untuk mendominasi peringkat mesin pencari secara global."
   }
 ];
 

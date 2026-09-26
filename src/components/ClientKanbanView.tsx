@@ -68,7 +68,7 @@ export function ClientKanbanView({ workspaceSlug }: ClientKanbanViewProps) {
             <span className="p-1.5 rounded-xl bg-purple-50 text-purple-900">
               <Sparkles size={16} />
             </span>
-            <h2 className="text-xl font-display font-black text-slate-900 tracking-tight">Live Project Milestones & Kanban</h2>
+            <h2 className="text-xl font-display font-semibold text-slate-900 tracking-tight">Live Project Milestones & Kanban</h2>
           </div>
           <p className="text-xs text-slate-600">
             Pantau progres implementasi teknis secara real-time. Anda dapat menyetujui fitur atau meminta revisi kapan saja.
@@ -78,8 +78,8 @@ export function ClientKanbanView({ workspaceSlug }: ClientKanbanViewProps) {
         {/* Progress Gauge */}
         <div className="w-full md:w-64 bg-purple-50/40 p-4 rounded-2xl border border-purple-100 space-y-2">
           <div className="flex items-center justify-between text-xs">
-            <span className="font-semibold text-slate-700">Total Selesai</span>
-            <span className="font-bold text-purple-900 font-mono">{progressPercentage}%</span>
+            <span className="font-medium text-slate-700">Total Selesai</span>
+            <span className="font-medium text-purple-900 font-mono">{progressPercentage}%</span>
           </div>
           <div className="w-full h-2.5 bg-purple-100 rounded-full overflow-hidden">
             <motion.div 
@@ -100,15 +100,15 @@ export function ClientKanbanView({ workspaceSlug }: ClientKanbanViewProps) {
       {reviewCount > 0 && (
         <div className="p-4 rounded-2xl bg-amber-50 border border-amber-200 flex items-center justify-between gap-3 text-amber-900">
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-xl bg-amber-500 text-white flex items-center justify-center font-bold text-sm shrink-0">
+            <div className="w-8 h-8 rounded-xl bg-amber-500 text-white flex items-center justify-center font-medium text-sm shrink-0">
               {reviewCount}
             </div>
             <div>
-              <h4 className="text-xs font-bold uppercase tracking-wider text-amber-900">Review Klien Diperlukan</h4>
+              <h4 className="text-xs font-medium uppercase tracking-wider text-amber-900">Review Klien Diperlukan</h4>
               <p className="text-xs text-amber-800">Ada {reviewCount} fitur/milestone yang siap Anda uji coba dan setujui di bawah.</p>
             </div>
           </div>
-          <span className="text-xs font-semibold px-3 py-1 bg-amber-100 rounded-xl text-amber-900 hidden sm:inline">
+          <span className="text-xs font-medium px-3 py-1 bg-amber-100 rounded-xl text-amber-900 hidden sm:inline">
             Aksi Langsung
           </span>
         </div>
@@ -118,7 +118,7 @@ export function ClientKanbanView({ workspaceSlug }: ClientKanbanViewProps) {
       {tickets.length === 0 ? (
         <div className="p-12 text-center rounded-xl bg-white border border-purple-100">
           <Clock className="w-10 h-10 text-slate-400 mx-auto mb-2 opacity-50" />
-          <h3 className="text-sm font-bold text-slate-800">Belum Ada Milestone Terdaftar</h3>
+          <h3 className="text-sm font-medium text-slate-800">Belum Ada Milestone Terdaftar</h3>
           <p className="text-xs text-slate-600 mt-1">Tim engineer kami sedang merancang roadmap teknis untuk workspace Anda.</p>
         </div>
       ) : (
@@ -166,21 +166,21 @@ export function ClientKanbanView({ workspaceSlug }: ClientKanbanViewProps) {
                     </div>
                     <div>
                       <div className="flex items-center gap-2 flex-wrap mb-1">
-                        <span className={`text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-md border ${statusColor}`}>
+                        <span className={`text-[10px] font-medium uppercase tracking-wider px-2 py-0.5 rounded-md border ${statusColor}`}>
                           {statusText}
                         </span>
                         {ticket.tag && (
-                          <span className="text-[10px] font-semibold text-slate-600 bg-slate-100 px-2 py-0.5 rounded-md">
+                          <span className="text-[10px] font-medium text-slate-600 bg-slate-100 px-2 py-0.5 rounded-md">
                             {ticket.tag}
                           </span>
                         )}
                         {ticket.client_approved && (
-                          <span className="text-[10px] font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200 flex items-center gap-1">
+                          <span className="text-[10px] font-medium text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-md border border-emerald-200 flex items-center gap-1">
                             <Check size={11} /> Verified
                           </span>
                         )}
                       </div>
-                      <h3 className="font-bold text-slate-900 text-sm sm:text-base leading-snug">
+                      <h3 className="font-medium text-slate-900 text-sm sm:text-base leading-snug">
                         {ticket.title}
                       </h3>
                       {ticket.description && (
@@ -196,13 +196,13 @@ export function ClientKanbanView({ workspaceSlug }: ClientKanbanViewProps) {
                     <div className="flex items-center gap-2 w-full sm:w-auto justify-end pt-2 sm:pt-0 border-t sm:border-t-0 border-slate-100">
                       <button
                         onClick={() => setActiveRevisionId(ticket.id)}
-                        className="px-3.5 py-2 text-xs font-bold text-amber-800 bg-amber-100 hover:bg-amber-200 rounded-xl transition-all cursor-pointer"
+                        className="px-3.5 py-2 text-xs font-medium text-amber-800 bg-amber-100 hover:bg-amber-200 rounded-xl transition-all cursor-pointer"
                       >
                         Minta Revisi
                       </button>
                       <button
                         onClick={() => handleApprove(ticket.id, ticket.title)}
-                        className="px-4 py-2 text-xs font-bold text-white bg-emerald-600 hover:bg-emerald-700 rounded-xl transition-all flex items-center gap-1.5 shadow-xs cursor-pointer"
+                        className="px-4 py-2 text-xs font-medium text-white bg-emerald-600 hover:bg-emerald-700 rounded-xl transition-all flex items-center gap-1.5 shadow-xs cursor-pointer"
                       >
                         <Check className="w-3.5 h-3.5" />
                         <span>Setujui (Approve)</span>
@@ -222,7 +222,7 @@ export function ClientKanbanView({ workspaceSlug }: ClientKanbanViewProps) {
                     >
                       <div className="p-4 bg-amber-50 rounded-2xl border border-amber-200 space-y-3">
                         <div className="flex justify-between items-center">
-                          <label className="text-xs font-bold text-amber-900 flex items-center gap-1.5">
+                          <label className="text-xs font-medium text-amber-900 flex items-center gap-1.5">
                             <Edit3 size={14} />
                             <span>Tuliskan Catatan Perubahan atau Penyesuaian</span>
                           </label>
@@ -253,7 +253,7 @@ export function ClientKanbanView({ workspaceSlug }: ClientKanbanViewProps) {
                           <button
                             onClick={() => handleRevisionSubmit(ticket.id)}
                             disabled={isSubmitting || !revisionNote.trim()}
-                            className="px-4 py-2 bg-purple-900 text-white font-bold text-xs rounded-xl flex items-center gap-2 disabled:opacity-50 transition-all cursor-pointer"
+                            className="px-4 py-2 bg-gradient-to-r from-purple-800 to-indigo-900 hover:from-purple-700 hover:to-indigo-800 text-white font-medium text-xs rounded-xl flex items-center gap-2 disabled:opacity-50 transition-all cursor-pointer shadow-xs"
                           >
                             <Send className="w-3.5 h-3.5" />
                             <span>{isSubmitting ? 'Mengirim...' : 'Kirim Catatan Revisi'}</span>

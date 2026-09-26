@@ -34,7 +34,7 @@ export default function DashboardCard({ title, value, icon, children, trend, cla
       <div>
         <p className="text-[10px] font-mono uppercase tracking-widest text-slate-600 mb-1">{title}</p>
         {value !== undefined && (
-          <p className="text-2xl font-display font-black text-slate-900 tracking-tight">{value}</p>
+          <p className="text-2xl font-display font-semibold text-slate-900 tracking-tight">{value}</p>
         )}
       </div>
       

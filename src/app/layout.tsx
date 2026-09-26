@@ -5,11 +5,11 @@ import { Navbar } from '../components/Navbar';
 import '../index.css';
 
 export const metadata: Metadata = {
-  title: 'CHESTADOTCOM | Pembuatan Website Modern Next.js & Promo UMKM Rp540K',
-  description: 'Jasa pembuatan website profesional berkecepatan tinggi dengan Next.js, paket promo UMKM Rp540K domain .com, dan solusi digital terpercaya berbasis BSD Tangerang.',
+  title: 'CHESTADOTCOM | Pembuatan Website Modern & Promo UMKM Rp540K',
+  description: 'Jasa pembuatan website profesional berkecepatan tinggi dengan paket promo UMKM Rp540K domain .com, dan solusi digital terpercaya berbasis BSD Tangerang.',
   openGraph: {
-    title: 'CHESTADOTCOM | Pembuatan Website Modern Next.js & Promo UMKM Rp540K',
-    description: 'Jasa pembuatan website profesional berkecepatan tinggi dengan Next.js, paket promo UMKM Rp540K domain .com, dan solusi digital terpercaya berbasis BSD Tangerang.',
+    title: 'CHESTADOTCOM | Pembuatan Website Modern & Promo UMKM Rp540K',
+    description: 'Jasa pembuatan website profesional berkecepatan tinggi dengan paket promo UMKM Rp540K domain .com, dan solusi digital terpercaya berbasis BSD Tangerang.',
     type: 'website',
     locale: 'id_ID',
     siteName: 'CHESTADOTCOM',

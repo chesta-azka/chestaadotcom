@@ -59,10 +59,10 @@ export const ALL_ARTICLES: Article[] = [
     date: '28 SEP 2026',
     readTime: '150 MIN READ',
     readTimeMinutes: 150,
-    desc: 'Panduan komprehensif bagi pemula tentang evolusi mesin pencari: dari Google Tradisional (SEO), Jawaban Langsung (AEO), hingga Rekomendasi AI (GEO).',
+    desc: 'Panduan komprehensif bagi pemula tentang evolusi mesin pencari: dari Google Tradisional (SEO), Jawaban Langsung (AEO), hingga Rekomendasi Kecerdasan Buatan (GEO).',
     featured: true,
     recommended: true,
-    tags: ['SEO', 'AEO', 'GEO', 'Digital Strategy', 'Future Tech'],
+    tags: ['SEO', 'AEO', 'GEO', 'Digital Strategy', 'Sistem Masa Depan'],
     author: {
       name: 'Chesta Azka Sofyan',
       role: 'Senior Content Strategist & Educator',
@@ -72,7 +72,7 @@ export const ALL_ARTICLES: Article[] = [
     content: [
       "## Selamat Datang di Garis Depan Revolusi Informasi!",
       "Bayangkan kamu sedang mencari cara membuat pasta carbonara yang enak. Sepuluh tahun lalu, kamu akan mengetik 'resep pasta carbonara' di Google, lalu mengklik satu atau dua website.",
-      "Hari ini? Kamu mungkin bertanya ke Siri lewat suara, atau meminta ChatGPT merangkumkan resep terbaik. Cara kita mencari informasi sudah berubah total, dan bisnis digital harus siap beradaptasi.",
+      "Hari ini? Kamu mungkin bertanya lewat suara, atau meminta Model Bahasa Otonom merangkumkan resep terbaik. Cara kita mencari informasi sudah berubah total, dan bisnis digital harus siap beradaptasi.",
       "Sebagai edukator kamu hari ini, aku bakal bedah tiga pilar utama yang bakal bikin bisnis kamu 'kelihatan' di internet masa depan: **SEO, AEO, dan GEO**.",
 
       "### 1. SEO: Fondasi Klasik yang Tetap Abadi",
@@ -87,8 +87,8 @@ export const ALL_ARTICLES: Article[] = [
       "- **Tips Pro:** Gunakan format tanya-jawab di konten kamu. Pakai bahasa yang natural, kayak kamu lagi ngejelasin ke temen.",
 
       "### 3. GEO: Sahabat Baru Para Model Bahasa AI",
-      "Inilah tren terbaru: **GEO (Generative Engine Optimization)**. Di era AI kayak sekarang, kamu bukan cuma pengen muncul di Google, tapi kamu pengen **ChatGPT, Gemini, atau Perplexity** menyebutkan brand kamu pas ada orang nanya rekomendasi.",
-      "- **Analogi:** GEO itu kayak membangun reputasi di kalangan para ahli. AI bakal 'merekomendasikan' kamu kalau data tentang kamu tersebar luas, akurat, dan memiliki kredibilitas tinggi.",
+      "Inilah tren terbaru: **GEO (Generative Engine Optimization)**. Di era kecerdasan otonom kayak sekarang, kamu bukan cuma pengen muncul di Google, tapi kamu pengen **Sistem Cerdas Otonom** menyebutkan brand kamu pas ada orang nanya rekomendasi.",
+      "- **Analogi:** GEO itu kayak membangun reputasi di kalangan para ahli. Sistem cerdas bakal 'merekomendasikan' kamu kalau data tentang kamu tersebar luas, akurat, dan memiliki kredibilitas tinggi.",
       "- **Strategi Utama:** Pastikan data bisnis kamu ada di direktori terpercaya, punya ulasan jujur yang banyak, dan konten kamu sering dikutip oleh website besar lainnya.",
 
       { type: 'image', url: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=1200&auto=format&fit=crop', alt: 'Futuristic AI visualization for digital search' },
@@ -97,13 +97,13 @@ export const ALL_ARTICLES: Article[] = [
       "Dunia pencarian nggak lagi linear. Kamu nggak bisa cuma milih salah satu. Bisnis digital yang sukses di 2026 adalah mereka yang:",
       "1. Punya website yang **kencang dan rapi** (SEO).",
       "2. Memberikan **jawaban singkat dan padat** buat pengguna mobile (AEO).",
-      "3. Membangun **kredibilitas brand** agar dipercaya oleh kecerdasan buatan (GEO).",
+      "3. Membangun **kredibilitas brand** agar dipercaya oleh kecerdasan otonom (GEO).",
 
       "**Inget ya:** Teknologi berubah, tapi tujuan utamanya tetep sama: Membantu orang lain menemukan apa yang mereka butuhkan. Jadilah solusi, dan mesin pencari (atau mesin jawaban) bakal nemuin kamu.",
 
       "---",
       "### Mini-Insight buat Kamu!",
-      "Coba cek website atau media sosial kamu hari ini. Kalau kamu nanya ke Google Assistant: 'Siapa [Nama Brand/Kamu]?', apakah dia bisa jawab dengan bener? Kalau belum, tandanya kamu harus mulai optimasi AEO kamu hari ini!",
+      "Coba cek website atau media sosial kamu hari ini. Kalau kamu nanya ke asisten suara: 'Siapa [Nama Brand/Kamu]?', apakah dia bisa jawab dengan bener? Kalau belum, tandanya kamu harus mulai optimasi AEO kamu hari ini!",
 
       "Stay Smart, Stay Digital! 🚀"
     ]
@@ -490,11 +490,11 @@ export const ALL_ARTICLES: Article[] = [
       "**T: Berapa biaya minimal untuk mulai mengotomatisasi bisnis B2B?**",
       "J: Otomasi bisa dimulai dengan alat-alat no-code yang sangat terjangkau. Fokuslah pada 'Quick Wins'—proses kecil dengan dampak besar—sebelum berinvestasi pada sistem enterprise yang sangat kompleks.",
 
-      "**T: Bagaimana dengan privasi data pelanggan jika menggunakan AI eksternal?**",
-      "J: Gunakan provider yang menjamin privasi data dan kepatuhan regulasi lokal. Selalu anonimkan data sensitif sebelum diproses oleh model AI pihak ketiga jika diperlukan secara mendalam.",
+      "**T: Bagaimana dengan privasi data pelanggan jika menggunakan sistem cerdas eksternal?**",
+      "J: Gunakan provider yang menjamin privasi data dan kepatuhan regulasi lokal. Selalu anonimkan data sensitif sebelum diproses oleh model pihak ketiga jika diperlukan secara mendalam.",
 
       "**T: Apakah sistem otomasi sulit dipelajari oleh karyawan non-teknis?**",
-      "J: Sebaliknya, antarmuka otomasi modern dirancang sangat intuitif. Dengan pelatihan singkat, tim operasional dapat mengelola alur kerja mereka sendiri tanpa bantuan tim IT setiap saat."
+      "J: Sebaliknya, antarmuka otomasi modern dirancang sangat intuitif. Dengan pelatihan singkat, tim operasional dapat mengelola alur kerja mereka sendiri tanpa bantuan teknis setiap saat."
     ]
   },
   {
@@ -575,7 +575,7 @@ export const ALL_ARTICLES: Article[] = [
 
       "### 8. Peta Jalan Adopsi Cloud 2025",
       "Bagi perusahaan yang baru memulai atau ingin meningkatkan kapabilitas cloud mereka, berikut adalah langkah-langkah strategisnya:",
-      "1. **Fase Penilaian (Bulan 1-2):** Audit infrastruktur saat ini dan definisikan tujuan bisnis yang ingin dicapai (misal: pengurangan latensi 50% atau penghematan biaya 20%).",
+      "1. **Fase Penilaian (Bulan 1-2):** Audit infrastruktur saat ini dan definisikan tujuan bisnis yang ingin dicapai (misal: pengurangan latensi 50% atau penghematan biaya operasional 20%).",
       "2. **Fase Desain Fondasi (Bulan 3-4):** Bangun landing zone yang aman dengan kebijakan tata kelola yang ketat.",
       "3. **Fase Migrasi Pilot (Bulan 5-6):** Pindahkan aplikasi yang paling 'cloud-ready' untuk membuktikan konsep dan mendapatkan feedback cepat.",
       "4. **Fase Skalabilitas (Bulan 7+):** Lakukan modernisasi aplikasi inti secara bertahap menggunakan arsitektur microservices.",

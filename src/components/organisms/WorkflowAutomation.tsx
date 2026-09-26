@@ -14,7 +14,7 @@ interface Milestone {
 const DEFAULT_MILESTONES: Milestone[] = [
   { id: 'm1', title: '1. Konsultasi Kebutuhan via WhatsApp', description: 'Diskusi langsung dengan Chesta Azka (Principal Engineer) mengenai spesifikasi bisnis, arsitektur, dan referensi desain.', status: 'pending', duration: 'Tahap 1' },
   { id: 'm2', title: '2. Rekomendasi Solusi & Paket Transparan', description: 'Perumusan paket optimal (Mulai Rp650K / Promo UMKM Rp540K), penentuan domain .com, dan target waktu 1-3 hari.', status: 'pending', duration: 'Tahap 2' },
-  { id: 'm3', title: '3. Rapid Build & Live Staging Review', description: 'Pengembangan arsitektur Next.js berkecepatan tinggi dengan tautan live staging dikirim langsung ke WhatsApp Anda.', status: 'pending', duration: 'Tahap 3' },
+  { id: 'm3', title: '3. Rapid Build & Live Staging Review', description: 'Pengembangan arsitektur web berkecepatan tinggi dengan tautan live staging dikirim langsung ke WhatsApp Anda.', status: 'pending', duration: 'Tahap 3' },
   { id: 'm4', title: '4. Peluncuran Resmi & Serah Terima Penuh', description: 'Aktivasi domain .com, sertifikat SSL HTTPS, optimasi SEO Google, serta transfer kepemilikan kode 100%.', status: 'pending', duration: 'Tahap 4' },
 ];
 
@@ -128,7 +128,7 @@ export default function WorkflowAutomation() {
                     <Sparkles size={20} />
                   </div>
                   <div>
-                    <h3 className="font-display font-black text-lg text-slate-900">AI Project Architect</h3>
+                    <h3 className="font-display font-semibold text-lg text-slate-900">AI Project Architect</h3>
                     <p className="text-xs font-sans text-slate-600">Estimasi Alur Cepat & Praktis</p>
                   </div>
                 </div>
@@ -152,7 +152,7 @@ export default function WorkflowAutomation() {
                   <button
                     type="submit"
                     disabled={isGenerating || !projectInput.trim()}
-                    className="w-full flex items-center justify-center gap-2 bg-purple-900 hover:bg-purple-800 text-white px-6 py-3.5 rounded-2xl font-mono text-xs font-bold uppercase tracking-wider shadow-lg shadow-purple-950/20 transition-all disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer group"
+                    className="w-full flex items-center justify-center gap-2 bg-purple-900 hover:bg-purple-800 text-white px-6 py-3.5 rounded-2xl font-mono text-xs font-medium uppercase tracking-wider shadow-lg shadow-purple-950/20 transition-all disabled:opacity-50 disabled:cursor-not-allowed cursor-pointer group"
                   >
                     {isGenerating ? (
                       <>
@@ -173,7 +173,7 @@ export default function WorkflowAutomation() {
                   <span className="text-xs text-slate-600 font-sans">Ingin langsung tanya?</span>
                   <button
                     onClick={openFloatingAI}
-                    className="text-xs font-mono font-bold text-purple-900 hover:text-purple-700 uppercase tracking-wider inline-flex items-center gap-1.5 cursor-pointer"
+                    className="text-xs font-mono font-medium text-purple-900 hover:text-purple-700 uppercase tracking-wider inline-flex items-center gap-1.5 cursor-pointer"
                   >
                     <Bot size={13} />
                     Buka Assistant Web &rarr;
@@ -189,12 +189,12 @@ export default function WorkflowAutomation() {
               highlightGlow ? "border-purple-300 shadow-[0_0_30px_rgba(107,33,168,0.15)]" : "border-purple-100"
             }`}>
               <div className="flex items-center justify-between mb-6 pb-4 border-b border-purple-100 flex-wrap gap-3">
-                <h3 className="font-display font-black text-xl text-slate-900 flex items-center gap-2">
+                <h3 className="font-display font-semibold text-xl text-slate-900 flex items-center gap-2">
                   <GitMerge className="text-purple-700" size={22} />
                   Peta Jalan & Alur Pengerjaan
                 </h3>
                 {generated && (
-                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-50 text-purple-900 border border-purple-200 text-xs font-mono font-bold uppercase tracking-wider">
+                  <span className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-purple-50 text-purple-900 border border-purple-200 text-xs font-mono font-medium uppercase tracking-wider">
                     <span className="w-1.5 h-1.5 rounded-full bg-purple-600 animate-pulse" />
                     Siap Lanjut WA
                   </span>
@@ -215,7 +215,7 @@ export default function WorkflowAutomation() {
                       setMilestones(DEFAULT_MILESTONES);
                       setGenerated(true);
                     }}
-                    className="text-xs font-mono font-bold text-purple-900 bg-purple-50 hover:bg-purple-100 px-4 py-2 rounded-xl border border-purple-200 uppercase tracking-wider transition-all cursor-pointer"
+                    className="text-xs font-mono font-medium text-purple-900 bg-purple-50 hover:bg-purple-100 px-4 py-2 rounded-xl border border-purple-200 uppercase tracking-wider transition-all cursor-pointer"
                   >
                     Gunakan Contoh Standar &rarr;
                   </button>
@@ -267,13 +267,13 @@ export default function WorkflowAutomation() {
                           
                           <div className="flex-1 bg-purple-50/30 border border-purple-100 rounded-2xl p-4 shadow-xs hover:border-purple-200 transition-colors">
                             <div className="flex flex-wrap items-center justify-between gap-2 mb-1.5">
-                              <h4 className="font-display font-black text-slate-900 text-sm sm:text-base">{milestone.title}</h4>
-                              <span className="inline-flex items-center gap-1 text-[10px] font-mono uppercase tracking-wider text-purple-900 bg-white border border-purple-200 px-2 py-0.5 rounded-full">
+                              <h4 className="font-display font-medium text-slate-900 text-sm sm:text-base">{milestone.title}</h4>
+                              <span className="inline-flex items-center gap-1 text-[10px] font-mono uppercase tracking-wider text-purple-900 bg-white border border-purple-200 px-2 py-0.5 rounded-full font-medium">
                                 <Clock size={11} />
                                 {milestone.duration}
                               </span>
                             </div>
-                            <p className="font-sans text-xs sm:text-sm text-slate-600 leading-relaxed antialiased">
+                            <p className="font-sans text-xs sm:text-sm text-slate-600 leading-relaxed antialiased font-normal">
                               {milestone.description}
                             </p>
                           </div>
@@ -289,7 +289,7 @@ export default function WorkflowAutomation() {
                     </p>
                     <button
                       onClick={sendRoadmapToWhatsApp}
-                      className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 bg-purple-900 hover:bg-purple-800 text-white rounded-full font-mono text-xs font-bold uppercase tracking-wider shadow-md shadow-purple-950/20 transition-all hover:scale-105 active:scale-95 cursor-pointer"
+                      className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-6 py-3 bg-gradient-to-r from-purple-800 to-indigo-900 hover:from-purple-700 hover:to-indigo-800 text-white rounded-full font-mono text-xs font-medium uppercase tracking-wider shadow-md shadow-purple-950/20 transition-all hover:scale-105 active:scale-95 cursor-pointer"
                     >
                       <MessageCircle size={15} />
                       Kirim Blueprint ke WhatsApp

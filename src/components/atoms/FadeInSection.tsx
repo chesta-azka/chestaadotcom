@@ -8,6 +8,7 @@ interface FadeInSectionProps {
   id?: string;
   direction?: 'up' | 'down' | 'left' | 'right' | 'none';
   scale?: number;
+  viewport?: { once?: boolean; amount?: number; margin?: string };
 }
 
 export default function FadeInSection({ 
@@ -16,7 +17,8 @@ export default function FadeInSection({
   delay = 0, 
   id,
   direction = 'up',
-  scale = 0.98
+  scale = 0.98,
+  viewport = { once: true, amount: 0.15 }
 }: FadeInSectionProps) {
   const getInitialY = () => {
     if (direction === 'up') return 40;
@@ -35,7 +37,7 @@ export default function FadeInSection({
       id={id}
       initial="hidden"
       whileInView="visible"
-      viewport={{ once: true, amount: 0.2 }}
+      viewport={viewport}
       variants={{
         hidden: { 
           opacity: 0, 

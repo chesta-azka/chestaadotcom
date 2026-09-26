@@ -171,7 +171,7 @@ export default function DirectTransferModal({
               </div>
               <div>
                 <div className="flex items-center gap-2">
-                  <h2 className="text-lg font-display font-black text-slate-900 tracking-tight">
+                  <h2 className="text-lg font-display font-semibold text-slate-900 tracking-tight">
                     Direct Transfer & E-Wallet
                   </h2>
                   <span className="text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full bg-purple-100 text-purple-900">
@@ -198,7 +198,7 @@ export default function DirectTransferModal({
             <div className="space-y-3">
               <div className="flex items-center justify-between">
                 <label className="text-xs font-bold text-slate-800 uppercase tracking-wider flex items-center gap-1.5">
-                  <span className="w-5 h-5 rounded-full bg-purple-100 text-purple-900 flex items-center justify-center text-[10px] font-black">1</span>
+                  <span className="w-5 h-5 rounded-full bg-purple-100 text-purple-900 flex items-center justify-center text-[10px] font-medium">1</span>
                   Pilih Layanan / Paket Proyek
                 </label>
                 <span className="text-[11px] text-purple-900 font-semibold">
@@ -309,7 +309,7 @@ export default function DirectTransferModal({
                 </span>
               </div>
               <div className="flex items-baseline justify-between">
-                <span className="text-2xl sm:text-3xl font-black font-mono tracking-tight text-white">
+                <span className="text-2xl sm:text-3xl font-semibold font-mono tracking-tight text-white">
                   {formattedFinalPrice}
                 </span>
                 <button
@@ -329,7 +329,7 @@ export default function DirectTransferModal({
             {/* Step 3: Pilih Metode Rekening */}
             <div className="space-y-3">
               <label className="text-xs font-bold text-slate-800 uppercase tracking-wider flex items-center gap-1.5">
-                <span className="w-5 h-5 rounded-full bg-purple-100 text-purple-900 flex items-center justify-center text-[10px] font-black">2</span>
+                <span className="w-5 h-5 rounded-full bg-purple-100 text-purple-900 flex items-center justify-center text-[10px] font-medium">2</span>
                 Pilih Rekening Tujuan / E-Wallet
               </label>
 
@@ -512,7 +512,7 @@ export default function DirectTransferModal({
             {/* Step 4: Konfirmasi Pembayaran */}
             <div className="space-y-4 pt-2">
               <label className="text-xs font-bold text-slate-800 uppercase tracking-wider flex items-center gap-1.5">
-                <span className="w-5 h-5 rounded-full bg-purple-100 text-purple-900 flex items-center justify-center text-[10px] font-black">3</span>
+                <span className="w-5 h-5 rounded-full bg-purple-100 text-purple-900 flex items-center justify-center text-[10px] font-medium">3</span>
                 Konfirmasi Pembayaran Anda
               </label>
 

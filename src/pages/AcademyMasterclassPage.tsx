@@ -312,8 +312,8 @@ export default function AcademyMasterclassPage() {
           </div>
           
           <div className="flex-1 overflow-y-auto p-3 custom-scrollbar sidebar-nav-container">
-            {modules.map((mod: any) => (
-              <div key={mod.slug} className="mb-2">
+            {modules.map((mod: any, modIdx: number) => (
+              <div key={mod.id || `mod-${modIdx}`} className="mb-2">
                 <button 
                   onClick={() => toggleModule(mod.id)}
                   className="w-full flex items-center justify-between p-3 rounded-2xl hover:bg-slate-100/60 transition-colors text-left"
@@ -338,12 +338,12 @@ export default function AcademyMasterclassPage() {
                       className="overflow-hidden"
                     >
                       <div className="pl-4 pr-2 py-1 flex flex-col gap-1 border-l-2 border-slate-200/60 ml-4 my-2">
-                        {mod.submodules?.map((sub: any) => {
+                        {mod.submodules?.map((sub: any, subIdx: number) => {
                           const isActive = activeSubmoduleId === sub.id;
                           const isBookmarked = bookmarks[sub.id];
                           return (
                             <motion.button
-                              key={sub.id}
+                              key={sub.id ? `${mod.id}-${sub.id}` : `sub-${modIdx}-${subIdx}`}
                               onClick={() => handleSidebarClick(sub.id)}
                               whileHover={{ scale: 1.02, x: 4 }}
                               whileTap={{ scale: 0.98 }}
@@ -353,7 +353,7 @@ export default function AcademyMasterclassPage() {
                                 ${isActive 
                                   ? 'bg-purple-100/60 text-purple-900 font-bold shadow-[inset_4px_0_0_0_#581c87]' 
                                   : 'text-slate-600 hover:bg-slate-200/50 hover:text-slate-900'}
-                               hover:shadow-sm`}
+                                hover:shadow-sm`}
                             >
                               <span className="line-clamp-2 pr-2 leading-tight">{sub.title}</span>
                               {isBookmarked && (
@@ -442,10 +442,10 @@ export default function AcademyMasterclassPage() {
 
             {/* Template Rendering for all courses */}
             {modules.map((mod: any, modIdx: number) => (
-              <div key={mod.slug} className="mb-24">
+              <div key={mod.id || `content-mod-${modIdx}`} className="mb-24">
                 
                 {mod.submodules?.map((sub: any, subIdx: number) => (
-                  <div key={sub.id} id={sub.id} className="scroll-mt-24 mb-24 pb-12 border-b border-slate-100 last:border-0 last:mb-0 last:pb-0">
+                  <div key={sub.id ? `content-${mod.id}-${sub.id}` : `content-sub-${modIdx}-${subIdx}`} id={sub.id} className="scroll-mt-24 mb-24 pb-12 border-b border-slate-100 last:border-0 last:mb-0 last:pb-0">
                     
                     {/* Breadcrumb Context for Each Section */}
                     <div className="flex items-center gap-2 text-xs font-semibold uppercase tracking-wider text-slate-500 mb-6">

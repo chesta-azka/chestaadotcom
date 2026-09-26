@@ -252,7 +252,7 @@ export function EcosystemChat({ isOpen = true, onClose, standalone = false, clas
     setIsTyping(true);
     try {
       const systemPrompt = `Anda adalah Asisten AI Resmi untuk CHESTADOTCOM (Bespoke Software & AI Architecture).
-Fokus: Web modern premium, Next.js, Cloud Run, arsitektur microservices, AI Automation, dan sistem pembayaran (Direct Transfer & E-Wallet satset).
+Fokus: Web modern premium, arsitektur berperforma tinggi, Cloud Run, arsitektur microservices, AI Automation, dan sistem pembayaran (Direct Transfer & E-Wallet satset).
 
 Knowledge Base Tambahan:
 ${knowledgeBase}
@@ -354,9 +354,9 @@ Format Balasan:
       <div key={index} className={`flex flex-col ${isUser ? 'items-end' : 'items-start'} my-2.5`}>
         <div className="flex items-center gap-1.5 mb-1 px-1">
           {isUser ? (
-            <span className="text-[11px] font-semibold text-slate-600">Anda</span>
+            <span className="text-[11px] font-medium text-slate-600">Anda</span>
           ) : isAdminHuman ? (
-            <div className="flex items-center gap-1.5 text-[11px] font-bold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
+            <div className="flex items-center gap-1.5 text-[11px] font-medium text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full border border-emerald-200">
               <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
               <span>Principal Engineer</span>
             </div>
@@ -385,7 +385,7 @@ Format Balasan:
                 <ShieldCheck size={18} className="animate-pulse" />
               </div>
               <div>
-                <p className="font-bold text-[11px] tracking-wide uppercase text-amber-800">Comm-Link</p>
+                <p className="font-medium text-[11px] tracking-wide uppercase text-amber-800">Comm-Link</p>
                 <p className="text-xs font-medium text-amber-950 leading-relaxed mt-0.5">{displayContent}</p>
               </div>
             </div>
@@ -401,7 +401,7 @@ Format Balasan:
                 <button
                   key={cIdx}
                   onClick={() => handleSendMessage(undefined, choice)}
-                  className="text-left text-xs bg-white hover:bg-purple-50 hover:text-purple-900 text-slate-800 px-3 py-1.5 rounded-xl border border-purple-100 shadow-xs transition-all font-semibold flex items-center gap-1.5 group active:scale-95 cursor-pointer"
+                  className="text-left text-xs bg-white hover:bg-purple-50 hover:text-purple-900 text-slate-800 px-3 py-1.5 rounded-xl border border-purple-100 shadow-xs transition-all font-medium flex items-center gap-1.5 group active:scale-95 cursor-pointer"
                 >
                   <span>{choice}</span>
                   <ArrowRight size={12} className="text-purple-600 opacity-60 group-hover:opacity-100 group-hover:translate-x-0.5 transition-all" />
@@ -423,7 +423,7 @@ Format Balasan:
           <div className={`relative w-9 h-9 rounded-2xl flex items-center justify-center transition-colors ${
             isHumanTakeover 
               ? 'bg-emerald-600 text-white shadow-xs' 
-              : 'bg-purple-900 text-white shadow-xs'
+              : 'bg-gradient-to-tr from-purple-900 to-indigo-950 text-white shadow-xs'
           }`}>
             {isHumanTakeover ? <User size={18} /> : <Bot size={18} />}
             <span className={`absolute -bottom-0.5 -right-0.5 w-2.5 h-2.5 rounded-full border-2 border-white ${
@@ -433,16 +433,16 @@ Format Balasan:
 
           <div>
             <div className="flex items-center gap-1.5">
-              <h3 className="font-bold text-slate-900 text-sm tracking-tight">
+              <h3 className="font-medium text-slate-900 text-sm tracking-tight">
                 {isHumanTakeover ? 'Principal Engineer' : 'CHESTADOTCOM AI'}
               </h3>
-              <span className="text-[10px] uppercase font-bold tracking-wider px-1.5 py-0.2 rounded-md bg-purple-50 text-purple-900 border border-purple-100">
+              <span className="text-[10px] uppercase font-medium tracking-wider px-1.5 py-0.2 rounded-md bg-purple-50 text-purple-900 border border-purple-100">
                 {isHumanTakeover ? 'Live Handoff' : 'Verified'}
               </span>
             </div>
             <p className="text-[11px] font-medium text-slate-600 flex items-center gap-1">
               {isHumanTakeover ? (
-                <span className="text-emerald-600 flex items-center gap-1 font-semibold">
+                <span className="text-emerald-600 flex items-center gap-1 font-medium">
                   <Lock size={10} /> Comm-Link Active
                 </span>
               ) : (
@@ -455,7 +455,7 @@ Format Balasan:
         <div className="flex items-center gap-1">
           <button
             onClick={() => setIsTransferModalOpen(true)}
-            className="p-1.5 px-2.5 text-[11px] font-bold text-purple-900 bg-purple-50 hover:bg-purple-100 rounded-xl border border-purple-100 transition-colors flex items-center gap-1 cursor-pointer"
+            className="p-1.5 px-2.5 text-[11px] font-medium text-purple-900 bg-purple-50 hover:bg-purple-100 rounded-xl border border-purple-100 transition-colors flex items-center gap-1 cursor-pointer"
             title="Direct Transfer"
           >
             <CreditCard size={13} />
@@ -500,7 +500,7 @@ Format Balasan:
 
       {/* Persistent Section Suggestions Bar */}
       <div className="px-3.5 py-2 bg-purple-50/30 border-t border-purple-100 flex items-center gap-2 overflow-x-auto shrink-0">
-        <div className="flex items-center gap-1.5 shrink-0 text-[10px] font-bold text-slate-400 uppercase tracking-wider pl-1">
+        <div className="flex items-center gap-1.5 shrink-0 text-[10px] font-medium text-slate-400 uppercase tracking-wider pl-1">
           <Lightbulb size={12} className="text-amber-500" />
           <span>Saran:</span>
         </div>

@@ -23,11 +23,11 @@ export default function FooterSection() {
 
     return (
     <motion.footer 
-      initial={{ opacity: 0, y: 30 }}
+      initial={{ opacity: 0, y: 20 }}
       whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-50px" }}
-      transition={{ duration: 0.8, ease: "easeOut" }}
-      className="pt-24 pb-12 bg-transparent text-slate-600 border-t border-slate-100 relative overflow-hidden"
+      viewport={{ once: true, amount: 0.05 }}
+      transition={{ duration: 0.6, ease: "easeOut" }}
+      className="pt-24 pb-12 bg-slate-50 text-slate-600 border-t border-slate-200/80 relative overflow-hidden w-full z-20"
     >
       {/* Seamless background blending gradients */}
       <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/[0.008] to-transparent pointer-events-none" />
@@ -40,23 +40,23 @@ export default function FooterSection() {
           {/* Column 1: Brand & Newsletter */}
           <div className="lg:col-span-4 space-y-8 pr-4">
             <Link to="/" onClick={() => window.scrollTo(0,0)} className="inline-flex items-center gap-3 group">
-              <div className="w-12 h-12 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-center group-hover:border-[#6b21a8]/40 transition-colors duration-300 shadow-[0_4px_20px_rgba(0,0,0,0.3)]">
-                <svg className="w-6 h-6 text-[#6b21a8] group-hover:scale-110 transition-transform duration-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
+              <div className="w-12 h-12 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-center group-hover:border-purple-300 transition-colors duration-300 shadow-[0_4px_20px_rgba(0,0,0,0.06)]">
+                <svg className="w-6 h-6 text-purple-600 group-hover:scale-110 transition-transform duration-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
                   <path d="m12 3-8 8 8 8 8-8-8-8z" />
                   <path d="m12 8-4 4 4 4 4-4-4-4z" />
                 </svg>
               </div>
-              <span className="font-display text-2xl font-black tracking-tight leading-none text-slate-900">
-                CHESTA<span className="text-[#6b21a8]">.</span>
+              <span className="font-display text-2xl font-medium tracking-tight leading-none text-slate-900">
+                CHESTA<span className="text-purple-600">.</span>
               </span>
             </Link>
-            <p className="text-base font-sans leading-relaxed text-slate-600 max-w-sm">
+            <p className="text-base font-sans leading-relaxed text-slate-600 max-w-sm font-normal">
               Arsitektur digital premium untuk UMKM dan Brand lokal. Transformasi digital yang fokus pada performa, estetika, dan konversi nyata.
             </p>
 
             {/* Newsletter Subscription Box */}
             <div className="bg-slate-50/90 rounded-2xl p-4 border border-slate-200/80 shadow-sm max-w-sm">
-              <p className="text-xs font-mono font-bold text-slate-800 uppercase tracking-wider mb-2">Newsletter Eksklusif</p>
+              <p className="text-xs font-mono font-medium text-slate-800 uppercase tracking-wider mb-2">Newsletter Eksklusif</p>
               {isSubscribed ? (
                 <div className="flex items-center gap-2 text-emerald-600 text-sm font-medium py-2">
                   <CheckCircle2 size={18} /> Berhasil Berlangganan!
@@ -70,7 +70,7 @@ export default function FooterSection() {
                     placeholder="nama@email.com" 
                     className="bg-white px-3.5 py-2 text-xs rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-purple-600 flex-1 text-slate-800"
                   />
-                  <button type="submit" className="bg-purple-900 hover:bg-purple-800 text-white px-4 py-2 rounded-xl text-xs font-bold transition-all flex items-center justify-center cursor-pointer shadow-xs">
+                  <button type="submit" className="bg-purple-900 hover:bg-purple-800 text-white px-4 py-2 rounded-xl text-xs font-medium transition-all flex items-center justify-center cursor-pointer shadow-xs border border-purple-800">
                     <Send size={13} />
                   </button>
                 </form>
@@ -101,29 +101,29 @@ export default function FooterSection() {
 
           {/* Column 2: Navigation */}
           <div className="lg:col-span-2 lg:col-start-5">
-            <h4 className="text-slate-900 font-sans font-bold tracking-widest uppercase text-[11px] mb-8">Layanan Utama</h4>
-            <ul className="space-y-4 text-sm font-sans text-slate-600">
-              <li><Link to="/layanan/website-company-profile" onClick={() => window.scrollTo(0,0)} className="hover:text-[#6b21a8] transition-colors">Web Development</Link></li>
-              <li><Link to="/layanan/jasa-seo" onClick={() => window.scrollTo(0,0)} className="hover:text-[#6b21a8] transition-colors">Optimasi SEO Expert</Link></li>
-              <li><Link to="/layanan/website-toko-online" onClick={() => window.scrollTo(0,0)} className="hover:text-[#6b21a8] transition-colors">E-Commerce Setup</Link></li>
-              <li><Link to="/layanan/landing-page" onClick={() => window.scrollTo(0,0)} className="hover:text-[#6b21a8] transition-colors">Landing Page Konversi</Link></li>
+            <h4 className="text-slate-900 font-sans font-medium tracking-widest uppercase text-[11px] mb-8">Layanan Utama</h4>
+            <ul className="space-y-4 text-sm font-sans text-slate-600 font-normal">
+              <li><Link to="/layanan/website-company-profile" onClick={() => window.scrollTo(0,0)} className="hover:text-purple-600 transition-colors">Web Development</Link></li>
+              <li><Link to="/layanan/jasa-seo" onClick={() => window.scrollTo(0,0)} className="hover:text-purple-600 transition-colors">Optimasi SEO Expert</Link></li>
+              <li><Link to="/layanan/website-toko-online" onClick={() => window.scrollTo(0,0)} className="hover:text-purple-600 transition-colors">E-Commerce Setup</Link></li>
+              <li><Link to="/layanan/landing-page" onClick={() => window.scrollTo(0,0)} className="hover:text-purple-600 transition-colors">Landing Page Konversi</Link></li>
             </ul>
           </div>
 
           {/* Column 2b: Local SEO */}
           <div className="lg:col-span-2">
-            <h4 className="text-slate-900 font-sans font-bold tracking-widest uppercase text-[11px] mb-8">Area &amp; Solusi</h4>
-            <ul className="space-y-4 text-sm font-sans text-slate-600">
-              <li><Link to="/area/bsd-city" onClick={() => window.scrollTo(0,0)} className="hover:text-[#6b21a8] transition-colors">Jasa IT BSD City</Link></li>
-              <li><Link to="/area/cisauk" onClick={() => window.scrollTo(0,0)} className="hover:text-[#6b21a8] transition-colors">Solusi Web Cisauk</Link></li>
-              <li><Link to="/layanan/agentic-ai-automation" onClick={() => window.scrollTo(0,0)} className="hover:text-[#6b21a8] transition-colors">Agentic AI Indonesia</Link></li>
+            <h4 className="text-slate-900 font-sans font-medium tracking-widest uppercase text-[11px] mb-8">Area &amp; Solusi</h4>
+            <ul className="space-y-4 text-sm font-sans text-slate-600 font-normal">
+              <li><Link to="/area/bsd-city" onClick={() => window.scrollTo(0,0)} className="hover:text-purple-600 transition-colors">Jasa IT BSD City</Link></li>
+              <li><Link to="/area/cisauk" onClick={() => window.scrollTo(0,0)} className="hover:text-purple-600 transition-colors">Solusi Web Cisauk</Link></li>
+              <li><Link to="/layanan/agentic-ai-automation" onClick={() => window.scrollTo(0,0)} className="hover:text-purple-600 transition-colors">Agentic AI Indonesia</Link></li>
             </ul>
           </div>
 
           {/* Column 3: Company */}
           <div className="lg:col-span-2">
-            <h4 className="text-slate-900 font-sans font-bold tracking-widest uppercase text-[11px] mb-8">Eksplorasi</h4>
-            <ul className="space-y-4 text-sm font-sans text-slate-600">
+            <h4 className="text-slate-900 font-sans font-medium tracking-widest uppercase text-[11px] mb-8">Eksplorasi</h4>
+            <ul className="space-y-4 text-sm font-sans text-slate-600 font-normal">
               <li><Link to="/portfolio" onClick={() => window.scrollTo(0,0)} className="hover:text-purple-600 transition-colors">Showcase Portfolio</Link></li>
               <li><Link to="/case-studies" onClick={() => window.scrollTo(0,0)} className="hover:text-purple-600 transition-colors">Case Studies</Link></li>
               <li><Link to="/blog" onClick={() => window.scrollTo(0,0)} className="hover:text-purple-600 transition-colors">Artikel & Insights</Link></li>
@@ -134,18 +134,18 @@ export default function FooterSection() {
 
           {/* Column 4: Contact */}
           <div className="lg:col-span-2">
-            <h4 className="text-slate-900 font-sans font-bold tracking-widest uppercase text-[11px] mb-8">Informasi</h4>
-            <ul className="space-y-5 text-sm font-sans text-slate-600">
+            <h4 className="text-slate-900 font-sans font-medium tracking-widest uppercase text-[11px] mb-8">Informasi</h4>
+            <ul className="space-y-5 text-sm font-sans text-slate-600 font-normal">
               <li className="flex items-start gap-3">
-                <MapPin size={18} className="shrink-0 text-[#6b21a8] mt-0.5" />
+                <MapPin size={18} className="shrink-0 text-purple-600 mt-0.5" />
                 <span className="leading-relaxed">Jakarta, Indonesia.<br/>Remote Worldwide.</span>
               </li>
               <li className="flex items-center gap-3">
-                <MessageCircle size={18} className="shrink-0 text-[#6b21a8]" />
+                <MessageCircle size={18} className="shrink-0 text-purple-600" />
                 <span className="leading-relaxed">+62 821-2544-7232</span>
               </li>
               <li className="flex items-center gap-3">
-                <Mail size={18} className="shrink-0 text-[#6b21a8]" />
+                <Mail size={18} className="shrink-0 text-purple-600" />
                 <span className="leading-relaxed">chestaadotcom@gmail.com</span>
               </li>
             </ul>
@@ -154,9 +154,9 @@ export default function FooterSection() {
 
         {/* Big Text Bottom */}
         <div className="w-full border-t border-slate-100 pt-12 mt-12 flex flex-col items-center">
-            {/* Massive typography for decorative brutalism aesthetic */}
+            {/* Massive typography for decorative aesthetic */}
             <div className="w-full mb-12 flex justify-center overflow-hidden">
-                <h2 className="text-[12vw] font-display font-black tracking-tighter text-slate-900/[0.03] leading-none select-none pointer-events-none whitespace-nowrap">
+                <h2 className="text-[12vw] font-display font-medium tracking-tighter text-slate-900/[0.03] leading-none select-none pointer-events-none whitespace-nowrap">
                   CHESTAADOTCOM
                 </h2>
             </div>
@@ -175,13 +175,13 @@ export default function FooterSection() {
         {/* SEO Context Snippets (Visually subtle but crawlable) */}
         <div className="mt-12 pt-8 border-t border-slate-50 grid grid-cols-1 md:grid-cols-2 gap-8 opacity-[0.4] text-[9px] font-sans leading-relaxed tracking-wider">
           <div>
-            <h5 className="font-bold text-slate-900 uppercase mb-2">Tentang CHESTAADOTCOM</h5>
+            <h5 className="font-medium text-slate-900 uppercase mb-2">Tentang CHESTAADOTCOM</h5>
             <p>
-              CHESTAADOTCOM adalah studio rekayasa perangkat lunak dan arsitektur digital premium yang berfokus pada transformasi B2B melalui solusi IT berperforma tinggi. Kami mengkhususkan diri dalam pengembangan website berbasis Next.js, sistem Enterprise, dan integrasi Agentic AI otonom untuk meningkatkan efisiensi operasional bisnis modern di Indonesia. Berbasis di BSD City, Tangerang, kami melayani mitra korporasi dari Jakarta hingga mancanegara.
+              CHESTAADOTCOM adalah studio rekayasa perangkat lunak dan arsitektur digital premium yang berfokus pada transformasi B2B melalui solusi IT berperforma tinggi. Kami mengkhususkan diri dalam pengembangan website berperforma tinggi, sistem Enterprise, dan integrasi Agentic AI otonom untuk meningkatkan efisiensi operasional bisnis modern di Indonesia. Berbasis di BSD City, Tangerang, kami melayani mitra korporasi dari Jakarta hingga mancanegara.
             </p>
           </div>
           <div>
-            <h5 className="font-bold text-slate-900 uppercase mb-2">Solusi Arsitektur Digital</h5>
+            <h5 className="font-medium text-slate-900 uppercase mb-2">Solusi Arsitektur Digital</h5>
             <p>
               Layanan kami mencakup Jasa Pembuatan Website Company Profile, E-Commerce Custom, Dashboard Analytics, dan Sistem Manajemen Konten (CMS) tanpa kepala. Kami juga pakar dalam optimasi SEO Teknis, Audit Core Web Vitals, serta pengembangan Agen AI untuk otomasi layanan pelanggan, pemrosesan dokumen otomatis, dan asisten cerdas berbasis Large Language Models (LLMs) seperti Gemini dan Claude.
             </p>

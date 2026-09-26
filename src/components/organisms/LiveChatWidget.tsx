@@ -5,6 +5,8 @@ import { collection, addDoc, onSnapshot, getDocs, serverTimestamp } from 'fireba
 import { db, auth } from '../../lib/firebase';
 import { useAuth } from '../../contexts/AuthContext';
 import toast from 'react-hot-toast';
+import { parseAiResponse } from '../../utils/aiResponseParser';
+import QuickReplyChips from '../molecules/QuickReplyChips';
 
 interface Message {
   id: string;
@@ -23,7 +25,7 @@ export default function LiveChatWidget() {
     {
       id: '1',
       sender: 'expert',
-      text: 'Halo! Selamat datang di Layanan Konsultasi CHESTADOTCOM. Ada yang bisa kami bantu seputar pembuatan website profesional, aplikasi, atau solusi digital untuk bisnis Anda?',
+      text: 'Halo! Selamat datang di Layanan Konsultasi CHESTADOTCOM. Ada yang bisa kami bantu seputar pembuatan website profesional, aplikasi, atau solusi digital untuk bisnis Anda?\n\n<opsi>📅 Jadwal Discovery Call</opsi>\n<opsi>💰 Estimasi Biaya Web</opsi>\n<opsi>✨ Klaim Audit Gratis</opsi>',
       time: 'Baru saja'
     }
   ]);
@@ -417,23 +419,43 @@ export default function LiveChatWidget() {
 
             {/* Messages Area */}
             <div className="flex-1 p-4 overflow-y-auto space-y-4 bg-white">
-              {messages.map(msg => (
-                <div
-                  key={msg.id}
-                  className={`flex flex-col ${msg.sender === 'client' ? 'items-end' : 'items-start'}`}
-                >
+              {messages.map(msg => {
+                const { cleanText, options } = parseAiResponse(msg.text);
+                return (
                   <div
-                    className={`max-w-[88%] p-3.5 rounded-2xl text-xs sm:text-sm leading-relaxed ${
-                      msg.sender === 'client'
-                        ? 'bg-slate-900 text-white rounded-br-xs'
-                        : 'bg-slate-50 text-slate-800 border border-slate-200/80 rounded-bl-xs'
-                    }`}
+                    key={msg.id}
+                    className={`flex flex-col ${msg.sender === 'client' ? 'items-end' : 'items-start'}`}
                   >
-                    {msg.text}
+                    <div
+                      className={`max-w-[88%] p-3.5 rounded-2xl text-xs sm:text-sm leading-relaxed ${
+                        msg.sender === 'client'
+                          ? 'bg-slate-900 text-white rounded-br-xs'
+                          : 'bg-slate-50 text-slate-800 border border-slate-200/80 rounded-bl-xs'
+                      }`}
+                    >
+                      <div className="whitespace-pre-line">{cleanText}</div>
+                      {msg.sender === 'expert' && options.length > 0 && (
+                        <QuickReplyChips
+                          options={options}
+                          onSelectOption={(opt) => {
+                            if (opt.label.toLowerCase().includes('jadwal') || opt.label.toLowerCase().includes('call')) {
+                              if (isAdmin) {
+                                setShowBookingForm(true);
+                              } else {
+                                toast('Fitur penjadwalan khusus admin terautentikasi. Mengarahkan ke WhatsApp...', { icon: '💬' });
+                                window.open('https://wa.me/6282125447232?text=Halo%20Mas%20Chesta,%20saya%20ingin%20jadwal%20konsultasi%20Discovery%20Call.', '_blank');
+                              }
+                            } else {
+                              handleSendMessage(undefined, opt.action || opt.label);
+                            }
+                          }}
+                        />
+                      )}
+                    </div>
+                    <span className="text-[10px] font-mono text-slate-400 mt-1 px-1">{msg.time}</span>
                   </div>
-                  <span className="text-[10px] font-mono text-slate-400 mt-1 px-1">{msg.time}</span>
-                </div>
-              ))}
+                );
+              })}
 
               {/* Proactive context reminder banner when chatting - Admin Only */}
               {isAdmin && messages.length >= 2 && !showBookingForm && (

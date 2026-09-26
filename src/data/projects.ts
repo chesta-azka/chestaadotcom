@@ -56,8 +56,8 @@ export const PROJECTS: Project[] = [
     client: 'Enterprise Retail Conglomerate (BSD City)',
     duration: '4 Minggu',
     category: 'Website',
-    description: 'Sistem customer service otomatis berbasis Agentic AI yang memproses ribuan tiket per hari dari berbagai kanal komunikasi dengan integrasi WhatsApp API & Next.js 15.',
-    techStack: ['Node.js', 'Google Gemini Pro', 'Firebase Firestore', 'Next.js 15', 'Tailwind CSS'],
+    description: 'Sistem customer service otomatis berbasis Agentic AI yang memproses ribuan tiket per hari dari berbagai kanal komunikasi dengan integrasi perpesanan instan korporat & arsitektur berperforma tinggi.',
+    techStack: ['Autonomous Backend Engine', 'Google Gemini AI', 'Secure Enterprise Data Vault', 'High-Speed App Router', 'Design Tokens UI'],
     features: [
       'Automated Ticket Routing & Intent Classification',
       'Context-Aware AI Responses in Natural Bahasa',
@@ -71,11 +71,11 @@ export const PROJECTS: Project[] = [
 
     Sebelum transformasi digital ini, tim customer service manual kewalahan menghadapi antrean tiket, yang menyebabkan waktu tunggu rata-rata (SLA) membengkak hingga 4 jam per pelanggan. Hal ini memicu penurunan tingkat kepuasan pelanggan (CSAT) dan hilangnya potensi penjualan dari prospek (*hot leads*) yang menanyakan ketersediaan produk stok terbatas. Klien membutuhkan perombakan arsitektur digital total yang mampu merespons pertanyaan berulang secara instan menggunakan kecerdasan buatan, sekaligus mengotomatisasi rute eskalasi ke agen manusia untuk kasus komplain kompleks tanpa jeda waktu yang merugikan reputasi brand.`,
     challenges: `Dalam merancang dan mengeksekusi proyek AI Omnichannel ini, tim rekayasa kami harus memecahkan beberapa kendala teknis dan operasional yang pelik:
-    1. Fragmentasi Kanal Komunikasi: Menyatukan berbagai sumber data percikan pesan dari WhatsApp Business API, widget web chat React, dan sistem tiket internal ke dalam satu single-source-of-truth database secara real-time tanpa latensi.
+    1. Fragmentasi Kanal Komunikasi: Menyatukan berbagai sumber data percikan pesan dari gateway perpesanan instan, widget interaktif web, dan sistem tiket internal ke dalam satu single-source-of-truth database secara real-time tanpa latensi.
     2. Kontekstualisasi Bahasa Alami (Natural Bahasa Indonesia): Model AI konvensional sering kali gagal memahami singkatan bahasa gaul, istilah slang retail lokal, dan konteks spesifik inventaris gudang di Jabodetabek.
     3. Mitigasi Risiko Halusinasi AI: Dalam transaksi komersial bernilai tinggi, kesalahan informasi harga atau garansi oleh AI dapat berdampak hukum dan kerugian finansial langsung bagi korporat.
     4. Skalabilitas Saat Flash Sale: Lonjakan trafik hingga 500% saat event diskon besar wajib ditangani oleh arsitektur serverless edge tanpa mengalami downtime sesaat pun.`,
-    solution: `Kami membangun solusi enterprise berstandar tinggi menggunakan Next.js 15 App Router dan Google Gemini Pro API yang di-host di infrastruktur cloud global dengan redundansi tinggi:
+    solution: `Kami membangun solusi enterprise berstandar tinggi menggunakan arsitektur web berperforma tinggi dan Google Gemini AI otonom yang di-host di infrastruktur cloud global dengan redundansi tinggi:
     - Mesin Klasifikasi Intent Berbasis AI: Setiap pesan masuk langsung dianalisis oleh model Gemini Pro untuk mendeteksi maksud pengguna—apakah itu cek status pengiriman, klaim garansi, atau pertanyaan spesifikasi produk.
     - Modul Predictive Lead Scoring: Algoritma cerdas memindai riwayat chat dan durasi kunjungan katalog untuk memberikan skor probabilitas pembelian (*lead score*). Prospek dengan skor tinggi langsung di-routing ke nomor WhatsApp sales eksekutif senior secara otomatis.
     - Dashboard Supervisor Real-Time: Kami merancang antarmuka bento grid bagi supervisor customer service untuk memantau performa bot, mengambil alih percakapan (*human takeover*) kapan pun dibutuhkan, dan melihat analisis sentimen pelanggan secara visual.`,
@@ -287,7 +287,7 @@ export const PROJECTS: Project[] = [
     duration: '4 Minggu',
     category: 'Website',
     description: 'Sistem PropTech otonom berbasis Agentic AI untuk penilaian properti otomatis, pencocokan pembeli, dan CRM cerdas bagi pengembang perumahan di Bogor dan Depok.',
-    techStack: ['Node.js', 'Google Gemini 2.5 Flash', 'Next.js 15', 'Firebase', 'Tailwind CSS'],
+    techStack: ['Autonomous Backend Engine', 'Google Gemini AI', 'High-Speed App Router', 'Encrypted Cloud Database', 'Design Tokens UI'],
     features: [
       'Autonomous AI Property Valuation Engine',
       'Smart Lead Matching & WhatsApp CRM Integration',

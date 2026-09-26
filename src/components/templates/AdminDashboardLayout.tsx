@@ -69,11 +69,11 @@ export default function AdminDashboardLayout({ children, onLogout, activeTab, se
         
         {/* Header / Logo & Collapse Toggle */}
         <div className={`px-5 mb-8 flex items-center ${isCollapsed ? 'justify-center flex-col gap-3' : 'justify-between'}`}>
-          <Link to="/" className="text-xl font-display font-black text-slate-900 flex flex-col gap-1 overflow-hidden" onClick={() => setIsMobileMenuOpen(false)}>
+          <Link to="/" className="text-xl font-display font-semibold text-slate-900 flex flex-col gap-1 overflow-hidden" onClick={() => setIsMobileMenuOpen(false)}>
             <span className="bg-purple-600 text-white px-2.5 py-1 rounded-lg text-xs font-mono w-max leading-none">
               {isCollapsed ? 'SYS' : 'SYS.ADMIN'}
             </span>
-            {!isCollapsed && <span className="text-xs tracking-wider text-slate-500 font-bold">COMMAND_CENTER</span>}
+            {!isCollapsed && <span className="text-xs tracking-wider text-slate-500 font-medium">COMMAND_CENTER</span>}
           </Link>
           
           <button
@@ -122,7 +122,7 @@ export default function AdminDashboardLayout({ children, onLogout, activeTab, se
           <button
             onClick={onLogout}
             title={isCollapsed ? "Terminate Session" : undefined}
-            className={`w-full flex items-center gap-3 px-3.5 py-3 bg-white border border-slate-200 shadow-2xs rounded-xl font-mono font-bold uppercase text-xs hover:bg-purple-600 hover:text-white hover:border-purple-600 transition-all cursor-pointer group ${
+            className={`w-full flex items-center gap-3 px-3.5 py-3 bg-white border border-slate-200 shadow-2xs rounded-xl font-mono font-medium uppercase text-xs hover:bg-purple-600 hover:text-white hover:border-purple-600 transition-all cursor-pointer group ${
               isCollapsed ? 'justify-center px-0' : ''
             }`}
           >

@@ -20,7 +20,7 @@ export function MarketTrends() {
           <Activity className="w-5 h-5" />
         </div>
         <div>
-          <h2 className="text-xl md:text-2xl font-display font-black tracking-tight text-slate-900">
+          <h2 className="text-xl md:text-2xl font-display font-semibold tracking-tight text-slate-900">
             Tren Industri Terkini
           </h2>
           <p className="text-xs font-medium text-slate-400 uppercase tracking-wider mt-0.5">Analisis Otomatis & Riset Pasar</p>

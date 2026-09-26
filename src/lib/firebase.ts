@@ -44,14 +44,24 @@ let analytics = null;
 if (typeof window !== 'undefined') {
   isSupported().then((supported) => {
     if (supported) {
-      analytics = getAnalytics(app);
+      try {
+        analytics = getAnalytics(app);
+      } catch (err) {
+        // Suppress analytics fetch error in sandboxed iframe environments
+      }
     }
+  }).catch(() => {
+    // Ignore unsupported or network fetch failures
   });
 }
 
-const logAnalyticsEvent = (eventName, eventParams) => {
+const logAnalyticsEvent = (eventName: string, eventParams?: Record<string, any>) => {
   if (analytics) {
-    logEvent(analytics, eventName, eventParams);
+    try {
+      logEvent(analytics, eventName, eventParams);
+    } catch (err) {
+      // Ignore failure
+    }
   }
 };
 

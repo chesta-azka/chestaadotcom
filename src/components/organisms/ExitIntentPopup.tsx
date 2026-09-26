@@ -72,7 +72,7 @@ export default function ExitIntentPopup() {
                 <div className="w-16 h-16 bg-white/10 rounded-2xl flex items-center justify-center mb-4 relative z-10 backdrop-blur-md border border-white/20">
                   <FileText size={32} className="text-emerald-400" />
                 </div>
-                <h4 className="text-white font-display font-black text-lg relative z-10">
+                <h4 className="text-white font-display font-semibold text-lg relative z-10">
                   IT Audit <br />Checklist
                 </h4>
                 <div className="mt-4 inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-500/20 border border-emerald-500/30 text-[10px] font-mono text-emerald-300 font-bold relative z-10">
@@ -85,7 +85,7 @@ export default function ExitIntentPopup() {
                 <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-purple-600 mb-2 block">
                   Tunggu Dulu!
                 </span>
-                <h3 className="text-xl font-display font-black text-slate-900 leading-tight mb-3">
+                <h3 className="text-xl font-display font-semibold text-slate-900 leading-tight mb-3">
                   Cek Kesehatan Website & Sistem Bisnis Anda
                 </h3>
                 <p className="text-xs text-slate-600 font-sans leading-relaxed mb-5">

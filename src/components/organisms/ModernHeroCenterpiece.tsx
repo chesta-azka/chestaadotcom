@@ -49,7 +49,7 @@ const PIPELINE_STEPS: PipelineStep[] = [
   },
   {
     id: 'ssr',
-    name: 'Next.js 15 SSR Engine',
+    name: 'High-Speed SSR Engine',
     desc: 'Server-side rendering, streaming HTML, zero hydration lag',
     speed: '< 24ms',
     icon: Cpu,
@@ -146,7 +146,7 @@ export function ModernHeroCenterpiece() {
             transition={{ duration: 0.6, delay: 0.2, ease: "easeOut" }}
             className="mt-6 text-base sm:text-lg text-slate-600 font-sans leading-relaxed max-w-2xl text-balance"
           >
-            CHESTADOTCOM membangun website Next.js berkinerja tinggi, database real-time tangguh, serta agen AI terintegrasi. Dirancang presisi dari BSD City untuk meningkatkan kredibilitas, kecepatan, dan konversi bisnis Anda.
+            CHESTADOTCOM membangun mesin penjualan web berkinerja tinggi, database real-time tangguh, serta agen AI terintegrasi. Dirancang presisi dari BSD City untuk mendongkrak konversi, mengotomatisasi operasional, dan memberikan kepemilikan aset absolut bagi bisnis Anda.
           </motion.p>
 
           {/* CTA Group with Micro-Animations */}
@@ -446,10 +446,10 @@ export function ModernHeroCenterpiece() {
 
                   <div className="font-mono text-xs bg-slate-900/90 p-4 rounded-2xl border border-slate-800 text-slate-300 space-y-1.5 overflow-x-auto">
                     <div className="text-purple-400">const stack = &#123;</div>
-                    <div className="pl-4 text-slate-300">framework: <span className="text-emerald-400">&apos;Next.js 15 (App Router)&apos;</span>,</div>
-                    <div className="pl-4 text-slate-300">styling: <span className="text-emerald-400">&apos;Tailwind CSS v4 + Motion&apos;</span>,</div>
-                    <div className="pl-4 text-slate-300">database: <span className="text-emerald-400">&apos;Google Cloud Firestore&apos;</span>,</div>
-                    <div className="pl-4 text-slate-300">intelligence: <span className="text-emerald-400">&apos;Gemini 2.5 Flash API&apos;</span>,</div>
+                    <div className="pl-4 text-slate-300">architecture: <span className="text-emerald-400">&apos;High-Performance App Router&apos;</span>,</div>
+                    <div className="pl-4 text-slate-300">styling: <span className="text-emerald-400">&apos;Design System + Motion&apos;</span>,</div>
+                    <div className="pl-4 text-slate-300">database: <span className="text-emerald-400">&apos;Encrypted Cloud Data Vault&apos;</span>,</div>
+                    <div className="pl-4 text-slate-300">intelligence: <span className="text-emerald-400">&apos;Autonomous AI Core&apos;</span>,</div>
                     <div className="pl-4 text-slate-300">security: <span className="text-emerald-400">&apos;HttpOnly + CSP + Strict Rules&apos;</span>,</div>
                     <div className="pl-4 text-slate-300">deployment: <span className="text-emerald-400">&apos;Cloud Run Container / Edge&apos;</span></div>
                     <div className="text-purple-400">&#125;;</div>

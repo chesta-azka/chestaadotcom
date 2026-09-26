@@ -48,7 +48,7 @@ export default function AICaseStudies() {
             <Bot size={14} />
             <span>AI Agentic Transformation</span>
           </div>
-          <h2 className="text-fluid-h2 font-display font-black text-slate-900 tracking-tight mb-6">
+          <h2 className="text-fluid-h2 font-display font-semibold text-slate-900 tracking-tight mb-6">
             Solusi AI di Dunia Nyata
           </h2>
           <p className="text-slate-600 font-sans max-w-2xl mx-auto text-lg leading-relaxed">
@@ -98,14 +98,14 @@ export default function AICaseStudies() {
                     <div className="absolute inset-0 bg-gradient-to-t from-gray-900/60 to-transparent pointer-events-none" />
                     <div className="absolute bottom-6 left-6 right-6">
                        <span className="text-white/90 font-mono text-xs font-bold tracking-widest uppercase mb-1 block">Klien: {study.client}</span>
-                       <h3 className="text-2xl font-display font-black text-white">{study.title}</h3>
+                       <h3 className="text-2xl font-display font-semibold text-white">{study.title}</h3>
                     </div>
                   </div>
                 </div>
                 
                 <div className="w-full lg:w-1/2 flex flex-col gap-8">
                   <div>
-                    <h3 className="text-3xl font-display font-black text-slate-900 mb-4">{study.title}</h3>
+                    <h3 className="text-3xl font-display font-semibold text-slate-900 mb-4">{study.title}</h3>
                     <p className="text-slate-600 font-sans leading-relaxed text-lg">{study.description}</p>
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
@@ -116,7 +116,7 @@ export default function AICaseStudies() {
                         <p className="text-xs font-mono text-slate-600 uppercase tracking-wider mb-2">{metric.label}</p>
                         <div className="flex flex-col gap-1">
                           <span className="text-sm text-gray-400 line-through decoration-red-400/50">Before: {metric.before}</span>
-                          <span className="text-lg font-sans font-black text-slate-900">After: {metric.after}</span>
+                          <span className="text-lg font-sans font-semibold text-slate-900">After: {metric.after}</span>
                         </div>
                       </div>
                     ))}

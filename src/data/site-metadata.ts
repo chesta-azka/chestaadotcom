@@ -65,7 +65,7 @@ export const ROUTE_SITE_METADATA: Record<string, { title: string; description: s
   },
   '/blog': {
     title: 'Insights & Artikel Arsitektur Digital | CHESTAADOTCOM',
-    description: 'Kumpulan artikel mendalam seputar optimasi SEO lokal Cisauk/BSD, tech stack modern Next.js 15, dan automasi AI bisnis.',
+    description: 'Kumpulan artikel mendalam seputar optimasi SEO lokal Cisauk/BSD, arsitektur web berperforma tinggi, dan automasi AI bisnis.',
   },
   '/portfolio': {
     title: 'Showcase Portofolio Proyek Kustom | CHESTAADOTCOM',
@@ -77,11 +77,11 @@ export const ROUTE_SITE_METADATA: Record<string, { title: string; description: s
   },
   '/workflow': {
     title: 'Metodologi & Workflow Pengerjaan Proyek | CHESTAADOTCOM',
-    description: 'Transparansi penuh dari tahap arsitektur, development, stress testing, hingga deployment global di Vercel Edge.',
+    description: 'Transparansi penuh dari tahap arsitektur, development, stress testing, hingga deployment global di cloud edge.',
   },
   '/academy': {
     title: 'Academy & Masterclass Rekayasa Perangkat Lunak | CHESTAADOTCOM',
-    description: 'Program pembelajaran eksklusif untuk menguasai arsitektur web modern, TypeScript, Next.js, dan AI integration.',
+    description: 'Program pembelajaran eksklusif untuk menguasai arsitektur web modern, sistem cloud terpadu, dan AI integration.',
   },
   '/quiz': {
     title: 'Kuis & Uji Kompetensi Arsitektur Web | CHESTAADOTCOM',

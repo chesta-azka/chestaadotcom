@@ -1,60 +1,89 @@
-import React, { useRef } from 'react';
-import { motion, useMotionValue, useSpring, useTransform } from 'motion/react';
+'use client';
+
+import React, { useRef, useState, useMemo } from 'react';
+import { motion, useSpring, useMotionValue, useTransform } from 'motion/react';
+import { cn } from '../../lib/utils';
 
 interface MagneticButtonProps {
   children: React.ReactNode;
   className?: string;
+  onClick?: () => void;
+  href?: string;
   strength?: number;
-  magneticRadius?: number;
-  onClick?: (e: React.MouseEvent) => void;
-  asChild?: boolean;
 }
 
-export default function MagneticButton({
-  children,
-  className = '',
-  strength = 0.35,
-  onClick,
-}: MagneticButtonProps) {
-  const ref = useRef<HTMLDivElement>(null);
+export default function MagneticButton({ children, className, onClick, href, strength = 25 }: MagneticButtonProps) {
+  const buttonRef = useRef<HTMLDivElement>(null);
+  
+  // Motion values for the button container (background)
+  const x = useMotionValue(0);
+  const y = useMotionValue(0);
 
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
+  // High-end spring physics as requested
+  const springConfig = { stiffness: 150, damping: 15, mass: 0.1 };
+  const springX = useSpring(x, springConfig);
+  const springY = useSpring(y, springConfig);
 
-  // Smooth physical spring response
-  const springConfig = { damping: 15, stiffness: 180, mass: 0.1 };
-  const smoothX = useSpring(mouseX, springConfig);
-  const smoothY = useSpring(mouseY, springConfig);
+  // Micro-parallax for internal content (text/icon)
+  // They pull slightly more than the button background to create 3D depth
+  const textX = useTransform(springX, (val) => val * 1.5);
+  const textY = useTransform(springY, (val) => val * 1.5);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!ref.current) return;
-    const rect = ref.current.getBoundingClientRect();
-    const centerX = rect.left + rect.width / 2;
-    const centerY = rect.top + rect.height / 2;
-
-    const distanceX = e.clientX - centerX;
-    const distanceY = e.clientY - centerY;
-
-    mouseX.set(distanceX * strength);
-    mouseY.set(distanceY * strength);
+    if (!buttonRef.current) return;
+    
+    const { clientX, clientY } = e;
+    const { left, top, width, height } = buttonRef.current.getBoundingClientRect();
+    
+    const centerX = left + width / 2;
+    const centerY = top + height / 2;
+    
+    // Calculate distance and vector
+    const moveX = clientX - centerX;
+    const moveY = clientY - centerY;
+    
+    // Cap at a max pixel radius
+    const maxMove = strength;
+    const magX = Math.max(Math.min(moveX * 0.4, maxMove), -maxMove);
+    const magY = Math.max(Math.min(moveY * 0.4, maxMove), -maxMove);
+    
+    x.set(magX);
+    y.set(magY);
   };
 
   const handleMouseLeave = () => {
-    mouseX.set(0);
-    mouseY.set(0);
+    x.set(0);
+    y.set(0);
   };
 
-  return (
+  const content = (
     <motion.div
-      ref={ref}
+      ref={buttonRef}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
+      style={{ x: springX, y: springY }}
+      className={cn(
+        "relative inline-flex items-center justify-center cursor-pointer group",
+        className
+      )}
       onClick={onClick}
-      style={{ x: smoothX, y: smoothY }}
-      data-magnetic="true"
-      className={`inline-block ${className}`}
     >
-      {children}
+      <motion.div 
+        style={{ x: textX, y: textY }}
+        className="relative z-10 flex items-center gap-2"
+      >
+        {children}
+      </motion.div>
     </motion.div>
   );
+
+  if (href) {
+    return (
+      <a href={href} target={href.startsWith('http') ? "_blank" : undefined} rel={href.startsWith('http') ? "noopener noreferrer" : undefined}>
+        {content}
+      </a>
+    );
+  }
+
+  return content;
 }

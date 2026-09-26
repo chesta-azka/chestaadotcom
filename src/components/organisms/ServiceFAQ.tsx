@@ -70,7 +70,7 @@ export default function ServiceFAQ({ serviceSlug }: { serviceSlug: string }) {
   if (loading) {
     return (
       <div className="w-full max-w-3xl mx-auto py-16">
-        <h3 className="text-2xl font-bold text-slate-900 mb-8 text-center">Frequently Asked Questions</h3>
+        <h3 className="text-2xl font-bold text-slate-900 mb-8 text-center">Pertanyaan yang Sering Diajukan</h3>
         <div className="space-y-4">
           {[1, 2, 3].map(i => (
             <div key={i} className="h-16 bg-slate-100 animate-pulse rounded-2xl w-full" />
@@ -85,8 +85,8 @@ export default function ServiceFAQ({ serviceSlug }: { serviceSlug: string }) {
   return (
     <section className="w-full max-w-3xl mx-auto py-24 px-6 relative z-10">
       <div className="text-center mb-12">
-        <h2 className="text-3xl font-display font-black text-slate-900">Frequently Asked Questions</h2>
-        <p className="text-slate-600 mt-4">Jawaban atas pertanyaan umum seputar layanan ini.</p>
+        <h2 className="text-3xl font-display font-black text-slate-900">Pertanyaan yang Sering Diajukan</h2>
+        <p className="text-slate-600 mt-4">Jawaban atas pertanyaan umum seputar layanan dan investasi korporat.</p>
       </div>
 
       <div className="space-y-4">

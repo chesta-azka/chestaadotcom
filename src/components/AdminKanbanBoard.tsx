@@ -150,7 +150,7 @@ export function AdminKanbanBoard({ workspaceSlug }: { workspaceSlug: string }) {
 
           <button
             onClick={() => setIsAddModalOpen(true)}
-            className="flex items-center gap-2 px-4 py-2 bg-purple-900 text-white rounded-xl text-xs font-bold hover:bg-purple-800 transition-colors shadow-xs shrink-0 cursor-pointer"
+            className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-purple-800 to-indigo-900 hover:from-purple-700 hover:to-indigo-800 text-white rounded-xl text-xs font-medium transition-all shadow-xs shrink-0 cursor-pointer"
           >
             <Plus size={15} />
             <span>Tambah Tiket</span>
@@ -167,7 +167,7 @@ export function AdminKanbanBoard({ workspaceSlug }: { workspaceSlug: string }) {
             exit={{ opacity: 0, y: -10 }}
             className="p-3 bg-purple-950 text-white rounded-2xl flex items-center justify-between shadow-md px-5"
           >
-            <span className="text-xs font-semibold">{selectedTickets.length} tiket dipilih</span>
+            <span className="text-xs font-medium">{selectedTickets.length} tiket dipilih</span>
             <div className="flex items-center gap-2">
               <button 
                 onClick={() => handleBulkMove('In Progress')} 
@@ -213,11 +213,11 @@ export function AdminKanbanBoard({ workspaceSlug }: { workspaceSlug: string }) {
               <div className="flex items-center justify-between px-1 py-1">
                 <div className="flex items-center gap-2">
                   <ColIcon size={16} className={col.headerColor} />
-                  <h3 className="font-bold text-slate-900 text-xs tracking-tight uppercase">
+                  <h3 className="font-medium text-slate-900 text-xs tracking-tight uppercase">
                     {col.title}
                   </h3>
                 </div>
-                <span className="text-xs font-mono font-bold bg-white px-2 py-0.5 rounded-full border border-purple-100">
+                <span className="text-xs font-mono font-medium bg-white px-2 py-0.5 rounded-full border border-purple-100">
                   {colTickets.length}
                 </span>
               </div>

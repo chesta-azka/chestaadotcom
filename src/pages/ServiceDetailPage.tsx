@@ -34,6 +34,7 @@ import SEOMetadata from '../components/atoms/SEOMetadata';
 import ServiceValueComparison from '../components/organisms/ServiceValueComparison';
 import TrustSignalsSection from '../components/organisms/TrustSignalsSection';
 import ServiceROIGraphSection from '../components/organisms/ServiceROIGraphSection';
+import { NestedCostEstimatorCard } from '../components/organisms/NestedCostEstimatorCard';
 
 // Lazy-loaded heavy components for code-splitting & Lighthouse performance optimization
 const LazyPricingSection = lazy(() => import('../components/organisms/ServicePricingSection'));
@@ -275,12 +276,12 @@ export default function ServiceDetailPage() {
 
         {/* Hero Section */}
         <div className="max-w-4xl mb-20" id="overview">
-          <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-purple-50 border border-purple-200 text-purple-900 text-xs font-mono font-bold uppercase tracking-wider mb-6 shadow-2xs">
+          <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-purple-50 border border-purple-200 text-purple-900 text-xs font-mono font-medium uppercase tracking-wider mb-6 shadow-2xs">
             <Sparkles size={14} strokeWidth={1.5} className="text-purple-700" />
             {service.badge}
           </div>
 
-          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-display font-black text-slate-900 tracking-tight leading-[1.05] mb-8">
+          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-display font-semibold text-slate-900 tracking-tight leading-[1.05] mb-8">
             {service.heroHeadline}
           </h1>
 
@@ -296,7 +297,7 @@ export default function ServiceDetailPage() {
               onClick={handleWhatsAppClick}
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
-              className="px-8 py-4 bg-slate-900 hover:bg-purple-900 text-white rounded-2xl font-sans font-bold text-xs uppercase tracking-wider shadow-lg transition-all flex items-center justify-center gap-3 cursor-pointer group"
+              className="px-8 py-4 bg-slate-900 hover:bg-purple-900 text-white rounded-2xl font-sans font-medium text-xs uppercase tracking-wider shadow-lg transition-all flex items-center justify-center gap-3 cursor-pointer group"
             >
               <MessageCircle size={18} strokeWidth={1.5} className="text-purple-400 group-hover:text-white transition-colors" />
               <span>Dapatkan Audit Strategi Gratis</span>
@@ -307,7 +308,7 @@ export default function ServiceDetailPage() {
               href="#pricing"
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
-              className="px-7 py-4 bg-white hover:bg-slate-50 text-slate-900 rounded-2xl font-sans font-bold text-xs uppercase tracking-wider border border-slate-200 transition-all flex items-center justify-center gap-2 cursor-pointer shadow-sm"
+              className="px-7 py-4 bg-white hover:bg-slate-50 text-slate-900 rounded-2xl font-sans font-medium text-xs uppercase tracking-wider border border-slate-200 transition-all flex items-center justify-center gap-2 cursor-pointer shadow-sm"
             >
               <span>Lihat Skema Investasi</span>
             </motion.a>
@@ -324,19 +325,19 @@ export default function ServiceDetailPage() {
               <div className="bg-white/85 backdrop-blur-md border border-slate-200 p-2.5 rounded-xl text-emerald-600 shadow-2xs">
                 <ShieldCheck size={16} strokeWidth={1.5} />
               </div>
-              <span className="font-bold text-slate-800">100% Hak Milik Source Code</span>
+              <span className="font-medium text-slate-800">100% Hak Milik Source Code</span>
             </div>
             <div className="flex items-center gap-2.5">
               <div className="bg-white/85 backdrop-blur-md border border-slate-200 p-2.5 rounded-xl text-amber-500 shadow-2xs">
                 <Zap size={16} strokeWidth={1.5} />
               </div>
-              <span className="font-bold text-slate-800">Garansi Performa 99+</span>
+              <span className="font-medium text-slate-800">Garansi Performa 99+</span>
             </div>
             <div className="flex items-center gap-2.5">
               <div className="bg-white/85 backdrop-blur-md border border-slate-200 p-2.5 rounded-xl text-purple-600 shadow-2xs">
                 <Award size={16} strokeWidth={1.5} />
               </div>
-              <span className="font-bold text-slate-800">Tanpa Biaya Tersembunyi</span>
+              <span className="font-medium text-slate-800">Tanpa Biaya Tersembunyi</span>
             </div>
           </div>
         </div>
@@ -346,11 +347,11 @@ export default function ServiceDetailPage() {
           <div className="absolute top-0 right-0 w-85 h-85 bg-rose-600/10 rounded-full blur-3xl pointer-events-none" />
           
           <div className="max-w-2xl mb-10 relative z-10 text-white">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-rose-950 border border-rose-800 text-rose-300 text-xs font-mono font-bold uppercase tracking-wider mb-4">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-rose-950 border border-rose-800 text-rose-300 text-xs font-mono font-medium uppercase tracking-wider mb-4">
               <AlertTriangle size={14} strokeWidth={1.5} className="text-rose-400" />
               Peringatan Strategis Bisnis
             </div>
-            <h2 className="text-3xl sm:text-4xl font-display font-black tracking-tight mb-4 text-white">
+            <h2 className="text-3xl sm:text-4xl font-display font-semibold tracking-tight mb-4 text-white">
               Fakta Pahit Bisnis di Era Digital.
             </h2>
             <p className="text-slate-200 font-sans text-sm sm:text-base leading-relaxed">
@@ -430,8 +431,8 @@ export default function ServiceDetailPage() {
                 <TrendingUp size={20} strokeWidth={1.5} />
               </motion.div>
               <div>
-                <span className="text-[11px] font-mono font-bold text-purple-700 uppercase tracking-widest block mb-2">{metric.label}</span>
-                <div className="text-3xl sm:text-4xl font-display font-black text-slate-900 mb-2 tracking-tight">{metric.value}</div>
+                <span className="text-[11px] font-mono font-medium text-purple-700 uppercase tracking-widest block mb-2">{metric.label}</span>
+                <div className="text-3xl sm:text-4xl font-display font-semibold text-slate-900 mb-2 tracking-tight">{metric.value}</div>
                 <span className="text-xs font-sans font-medium text-slate-600 leading-relaxed block">{metric.desc}</span>
               </div>
             </motion.div>
@@ -443,11 +444,11 @@ export default function ServiceDetailPage() {
           <div className="absolute top-0 right-0 w-80 h-80 bg-purple-600/15 rounded-full blur-3xl pointer-events-none" />
           
           <div className="max-w-xl mb-12 relative z-10 text-white">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-white/15 text-purple-300 text-xs font-mono font-bold uppercase tracking-wider mb-4 backdrop-blur-md">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-white/15 text-purple-300 text-xs font-mono font-medium uppercase tracking-wider mb-4 backdrop-blur-md">
               <Cpu size={14} strokeWidth={1.5} className="text-purple-400" />
               Enterprise Architecture
             </div>
-            <h2 className="text-3xl sm:text-4xl font-display font-black tracking-tight mb-4 text-white">
+            <h2 className="text-3xl sm:text-4xl font-display font-semibold tracking-tight mb-4 text-white">
               Infrastruktur Skala Enterprise.
             </h2>
             <p className="text-slate-200 font-sans text-sm sm:text-base leading-relaxed">
@@ -466,7 +467,7 @@ export default function ServiceDetailPage() {
                 <Globe size={22} strokeWidth={1.5} />
               </motion.div>
               <div>
-                <h4 className="font-display font-bold text-white text-sm">Next.js 15 App Router</h4>
+                <h4 className="font-display font-bold text-white text-sm">Enterprise App Router</h4>
                 <p className="text-xs text-slate-300 mt-0.5 font-mono">SSR &amp; Edge API</p>
               </div>
             </div>
@@ -496,7 +497,7 @@ export default function ServiceDetailPage() {
                 <Database size={22} strokeWidth={1.5} />
               </motion.div>
               <div>
-                <h4 className="font-display font-bold text-white text-sm">Firebase Cloud DB</h4>
+                <h4 className="font-display font-bold text-white text-sm">Enterprise Data Vault</h4>
                 <p className="text-xs text-slate-300 mt-0.5 font-mono">Real-time Cloud DB</p>
               </div>
             </div>
@@ -521,8 +522,8 @@ export default function ServiceDetailPage() {
         {/* PROJECT TIMELINES & DELIVERY PHASES (SERVICE FEATURE CARDS) */}
         <div className="mb-24" id="timeline">
           <div className="text-center max-w-2xl mx-auto mb-16">
-            <span className="text-xs font-mono font-bold text-purple-700 uppercase tracking-widest block mb-2">Metodologi &amp; Eksekusi</span>
-            <h2 className="text-3xl sm:text-4xl font-display font-black text-slate-900 tracking-tight">
+            <span className="text-xs font-mono font-medium text-purple-700 uppercase tracking-widest block mb-2">Metodologi &amp; Eksekusi</span>
+            <h2 className="text-3xl sm:text-4xl font-display font-semibold text-slate-900 tracking-tight">
               Timeline &amp; Fase Pengerjaan Proyek
             </h2>
             <p className="text-slate-600 font-sans text-sm sm:text-base mt-3">
@@ -581,8 +582,8 @@ export default function ServiceDetailPage() {
           
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 relative z-10 gap-6">
             <div>
-              <span className="text-xs font-mono font-bold text-purple-300 uppercase tracking-widest block mb-2">Success Stories &amp; Testimoni</span>
-              <h2 className="text-3xl sm:text-4xl font-display font-black text-white tracking-tight">
+              <span className="text-xs font-mono font-medium text-purple-300 uppercase tracking-widest block mb-2">Success Stories &amp; Testimoni</span>
+              <h2 className="text-3xl sm:text-4xl font-display font-semibold text-white tracking-tight">
                 Kisah Sukses Klien untuk Layanan Ini
               </h2>
             </div>
@@ -634,8 +635,8 @@ export default function ServiceDetailPage() {
               </div>
 
               <div className="flex flex-col items-center justify-center p-6 rounded-2xl bg-purple-900/50 border border-purple-500/40 text-center">
-                <span className="text-xs font-mono font-bold text-purple-300 uppercase tracking-wider mb-1">Dampak Utama</span>
-                <div className="text-2xl sm:text-3xl font-display font-black text-white mb-2">
+                <span className="text-xs font-mono font-medium text-purple-300 uppercase tracking-wider mb-1">Dampak Utama</span>
+                <div className="text-2xl sm:text-3xl font-display font-semibold text-white mb-2">
                   {successStories[activeTestimonial].metric}
                 </div>
                 <span className="text-[11px] font-sans text-purple-200">Hasil terukur pasca implementasi sistem.</span>
@@ -660,11 +661,11 @@ export default function ServiceDetailPage() {
         <div className="my-20 p-8 sm:p-12 rounded-3xl bg-slate-50 border border-slate-200/90 relative overflow-hidden shadow-sm">
           <div className="absolute top-0 right-0 w-72 h-72 bg-purple-500/5 rounded-full blur-3xl pointer-events-none" />
           <div className="max-w-3xl mx-auto text-center relative z-10">
-            <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-purple-100 text-purple-900 text-xs font-mono font-bold uppercase tracking-wider mb-4">
+            <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-purple-100 text-purple-900 text-xs font-mono font-medium uppercase tracking-wider mb-4">
               <ShieldCheck size={16} className="text-purple-700" />
               Garansi Jaminan Mutu &amp; Keamanan Klien
             </span>
-            <h3 className="text-2xl sm:text-3xl font-display font-black text-slate-900 mb-4 tracking-tight">
+            <h3 className="text-2xl sm:text-3xl font-display font-semibold text-slate-900 mb-4 tracking-tight">
               Komitmen Profesional Langsung dari Principal Engineer
             </h3>
             <p className="text-slate-600 font-sans text-sm sm:text-base leading-relaxed mb-8">
@@ -716,6 +717,16 @@ export default function ServiceDetailPage() {
         {/* ROI Graph Section Component */}
         <ServiceROIGraphSection />
 
+        {/* NESTED COST ESTIMATOR & TRANSPARENT PRICING MATRIX */}
+        <div className="my-20">
+          <div className="text-center max-w-2xl mx-auto mb-12">
+            <span className="text-xs font-mono font-medium uppercase tracking-widest text-purple-600 mb-3 block">INTERACTIVE CALCULATOR</span>
+            <h2 className="text-3xl font-display font-semibold text-slate-900 tracking-tight">Kalkulator Biaya Proyek & Add-on</h2>
+            <p className="text-slate-500 text-sm mt-2">Sesuaikan jumlah halaman statis, dinamis, dan modul AI sesuai kebutuhan spesifik Anda secara transparan.</p>
+          </div>
+          <NestedCostEstimatorCard />
+        </div>
+
         {/* LAZY LOADED: 4-TIER IMPACT-DRIVEN PRICING GRID */}
         <div id="pricing">
           <Suspense fallback={<div className="py-20 text-center text-slate-400 font-mono text-xs">Memuat Opsi Investasi...</div>}>
@@ -734,10 +745,10 @@ export default function ServiceDetailPage() {
         <div className="mt-32 pt-24 border-t border-slate-100">
           <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
             <div className="max-w-2xl">
-              <span className="text-[10px] font-mono font-bold uppercase tracking-[0.2em] text-slate-400 mb-4 block">
+              <span className="text-[10px] font-mono font-medium uppercase tracking-[0.2em] text-slate-400 mb-4 block">
                 EXPLORE ECOSYSTEM
               </span>
-              <h2 className="text-3xl sm:text-4xl font-display font-black text-slate-900 tracking-tight">
+              <h2 className="text-3xl sm:text-4xl font-display font-semibold text-slate-900 tracking-tight">
                 Solusi Arsitektur <br className="hidden sm:block" /> Digital Lainnya.
               </h2>
               <p className="text-slate-500 text-sm sm:text-base max-w-xl mt-4 leading-relaxed">
@@ -746,7 +757,7 @@ export default function ServiceDetailPage() {
             </div>
             <Link 
               to="/#services" 
-              className="group flex items-center gap-2 text-[11px] font-mono font-bold text-purple-600 uppercase tracking-widest hover:text-purple-800 transition-colors"
+              className="group flex items-center gap-2 text-[11px] font-mono font-medium text-purple-600 uppercase tracking-widest hover:text-purple-800 transition-colors"
             >
               <span>Lihat Semua Layanan</span>
               <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />

@@ -157,11 +157,11 @@ export default function AISolutionsSection() {
       {/* Top Header Section */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-8 sm:mb-12 pb-6 border-b border-slate-100">
         <div>
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-purple-50/90 border border-purple-200/90 text-[10px] font-mono font-bold tracking-widest text-purple-800 uppercase mb-3.5 shadow-2xs">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-purple-50/90 border border-purple-200/90 text-[10px] font-mono font-medium tracking-widest text-purple-800 uppercase mb-3.5 shadow-2xs">
             <Sparkles size={12} className="text-purple-600" />
             <span>ARSITEKTUR AGENTIC AI 2026</span>
           </div>
-          <h2 className="text-2xl sm:text-4xl md:text-5xl font-display font-black text-slate-900 tracking-tight leading-[1.15]">
+          <h2 className="text-2xl sm:text-4xl md:text-5xl font-display font-semibold text-slate-900 tracking-tight leading-[1.15]">
             Otomasi Skala Penuh. <br className="hidden sm:inline" />
             <span className="text-purple-700">
               Cerdas, Mandiri & Skalabel.
@@ -217,15 +217,15 @@ export default function AISolutionsSection() {
 
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center justify-between gap-2 mb-1">
-                      <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-slate-400">
+                      <span className="text-[10px] font-mono font-medium uppercase tracking-widest text-slate-400">
                         {cap.category}
                       </span>
-                      <span className={`text-[10px] font-mono px-2 py-0.5 rounded-full border font-semibold ${cap.tagColor}`}>
+                      <span className={`text-[10px] font-mono px-2 py-0.5 rounded-full border font-medium ${cap.tagColor}`}>
                         {cap.badge}
                       </span>
                     </div>
 
-                    <h3 className={`text-base sm:text-lg font-display font-black leading-snug truncate ${
+                    <h3 className={`text-base sm:text-lg font-display font-semibold leading-snug truncate ${
                       isSelected ? 'text-purple-950' : 'text-slate-900'
                     }`}>
                       {cap.title}
@@ -237,9 +237,9 @@ export default function AISolutionsSection() {
 
                     <div className="mt-3 flex items-center justify-between pt-2.5 border-t border-slate-100/80 text-[11px] font-mono">
                       <span className="text-slate-600 font-medium">
-                        {cap.metrics.label}: <strong className="text-slate-800">{cap.metrics.value}</strong>
+                        {cap.metrics.label}: <strong className="text-slate-800 font-semibold">{cap.metrics.value}</strong>
                       </span>
-                      <span className="text-purple-600 font-bold flex items-center gap-1 group-hover:translate-x-1 transition-transform">
+                      <span className="text-purple-600 font-medium flex items-center gap-1 group-hover:translate-x-1 transition-transform">
                         Detail <ChevronRight size={12} />
                       </span>
                     </div>
@@ -270,7 +270,7 @@ export default function AISolutionsSection() {
 
               <div className="flex items-center gap-2 text-[10px] font-mono text-slate-400">
                 <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-ping" />
-                <span className="text-emerald-400 font-bold">ISOLATED SCROLL</span>
+                <span className="text-emerald-400 font-medium">ISOLATED SCROLL</span>
               </div>
             </div>
 
@@ -286,10 +286,10 @@ export default function AISolutionsSection() {
               {/* Active Headline Box */}
               <div className="p-4 sm:p-5 rounded-2xl bg-white/90 backdrop-blur-md border border-purple-100/90 shadow-2xs flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
-                  <span className="text-[10px] font-mono font-bold text-purple-800 tracking-wider uppercase">
+                  <span className="text-[10px] font-mono font-medium text-purple-800 tracking-wider uppercase">
                     SIMULASI AKTIF
                   </span>
-                  <h4 className="text-lg sm:text-xl font-display font-black text-slate-900 mt-0.5">
+                  <h4 className="text-lg sm:text-xl font-display font-semibold text-slate-900 mt-0.5">
                     {activeCapability.title}
                   </h4>
                   <p className="text-xs sm:text-sm text-slate-600 mt-1">

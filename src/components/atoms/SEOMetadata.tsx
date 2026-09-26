@@ -80,7 +80,7 @@ export default function SEOMetadata({
       <meta name="twitter:image" content={seoImage} />
 
       {/* JSON-LD Structured Data */}
-      <script type="application/ld+json">
+      <script type="application/ld+json" key="seo-ld-json">
         {JSON.stringify(finalSchemas)}
       </script>
     </Helmet>

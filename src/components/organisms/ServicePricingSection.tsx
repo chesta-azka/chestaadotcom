@@ -31,8 +31,8 @@ export default function ServicePricingSection({ pricingTiers, whatsappUrl, onWha
   return (
     <div id="pricing" className="mb-28">
       <div className="text-center max-w-2xl mx-auto mb-16">
-        <span className="text-xs font-mono font-bold text-purple-700 uppercase tracking-widest block mb-2">Transparansi Investasi Bisnis</span>
-        <h2 className="text-3xl sm:text-5xl font-display font-black text-slate-900 tracking-tight mb-4">
+        <span className="text-xs font-mono font-medium text-purple-700 uppercase tracking-widest block mb-2">Transparansi Investasi Bisnis</span>
+        <h2 className="text-3xl sm:text-5xl font-display font-semibold text-slate-900 tracking-tight mb-4">
           Pilih Paket Sesuai Skala Ambisi Anda
         </h2>
         <p className="text-slate-600 font-sans text-base leading-relaxed">
@@ -55,14 +55,14 @@ export default function ServicePricingSection({ pricingTiers, whatsappUrl, onWha
               }`}
             >
               {tier.badge && (
-                <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-purple-600 text-white text-[11px] font-mono font-bold uppercase tracking-wider shadow-md">
+                <div className="absolute -top-3.5 left-1/2 -translate-x-1/2 px-4 py-1 rounded-full bg-purple-600 text-white text-[11px] font-mono font-medium uppercase tracking-wider shadow-md">
                   {tier.badge}
                 </div>
               )}
 
               <div>
                 <div className="flex items-center justify-between mb-4">
-                  <h3 className={`text-xl font-display font-bold tracking-tight ${isHighlighted ? 'text-white' : 'text-slate-900'}`}>
+                  <h3 className={`text-xl font-display font-semibold tracking-tight ${isHighlighted ? 'text-white' : 'text-slate-900'}`}>
                     {tier.name}
                   </h3>
                 </div>
@@ -72,7 +72,7 @@ export default function ServicePricingSection({ pricingTiers, whatsappUrl, onWha
                 </p>
 
                 <div className="mb-8 pb-6 border-b border-slate-200/20">
-                  <span className={`text-3xl sm:text-4xl font-display font-black tracking-tight ${isHighlighted ? 'text-white' : 'text-slate-900'}`}>
+                  <span className={`text-3xl sm:text-4xl font-display font-semibold tracking-tight ${isHighlighted ? 'text-white' : 'text-slate-900'}`}>
                     {tier.price}
                   </span>
                 </div>
@@ -122,10 +122,10 @@ export default function ServicePricingSection({ pricingTiers, whatsappUrl, onWha
       {/* FEATURE COMPARISON TABLE FOR HIGH-INTENT B2B VISITORS */}
       <div className="max-w-5xl mx-auto bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden p-6 sm:p-10">
         <div className="text-center max-w-xl mx-auto mb-10">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-50 text-purple-700 text-xs font-mono font-bold uppercase tracking-wider mb-3">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-50 text-purple-700 text-xs font-mono font-medium uppercase tracking-wider mb-3">
             <Sparkles size={13} /> Matriks Perbandingan Detail
           </div>
-          <h3 className="text-2xl sm:text-3xl font-display font-black tracking-tight text-slate-900">
+          <h3 className="text-2xl sm:text-3xl font-display font-semibold tracking-tight text-slate-900">
             Komparasi Spesifikasi Teknis &amp; Fitur
           </h3>
           <p className="text-xs sm:text-sm text-slate-600 mt-2 font-sans">

@@ -55,8 +55,8 @@ export function CommLinkClient({ workspaceId }: CommLinkClientProps) {
           </div>
           <div>
             <div className="flex items-center gap-1.5">
-              <h3 className="font-bold text-slate-900 text-sm tracking-tight">Direct Comm-Link</h3>
-              <span className="text-[10px] font-semibold uppercase tracking-wider px-1.5 py-0.2 bg-purple-50 text-purple-900 rounded border border-purple-100">
+              <h3 className="font-medium text-slate-900 text-sm tracking-tight">Direct Comm-Link</h3>
+              <span className="text-[10px] font-medium uppercase tracking-wider px-1.5 py-0.2 bg-purple-50 text-purple-900 rounded border border-purple-100">
                 Encrypted
               </span>
             </div>
@@ -76,7 +76,7 @@ export function CommLinkClient({ workspaceId }: CommLinkClientProps) {
             <div className="w-12 h-12 rounded-2xl bg-purple-50 flex items-center justify-center text-purple-900 mb-2 border border-purple-100 shadow-xs">
               <Lock size={20} />
             </div>
-            <h4 className="text-xs font-bold text-slate-700 mb-1">Kanal Terenkripsi Aktif</h4>
+            <h4 className="text-xs font-medium text-slate-700 mb-1">Kanal Terenkripsi Aktif</h4>
             <p className="text-[11px] text-slate-600 max-w-xs">
               Kirimkan pertanyaan teknis, diskusi arsitektur, atau instruksi langsung ke tim engineer.
             </p>

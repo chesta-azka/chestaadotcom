@@ -32,7 +32,7 @@ const phases = [
     badge: 'Rapid Engineering',
     icon: <Code2 className="w-8 h-8 text-purple-600" strokeWidth={1.75} />,
     color: 'from-indigo-600 to-purple-600',
-    description: 'Website langsung dibangun menggunakan arsitektur modern Next.js yang super cepat. Kami mengirimkan link live staging ke WhatsApp Anda untuk dicek dan direvisi bersama.',
+    description: 'Website langsung dibangun menggunakan arsitektur modern berkecepatan tinggi. Kami mengirimkan link live staging ke WhatsApp Anda untuk dicek dan direvisi bersama.',
     features: ['Link Preview Staging Dikirim ke WA', 'Revisi & Feedback Langsung 1-on-1', 'Skor Kecepatan Google PageSpeed 95-100'],
     actionLabel: 'Cek Standar Kualitas Staging',
     waText: 'Halo Mas Chesta, boleh info contoh staging preview dan proses development website?'

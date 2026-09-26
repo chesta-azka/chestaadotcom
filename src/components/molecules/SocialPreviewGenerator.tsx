@@ -88,7 +88,7 @@ export function SocialPreviewGenerator({
               </div>
 
               <div className="space-y-3">
-                <h3 className="font-display font-black text-xl sm:text-2xl text-white leading-snug">
+                <h3 className="font-display font-semibold text-xl sm:text-2xl text-white leading-snug">
                   {title}
                 </h3>
                 <p className="text-xs text-purple-200/80 font-sans">

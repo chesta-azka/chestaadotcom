@@ -17,7 +17,7 @@ export function TrendingInsights() {
       } catch (error) {
         // error handled silently
         setTrends([
-          "Website cepat dengan Next.js terbukti meningkatkan konversi penjualan.",
+          "Website berkinerja tinggi terbukti meningkatkan konversi penjualan secara eksponensial.",
           "UMKM modern beralih ke direct chat WhatsApp untuk closing lebih cepat.",
           "Desain bersih dan minimalis meningkatkan rasa percaya calon pembeli."
         ]);
@@ -42,7 +42,7 @@ export function TrendingInsights() {
             <TrendingUp className="w-5 h-5" />
           </div>
           <div>
-            <h3 className="text-lg sm:text-xl font-display font-black text-slate-900 flex items-center gap-2">
+            <h3 className="text-lg sm:text-xl font-display font-semibold text-slate-900 flex items-center gap-2">
               Wawasan & Peluang Digital <Sparkles className="w-4 h-4 text-purple-600" />
             </h3>
             <p className="text-xs text-slate-600">Riset Terkini Pertumbuhan Bisnis</p>

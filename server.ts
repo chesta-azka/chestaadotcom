@@ -204,33 +204,21 @@ app.post("/api/chat", async (req, res) => {
     const isHardSelling = messageCount >= 2;
 
     const systemPrompt = `[ROLE]
-Asisten Penjualan & Konsultasi Profesional CHESTADOTCOM.
+Senior B2B Technology & Web Development Consultant for CHESTADOTCOM.
 
 [CURRENT USER PAGE CONTEXT]
 - Active Path: ${pagePath || '/'}
 - Page Title: ${pageTitle || 'CHESTADOTCOM'}
-- Page Context Details: ${pageContext ? JSON.stringify(pageContext) : 'Umum'}
+- Page Context Details: ${pageContext ? JSON.stringify(pageContext) : 'General'}
 
-[SALES FUNNEL STAGE: ${isHardSelling ? 'HARD SELLING / CLOSING' : 'SOFT SELLING / CONSULTATION'}]
-${isHardSelling ? `
-- Berikan penawaran tegas dan menarik (Hard Selling) dengan mereferensikan halaman yang sedang dikunjungi (${pageTitle || pagePath}).
-- Soroti Paket Spesial Website UMKM Rp540K (Super Hemat, Profesional, Siap Pakai).
-- Berikan penekanan urgensi dan langsung arahkan ke penutupan penjualan (closing).
-- Akhiri dengan opsi interaktif:
-<opsi>Amankan Paket UMKM Rp540K</opsi>
-<opsi>Hubungi via WhatsApp</opsi>
-` : `
-- Gunakan pendekatan ramah, konsultatif, dan santai (Soft Selling), sesuaikan dengan konteks halaman yang dilihat user (${pageTitle || pagePath}).
-- Pahami kebutuhan bisnis klien tanpa memaksa membeli langsung.
-- Ajak berdiskusi tentang impian digital bisnis mereka.
-- Akhiri dengan opsi interaktif:
-<opsi>Paket Website UMKM Rp540K</opsi>
-<opsi>Konsultasi Kebutuhan Bisnis</opsi>
-`}
-
-[RULES]
-1. Bahasa Indonesia yang elegan, profesional, dan to the point (maksimal 2-3 kalimat).
-2. DILARANG KERAS menyebutkan detail teknis arsitektur backend atau kode internal.`;
+[CONSULTATION GUIDELINES]
+- Provide professional, objective, concise, and technically grounded answers.
+- Focus on business efficiency, ROI, Next.js architecture performance, local SEO ranking (#1 Google), and transparent pricing (e.g., UMKM Promo Package Rp540K).
+- Maintain a high-end corporate advisory tone without flowery or informal language.
+- Strictly avoid leaking internal backend architecture or implementation code details.
+- End responses with interactive options:
+<opsi>Amankan Paket Promo Rp540K</opsi>
+<opsi>Konsultasi WhatsApp</opsi>`;
 
     let replyText = "";
 
@@ -282,9 +270,9 @@ ${isHardSelling ? `
 
     // 2. Fallback to Gemini if Groq unavailable or failed
     if (!replyText && genAI) {
-      try {
-        const conversationText = messages.map((m: any) => `${m.role === 'assistant' || m.role === 'ai' ? 'Assistant' : 'User'}: ${m.content || m.text || ''}`).join('\n');
+      const conversationText = messages.map((m: any) => `${m.role === 'assistant' || m.role === 'ai' ? 'Assistant' : 'User'}: ${m.content || m.text || ''}`).join('\n');
 
+      try {
         if (stream) {
           res.setHeader('Content-Type', 'text/plain; charset=utf-8');
           res.setHeader('Transfer-Encoding', 'chunked');
@@ -307,13 +295,53 @@ ${isHardSelling ? `
           });
           replyText = result.text || "";
         }
-      } catch (gemErr) {
-        console.warn("Gemini fallback error:", gemErr);
+      } catch (gemErr: any) {
+        console.warn("Gemini 2.5-flash error, trying gemini-1.5-flash fallback:", gemErr?.message || gemErr);
+        try {
+          if (stream) {
+            res.setHeader('Content-Type', 'text/plain; charset=utf-8');
+            res.setHeader('Transfer-Encoding', 'chunked');
+            const streamResponse = await genAI.models.generateContentStream({
+              model: "gemini-1.5-flash",
+              config: { systemInstruction: systemPrompt },
+              contents: conversationText,
+            });
+
+            for await (const chunk of streamResponse) {
+              if (chunk.text) res.write(chunk.text);
+            }
+            res.end();
+            return;
+          } else {
+            const result = await genAI.models.generateContent({
+              model: "gemini-1.5-flash",
+              config: { systemInstruction: systemPrompt },
+              contents: conversationText,
+            });
+            replyText = result.text || "";
+          }
+        } catch (gem15Err: any) {
+          console.warn("Gemini 1.5-flash fallback also failed:", gem15Err?.message || gem15Err);
+        }
       }
     }
 
     if (!replyText) {
-      replyText = "Halo! Saya adalah asisten AI Llama 3 di CHESTADOTCOM. Silakan ajukan pertanyaan seputar arsitektur sistem, automasi AI, atau solusi digital kami.";
+      const q = lastMsg.toLowerCase();
+      if (/(harga|biaya|price|pricing|paket|promo|diskon|tarif|cost|budget|murah)/.test(q)) {
+        replyText = `### Paket Pembuatan Website Profesional\n\nKami menyediakan solusi website siap pakai dengan harga transparan:\n\n• **Paket Promo UMKM**: **Rp540.000** *(Termasuk domain .com 1 tahun & hosting kilat)*\n• **Pengerjaan**: 1-3 hari kerja dengan 100% hak milik penuh.\n\n<opsi>Amankan Paket Promo Rp540K</opsi>\n<opsi>Konsultasi WhatsApp</opsi>`;
+      } else if (/(lama|waktu|durasi|hari|kapan|jadwal|deadline)/.test(q)) {
+        replyText = `### Estimasi Waktu Pengerjaan\n\n• **Paket Standar & Promo**: Selesai dalam **1 hingga 3 hari kerja**.\n• **Paket Kustom**: 3-7 hari kerja tergantung kompleksitas fitur.\n\n<opsi>Paket Website UMKM Rp540K</opsi>\n<opsi>Konsultasi WhatsApp</opsi>`;
+      } else {
+        replyText = `### Konsultasi CHESTADOTCOM\n\nTerima kasih atas pertanyaan Anda. Kami siap membantu pengembangan arsitektur web dan automasi digital bisnis Anda.\n\n• **Paket Promo UMKM**: Rp540.000 (All-in domain .com + cloud server).\n• **Konsultasi Langsung**: Hubungi tim kami via WhatsApp untuk respon instan.\n\n<opsi>Amankan Paket Promo Rp540K</opsi>\n<opsi>Konsultasi WhatsApp</opsi>`;
+      }
+    }
+
+    if (stream) {
+      res.setHeader('Content-Type', 'text/plain; charset=utf-8');
+      res.write(replyText);
+      res.end();
+      return;
     }
 
     return res.json({ reply: replyText });
@@ -739,6 +767,109 @@ ${transcript}`;
       ai_score: "Warm", 
       analysis: { score: 50, tier: "Warm Lead", matchedKeywords: ["default"], summary: "Analisis default fallback." } 
     });
+  }
+});
+
+// API: RFP Document Parser & In-Chat Cost Estimator via Groq SDK & Zod
+const RFPEstimateSchemaServer = z.object({
+  estimatedWeeks: z.number().int().positive(),
+  costTier: z.string(),
+  summaryBreakdown: z.array(z.string()),
+  recommendedModules: z.array(z.string()),
+});
+
+app.post("/api/estimate-rfp", async (req, res) => {
+  try {
+    const { rfpText, text } = req.body;
+    const rawText = rfpText || text || "";
+
+    if (!rawText || typeof rawText !== "string" || rawText.trim().length < 10) {
+      return res.status(400).json({ error: "RFP text payload is required (min 10 characters)." });
+    }
+
+    const sanitizedText = rawText.trim().slice(0, 15000);
+
+    let resultData: any = null;
+    let dataSource = "fallback";
+
+    if (groq) {
+      try {
+        const systemPrompt = `You are a senior enterprise software architect and RFP technical estimator at CHESTAADOTCOM.
+Analyze the provided RFP document text and return a precise JSON response matching this exact schema:
+{
+  "estimatedWeeks": number,
+  "costTier": "string representing estimated budget tier",
+  "summaryBreakdown": ["point 1", "point 2"],
+  "recommendedModules": ["module 1", "module 2"]
+}
+Return ONLY valid JSON. Language: Indonesian.`;
+
+        const completion = await groq.chat.completions.create({
+          model: "llama-3.3-70b-versatile",
+          messages: [
+            { role: "system", content: systemPrompt },
+            { role: "user", content: `RFP Document Text:\n\n${sanitizedText}` }
+          ],
+          response_format: { type: "json_object" },
+          temperature: 0.3,
+          max_tokens: 1500,
+        });
+
+        const contentStr = completion.choices[0]?.message?.content;
+        if (contentStr) {
+          const parsed = JSON.parse(contentStr);
+          resultData = RFPEstimateSchemaServer.parse(parsed);
+          dataSource = "groq-llama-3.3-70b";
+        }
+      } catch (err: any) {
+        console.warn("Groq RFP estimate failed, trying Gemini or fallback:", err?.message);
+      }
+    }
+
+    if (!resultData && genAI) {
+      try {
+        const prompt = `Analyze this RFP document and return JSON with keys: estimatedWeeks (number), costTier (string), summaryBreakdown (array of strings), recommendedModules (array of strings). Language Indonesian.\nRFP Text:\n${sanitizedText}`;
+        const genRes = await genAI.models.generateContent({
+          model: "gemini-2.5-flash",
+          contents: prompt
+        });
+        const textOut = genRes.text || "";
+        const jsonMatch = textOut.match(/\{[\s\S]*\}/);
+        if (jsonMatch) {
+          const parsed = JSON.parse(jsonMatch[0]);
+          resultData = RFPEstimateSchemaServer.parse(parsed);
+          dataSource = "gemini-2.5-flash";
+        }
+      } catch (gemErr) {
+        console.warn("Gemini RFP fallback failed:", gemErr);
+      }
+    }
+
+    if (!resultData) {
+      resultData = {
+        estimatedWeeks: 4,
+        costTier: "Rp 15M - Rp 30M",
+        summaryBreakdown: [
+          "Analisis dokumen RFP otomatis.",
+          "Arsitektur Next.js & TypeScript aman.",
+          "Implementasi modular berkinerja tinggi."
+        ],
+        recommendedModules: [
+          "Autentikasi & Multi-role Management",
+          "Dashboard Analitik Interaktif",
+          "Optimasi SEO & Cloud Deployment"
+        ]
+      };
+      dataSource = "fallback";
+    }
+
+    return res.json({ success: true, data: resultData, source: dataSource });
+  } catch (error: any) {
+    console.error("RFP Estimate API Error:", error);
+    if (error instanceof z.ZodError) {
+      return res.status(422).json({ error: "Validation error", details: error.issues || (error as any).errors });
+    }
+    return res.status(500).json({ error: error.message || "Internal server error" });
   }
 });
 

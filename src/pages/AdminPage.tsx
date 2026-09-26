@@ -3200,7 +3200,7 @@ function BlogOutlineGenerator() {
           `${keyword} BSD City`,
           `Jasa ${keyword} Tangerang`,
           'Software House B2B Indonesia',
-          'Next.js 15 & AI Automation',
+          'Enterprise Web & AI Automation',
           'Chesta Azka Sofyan'
         ],
         metaDescription: `Pelajari secara mendalam mengenai ${keyword} bersama CHESTAADOTCOM. Solusi arsitektur digital & automasi AI kelas enterprise di BSD City & Jabodetabek.`,
@@ -3222,7 +3222,7 @@ function BlogOutlineGenerator() {
             wordCount: '400 Kata',
             subsections: [
               'H3: Infrastruktur Inti di Balik Sistem Otonom',
-              'H3: Integrasi Next.js 15 dan Firebase Real-Time Database'
+              'H3: Integrasi Arsitektur Web & Cloud Database Terpadu'
             ],
             keyPoints: [
               'Penjelasan teknis stack modern',

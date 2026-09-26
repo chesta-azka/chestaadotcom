@@ -18,7 +18,7 @@ const ClientTrack = () => (
     {clients.map((client, i) => (
       <div key={`${client.name}-${i}`} className="flex items-center gap-3">
         <client.icon className="w-6 h-6 md:w-8 md:h-8 text-slate-400 opacity-60" />
-        <span className="text-lg md:text-2xl font-display font-bold text-slate-400 whitespace-nowrap opacity-80">
+        <span className="text-lg md:text-2xl font-display font-medium text-slate-400 whitespace-nowrap opacity-80">
           {client.name}
         </span>
       </div>
@@ -30,7 +30,7 @@ export default function CompaniesSection() {
   return (
     <section className="py-12 md:py-16 bg-white overflow-hidden relative border-y border-slate-100">
       <div className="text-center mb-8 sm:mb-12">
-        <h2 className="text-2xl sm:text-3xl font-display font-black tracking-tight text-slate-900 mb-2">
+        <h2 className="text-2xl sm:text-3xl font-display font-semibold tracking-tight text-slate-900 mb-2">
           Client Trust &amp; Partnerships
         </h2>
         <p className="text-sm font-sans text-slate-500 max-w-xl mx-auto">

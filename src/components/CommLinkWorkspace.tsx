@@ -166,7 +166,7 @@ export function CommLinkWorkspace({ workspaceId, currentUserRole = 'client' }: C
       {/* Header & Controls */}
       <div className="px-6 py-4 border-b border-purple-100 bg-purple-50/30 flex flex-col md:flex-row md:items-center justify-between gap-4 z-10">
         <div>
-          <h3 className="font-bold text-slate-900 tracking-tight">Ecosystem Comm-Link</h3>
+          <h3 className="font-medium text-slate-900 tracking-tight">Ecosystem Comm-Link</h3>
           <p className="text-xs font-medium text-slate-600 flex items-center gap-2">
             <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
             Direct Communication Workspace
@@ -227,7 +227,7 @@ export function CommLinkWorkspace({ workspaceId, currentUserRole = 'client' }: C
                     animate={{ opacity: 1, y: 0 }}
                     className="flex justify-center w-full my-4"
                   >
-                    <span className="px-4 py-1.5 rounded-full bg-purple-50 text-[11px] uppercase tracking-widest font-bold text-slate-600 border border-purple-100">
+                    <span className="px-4 py-1.5 rounded-full bg-purple-50 text-[11px] uppercase tracking-widest font-medium text-slate-600 border border-purple-100">
                       {msg.text}
                     </span>
                   </motion.div>

@@ -1,116 +1,191 @@
-import { motion } from 'motion/react';
-import { ShieldCheck, SearchCode, Database, MessageSquare, ArrowUpRight, Zap, Lightbulb, Users } from 'lucide-react';
-import AnimatedHeading from '../atoms/AnimatedHeading';
+'use client';
 
-const consultingServices = [
+import React from 'react';
+import { motion } from 'motion/react';
+import { 
+  ShieldCheck, 
+  Cpu, 
+  Workflow, 
+  SearchCode, 
+  CheckCircle2, 
+  ArrowRight, 
+  Sparkles, 
+  Clock, 
+  MessageSquare,
+  Zap
+} from 'lucide-react';
+
+interface ConsultingOffering {
+  id: string;
+  title: string;
+  categoryLabel: string;
+  description: string;
+  timeline: string;
+  roiFocus: string;
+  deliverables: string[];
+  icon: React.ElementType;
+  popular?: boolean;
+}
+
+const consultingOfferings: ConsultingOffering[] = [
   {
-    title: "Security & Vulnerability Audit",
-    desc: "Audit keamanan mendalam untuk mengidentifikasi celah pada infrastruktur digital Anda sebelum menjadi masalah fatal.",
-    icon: ShieldCheck,
-    color: "text-rose-500",
-    bg: "bg-rose-50"
+    id: 'architecture-consulting',
+    title: 'Executive Enterprise Web & AI Architecture Consulting',
+    categoryLabel: 'AI & Web Architecture',
+    description: 'Sesi strategis mendalam bersama Principal Architect untuk merancang sistem skalabel berstandar enterprise. Kami memandu pemilihan tech stack, desain arsitektur web berperforma tinggi, dan integrasi pipeline AI otonom yang efisien.',
+    timeline: '⚡ 60-Minute Deep Dive Session',
+    roiFocus: 'Hemat hingga Rp 150JT+ biaya trial-and-error arsitektur dan cegah kegagalan skalabilitas sistem sejak hari pertama.',
+    deliverables: [
+      'High-Performance Micro-Frontend Blueprint',
+      'AI Agent Pipeline & LLM Selection Roadmap',
+      'Security & Authentication Best Practices',
+      'Direct WhatsApp Advisory Access'
+    ],
+    icon: Workflow,
+    popular: true
   },
   {
-    title: "Performance Optimization Strategy",
-    desc: "Strategi teknis untuk mengubah website lambat menjadi sistem berkecepatan tinggi dengan skor PageSpeed 99+.",
-    icon: Zap,
-    color: "text-amber-500",
-    bg: "bg-amber-50"
-  },
-  {
-    title: "AI Readiness & Roadmap",
-    desc: "Konsultasi strategis untuk menentukan bagaimana AI dapat diintegrasikan secara efektif ke dalam alur kerja bisnis Anda.",
-    icon: Lightbulb,
-    color: "text-purple-500",
-    bg: "bg-purple-50"
-  },
-  {
-    title: "System Migration & Modernization",
-    desc: "Migrasi aman dari sistem legacy (seperti WordPress) ke arsitektur modern yang lebih aman dan scalable.",
-    icon: Database,
-    color: "text-blue-500",
-    bg: "bg-blue-50"
+    id: 'deep-tech-audit',
+    title: 'Deep Tech & Core Web Vitals Performance Audit',
+    categoryLabel: 'Performance & Security Audit',
+    description: 'Analisis menyeluruh terhadap codebase, kecepatan muat (Core Web Vitals), dan celah keamanan sistem Anda. Kami mengidentifikasi *bottleneck* tersembunyi yang membuat konversi penjualan drop dan memperlambat bisnis Anda.',
+    timeline: '⚡ Comprehensive 3-Day Audit Report',
+    roiFocus: 'Lonjakan PageSpeed hingga 99+ dan eliminasi *technical debt* yang menghambat performa konversi digital Anda.',
+    deliverables: [
+      'Comprehensive Codebase Health Score',
+      'Lighthouse 99+ Performance Action Plan',
+      'Security Vulnerability & Pentest Summary',
+      'Prioritized Refactoring Roadmap'
+    ],
+    icon: SearchCode
   }
 ];
 
-import OptimizedImage from '../atoms/OptimizedImage';
-
 export default function ConsultingServicesSection() {
   return (
-    <section className="py-24 bg-slate-50 border-y border-slate-100 overflow-hidden relative">
-      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-purple-500/5 rounded-full blur-[120px] pointer-events-none" />
-      <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-blue-500/5 rounded-full blur-[120px] pointer-events-none" />
+    <section className="py-16 md:py-20 bg-slate-50/40 relative overflow-hidden [background-image:linear-gradient(to_right,#e2e8f0_1px,transparent_1px),linear-gradient(to_bottom,#e2e8f0_1px,transparent_1px)] [background-size:4rem_4rem]" id="consulting">
+      
+      {/* Ambient Glow Accent */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[350px] bg-purple-200/25 rounded-full blur-[140px] pointer-events-none" />
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16">
-          <div className="max-w-2xl">
-            <span className="text-[10px] font-mono font-bold uppercase tracking-[0.2em] text-slate-500 mb-4 block">
-              SPECIALIZED ADVISORY
-            </span>
-            <AnimatedHeading as="h2" className="text-3xl sm:text-4xl md:text-5xl font-black text-slate-900 tracking-tight font-display mb-4">
-              Konsultasi Strategis & <br className="hidden sm:block" /> Audit Teknis Independen.
-            </AnimatedHeading>
-            <p className="text-slate-500 text-sm sm:text-base max-w-xl">
-              Selain rekayasa sistem, kami memberikan panduan objektif untuk membantu Anda membuat keputusan teknologi yang tepat dan aman bagi masa depan bisnis.
-            </p>
+        
+        {/* Section Header */}
+        <motion.div 
+          initial={{ opacity: 0, y: 15 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-80px" }}
+          transition={{ duration: 0.5 }}
+          className="text-center max-w-3xl mx-auto mb-16"
+        >
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-purple-50 border border-purple-200/80 text-purple-700 text-xs font-semibold mb-3 shadow-sm">
+            <Sparkles className="w-3.5 h-3.5 text-purple-600 animate-pulse" />
+            <span>Executive Advisory &amp; Technical Audit</span>
           </div>
-          
-          <div className="flex items-center gap-4">
-            <div className="flex -space-x-3">
-              {[1, 2, 3, 4].map((i) => (
-                <div key={i} className="w-10 h-10 rounded-full border-2 border-white bg-slate-200 overflow-hidden shadow-sm relative">
-                  <OptimizedImage 
-                    src={`https://picsum.photos/seed/expert${i}/100/100`} 
-                    alt="Expert" 
-                    className="w-full h-full object-cover" 
-                  />
+          <h2 className="text-3xl md:text-4xl font-semibold tracking-tight text-slate-900 font-display">
+            Konsultasi Arsitektur AI &amp; Audit Performa Eksekutif
+          </h2>
+          <p className="text-slate-600 mt-3 text-base font-light">
+            Solusi tepat bagi pimpinan perusahaan dan startup ambisius untuk memastikan fondasi teknologi Anda dibangun tanpa kompromi.
+          </p>
+        </motion.div>
+
+        {/* Consulting Cards Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-stretch">
+          {consultingOfferings.map((item, index) => {
+            const Icon = item.icon;
+            const whatsappMsg = encodeURIComponent(`Halo Mas Chesta, saya tertarik untuk menjadwalkan sesi "${item.title}". Mohon informasi ketersediaan waktu konsultasi.`);
+            const whatsappUrl = `https://wa.me/6282125447232?text=${whatsappMsg}`;
+
+            return (
+              <motion.div
+                key={item.id}
+                initial={{ opacity: 0, y: 25, scale: 0.96 }}
+                whileInView={{ opacity: 1, y: 0, scale: 1 }}
+                viewport={{ once: true, margin: "-80px" }}
+                transition={{ 
+                  type: "spring", 
+                  stiffness: 280, 
+                  damping: 24, 
+                  delay: index * 0.1 
+                }}
+                className="rounded-3xl bg-white/80 backdrop-blur-2xl border border-purple-100/90 p-8 sm:p-10 shadow-xl shadow-purple-900/5 hover:border-purple-300 hover:shadow-2xl hover:shadow-purple-900/10 transition-all duration-300 flex flex-col justify-between relative group overflow-hidden"
+              >
+                {item.popular && (
+                  <div className="absolute top-6 right-6 bg-purple-50 border border-purple-200/80 text-purple-700 text-[10px] font-mono font-bold uppercase tracking-wider px-3.5 py-1 rounded-full shadow-2xs">
+                    Executive Flagship
+                  </div>
+                )}
+
+                <div>
+                  {/* Icon & Timeline */}
+                  <div className="flex items-center justify-between mb-6">
+                    <div className="w-14 h-14 rounded-2xl bg-purple-900 text-white flex items-center justify-center shadow-md shadow-purple-950/20 group-hover:scale-105 transition-transform">
+                      <Icon size={26} />
+                    </div>
+                    <span className="text-[11px] font-mono font-semibold text-purple-700 bg-purple-50 px-3 py-1 rounded-full border border-purple-100/80">
+                      {item.timeline}
+                    </span>
+                  </div>
+
+                  <span className="text-[11px] font-mono font-bold uppercase tracking-widest text-purple-600 block mb-1">
+                    {item.categoryLabel}
+                  </span>
+
+                  <h3 className="text-2xl font-bold font-display text-slate-900 tracking-tight mb-3 group-hover:text-purple-900 transition-colors">
+                    {item.title}
+                  </h3>
+
+                  <p className="text-slate-600 font-sans text-sm sm:text-base leading-relaxed mb-6 font-light">
+                    {item.description}
+                  </p>
+
+                  {/* ROI Highlight Box */}
+                  <div className="bg-purple-50/80 rounded-2xl p-4 border border-purple-100/90 mb-6">
+                    <div className="flex items-center gap-2 text-xs font-mono font-bold text-purple-900 uppercase tracking-wider mb-1">
+                      <Zap size={14} className="text-purple-700" />
+                      <span>Executive ROI Focus</span>
+                    </div>
+                    <p className="text-xs sm:text-sm text-slate-700 font-sans font-medium">
+                      {item.roiFocus}
+                    </p>
+                  </div>
+
+                  {/* Deliverables Checklist */}
+                  <div className="space-y-2.5 mb-8 pt-4 border-t border-purple-100/80">
+                    <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-slate-400 block mb-2">Deliverables Utama:</span>
+                    {item.deliverables.map((deliv, dIdx) => (
+                      <div key={dIdx} className="flex items-center gap-2.5 text-xs sm:text-sm text-slate-700 font-sans">
+                        <CheckCircle2 size={16} className="text-purple-600 shrink-0" />
+                        <span>{deliv}</span>
+                      </div>
+                    ))}
+                  </div>
                 </div>
-              ))}
-            </div>
-            <div className="text-xs font-mono font-bold text-slate-400">
-              EXPERT CONSULTANTS
-            </div>
-          </div>
+
+                {/* WhatsApp Consultation Handover CTA */}
+                <div className="pt-6 border-t border-purple-100/80 flex items-center justify-between gap-4 mt-auto">
+                  <div className="flex flex-col">
+                    <span className="text-[10px] font-mono uppercase tracking-wider text-slate-400">Jadwalkan Sesi</span>
+                    <span className="text-xs font-bold text-purple-900">Respons Langsung via WhatsApp</span>
+                  </div>
+
+                  <a
+                    href={whatsappUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-2.5 px-6 py-3.5 rounded-2xl bg-purple-900 hover:bg-purple-800 text-white text-xs sm:text-sm font-bold transition-all shadow-lg shadow-purple-950/20 group-hover:scale-105 cursor-pointer"
+                  >
+                    <MessageSquare size={16} />
+                    <span>Jadwalkan Konsultasi</span>
+                    <ArrowRight size={14} />
+                  </a>
+                </div>
+              </motion.div>
+            );
+          })}
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {consultingServices.map((service, index) => (
-            <motion.div
-              key={service.title}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: index * 0.1 }}
-              className="bg-white border border-slate-200 rounded-2xl p-8 hover:border-purple-300 hover:shadow-xl hover:shadow-purple-900/[0.03] transition-all group"
-            >
-              <div className={`w-12 h-12 rounded-xl ${service.bg} ${service.color} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
-                <service.icon size={24} />
-              </div>
-              <h3 className="text-lg font-black text-slate-900 font-display mb-3 tracking-tight">
-                {service.title}
-              </h3>
-              <p className="text-sm text-slate-500 leading-relaxed mb-6 font-sans">
-                {service.desc}
-              </p>
-              <div className="flex items-center gap-2 text-[10px] font-mono font-bold text-purple-600 uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-opacity">
-                <span>Pelajari Detail</span>
-                <ArrowUpRight size={12} />
-              </div>
-            </motion.div>
-          ))}
-        </div>
-
-        <div className="mt-16 flex justify-center">
-          <a 
-            href="https://wa.me/6282125447232?text=Halo%20Mas%20Chesta,%20saya%20ingin%20jadwal%20audit%20teknis%20untuk%20sistem%20saya"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="inline-flex items-center gap-3 px-8 py-4 bg-slate-900 text-white rounded-2xl hover:bg-purple-700 transition-all font-mono text-[11px] font-bold uppercase tracking-widest shadow-xl shadow-slate-900/10"
-          >
-            <MessageSquare size={16} />
-            <span>Jadwalkan Audit Strategis</span>
-          </a>
-        </div>
       </div>
     </section>
   );

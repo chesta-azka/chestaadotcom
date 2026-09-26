@@ -20,8 +20,8 @@ const faqData = [
   },
   {
     id: 'api-integration-process',
-    question: 'Apakah Anda dapat mengintegrasikan website dengan sistem atau API yang sudah kami miliki?',
-    answer: 'Tentu. Keahlian inti kami mencakup integrasi sistem yang kompleks. Kami dapat menghubungkan website atau aplikasi web baru Anda dengan ERP, CRM, payment gateway, atau API pihak ketiga lainnya untuk memastikan sinkronisasi data real-time dan alur kerja yang mulus.'
+    question: 'Apakah Anda dapat mengintegrasikan website dengan sistem atau endpoint yang sudah kami miliki?',
+    answer: 'Tentu. Keahlian inti kami mencakup integrasi sistem yang kompleks. Kami dapat menghubungkan website atau aplikasi web baru Anda dengan ERP, CRM, payment gateway, atau endpoint pihak ketiga lainnya untuk memastikan sinkronisasi data real-time dan alur kerja yang mulus.'
   }
 ];
 
@@ -57,7 +57,7 @@ export default function ProjectFaqAccordion() {
             <HelpCircle size={24} />
           </div>
           <h2 className="text-3xl sm:text-4xl font-display font-black tracking-tight text-slate-900 mb-4">
-            Frequently Asked Questions
+            Pertanyaan yang Sering Diajukan
           </h2>
           <p className="text-slate-600 font-sans text-sm sm:text-base max-w-2xl mx-auto">
             Pertanyaan umum seputar timeline pengerjaan, struktur harga, dan proses pengembangan proyek IT bersama CHESTAADOTCOM.

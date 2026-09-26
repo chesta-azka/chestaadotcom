@@ -42,7 +42,7 @@ export default function MobileActionBar() {
               </div>
               <div className="flex flex-col">
                 <span className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Siap Memulai?</span>
-                <span className="text-xs font-black text-slate-900">Konsultasi Gratis</span>
+                <span className="text-xs font-medium text-slate-900">Konsultasi Gratis</span>
               </div>
             </div>
 

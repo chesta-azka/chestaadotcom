@@ -5,7 +5,7 @@ import { motion } from 'motion/react';
 
 const SERVICES = [
   { id: 'promo', name: 'Paket Promo UMKM (Domain .com + Cloud)', minPrice: 540000, maxPrice: 540000 },
-  { id: 'nextjs', name: 'Arsitektur Next.js & Company Profile', minPrice: 2500000, maxPrice: 4500000 },
+  { id: 'nextjs', name: 'Arsitektur Web Berperforma Tinggi & Company Profile', minPrice: 2500000, maxPrice: 4500000 },
   { id: 'ai', name: 'Integrasi Otomatisasi AI & Realtime Cloud', minPrice: 5500000, maxPrice: 9000000 },
   { id: 'seo', name: 'Optimasi SEO Mendalam & Kecepatan Google', minPrice: 850000, maxPrice: 1800000 },
 ];
@@ -64,11 +64,11 @@ export function QuotationCalculator() {
         <div className="mb-6">
           <div className="flex items-center gap-2 mb-1">
             <span className="w-2 h-2 rounded-full bg-purple-600" />
-            <span className="text-xs font-mono uppercase font-bold text-purple-900 tracking-wider">
+            <span className="text-xs font-mono uppercase font-medium text-purple-900 tracking-wider">
               Kalkulator Estimasi Instan
             </span>
           </div>
-          <h2 className="text-2xl font-display font-black text-slate-900">
+          <h2 className="text-2xl font-display font-medium text-slate-900">
             Simulasi Biaya Proyek
           </h2>
           <p className="text-slate-600 text-xs font-sans mt-0.5">
@@ -88,11 +88,11 @@ export function QuotationCalculator() {
                   onClick={() => toggleService(service.id)}
                   className={`w-full flex items-center justify-between p-4 rounded-2xl border transition-all text-left cursor-pointer ${
                     isSelected 
-                      ? 'bg-purple-50/60 border-purple-300 shadow-2xs' 
+                      ? 'bg-purple-50/70 border-purple-300 shadow-2xs' 
                       : 'bg-white border-slate-200 hover:border-purple-200 text-slate-700'
                   }`}
                 >
-                  <span className={`text-xs sm:text-sm font-medium ${isSelected ? 'text-purple-950 font-semibold' : 'text-slate-700'}`}>
+                  <span className={`text-xs sm:text-sm font-medium ${isSelected ? 'text-purple-950 font-medium' : 'text-slate-700'}`}>
                     {service.name}
                   </span>
                   <div className={`w-5 h-5 rounded-full flex items-center justify-center shrink-0 ml-3 transition-all ${isSelected ? 'bg-purple-900 text-white' : 'border border-slate-300'}`}>
@@ -104,12 +104,12 @@ export function QuotationCalculator() {
           </div>
 
           {/* Dynamic Price Display */}
-          <div className="py-4 px-5 rounded-2xl bg-purple-50/40 border border-purple-100 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+          <div className="py-4 px-5 rounded-2xl bg-purple-50/50 border border-purple-200/80 flex flex-col sm:flex-row sm:items-center justify-between gap-2">
             <div>
-              <p className="text-[10px] font-mono font-bold tracking-wider text-purple-900 uppercase">
+              <p className="text-[10px] font-mono font-medium tracking-wider text-purple-900 uppercase">
                 Perkiraan Total Investasi
               </p>
-              <div className="text-xl sm:text-2xl font-display font-black text-slate-900 mt-0.5">
+              <div className="text-xl sm:text-2xl font-display font-medium text-slate-900 mt-0.5">
                 {estimate.min === estimate.max ? (
                   formatRupiah(estimate.min)
                 ) : (

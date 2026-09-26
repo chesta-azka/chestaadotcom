@@ -82,7 +82,7 @@ export default function AcademyPage() {
           <motion.h1 
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-5xl md:text-7xl font-display font-black text-slate-900 mb-6 tracking-tight uppercase"
+            className="text-4xl md:text-6xl font-display font-semibold text-slate-900 mb-6 tracking-tight"
           >
             Academy &amp; Masterclass
           </motion.h1>
@@ -90,7 +90,7 @@ export default function AcademyPage() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="text-lg md:text-xl text-slate-600 max-w-2xl font-medium"
+            className="text-lg md:text-xl text-slate-600 max-w-2xl font-normal"
           >
             Kurikulum intensif dan resource hub teknis untuk mencetak software engineer dan arsitek sistem elit di BSD City.
           </motion.p>
@@ -98,7 +98,7 @@ export default function AcademyPage() {
 
         {/* Premium Learning Paths Grid (Styled like ServicesSection) */}
         <div className="mb-24">
-          <h2 className="text-2xl font-display font-black tracking-tight text-slate-900 mb-8 flex items-center gap-3">
+          <h2 className="text-2xl font-display font-semibold tracking-tight text-slate-900 mb-8 flex items-center gap-3">
             <BrainCircuit className="text-purple-600" size={24} />
             Learning Paths
           </h2>
@@ -144,7 +144,7 @@ export default function AcademyPage() {
                       </span>
                     </div>
 
-                    <h3 className="text-2xl font-display font-black tracking-tight text-slate-800 group-hover:text-[#6b21a8] transition-all duration-300 mb-4 leading-[1.1]">
+                    <h3 className="text-2xl font-display font-semibold tracking-tight text-slate-800 group-hover:text-[#6b21a8] transition-all duration-300 mb-4 leading-[1.1]">
                       {path.title}
                     </h3>
                     <p className="text-slate-600 font-sans text-sm leading-relaxed mb-8">
@@ -153,7 +153,7 @@ export default function AcademyPage() {
                   </div>
 
                   <div className="relative z-10 flex items-center justify-between pt-4 border-t border-slate-200/50 mt-auto">
-                    <span className="text-[10px] font-mono font-bold text-slate-400 uppercase tracking-widest hidden lg:inline group-hover:text-[#6b21a8] transition-colors pt-0.5">
+                    <span className="text-[10px] font-mono font-medium text-slate-400 uppercase tracking-widest hidden lg:inline group-hover:text-[#6b21a8] transition-colors pt-0.5">
                       MULAI BELAJAR
                     </span>
                     <div className="w-10 h-10 rounded-full border border-slate-200 flex items-center justify-center bg-white group-hover:bg-[#6b21a8] group-hover:border-[#6b21a8] shadow-sm transition-all duration-300">
@@ -169,7 +169,7 @@ export default function AcademyPage() {
         </div>
 
         <div className="mb-12 border-b-2 border-slate-900 pb-4">
-          <h2 className="text-3xl font-display font-black tracking-tight text-slate-900 uppercase">Resource Hub</h2>
+          <h2 className="text-3xl font-display font-semibold tracking-tight text-slate-900 uppercase">Resource Hub</h2>
         </div>
 
         {/* Search & Filters */}
@@ -237,7 +237,7 @@ export default function AcademyPage() {
                       </span>
                     </div>
                     
-                    <h3 className="text-xl sm:text-2xl font-display font-black text-slate-900 mb-3 leading-tight">
+                    <h3 className="text-xl sm:text-2xl font-display font-semibold text-slate-900 mb-3 leading-tight">
                       {resource.title}
                     </h3>
                     
@@ -247,12 +247,12 @@ export default function AcademyPage() {
 
                     <div className="flex flex-wrap gap-2 mb-8">
                       {resource.tags.slice(0, isLarge ? 5 : 3).map((tag, i) => (
-                        <span key={i} className="text-[10px] font-bold uppercase tracking-wider px-2 py-1 bg-slate-100 border border-slate-300 text-slate-700">
+                        <span key={i} className="text-[10px] font-medium uppercase tracking-wider px-2 py-1 bg-slate-100 border border-slate-300 text-slate-700">
                           {tag}
                         </span>
                       ))}
                       {resource.tags.length > (isLarge ? 5 : 3) && (
-                        <span className="text-[10px] font-bold px-2 py-1 text-slate-500">
+                        <span className="text-[10px] font-medium px-2 py-1 text-slate-500">
                           +{resource.tags.length - (isLarge ? 5 : 3)}
                         </span>
                       )}
@@ -263,7 +263,7 @@ export default function AcademyPage() {
                     to={resource.link}
                     className="border-t-2 border-slate-900 p-4 sm:p-6 bg-slate-50 group-hover:bg-slate-900 group-hover:text-white transition-colors flex items-center justify-between"
                   >
-                    <div className="text-xs font-bold uppercase tracking-widest opacity-60 group-hover:opacity-100">
+                    <div className="text-xs font-semibold uppercase tracking-widest opacity-60 group-hover:opacity-100">
                       {resource.meta}
                     </div>
                     <ArrowRight size={20} className="transform group-hover:translate-x-2 transition-transform" />
@@ -276,7 +276,7 @@ export default function AcademyPage() {
         
         {unifiedResources.length === 0 && (
           <div className="py-24 text-center border-2 border-slate-900 bg-white shadow-[6px_6px_0_0_rgba(15,23,42,1)]">
-            <h3 className="text-2xl font-display font-black text-slate-900 mb-2">Tidak ada hasil ditemukan</h3>
+            <h3 className="text-2xl font-display font-semibold text-slate-900 mb-2">Tidak ada hasil ditemukan</h3>
             <p className="text-slate-600">Coba ubah kata kunci pencarian Anda.</p>
           </div>
         )}

@@ -39,7 +39,7 @@ export default function RecommendedReading({ currentArticle, allArticles }: Reco
         <div className="p-1.5 rounded-lg bg-purple-100 text-purple-700">
           <BookOpen size={16} />
         </div>
-        <h3 className="font-display font-black text-sm tracking-tight text-slate-900">
+        <h3 className="font-display font-semibold text-sm tracking-tight text-slate-900">
           Artikel Terkait
         </h3>
       </div>
@@ -64,11 +64,11 @@ export default function RecommendedReading({ currentArticle, allArticles }: Reco
                   />
                 </div>
                 <div className="flex-1 space-y-1.5">
-                  <div className="flex items-center gap-2 text-[10px] font-bold text-purple-700 uppercase tracking-widest font-mono">
+                  <div className="flex items-center gap-2 text-[10px] font-medium text-purple-700 uppercase tracking-widest font-mono">
                     <Tag size={10} />
                     {article.cat}
                   </div>
-                  <h4 className="text-sm font-display font-bold text-slate-900 leading-snug group-hover:text-purple-700 transition-colors line-clamp-2">
+                  <h4 className="text-sm font-display font-medium text-slate-900 leading-snug group-hover:text-purple-700 transition-colors line-clamp-2">
                     {article.title}
                   </h4>
                   <div className="flex items-center gap-2 text-[10px] text-slate-400 font-medium">
@@ -84,13 +84,13 @@ export default function RecommendedReading({ currentArticle, allArticles }: Reco
 
       <Link 
         to="/blog" 
-        className="mt-8 flex items-center justify-between p-4 rounded-xl bg-slate-50 border border-slate-200 group hover:border-purple-300 hover:bg-white transition-all"
+        className="mt-8 flex items-center justify-between p-4 rounded-xl bg-purple-50/40 border border-purple-100 group hover:border-purple-300 hover:bg-white transition-all shadow-xs"
       >
         <div className="space-y-0.5">
-          <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Lihat Semua</p>
-          <p className="text-xs font-bold text-slate-900">Jelajahi Blog Hub</p>
+          <p className="text-[10px] font-medium text-slate-500 uppercase tracking-widest">Lihat Semua</p>
+          <p className="text-xs font-medium text-slate-900">Jelajahi Blog Hub</p>
         </div>
-        <div className="w-8 h-8 rounded-full bg-white border border-slate-200 flex items-center justify-center text-slate-400 group-hover:text-purple-700 group-hover:border-purple-200 transition-all">
+        <div className="w-8 h-8 rounded-full bg-white border border-purple-100 flex items-center justify-center text-purple-700 group-hover:bg-purple-600 group-hover:text-white transition-all">
           <ArrowRight size={14} />
         </div>
       </Link>

@@ -1,28 +1,26 @@
 import { motion } from 'motion/react';
 import { 
-  Cloud, 
-  Database, 
-  Layout, 
+  ShieldCheck, 
+  Zap, 
   Terminal, 
   Cpu, 
   Globe, 
-  Zap, 
-  Boxes,
-  Triangle,
-  Hexagon
+  TrendingUp, 
+  CheckCircle2, 
+  Lock, 
+  Award, 
+  Sparkles 
 } from 'lucide-react';
 
-const techStack = [
-  { name: 'Next.js 15', icon: <Triangle size={18} className="fill-slate-800" /> },
-  { name: 'React Server Components', icon: <Boxes size={18} /> },
-  { name: 'TypeScript', icon: <Terminal size={18} /> },
-  { name: 'Tailwind CSS v4', icon: <Layout size={18} /> },
-  { name: 'Firebase', icon: <Zap size={18} className="fill-amber-400 text-amber-500" /> },
-  { name: 'Google Cloud Platform', icon: <Cloud size={18} className="text-blue-500" /> },
-  { name: 'Vercel', icon: <Triangle size={18} className="rotate-180 fill-slate-900" /> },
-  { name: 'PostgreSQL / Cloud SQL', icon: <Database size={18} className="text-blue-600" /> },
-  { name: 'Gemini AI', icon: <Hexagon size={18} className="text-purple-500" /> },
-  { name: 'Edge Networking', icon: <Globe size={18} /> },
+const businessPillars = [
+  { name: '100% Hak Milik Aset (Tanpa Sewa)', icon: <Lock size={16} className="text-purple-600" /> },
+  { name: 'Sistem Otomatis Anti-Salah Input', icon: <ShieldCheck size={16} className="text-emerald-600" /> },
+  { name: 'Kecepatan Muat 0.2 Detik Tanpa Lag', icon: <Zap size={16} className="text-amber-500" /> },
+  { name: 'Otomasi Admin 24/7 Tanpa Jeda', icon: <Cpu size={16} className="text-purple-600" /> },
+  { name: 'Bebas Biaya Langganan Bulanan', icon: <Award size={16} className="text-blue-600" /> },
+  { name: 'Konversi Penjualan Instan ke WhatsApp', icon: <TrendingUp size={16} className="text-emerald-600" /> },
+  { name: 'Database Cloud Terpusat & Aman', icon: <Globe size={16} className="text-purple-600" /> },
+  { name: 'Efisiensi Gaji Admin hingga 70%', icon: <CheckCircle2 size={16} className="text-emerald-600" /> },
 ];
 
 export default function ScrollingTechTicker() {
@@ -33,14 +31,14 @@ export default function ScrollingTechTicker() {
       <motion.div
         className="inline-block"
         animate={{ x: '-50%' }}
-        transition={{ repeat: Infinity, ease: 'linear', duration: 40 }}
+        transition={{ repeat: Infinity, ease: 'linear', duration: 35 }}
       >
-        {[...techStack, ...techStack, ...techStack].map((item, i) => (
+        {[...businessPillars, ...businessPillars, ...businessPillars].map((item, i) => (
           <span 
             key={i} 
-            className="mx-8 md:mx-12 inline-flex items-center gap-2.5 text-slate-500 hover:text-slate-900 transition-colors font-mono text-sm font-semibold tracking-tight uppercase"
+            className="mx-6 md:mx-10 inline-flex items-center gap-2.5 text-slate-700 hover:text-purple-900 transition-colors font-sans text-xs md:text-sm font-bold tracking-wide uppercase"
           >
-            <span className="opacity-80">{item.icon}</span>
+            <span className="p-1 rounded-full bg-purple-50 border border-purple-100">{item.icon}</span>
             {item.name}
           </span>
         ))}

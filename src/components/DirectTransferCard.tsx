@@ -128,7 +128,7 @@ export function DirectTransferCard({
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <h3 className="text-lg font-display font-black text-slate-900">
+                <h3 className="text-lg font-display font-semibold text-slate-900">
                   Direct Transfer & E-Wallet
                 </h3>
                 <span className="text-[10px] font-semibold uppercase tracking-wider px-2 py-0.5 rounded-full bg-purple-50 text-purple-900 border border-purple-100">
@@ -169,7 +169,7 @@ export function DirectTransferCard({
                   onClick={() => setPaymentScheme(sch.type as any)}
                   className={`py-2.5 px-2 rounded-xl text-center transition-all cursor-pointer border flex flex-col items-center justify-center ${
                     paymentScheme === sch.type
-                      ? 'bg-purple-900 text-white border-purple-900 shadow-2xs font-bold'
+                      ? 'bg-purple-900 text-white border-purple-900 shadow-2xs font-medium'
                       : 'bg-white text-slate-600 border-purple-100 text-xs hover:border-purple-200'
                   }`}
                 >
@@ -189,17 +189,17 @@ export function DirectTransferCard({
                 onChange={(e) => setCustomNominal(Number(e.target.value) || 0)}
                 step={500000}
                 min={500000}
-                className="w-full px-3.5 py-2 rounded-xl bg-white border border-purple-100 text-xs font-mono font-bold text-slate-900 focus:outline-none focus:ring-2 focus:ring-purple-200"
+                className="w-full px-3.5 py-2 rounded-xl bg-white border border-purple-100 text-xs font-mono font-medium text-slate-900 focus:outline-none focus:ring-2 focus:ring-purple-200"
               />
             </div>
           </div>
 
           <div className="p-5 rounded-2xl bg-purple-900 text-white shadow-xs flex flex-col justify-between space-y-3">
             <div>
-              <span className="text-[11px] text-purple-200 uppercase tracking-wider font-semibold block">
+              <span className="text-[11px] text-purple-200 uppercase tracking-wider font-medium block">
                 Total Yang Harus Ditransfer:
               </span>
-              <div className="text-xl sm:text-2xl font-black font-mono text-white tracking-tight mt-1">
+              <div className="text-xl sm:text-2xl font-medium font-mono text-white tracking-tight mt-1">
                 {formattedPrice}
               </div>
               <span className="text-[10px] text-purple-200 font-mono block mt-0.5">
@@ -210,7 +210,7 @@ export function DirectTransferCard({
             <button
               type="button"
               onClick={() => handleCopy(String(finalPrice), 'Nominal Transfer', 'final_amount')}
-              className="w-full py-2 px-3 bg-white/20 hover:bg-white/30 text-white text-xs font-bold rounded-xl transition-all flex items-center justify-center gap-1.5 cursor-pointer"
+              className="w-full py-2 px-3 bg-white/20 hover:bg-white/30 text-white text-xs font-medium rounded-xl transition-all flex items-center justify-center gap-1.5 cursor-pointer"
             >
               {copiedKey === 'final_amount' ? <Check size={14} className="text-emerald-300" /> : <Copy size={14} />}
               <span>{copiedKey === 'final_amount' ? 'Nominal Tersalin!' : 'Salin Nominal Persis'}</span>
@@ -220,7 +220,7 @@ export function DirectTransferCard({
 
         {/* Bank Accounts */}
         <div className="space-y-3">
-          <label className="text-xs font-semibold text-slate-700 uppercase tracking-wider block">
+          <label className="text-xs font-medium text-slate-700 uppercase tracking-wider block">
             2. Pilih Rekening Tujuan / E-Wallet
           </label>
 
@@ -229,15 +229,15 @@ export function DirectTransferCard({
             <div className="p-5 rounded-2xl bg-purple-50/30 border border-purple-100 space-y-3 flex flex-col justify-between">
               <div>
                 <div className="flex items-center justify-between mb-2">
-                  <span className="font-bold text-sm text-purple-900 flex items-center gap-1">
+                  <span className="font-medium text-sm text-purple-900 flex items-center gap-1">
                     <Building size={14} /> BCA Direct
                   </span>
-                  <span className="text-[10px] uppercase font-semibold px-2 py-0.5 bg-purple-100 text-purple-900 rounded-md">
+                  <span className="text-[10px] uppercase font-medium px-2 py-0.5 bg-purple-100 text-purple-900 rounded-md">
                     Prioritas
                   </span>
                 </div>
                 <span className="text-[11px] text-slate-400 block">Nomor Rekening:</span>
-                <div className="font-mono text-base font-bold text-slate-900 tracking-wider my-0.5">
+                <div className="font-mono text-base font-medium text-slate-900 tracking-wider my-0.5">
                   8735-0921-44
                 </div>
                 <span className="text-xs font-medium text-slate-600 block">
@@ -248,7 +248,7 @@ export function DirectTransferCard({
               <button
                 type="button"
                 onClick={() => handleCopy('8735092144', 'No. Rekening BCA', 'bca_card')}
-                className="w-full py-1.5 text-xs font-semibold bg-white text-slate-700 rounded-xl border border-purple-100 hover:bg-purple-50 transition-colors flex items-center justify-center gap-1 cursor-pointer"
+                className="w-full py-1.5 text-xs font-medium bg-white text-slate-700 rounded-xl border border-purple-100 hover:bg-purple-50 transition-colors flex items-center justify-center gap-1 cursor-pointer"
               >
                 {copiedKey === 'bca_card' ? <Check size={12} className="text-emerald-600" /> : <Copy size={12} />}
                 <span>{copiedKey === 'bca_card' ? 'Tersalin' : 'Salin Rekening BCA'}</span>
@@ -259,15 +259,15 @@ export function DirectTransferCard({
             <div className="p-5 rounded-2xl bg-purple-50/30 border border-purple-100 space-y-3 flex flex-col justify-between">
               <div>
                 <div className="flex items-center justify-between mb-2">
-                  <span className="font-bold text-sm text-purple-900 flex items-center gap-1">
+                  <span className="font-medium text-sm text-purple-900 flex items-center gap-1">
                     <Building size={14} /> Bank Mandiri
                   </span>
-                  <span className="text-[10px] uppercase font-semibold px-2 py-0.5 bg-purple-100 text-purple-900 rounded-md">
+                  <span className="text-[10px] uppercase font-medium px-2 py-0.5 bg-purple-100 text-purple-900 rounded-md">
                     Instant
                   </span>
                 </div>
                 <span className="text-[11px] text-slate-400 block">Nomor Rekening:</span>
-                <div className="font-mono text-base font-bold text-slate-900 tracking-wider my-0.5">
+                <div className="font-mono text-base font-medium text-slate-900 tracking-wider my-0.5">
                   137-00-2819-3821
                 </div>
                 <span className="text-xs font-medium text-slate-600 block">
@@ -278,7 +278,7 @@ export function DirectTransferCard({
               <button
                 type="button"
                 onClick={() => handleCopy('1370028193821', 'No. Rekening Mandiri', 'mandiri_card')}
-                className="w-full py-1.5 text-xs font-semibold bg-white text-slate-700 rounded-xl border border-purple-100 hover:bg-purple-50 transition-colors flex items-center justify-center gap-1 cursor-pointer"
+                className="w-full py-1.5 text-xs font-medium bg-white text-slate-700 rounded-xl border border-purple-100 hover:bg-purple-50 transition-colors flex items-center justify-center gap-1 cursor-pointer"
               >
                 {copiedKey === 'mandiri_card' ? <Check size={12} className="text-emerald-600" /> : <Copy size={12} />}
                 <span>{copiedKey === 'mandiri_card' ? 'Tersalin' : 'Salin Rekening Mandiri'}</span>
@@ -289,15 +289,15 @@ export function DirectTransferCard({
             <div className="p-5 rounded-2xl bg-purple-50/30 border border-purple-100 space-y-3 flex flex-col justify-between">
               <div>
                 <div className="flex items-center justify-between mb-2">
-                  <span className="font-bold text-sm text-purple-900 flex items-center gap-1">
+                  <span className="font-medium text-sm text-purple-900 flex items-center gap-1">
                     <Smartphone size={14} /> GoPay / DANA
                   </span>
-                  <span className="text-[10px] uppercase font-semibold px-2 py-0.5 bg-purple-100 text-purple-900 rounded-md">
+                  <span className="text-[10px] uppercase font-medium px-2 py-0.5 bg-purple-100 text-purple-900 rounded-md">
                     0% Admin
                   </span>
                 </div>
                 <span className="text-[11px] text-slate-400 block">Nomor HP E-Wallet:</span>
-                <div className="font-mono text-base font-bold text-slate-900 tracking-wider my-0.5">
+                <div className="font-mono text-base font-medium text-slate-900 tracking-wider my-0.5">
                   0821-2544-7232
                 </div>
                 <span className="text-xs font-medium text-slate-600 block">
@@ -308,7 +308,7 @@ export function DirectTransferCard({
               <button
                 type="button"
                 onClick={() => handleCopy('082125447232', 'Nomor E-Wallet', 'ewallet_card')}
-                className="w-full py-1.5 text-xs font-semibold bg-white text-slate-700 rounded-xl border border-purple-100 hover:bg-purple-50 transition-colors flex items-center justify-center gap-1 cursor-pointer"
+                className="w-full py-1.5 text-xs font-medium bg-white text-slate-700 rounded-xl border border-purple-100 hover:bg-purple-50 transition-colors flex items-center justify-center gap-1 cursor-pointer"
               >
                 {copiedKey === 'ewallet_card' ? <Check size={12} className="text-emerald-600" /> : <Copy size={12} />}
                 <span>{copiedKey === 'ewallet_card' ? 'Tersalin' : 'Salin Nomor E-Wallet'}</span>
@@ -320,8 +320,8 @@ export function DirectTransferCard({
         {/* Confirmation & Proof Upload */}
         <div className="p-6 rounded-2xl bg-purple-50 border border-purple-100 space-y-4">
           <div className="flex items-center justify-between">
-            <h4 className="text-xs font-bold text-purple-900 uppercase tracking-wider flex items-center gap-1.5">
-              <span className="w-5 h-5 rounded-full bg-purple-900 text-white flex items-center justify-center text-[10px] font-black">3</span>
+            <h4 className="text-xs font-medium text-purple-900 uppercase tracking-wider flex items-center gap-1.5">
+              <span className="w-5 h-5 rounded-full bg-purple-900 text-white flex items-center justify-center text-[10px] font-medium">3</span>
               Kirim Bukti Pembayaran & Terbitkan Kwitansi Resmi
             </h4>
             <span className="text-[11px] text-purple-700 font-medium">
@@ -334,14 +334,14 @@ export function DirectTransferCard({
               <div className="w-10 h-10 rounded-full bg-emerald-500 text-white flex items-center justify-center mx-auto shadow-2xs">
                 <CheckCircle2 size={20} />
               </div>
-              <h5 className="font-bold text-slate-900 text-sm">Data Transfer Berhasil Diterima!</h5>
+              <h5 className="font-medium text-slate-900 text-sm">Data Transfer Berhasil Diterima!</h5>
               <p className="text-xs text-slate-600 max-w-md mx-auto">
                 Terima kasih. Pembayaran Anda sedang diverifikasi. Anda juga dapat mengirim bukti screenshot langsung ke WhatsApp.
               </p>
               <button
                 type="button"
                 onClick={handleWhatsAppConfirm}
-                className="mt-2 inline-flex items-center gap-1.5 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-xl shadow-2xs transition-colors cursor-pointer"
+                className="mt-2 inline-flex items-center gap-1.5 px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white font-medium text-xs rounded-xl shadow-2xs transition-colors cursor-pointer"
               >
                 <Smartphone size={14} />
                 <span>Kirim Bukti ke WhatsApp</span>
@@ -351,7 +351,7 @@ export function DirectTransferCard({
             <form onSubmit={handleSubmitProof} className="space-y-3">
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs font-semibold text-slate-700 mb-1">
+                  <label className="block text-xs font-medium text-slate-700 mb-1">
                     Nama Klien / Perusahaan *
                   </label>
                   <input
@@ -364,7 +364,7 @@ export function DirectTransferCard({
                   />
                 </div>
                 <div>
-                  <label className="block text-xs font-semibold text-slate-700 mb-1">
+                  <label className="block text-xs font-medium text-slate-700 mb-1">
                     No. WhatsApp Aktif *
                   </label>
                   <input
@@ -379,7 +379,7 @@ export function DirectTransferCard({
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-700 mb-1">
+                <label className="block text-xs font-medium text-slate-700 mb-1">
                   Catatan / Bukti Referensi Transfer (Opsional)
                 </label>
                 <input
@@ -395,7 +395,7 @@ export function DirectTransferCard({
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="w-full sm:flex-1 py-3 px-4 bg-purple-900 hover:bg-purple-800 text-white font-bold text-xs rounded-xl shadow-xs transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
+                  className="w-full sm:flex-1 py-3 px-4 bg-gradient-to-r from-purple-800 to-indigo-950 hover:from-purple-700 hover:to-indigo-900 text-white font-medium text-xs rounded-xl shadow-xs transition-all flex items-center justify-center gap-2 cursor-pointer disabled:opacity-50"
                 >
                   <Send size={14} />
                   <span>{isSubmitting ? 'Memproses...' : 'Kirim Konfirmasi Pembayaran'}</span>
@@ -404,7 +404,7 @@ export function DirectTransferCard({
                 <button
                   type="button"
                   onClick={handleWhatsAppConfirm}
-                  className="w-full sm:w-auto py-3 px-4 bg-emerald-600 hover:bg-emerald-700 text-white font-bold text-xs rounded-xl shadow-2xs transition-all flex items-center justify-center gap-1.5 cursor-pointer shrink-0"
+                  className="w-full sm:w-auto py-3 px-4 bg-emerald-600 hover:bg-emerald-700 text-white font-medium text-xs rounded-xl shadow-2xs transition-all flex items-center justify-center gap-1.5 cursor-pointer shrink-0"
                 >
                   <Smartphone size={14} />
                   <span>Konfirmasi via WhatsApp</span>

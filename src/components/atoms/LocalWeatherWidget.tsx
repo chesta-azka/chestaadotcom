@@ -79,7 +79,7 @@ export default function LocalWeatherWidget() {
       </div>
       
       <div className="flex items-center justify-between mb-1">
-        <span className="text-2xl font-display font-black tracking-tight text-slate-800">
+        <span className="text-2xl font-display font-semibold tracking-tight text-slate-800">
           {time}
         </span>
         <Clock size={16} className="text-slate-300" />

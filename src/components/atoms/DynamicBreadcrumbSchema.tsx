@@ -19,7 +19,7 @@ export default function DynamicBreadcrumbSchema({ customBreadcrumbs, currentTitl
 
   return (
     <Helmet>
-      <script type="application/ld+json">
+      <script type="application/ld+json" key="breadcrumb-schema">
         {JSON.stringify(schema)}
       </script>
     </Helmet>

@@ -80,7 +80,7 @@ export default function PremiumTransition() {
             className="flex items-center gap-4 text-slate-900"
           >
             <div className="w-8 h-8 rounded-full border-2 border-purple-600 border-t-transparent animate-spin-slow" />
-            <span className="font-display text-xl sm:text-2xl font-black tracking-[0.15em] uppercase text-slate-800">
+            <span className="font-display text-xl sm:text-2xl font-semibold tracking-[0.15em] uppercase text-slate-800">
               {getPageTitle(location.pathname)}
             </span>
           </motion.div>

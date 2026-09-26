@@ -1,8 +1,9 @@
+"use client";
+
 import { useState } from 'react';
-import { motion, Variants } from 'motion/react';
-import { Check, MessageCircle, Sparkles, Zap, ShieldCheck, ArrowRight } from 'lucide-react';
+import { motion } from 'motion/react';
+import { Check, MessageCircle, Sparkles, Zap, ShieldCheck, ArrowRight, Layers, Cpu, FileText } from 'lucide-react';
 import AnimatedHeading from '../atoms/AnimatedHeading';
-import MagneticButton from '../atoms/MagneticButton';
 
 interface PricingTier {
   id: string;
@@ -21,145 +22,124 @@ interface PricingTier {
 const pricingTiers: PricingTier[] = [
   {
     id: "starter",
-    name: "Starter (UMKM)",
-    badge: "Promo Spesial 2026",
+    name: "Starter / UMKM",
+    badge: "Promo Spesial",
     price: "Rp 540.000",
-    originalPrice: "Rp 650.000",
+    originalPrice: "Rp 750.000",
     period: "all-in tahun pertama",
-    description: "Solusi cepat, elegan, dan siap online untuk pemilik bisnis UMKM, toko fisik, dan profesional yang ingin eksis di Google dengan anggaran terukur.",
+    description: "Solusi kilat dan elegan untuk UMKM, toko fisik, dan profesional yang ingin eksis online dengan domain resmi dan kecepatan tinggi.",
     highlighted: false,
     features: [
       "Gratis Domain .COM / .ID (1 Tahun Penuh)",
-      "Desain Visual Modern Inter & Mobile Responsive",
-      "Performa Kecepatan Tinggi (Google PageSpeed 95+)",
-      "Setup SEO Google & Metadata Standar 2026",
-      "Integrasi Direct WhatsApp Chatbot & CTA",
-      "Hosting Cloud High-Speed & SSL HTTPS Aktif",
-      "100% Hak Milik Source Code Tanpa Vendor Lock-in",
-      "Pengerjaan Kilat 1–3 Hari Kerja Selesai"
+      "1 Main Landing Page Desain Eksklusif",
+      "Performa Kecepatan Tinggi (PageSpeed 95+)",
+      "Optimasi SEO Google & OpenGraph Standar",
+      "Integrasi Tombol WhatsApp Direct Chat",
+      "Hosting Cloud Cepat & SSL HTTPS Aktif",
+      "100% Hak Milik Source Code Tanpa Lock-in",
+      "Pengerjaan Kilat 1–3 Hari Selesai"
     ],
     ctaText: "Pilih Paket Starter",
     ctaMessage: "Halo Mas Chesta! Saya ingin memesan Paket Starter UMKM Rp540K all-in domain .com. Mohon info langkah pengerjaannya."
   },
   {
     id: "professional",
-    name: "Professional (B2B)",
+    name: "Professional Growth",
     badge: "Paling Populer • Best Value",
-    price: "Rp 2.450.000",
-    originalPrice: "Rp 3.500.000",
+    price: "Rp 1.850.000",
+    originalPrice: "Rp 2.800.000",
     period: "investasi per proyek",
-    description: "Arsitektur kustom Next.js untuk bisnis yang butuh multi-halaman profesional, CMS manajemen konten, dan kecepatan sub-detik untuk konversi tinggi.",
+    description: "Arsitektur web kustom berperforma tinggi untuk bisnis yang memerlukan multi-halaman profesional, CMS ringan, dan konversi tinggi.",
     highlighted: true,
     features: [
-      "Arsitektur Kustom Next.js 15 App Router",
-      "Multi-Halaman Interaktif (Hingga 7–10 Halaman)",
-      "Sistem CMS Ringan untuk Update Berita/Produk Mandiri",
-      "Desain Eksklusif Tanpa Template (Bespoke UI/UX)",
-      "Optimasi SEO On-Page Mendalam & Rich Snippet Schema",
-      "Integrasi Form Lead Capture & Notifikasi Email Otomatis",
-      "Setup Analitik Google Tag Manager & Meta Pixel",
-      "Garansi Maintenance & Pemeliharaan 30 Hari Penuh"
+      "Arsitektur Web Kustom App Router Berkecepatan Tinggi",
+      "Hingga 5-7 Sub-Halaman & Konten Bersarang",
+      "Sistem CMS Ringan untuk Update Data Mandiri",
+      "Desain Eksklusif Tailwind CSS (Tanpa Template)",
+      "Optimasi SEO On-Page Mendalam & Schema Markup",
+      "Formulir Interaktif Zod Validation & Endpoint Aman",
+      "Setup Google Analytics & Meta Pixel Tracking",
+      "Garansi Maintenance & Pemeliharaan 30 Hari"
     ],
-    ctaText: "Pilih Paket Professional",
-    ctaMessage: "Halo Mas Chesta! Saya tertarik dengan Paket Professional (B2B). Bisa jadwalkan diskusi kebutuhan proyek saya?"
+    ctaText: "Pilih Professional Growth",
+    ctaMessage: "Halo Mas Chesta! Saya tertarik dengan Paket Professional Growth Rp1.850K. Bisa jadwalkan diskusi kebutuhan proyek saya?"
   },
   {
     id: "enterprise",
-    name: "Enterprise (AI)",
+    name: "Enterprise AI-SaaS",
     badge: "Custom Engineering",
-    price: "Mulai Rp 5.800.000",
+    price: "Mulai Rp 4.500.000",
     period: "berdasarkan cakupan modul",
-    description: "Sistem aplikasi web tingkat lanjut dengan integrasi AI Agent otonom 24/7, otomatisasi alur kerja internal, basis data cloud, dan integrasi API khusus.",
+    description: "Sistem aplikasi web tingkat lanjut dengan integrasi AI Agent otonom 24/7, database cloud, dan manajemen data real-time.",
     highlighted: false,
     features: [
-      "Integrasi Agen AI Otonom 24/7 (Customer Support / Lead AI)",
-      "Arsitektur Serverless Cloud Terdistribusi & Database SQL/NoSQL",
-      "Sistem Autentikasi Pengguna & Manajemen Role (RBAC)",
-      "Dashboard Analitik Internal & Rekapitulasi Operasional",
-      "Otomatisasi WhatsApp / CRM / Webhook Eksternal",
-      "Audit Keamanan Data & Kebijakan Zero-Retention",
-      "Dokumentasi API Lengkap & Handover Source Code 100%",
-      "Dukungan Teknis Prioritas SLA & Maintenance Berkala"
+      "Integrasi Agen AI Otonom 24/7 (Gemini 2.5 / Groq)",
+      "Full-Stack Arsitektur Web + Secure Cloud Data Vault",
+      "Sistem Autentikasi Pengguna & Role Management (RBAC)",
+      "Dashboard Admin Kustom & Analitik Operasional",
+      "Otomatisasi WhatsApp Gateway & Webhook Eksternal",
+      "Keamanan Data Ketat & Zero-Retention Policy",
+      "Dokumentasi Teknis & Handover Source Code 100%",
+      "Dukungan Prioritas VIP SLA Langsung dari Principal"
     ],
-    ctaText: "Diskusikan Solusi Enterprise",
-    ctaMessage: "Halo Mas Chesta! Perusahaan kami membutuhkan arsitektur Enterprise dengan otomatisasi AI & Web App custom. Mohon info ketersediaan sesi konsultasi teknis."
+    ctaText: "Diskusikan Enterprise",
+    ctaMessage: "Halo Mas Chesta! Perusahaan kami membutuhkan arsitektur Enterprise AI-SaaS custom. Mohon info ketersediaan sesi konsultasi teknis."
   }
 ];
 
-export default function PricingSection() {
-  const [selectedCurrency] = useState<'IDR'>('IDR');
+const modularAddons = [
+  { name: "Halaman Statis Tambahan", price: "Rp 250.000 / hal", desc: "Cocok untuk halaman About, Contact, Terms, Privacy Policy." },
+  { name: "Halaman Dinamis / CMS", price: "Rp 350.000 - Rp 400.000 / hal", desc: "Dilengkapi database & form input untuk Blog, Portfolio, Katalog Produk." },
+  { name: "Integrasi AI Agent / Chatbot", price: "Mulai Rp 1.500.000", desc: "Asisten AI kontekstual 24/7 untuk menjawab tanya-jawab pelanggan secara instan." },
+  { name: "Custom Admin Dashboard", price: "Mulai Rp 750.000", desc: "Panel kontrol privat untuk rekap data, manajemen lead, dan statistik operasional." },
+];
 
+export default function PricingSection() {
   const handleOpenWhatsApp = (message: string) => {
     window.open(`https://wa.me/6282125447232?text=${encodeURIComponent(message)}`, '_blank');
   };
 
-  const containerVariants: Variants = {
-    hidden: { opacity: 0 },
-    visible: { 
-      opacity: 1,
-      transition: { staggerChildren: 0.12 }
-    }
-  };
-
-  const cardVariants: Variants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: { 
-      opacity: 1, 
-      y: 0, 
-      transition: { duration: 0.55, ease: [0.16, 1, 0.3, 1] } 
-    }
-  };
-
   return (
-    <section className="py-12 sm:py-16 md:py-20 relative overflow-hidden bg-transparent z-10 font-sans" id="pricing">
+    <section className="py-16 sm:py-24 relative overflow-hidden bg-white z-10 font-sans" id="pricing">
       <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
-        {/* Header - Transparent Pricing Title with Inter Typography */}
-        <div className="text-center max-w-3xl mx-auto mb-12 sm:mb-16">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-purple-50 border border-purple-200/80 mb-4 shadow-2xs">
+        {/* Header */}
+        <div className="text-center max-w-3xl mx-auto mb-16">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-purple-50 border border-purple-200 mb-4">
             <Sparkles size={13} className="text-purple-700" />
             <span className="text-[11px] font-mono font-bold uppercase tracking-widest text-purple-900">
-              Biaya Transparan &amp; Investasi Bernilai
+              Enterprise Pricing &amp; Modular Matrix
             </span>
           </div>
           
-          <AnimatedHeading as="h2" className="text-3xl sm:text-4xl md:text-5xl font-display font-black text-slate-900 tracking-tight leading-[1.15] mb-4">
-            Transparent Pricing. <br className="hidden sm:block" />
-            <span className="text-purple-900">Investasi Terukur Tanpa Biaya Tersembunyi.</span>
+          <AnimatedHeading as="h2" className="text-3xl sm:text-4xl md:text-5xl font-display font-semibold text-slate-950 tracking-tight leading-[1.15] mb-4">
+            Investasi Transparan. <br />
+            <span className="text-purple-700">Tanpa Biaya Tersembunyi.</span>
           </AnimatedHeading>
           
           <p className="text-slate-600 font-sans text-sm sm:text-base leading-relaxed">
-            Pilih paket yang paling relevan dengan skala bisnis Anda. Dari paket UMKM berbiaya terjangkau hingga rekayasa enterprise berbasis otomasi AI.
+            Pilih paket yang paling relevan dengan skala bisnis Anda. Seluruh paket dirancang dengan standar arsitektur bersih dan performa maksimal.
           </p>
         </div>
 
-        {/* 3-Tier Modern Pricing Cards Grid */}
-        <motion.div 
-          className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8 items-stretch"
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-60px" }}
-        >
+        {/* 3-Tier Pricing Cards Grid */}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 sm:gap-8 items-stretch mb-20">
           {pricingTiers.map((tier) => {
             const isHighlighted = tier.highlighted;
 
             return (
-              <motion.div
+              <div
                 key={tier.id}
-                variants={cardVariants}
-                whileHover={{ y: -6 }}
-                transition={{ duration: 0.25 }}
-                className={`relative flex flex-col justify-between rounded-3xl transition-all duration-300 ${
+                className={`relative flex flex-col justify-between rounded-3xl transition-all duration-200 ${
                   isHighlighted 
-                    ? 'bg-white border-2 border-purple-600 shadow-xl shadow-purple-950/10 ring-4 ring-purple-100/60 lg:-translate-y-2' 
-                    : 'bg-white border border-slate-200 shadow-sm hover:shadow-md hover:border-purple-300'
+                    ? 'bg-white border-2 border-purple-500 shadow-xl shadow-purple-600/10 ring-4 ring-purple-100/60 lg:-translate-y-2' 
+                    : 'bg-white border border-purple-200/90 shadow-sm hover:border-purple-300'
                 } p-6 sm:p-8`}
               >
                 {/* Highlighted Ribbon Badge */}
                 {isHighlighted && (
                   <div className="absolute -top-3.5 left-1/2 -translate-x-1/2">
-                    <span className="inline-flex items-center gap-1.5 bg-purple-900 text-white font-sans text-xs font-bold px-3.5 py-1 rounded-full shadow-md">
+                    <span className="inline-flex items-center gap-1.5 bg-purple-900 text-white font-sans text-xs font-medium px-4 py-1.5 rounded-full shadow-sm border border-purple-800">
                       <Zap size={13} className="text-amber-300 fill-amber-300" />
                       {tier.badge}
                     </span>
@@ -170,11 +150,11 @@ export default function PricingSection() {
                 <div>
                   <div className="mb-4">
                     {!isHighlighted && tier.badge && (
-                      <span className="text-[11px] font-mono font-semibold uppercase tracking-wider text-slate-500 bg-slate-100 px-2.5 py-1 rounded-md inline-block mb-3">
+                      <span className="text-[11px] font-mono font-medium uppercase tracking-wider text-purple-700 bg-purple-50 px-2.5 py-1 rounded-md inline-block mb-3 border border-purple-200/80">
                         {tier.badge}
                       </span>
                     )}
-                    <h3 className="text-xl sm:text-2xl font-display font-extrabold text-slate-900 tracking-tight">
+                    <h3 className="text-xl sm:text-2xl font-display font-medium text-slate-900 tracking-tight">
                       {tier.name}
                     </h3>
                   </div>
@@ -182,7 +162,7 @@ export default function PricingSection() {
                   {/* Price Block */}
                   <div className="mb-5 pb-5 border-b border-slate-100">
                     <div className="flex items-baseline gap-2">
-                      <span className="text-3xl sm:text-4xl font-display font-black text-slate-900 tracking-tight">
+                      <span className="text-3xl sm:text-4xl font-display font-medium text-slate-950 tracking-tight">
                         {tier.price}
                       </span>
                       {tier.originalPrice && (
@@ -197,24 +177,24 @@ export default function PricingSection() {
                   </div>
 
                   {/* Description */}
-                  <p className="text-slate-600 font-sans text-xs sm:text-sm leading-relaxed mb-6">
+                  <p className="text-slate-600 font-sans text-xs sm:text-sm leading-relaxed mb-6 font-normal">
                     {tier.description}
                   </p>
 
                   {/* Features List */}
                   <div className="space-y-3 mb-8">
-                    <span className="text-[11px] font-mono font-bold uppercase tracking-wider text-slate-400 block">
-                      Fasilitas yang Didapat:
+                    <span className="text-[11px] font-mono font-medium uppercase tracking-wider text-slate-400 block">
+                      Spesifikasi &amp; Fasilitas:
                     </span>
                     <ul className="space-y-2.5">
                       {tier.features.map((feat, idx) => (
                         <li key={idx} className="flex items-start gap-2.5 text-xs sm:text-sm font-sans text-slate-700">
                           <div className={`mt-0.5 w-4 h-4 rounded-full flex items-center justify-center shrink-0 ${
-                            isHighlighted ? 'bg-purple-900 text-white' : 'bg-purple-100 text-purple-800'
+                            isHighlighted ? 'bg-purple-600 text-white' : 'bg-purple-100 text-purple-800'
                           }`}>
-                            <Check size={10} strokeWidth={3} />
+                            <Check size={10} strokeWidth={2.5} />
                           </div>
-                          <span className={isHighlighted && idx < 3 ? "font-semibold text-slate-900" : ""}>
+                          <span className={isHighlighted && idx < 3 ? "font-medium text-slate-900" : ""}>
                             {feat}
                           </span>
                         </li>
@@ -225,52 +205,75 @@ export default function PricingSection() {
 
                 {/* Card CTA Actions */}
                 <div className="pt-4 border-t border-slate-100 mt-auto space-y-2.5">
-                  <MagneticButton strength={0.25} className="w-full">
-                    <button
-                      onClick={() => handleOpenWhatsApp(tier.ctaMessage)}
-                      className={`w-full py-3.5 px-5 rounded-full font-sans text-xs sm:text-sm font-bold flex items-center justify-center gap-2 transition-all cursor-pointer ${
-                        isHighlighted
-                          ? 'bg-purple-900 hover:bg-purple-800 text-white shadow-lg shadow-purple-950/20 hover:scale-[1.01]'
-                          : 'bg-slate-900 hover:bg-purple-900 text-white shadow-sm'
-                      }`}
-                    >
-                      <MessageCircle size={16} className={isHighlighted ? "text-emerald-400" : "text-white"} />
-                      <span>{tier.ctaText}</span>
-                      <ArrowRight size={14} className="opacity-80" />
-                    </button>
-                  </MagneticButton>
+                  <button
+                    onClick={() => handleOpenWhatsApp(tier.ctaMessage)}
+                    className={`w-full py-3.5 px-5 rounded-xl font-sans text-xs sm:text-sm font-medium flex items-center justify-center gap-2 transition-all cursor-pointer ${
+                      isHighlighted
+                        ? 'bg-purple-900 hover:bg-purple-800 text-white shadow-sm'
+                        : 'bg-slate-900 hover:bg-purple-950 text-white shadow-sm'
+                    }`}
+                  >
+                    <MessageCircle size={16} className={isHighlighted ? "text-white" : "text-purple-300"} />
+                    <span>{tier.ctaText}</span>
+                    <ArrowRight size={14} className="opacity-80" />
+                  </button>
 
                   {isHighlighted && (
-                    <p className="text-[11px] text-center text-emerald-700 font-medium flex items-center justify-center gap-1.5 pt-1">
-                      <ShieldCheck size={13} className="text-emerald-600" />
+                    <p className="text-[11px] text-center text-slate-500 font-medium flex items-center justify-center gap-1.5 pt-1">
+                      <ShieldCheck size={13} className="text-purple-600" />
                       <span>Garansi pengerjaan rapi &amp; domain langsung aktif</span>
                     </p>
                   )}
                 </div>
 
-              </motion.div>
+              </div>
             );
           })}
-        </motion.div>
+        </div>
 
-        {/* Bottom Reassurance & Custom Request */}
-        <div className="mt-12 text-center bg-slate-50 border border-slate-200/80 rounded-2xl p-6 sm:p-8 max-w-4xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="text-center sm:text-left">
-            <h4 className="font-display font-bold text-slate-900 text-sm sm:text-base">
-              Punya Kebutuhan Spesifik atau Sistem Terintegrasi?
-            </h4>
-            <p className="text-slate-600 font-sans text-xs sm:text-sm mt-0.5">
-              Konsultasikan arsitektur kustom Anda. Kami sediakan proposal teknis dan breakdown biaya transparan dalam 24 jam.
+        {/* TRANSPARENT ADD-ON & SUB-PAGE MATRIX BELOW */}
+        <div className="max-w-5xl mx-auto bg-purple-50/40 border border-purple-200/80 rounded-3xl p-6 sm:p-10 shadow-sm">
+          <div className="text-center max-w-xl mx-auto mb-8">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white text-purple-700 text-xs font-mono font-medium uppercase tracking-wider mb-3 border border-purple-200">
+              <Layers size={13} /> Matriks Add-on &amp; Sub-Halaman Bersarang
+            </div>
+            <h3 className="text-2xl sm:text-3xl font-display font-medium tracking-tight text-slate-950">
+              Kustomisasi Modul Sesuai Kebutuhan
+            </h3>
+            <p className="text-xs sm:text-sm text-slate-600 mt-2 font-sans font-normal">
+              Butuh tambahan halaman khusus atau integrasi tingkat lanjut? Tambahkan modul berikut kapan saja ke dalam paket pilihan Anda.
             </p>
           </div>
-          <MagneticButton strength={0.3} className="shrink-0">
+
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {modularAddons.map((addon, i) => (
+              <div key={i} className="bg-white border border-purple-100 p-4 sm:p-5 rounded-2xl flex flex-col justify-between shadow-2xs hover:border-purple-300 transition-all">
+                <div className="flex items-start justify-between gap-3 mb-2">
+                  <div className="flex items-center gap-2.5">
+                    <div className="p-2 bg-purple-50 text-purple-700 rounded-xl">
+                      {i === 0 || i === 1 ? <FileText size={16} /> : <Cpu size={16} />}
+                    </div>
+                    <span className="text-xs sm:text-sm font-medium text-slate-900">{addon.name}</span>
+                  </div>
+                  <span className="text-xs font-mono font-medium text-purple-700 bg-purple-50 px-2.5 py-1 rounded-lg border border-purple-200 whitespace-nowrap">
+                    {addon.price}
+                  </span>
+                </div>
+                <p className="text-xs text-slate-500 leading-relaxed font-normal">{addon.desc}</p>
+              </div>
+            ))}
+          </div>
+
+          <div className="mt-8 text-center pt-6 border-t border-purple-200/60">
+            <p className="text-xs text-slate-600 mb-3 font-normal">Ingin menghitung estimasi biaya total secara otomatis sesuai spesifikasi Anda?</p>
             <button
-              onClick={() => handleOpenWhatsApp("Halo Mas Chesta! Saya ingin berdiskusi mengenai proyek kustom dengan spesifikasi khusus. Mohon info jadwal konsultasi.")}
-              className="px-5 py-2.5 rounded-full bg-white border border-slate-300 hover:border-purple-600 text-slate-800 hover:text-purple-900 font-sans text-xs font-semibold shadow-2xs hover:shadow-xs transition-all cursor-pointer whitespace-nowrap"
+              onClick={() => handleOpenWhatsApp("Halo Mas Chesta! Saya ingin konsultasi kustom spesifikasi website dan modul tambahan.")}
+              className="inline-flex items-center gap-2 px-6 py-3 bg-purple-900 hover:bg-purple-800 text-white font-sans text-xs sm:text-sm font-medium rounded-xl border border-purple-800 shadow-xs transition-all cursor-pointer"
             >
-              Konsultasi Kustom Gratis
+              <MessageCircle size={16} className="text-purple-200" />
+              <span>Konsultasi &amp; Hitung Estimasi via WhatsApp</span>
             </button>
-          </MagneticButton>
+          </div>
         </div>
 
       </div>
