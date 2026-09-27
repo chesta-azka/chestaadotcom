@@ -32,7 +32,13 @@ const ProjectSkeleton = () => (
 const allBaseProjects: ProjectType[] = PROJECTS.map((p, index) => {
   let metricValue = '99%';
   let metricLabel = 'Performance';
-  if (p.id === 'seino-indomobil') {
+  if (p.id === 'rumah-tropis') {
+    metricValue = '< 0.3s';
+    metricLabel = 'Edge Render';
+  } else if (p.id === 'ai-omnichannel-bsd') {
+    metricValue = '1.2s';
+    metricLabel = 'AI Response';
+  } else if (p.id === 'seino-indomobil') {
     metricValue = '0.8s';
     metricLabel = 'Load Time';
   } else if (p.id === 'delta-legal') {

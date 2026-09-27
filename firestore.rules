@@ -43,6 +43,14 @@ service cloud.firestore {
       allow read, update, delete: if isAdmin();
     }
 
+    match /chat_sessions/{sessionId} {
+      allow read, write: if true;
+    }
+
+    match /knowledge_nodes/{nodeId} {
+      allow read, write: if true;
+    }
+
     match /workspaces/{workspaceId}/{document=**} {
       allow read, write: if true; // Keeping existing permissive behavior for workspaces for now
     }

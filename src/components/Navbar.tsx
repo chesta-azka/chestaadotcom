@@ -1,12 +1,47 @@
 "use client";
 import React, { useState, useEffect, useRef } from 'react';
 import { Shield, MessageCircle } from 'lucide-react';
-import { motion } from 'motion/react';
+import { motion, AnimatePresence } from 'motion/react';
 import { Link } from 'react-router-dom';
 
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
+  const [servicesOpen, setServicesOpen] = useState(false);
+  const dropdownRef = useRef<HTMLDivElement>(null);
   const headerRef = useRef<HTMLElement>(null);
+  const timerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+
+  const handleMouseEnter = () => {
+    if (timerRef.current) clearTimeout(timerRef.current);
+    setServicesOpen(true);
+  };
+
+  const handleMouseLeave = () => {
+    if (timerRef.current) clearTimeout(timerRef.current);
+    timerRef.current = setTimeout(() => {
+      setServicesOpen(false);
+    }, 180);
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target as Node)) {
+        setServicesOpen(false);
+      }
+    };
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        setServicesOpen(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+      window.removeEventListener('keydown', handleKeyDown);
+      if (timerRef.current) clearTimeout(timerRef.current);
+    };
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -49,7 +84,7 @@ export function Navbar() {
           <div className="w-9 h-9 bg-purple-900 rounded-xl flex items-center justify-center shadow-xs border border-purple-800">
             <Shield className="w-4 h-4 text-white" />
           </div>
-          <Link to="/">
+          <Link to="/" onClick={() => setServicesOpen(false)}>
             <span className="text-lg font-display font-medium tracking-tight text-slate-900">
               CHESTADOTCOM
             </span>
@@ -57,42 +92,70 @@ export function Navbar() {
         </div>
 
         <nav className="hidden md:flex items-center gap-2 text-sm font-medium text-slate-600">
-          <Link to="/" className="px-4 py-2 rounded-full hover:bg-slate-100 hover:text-purple-700 transition-colors">Beranda</Link>
+          <Link to="/" onClick={() => setServicesOpen(false)} className="px-4 py-2 rounded-full hover:bg-slate-100 hover:text-purple-700 transition-colors">Beranda</Link>
           
           {/* Dropdown Layanan */}
-          <div className="relative group">
-            <button className="px-4 py-2 rounded-full hover:bg-slate-100 hover:text-purple-700 transition-colors flex items-center gap-1 cursor-pointer">
+          <div 
+            className="relative"
+            ref={dropdownRef}
+            onMouseEnter={handleMouseEnter}
+            onMouseLeave={handleMouseLeave}
+          >
+            <button 
+              type="button"
+              onClick={() => setServicesOpen(prev => !prev)}
+              aria-haspopup="true"
+              aria-expanded={servicesOpen}
+              className={`px-4 py-2 rounded-full transition-colors flex items-center gap-1 cursor-pointer ${
+                servicesOpen ? 'bg-slate-100 text-purple-700' : 'hover:bg-slate-100 hover:text-purple-700'
+              }`}
+            >
               Layanan
-              <svg className="w-4 h-4 text-slate-400 group-hover:text-purple-700 transition-colors" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg 
+                className={`w-4 h-4 text-slate-400 transition-transform duration-200 ${servicesOpen ? 'rotate-180 text-purple-700' : ''}`} 
+                fill="none" 
+                viewBox="0 0 24 24" 
+                stroke="currentColor"
+              >
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
               </svg>
             </button>
             
             {/* Dropdown Menu */}
-            <div className="absolute top-full left-0 mt-2 w-56 opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 transform origin-top-left group-hover:translate-y-0 translate-y-2 z-50">
-              <div className="bg-white rounded-2xl shadow-xl border border-slate-100 p-2 flex flex-col gap-1">
-                <Link to="/#services-web" className="px-4 py-2.5 rounded-xl hover:bg-purple-50/80 hover:text-purple-900 transition-colors text-slate-700 block">
-                  <div className="font-medium text-sm">Web Development</div>
-                  <div className="text-[11px] font-normal text-slate-500 mt-0.5">Website Berperforma Tinggi</div>
-                </Link>
-                <Link to="/#services-mobile" className="px-4 py-2.5 rounded-xl hover:bg-purple-50/80 hover:text-purple-900 transition-colors text-slate-700 block">
-                  <div className="font-medium text-sm">Mobile Apps</div>
-                  <div className="text-[11px] font-normal text-slate-500 mt-0.5">iOS & Android Cross-Platform</div>
-                </Link>
-                <Link to="/#services-ai" className="px-4 py-2.5 rounded-xl hover:bg-purple-50/80 hover:text-purple-900 transition-colors text-slate-700 block">
-                  <div className="font-medium text-sm">AI Integration</div>
-                  <div className="text-[11px] font-normal text-slate-500 mt-0.5">Otomatisasi dengan Google Gemini</div>
-                </Link>
-                <Link to="/#services-uiux" className="px-4 py-2.5 rounded-xl hover:bg-purple-50/80 hover:text-purple-900 transition-colors text-slate-700 block">
-                  <div className="font-medium text-sm">UI/UX Design</div>
-                  <div className="text-[11px] font-normal text-slate-500 mt-0.5">Desain antarmuka modern & premium</div>
-                </Link>
-              </div>
-            </div>
+            <AnimatePresence>
+              {servicesOpen && (
+                <motion.div 
+                  initial={{ opacity: 0, y: 6, scale: 0.98 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: 6, scale: 0.98 }}
+                  transition={{ duration: 0.15, ease: "easeOut" }}
+                  className="absolute top-full left-0 mt-2 w-56 z-50 pointer-events-auto"
+                >
+                  <div className="bg-white rounded-2xl shadow-xl border border-slate-100 p-2 flex flex-col gap-1">
+                    <Link to="/#services-web" onClick={() => setServicesOpen(false)} className="px-4 py-2.5 rounded-xl hover:bg-purple-50/80 hover:text-purple-900 transition-colors text-slate-700 block">
+                      <div className="font-medium text-sm">Web Development</div>
+                      <div className="text-[11px] font-normal text-slate-500 mt-0.5">Website Berperforma Tinggi</div>
+                    </Link>
+                    <Link to="/#services-mobile" onClick={() => setServicesOpen(false)} className="px-4 py-2.5 rounded-xl hover:bg-purple-50/80 hover:text-purple-900 transition-colors text-slate-700 block">
+                      <div className="font-medium text-sm">Mobile Apps</div>
+                      <div className="text-[11px] font-normal text-slate-500 mt-0.5">iOS & Android Cross-Platform</div>
+                    </Link>
+                    <Link to="/#services-ai" onClick={() => setServicesOpen(false)} className="px-4 py-2.5 rounded-xl hover:bg-purple-50/80 hover:text-purple-900 transition-colors text-slate-700 block">
+                      <div className="font-medium text-sm">AI Integration</div>
+                      <div className="text-[11px] font-normal text-slate-500 mt-0.5">Otomatisasi dengan Google Gemini</div>
+                    </Link>
+                    <Link to="/#services-uiux" onClick={() => setServicesOpen(false)} className="px-4 py-2.5 rounded-xl hover:bg-purple-50/80 hover:text-purple-900 transition-colors text-slate-700 block">
+                      <div className="font-medium text-sm">UI/UX Design</div>
+                      <div className="text-[11px] font-normal text-slate-500 mt-0.5">Desain antarmuka modern & premium</div>
+                    </Link>
+                  </div>
+                </motion.div>
+              )}
+            </AnimatePresence>
           </div>
 
-          <Link to="/case-studies" className="px-4 py-2 rounded-full hover:bg-slate-100 hover:text-purple-700 transition-colors">Studi Kasus</Link>
-          <a href="#pricing" className="px-4 py-2 rounded-full hover:bg-slate-100 hover:text-purple-700 transition-colors">Paket Promo</a>
+          <Link to="/case-studies" onClick={() => setServicesOpen(false)} className="px-4 py-2 rounded-full hover:bg-slate-100 hover:text-purple-700 transition-colors">Studi Kasus</Link>
+          <a href="#pricing" onClick={() => setServicesOpen(false)} className="px-4 py-2 rounded-full hover:bg-slate-100 hover:text-purple-700 transition-colors">Paket Promo</a>
         </nav>
 
         <div className="flex items-center gap-3">

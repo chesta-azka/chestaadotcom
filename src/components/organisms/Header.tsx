@@ -51,7 +51,10 @@ export default function Header() {
   const lastScrollY = useRef(0);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [expandedMenus, setExpandedMenus] = useState<string[]>([]);
+  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const headerRef = useRef<HTMLElement>(null);
+  const navRef = useRef<HTMLDivElement>(null);
+  const dropdownTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const location = useLocation();
 
   const toggleMenu = (name: string) => {
@@ -59,6 +62,37 @@ export default function Header() {
       prev.includes(name) ? prev.filter(n => n !== name) : [...prev, name]
     );
   };
+
+  const toggleDropdown = (name: string) => {
+    setActiveDropdown(prev => (prev === name ? null : name));
+  };
+
+  const handleMouseEnter = (name: string) => {
+    if (dropdownTimeoutRef.current) {
+      clearTimeout(dropdownTimeoutRef.current);
+      dropdownTimeoutRef.current = null;
+    }
+    setActiveDropdown(name);
+  };
+
+  const handleMouseLeave = () => {
+    if (dropdownTimeoutRef.current) {
+      clearTimeout(dropdownTimeoutRef.current);
+    }
+    dropdownTimeoutRef.current = setTimeout(() => {
+      setActiveDropdown(null);
+    }, 180);
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (navRef.current && !navRef.current.contains(e.target as Node)) {
+        setActiveDropdown(null);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -68,6 +102,7 @@ export default function Header() {
       
       if (currentScrollY > 100 && currentScrollY > lastScrollY.current) {
         setHidden(true);
+        setActiveDropdown(null);
       } else if (currentScrollY < lastScrollY.current) {
         setHidden(false);
       }
@@ -80,6 +115,7 @@ export default function Header() {
 
   useEffect(() => {
     setMobileMenuOpen(false);
+    setActiveDropdown(null);
     document.body.style.overflow = 'unset';
   }, [location.pathname]);
 
@@ -96,13 +132,22 @@ export default function Header() {
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape' && mobileMenuOpen) {
+      if (e.key === 'Escape') {
         setMobileMenuOpen(false);
+        setActiveDropdown(null);
       }
     };
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
-  }, [mobileMenuOpen]);
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      if (dropdownTimeoutRef.current) {
+        clearTimeout(dropdownTimeoutRef.current);
+      }
+    };
+  }, []);
 
   useEffect(() => {
     const updateHeaderHeight = () => {
@@ -163,19 +208,26 @@ export default function Header() {
             </Link>
 
             {/* Desktop Navigation Links */}
-            <nav className="hidden md:flex items-center gap-2" aria-label="Main Navigation">
+            <nav className="hidden md:flex items-center gap-2" ref={navRef} aria-label="Main Navigation">
               <ul className="flex items-center gap-1 list-none p-0 m-0">
               {NAV_ITEMS.map((item) => {
                 const isActive = item.href 
                   ? location.pathname === item.href || (item.href !== '/' && location.pathname.startsWith(item.href))
                   : item.children?.some(child => location.pathname === child.href || location.pathname.startsWith(child.href));
+                const isOpen = activeDropdown === item.name;
                   
                 return (
-                  <li key={item.name} className="relative group/navitem list-none">
+                  <li 
+                    key={item.name} 
+                    className="relative list-none"
+                    onMouseEnter={() => item.children && handleMouseEnter(item.name)}
+                    onMouseLeave={() => item.children && handleMouseLeave()}
+                  >
                     {item.href ? (
                       <Link
                         to={item.href}
                         aria-current={isActive ? 'page' : undefined}
+                        onClick={() => setActiveDropdown(null)}
                         className={`text-[12px] font-sans font-medium tracking-wide transition-all duration-200 px-3.5 py-1.5 rounded-lg ${
                           isActive
                             ? 'text-purple-900 bg-purple-50 border border-purple-200/60'
@@ -186,72 +238,81 @@ export default function Header() {
                       </Link>
                     ) : (
                       <button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          toggleDropdown(item.name);
+                        }}
                         aria-haspopup="true"
-                        aria-expanded="false"
+                        aria-expanded={isOpen}
                         className={`text-[12px] font-sans font-medium tracking-wide transition-all duration-200 px-3.5 py-1.5 rounded-lg flex items-center gap-1.5 cursor-pointer ${
-                          isActive
+                          isActive || isOpen
                             ? 'text-purple-900 bg-purple-50 border border-purple-200/60'
                             : 'text-slate-600 hover:text-purple-700 hover:bg-purple-50/50'
                         }`}
                       >
                         {item.name}
-                        <ChevronDown size={14} className="group-hover/navitem:rotate-180 transition-transform duration-200 opacity-70" />
+                        <ChevronDown size={14} className={`transition-transform duration-200 opacity-70 ${isOpen ? 'rotate-180 text-purple-700' : ''}`} />
                       </button>
                     )}
 
                     {/* Dropdown Menu */}
-                    {item.children && (
-                      <motion.div
-                        initial={{ opacity: 0, y: 8, scale: 0.98 }}
-                        whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                        transition={{ duration: 0.2 }}
-                        className="absolute top-full left-0 pt-3 opacity-0 translate-y-2 pointer-events-none group-hover/navitem:opacity-100 group-hover/navitem:translate-y-0 group-hover/navitem:pointer-events-auto transition-all duration-200 z-50"
-                      >
-                        <div className="w-80 bg-white border border-purple-200 shadow-xl rounded-2xl p-3 flex flex-col gap-2 relative">
-                          {item.name === 'Layanan' && (
-                            <div className="px-3 py-2 bg-purple-50/70 border border-purple-100 rounded-xl mb-1 flex items-center justify-between">
-                              <div className="flex flex-col text-left">
-                                <span className="text-[11px] font-semibold text-purple-700 uppercase tracking-wider">Core Offering</span>
-                                <span className="text-xs font-medium text-slate-900">Paket Base UMKM (Domain + Hosting)</span>
+                    <AnimatePresence>
+                      {item.children && isOpen && (
+                        <motion.div
+                          initial={{ opacity: 0, y: 6, scale: 0.98 }}
+                          animate={{ opacity: 1, y: 0, scale: 1 }}
+                          exit={{ opacity: 0, y: 6, scale: 0.98 }}
+                          transition={{ duration: 0.15, ease: "easeOut" }}
+                          className="absolute top-full left-0 pt-2 z-50 pointer-events-auto"
+                        >
+                          <div className="w-80 bg-white border border-purple-200 shadow-xl rounded-2xl p-3 flex flex-col gap-2 relative">
+                            {item.name === 'Layanan' && (
+                              <div className="px-3 py-2 bg-purple-50/70 border border-purple-100 rounded-xl mb-1 flex items-center justify-between">
+                                <div className="flex flex-col text-left">
+                                  <span className="text-[11px] font-semibold text-purple-700 uppercase tracking-wider">Core Offering</span>
+                                  <span className="text-xs font-medium text-slate-900">Paket Base UMKM (Domain + Hosting)</span>
+                                </div>
+                                <span className="text-xs font-semibold text-purple-900 bg-white px-2 py-1 rounded-lg border border-purple-200 shadow-2xs">Rp 540K</span>
                               </div>
-                              <span className="text-xs font-semibold text-purple-900 bg-white px-2 py-1 rounded-lg border border-purple-200 shadow-2xs">Rp 540K</span>
-                            </div>
-                          )}
-                          <ul className="flex flex-col gap-1 relative list-none m-0 p-0">
-                            {item.children.map(child => {
-                              const Icon = child.icon;
-                              const isChildActive = location.pathname === child.href || location.pathname.startsWith(child.href);
-                              return (
-                                <li key={child.name} className="list-none">
-                                  <Link
-                                    to={child.href}
-                                    aria-current={isChildActive ? 'page' : undefined}
-                                    className={`flex items-center gap-3 p-2.5 rounded-xl transition-all ${
-                                      isChildActive
-                                          ? 'bg-purple-50 text-purple-950 font-bold border border-purple-200/80 shadow-2xs'
-                                          : 'bg-transparent hover:bg-purple-50/50 text-slate-600 hover:text-purple-900'
-                                    }`}
-                                  >
-                                    <div className={`p-2 rounded-xl ${isChildActive ? 'bg-purple-200 text-purple-950' : 'bg-slate-100 text-purple-600'}`}>
-                                      <Icon size={16} />
-                                    </div>
-                                    <div className="flex flex-col text-left flex-1">
-                                      <span className="text-xs font-bold">{child.name}</span>
-                                      <span className="text-[11px] text-slate-400 font-normal leading-tight mt-0.5">{child.subtitle}</span>
-                                    </div>
-                                  </Link>
-                                </li>
-                              );
-                            })}
-                          </ul>
-                          {item.name === 'Layanan' && (
-                            <div className="pt-2 border-t border-slate-100 px-2 flex items-center justify-between text-[11px] text-slate-500 font-medium">
-                              <span>Add-ons: Static (@250K) • Dynamic (350-400K)</span>
-                            </div>
-                          )}
-                        </div>
-                      </motion.div>
-                    )}
+                            )}
+                            <ul className="flex flex-col gap-1 relative list-none m-0 p-0">
+                              {item.children.map(child => {
+                                const Icon = child.icon;
+                                const isChildActive = location.pathname === child.href || location.pathname.startsWith(child.href);
+                                return (
+                                  <li key={child.name} className="list-none">
+                                    <Link
+                                      to={child.href}
+                                      onClick={() => setActiveDropdown(null)}
+                                      aria-current={isChildActive ? 'page' : undefined}
+                                      className={`flex items-center gap-3 p-2.5 rounded-xl transition-all ${
+                                        isChildActive
+                                            ? 'bg-purple-50 text-purple-950 font-bold border border-purple-200/80 shadow-2xs'
+                                            : 'bg-transparent hover:bg-purple-50/50 text-slate-600 hover:text-purple-900'
+                                      }`}
+                                    >
+                                      <div className={`p-2 rounded-xl ${isChildActive ? 'bg-purple-200 text-purple-950' : 'bg-slate-100 text-purple-600'}`}>
+                                        <Icon size={16} />
+                                      </div>
+                                      <div className="flex flex-col text-left flex-1">
+                                        <span className="text-xs font-bold">{child.name}</span>
+                                        <span className="text-[11px] text-slate-400 font-normal leading-tight mt-0.5">{child.subtitle}</span>
+                                      </div>
+                                    </Link>
+                                  </li>
+                                );
+                              })}
+                            </ul>
+                            {item.name === 'Layanan' && (
+                              <div className="pt-2 border-t border-slate-100 px-2 flex items-center justify-between text-[11px] text-slate-500 font-medium">
+                                <span>Add-ons: Static (@250K) • Dynamic (350-400K)</span>
+                              </div>
+                            )}
+                          </div>
+                        </motion.div>
+                      )}
+                    </AnimatePresence>
                   </li>
                 );
               })}

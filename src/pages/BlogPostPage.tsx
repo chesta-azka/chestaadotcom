@@ -2,8 +2,8 @@ import { useEffect, useState } from 'react';
 import SEOMetadata from '../components/atoms/SEOMetadata';
 import { generateArticleSchema } from '../lib/seo';
 import { useParams, Link } from 'react-router-dom';
-import { motion } from 'motion/react';
-import { ArrowLeft, Clock, Calendar, Zap, ChevronLeft, Check, Copy, MessageSquare, User, Briefcase, CheckCircle2, Sparkles, Layers, ShieldCheck, Quote, ArrowRight, Link as LinkIcon, Heart } from 'lucide-react';
+import { motion, useScroll, useSpring } from 'motion/react';
+import { ArrowLeft, Clock, Calendar, Zap, ChevronLeft, Check, Copy, MessageSquare, User, Briefcase, CheckCircle2, Sparkles, Layers, ShieldCheck, Quote, ArrowRight, Link as LinkIcon, Heart, Bookmark } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
 import Markdown from 'markdown-to-jsx';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
@@ -25,6 +25,7 @@ import FloatingSocialShare from '../components/organisms/FloatingSocialShare.tsx
 import Breadcrumbs from '../components/atoms/Breadcrumbs.tsx';
 import { generateMetaDescription } from '../utils/blogUtils';
 import { useContentPerformanceTracker } from '../hooks/useContentPerformanceTracker';
+import { useBlogJsonLd } from '../hooks/useBlogJsonLd';
 import { db } from '../lib/firebase';
 import { doc, onSnapshot, updateDoc, increment, setDoc, getDoc } from 'firebase/firestore';
 
@@ -384,8 +385,51 @@ export default function BlogPostPage() {
   const [isLoading, setIsLoading] = useState(true);
   const [postLikes, setPostLikes] = useState(0);
   const [hasLiked, setHasLiked] = useState(false);
+  const [isBookmarked, setIsBookmarked] = useState(false);
+
+  // Reading progress indicator
+  const { scrollYProgress } = useScroll();
+  const scaleX = useSpring(scrollYProgress, {
+    stiffness: 100,
+    damping: 30,
+    restDelta: 0.001
+  });
+
+  // Automatically generate and inject comprehensive Schema.org JSON-LD into document.head
+  const { jsonLdString } = useBlogJsonLd(slug);
 
   useContentPerformanceTracker(slug || '');
+
+  // Bookmarks sync with localStorage
+  useEffect(() => {
+    if (!slug) return;
+    try {
+      const saved = localStorage.getItem('chestaa_blog_bookmarks');
+      const list = saved ? JSON.parse(saved) : [];
+      setIsBookmarked(list.includes(slug));
+    } catch (e) {
+      console.error(e);
+    }
+  }, [slug]);
+
+  const handleToggleBookmark = () => {
+    if (!slug) return;
+    try {
+      const saved = localStorage.getItem('chestaa_blog_bookmarks');
+      const list: string[] = saved ? JSON.parse(saved) : [];
+      const exists = list.includes(slug);
+      const next = exists ? list.filter(s => s !== slug) : [...list, slug];
+      localStorage.setItem('chestaa_blog_bookmarks', JSON.stringify(next));
+      setIsBookmarked(!exists);
+      if (!exists) {
+        toast.success('Disimpan ke daftar bacaan!', { icon: '🔖' });
+      } else {
+        toast('Dihapus dari daftar bacaan', { icon: '✨' });
+      }
+    } catch (e) {
+      console.error(e);
+    }
+  };
 
   useEffect(() => {
     if (!slug) return;
@@ -443,6 +487,9 @@ export default function BlogPostPage() {
   
   // Find article from real data
   const post = ALL_ARTICLES.find(p => p.slug === slug);
+  const currentIndex = ALL_ARTICLES.findIndex(p => p.slug === slug);
+  const prevArticle = currentIndex > 0 ? ALL_ARTICLES[currentIndex - 1] : null;
+  const nextArticle = currentIndex >= 0 && currentIndex < ALL_ARTICLES.length - 1 ? ALL_ARTICLES[currentIndex + 1] : null;
 
   const handleCopyLink = () => {
     navigator.clipboard.writeText(window.location.href);
@@ -499,7 +546,13 @@ export default function BlogPostPage() {
   }) || [];
 
   return (
-    <main className="min-h-screen bg-white font-sans text-slate-900 selection:bg-purple-100 selection:text-purple-900">
+    <main className="min-h-screen bg-white font-sans text-slate-900 selection:bg-purple-100 selection:text-purple-900 relative">
+      {/* Scroll Reading Progress Bar */}
+      <motion.div 
+        className="fixed top-0 left-0 right-0 h-1 bg-gradient-to-r from-purple-600 via-indigo-600 to-purple-800 origin-left z-50 shadow-xs"
+        style={{ scaleX }}
+      />
+
       <SEOMetadata 
         title={post.title}
         description={optimizedDescription}
@@ -508,7 +561,7 @@ export default function BlogPostPage() {
         publishedTime={post.date}
         author={post.author?.name || "Chesta Azka Sofyan"}
         path={`/blog/${post.slug}`}
-        schemaString={JSON.stringify(generateArticleSchema(post.title, optimizedDescription, `https://chestaa.com/blog/${post.slug}`, post.image || "https://chestaa.com/favicon.svg", post.date, post.author?.name || "Chesta Azka Sofyan"))}
+        schemaString={jsonLdString || JSON.stringify(generateArticleSchema(post.title, optimizedDescription, `https://chestaa.com/blog/${post.slug}`, post.image || "https://chestaa.com/favicon.svg", post.date, post.author?.name || "Chesta Azka Sofyan"))}
       />
 
       <FloatingSocialShare title={post.title} description={post.desc} />
@@ -516,6 +569,30 @@ export default function BlogPostPage() {
       {/* Clean Editorial Article Header */}
       <header className="pt-28 md:pt-36 pb-10 bg-slate-50/70 border-b border-slate-200/80">
         <div className="max-w-5xl mx-auto px-6">
+          
+          {/* Top Bar: Back to blog link & Save button */}
+          <div className="flex items-center justify-between mb-8 pb-3 border-b border-slate-200/60">
+            <Link 
+              to="/blog"
+              className="inline-flex items-center gap-2 text-xs font-mono font-bold text-slate-500 hover:text-purple-800 transition-colors uppercase tracking-wider group"
+            >
+              <ArrowLeft size={14} className="group-hover:-translate-x-1 transition-transform" />
+              <span>Kembali ke Semua Jurnal</span>
+            </Link>
+
+            <button
+              onClick={handleToggleBookmark}
+              className={`inline-flex items-center gap-1.5 px-3.5 py-1.5 rounded-full text-xs font-mono font-bold transition-all border cursor-pointer ${
+                isBookmarked 
+                  ? 'bg-amber-50 text-amber-900 border-amber-300 shadow-2xs' 
+                  : 'bg-white text-slate-600 border-slate-200 hover:border-amber-300 hover:text-amber-800'
+              }`}
+            >
+              <Bookmark size={13} className={isBookmarked ? 'fill-amber-600 text-amber-600' : ''} />
+              <span>{isBookmarked ? 'Disimpan di Bacaan' : 'Simpan Artikel'}</span>
+            </button>
+          </div>
+
           <div className="flex flex-wrap items-center gap-2 mb-6">
             {post.tags?.slice(0, 4).map(tag => (
               <span key={tag} className="px-3 py-1 rounded-full bg-purple-100/70 border border-purple-200 text-[11px] font-medium text-purple-900 tracking-wider font-mono uppercase">
@@ -677,6 +754,68 @@ export default function BlogPostPage() {
                     <User size={14} /> Profil Lengkap
                   </Link>
                 </div>
+              </div>
+            </div>
+
+            {/* ADJACENT ARTICLE NAVIGATION (PREV / NEXT) */}
+            <div className="mt-14 pt-8 border-t border-slate-200 grid grid-cols-1 md:grid-cols-2 gap-4">
+              {prevArticle ? (
+                <Link 
+                  to={`/blog/${prevArticle.slug}`}
+                  className="p-5 rounded-2xl bg-slate-50 border border-slate-200 hover:border-purple-300 hover:bg-white hover:shadow-md transition-all text-left flex flex-col justify-between group"
+                >
+                  <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider mb-2 flex items-center gap-1.5 font-bold">
+                    <ArrowLeft size={12} className="group-hover:-translate-x-1 transition-transform text-purple-700" />
+                    <span>Artikel Sebelumnya</span>
+                  </span>
+                  <h4 className="text-sm sm:text-base font-display font-semibold text-slate-900 group-hover:text-purple-900 transition-colors line-clamp-2">
+                    {prevArticle.title}
+                  </h4>
+                  <span className="text-[10px] font-mono text-purple-700 mt-2 font-bold">{prevArticle.readTime}</span>
+                </Link>
+              ) : <div />}
+
+              {nextArticle ? (
+                <Link 
+                  to={`/blog/${nextArticle.slug}`}
+                  className="p-5 rounded-2xl bg-slate-50 border border-slate-200 hover:border-purple-300 hover:bg-white hover:shadow-md transition-all text-right flex flex-col justify-between group md:ml-auto w-full"
+                >
+                  <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider mb-2 flex items-center justify-end gap-1.5 font-bold">
+                    <span>Artikel Selanjutnya</span>
+                    <ArrowRight size={12} className="group-hover:translate-x-1 transition-transform text-purple-700" />
+                  </span>
+                  <h4 className="text-sm sm:text-base font-display font-semibold text-slate-900 group-hover:text-purple-900 transition-colors line-clamp-2">
+                    {nextArticle.title}
+                  </h4>
+                  <span className="text-[10px] font-mono text-purple-700 mt-2 font-bold">{nextArticle.readTime}</span>
+                </Link>
+              ) : <div />}
+            </div>
+
+            {/* EXECUTIVE STRATEGY CONSULTATION BANNER */}
+            <div className="mt-10 p-8 sm:p-10 rounded-3xl bg-gradient-to-br from-purple-950 via-slate-950 to-purple-900 text-white shadow-2xl relative overflow-hidden border border-purple-800/80">
+              <div className="absolute top-0 right-0 w-80 h-80 bg-purple-600/15 rounded-full blur-3xl pointer-events-none" />
+              <div className="relative z-10 max-w-2xl">
+                <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-purple-800/80 border border-purple-600 text-purple-200 text-xs font-mono font-bold uppercase tracking-wider mb-4">
+                  <Sparkles size={13} className="text-purple-300" />
+                  <span>Audit Arsitektur Sistem 2026</span>
+                </div>
+                <h3 className="text-2xl sm:text-3xl font-display font-bold text-white mb-3 tracking-tight">
+                  Tertarik Menerapkan Strategi Ini di Perusahaan Anda?
+                </h3>
+                <p className="text-slate-300 text-xs sm:text-sm font-sans leading-relaxed mb-6">
+                  Konsultasikan arsitektur website dan otomasi AI bisnis Anda langsung bersama Mas Chesta Azka (Lead Architect) tanpa perantara sales, berstandar enterprise untuk wilayah BSD City &amp; Jabodetabek.
+                </p>
+                <a
+                  href={`https://wa.me/6282125447232?text=${encodeURIComponent(`Halo Mas Chesta, saya baru membaca artikel "${post.title}" di CHESTAADOTCOM dan ingin berkonsultasi mengenai implementasinya untuk bisnis saya.`)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2.5 px-6 py-3.5 bg-white text-slate-900 hover:bg-purple-100 hover:text-purple-950 rounded-xl text-xs font-bold uppercase tracking-wider transition-all shadow-md font-mono"
+                >
+                  <MessageSquare size={15} className="text-purple-700" />
+                  <span>Jadwalkan Sesi Konsultasi via WhatsApp</span>
+                  <ArrowRight size={14} />
+                </a>
               </div>
             </div>
          </article>

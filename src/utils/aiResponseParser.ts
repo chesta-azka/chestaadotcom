@@ -42,19 +42,26 @@ export function parseAiResponse(rawText: string): ParsedAiResponse {
       nextStep = 'details';
     }
 
-    const isUrgent = /\*\*(sisa|promo|terbatas|diskon|cepat|hari ini)\b/i.test(label) || /sisa|promo|terbatas/i.test(label);
+    const isUrgent = /sisa|promo|terbatas|diskon|cepat|hari ini\b/i.test(label);
 
     options.push({
-      label,
-      action,
-      value: label,
+      label: label.replace(/\*/g, '').trim(),
+      action: action.replace(/\*/g, '').trim(),
+      value: label.replace(/\*/g, '').trim(),
       nextStep,
       isUrgent
     });
   }
 
-  // Remove the tags from cleanText
-  cleanText = cleanText.replace(optionTagRegex, '').trim();
+  // Remove the tags from cleanText and strictly strip any asterisks (*), bullets, and markdown markers
+  cleanText = cleanText
+    .replace(optionTagRegex, '')
+    .replace(/\*\*(.*?)\*\*/g, '$1')
+    .replace(/\*(.*?)\*/g, '$1')
+    .replace(/^[\s]*[•\*\-][\s]+/gm, '')
+    .replace(/^[\s]*[0-9]+[\.\)][\s]+/gm, '')
+    .replace(/\*/g, '')
+    .trim();
 
   // 2. Also check if JSON options block exists at the end
   const jsonBlockRegex = /```(?:json)?\s*(\{[\s\S]*?["']options["'][\s\S]*?\})\s*```/i;
@@ -64,19 +71,20 @@ export function parseAiResponse(rawText: string): ParsedAiResponse {
       const parsedJson = JSON.parse(jsonMatch[1]);
       if (parsedJson && Array.isArray(parsedJson.options)) {
         parsedJson.options.forEach((opt: any) => {
-          const label = typeof opt === 'string' ? opt : (opt.label || '');
-          const action = opt.action || label;
-          const isUrgent = /\*\*(sisa|promo|terbatas|diskon)\b/i.test(label) || /sisa|promo|terbatas/i.test(label);
+          const rawLabel = typeof opt === 'string' ? opt : (opt.label || '');
+          const label = rawLabel.replace(/\*/g, '').trim();
+          const action = (opt.action || rawLabel).replace(/\*/g, '').trim();
+          const isUrgent = /sisa|promo|terbatas|diskon\b/i.test(label);
           options.push({
             label,
             action,
-            value: opt.value || label,
+            value: (opt.value || label).replace(/\*/g, '').trim(),
             nextStep: opt.nextStep || 'default',
             isUrgent
           });
         });
       }
-      cleanText = cleanText.replace(jsonBlockRegex, '').trim();
+      cleanText = cleanText.replace(jsonBlockRegex, '').replace(/\*/g, '').trim();
     } catch (e) {
       // Ignore JSON parse errors
     }
@@ -85,7 +93,7 @@ export function parseAiResponse(rawText: string): ParsedAiResponse {
   // Fallback default smart options if no explicit tags found in expert greeting
   if (options.length === 0 && (cleanText.toLowerCase().includes('halo') || cleanText.toLowerCase().includes('chestadotcom'))) {
     options.push(
-      { label: '🔥 **Amankan Paket 540K** (Sisa 3 Slot!)', action: 'Amankan Paket 540K', nextStep: 'whatsapp', isUrgent: true },
+      { label: '🔥 Amankan Paket Promo 540K (Sisa 3 Slot)', action: 'Amankan Paket Promo 540K', nextStep: 'whatsapp', isUrgent: true },
       { label: '📅 Jadwal Discovery Call', action: 'Jadwal Discovery Call', nextStep: 'schedule', isUrgent: false },
       { label: '💬 Tanya Detail via WhatsApp', action: 'WhatsApp', nextStep: 'whatsapp', isUrgent: false }
     );

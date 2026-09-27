@@ -111,9 +111,9 @@ export default function PortfolioPage() {
         <div className="md:col-span-8 lg:col-span-9 flex flex-col gap-12">
             
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-              {filteredProjects.map((project) => (
+              {filteredProjects.map((project, idx) => (
                 <motion.div 
-                  key={project.id}
+                  key={`${project.id}-${idx}`}
                   layout
                   initial={{ opacity: 0, y: 30 }}
                   animate={{ opacity: 1, y: 0 }}

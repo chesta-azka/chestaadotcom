@@ -28,7 +28,7 @@ import { SERVICE_DEFINITIONS } from '../data/ServiceDefinition';
 import { caseStudyDB } from './caseStudies';
 import { CITIES } from '../data/AreasData';
 
-export type SearchCategory = 'all' | 'services' | 'portfolio' | 'articles' | 'areas' | 'pages';
+export type SearchCategory = 'all' | 'history' | 'services' | 'portfolio' | 'articles' | 'areas' | 'pages';
 
 export interface SearchDocument {
   id: string;

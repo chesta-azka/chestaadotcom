@@ -29,5 +29,7 @@ export function getAdminApp() {
   return getApp();
 }
 
-export const adminDb = getFirestore(getAdminApp());
+const DATABASE_ID = (firebaseAppletConfig as any).firestoreDatabaseId || "ai-studio-07319849-f721-4705-badf-87d9debdf6a5";
+
+export const adminDb = getFirestore(getAdminApp(), DATABASE_ID);
 export const adminAuth = getAuth(getAdminApp());

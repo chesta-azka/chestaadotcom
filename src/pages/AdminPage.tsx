@@ -21,6 +21,7 @@ import { AdminKanbanBoard } from '../components/AdminKanbanBoard';
 import { ClientVault } from '../components/ClientVault';
 import LeadBadge from '../components/atoms/LeadBadge';
 import AdminConversationSummaries from '../components/organisms/AdminConversationSummaries';
+import AdminKnowledgeGraph from '../components/organisms/AdminKnowledgeGraph';
 
 function AppointmentsDashboard() {
   const [appointments, setAppointments] = useState<any[]>([]);
@@ -758,7 +759,9 @@ const AdminChatHistoryFolders = ({ sessions }: { sessions: any[] }) => {
 };
 
 function AdminDashboard() {
-  const [activeTab, setActiveTab] = useState('dashboard');
+  const [searchParams] = useSearchParams();
+  const defaultTab = searchParams.get('tab') || 'ai_brain';
+  const [activeTab, setActiveTab] = useState(defaultTab);
   const [logs, setLogs] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [dateRange, setDateRange] = useState('30'); // '7', '30', 'all'
@@ -933,6 +936,9 @@ function AdminDashboard() {
   return (
     <AdminDashboardLayout onLogout={handleLogout} activeTab={activeTab} setActiveTab={setActiveTab}>
       
+      {activeTab === 'ai_brain' && (
+        <AdminKnowledgeGraph />
+      )}
       {activeTab === 'appointments' && (
         <AppointmentsDashboard />
       )}
@@ -3555,8 +3561,25 @@ function ContentCRUDManager() {
   const [items, setItems] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
-  const [formData, setFormData] = useState({ title: '', category: '', description: '', author: 'Admin' });
   const [editingId, setEditingId] = useState<string | null>(null);
+
+  const [blogForm, setBlogForm] = useState({
+    title: '',
+    slug: '',
+    category: 'Web Development',
+    description: '',
+    contentMarkdown: '## Pendahuluan\n\nTulis isi artikel blog di sini menggunakan Markdown atau teks editor kaya...\n\n### Poin Utama\n- Poin 1\n- Poin 2',
+    image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1200&auto=format&fit=crop',
+    author: 'Chesta Azka Sofyan',
+    authorRole: 'Principal Software Architect',
+    readTime: '7 MIN READ',
+    readTimeMinutes: 7,
+    tags: 'Web Development, AI Automation, Next.js',
+    recommended: true,
+    featured: true
+  });
+
+  const [generalForm, setGeneralForm] = useState({ title: '', category: '', description: '', author: 'Admin' });
 
   const collectionName = subTab;
 
@@ -3579,29 +3602,80 @@ function ContentCRUDManager() {
     fetchItems();
   }, [subTab]);
 
-  const handleSave = async (e: React.FormEvent) => {
+  const handleSaveBlog = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!formData.title) {
+    if (!blogForm.title) {
+      toast.error("Judul blog wajib diisi");
+      return;
+    }
+    const finalSlug = blogForm.slug.trim() || blogForm.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+    const tagsArray = blogForm.tags.split(',').map(t => t.trim()).filter(Boolean);
+
+    const docData = {
+      title: blogForm.title,
+      slug: finalSlug,
+      category: blogForm.category,
+      description: blogForm.description,
+      contentMarkdown: blogForm.contentMarkdown,
+      image: blogForm.image,
+      author: blogForm.author,
+      authorRole: blogForm.authorRole,
+      readTime: blogForm.readTime,
+      readTimeMinutes: blogForm.readTimeMinutes,
+      tags: tagsArray,
+      recommended: blogForm.recommended,
+      featured: blogForm.featured,
+      date: '29 SEP 2026',
+      updatedAt: serverTimestamp()
+    };
+
+    try {
+      if (editingId) {
+        await updateDoc(doc(db, 'blogs', editingId), docData);
+        toast.success("Artikel blog berhasil diperbarui & diterbitkan!");
+      } else {
+        await setDoc(doc(db, 'blogs', finalSlug), {
+          ...docData,
+          createdAt: serverTimestamp()
+        });
+        toast.success("Artikel blog baru berhasil dipublikasikan ke Firestore!");
+      }
+      setShowModal(false);
+      setEditingId(null);
+      // Refresh list
+      const snap = await getDocs(collection(db, collectionName));
+      const list: any[] = [];
+      snap.forEach(d => list.push({ id: d.id, ...d.data() }));
+      setItems(list);
+    } catch (err) {
+      console.error("Error saving blog:", err);
+      toast.error("Gagal menyimpan artikel blog ke Firestore");
+    }
+  };
+
+  const handleSaveGeneral = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!generalForm.title) {
       toast.error("Judul wajib diisi");
       return;
     }
     try {
       if (editingId) {
         await updateDoc(doc(db, collectionName, editingId), {
-          ...formData,
+          ...generalForm,
           updatedAt: serverTimestamp()
         });
         toast.success("Berhasil memperbarui data");
       } else {
         await addDoc(collection(db, collectionName), {
-          ...formData,
+          ...generalForm,
           createdAt: serverTimestamp()
         });
         toast.success("Berhasil menambahkan data baru");
       }
       setShowModal(false);
       setEditingId(null);
-      setFormData({ title: '', category: '', description: '', author: 'Admin' });
+      setGeneralForm({ title: '', category: '', description: '', author: 'Admin' });
       const snap = await getDocs(collection(db, collectionName));
       const list: any[] = [];
       snap.forEach(d => list.push({ id: d.id, ...d.data() }));
@@ -3628,24 +3702,42 @@ function ContentCRUDManager() {
     <div className="space-y-6 font-sans">
       <div className="flex flex-col md:flex-row md:items-end justify-between border-b border-slate-200 pb-4 gap-4">
         <div>
-          <h2 className="text-xl font-display font-medium text-slate-900 mb-1">Content CRUD Hub</h2>
-          <p className="text-slate-600 text-sm">Kelola data Blog, Case Studies, Academy Courses, dan Quizzes secara langsung (Tambah, Edit, Delete).</p>
+          <h2 className="text-xl font-display font-medium text-slate-900 mb-1">Admin Blog &amp; Content Publishing Hub</h2>
+          <p className="text-slate-600 text-sm">Draft, edit, dan publikasikan artikel blog baru secara instan ke Firestore dengan editor teks lengkap.</p>
         </div>
         <button
           onClick={() => {
             setEditingId(null);
-            setFormData({ title: '', category: '', description: '', author: 'Admin' });
+            if (subTab === 'blogs') {
+              setBlogForm({
+                title: '',
+                slug: '',
+                category: 'Web Development',
+                description: '',
+                contentMarkdown: '## Pendahuluan\n\nTulis isi artikel...',
+                image: 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1200&auto=format&fit=crop',
+                author: 'Chesta Azka Sofyan',
+                authorRole: 'Principal Software Architect',
+                readTime: '7 MIN READ',
+                readTimeMinutes: 7,
+                tags: 'Web Development, AI Automation',
+                recommended: true,
+                featured: true
+              });
+            } else {
+              setGeneralForm({ title: '', category: '', description: '', author: 'Admin' });
+            }
             setShowModal(true);
           }}
           className="px-4 py-2.5 bg-slate-900 text-white rounded-xl text-xs font-mono font-medium hover:bg-slate-800 transition-colors cursor-pointer shadow-sm flex items-center gap-2"
         >
-          + Tambah {subTab === 'blogs' ? 'Blog' : subTab === 'case_studies' ? 'Case Study' : subTab === 'academy_courses' ? 'Academy' : 'Quiz'} Baru
+          + Publikasikan {subTab === 'blogs' ? 'Artikel Blog Baru' : 'Item Baru'}
         </button>
       </div>
 
       <div className="flex items-center gap-2 border-b border-slate-200 pb-3 overflow-x-auto">
         {[
-          { id: 'blogs', label: 'Blog Articles' },
+          { id: 'blogs', label: 'Blog Articles (Firestore)' },
           { id: 'case_studies', label: 'Case Studies' },
           { id: 'academy_courses', label: 'Academy Courses' },
           { id: 'quizzes', label: 'Quizzes' },
@@ -3664,34 +3756,59 @@ function ContentCRUDManager() {
 
       <div className="border border-slate-200 rounded-2xl bg-white overflow-hidden shadow-xs">
         <div className="bg-slate-50 px-6 py-3.5 border-b border-slate-200 flex items-center justify-between">
-          <span className="font-mono font-bold text-xs uppercase tracking-wider text-slate-800">Koleksi: {collectionName}</span>
-          <span className="text-[11px] font-mono text-slate-500">{items.length} item total</span>
+          <span className="font-mono font-bold text-xs uppercase tracking-wider text-slate-800">Koleksi Firestore: {collectionName}</span>
+          <span className="text-[11px] font-mono text-slate-500">{items.length} item aktif</span>
         </div>
         {loading ? (
           <div className="p-12 text-center">
             <Loader2 size={24} className="animate-spin text-slate-900 mx-auto" />
           </div>
         ) : items.length === 0 ? (
-          <div className="p-12 text-center text-slate-400 font-mono text-xs uppercase">Belum ada data dalam koleksi ini. Silakan buat baru.</div>
+          <div className="p-12 text-center text-slate-400 font-mono text-xs uppercase">Belum ada item dalam koleksi ini. Buat baru sekarang.</div>
         ) : (
           <div className="divide-y divide-slate-100">
             {items.map(item => (
               <div key={item.id} className="p-5 flex items-center justify-between hover:bg-slate-50/80 transition-colors">
                 <div className="space-y-1 max-w-2xl">
-                  <h4 className="font-display font-bold text-slate-900 text-sm">{item.title || 'Tanpa Judul'}</h4>
-                  <p className="text-xs text-slate-600 line-clamp-1">{item.description || item.category || 'Tidak ada deskripsi'}</p>
-                  <span className="text-[10px] font-mono bg-slate-100 text-slate-600 px-2 py-0.5 rounded-md inline-block">ID: {item.id}</span>
+                  <div className="flex items-center gap-2">
+                    <h4 className="font-display font-bold text-slate-900 text-sm">{item.title || 'Tanpa Judul'}</h4>
+                    {item.category && (
+                      <span className="bg-purple-50 text-purple-700 border border-purple-200 text-[10px] font-mono px-2 py-0.5 rounded-full">
+                        {item.category}
+                      </span>
+                    )}
+                  </div>
+                  <p className="text-xs text-slate-600 line-clamp-1">{item.description || item.desc || 'Tidak ada ringkasan'}</p>
+                  <span className="text-[10px] font-mono bg-slate-100 text-slate-600 px-2 py-0.5 rounded-md inline-block">Slug: {item.slug || item.id}</span>
                 </div>
                 <div className="flex items-center gap-2">
                   <button
                     onClick={() => {
                       setEditingId(item.id);
-                      setFormData({
-                        title: item.title || '',
-                        category: item.category || '',
-                        description: item.description || '',
-                        author: item.author || 'Admin'
-                      });
+                      if (subTab === 'blogs') {
+                        setBlogForm({
+                          title: item.title || '',
+                          slug: item.slug || item.id,
+                          category: item.category || 'Web Development',
+                          description: item.description || item.desc || '',
+                          contentMarkdown: item.contentMarkdown || '',
+                          image: item.image || '',
+                          author: item.author?.name || item.author || 'Chesta Azka Sofyan',
+                          authorRole: item.author?.role || item.authorRole || 'Principal Software Architect',
+                          readTime: item.readTime || '7 MIN READ',
+                          readTimeMinutes: item.readTimeMinutes || 7,
+                          tags: Array.isArray(item.tags) ? item.tags.join(', ') : (item.tags || ''),
+                          recommended: item.recommended ?? true,
+                          featured: item.featured ?? true
+                        });
+                      } else {
+                        setGeneralForm({
+                          title: item.title || '',
+                          category: item.category || '',
+                          description: item.description || '',
+                          author: item.author || 'Admin'
+                        });
+                      }
                       setShowModal(true);
                     }}
                     className="px-3 py-1.5 bg-white border border-slate-200 rounded-lg text-xs font-mono font-medium text-slate-700 hover:bg-slate-50 cursor-pointer"
@@ -3712,68 +3829,219 @@ function ContentCRUDManager() {
       </div>
 
       {showModal && (
-        <div className="fixed inset-0 bg-slate-900/40 backdrop-blur-xs z-50 flex items-center justify-center p-4">
+        <div className="fixed inset-0 bg-slate-900/50 backdrop-blur-xs z-50 flex items-center justify-center p-4 overflow-y-auto">
           <motion.div
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
-            className="bg-white border border-slate-200 rounded-2xl p-6 w-full max-w-lg shadow-xl space-y-4"
+            className="bg-white border border-slate-200 rounded-2xl p-6 w-full max-w-3xl shadow-2xl space-y-6 my-8 max-h-[90vh] overflow-y-auto"
           >
-            <div className="flex items-center justify-between pb-3 border-b border-slate-200">
-              <h3 className="font-display font-bold text-slate-900 text-sm uppercase">
-                {editingId ? 'Edit Item' : 'Tambah Item Baru'} ({subTab})
-              </h3>
-              <button onClick={() => setShowModal(false)} className="text-slate-400 hover:text-slate-600 cursor-pointer">
-                <X size={16} />
+            <div className="flex items-center justify-between pb-4 border-b border-slate-200">
+              <div>
+                <h3 className="font-display font-bold text-slate-900 text-base uppercase">
+                  {editingId ? 'Edit Artikel Blog' : 'Publikasikan Artikel Blog Baru'}
+                </h3>
+                <p className="text-xs text-slate-500">Tersimpan langsung ke database Firestore untuk akses publik instan.</p>
+              </div>
+              <button onClick={() => setShowModal(false)} className="text-slate-400 hover:text-slate-600 cursor-pointer p-1">
+                <X size={20} />
               </button>
             </div>
-            <form onSubmit={handleSave} className="space-y-4">
-              <div>
-                <label className="block text-xs font-mono font-semibold text-slate-700 mb-1">Judul / Nama</label>
-                <input
-                  type="text"
-                  required
-                  value={formData.title}
-                  onChange={e => setFormData({ ...formData, title: e.target.value })}
-                  className="w-full px-3 py-2 border border-slate-200 rounded-xl text-sm font-sans focus:outline-none focus:border-slate-900"
-                  placeholder="Masukkan judul..."
-                />
-              </div>
-              <div>
-                <label className="block text-xs font-mono font-semibold text-slate-700 mb-1">Kategori / Level</label>
-                <input
-                  type="text"
-                  value={formData.category}
-                  onChange={e => setFormData({ ...formData, category: e.target.value })}
-                  className="w-full px-3 py-2 border border-slate-200 rounded-xl text-sm font-sans focus:outline-none focus:border-slate-900"
-                  placeholder="Mis. Engineering / Advanced"
-                />
-              </div>
-              <div>
-                <label className="block text-xs font-mono font-semibold text-slate-700 mb-1">Deskripsi / Konten Ringkas</label>
-                <textarea
-                  rows={3}
-                  value={formData.description}
-                  onChange={e => setFormData({ ...formData, description: e.target.value })}
-                  className="w-full px-3 py-2 border border-slate-200 rounded-xl text-sm font-sans focus:outline-none focus:border-slate-900 resize-none"
-                  placeholder="Tulis deskripsi..."
-                />
-              </div>
-              <div className="flex items-center justify-end gap-2 pt-3 border-t border-slate-200">
-                <button
-                  type="button"
-                  onClick={() => setShowModal(false)}
-                  className="px-4 py-2 border border-slate-200 rounded-xl text-xs font-mono font-medium text-slate-700 hover:bg-slate-50 cursor-pointer"
-                >
-                  Batal
-                </button>
-                <button
-                  type="submit"
-                  className="px-4 py-2 bg-slate-900 text-white rounded-xl text-xs font-mono font-medium hover:bg-slate-800 cursor-pointer"
-                >
-                  {editingId ? 'Simpan Perubahan' : 'Tambah ke Koleksi'}
-                </button>
-              </div>
-            </form>
+
+            {subTab === 'blogs' ? (
+              <form onSubmit={handleSaveBlog} className="space-y-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-xs font-mono font-semibold text-slate-700 mb-1">Judul Artikel</label>
+                    <input
+                      type="text"
+                      required
+                      value={blogForm.title}
+                      onChange={e => setBlogForm({ ...blogForm, title: e.target.value })}
+                      className="w-full px-3 py-2.5 border border-slate-200 rounded-xl text-sm font-sans focus:outline-none focus:border-purple-600"
+                      placeholder="Mis. Arsitektur Next.js 15..."
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-mono font-semibold text-slate-700 mb-1">URL Slug (Opsional)</label>
+                    <input
+                      type="text"
+                      value={blogForm.slug}
+                      onChange={e => setBlogForm({ ...blogForm, slug: e.target.value })}
+                      className="w-full px-3 py-2.5 border border-slate-200 rounded-xl text-sm font-sans focus:outline-none focus:border-purple-600"
+                      placeholder="arsitektur-next-js"
+                    />
+                  </div>
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                  <div>
+                    <label className="block text-xs font-mono font-semibold text-slate-700 mb-1">Kategori Topik</label>
+                    <select
+                      value={blogForm.category}
+                      onChange={e => setBlogForm({ ...blogForm, category: e.target.value })}
+                      className="w-full px-3 py-2.5 border border-slate-200 rounded-xl text-sm font-sans focus:outline-none focus:border-purple-600 bg-white"
+                    >
+                      <option value="Web Development">Web Development</option>
+                      <option value="AI Automation">AI Automation</option>
+                      <option value="Business Strategy">Business Strategy</option>
+                      <option value="AI & Otomasi">AI & Otomasi</option>
+                      <option value="Next.js & Performa">Next.js & Performa</option>
+                      <option value="Studi Kasus B2B">Studi Kasus B2B</option>
+                      <option value="Transformasi Digital">Transformasi Digital</option>
+                      <option value="Edukasi & SEO">Edukasi & SEO</option>
+                    </select>
+                  </div>
+                  <div>
+                    <label className="block text-xs font-mono font-semibold text-slate-700 mb-1">URL Gambar Cover</label>
+                    <input
+                      type="text"
+                      value={blogForm.image}
+                      onChange={e => setBlogForm({ ...blogForm, image: e.target.value })}
+                      className="w-full px-3 py-2.5 border border-slate-200 rounded-xl text-sm font-sans focus:outline-none focus:border-purple-600"
+                      placeholder="https://images.unsplash.com/..."
+                    />
+                  </div>
+                </div>
+
+                <div>
+                  <label className="block text-xs font-mono font-semibold text-slate-700 mb-1">Deskripsi Singkat / Excerpt</label>
+                  <textarea
+                    rows={2}
+                    value={blogForm.description}
+                    onChange={e => setBlogForm({ ...blogForm, description: e.target.value })}
+                    className="w-full px-3 py-2.5 border border-slate-200 rounded-xl text-sm font-sans focus:outline-none focus:border-purple-600 resize-none"
+                    placeholder="Ringkasan artikel untuk kartu pratinjau..."
+                  />
+                </div>
+
+                <div>
+                  <label className="block text-xs font-mono font-semibold text-slate-700 mb-1">Isi Artikel (Rich Text / Markdown Editor)</label>
+                  <textarea
+                    rows={8}
+                    value={blogForm.contentMarkdown}
+                    onChange={e => setBlogForm({ ...blogForm, contentMarkdown: e.target.value })}
+                    className="w-full px-3 py-3 border border-slate-200 rounded-xl text-sm font-mono focus:outline-none focus:border-purple-600 resize-y bg-slate-50/50 leading-relaxed"
+                    placeholder="Tulis artikel dengan format Markdown (## Subjudul, - Poin, dll)..."
+                  />
+                </div>
+
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                  <div>
+                    <label className="block text-xs font-mono font-semibold text-slate-700 mb-1">Penulis</label>
+                    <input
+                      type="text"
+                      value={blogForm.author}
+                      onChange={e => setBlogForm({ ...blogForm, author: e.target.value })}
+                      className="w-full px-3 py-2.5 border border-slate-200 rounded-xl text-sm font-sans"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-mono font-semibold text-slate-700 mb-1">Estimasi Baca</label>
+                    <input
+                      type="text"
+                      value={blogForm.readTime}
+                      onChange={e => setBlogForm({ ...blogForm, readTime: e.target.value })}
+                      className="w-full px-3 py-2.5 border border-slate-200 rounded-xl text-sm font-sans"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-mono font-semibold text-slate-700 mb-1">Tags (Pisahkan koma)</label>
+                    <input
+                      type="text"
+                      value={blogForm.tags}
+                      onChange={e => setBlogForm({ ...blogForm, tags: e.target.value })}
+                      className="w-full px-3 py-2.5 border border-slate-200 rounded-xl text-sm font-sans"
+                    />
+                  </div>
+                </div>
+
+                <div className="flex items-center gap-6 pt-2">
+                  <label className="flex items-center gap-2 text-xs font-mono cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={blogForm.recommended}
+                      onChange={e => setBlogForm({ ...blogForm, recommended: e.target.checked })}
+                      className="rounded border-slate-300 text-purple-600 focus:ring-purple-500 w-4 h-4"
+                    />
+                    <span>Rekomendasikan Artikel</span>
+                  </label>
+                  <label className="flex items-center gap-2 text-xs font-mono cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={blogForm.featured}
+                      onChange={e => setBlogForm({ ...blogForm, featured: e.target.checked })}
+                      className="rounded border-slate-300 text-purple-600 focus:ring-purple-500 w-4 h-4"
+                    />
+                    <span>Featured Hero Post</span>
+                  </label>
+                </div>
+
+                <div className="flex items-center justify-end gap-3 pt-4 border-t border-slate-200">
+                  <button
+                    type="button"
+                    onClick={() => setShowModal(false)}
+                    className="px-5 py-2.5 border border-slate-200 rounded-xl text-xs font-mono font-medium text-slate-700 hover:bg-slate-50 cursor-pointer"
+                  >
+                    Batal
+                  </button>
+                  <button
+                    type="submit"
+                    className="px-6 py-2.5 bg-purple-600 hover:bg-purple-700 text-white rounded-xl text-xs font-mono font-bold transition-all shadow-md cursor-pointer flex items-center gap-2"
+                  >
+                    <Sparkles size={16} /> Publikasikan Artikel ke Firestore
+                  </button>
+                </div>
+              </form>
+            ) : (
+              <form onSubmit={handleSaveGeneral} className="space-y-4">
+                <div>
+                  <label className="block text-xs font-mono font-semibold text-slate-700 mb-1">Judul / Nama</label>
+                  <input
+                    type="text"
+                    required
+                    value={generalForm.title}
+                    onChange={e => setGeneralForm({ ...generalForm, title: e.target.value })}
+                    className="w-full px-3 py-2.5 border border-slate-200 rounded-xl text-sm font-sans focus:outline-none focus:border-slate-900"
+                    placeholder="Masukkan judul..."
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-mono font-semibold text-slate-700 mb-1">Kategori / Level</label>
+                  <input
+                    type="text"
+                    value={generalForm.category}
+                    onChange={e => setGeneralForm({ ...generalForm, category: e.target.value })}
+                    className="w-full px-3 py-2.5 border border-slate-200 rounded-xl text-sm font-sans focus:outline-none focus:border-slate-900"
+                    placeholder="Mis. Engineering / Advanced"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-mono font-semibold text-slate-700 mb-1">Deskripsi / Konten Ringkas</label>
+                  <textarea
+                    rows={3}
+                    value={generalForm.description}
+                    onChange={e => setGeneralForm({ ...generalForm, description: e.target.value })}
+                    className="w-full px-3 py-2.5 border border-slate-200 rounded-xl text-sm font-sans focus:outline-none focus:border-slate-900 resize-none"
+                    placeholder="Tulis deskripsi..."
+                  />
+                </div>
+                <div className="flex items-center justify-end gap-2 pt-3 border-t border-slate-200">
+                  <button
+                    type="button"
+                    onClick={() => setShowModal(false)}
+                    className="px-4 py-2 border border-slate-200 rounded-xl text-xs font-mono font-medium text-slate-700 hover:bg-slate-50 cursor-pointer"
+                  >
+                    Batal
+                  </button>
+                  <button
+                    type="submit"
+                    className="px-4 py-2 bg-slate-900 text-white rounded-xl text-xs font-mono font-medium hover:bg-slate-800 cursor-pointer"
+                  >
+                    {editingId ? 'Simpan Perubahan' : 'Tambah ke Koleksi'}
+                  </button>
+                </div>
+              </form>
+            )}
           </motion.div>
         </div>
       )}

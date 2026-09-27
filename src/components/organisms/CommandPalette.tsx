@@ -1,3 +1,5 @@
+'use client';
+
 import React, { useState, useEffect, useMemo, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { 
@@ -24,7 +26,10 @@ import {
   Layers,
   ArrowUpRight,
   CheckCircle2,
-  Clock
+  Clock,
+  ArrowRight,
+  CornerDownLeft,
+  Compass
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { usePerformance } from '../../contexts/PerformanceContext.tsx';
@@ -38,11 +43,32 @@ import {
   extractMatchingSnippet, 
   getSearchIndexStats 
 } from '../../lib/contentSearchIndex';
-import { useSearchAnalytics, analyzeSearchAudience } from '../../hooks/useSearchAnalytics';
+import { 
+  useSearchAnalytics, 
+  analyzeSearchAudience,
+  NavigatedPageHistory 
+} from '../../hooks/useSearchAnalytics';
 
 interface SearchResultItem extends SearchDocument {
   matchedSnippet?: string;
   score?: number;
+  isHistoryItem?: boolean;
+  historyTimestamp?: number;
+}
+
+function formatRelativeTime(timestamp: number): string {
+  if (!timestamp) return 'Baru saja';
+  const diffMs = Date.now() - timestamp;
+  const diffSec = Math.floor(diffMs / 1000);
+  if (diffSec < 45) return 'Baru saja';
+  const diffMin = Math.floor(diffSec / 60);
+  if (diffMin < 60) return `${diffMin} mnt lalu`;
+  const diffHours = Math.floor(diffMin / 60);
+  if (diffHours < 24) return `${diffHours} jam lalu`;
+  const diffDays = Math.floor(diffHours / 24);
+  if (diffDays === 1) return 'Kemarin';
+  if (diffDays < 7) return `${diffDays} hari lalu`;
+  return new Date(timestamp).toLocaleDateString('id-ID', { day: 'numeric', month: 'short' });
 }
 
 export default function CommandPalette() {
@@ -60,9 +86,14 @@ export default function CommandPalette() {
 
   const {
     recentSearches,
+    recentNavigatedPages,
     saveRecentSearch,
+    saveNavigatedPage,
     removeRecentSearch,
+    removeNavigatedPage,
     clearRecentSearches,
+    clearRecentNavigatedPages,
+    clearAllHistory,
     logSearchQuery,
     logSearchResultClick
   } = useSearchAnalytics();
@@ -99,15 +130,63 @@ export default function CommandPalette() {
     return snippet;
   };
 
-  // Execute Fuse.js full-text fuzzy search or fallback to structured suggestions
+  // Matching recent items when searching
+  const matchingRecentQueries = useMemo(() => {
+    const q = searchQuery.toLowerCase().trim();
+    if (!q) return [];
+    return recentSearches.filter(s => s.toLowerCase().includes(q));
+  }, [searchQuery, recentSearches]);
+
+  const matchingRecentPages = useMemo(() => {
+    const q = searchQuery.toLowerCase().trim();
+    if (!q) return [];
+    return recentNavigatedPages.filter(p => 
+      p.title.toLowerCase().includes(q) || 
+      (p.subtitle && p.subtitle.toLowerCase().includes(q)) ||
+      p.path.toLowerCase().includes(q)
+    );
+  }, [searchQuery, recentNavigatedPages]);
+
+  // Execute search across documentation, or history view
   const searchResults: SearchResultItem[] = useMemo(() => {
     const startTime = performance.now();
     const q = searchQuery.trim();
 
     let results: SearchResultItem[] = [];
 
+    // CASE 1: User explicitly filtered to 'history'
+    if (selectedCategory === 'history') {
+      const historyItems: SearchResultItem[] = recentNavigatedPages.map(page => ({
+        id: `history_${page.id}`,
+        slug: page.path.replace(/\//g, '-'),
+        title: page.title,
+        subtitle: page.subtitle || page.path,
+        category: (page.category as any) || 'Halaman',
+        categoryKey: 'history',
+        path: page.path,
+        badge: page.badge || 'Riwayat Kunjungan',
+        isHistoryItem: true,
+        historyTimestamp: page.timestamp
+      }));
+
+      if (!q) {
+        results = historyItems;
+      } else {
+        const lowerQ = q.toLowerCase();
+        results = historyItems.filter(item => 
+          item.title.toLowerCase().includes(lowerQ) || 
+          item.subtitle.toLowerCase().includes(lowerQ) ||
+          (item.path && item.path.toLowerCase().includes(lowerQ))
+        );
+      }
+
+      const elapsed = Math.round(performance.now() - startTime);
+      setSearchLatencyMs(elapsed);
+      return results;
+    }
+
+    // CASE 2: No search query (Categorized overview)
     if (!q) {
-      // Default view when search is empty: categorized highlights
       let docsToFilter = allDocs;
       if (selectedCategory !== 'all') {
         docsToFilter = allDocs.filter(d => d.categoryKey === selectedCategory);
@@ -129,16 +208,31 @@ export default function CommandPalette() {
         results = docsToFilter.slice(0, 10);
       }
     } else {
-      // Full-text Fuse.js execution across all content slugs & body text
+      // CASE 3: Active search query
+      // 1. If any visited pages match query, convert them into prominent top results
+      const historyMatches: SearchResultItem[] = matchingRecentPages.map(p => ({
+        id: `hist_match_${p.id}`,
+        slug: p.path.replace(/\//g, '-'),
+        title: p.title,
+        subtitle: p.subtitle || p.path,
+        category: (p.category as any) || 'Halaman',
+        categoryKey: 'history',
+        path: p.path,
+        badge: 'Riwayat Kunjungan',
+        isHistoryItem: true,
+        historyTimestamp: p.timestamp,
+        score: 0.05
+      }));
+
+      // 2. Fuse.js full-text fuzzy search across all application content
       const fuseResults = fuse.search(q, { limit: 25 });
 
-      results = fuseResults
+      const filteredFuseResults = fuseResults
         .filter(({ item }) => {
           if (selectedCategory === 'all') return true;
           return item.categoryKey === selectedCategory;
         })
         .map(({ item, score, matches }) => {
-          // Extract snippet from matching fields
           let matchedSnippet = item.subtitle;
           if (matches && matches.length > 0) {
             const contentMatch = matches.find(m => m.key === 'fullContent' || m.key === 'benefits' || m.key === 'subtitle');
@@ -153,12 +247,18 @@ export default function CommandPalette() {
             score
           };
         });
+
+      // Avoid duplicate paths between history matches and fuse results
+      const historyPaths = new Set(historyMatches.map(h => h.path));
+      const deduplicatedFuse = filteredFuseResults.filter(r => !historyPaths.has(r.path));
+
+      results = [...historyMatches, ...deduplicatedFuse];
     }
 
     const elapsed = Math.round(performance.now() - startTime);
     setSearchLatencyMs(elapsed);
     return results;
-  }, [searchQuery, selectedCategory, fuse, allDocs]);
+  }, [searchQuery, selectedCategory, fuse, allDocs, recentNavigatedPages, matchingRecentPages]);
 
   // Log queries to search telemetry with audience context
   useEffect(() => {
@@ -173,6 +273,7 @@ export default function CommandPalette() {
   }, [searchQuery, selectedCategory]);
 
   const getSearchPlaceholder = () => {
+    if (selectedCategory === 'history') return 'Cari di dalam riwayat pencarian & halaman terakhir... (⌘K)';
     if (selectedCategory === 'articles') return 'Cari artikel blog, panduan SEO BSD, insight AI... (⌘K)';
     if (selectedCategory === 'portfolio') return 'Cari proyek, klien B2B, tech stack Next.js, studi kasus... (⌘K)';
     if (selectedCategory === 'services') return 'Cari layanan, paket website UMKM, promo Rp540K... (⌘K)';
@@ -235,6 +336,8 @@ export default function CommandPalette() {
           e.preventDefault();
           if (searchResults[selectedIndex]) {
             handleItemClick(searchResults[selectedIndex], selectedIndex);
+          } else if (searchQuery.trim()) {
+            saveRecentSearch(searchQuery.trim());
           }
           return;
         }
@@ -246,10 +349,15 @@ export default function CommandPalette() {
       window.removeEventListener('keydown', handleKeyDown);
       window.removeEventListener('open-command-palette', handleOpenCommandPalette);
     };
-  }, [isOpen, searchResults, selectedIndex]);
+  }, [isOpen, searchResults, selectedIndex, searchQuery, saveRecentSearch]);
 
   const handleItemClick = (item: SearchDocument, index: number) => {
     setIsOpen(false);
+
+    // Save query if non-empty
+    if (searchQuery.trim()) {
+      saveRecentSearch(searchQuery.trim());
+    }
 
     // Track click telemetry and audience behavior
     logSearchResultClick({
@@ -270,15 +378,36 @@ export default function CommandPalette() {
     }
   };
 
+  const handleRevisitNavigatedPage = (page: NavigatedPageHistory) => {
+    setIsOpen(false);
+    saveNavigatedPage({
+      id: page.id,
+      title: page.title,
+      subtitle: page.subtitle,
+      path: page.path,
+      categoryKey: page.categoryKey,
+      category: page.category,
+      badge: page.badge
+    });
+    navigate(page.path);
+  };
+
   const handleQuickTagClick = (tag: string) => {
     setSearchQuery(tag);
     saveRecentSearch(tag);
     inputRef.current?.focus();
   };
 
+  const totalHistoryCount = recentSearches.length + recentNavigatedPages.length;
+
   // Category filter tabs
-  const CATEGORY_TABS: { key: SearchCategory; label: string }[] = [
+  const CATEGORY_TABS: { key: SearchCategory; label: string; count?: number }[] = [
     { key: 'all', label: 'Semua' },
+    { 
+      key: 'history', 
+      label: 'Riwayat', 
+      count: totalHistoryCount > 0 ? totalHistoryCount : undefined 
+    },
     { key: 'services', label: 'Layanan' },
     { key: 'portfolio', label: 'Studi Kasus & Portofolio' },
     { key: 'articles', label: 'Artikel & Insight' },
@@ -299,6 +428,7 @@ export default function CommandPalette() {
 
   // Map category to aesthetic lucide icon
   const getCategoryIcon = (categoryKey: SearchCategory, categoryName: string, id: string) => {
+    if (categoryKey === 'history' || id.startsWith('history_') || id.startsWith('hist_match_')) return History;
     if (categoryName === 'Fitur') return Activity;
     if (id.includes('promo')) return Sparkles;
     if (categoryKey === 'services') return Zap;
@@ -317,32 +447,30 @@ export default function CommandPalette() {
       {isOpen && (
         <div 
           id="command-palette-backdrop"
-          className="fixed inset-0 z-[100] flex items-start justify-center pt-12 sm:pt-20 px-4 pb-6 overflow-y-auto"
+          className="fixed inset-0 z-[100] flex items-start justify-center pt-16 sm:pt-24 px-4 pb-6 overflow-y-auto"
         >
           {/* Dimmed Blur Backdrop */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.2 }}
-            className="fixed inset-0 bg-slate-950/45 backdrop-blur-md"
+            transition={{ duration: 0.15 }}
+            className="fixed inset-0 bg-slate-900/30 backdrop-blur-xs"
             onClick={() => setIsOpen(false)}
           />
 
           {/* Search Dialog Box */}
           <motion.div
             id="command-palette-container"
-            initial={{ opacity: 0, scale: 0.96, y: -12 }}
+            initial={{ opacity: 0, scale: 0.98, y: -8 }}
             animate={{ opacity: 1, scale: 1, y: 0 }}
-            exit={{ opacity: 0, scale: 0.96, y: -12 }}
-            transition={{ duration: 0.22, ease: [0.16, 1, 0.3, 1] }}
-            className="relative w-full max-w-3xl bg-white rounded-xl shadow-[0_30px_90px_rgba(88,28,135,0.22)] border border-purple-100 ring-1 ring-slate-900/5 overflow-hidden flex flex-col z-10 max-h-[85vh]"
+            exit={{ opacity: 0, scale: 0.98, y: -8 }}
+            transition={{ duration: 0.15, ease: 'easeOut' }}
+            className="relative w-full max-w-2xl bg-white rounded-xl shadow-[0_12px_40px_rgba(15,23,42,0.06)] border border-slate-100 overflow-hidden flex flex-col z-10 max-h-[75vh]"
           >
             {/* Top Search Input Bar */}
-            <div className="flex items-center px-4 sm:px-6 py-4 border-b border-purple-100 bg-white/95 sticky top-0 z-20">
-              <div className="w-10 h-10 rounded-2xl bg-purple-50 text-purple-700 flex items-center justify-center mr-3.5 shrink-0 border border-purple-100/80 shadow-2xs">
-                <Search size={19} className="text-purple-700" />
-              </div>
+            <div className="flex items-center px-5 py-4 border-b border-slate-100 bg-white sticky top-0 z-20">
+              <Search size={18} className="text-slate-400 mr-3.5 shrink-0" />
               
               <input
                 ref={inputRef}
@@ -350,8 +478,8 @@ export default function CommandPalette() {
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder={getSearchPlaceholder()}
-                className="flex-1 bg-transparent border-none outline-none text-slate-900 placeholder:text-slate-400 font-sans text-sm sm:text-base font-medium"
+                placeholder="Ketik apa saja untuk mencari..."
+                className="flex-1 bg-transparent border-none outline-none text-slate-900 placeholder:text-slate-400 font-sans text-sm sm:text-base font-normal"
                 autoFocus
               />
 
@@ -359,23 +487,16 @@ export default function CommandPalette() {
                 <button
                   id="btn-clear-search"
                   onClick={() => setSearchQuery('')}
-                  className="p-1.5 rounded-full hover:bg-slate-100 text-slate-400 hover:text-slate-700 mr-2 transition-colors cursor-pointer"
-                  title="Hapus pencarian"
+                  className="p-1.5 rounded-full hover:bg-slate-50 text-slate-400 hover:text-slate-700 transition-colors cursor-pointer mr-1"
+                  title="Hapus"
                 >
-                  <X size={16} />
+                  <X size={15} />
                 </button>
               )}
-
-              <div className="hidden sm:flex items-center gap-1.5 shrink-0">
-                <span className="text-[10px] font-mono px-2 py-1 rounded-lg bg-purple-50 text-purple-700 border border-purple-200/80 font-medium">
-                  ESC
-                </span>
-              </div>
             </div>
 
             {/* Category Filter Tabs with Horizontal Scroll */}
-            <div className="flex items-center gap-1.5 px-4 sm:px-6 py-2.5 bg-slate-50/80 border-b border-purple-100/70 overflow-x-auto no-scrollbar">
-              <SlidersHorizontal size={13} className="text-purple-600 mr-1 shrink-0" />
+            <div className="flex items-center gap-4 px-5 py-2 border-b border-slate-50 overflow-x-auto no-scrollbar bg-white shrink-0">
               {CATEGORY_TABS.map(tab => {
                 const isSelected = selectedCategory === tab.key;
                 return (
@@ -383,281 +504,237 @@ export default function CommandPalette() {
                     key={tab.key}
                     id={`filter-tab-${tab.key}`}
                     onClick={() => setSelectedCategory(tab.key)}
-                    className={`px-3 py-1 rounded-full text-xs font-medium whitespace-nowrap transition-all cursor-pointer ${
+                    className={`text-xs font-normal whitespace-nowrap transition-colors py-1 cursor-pointer relative ${
                       isSelected
-                        ? 'bg-purple-900 text-white shadow-xs border border-purple-800'
-                        : 'bg-white text-slate-600 hover:text-purple-700 hover:bg-purple-50 border border-slate-200/70'
+                        ? 'text-purple-700 font-medium'
+                        : 'text-slate-400 hover:text-slate-800'
                     }`}
                   >
-                    {tab.label}
+                    <span>{tab.label}</span>
+                    {isSelected && (
+                      <motion.div 
+                        layoutId="activeTabUnderline"
+                        className="absolute bottom-0 left-0 right-0 h-0.5 bg-purple-600"
+                      />
+                    )}
                   </button>
                 );
               })}
-
-              {/* BSD / Cisauk Local Intent Badge Indicator */}
-              {detectedAudience.isBsdCisaukAudience && (
-                <div className="ml-auto hidden md:inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full bg-emerald-50 text-emerald-800 border border-emerald-200 text-[11px] font-medium shrink-0">
-                  <MapPin size={11} />
-                  <span>Target: {detectedAudience.localityTag?.toUpperCase()}</span>
-                </div>
-              )}
             </div>
 
-            {/* Recent Searches Section (when empty query & history exists) */}
-            {!searchQuery && recentSearches.length > 0 && (
-              <div className="px-4 sm:px-6 py-2.5 bg-purple-50/30 border-b border-purple-50 flex items-center justify-between gap-3 overflow-x-auto no-scrollbar">
-                <div className="flex items-center gap-2 overflow-x-auto no-scrollbar">
-                  <span className="text-[11px] font-medium text-slate-600 flex items-center gap-1 shrink-0">
-                    <History size={12} className="text-purple-600" />
-                    Terkini:
-                  </span>
-                  {recentSearches.map(term => (
-                    <div 
-                      key={term}
-                      className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-md bg-white hover:bg-purple-50 text-slate-700 hover:text-purple-950 text-xs font-medium border border-purple-100 transition-colors shadow-2xs group"
+            {/* DEDICATED HISTORY VIEW */}
+            {selectedCategory === 'history' ? (
+              <div className="flex-1 overflow-y-auto p-5 space-y-6">
+                <div className="flex items-center justify-between pb-3 border-b border-slate-100">
+                  <div>
+                    <h4 className="text-sm font-medium text-slate-800">Riwayat Kunjungan &amp; Pencarian</h4>
+                    <p className="text-[11px] text-slate-400 mt-0.5">Akses cepat ke halaman yang terakhir Anda buka.</p>
+                  </div>
+
+                  {totalHistoryCount > 0 && (
+                    <button
+                      onClick={clearAllHistory}
+                      className="text-xs font-normal text-rose-500 hover:text-rose-700 transition-colors cursor-pointer"
                     >
-                      <span 
-                        onClick={() => handleQuickTagClick(term)}
-                        className="cursor-pointer"
-                      >
-                        {term}
-                      </span>
-                      <button
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          removeRecentSearch(term);
-                        }}
-                        className="text-slate-300 hover:text-rose-500 p-0.5 rounded transition-colors cursor-pointer"
-                        title="Hapus dari riwayat"
-                      >
-                        <X size={11} />
-                      </button>
-                    </div>
-                  ))}
+                      Bersihkan Semua
+                    </button>
+                  )}
                 </div>
 
-                <button
-                  onClick={clearRecentSearches}
-                  className="text-[10px] text-slate-400 hover:text-rose-600 font-medium whitespace-nowrap shrink-0 transition-colors cursor-pointer flex items-center gap-1"
-                >
-                  <Trash2 size={11} />
-                  <span>Bersihkan</span>
-                </button>
-              </div>
-            )}
-
-            {/* Popular Curated Intent Chips */}
-            {!searchQuery && (
-              <div className="px-4 sm:px-6 py-2.5 bg-white border-b border-purple-50 flex items-center gap-2 overflow-x-auto no-scrollbar">
-                <span className="text-[11px] font-medium text-slate-400 flex items-center gap-1 shrink-0">
-                  <TrendingUp size={12} className="text-purple-600" />
-                  Populer BSD & Cisauk:
-                </span>
-                {POPULAR_SEARCH_TERMS.map(tag => (
-                  <button
-                    key={tag}
-                    id={`chip-popular-${tag.toLowerCase().replace(/[^a-z0-9]/g, '-')}`}
-                    onClick={() => handleQuickTagClick(tag)}
-                    className="px-2.5 py-0.5 rounded-md bg-purple-50 hover:bg-purple-100 text-purple-700 text-[11px] font-medium border border-purple-100/80 whitespace-nowrap transition-colors cursor-pointer"
-                  >
-                    {tag}
-                  </button>
-                ))}
-              </div>
-            )}
-
-            {/* Dynamic Results / Suggestions List */}
-            <div 
-              ref={listRef}
-              id="search-results-list"
-              className="flex-1 overflow-y-auto p-3 sm:p-4 space-y-1.5 divide-y divide-purple-50/60"
-            >
-              {searchResults.length > 0 ? (
-                searchResults.map((item, index) => {
-                  const Icon = getCategoryIcon(item.categoryKey, item.category, item.id);
-                  const isSelected = index === selectedIndex;
-                  const isPromo = item.id.includes('promo');
-
-                  return (
-                    <motion.div
-                      key={item.id}
-                      id={`search-item-${item.id}`}
-                      initial={{ opacity: 0, y: 3 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.12 }}
-                      onClick={() => handleItemClick(item, index)}
-                      onMouseEnter={() => setSelectedIndex(index)}
-                      className={`w-full flex items-center justify-between p-3.5 rounded-2xl transition-all cursor-pointer text-left group ${
-                        isSelected
-                          ? 'bg-purple-50/95 ring-1 ring-purple-300/80 shadow-xs'
-                          : 'hover:bg-purple-50/40'
-                      }`}
-                    >
-                      <div className="flex items-start gap-3.5 min-w-0 pr-3">
-                        <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 mt-0.5 transition-colors ${
-                          isPromo
-                            ? 'bg-amber-500 text-white shadow-xs'
-                            : isSelected
-                            ? 'bg-purple-700 text-white shadow-xs'
-                            : 'bg-purple-100 text-purple-900'
-                        }`}>
-                          <Icon size={18} />
+                {/* Recent Search Queries */}
+                <div>
+                  <h5 className="text-[11px] font-mono tracking-wider text-slate-400 uppercase mb-2">Pencarian Terakhir</h5>
+                  {recentSearches.length > 0 ? (
+                    <div className="flex flex-wrap gap-1.5">
+                      {recentSearches.map(term => (
+                        <div 
+                          key={term}
+                          className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-50 hover:bg-slate-100 text-slate-700 text-xs font-normal border border-slate-100 transition-colors"
+                        >
+                          <span 
+                            onClick={() => handleQuickTagClick(term)}
+                            className="cursor-pointer"
+                          >
+                            {term}
+                          </span>
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              removeRecentSearch(term);
+                            }}
+                            className="text-slate-300 hover:text-rose-500 cursor-pointer"
+                          >
+                            <X size={11} />
+                          </button>
                         </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="text-xs text-slate-400 italic">Belum ada riwayat pencarian.</p>
+                  )}
+                </div>
 
-                        <div className="min-w-0 flex-1">
-                          <div className="flex items-center gap-2 flex-wrap">
-                            <span className={`text-sm truncate ${
-                              isSelected ? 'text-purple-950 font-medium' : 'text-slate-900 font-normal'
-                            }`}>
-                              {item.title}
+                {/* Recently Navigated Pages */}
+                <div>
+                  <h5 className="text-[11px] font-mono tracking-wider text-slate-400 uppercase mb-2">Halaman Terbuka</h5>
+                  {recentNavigatedPages.length > 0 ? (
+                    <div className="space-y-1">
+                      {recentNavigatedPages.map(page => (
+                        <div
+                          key={page.id}
+                          onClick={() => handleRevisitNavigatedPage(page)}
+                          className="w-full flex items-center justify-between p-2.5 rounded-lg hover:bg-slate-50 transition-colors cursor-pointer group"
+                        >
+                          <div className="min-w-0 pr-3">
+                            <span className="text-xs font-normal text-slate-800 group-hover:text-purple-700 transition-colors truncate block">
+                              {page.title}
                             </span>
-                            
-                            {item.badge && (
-                              <span className={`px-2 py-0.5 rounded-md text-[10px] font-medium uppercase tracking-wider shrink-0 border ${
-                                isPromo 
-                                  ? 'bg-amber-100 text-amber-900 border-amber-300'
-                                  : 'bg-purple-100/90 text-purple-900 border-purple-200'
-                              }`}>
-                                {item.badge}
-                              </span>
-                            )}
-
-                            {item.client && (
-                              <span className="hidden sm:inline-block px-2 py-0.5 rounded-md bg-slate-100 text-slate-700 text-[10px] font-medium border border-slate-200">
-                                Klien: {item.client}
-                              </span>
-                            )}
+                            <span className="text-[10px] text-slate-400 mt-0.5 truncate block">
+                              {page.category} · {formatRelativeTime(page.timestamp)}
+                            </span>
                           </div>
 
-                          {/* Snippet / Description */}
-                          <p className="text-xs text-slate-600 line-clamp-1 mt-1 leading-relaxed">
-                            {item.matchedSnippet || item.subtitle}
-                          </p>
+                          <button
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              removeNavigatedPage(page.id);
+                            }}
+                            className="text-slate-300 hover:text-rose-500 opacity-0 group-hover:opacity-100 transition-opacity p-1 cursor-pointer"
+                          >
+                            <X size={12} />
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  ) : (
+                    <p className="text-xs text-slate-400 italic">Belum ada halaman yang dibuka.</p>
+                  )}
+                </div>
+              </div>
+            ) : (
+              /* REGULAR SEARCH / OVERVIEW VIEW */
+              <>
+                {/* Clean, Non-Pill Recent Searches Inline */}
+                {!searchQuery && recentSearches.length > 0 && (
+                  <div className="px-5 py-2 border-b border-slate-50 flex items-center justify-between gap-3 bg-slate-50/30">
+                    <div className="flex items-center gap-2 text-[11px] font-mono text-slate-400 overflow-x-auto no-scrollbar">
+                      <span className="uppercase tracking-wider shrink-0">Pencarian Terkini:</span>
+                      {recentSearches.slice(0, 4).map(term => (
+                        <button
+                          key={term}
+                          onClick={() => handleQuickTagClick(term)}
+                          className="text-slate-600 hover:text-purple-700 transition-colors cursor-pointer whitespace-nowrap"
+                        >
+                          {term}
+                        </button>
+                      ))}
+                    </div>
+                    <button
+                      onClick={clearRecentSearches}
+                      className="text-[10px] text-slate-400 hover:text-rose-500 transition-colors cursor-pointer whitespace-nowrap"
+                    >
+                      Hapus
+                    </button>
+                  </div>
+                )}
 
-                          {/* Tech Stack / Tags preview */}
-                          {item.tags && item.tags.length > 0 && (
-                            <div className="flex items-center gap-1.5 mt-1.5 flex-wrap">
-                              {item.tags.slice(0, 3).map((tag, tIdx) => (
-                                <span 
-                                  key={tag} 
-                                  className="text-[10px] text-slate-600 bg-white/90 px-2 py-0.5 rounded border border-slate-200 font-mono"
-                                >
-                                  {tag}
-                                </span>
-                              ))}
-                              {item.tags.length > 3 && (
-                                <span className="text-[10px] text-slate-600 font-mono">
-                                  +{item.tags.length - 3} lainnya
+                {/* Popular Terms Mini Row */}
+                {!searchQuery && (
+                  <div className="px-5 py-2 border-b border-slate-50 flex items-center gap-3 text-[11px] font-mono text-slate-400 overflow-x-auto no-scrollbar">
+                    <span className="uppercase tracking-wider shrink-0">Populer:</span>
+                    {POPULAR_SEARCH_TERMS.slice(0, 5).map(tag => (
+                      <button
+                        key={tag}
+                        onClick={() => handleQuickTagClick(tag)}
+                        className="text-slate-600 hover:text-purple-700 transition-colors cursor-pointer whitespace-nowrap"
+                      >
+                        {tag}
+                      </button>
+                    ))}
+                  </div>
+                )}
+
+                {/* Results List */}
+                <div 
+                  ref={listRef}
+                  id="search-results-list"
+                  className="flex-1 overflow-y-auto p-2 space-y-0.5 max-h-[45vh]"
+                >
+                  {searchResults.length > 0 ? (
+                    searchResults.map((item, index) => {
+                      const isSelected = index === selectedIndex;
+                      const isHistory = item.isHistoryItem;
+
+                      return (
+                        <div
+                          key={item.id}
+                          id={`search-item-${item.id}`}
+                          onClick={() => handleItemClick(item, index)}
+                          onMouseEnter={() => setSelectedIndex(index)}
+                          className={`w-full flex items-center justify-between px-4 py-2.5 rounded-lg transition-colors cursor-pointer text-left ${
+                            isSelected
+                              ? 'bg-slate-50 text-slate-900'
+                              : 'hover:bg-slate-50/50'
+                          }`}
+                        >
+                          <div className="min-w-0 flex-1">
+                            <div className="flex items-center gap-2 flex-wrap">
+                              <span className={`text-xs font-normal ${
+                                isSelected ? 'text-purple-700' : 'text-slate-800'
+                              }`}>
+                                {item.title}
+                              </span>
+                              
+                              <span className="text-[10px] text-slate-400 font-mono">
+                                {item.category}
+                              </span>
+
+                              {isHistory && item.historyTimestamp && (
+                                <span className="text-[9px] font-mono text-slate-300">
+                                  · {formatRelativeTime(item.historyTimestamp)}
                                 </span>
                               )}
                             </div>
-                          )}
-                        </div>
-                      </div>
 
-                      <div className="flex items-center gap-2.5 shrink-0 pl-2">
-                        {item.shortcut && (
-                          <kbd className="hidden md:inline-flex items-center px-2 py-0.5 text-[10px] font-mono font-medium text-purple-900 bg-white border border-purple-200 rounded shadow-2xs">
-                            {item.shortcut.toUpperCase()}
-                          </kbd>
-                        )}
-                        <div className={`w-7 h-7 rounded-full flex items-center justify-center transition-transform ${
-                          isSelected ? 'bg-purple-700 text-white translate-x-0.5' : 'text-slate-400 group-hover:text-purple-700'
-                        }`}>
-                          <ChevronRight size={15} />
-                        </div>
-                      </div>
-                    </motion.div>
-                  );
-                })
-              ) : (
-                /* No Results State with Direct AI / WhatsApp Escalation */
-                <div className="py-12 px-6 text-center space-y-4">
-                  <div className="w-14 h-14 rounded-xl bg-purple-50 text-purple-700 mx-auto flex items-center justify-center border border-purple-100 shadow-2xs">
-                    <Search size={24} />
-                  </div>
-                  <div>
-                    <h4 className="text-base font-medium text-slate-900">
-                      Tidak ada hasil langsung untuk "{searchQuery}"
-                    </h4>
-                    <p className="text-xs text-slate-600 mt-1 max-w-md mx-auto leading-relaxed font-normal">
-                      Sistem kami telah mencatat kata kunci ini untuk optimasi konten BSD & Cisauk. Anda dapat menanyakan langsung kebutuhan kustom ke AI Assistant kami atau hubungi Mas Chesta.
-                    </p>
-                  </div>
-                  <div className="flex items-center justify-center gap-3 pt-3 flex-wrap">
-                    <button
-                      id="btn-ask-ai-palette-fallback"
-                      onClick={() => askAIAssistant(searchQuery)}
-                      className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-purple-900 hover:bg-purple-800 text-white text-xs font-medium transition-all shadow-xs border border-purple-800 cursor-pointer"
-                    >
-                      <Sparkles size={14} />
-                      <span>Tanya AI Assistant</span>
-                    </button>
-                    <button
-                      id="btn-ask-wa-palette-fallback"
-                      onClick={() => openWhatsApp(`Halo Mas Chesta, saya sedang mencari solusi website mengenai: "${searchQuery}"`)}
-                      className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-purple-50 hover:bg-purple-100 text-purple-700 border border-purple-200 text-xs font-medium transition-all cursor-pointer"
-                    >
-                      <MessageCircle size={14} />
-                      <span>Konsultasi WhatsApp</span>
-                    </button>
-                  </div>
-                </div>
-              )}
+                            {item.subtitle && (
+                              <p className="text-[11px] text-slate-400 truncate mt-0.5 font-light">
+                                {item.subtitle}
+                              </p>
+                            )}
+                          </div>
 
-              {/* Dynamic Direct Action Buttons when searching */}
-              {searchQuery && searchResults.length > 0 && (
-                <div className="pt-3 pb-1 border-t border-purple-100/80 flex items-center justify-between gap-2 flex-wrap">
-                  <span className="text-[11px] font-medium text-slate-600">
-                    Perlu solusi kustom seputar "{searchQuery}"?
-                  </span>
-                  <div className="flex items-center gap-2">
-                    <button
-                      onClick={() => askAIAssistant(searchQuery)}
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-purple-50 hover:bg-purple-100 text-purple-700 text-xs font-medium border border-purple-200 transition-colors cursor-pointer"
-                    >
-                      <Sparkles size={12} className="text-purple-600" />
-                      <span>Tanya AI</span>
-                    </button>
-                    <button
-                      onClick={() => openWhatsApp(`Halo Mas Chesta, saya ingin diskusi mengenai: "${searchQuery}"`)}
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-emerald-50 hover:bg-emerald-100 text-emerald-900 text-xs font-medium border border-emerald-200 transition-colors cursor-pointer"
-                    >
-                      <MessageCircle size={12} className="text-emerald-700" />
-                      <span>Chat WhatsApp</span>
-                    </button>
-                  </div>
+                          <div className="flex items-center shrink-0 ml-2">
+                            <ChevronRight size={13} className={`transition-transform ${
+                              isSelected ? 'text-purple-600 translate-x-0.5' : 'text-slate-300'
+                            }`} />
+                          </div>
+                        </div>
+                      );
+                    })
+                  ) : (
+                    /* Elegant Simple Empty State */
+                    <div className="py-12 px-5 text-center">
+                      <h4 className="text-xs font-normal text-slate-800">
+                        Tidak ada hasil langsung untuk "{searchQuery}"
+                      </h4>
+                      <p className="text-[11px] text-slate-400 mt-1 max-w-sm mx-auto leading-relaxed">
+                        Coba gunakan kata kunci lain, atau hubungi Mas Chesta via WhatsApp untuk konsultasi kustom.
+                      </p>
+                    </div>
+                  )}
                 </div>
-              )}
-            </div>
+              </>
+            )}
 
             {/* Bottom Keyboard Guide Footer */}
-            <div className="px-4 sm:px-6 py-3 bg-slate-50/95 border-t border-purple-100 flex items-center justify-between text-[11px] text-slate-600 font-medium">
+            <div className="px-5 py-2.5 bg-slate-50 border-t border-slate-100 flex items-center justify-between text-[10px] text-slate-400 font-mono tracking-wider shrink-0 uppercase">
               <div className="hidden sm:flex items-center gap-4">
-                <span className="flex items-center gap-1.5">
-                  <kbd className="px-1.5 py-0.5 bg-white border border-slate-200 rounded text-[10px] font-mono text-slate-700 shadow-2xs">↑</kbd>
-                  <kbd className="px-1.5 py-0.5 bg-white border border-slate-200 rounded text-[10px] font-mono text-slate-700 shadow-2xs">↓</kbd>
-                  <span>Navigasi</span>
-                </span>
-                <span className="flex items-center gap-1.5">
-                  <kbd className="px-1.5 py-0.5 bg-white border border-slate-200 rounded text-[10px] font-mono text-slate-700 shadow-2xs">↵</kbd>
-                  <span>Buka Hasil</span>
-                </span>
-                <span className="flex items-center gap-1.5">
-                  <kbd className="px-1.5 py-0.5 bg-white border border-slate-200 rounded text-[10px] font-mono text-slate-700 shadow-2xs">ESC</kbd>
-                  <span>Tutup</span>
-                </span>
+                <span>↑↓ Navigasi</span>
+                <span>↵ Pilih</span>
+                <span>ESC Tutup</span>
               </div>
-
-              <div className="flex items-center gap-3 ml-auto text-slate-600">
-                <span className="inline-flex items-center gap-1 text-[10px] font-mono bg-purple-50 text-purple-700 px-2 py-0.5 rounded border border-purple-200 font-medium">
-                  <Clock size={10} />
-                  <span>{searchLatencyMs}ms</span>
-                </span>
-                <div className="flex items-center gap-1.5 text-purple-700 font-medium text-xs">
-                  <Sparkles size={13} className="text-purple-600" />
-                  <span>CHESTAADOTCOM Full-Text Search</span>
-                </div>
+              <div className="ml-auto text-slate-400">
+                <span>CHESTAADOTCOM Command CC</span>
               </div>
             </div>
           </motion.div>

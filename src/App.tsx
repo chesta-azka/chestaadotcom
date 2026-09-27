@@ -166,8 +166,8 @@ function PageWrapper({ children }: { children: React.ReactNode }) {
         exit="exit"
         className="flex flex-col flex-1"
       >
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 w-full pt-2">
-          <Breadcrumbs currentTitle={currentMeta.title} />
+        <div className="max-w-7xl mx-auto px-6 lg:px-8 w-full pt-3 pb-1">
+          <Breadcrumbs currentTitle={currentMeta.title} hideOnHome={false} />
         </div>
         
         <motion.div variants={itemVariants} className="flex flex-col flex-1">

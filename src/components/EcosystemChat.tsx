@@ -11,6 +11,7 @@ import { useAuth } from '../contexts/AuthContext';
 import toast from 'react-hot-toast';
 import { useLocation } from 'react-router-dom';
 import DirectTransferModal from './organisms/DirectTransferModal';
+import { Typing } from './ui/typing';
 
 export interface EcosystemChatMessage {
   id?: string;
@@ -258,11 +259,10 @@ Knowledge Base Tambahan:
 ${knowledgeBase}
 
 Format Balasan:
-- Berikan respon yang ramah, profesional, presisi arsitektur, dan ringkas.
-- Selalu sertakan 2-3 opsi navigasi interaktif di bagian paling bawah jawaban Anda dengan format:
+Berikan narasi paragraf analitis yang profesional, padat, dan ringkas. Dilarang keras menggunakan bullet points, tanda strip, ataupun tanda bintang (*). Selalu sertakan 2-3 opsi navigasi interaktif di baris paling bawah dengan format:
 <opsi>Pilihan 1</opsi>
 <opsi>Pilihan 2</opsi>
-<opsi>Hubungi Principal Engineer 👨‍💻</opsi>`;
+<opsi>Hubungi Principal Engineer</opsi>`;
 
       const response = await fetch('/api/chat', {
         method: 'POST',
@@ -280,7 +280,7 @@ Format Balasan:
       });
 
       if (!response.ok || !response.body) {
-        const fallbackText = "Terima kasih atas pertanyaan Anda. CHESTADOTCOM merancang solusi perangkat lunak bespoke berkinerja tinggi dengan keamanan enterprise grade. Ada bagian spesifik yang ingin Anda eksplorasi?\n<opsi>Estimasi Biaya & Waktu</opsi>\n<opsi>Konsultasi Arsitektur Web & AI</opsi>\n<opsi>Hubungi Principal Engineer 👨‍💻</opsi>";
+        const fallbackText = "Terima kasih atas pertanyaan Anda. CHESTADOTCOM merancang solusi arsitektur web modern berkinerja tinggi dan automasi sistem digital. Ada bagian spesifik yang ingin Anda diskusikan?\n<opsi>Estimasi Biaya & Waktu</opsi>\n<opsi>Konsultasi Arsitektur Web & AI</opsi>\n<opsi>Hubungi Principal Engineer 👨‍💻</opsi>";
         const finalHistory = [...newHistory, { role: 'ai', content: fallbackText } as EcosystemChatMessage];
         setChatHistory(finalHistory);
         await saveSessionToFirestore(finalHistory);
@@ -298,7 +298,8 @@ Format Balasan:
         const { value, done: doneReading } = await reader.read();
         done = doneReading;
         if (value) {
-          streamedResponse += decoder.decode(value, { stream: true });
+          const rawChunk = decoder.decode(value, { stream: true });
+          streamedResponse += rawChunk.replace(/\*/g, '');
           setChatHistory(prev => {
             const updated = [...prev];
             const lastIdx = updated.length - 1;
@@ -486,11 +487,7 @@ Format Balasan:
         
         {isTyping && (
           <div className="flex items-center gap-2 text-slate-400 text-xs py-2 px-3">
-            <div className="flex gap-1 items-center">
-              <span className="w-1.5 h-1.5 rounded-full bg-purple-600 animate-bounce" style={{ animationDelay: '0ms' }} />
-              <span className="w-1.5 h-1.5 rounded-full bg-purple-600 animate-bounce" style={{ animationDelay: '150ms' }} />
-              <span className="w-1.5 h-1.5 rounded-full bg-purple-600 animate-bounce" style={{ animationDelay: '300ms' }} />
-            </div>
+            <Typing className="h-2 w-6 text-purple-600" dots={3} />
             <span className="font-medium text-[11px]">Asisten AI sedang menyusun respon arsitektur...</span>
           </div>
         )}

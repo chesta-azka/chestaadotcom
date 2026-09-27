@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useRef } from 'react';
+import type { Variants } from 'motion/react';
 import { motion, useMotionValue, useSpring, useTransform } from 'motion/react';
 import { 
   Zap, 
@@ -11,13 +12,57 @@ import {
   Database
 } from 'lucide-react';
 
+// Staggered container for cascading card revelation
+const bentoContainerVariants: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.16,
+      delayChildren: 0.1,
+    },
+  },
+};
+
+const subgridVariants: Variants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      staggerChildren: 0.14,
+    },
+  },
+};
+
+// Luxury multi-dimensional entrance animation: depth-scale, optical blur-focus, snappy vertical elevation
+const bentoCardVariants: Variants = {
+  hidden: {
+    opacity: 0,
+    y: 40,
+    scale: 0.94,
+    filter: 'blur(8px)',
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    filter: 'blur(0px)',
+    transition: {
+      duration: 0.85,
+      ease: [0.16, 1, 0.3, 1] as const,
+    },
+  },
+};
+
 // Interactive Bento Card with targeted 3D hover perspective and sophisticated STATIC bioluminescent glow
 function InteractiveBentoCard({
   children,
   className = "",
+  variants = bentoCardVariants,
 }: {
   children: React.ReactNode;
   className?: string;
+  variants?: Variants;
 }) {
   const cardRef = useRef<HTMLDivElement>(null);
   
@@ -50,27 +95,43 @@ function InteractiveBentoCard({
   };
 
   return (
-    <div style={{ perspective: 1200 }} className="w-full">
+    <motion.div 
+      variants={variants}
+      style={{ perspective: 1200 }} 
+      className="w-full"
+    >
       <motion.div
         ref={cardRef}
         onMouseMove={handleMouseMove}
         onMouseLeave={handleMouseLeave}
+        whileHover={{ y: -4, transition: { duration: 0.25, ease: "easeOut" } }}
         style={{
           rotateX,
           rotateY,
           transformStyle: "preserve-3d",
         }}
-        className={`relative rounded-[2.25rem] bg-white border border-slate-200/90 hover:border-purple-300 shadow-xl shadow-slate-200/50 transition-all duration-300 ${className}`}
+        className={`group/card relative rounded-[2.25rem] bg-white border border-slate-200/90 hover:border-purple-300 shadow-xl shadow-slate-200/50 hover:shadow-2xl hover:shadow-purple-900/10 transition-shadow duration-300 ${className}`}
       >
         {/* Subtle static radial gradient */}
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-purple-500/5 via-transparent to-transparent pointer-events-none rounded-[2.25rem]" />
 
+        {/* Ambient subtle light sheen sweep across the card on entrance */}
+        <div className="absolute inset-0 rounded-[2.25rem] overflow-hidden pointer-events-none z-10">
+          <motion.div
+            initial={{ x: "-120%", opacity: 0 }}
+            whileInView={{ x: "120%", opacity: [0, 0.15, 0] }}
+            viewport={{ once: true }}
+            transition={{ duration: 1.4, delay: 0.25, ease: [0.22, 1, 0.36, 1] as const }}
+            className="w-full h-full bg-gradient-to-r from-transparent via-purple-300 to-transparent skew-x-12"
+          />
+        </div>
+
         {/* Content container with subtle 3D translation for depth */}
-        <div className="relative z-10 h-full flex flex-col justify-between" style={{ transform: "translateZ(20px)" }}>
+        <div className="relative z-20 h-full flex flex-col justify-between" style={{ transform: "translateZ(20px)" }}>
           {children}
         </div>
       </motion.div>
-    </div>
+    </motion.div>
   );
 }
 
@@ -88,7 +149,13 @@ export default function ArchitectureOfProfit() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-start relative">
           
           {/* LEFT COLUMN: Sticky with Main Value Proposition */}
-          <div className="lg:col-span-5 lg:sticky lg:top-28 space-y-6">
+          <motion.div 
+            initial={{ opacity: 0, x: -24, filter: 'blur(6px)' }}
+            whileInView={{ opacity: 1, x: 0, filter: 'blur(0px)' }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] as const }}
+            className="lg:col-span-5 lg:sticky lg:top-28 space-y-6"
+          >
             <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-purple-50 border border-purple-200 text-purple-700 text-xs font-medium shadow-xs">
               <Sparkles className="w-3.5 h-3.5 text-purple-600" />
               <span className="uppercase tracking-widest">ARSITEKTUR BISNIS OTONOM</span>
@@ -134,10 +201,16 @@ export default function ArchitectureOfProfit() {
                 <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
               </a>
             </div>
-          </div>
+          </motion.div>
 
           {/* RIGHT COLUMN: Asymmetrical Bento Grid with Simplified Services */}
-          <div className="lg:col-span-7 space-y-6">
+          <motion.div 
+            variants={bentoContainerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, amount: 0.12 }}
+            className="lg:col-span-7 space-y-6"
+          >
             
             {/* ANCHOR CARD: HIGH-PERFORMANCE WEB */}
             <InteractiveBentoCard className="p-8 sm:p-10">
@@ -189,7 +262,7 @@ export default function ArchitectureOfProfit() {
             </InteractiveBentoCard>
 
             {/* TWO-COLUMN SECONDARY BENTO CARDS */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+            <motion.div variants={subgridVariants} className="grid grid-cols-1 sm:grid-cols-2 gap-6">
               
               {/* CARD 2: AI AUTONOMOUS AGENT */}
               <InteractiveBentoCard className="p-7">
@@ -263,7 +336,7 @@ export default function ArchitectureOfProfit() {
                 </div>
               </InteractiveBentoCard>
 
-            </div>
+            </motion.div>
 
             {/* SECONDARY ROW: CORPORATE AUTOMATION SYSTEM */}
             <InteractiveBentoCard className="p-8 sm:p-9">
@@ -294,7 +367,7 @@ export default function ArchitectureOfProfit() {
               </div>
             </InteractiveBentoCard>
 
-          </div>
+          </motion.div>
 
         </div>
 

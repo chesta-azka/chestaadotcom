@@ -2,6 +2,7 @@ import { useEffect, useState, useRef } from 'react';
 import { useLocation } from 'react-router-dom';
 import { doc, setDoc, serverTimestamp, addDoc, collection } from 'firebase/firestore';
 import { db } from '../lib/firebase';
+import { recordNavigatedPageGlobal, resolvePageMetadata } from './useSearchAnalytics';
 
 export function useVisitorTracker() {
   const location = useLocation();
@@ -55,6 +56,22 @@ export function useVisitorTracker() {
 
     // Initial ping and historical record on route change
     updatePresence();
+    
+    // Record page into user navigation history for Command Palette quick revisit
+    try {
+      if (!location.pathname.startsWith('/admin') && !location.pathname.startsWith('/api')) {
+        const meta = resolvePageMetadata(location.pathname);
+        recordNavigatedPageGlobal({
+          id: meta.id,
+          title: meta.title,
+          subtitle: meta.subtitle,
+          path: location.pathname,
+          categoryKey: meta.categoryKey,
+          category: meta.category,
+          badge: meta.badge
+        });
+      }
+    } catch {}
     
     const recordPageView = async () => {
       try {

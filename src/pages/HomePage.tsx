@@ -11,15 +11,65 @@ import ArchitectureOfProfit from '../components/organisms/ArchitectureOfProfit';
 import SuccessRoadmap from '../components/organisms/SuccessRoadmap';
 import InvestmentTiers from '../components/organisms/InvestmentTiers';
 import FAQSection from '../components/organisms/FAQSection';
+import BlogInsightSection from '../components/organisms/BlogInsightSection';
 
-// Ultra-lean, buttery-smooth section entrance reveal (without scroll-jacking or stacking physics)
-const sectionRevealVariants: Variants = {
-  hidden: { opacity: 0, y: 20 },
+// 1. Scale-In-Fade: Spatial depth elevation with optical blur resolve (cards and bento grids)
+const scaleInFadeVariants: Variants = {
+  hidden: {
+    opacity: 0,
+    scale: 0.94,
+    y: 35,
+    filter: 'blur(8px)',
+  },
+  visible: {
+    opacity: 1,
+    scale: 1,
+    y: 0,
+    filter: 'blur(0px)',
+    transition: {
+      duration: 0.85,
+      ease: [0.16, 1, 0.3, 1] as const,
+    },
+  },
+};
+
+// 2. Rotate-In-Up: Subtle 3D perspective tilt that tilts up into plane (for terminals and accordions)
+const rotateInUpVariants: Variants = {
+  hidden: {
+    opacity: 0,
+    y: 45,
+    rotateX: 6,
+    scale: 0.96,
+    filter: 'blur(6px)',
+  },
   visible: {
     opacity: 1,
     y: 0,
+    rotateX: 0,
+    scale: 1,
+    filter: 'blur(0px)',
     transition: {
-      duration: 0.6,
+      duration: 0.85,
+      ease: [0.16, 1, 0.3, 1] as const,
+    },
+  },
+};
+
+// 3. Stagger-Slide-In: Dynamic vertical slide with organic inersia for timelines & roadmaps
+const slideInVariants: Variants = {
+  hidden: {
+    opacity: 0,
+    y: 40,
+    scale: 0.97,
+    filter: 'blur(6px)',
+  },
+  visible: {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+    filter: 'blur(0px)',
+    transition: {
+      duration: 0.8,
       ease: [0.22, 1, 0.36, 1] as const,
     },
   },
@@ -33,7 +83,7 @@ export default function HomePage() {
         description="Sistem otonom berkecepatan tinggi yang melayani pelanggan 24/7. Pangkas biaya operasional admin dan dominasi pasar dengan arsitektur digital kelas enterprise."
       />
 
-      {/* THE ULTRA-LEAN 6-SECTION HIGH-CONVERTING FUNNEL */}
+      {/* THE 7-SECTION HIGH-CONVERTING FUNNEL */}
       <div className="flex flex-col w-full relative">
 
         {/* SECTION 1: HERO SECTION (HeroPurple) */}
@@ -43,24 +93,24 @@ export default function HomePage() {
         {/* SOFT LOW-CONTRAST HORIZONTAL RULE 1 */}
         <SoftDivider />
 
-        {/* SECTION 2: REALITY WAKE-UP (Terminal Comparison) */}
-        {/* High-contrast dark terminal contrast agitator focusing on profit leak diagnosis */}
-        <motion.div
-          variants={sectionRevealVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-60px" }}
-        >
-          <RealityWakeUpSection />
-        </motion.div>
+        {/* SECTION 2: REALITY WAKE-UP (Terminal Comparison) - Rotate-In-Up Motion */}
+        <div style={{ perspective: 1200 }} className="w-full">
+          <motion.div
+            variants={rotateInUpVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-60px" }}
+          >
+            <RealityWakeUpSection />
+          </motion.div>
+        </div>
 
         {/* SOFT LOW-CONTRAST HORIZONTAL RULE 2 */}
         <SoftDivider />
 
-        {/* SECTION 3: ARCHITECTURE OF PROFIT (ArchitectureOfProfit - Bento Grid) */}
-        {/* Sticky split-screen with continuous scroll of Asymmetrical Bento Grid, 3D hover perspective & static radial bioluminescent glow */}
+        {/* SECTION 3: ARCHITECTURE OF PROFIT (ArchitectureOfProfit - Bento Grid) - Scale-In-Fade Motion */}
         <motion.div
-          variants={sectionRevealVariants}
+          variants={scaleInFadeVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-60px" }}
@@ -71,10 +121,9 @@ export default function HomePage() {
         {/* SOFT LOW-CONTRAST HORIZONTAL RULE 3 */}
         <SoftDivider />
 
-        {/* SECTION 4: SUCCESS ROADMAP (SuccessRoadmap) */}
-        {/* Horizontal 3-step timeline flowing into interactive touch-swipe carousel of concrete case studies */}
+        {/* SECTION 4: SUCCESS ROADMAP (SuccessRoadmap) - Slide-In Motion */}
         <motion.div
-          variants={sectionRevealVariants}
+          variants={slideInVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-60px" }}
@@ -85,10 +134,9 @@ export default function HomePage() {
         {/* SOFT LOW-CONTRAST HORIZONTAL RULE 4 */}
         <SoftDivider />
 
-        {/* SECTION 5: INVESTMENT TIERS (InvestmentTiers) */}
-        {/* Transparent pricing matrices where the middle tier (Scale Enterprise) pops out spatially with steady luxury gradient halo */}
+        {/* SECTION 5: INVESTMENT TIERS (InvestmentTiers) - Scale-In-Fade Motion */}
         <motion.div
-          variants={sectionRevealVariants}
+          variants={scaleInFadeVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-60px" }}
@@ -99,16 +147,30 @@ export default function HomePage() {
         {/* SOFT LOW-CONTRAST HORIZONTAL RULE 5 */}
         <SoftDivider />
 
-        {/* SECTION 6: FAQ AND EXECUTIVE CTA BANNER (FAQSection) */}
-        {/* Minimalist borderless accordion ending seamlessly in massive screen-to-screen deep purple CTA block */}
+        {/* SECTION 6: BLOG INSIGHT SECTION (Dual-Axis Showcase & Stream) - Scale-In-Fade Motion */}
         <motion.div
-          variants={sectionRevealVariants}
+          variants={scaleInFadeVariants}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-60px" }}
         >
-          <FAQSection />
+          <BlogInsightSection />
         </motion.div>
+
+        {/* SOFT LOW-CONTRAST HORIZONTAL RULE 6 */}
+        <SoftDivider />
+
+        {/* SECTION 7: FAQ AND EXECUTIVE CTA BANNER (FAQSection) - Rotate-In-Up Motion */}
+        <div style={{ perspective: 1200 }} className="w-full">
+          <motion.div
+            variants={rotateInUpVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-60px" }}
+          >
+            <FAQSection />
+          </motion.div>
+        </div>
 
       </div>
     </div>

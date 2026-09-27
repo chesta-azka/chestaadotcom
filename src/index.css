@@ -56,62 +56,62 @@ body {
 h1 {
   font-family: var(--font-display);
   font-size: var(--text-fluid-h1);
-  letter-spacing: -0.028em;
+  letter-spacing: -0.03em;
   line-height: 1.1;
-  font-weight: 500;
+  font-weight: 450; /* Highly sophisticated editorial weight */
   color: #090d16;
 }
 
 h2 {
   font-family: var(--font-display);
   font-size: var(--text-fluid-h2);
-  letter-spacing: -0.022em;
+  letter-spacing: -0.025em;
   line-height: 1.16;
-  font-weight: 500;
+  font-weight: 450; /* Highly sophisticated editorial weight */
   color: #090d16;
 }
 
 h3 {
   font-family: var(--font-display);
   font-size: var(--text-fluid-h3);
-  letter-spacing: -0.018em;
+  letter-spacing: -0.02em;
   line-height: 1.24;
-  font-weight: 500;
+  font-weight: 450; /* Highly sophisticated editorial weight */
   color: #090d16;
 }
 
 h4, h5, h6 {
   font-family: var(--font-display);
-  letter-spacing: -0.012em;
+  letter-spacing: -0.015em;
   line-height: 1.32;
-  font-weight: 500;
+  font-weight: 450;
   color: #090d16;
 }
 
 p {
-  line-height: 1.75;
-  letter-spacing: normal;
+  line-height: 1.8;
+  letter-spacing: -0.003em;
   color: #475569;
   font-family: var(--font-sans);
-  font-weight: 400;
+  font-weight: 350; /* Lighter body weight for extreme legibility & high editorial feel */
 }
 
 /* Global font weight softening for modern editorial elegance */
 .font-bold {
-  font-weight: 550 !important;
+  font-weight: 500 !important;
 }
 
 .font-extrabold,
 .font-black {
-  font-weight: 600 !important;
+  font-weight: 550 !important;
 }
 
 .font-semibold {
-  font-weight: 500 !important;
+  font-weight: 450 !important;
 }
 
 b, strong {
-  font-weight: 550;
+  font-weight: 500;
 }
 
 /* Clean, Elegant Purple Selection and Scrollbar */

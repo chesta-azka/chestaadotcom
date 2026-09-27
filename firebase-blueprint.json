@@ -185,9 +185,52 @@
         "email",
         "createdAt"
       ]
+    },
+    "KnowledgeNode": {
+      "title": "Knowledge Node",
+      "description": "A vectorized RAG knowledge unit in the AI Brain Graph.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "title": { "type": "string" },
+        "content": { "type": "string" },
+        "category": { "type": "string" },
+        "embedding": { "type": "array", "items": { "type": "number" } },
+        "source": { "type": "string" },
+        "confidence": { "type": "number" },
+        "syncedAt": { "type": "string", "format": "date-time" },
+        "accessCount": { "type": "number" },
+        "tags": { "type": "array", "items": { "type": "string" } }
+      },
+      "required": [
+        "title",
+        "content",
+        "category"
+      ]
+    },
+    "ChatSession": {
+      "title": "Client Chat Session",
+      "description": "Persistent conversation session storing messages for anonymous returning clients.",
+      "type": "object",
+      "properties": {
+        "sessionId": { "type": "string" },
+        "messages": { "type": "array" },
+        "lastUpdated": { "type": "string", "format": "date-time" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "metadata": { "type": "object" }
+      },
+      "required": ["sessionId", "messages"]
     }
   },
   "firestore": {
+    "/chat_sessions/{sessionId}": {
+      "schema": "ChatSession",
+      "description": "Anonymous client chat sessions with seamless conversation persistence."
+    },
+    "/knowledge_nodes/{nodeId}": {
+      "schema": "KnowledgeNode",
+      "description": "Vectorized knowledge brain units for real-time RAG and continuous learning."
+    },
     "/users/{userId}": {
       "schema": "User",
       "description": "Primary user profiles."

@@ -224,7 +224,7 @@ export default function AcademyPage() {
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.9 }}
                   transition={{ duration: 0.3 }}
-                  key={resource.id}
+                  key={`${resource.type}-${resource.id}-${idx}`}
                   className={`group bg-white border-2 border-slate-900 shadow-[6px_6px_0_0_rgba(15,23,42,1)] hover:shadow-[2px_2px_0_0_rgba(15,23,42,1)] hover:translate-x-[4px] hover:translate-y-[4px] transition-all flex flex-col ${isLarge ? 'md:col-span-2 lg:col-span-2' : ''}`}
                 >
                   <div className="p-6 sm:p-8 flex-1 flex flex-col">

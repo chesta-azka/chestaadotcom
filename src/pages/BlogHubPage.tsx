@@ -1,6 +1,7 @@
-import { useEffect, useState, useMemo } from 'react';
-import { motion, AnimatePresence, useScroll, useSpring } from 'motion/react';
-import ReactMarkdown from 'react-markdown';
+'use client';
+
+import React, { useEffect, useState, useMemo } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
 import SEOMetadata from '../components/atoms/SEOMetadata';
 import { 
   ArrowLeft, 
@@ -11,34 +12,41 @@ import {
   BookOpen, 
   Clock, 
   Calendar, 
-  Tag,
-  Star,
+  Star, 
+  Bookmark, 
+  TrendingUp, 
+  ChevronDown, 
+  Cpu, 
+  Layers, 
+  LayoutGrid, 
+  LayoutList, 
+  X,
   Share2,
   Check,
-  Flame,
-  BookmarkCheck,
-  TrendingUp,
-  ChevronDown
+  Zap,
+  Globe
 } from 'lucide-react';
 import { useSearchParams, Link, useNavigate } from 'react-router-dom';
 import Breadcrumbs from '../components/atoms/Breadcrumbs';
 import { ALL_ARTICLES, Article } from '../data/blogData';
+import { db } from '../lib/firebase';
+import { collection, getDocs } from 'firebase/firestore';
 import { generateBlogSchema, generateArticleSchema } from '../lib/seo';
 import { parseDateToISOString } from '../utils/dateUtils';
-import CreativityMarquee from '../components/organisms/CreativityMarquee.tsx';
+import CreativityMarquee from '../components/organisms/CreativityMarquee';
 import NewsletterForm from '../components/organisms/NewsletterForm';
 import RecentPostsWidget from '../components/organisms/RecentPostsWidget';
 import SocialShareWidget from '../components/organisms/SocialShareWidget';
-import BlogInteractions from '../components/organisms/BlogInteractions';
 import TableOfContents, { TOCItem } from '../components/molecules/TableOfContents';
-
 import OptimizedImage from '../components/atoms/OptimizedImage';
+import BlurImage, { DEFAULT_BLUR_BASE64, EDITORIAL_SLATE_BLUR_BASE64 } from '../components/atoms/BlurImage';
+import toast from 'react-hot-toast';
 
 const BlogHubSkeleton = () => (
-  <div className="relative flex flex-col h-full bg-white p-6 rounded-xl border border-slate-100 animate-pulse text-left shadow-sm">
-    <div className="w-full h-44 bg-slate-100 rounded-2xl mb-5" />
+  <div className="relative flex flex-col h-full bg-white p-6 rounded-2xl border border-slate-100 animate-pulse text-left shadow-sm">
+    <div className="w-full h-48 bg-slate-100 rounded-xl mb-5" />
     <div className="flex gap-2.5 items-center mb-3">
-      <div className="h-5 w-16 bg-[#6b21a8]/10 rounded-full" />
+      <div className="h-5 w-20 bg-purple-100/60 rounded-full" />
       <div className="h-3 w-16 bg-slate-100 rounded" />
     </div>
     <div className="space-y-2 mb-4">
@@ -47,11 +55,10 @@ const BlogHubSkeleton = () => (
     </div>
     <div className="space-y-2 mb-6">
       <div className="h-3.5 w-full bg-slate-100 rounded" />
-      <div className="h-3.5 w-full bg-slate-100 rounded" />
       <div className="h-3.5 w-3/4 bg-slate-100 rounded" />
     </div>
     <div className="mt-auto pt-4 border-t border-slate-100 flex items-center justify-between">
-      <div className="h-4 w-28 bg-[#6b21a8]/10 rounded" />
+      <div className="h-4 w-24 bg-purple-100/40 rounded" />
       <div className="h-4 w-4 bg-slate-100 rounded-full" />
     </div>
   </div>
@@ -63,20 +70,77 @@ export default function BlogHubPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('All');
   const [onlyRecommended, setOnlyRecommended] = useState(false);
+  const [onlyBookmarked, setOnlyBookmarked] = useState(false);
   const [selectedTag, setSelectedTag] = useState<string | null>(null);
-  const [copied, setCopied] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const [viewMode, setViewMode] = useState<'grid' | 'list'>('grid');
+  const [isLoading, setIsLoading] = useState(false);
+  const [bookmarkedSlugs, setBookmarkedSlugs] = useState<string[]>(() => {
+    try {
+      const saved = localStorage.getItem('chestaa_blog_bookmarks');
+      return saved ? JSON.parse(saved) : [];
+    } catch {
+      return [];
+    }
+  });
+
+  const toggleBookmark = (slug: string, e: React.MouseEvent) => {
+    e.stopPropagation();
+    setBookmarkedSlugs(prev => {
+      const exists = prev.includes(slug);
+      const next = exists ? prev.filter(s => s !== slug) : [...prev, slug];
+      try {
+        localStorage.setItem('chestaa_blog_bookmarks', JSON.stringify(next));
+      } catch (err) {
+        console.error(err);
+      }
+      if (exists) {
+        toast('Dihapus dari daftar bacaan', { icon: '🔖' });
+      } else {
+        toast.success('Disimpan ke daftar bacaan!', { icon: '✨' });
+      }
+      return next;
+    });
+  };
+
+  const [firestoreArticles, setFirestoreArticles] = useState<Article[]>([]);
 
   useEffect(() => {
-    setIsLoading(true);
-    const timer = setTimeout(() => {
-      setIsLoading(false);
-    }, 600);
-    return () => clearTimeout(timer);
-  }, [selectedCategory, searchQuery, selectedTag, onlyRecommended]);
+    const fetchFirestoreBlogs = async () => {
+      try {
+        const snap = await getDocs(collection(db, 'blogs'));
+        const list: Article[] = [];
+        snap.forEach(docSnap => {
+          const data = docSnap.data();
+          list.push({
+            slug: data.slug || docSnap.id,
+            title: data.title || 'Tanpa Judul',
+            cat: data.category || 'Transformasi Digital',
+            date: data.date || '29 SEP 2026',
+            readTime: data.readTime || '5 MIN READ',
+            readTimeMinutes: data.readTimeMinutes || 5,
+            desc: data.description || data.desc || '',
+            recommended: data.recommended ?? true,
+            featured: data.featured ?? false,
+            tags: data.tags || ['Web Development', 'AI Automation'],
+            content: data.contentMarkdown ? [data.contentMarkdown] : [data.description || ''],
+            image: data.image || 'https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1200&auto=format&fit=crop',
+            author: {
+              name: data.author || 'Chesta Azka Sofyan',
+              role: data.authorRole || 'Principal Software Architect'
+            }
+          });
+        });
+        setFirestoreArticles(list);
+      } catch (err) {
+        console.error("Error fetching Firestore blogs:", err);
+      }
+    };
+    fetchFirestoreBlogs();
+  }, []);
 
-  
-  const combinedAllArticles = ALL_ARTICLES;
+  const combinedAllArticles = useMemo(() => {
+    return [...firestoreArticles, ...ALL_ARTICLES];
+  }, [firestoreArticles]);
   const readSlug = searchParams.get('read');
   
   useEffect(() => {
@@ -85,106 +149,112 @@ export default function BlogHubPage() {
     }
   }, [readSlug, navigate]);
 
-  const activeArticle = combinedAllArticles.find(a => a.slug === readSlug);
-
-  const generateHeadingId = (text: string) => {
-    return 'section-' + text
-      .toLowerCase()
-      .replace(/[*_~`#[\]()]/g, '')
-      .replace(/[^a-z0-9]+/g, '-')
-      .replace(/^-+|-+$/g, '');
-  };
-
-  const tocItems = useMemo(() => {
-    if (!activeArticle || !activeArticle.content) return [];
-    const items: TOCItem[] = [];
-    activeArticle.content.forEach((block) => {
-      if (typeof block === 'string') {
-        const lines = block.split('\n');
-        lines.forEach((line) => {
-          const trimmed = line.trim();
-          if (trimmed.startsWith('### ')) {
-            const rawText = trimmed.replace('### ', '').trim();
-            const cleanText = rawText.replace(/[*_`]/g, '');
-            const id = generateHeadingId(cleanText);
-            items.push({ id, text: cleanText, level: 3 });
-          } else if (trimmed.startsWith('## ')) {
-            const rawText = trimmed.replace('## ', '').trim();
-            const cleanText = rawText.replace(/[*_`]/g, '');
-            const id = generateHeadingId(cleanText);
-            items.push({ id, text: cleanText, level: 2 });
-          }
-        });
-      }
-    });
-    return items;
-  }, [activeArticle]);
-
-  // Handle scroll reset when article is opened or closed
-  useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }, [readSlug]);
-
   const [currentPage, setCurrentPage] = useState(1);
+  const [sortBy, setSortBy] = useState<'newest' | 'readTime' | 'popular'>('newest');
   const postsPerPage = 6;
 
-  // Categories list
-  const categories = ['All', 'Transformasi Digital', 'AI Engineering', 'Cloud Enterprise'];
+  // Modern Strategic Categories including Web Development, AI Automation, Business Strategy
+  const categories = [
+    'All',
+    'Web Development',
+    'AI Automation',
+    'Business Strategy',
+    'AI & Otomasi',
+    'Next.js & Performa',
+    'Studi Kasus B2B',
+    'Transformasi Digital',
+    'Edukasi & SEO'
+  ];
+
+  // Match topic
+  const matchesTopic = (art: Article, topic: string): boolean => {
+    if (topic === 'All') return true;
+    const cat = (art.cat || '').toLowerCase();
+    const title = (art.title || '').toLowerCase();
+    const tags = (art.tags || []).map(t => t.toLowerCase());
+
+    if (topic === 'Web Development') {
+      return cat.includes('web') || cat.includes('next.js') || cat.includes('performa') || tags.some(t => t.includes('web') || t.includes('development') || t.includes('next.js') || t.includes('vitals'));
+    }
+    if (topic === 'AI Automation') {
+      return cat.includes('ai') || cat.includes('otomasi') || tags.some(t => t.includes('ai') || t.includes('automation') || t.includes('agentic'));
+    }
+    if (topic === 'Business Strategy') {
+      return cat.includes('strategi') || cat.includes('bisnis') || cat.includes('b2b') || tags.some(t => t.includes('strategy') || t.includes('business') || t.includes('revenue') || t.includes('b2b'));
+    }
+    if (topic === 'AI & Otomasi') {
+      return cat.includes('ai') || cat.includes('otomasi') || tags.some(t => t.includes('ai') || t.includes('agentic') || t.includes('automation'));
+    }
+    if (topic === 'Next.js & Performa') {
+      return cat.includes('next.js') || cat.includes('performa') || tags.some(t => t.includes('next.js') || t.includes('vitals') || t.includes('performance'));
+    }
+    if (topic === 'Studi Kasus B2B') {
+      return cat.includes('studi kasus') || cat.includes('b2b') || title.includes('case study') || tags.some(t => t.includes('case study') || t.includes('b2b'));
+    }
+    if (topic === 'Transformasi Digital') {
+      return cat.includes('transformasi') || cat.includes('bsd') || cat.includes('bisnis') || tags.some(t => t.includes('bsd') || t.includes('transformasi'));
+    }
+    if (topic === 'Edukasi & SEO') {
+      return cat.includes('edukasi') || cat.includes('seo') || tags.some(t => t.includes('seo') || t.includes('aeo') || t.includes('geo'));
+    }
+    return cat.toLowerCase() === topic.toLowerCase();
+  };
+
+  // Pre-calculate counts for each topic
+  const topicCounts = useMemo(() => {
+    const counts: Record<string, number> = {};
+    categories.forEach(cat => {
+      counts[cat] = combinedAllArticles.filter(art => matchesTopic(art, cat)).length;
+    });
+    return counts;
+  }, [combinedAllArticles]);
 
   // Trending tags list
-  const popularTags = ['Agentic AI', 'Local SEO', 'Core Web Vitals', 'Conversion', 'Automation', 'Live Chat Bot', 'Micro-Interactions'];
+  const popularTags = ['Agentic AI', 'Next.js 15', 'Core Web Vitals', 'B2B Revenue', 'WhatsApp API', 'BSD City', 'Local SEO'];
 
-  // Filter articles based on category, search query, recommended toggle, and tags
+  // Filter articles based on category, search query, recommended, bookmarks, tags, and sort
   const filteredArticles = useMemo(() => {
-    return combinedAllArticles.filter(art => {
-      // Map existing categories to new ones for filtering consistency
-      const mappedCat = art.cat === 'Strategic Transformation' || art.cat === 'Strategic Insight' || art.cat === 'Bisnis & Teknologi' || art.cat === 'Profil Perusahaan'
-        ? 'Transformasi Digital'
-        : art.cat === 'AI Innovation' || art.cat === 'AI Automation' || art.cat === 'AI Web Development'
-          ? 'AI Engineering'
-          : art.cat === 'Security' || art.cat === 'Technical Strategy' || art.cat === 'Digital Education'
-            ? 'Cloud Enterprise'
-            : art.cat;
-
-      const matchesCategory = selectedCategory === 'All' || mappedCat.toLowerCase() === selectedCategory.toLowerCase();
+    const matched = combinedAllArticles.filter(art => {
+      const matchesCategory = matchesTopic(art, selectedCategory);
       const matchesQuery = searchQuery.trim() === '' || 
         art.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
         art.desc.toLowerCase().includes(searchQuery.toLowerCase()) ||
         (art.tags && art.tags.some(t => t.toLowerCase().includes(searchQuery.toLowerCase())));
       const matchesRecommended = !onlyRecommended || art.recommended === true;
+      const matchesBookmarked = !onlyBookmarked || bookmarkedSlugs.includes(art.slug);
       const matchesTag = !selectedTag || (art.tags && art.tags.some(t => t.toLowerCase() === selectedTag.toLowerCase()));
-      return matchesCategory && matchesQuery && matchesRecommended && matchesTag;
+      return matchesCategory && matchesQuery && matchesRecommended && matchesBookmarked && matchesTag;
     });
-  }, [combinedAllArticles, selectedCategory, searchQuery, onlyRecommended, selectedTag]);
 
-  // Featured recommendation article
-  const featuredArticle = useMemo(() => {
-    return combinedAllArticles.find(a => a.featured && a.recommended) || combinedAllArticles[0];
-  }, [combinedAllArticles]);
+    return [...matched].sort((a, b) => {
+      if (sortBy === 'readTime') {
+        return (a.readTimeMinutes || 8) - (b.readTimeMinutes || 8);
+      }
+      if (sortBy === 'popular') {
+        return (b.recommended ? 1 : 0) - (a.recommended ? 1 : 0);
+      }
+      return 0; // Default order
+    });
+  }, [combinedAllArticles, selectedCategory, searchQuery, onlyRecommended, onlyBookmarked, bookmarkedSlugs, selectedTag, sortBy]);
 
-  // Top recommended articles for highlight strip
-  const recommendedPicks = useMemo(() => {
-    return combinedAllArticles.filter(a => a.recommended);
-  }, [combinedAllArticles]);
-
-  // Find the primary featured article (the one marked featured: true)
+  // Primary featured article
   const primaryFeaturedArticle = useMemo(() => {
-    return combinedAllArticles.find(a => a.featured) || featuredArticle;
-  }, [combinedAllArticles, featuredArticle]);
+    return combinedAllArticles.find(a => a.featured) || combinedAllArticles[0];
+  }, [combinedAllArticles]);
 
   const displayArticles = useMemo(() => {
-    const isDefaultView = selectedCategory === 'All' && searchQuery.trim() === '' && !onlyRecommended && !selectedTag;
+    const isDefaultView = selectedCategory === 'All' && searchQuery.trim() === '' && !onlyRecommended && !onlyBookmarked && !selectedTag;
     const base = isDefaultView
       ? filteredArticles.filter(a => a.slug !== primaryFeaturedArticle?.slug)
       : filteredArticles;
     
     return base.slice(0, currentPage * postsPerPage);
-  }, [filteredArticles, primaryFeaturedArticle, selectedCategory, searchQuery, onlyRecommended, selectedTag, currentPage]);
+  }, [filteredArticles, primaryFeaturedArticle, selectedCategory, searchQuery, onlyRecommended, onlyBookmarked, selectedTag, currentPage]);
 
   const totalFilteredCount = filteredArticles.length;
   const hasMore = displayArticles.length < (
-    (selectedCategory === 'All' && searchQuery.trim() === '' && !onlyRecommended && !selectedTag)
-      ? filteredArticles.filter(a => a.slug !== featuredArticle?.slug).length
+    (selectedCategory === 'All' && searchQuery.trim() === '' && !onlyRecommended && !onlyBookmarked && !selectedTag)
+      ? filteredArticles.filter(a => a.slug !== primaryFeaturedArticle?.slug).length
       : filteredArticles.length
   );
 
@@ -192,886 +262,641 @@ export default function BlogHubPage() {
     setCurrentPage(prev => prev + 1);
   };
 
-  const handleCopyShare = () => {
-    if (navigator.clipboard) {
-      navigator.clipboard.writeText(window.location.href);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2000);
-    }
+  const resetAllFilters = () => {
+    setSelectedCategory('All');
+    setSelectedTag(null);
+    setSearchQuery('');
+    setOnlyRecommended(false);
+    setOnlyBookmarked(false);
+    setCurrentPage(1);
   };
 
-  // Smart Recommendations for Active Article: Articles in same category or matching tags
-  const relatedArticles = useMemo(() => {
-    if (!activeArticle) return [];
-    return combinedAllArticles
-      .filter(a => a.slug !== activeArticle.slug)
-      .sort((a, b) => {
-        let scoreA = 0;
-        let scoreB = 0;
-        if (a.cat === activeArticle.cat) scoreA += 3;
-        if (b.cat === activeArticle.cat) scoreB += 3;
-        if (a.recommended) scoreA += 2;
-        if (b.recommended) scoreB += 2;
-        if (a.tags && activeArticle.tags && a.tags.some(t => activeArticle.tags?.includes(t))) scoreA += 2;
-        if (b.tags && activeArticle.tags && b.tags.some(t => activeArticle.tags?.includes(t))) scoreB += 2;
-        return scoreB - scoreA;
-      })
-      .slice(0, 3);
-  }, [activeArticle, combinedAllArticles]);
-
   return (
-    <>
-    <motion.div 
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
-      exit={{ opacity: 0 }}
-      className="pb-32 min-h-screen relative"
-    >
+    <div className="pb-32 min-h-screen relative font-sans text-slate-900 bg-[#fbfbfd]">
+      <SEOMetadata 
+        title="Jurnal Rekayasa Web, Performa & Riset AI | CHESTAADOTCOM"
+        description="Publikasi strategi, arsitektur Next.js 15, Vibe Coding, Agentic AI, dan optimasi Core Web Vitals untuk akselerasi pertumbuhan bisnis enterprise & B2B."
+        schema={generateBlogSchema(combinedAllArticles)}
+      />
 
-      <AnimatePresence mode="wait">
-        {activeArticle ? (
-          // ================= FOCUSED ARTICLE DETAIL VIEW =================
-          <motion.div
-            key="article-view"
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -15 }}
-            transition={{ duration: 0.4, ease: "easeOut" }}
-            className="mx-auto max-w-4xl px-6 pt-40 md:pt-48 pb-20 relative z-10 flex flex-col items-center"
-          >
-            <SEOMetadata 
-              title={activeArticle.title} 
-              description={activeArticle.desc} 
-              image={activeArticle.image}
-              type="article"
-              schema={generateArticleSchema(
-                activeArticle.title,
-                activeArticle.desc,
-                `https://chestaadotcom.com/blog?read=${activeArticle.slug}`,
-                activeArticle.image || 'https://chestaadotcom.com/default-og.png',
-                parseDateToISOString(activeArticle.date),
-                typeof activeArticle.author === 'string' ? activeArticle.author : activeArticle.author?.name || 'Chesta Azka Sofyan'
-              )}
-            />
+      {/* Hero Header Section */}
+      <section className="relative pt-32 md:pt-40 pb-16 border-b border-slate-200/80 bg-white">
+        <div className="absolute top-0 right-0 w-[500px] h-[400px] bg-gradient-to-bl from-purple-100/60 via-purple-50/20 to-transparent blur-3xl rounded-full pointer-events-none -z-10" />
 
-            {/* Top Navigation & Share Bar */}
-            <div className="w-full flex items-center justify-between mb-8 pb-4 border-b border-slate-100">
-              <button
-                onClick={() => {
-                  const origin = searchParams.get('origin');
-                  if (origin === 'home') {
-                    window.location.href = '/#blog';
-                  } else {
-                    setSearchParams({});
-                  }
-                }}
-                className="group inline-flex items-center gap-2 text-xs font-mono font-semibold tracking-widest uppercase text-slate-600 hover:text-[#6b21a8] transition-colors"
+        <div className="mx-auto max-w-7xl px-6 w-full">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-end">
+            <div className="lg:col-span-7">
+              <motion.div
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.5 }}
               >
-                <ArrowLeft size={16} className="transition-transform group-hover:-translate-x-1" />
-                <span>{searchParams.get('origin') === 'home' ? 'Kembali ke Home' : 'Kembali ke Semua Insight'}</span>
-              </button>
-
-              <SocialShareWidget title={activeArticle.title} url={`https://chestaadotcom.com/blog?read=${activeArticle.slug}`} />
-            </div>
-
-            {/* Article Header */}
-            <header className="mb-12 w-full text-left bg-purple-950 p-8 sm:p-12 rounded-xl text-white shadow-xl relative overflow-hidden">
-              <div className="absolute inset-0 bg-gradient-to-tr from-purple-950 via-slate-950 to-purple-900 opacity-95 -z-10" />
-              <div className="flex flex-wrap gap-3 items-center mb-6">
-                <span className="text-[10px] font-mono font-medium text-white bg-gradient-to-r from-purple-600 to-indigo-600 px-3.5 py-1.5 rounded-full uppercase tracking-widest shadow-sm">
-                  {activeArticle.cat}
-                </span>
-
-                {activeArticle.recommended && (
-                  <span className="inline-flex items-center gap-1 text-[10px] font-mono font-medium text-amber-300 bg-amber-950/85 border border-amber-500/40 px-3 py-1.5 rounded-full uppercase tracking-wider">
-                    <Star size={11} className="fill-amber-400 text-amber-400" />
-                    Rekomendasi Editor
-                  </span>
-                )}
-
-                <div className="flex items-center gap-1.5 text-xs font-mono text-purple-200">
-                  <Calendar size={12} className="text-purple-300" />
-                  <span>{activeArticle.date}</span>
+                <div className="mb-5 inline-flex items-center gap-2.5 rounded-full border border-purple-200/80 bg-purple-50/70 px-4 py-1.5 text-xs font-mono font-bold tracking-wider text-purple-900 uppercase shadow-2xs">
+                  <Sparkles size={13} className="text-purple-700 animate-pulse" />
+                  <span>Jurnal Arsitektur Web &amp; Riset AI 2026</span>
                 </div>
-                <div className="flex items-center gap-1.5 text-xs font-mono text-purple-200">
-                  <Clock size={12} className="text-purple-300" />
-                  <span>{activeArticle.readTime}</span>
+                
+                <h1 className="text-4xl sm:text-5xl lg:text-6xl font-display font-semibold tracking-tight leading-[1.08] text-slate-900 mb-6">
+                  Wawasan Strategis. <br />
+                  <span className="text-purple-800">Tanpa AI Slop.</span>
+                </h1>
+                
+                <p className="text-base sm:text-lg text-slate-600 font-sans max-w-xl leading-relaxed border-l-2 border-purple-300 pl-4">
+                  Eksplorasi mendalam seputar arsitektur Next.js 15, orkestrasi Agentic AI, optimasi Core Web Vitals &lt; 0.8 detik, dan rekayasa digital untuk pertumbuhan pendapatan B2B.
+                </p>
+
+                {/* Key stats pill strip */}
+                <div className="flex flex-wrap items-center gap-4 mt-6 text-xs font-mono text-slate-500">
+                  <div className="flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                    <span className="font-semibold text-slate-800">{combinedAllArticles.length}+ Masterclass</span>
+                  </div>
+                  <span className="text-slate-300">•</span>
+                  <span>Skor CWV 100/100</span>
+                  <span className="text-slate-300">•</span>
+                  <span>100% Ditulis Praktisi Senior</span>
+                </div>
+              </motion.div>
+            </div>
+            
+            {/* Search Bar & Filter Shortcuts */}
+            <motion.div 
+              initial={{ opacity: 0, x: 20 }}
+              animate={{ opacity: 1, x: 0 }}
+              transition={{ delay: 0.15, duration: 0.5 }}
+              className="lg:col-span-5 flex flex-col gap-3.5"
+            >
+              <div className="relative w-full">
+                <div className="relative bg-white border border-slate-200 rounded-2xl p-1.5 flex items-center shadow-sm transition-all focus-within:border-purple-600 focus-within:ring-2 focus-within:ring-purple-100">
+                  <Search size={18} className="text-slate-400 ml-3 shrink-0" />
+                  <input 
+                    type="text" 
+                    placeholder="Cari topik, AI, Next.js, SEO, B2B..."
+                    value={searchQuery}
+                    onChange={(e) => {
+                      setSearchQuery(e.target.value);
+                      setCurrentPage(1);
+                    }}
+                    className="w-full bg-transparent py-2.5 pl-3 pr-3 text-sm font-sans font-medium placeholder:text-slate-400 text-slate-900 focus:outline-none"
+                  />
+                  {searchQuery && (
+                    <button 
+                      onClick={() => setSearchQuery('')}
+                      className="p-1.5 mr-1 text-slate-400 hover:text-slate-700 bg-slate-100 rounded-full cursor-pointer transition-colors"
+                      title="Hapus pencarian"
+                    >
+                      <X size={14} />
+                    </button>
+                  )}
                 </div>
               </div>
 
-              <h1 className="text-3xl sm:text-4xl md:text-5xl font-serif font-medium text-white tracking-tight leading-[1.15] mb-6 drop-shadow-md">
-                {activeArticle.title}
-              </h1>
-
-              {/* Author Strip */}
-              {activeArticle.author && (
-                <div className="flex flex-wrap items-center justify-between gap-4 py-3 px-4 rounded-2xl bg-white/95 border border-purple-100 mb-8 w-full shadow-xs">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 rounded-full bg-gradient-to-tr from-purple-700 to-indigo-600 text-white font-mono text-xs font-medium flex items-center justify-center shadow-sm">
-                      CA
-                    </div>
-                    <div className="text-left">
-                      <div className="text-sm font-sans font-medium text-slate-900">{activeArticle.author.name}</div>
-                      <div className="text-[10px] font-mono text-slate-500 uppercase tracking-wider">{activeArticle.author.role}</div>
-                    </div>
-                  </div>
-
-                  {/* Social Handles */}
-                  <div className="flex items-center gap-2">
-                    <a
-                      href="https://instagram.com/chestaadotcom"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1 text-[11px] font-mono font-medium px-3 py-1 rounded-full bg-pink-50 hover:bg-pink-100 text-pink-700 border border-pink-200 transition-colors"
+              {/* Trending Quick Topic Tags */}
+              <div className="flex flex-wrap items-center gap-1.5 pt-1">
+                <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider flex items-center gap-1">
+                  <TrendingUp size={11} /> Topik:
+                </span>
+                {popularTags.slice(0, 5).map(tag => {
+                  const isActive = selectedTag === tag;
+                  return (
+                    <button
+                      key={tag}
+                      onClick={() => {
+                        if (selectedTag === tag) {
+                          setSelectedTag(null);
+                        } else {
+                          setSelectedTag(tag);
+                          setSearchQuery('');
+                          setCurrentPage(1);
+                        }
+                      }}
+                      className={`text-[10px] font-mono px-2.5 py-1 rounded-full border transition-all cursor-pointer ${
+                        isActive
+                          ? 'bg-purple-900 text-white border-purple-900 shadow-xs'
+                          : 'bg-white text-slate-600 border-slate-200 hover:border-purple-300 hover:text-purple-800'
+                      }`}
                     >
-                      <span>IG: @chestaadotcom</span>
-                    </a>
-                    <a
-                      href="https://tiktok.com/@chesta_azka"
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="inline-flex items-center gap-1 text-[11px] font-mono font-medium px-3 py-1 rounded-full bg-slate-100 hover:bg-slate-200 text-slate-800 border border-slate-300 transition-colors"
-                    >
-                      <span>TikTok: @chesta_azka</span>
-                    </a>
-                  </div>
-                </div>
-              )}
+                      #{tag}
+                    </button>
+                  );
+                })}
+              </div>
+            </motion.div>
+          </div>
+        </div>
+      </section>
 
-              {activeArticle.image && (
-                <div className="w-full overflow-hidden rounded-xl mb-8 border border-slate-100 shadow-xl max-h-[460px] relative">
+      {/* Main Content Hub Container */}
+      <div className="mx-auto max-w-7xl px-6 w-full pt-10">
+
+        {/* PRIMARY FEATURED ARTICLE HERO CARD */}
+        {!searchQuery && selectedCategory === 'All' && !selectedTag && !onlyBookmarked && !onlyRecommended && primaryFeaturedArticle && (
+          <motion.section 
+            initial={{ opacity: 0, y: 15 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.6 }}
+            className="mb-14 relative group"
+          >
+            <div 
+              onClick={() => navigate('/blog/' + primaryFeaturedArticle.slug)}
+              className="relative w-full aspect-[21/10] sm:aspect-[2.3/1] rounded-3xl overflow-hidden cursor-pointer border border-slate-800 shadow-xl transition-all duration-500 group/hero bg-slate-950"
+            >
+              {primaryFeaturedArticle.image && (
+                <div className="absolute inset-0 overflow-hidden">
                   <OptimizedImage 
-                    src={activeArticle.image} 
-                    alt={activeArticle.title} 
-                    className="w-full h-full object-cover" 
+                    src={primaryFeaturedArticle.image} 
+                    alt={primaryFeaturedArticle.title} 
+                    className="w-full h-full object-cover opacity-60 transition-transform duration-700 ease-out group-hover/hero:scale-105" 
                     priority={true}
                   />
                 </div>
               )}
+              
+              {/* Depth Gradient Overlay */}
+              <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/70 to-transparent" />
+              
+              {/* Card Header Content */}
+              <div className="absolute inset-0 p-6 sm:p-10 md:p-14 flex flex-col justify-end items-start z-10">
+                <div className="max-w-3xl">
+                  <div className="flex flex-wrap gap-2.5 items-center mb-4">
+                    <span className="px-3.5 py-1 rounded-full bg-purple-600 text-white text-[11px] font-mono font-bold uppercase tracking-wider shadow-sm">
+                      {primaryFeaturedArticle.cat}
+                    </span>
+                    <span className="flex items-center gap-1.5 px-3 py-1 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-white text-[11px] font-mono font-medium uppercase tracking-wider">
+                      <Star size={12} className="text-amber-400 fill-amber-400" />
+                      <span>Riset Unggulan Editor</span>
+                    </span>
+                    <span className="flex items-center gap-1.5 text-[11px] font-mono text-purple-200">
+                      <Clock size={12} />
+                      {primaryFeaturedArticle.readTime}
+                    </span>
+                  </div>
 
-              {/* Lead Paragraph */}
-              <p className="text-lg sm:text-xl text-slate-700 font-sans leading-relaxed border-l-3 border-[#6b21a8] pl-6 py-2 bg-purple-50/20 rounded-r-2xl">
-                {activeArticle.desc}
-              </p>
-            </header>
+                  <h2 className="text-2xl sm:text-4xl md:text-5xl font-display font-semibold text-white leading-tight mb-4 tracking-tight group-hover/hero:text-purple-200 transition-colors">
+                    {primaryFeaturedArticle.title}
+                  </h2>
 
-            {/* Table of Contents for Long-Form Articles */}
-            {tocItems.length > 0 && (
-              <div className="mb-10 w-full">
-                <TableOfContents items={tocItems} />
-              </div>
-            )}
+                  <p className="text-slate-300 text-sm sm:text-base leading-relaxed mb-6 font-sans line-clamp-2 md:line-clamp-3">
+                    {primaryFeaturedArticle.desc}
+                  </p>
 
-            {/* Article Content Area */}
-            <article className="space-y-6 text-lg font-sans text-slate-700 leading-relaxed w-full">
-              {activeArticle.content && activeArticle.content.map((block, idx) => {
-                if (typeof block === 'string') {
-                  return (
-                    <div key={idx} className="w-full">
-                      <ReactMarkdown
-                        components={{
-                          h2: ({ children }) => {
-                            const plainText = typeof children === 'string'
-                              ? children
-                              : Array.isArray(children)
-                                ? children.map(c => typeof c === 'string' ? c : '').join('')
-                                : String(children || '');
-                            const id = generateHeadingId(plainText);
-                            return (
-                              <h2 
-                                id={id} 
-                                className="text-3xl sm:text-4xl font-display font-medium text-slate-900 mt-14 mb-6 pt-4 border-t-2 border-purple-100 scroll-mt-28 flex items-center gap-3 group tracking-tight"
-                              >
-                                <span className="w-2.5 h-7 rounded-full bg-purple-700 inline-block shrink-0 shadow-sm shadow-purple-500/20" />
-                                <span>{children}</span>
-                              </h2>
-                            );
-                          },
-                          h3: ({ children }) => {
-                            const plainText = typeof children === 'string'
-                              ? children
-                              : Array.isArray(children)
-                                ? children.map(c => typeof c === 'string' ? c : '').join('')
-                                : String(children || '');
-                            const id = generateHeadingId(plainText);
-                            return (
-                              <h3 
-                                id={id} 
-                                className="text-2xl sm:text-3xl font-display font-medium text-slate-900 mt-10 mb-4 pt-2 scroll-mt-28 flex items-center gap-2 group tracking-tight"
-                              >
-                                <span className="w-2 h-2 rounded-full bg-purple-600 inline-block shrink-0 opacity-80 group-hover:opacity-100 shadow-sm" />
-                                <span>{children}</span>
-                              </h3>
-                            );
-                          },
-                          p: ({ children }) => (
-                            <p className="text-slate-700 leading-[1.8] text-[1.05rem] sm:text-lg mb-6 font-sans">
-                              {children}
-                            </p>
-                          ),
-                          strong: ({ children }) => (
-                            <strong className="font-medium text-slate-900 bg-purple-50/80 px-1.5 py-0.5 rounded text-purple-900 font-sans shadow-xs border border-purple-100/50">
-                              {children}
-                            </strong>
-                          ),
-                          em: ({ children }) => (
-                            <em className="italic text-slate-700 font-medium font-serif text-[1.1rem]">
-                              {children}
-                            </em>
-                          ),
-                          a: ({ href, children }) => (
-                            <a
-                              href={href}
-                              target="_blank"
-                              rel="noopener noreferrer"
-                              className="text-purple-700 hover:text-purple-900 font-medium underline underline-offset-4 decoration-purple-300 hover:decoration-purple-600 transition-colors inline-flex items-center gap-1"
-                            >
-                              {children}
-                            </a>
-                          ),
-                          ul: ({ children }) => (
-                            <ul className="space-y-3 my-6 pl-8 list-disc marker:text-purple-600 text-slate-700 leading-[1.8] text-[1.05rem] sm:text-lg">
-                              {children}
-                            </ul>
-                          ),
-                          ol: ({ children }) => (
-                            <ol className="space-y-3 my-6 pl-8 list-decimal marker:text-purple-700 marker:font-medium text-slate-700 leading-[1.8] text-[1.05rem] sm:text-lg">
-                              {children}
-                            </ol>
-                          ),
-                          li: ({ children }) => (
-                            <li className="leading-[1.8] pl-2">
-                              {children}
-                            </li>
-                          ),
-                          blockquote: ({ children }) => (
-                            <blockquote className="border-l-4 border-purple-600 bg-gradient-to-r from-purple-50/80 to-transparent rounded-r-2xl px-6 py-5 my-8 italic text-slate-800 text-[1.1rem] sm:text-xl font-serif leading-relaxed shadow-sm">
-                              {children}
-                            </blockquote>
-                          ),
-                          code: ({ children }) => (
-                            <code className="px-2 py-0.5 rounded-md bg-slate-900 font-mono text-sm text-purple-200 border border-purple-900/50 font-semibold shadow-inner">
-                              {children}
-                            </code>
-                          )
-                        }}
-                      >
-                        {block}
-                      </ReactMarkdown>
+                  <div className="flex items-center gap-4">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 rounded-full overflow-hidden border border-purple-400 bg-purple-900">
+                        <OptimizedImage 
+                          src={primaryFeaturedArticle.author?.avatar || '/chesta.png'} 
+                          alt={primaryFeaturedArticle.author?.name || 'Author'} 
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+                      <div className="text-left text-xs font-mono">
+                        <span className="text-white font-bold block">{primaryFeaturedArticle.author?.name || 'Chesta Azka Sofyan'}</span>
+                        <span className="text-purple-300 text-[10px] uppercase">{primaryFeaturedArticle.author?.role || 'Lead Architect'}</span>
+                      </div>
                     </div>
-                  );
-                } else if (block.type === 'image') {
-                  return (
-                    <div key={idx} className="w-full my-8 relative aspect-video">
-                      <OptimizedImage 
-                        src={block.url} 
-                        alt={block.alt} 
-                        className="w-full h-full rounded-2xl shadow-lg border border-slate-100 object-cover" 
-                      />
-                      <span className="block text-center text-xs font-mono text-slate-400 mt-2">{block.alt}</span>
+
+                    <div className="ml-auto inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-white text-slate-900 text-xs font-bold font-sans uppercase tracking-wider shadow-md group-hover/hero:bg-purple-50 group-hover/hero:text-purple-950 transition-colors">
+                      <span>Baca Riset</span>
+                      <ArrowRight size={14} />
                     </div>
-                  );
-                }
-                return null;
-              })}
-            </article>
-
-            {/* Tags Strip */}
-            {activeArticle.tags && activeArticle.tags.length > 0 && (
-              <div className="w-full pt-8 pb-4 mt-8 border-t border-slate-100 flex flex-wrap items-center gap-2">
-                <span className="text-xs font-mono text-slate-400 uppercase tracking-wider mr-2 flex items-center gap-1">
-                  <Tag size={12} /> Topik Terkait:
-                </span>
-                {activeArticle.tags.map(t => (
-                  <button
-                    key={t}
-                    onClick={() => {
-                      setSelectedTag(t);
-                      setSearchParams({});
-                    }}
-                    className="text-xs font-sans px-3 py-1 rounded-full bg-slate-100 hover:bg-purple-50 hover:text-[#6b21a8] text-slate-600 transition-colors border border-slate-200"
-                  >
-                    #{t}
-                  </button>
-                ))}
-              </div>
-            )}
-            
-            <BlogInteractions slug={activeArticle.slug} />
-
-                        <div className="-mx-6 my-12 w-full">
-              <NewsletterForm />
-            </div>
-            {/* Floating Marquee */}
-            <div className="-mx-6 my-12 w-full">
-              <CreativityMarquee />
-            </div>
-
-            {/* Related Articles Section */}
-            <div className="mt-16 border-t border-slate-100 pt-12 w-full">
-              <div className="flex items-center justify-between mb-8">
-                <div>
-                  <span className="text-[10px] font-mono uppercase tracking-widest text-[#6b21a8] font-medium block mb-2">
-                    Keep Reading
-                  </span>
-                  <h3 className="text-2xl font-display font-medium text-slate-900 tracking-tight">
-                    Related Articles
-                  </h3>
+                  </div>
                 </div>
+              </div>
+            </div>
+          </motion.section>
+        )}
+
+        {/* CONTROLS BAR: CATEGORIES, VIEW SWITCHER & SORT */}
+        <div className="mb-8">
+          {/* Horizontal Category Pill Bar with Live Counts */}
+          <div className="flex items-center gap-2 overflow-x-auto pb-3 mb-6 no-scrollbar scroll-smooth">
+            {categories.map((cat) => {
+              const isActive = selectedCategory === cat && !onlyBookmarked;
+              const count = topicCounts[cat] || 0;
+              return (
                 <button
-                  onClick={() => setSearchParams({})}
-                  className="text-xs font-sans font-medium text-[#6b21a8] hover:underline inline-flex items-center gap-1"
+                  key={cat}
+                  onClick={() => {
+                    setSelectedCategory(cat);
+                    setSelectedTag(null);
+                    setOnlyBookmarked(false);
+                    setCurrentPage(1);
+                  }}
+                  className={`px-4 py-2.5 rounded-xl text-xs font-mono font-medium whitespace-nowrap transition-all duration-200 flex items-center gap-2 cursor-pointer ${
+                    isActive
+                      ? 'bg-purple-900 text-white shadow-md shadow-purple-900/20 ring-2 ring-purple-400/40'
+                      : 'bg-white text-slate-700 border border-slate-200 hover:border-purple-300 hover:bg-purple-50/40'
+                  }`}
                 >
-                  Lihat Semua Artikel <ArrowRight size={14} />
+                  <span>{cat === 'All' ? 'Semua Jurnal' : cat}</span>
+                  <span className={`text-[10px] px-2 py-0.5 rounded-full font-bold ${
+                    isActive ? 'bg-purple-800 text-purple-200' : 'bg-slate-100 text-slate-500'
+                  }`}>
+                    {count}
+                  </span>
+                </button>
+              );
+            })}
+
+            {/* Quick Filter: Bookmarked Articles */}
+            <button
+              onClick={() => {
+                setOnlyBookmarked(!onlyBookmarked);
+                setCurrentPage(1);
+              }}
+              className={`px-4 py-2.5 rounded-xl text-xs font-mono font-medium whitespace-nowrap transition-all duration-200 flex items-center gap-2 cursor-pointer ${
+                onlyBookmarked
+                  ? 'bg-amber-600 text-white shadow-md shadow-amber-900/20 ring-2 ring-amber-400/40'
+                  : 'bg-white text-slate-700 border border-slate-200 hover:border-amber-300 hover:bg-amber-50/40'
+              }`}
+            >
+              <Bookmark size={13} className={onlyBookmarked ? 'fill-white' : 'text-amber-600'} />
+              <span>Daftar Bacaan</span>
+              <span className={`text-[10px] px-2 py-0.5 rounded-full font-bold ${
+                onlyBookmarked ? 'bg-amber-700 text-amber-100' : 'bg-slate-100 text-slate-500'
+              }`}>
+                {bookmarkedSlugs.length}
+              </span>
+            </button>
+          </div>
+
+          {/* Sub Controls: Active indicator, View Mode Switcher, and Sort */}
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200 pb-5">
+            <div className="text-xs font-mono text-slate-500 flex items-center gap-2 flex-wrap">
+              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+              <span>Menampilkan <strong>{totalFilteredCount}</strong> publikasi terkurasi</span>
+              {(selectedTag || searchQuery || selectedCategory !== 'All' || onlyRecommended || onlyBookmarked) && (
+                <button
+                  onClick={resetAllFilters}
+                  className="text-purple-700 hover:underline font-bold ml-2 cursor-pointer"
+                >
+                  (Reset Semua Filter)
+                </button>
+              )}
+            </div>
+
+            <div className="flex items-center gap-3">
+              {/* View Mode Switcher */}
+              <div className="flex items-center p-1 bg-white border border-slate-200 rounded-xl shadow-2xs">
+                <button
+                  onClick={() => setViewMode('grid')}
+                  className={`p-1.5 rounded-lg transition-colors cursor-pointer ${
+                    viewMode === 'grid' ? 'bg-purple-100 text-purple-900' : 'text-slate-400 hover:text-slate-700'
+                  }`}
+                  title="Tampilan Grid (2 Kolom)"
+                >
+                  <LayoutGrid size={16} />
+                </button>
+                <button
+                  onClick={() => setViewMode('list')}
+                  className={`p-1.5 rounded-lg transition-colors cursor-pointer ${
+                    viewMode === 'list' ? 'bg-purple-100 text-purple-900' : 'text-slate-400 hover:text-slate-700'
+                  }`}
+                  title="Tampilan List Editorial (Horizontal)"
+                >
+                  <LayoutList size={16} />
                 </button>
               </div>
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-                {relatedArticles.map(art => (
-                  <button
-                    key={art.slug}
-                    onClick={() => navigate('/blog/' + art.slug)}
-                    className="p-6 rounded-xl bg-slate-50 border border-slate-100 hover:border-purple-200 hover:bg-white hover:shadow-xl transition-all duration-300 text-left flex flex-col justify-between group h-full shadow-sm"
-                  >
-                    <div>
-                      <div className="flex items-center gap-2.5 mb-4">
-                        <span className="text-[#6b21a8] text-[10px] font-mono uppercase tracking-widest font-medium bg-purple-50 px-2.5 py-1 rounded-full">
-                          {art.cat}
-                        </span>
-                        {art.recommended && (
-                          <span className="flex items-center gap-1 text-[10px] font-mono font-medium text-amber-700 bg-amber-50 px-2.5 py-1 rounded-full border border-amber-200/50">
-                            <Star size={10} className="fill-amber-500 text-amber-500" /> Rekomendasi
-                          </span>
-                        )}
-                      </div>
-                      <h4 className="text-slate-900 font-display font-medium text-lg line-clamp-2 group-hover:text-[#6b21a8] transition-colors mb-3 tracking-tight">
-                        {art.title}
-                      </h4>
-                      <p className="text-xs sm:text-sm text-slate-500 line-clamp-2 mb-6 leading-relaxed font-sans">
-                        {art.desc}
-                      </p>
-                    </div>
-                    <div className="flex items-center justify-between text-[10px] font-mono text-slate-400 pt-4 border-t border-slate-200/60">
-                      <span>{art.readTime}</span>
-                      <span className="text-[#6b21a8] font-medium group-hover:translate-x-1 transition-transform flex items-center gap-1">
-                        Baca Artikel <ArrowRight size={12} />
-                      </span>
-                    </div>
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            {/* Bottom Collaboration CTA */}
-            <div className="mt-16 p-8 md:p-12 rounded-xl bg-gradient-to-br from-purple-50 via-white to-purple-100/50 border border-purple-200 text-slate-900 text-center relative overflow-hidden w-full shadow-xl">
-              <div className="absolute top-0 right-0 w-64 h-64 " />
-              <div className="relative z-10 max-w-xl mx-auto">
-                <BookOpen size={36} className="text-purple-600 mx-auto mb-4" />
-                <h3 className="text-2xl sm:text-3xl font-serif font-medium text-slate-900 mb-3">
-                  Wujudkan Arsitektur Digital Bisnis Anda
-                </h3>
-                <p className="text-sm text-slate-600 mb-8 font-sans leading-relaxed">
-                  Konsultasikan kebutuhan website dan solusi otomatisasi AI bersama Chesta Azka Sofyan via WhatsApp untuk meningkatkan konversi brand Anda.
-                </p>
-                <a
-                  href={`https://wa.me/6282125447232?text=${encodeURIComponent('Halo Mas Chesta, saya baru membaca artikel di CHESTAADOTCOM dan ingin berkonsultasi mengenai strategi digital bisnis saya.')}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex items-center gap-2 rounded-full bg-gradient-to-r from-purple-700 via-purple-800 to-indigo-900 hover:from-purple-600 hover:to-indigo-800 px-8 py-4 font-mono text-xs font-medium uppercase tracking-widest text-white transition-all duration-300 shadow-lg shadow-purple-600/25 cursor-pointer"
+              {/* Sort selector */}
+              <div className="flex items-center gap-1.5 text-xs font-mono">
+                <span className="text-slate-400 hidden sm:inline">Urutan:</span>
+                <button
+                  onClick={() => setSortBy('newest')}
+                  className={`px-3 py-1 rounded-lg transition-colors cursor-pointer ${
+                    sortBy === 'newest' ? 'bg-purple-100 text-purple-900 font-bold' : 'text-slate-500 hover:text-slate-900'
+                  }`}
                 >
-                  <span>Chat with us on WhatsApp</span>
-                  <ArrowUpRight size={14} />
-                </a>
-              </div>
-            </div>
-          </motion.div>
-        ) : (
-          // ================= MAIN BLOG & INSIGHTS HUB VIEW =================
-          <motion.div
-            key="grid-view"
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="w-full"
-          >
-            {/* Header Hero Section */}
-            <section className="relative pt-40 md:pt-48 pb-16 border-b border-slate-100 mb-12 overflow-hidden">
-              <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-gradient-to-bl from-purple-500/10 via-purple-500/5 to-transparent blur-3xl rounded-full pointer-events-none" />
-
-              <div className="mx-auto max-w-7xl px-6 w-full relative z-10">
-                <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-end mt-4">
-                  <div className="lg:col-span-7">
-                    <motion.div
-                      initial={{ opacity: 0, y: 15 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.6, ease: "easeOut" }}
-                    >
-                      <div className="mb-6 inline-flex items-center gap-2.5 rounded-full border border-purple-100 bg-white px-4 py-2 text-xs font-mono font-semibold tracking-widest text-[#6b21a8] uppercase shadow-sm">
-                        <Sparkles size={13} className="text-[#6b21a8] animate-pulse" />
-                        Digital Insights & Strategies 2026
-                      </div>
-                      
-                      <h1 className="text-5xl sm:text-6xl lg:text-7xl font-serif font-medium tracking-tight leading-[1.05] text-slate-900">
-                        The <span className="text-purple-700 italic">Journal.</span>
-                      </h1>
-                      
-                      <p className="text-base sm:text-lg text-slate-600 font-sans max-w-xl leading-relaxed mt-6 border-l-2 border-purple-200 pl-5">
-                        Eksplorasi wawasan mendalam seputar inovasi Agentic AI, optimasi SEO terkini, arsitektur web performa tinggi, dan psikologi konversi digital.
-                      </p>
-                    </motion.div>
-                  </div>
-                  
-                  {/* Search Bar & Stats */}
-                  <motion.div 
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: 0.2, duration: 0.6, ease: "easeOut" }}
-                    className="lg:col-span-5 flex flex-col gap-4"
-                  >
-                    <div className="relative w-full">
-                      <div className="relative bg-white border border-slate-200 shadow-md rounded-2xl p-1.5 flex flex-col sm:flex-row sm:items-center transition-all duration-300 focus-within:border-[#6b21a8] focus-within:shadow-purple-100">
-                        
-                        {/* Search Input */}
-                        <div className="flex-1 flex items-center w-full">
-                          <Search size={20} className="text-slate-400 ml-3 shrink-0" />
-                          <input 
-                            type="text" 
-                            placeholder="Cari insight, AI, teknikal topik..."
-                            value={searchQuery}
-                            onChange={(e) => setSearchQuery(e.target.value)}
-                            className="w-full bg-transparent py-3 pl-3 pr-4 text-sm font-sans font-medium placeholder:text-slate-400 text-slate-900 focus:outline-none"
-                          />
-                        </div>
-                        
-                        {/* Removed Category Dropdown */}
-                        <div className="hidden sm:block h-6 w-px bg-slate-200 mx-2 shrink-0"></div>
-                        
-                        {/* Action Buttons */}
-                        <div className="hidden sm:flex items-center pr-2 shrink-0">
-                          {searchQuery || selectedCategory !== 'All' ? (
-                            <button 
-                              onClick={() => { setSearchQuery(''); setSelectedCategory('All'); }}
-                              className="text-[10px] text-slate-400 hover:text-slate-700 bg-slate-100 px-3 py-1.5 rounded-full font-mono uppercase font-medium cursor-pointer transition-colors"
-                            >
-                              Clear
-                            </button>
-                          ) : (
-                            <button
-                              type="button"
-                              onClick={() => window.dispatchEvent(new CustomEvent('open-command-palette', { detail: { category: 'articles' } }))}
-                              className="inline-flex items-center gap-1 text-[10px] font-mono text-[#6b21a8] bg-purple-50 hover:bg-purple-100 border border-purple-200 px-2 py-1.5 rounded-lg font-medium uppercase transition-colors cursor-pointer"
-                              title="Buka Pencarian Global Artikel (⌘K)"
-                            >
-                              <span>⌘K</span>
-                            </button>
-                          )}
-                        </div>
-                        
-                        {/* Mobile Action Buttons (Visible only on small screens) */}
-                        <div className="sm:hidden absolute right-3 top-3.5">
-                          {searchQuery || selectedCategory !== 'All' ? (
-                            <button 
-                              onClick={() => { setSearchQuery(''); setSelectedCategory('All'); }}
-                              className="text-[10px] text-slate-400 hover:text-slate-700 bg-slate-100 px-2.5 py-1 rounded-full font-mono uppercase font-medium cursor-pointer"
-                            >
-                              Clear
-                            </button>
-                          ) : null}
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Trending Topic Quick Pills */}
-                    <div className="flex flex-wrap items-center gap-1.5 pt-1">
-                      <span className="text-[10px] font-mono text-slate-400 uppercase tracking-wider flex items-center gap-1">
-                        <TrendingUp size={11} /> Trending:
-                      </span>
-                      {popularTags.slice(0, 4).map(tag => (
-                        <button
-                          key={tag}
-                          onClick={() => {
-                            if (selectedTag === tag) {
-                              setSelectedTag(null);
-                            } else {
-                              setSelectedTag(tag);
-                              setSearchQuery('');
-                            }
-                          }}
-                          className={`text-[10px] font-mono px-2.5 py-1 rounded-full border transition-colors ${
-                            selectedTag === tag
-                              ? 'bg-[#6b21a8] text-white border-[#6b21a8]'
-                              : 'bg-slate-50 text-slate-600 border-slate-200 hover:border-purple-200 hover:text-[#6b21a8]'
-                          }`}
-                        >
-                          #{tag}
-                        </button>
-                      ))}
-                    </div>
-                  </motion.div>
-                </div>
-              </div>
-            </section>
-
-            <div className="mx-auto max-w-7xl px-6 w-full relative z-10">
-              
-              {/* ================= PRIMARY FEATURED HIGHLIGHT (Hero Style) ================= */}
-              {!searchQuery && selectedCategory === 'All' && !selectedTag && primaryFeaturedArticle && (
-                <motion.section 
-                  initial={{ opacity: 0, scale: 0.98 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                  className="mb-24 relative group"
+                  Terbaru
+                </button>
+                <button
+                  onClick={() => setSortBy('readTime')}
+                  className={`px-3 py-1 rounded-lg transition-colors cursor-pointer ${
+                    sortBy === 'readTime' ? 'bg-purple-100 text-purple-900 font-bold' : 'text-slate-500 hover:text-slate-900'
+                  }`}
                 >
-                  {/* Outer Ambient Glow - Dynamic Pulsing */}
-                  <div className="absolute -inset-4 bg-gradient-to-r from-purple-500/20 via-indigo-500/20 to-purple-500/20 blur-3xl opacity-50 group-hover:opacity-80 transition-opacity duration-1000 animate-pulse-slow pointer-events-none" />
-
-                  <div 
-                    onClick={() => navigate('/blog/' + primaryFeaturedArticle.slug)}
-                    className="relative w-full aspect-[21/9] md:aspect-[2.4/1] rounded-[2.5rem] overflow-hidden cursor-pointer border border-white/20 shadow-2xl transition-all duration-700 group/hero"
-                  >
-                    {/* Background Image with Ken Burns effect on hover */}
-                    {primaryFeaturedArticle.image ? (
-                      <div className="absolute inset-0 overflow-hidden">
-                        <OptimizedImage 
-                          src={primaryFeaturedArticle.image} 
-                          alt={primaryFeaturedArticle.title} 
-                          className="w-full h-full object-cover transition-transform duration-[2000ms] ease-out group-hover/hero:scale-110" 
-                          priority={true}
-                        />
-                      </div>
-                    ) : (
-                      <div className="absolute inset-0 bg-slate-950" />
-                    )}
-                    
-                    {/* Multi-layered Overlay for Depth */}
-                    <div className="absolute inset-0 bg-gradient-to-t from-slate-950 via-slate-950/60 to-transparent opacity-90 group-hover/hero:opacity-80 transition-opacity duration-700" />
-                    <div className="absolute inset-0 bg-gradient-to-r from-slate-950/80 via-transparent to-transparent opacity-60" />
-                    
-                    {/* Glass Pattern Overlay */}
-                    <div className="absolute inset-0 opacity-[0.03] pointer-events-none bg-[url('https://www.transparenttextures.com/patterns/carbon-fibre.png')]" />
-
-                    {/* Content Overlay */}
-                    <div className="absolute inset-0 p-10 md:p-20 flex flex-col justify-end items-start">
-                      <div className="max-w-4xl relative z-10">
-                        <motion.div 
-                          initial={{ opacity: 0, x: -20 }}
-                          animate={{ opacity: 1, x: 0 }}
-                          transition={{ delay: 0.3, duration: 0.6 }}
-                          className="flex flex-wrap gap-4 items-center mb-8"
-                        >
-                          <span className="px-5 py-2 rounded-full bg-purple-600/90 backdrop-blur-md text-white text-[11px] font-mono font-medium uppercase tracking-[0.2em] shadow-xl shadow-purple-900/40 border border-white/20">
-                            {primaryFeaturedArticle.cat}
-                          </span>
-                          
-                          <span className="relative flex items-center gap-2 px-5 py-2 rounded-full bg-white/10 backdrop-blur-md border border-white/30 text-white text-[11px] font-mono font-medium uppercase tracking-[0.2em] overflow-hidden group/shimmer">
-                            <Star size={14} className="text-amber-400 fill-amber-400 animate-bounce" />
-                            <span>Featured Strategic Post</span>
-                            {/* Shimmer Effect */}
-                            <div className="absolute inset-0 translate-x-[-100%] group-hover/shimmer:translate-x-[100%] transition-transform duration-1000 bg-gradient-to-r from-transparent via-white/20 to-transparent skew-x-12" />
-                          </span>
-
-                          <span className="flex items-center gap-2 text-[11px] font-mono text-purple-200 uppercase tracking-widest font-medium opacity-80">
-                            <Clock size={13} />
-                            {primaryFeaturedArticle.readTime}
-                          </span>
-                        </motion.div>
-                        
-                        <motion.h2 
-                          initial={{ opacity: 0, y: 20 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ delay: 0.4, duration: 0.6 }}
-                          className="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-display font-semibold text-white leading-[1.05] mb-8 tracking-tight group-hover/hero:text-purple-200 transition-colors duration-500"
-                        >
-                          {primaryFeaturedArticle.title}
-                        </motion.h2>
-                        
-                        <motion.p 
-                          initial={{ opacity: 0, y: 20 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ delay: 0.5, duration: 0.6 }}
-                          className="text-slate-300 text-base md:text-xl max-w-3xl leading-relaxed mb-10 font-normal line-clamp-3 md:line-clamp-none opacity-90 group-hover/hero:opacity-100 transition-opacity duration-500"
-                        >
-                          {primaryFeaturedArticle.desc}
-                        </motion.p>
-                        
-                        <motion.div 
-                          initial={{ opacity: 0, y: 20 }}
-                          animate={{ opacity: 1, y: 0 }}
-                          transition={{ delay: 0.6, duration: 0.6 }}
-                          className="flex items-center gap-6"
-                        >
-                          <div className="flex items-center gap-4 p-1.5 pr-6 rounded-full bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/10 transition-colors">
-                            <div className="w-14 h-14 rounded-full overflow-hidden border-2 border-purple-500/50 shadow-2xl relative">
-                              <OptimizedImage 
-                                src={primaryFeaturedArticle.author?.avatar || '/chesta.png'} 
-                                alt={primaryFeaturedArticle.author?.name || 'Author'} 
-                                className="w-full h-full object-cover"
-                              />
-                            </div>
-                            <div className="text-left">
-                              <div className="text-base font-sans font-semibold text-white uppercase tracking-wider">{primaryFeaturedArticle.author?.name}</div>
-                              <div className="text-[11px] font-mono text-purple-300 uppercase tracking-[0.2em] font-medium">{primaryFeaturedArticle.author?.role}</div>
-                            </div>
-                          </div>
-
-                          <div className="hidden sm:flex items-center gap-3 text-white/40 font-mono text-[10px] uppercase tracking-widest">
-                            <div className="w-12 h-px bg-white/20" />
-                            <span>Digital Journal vol. 2026</span>
-                          </div>
-                        </motion.div>
-                      </div>
-                    </div>
-
-                    {/* Interactive Lens Flare Effect */}
-                    <div className="absolute top-0 right-0 w-[60%] h-[60%] bg-gradient-to-br from-purple-500/20 to-transparent blur-[120px] opacity-0 group-hover/hero:opacity-100 transition-opacity duration-1000 pointer-events-none" />
-                  </div>
-                </motion.section>
-              )}
-
-              {/* ================= EDITOR'S CHOICE STRIP ================= */}
-              {!searchQuery && selectedCategory === 'All' && !selectedTag && (
-                <div className="mb-16">
-                  <div className="flex items-center justify-between mb-8">
-                    <div className="flex items-center gap-3">
-                      <div className="w-10 h-10 rounded-2xl bg-amber-500/10 border border-amber-500/20 flex items-center justify-center shadow-inner">
-                        <Flame size={20} className="text-amber-600 animate-pulse" />
-                      </div>
-                      <div>
-                        <h2 className="text-2xl font-display font-medium text-slate-900 tracking-tight">
-                          Wawasan Prioritas
-                        </h2>
-                        <p className="text-xs text-slate-500 font-sans tracking-wide">
-                          Kurasi strategis untuk akselerasi ekosistem enterprise
-                        </p>
-                      </div>
-                    </div>
-
-                    <button
-                      onClick={() => setOnlyRecommended(!onlyRecommended)}
-                      className={`group flex items-center gap-2 text-[10px] font-mono font-medium uppercase tracking-[0.2em] px-6 py-2.5 rounded-xl border transition-all ${
-                        onlyRecommended 
-                          ? 'bg-amber-600 text-white border-amber-700 shadow-lg shadow-amber-900/20' 
-                          : 'bg-white text-slate-500 border-slate-200 hover:border-amber-400 hover:text-amber-700'
-                      }`}
-                    >
-                      {onlyRecommended ? (
-                        <>
-                          <Check size={14} />
-                          Recommended Only
-                        </>
-                      ) : (
-                        <>
-                          <span>Show All Recommended</span>
-                          <ArrowRight size={14} className="transition-transform group-hover:translate-x-1" />
-                        </>
-                      )}
-                    </button>
-                  </div>
-                </div>
-              )}
-
-              {/* Filter Controls Bar (Search Results Summary) */}
-              <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-slate-200/80 pb-6 mb-10">
-                {/* Status & Active Filter Indicator */}
-                <div className="text-xs font-mono text-slate-500 shrink-0 flex items-center gap-2">
-                  <span>Ditemukan <strong>{totalFilteredCount}</strong> insight</span>
-                  {(selectedTag || searchQuery || selectedCategory !== 'All' || onlyRecommended) && (
-                    <button
-                      onClick={() => {
-                        setSelectedCategory('All');
-                        setSelectedTag(null);
-                        setSearchQuery('');
-                        setOnlyRecommended(false);
-                      }}
-                      className="text-purple-600 hover:underline font-semibold"
-                    >
-                      (Reset Filter)
-                    </button>
-                  )}
-                </div>
+                  Waktu Baca
+                </button>
+                <button
+                  onClick={() => setSortBy('popular')}
+                  className={`px-3 py-1 rounded-lg transition-colors cursor-pointer ${
+                    sortBy === 'popular' ? 'bg-purple-100 text-purple-900 font-bold' : 'text-slate-500 hover:text-slate-900'
+                  }`}
+                >
+                  Unggulan
+                </button>
               </div>
-
-              {/* Dynamic Empty State */}
-              {displayArticles.length === 0 && (
-                <div className="text-center py-20 border border-dashed border-slate-200 rounded-xl bg-slate-50">
-                  <BookOpen size={40} className="text-slate-400 mx-auto mb-3" />
-                  <h3 className="text-lg font-display font-medium text-slate-800 mb-1">
-                    Tidak ada artikel yang cocok
-                  </h3>
-                  <p className="text-xs text-slate-500 max-w-sm mx-auto mb-6">
-                    Coba gunakan kata kunci lain atau reset filter kategori untuk melihat insight lainnya.
-                  </p>
-                  <button
-                    onClick={() => {
-                      setSearchQuery('');
-                      setSelectedCategory('All');
-                      setSelectedTag(null);
-                      setOnlyRecommended(false);
-                    }}
-                    className="px-6 py-2.5 rounded-full bg-[#6b21a8] text-white text-xs font-mono uppercase tracking-wider hover:bg-purple-700 transition-colors"
-                  >
-                    Reset Pencarian
-                  </button>
-                </div>
-              )}
-
-              {/* Regular Posts Grid with Sidebar */}
-              <div className="flex flex-col lg:flex-row gap-10">
-                <div className="flex-1 w-full">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                    {isLoading ? (
-                      [...Array(6)].map((_, idx) => <BlogHubSkeleton key={idx} />)
-                    ) : (
-                      displayArticles.map((art, i) => (
-                        <motion.article 
-                      key={art.slug} 
-                      className="group cursor-pointer flex flex-col h-full bg-white p-6 rounded-none border border-slate-200/90 hover:border-purple-300 hover:shadow-xl transition-all duration-300 shadow-sm"
-                      initial={{ opacity: 0, y: 30, scale: 0.96 }}
-                      whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                      viewport={{ once: true, margin: "-50px" }}
-                      transition={{ duration: 0.5, delay: i * 0.06, ease: [0.22, 1, 0.36, 1] }}
-                      onClick={() => navigate('/blog/' + art.slug)}
-                    >
-                      {art.image && (
-                        <div className="w-full h-44 overflow-hidden rounded-2xl mb-5 relative border border-slate-100">
-                          <img 
-                            src={art.image} 
-                            alt={art.title} 
-                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" 
-                          />
-                          {art.recommended && (
-                            <div className="absolute top-3 right-3 bg-white/95 backdrop-blur-md px-2.5 py-1 rounded-full border border-amber-200/80 shadow-sm flex items-center gap-1 text-[10px] font-mono font-medium text-amber-800">
-                              <Star size={10} className="fill-amber-500 text-amber-500" />
-                              <span>Rekomendasi</span>
-                            </div>
-                          )}
-                        </div>
-                      )}
-
-                      <div className="flex gap-2.5 items-center mb-3">
-                        <span className="text-[10px] font-mono font-medium text-purple-700 bg-purple-50 px-2.5 py-1 rounded-full uppercase tracking-wider">
-                          {art.cat}
-                        </span>
-                        <span className="text-[10px] font-mono text-slate-400">
-                          {art.readTime}
-                        </span>
-                      </div>
-
-                      <h3 className="text-lg md:text-xl font-display font-medium text-slate-900 leading-snug mb-3 group-hover:text-[#6b21a8] transition-colors tracking-tight line-clamp-2 text-left">
-                        {art.title}
-                      </h3>
-                      
-                      <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-sans mb-6 line-clamp-3 text-left">
-                        {art.desc}
-                      </p>
-
-                      {/* Tag Badges */}
-                      {art.tags && art.tags.length > 0 && (
-                        <div className="flex flex-wrap gap-1.5 mb-6 mt-auto">
-                          {art.tags.slice(0, 3).map(t => (
-                            <span key={t} className="text-[10px] font-sans px-2 py-0.5 rounded-md bg-slate-100 text-slate-500">
-                              #{t}
-                            </span>
-                          ))}
-                        </div>
-                      )}
-
-                      <div className="pt-4 border-t border-slate-100 flex items-center justify-between text-xs font-mono font-medium tracking-wider text-[#6b21a8]">
-                        <span>Baca Selengkapnya</span>
-                        <ArrowRight size={14} className="transform group-hover:translate-x-1 transition-transform" />
-                      </div>
-                    </motion.article>
-                  ))
-                )}
-              </div>
-
-              {/* Load More Control */}
-                  {hasMore && (
-                    <div className="mt-16 flex justify-center">
-                      <button
-                        onClick={handleLoadMore}
-                        className="px-8 py-3.5 rounded-full bg-slate-900 text-white hover:bg-[#6b21a8] text-xs font-mono font-medium uppercase tracking-widest transition-colors shadow-sm cursor-pointer"
-                      >
-                        Muat Lebih Banyak Insight
-                      </button>
-                    </div>
-                  )}
-                </div>
-                
-                {/* Sidebar */}
-                <aside className="w-full lg:w-[320px] shrink-0 lg:sticky lg:top-32 h-max space-y-10">
-                  
-                  {/* Categories Vertical List */}
-                  <div className="bg-white p-6 rounded-xl border border-slate-100 shadow-sm">
-                    <h4 className="font-medium text-slate-900 mb-6 text-xs uppercase tracking-widest bg-purple-50/70 border border-purple-100/80 px-4 py-2 rounded-lg inline-block text-purple-950">
-                      Kategori Topik
-                    </h4>
-                    <ul className="flex flex-col gap-2">
-                      {categories.map((cat) => {
-                        const isActive = (selectedCategory === 'All' && cat === 'All') || selectedCategory.toLowerCase() === cat.toLowerCase();
-                        return (
-                          <li key={cat}>
-                            <button
-                              onClick={() => {
-                                setSelectedCategory(cat);
-                                setSelectedTag(null);
-                              }}
-                              className={`w-full text-left px-4 py-3 rounded-xl transition-all duration-300 flex items-center justify-between group ${
-                                isActive 
-                                  ? 'bg-purple-50 text-purple-900 font-semibold ring-1 ring-purple-200' 
-                                  : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'
-                              }`}
-                            >
-                              <span className="text-sm font-sans">{cat === 'All' ? 'Semua Jurnal' : cat}</span>
-                              <ChevronDown size={14} className={`transform -rotate-90 transition-transform ${isActive ? 'text-purple-600 translate-x-1' : 'text-slate-300 group-hover:translate-x-0.5'}`} />
-                            </button>
-                          </li>
-                        );
-                      })}
-                    </ul>
-                  </div>
-
-                  {/* Local SEO / Internal Links Strategy */}
-                  <div className="bg-gradient-to-br from-purple-900 to-indigo-950 p-6 rounded-xl shadow-lg border border-purple-800/50">
-                    <h4 className="font-medium text-white mb-6 text-xs uppercase tracking-widest border-b border-purple-800/50 pb-4">
-                      Area &amp; Solusi Utama
-                    </h4>
-                    <ul className="flex flex-col gap-3 text-sm font-sans">
-                      <li>
-                        <Link to="/area/bsd-city" onClick={() => window.scrollTo(0,0)} className="flex items-center justify-between text-purple-100 hover:text-white group">
-                          <span>Jasa IT BSD City</span>
-                          <ArrowRight size={14} className="opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all text-emerald-400" />
-                        </Link>
-                      </li>
-                      <li>
-                        <Link to="/area/cisauk" onClick={() => window.scrollTo(0,0)} className="flex items-center justify-between text-purple-100 hover:text-white group">
-                          <span>Solusi Web Cisauk</span>
-                          <ArrowRight size={14} className="opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all text-emerald-400" />
-                        </Link>
-                      </li>
-                      <li>
-                        <Link to="/layanan/agentic-ai-automation" onClick={() => window.scrollTo(0,0)} className="flex items-center justify-between text-purple-100 hover:text-white group">
-                          <span>Agentic AI Automation Indonesia</span>
-                          <ArrowRight size={14} className="opacity-0 -translate-x-2 group-hover:opacity-100 group-hover:translate-x-0 transition-all text-emerald-400" />
-                        </Link>
-                      </li>
-                    </ul>
-                  </div>
-
-                  <RecentPostsWidget />
-                </aside>
-              </div>
-              
-              <div className="mt-24">
-                <NewsletterForm />
-              </div>
-              
             </div>
-          </motion.div>
+          </div>
+        </div>
+
+        {/* Dynamic Empty State */}
+        {displayArticles.length === 0 && (
+          <div className="text-center py-20 border border-dashed border-slate-200 rounded-3xl bg-white shadow-xs max-w-xl mx-auto my-12 p-8">
+            <BookOpen size={44} className="text-purple-400 mx-auto mb-4" />
+            <h3 className="text-xl font-display font-semibold text-slate-800 mb-2">
+              Tidak Ada Artikel yang Cocok
+            </h3>
+            <p className="text-sm text-slate-500 max-w-sm mx-auto mb-6 leading-relaxed">
+              Coba gunakan kata kunci pencarian lain atau klik tombol reset untuk menjelajahi kembali seluruh arsip.
+            </p>
+            <button
+              onClick={resetAllFilters}
+              className="px-6 py-2.5 rounded-full bg-purple-900 text-white text-xs font-mono uppercase tracking-wider hover:bg-purple-800 transition-colors cursor-pointer shadow-md"
+            >
+              Reset Semua Filter
+            </button>
+          </div>
         )}
 
-      </AnimatePresence>
-    </motion.div>
-    </>
+        {/* Main Feed with Responsive Layout (Grid or List) */}
+        {displayArticles.length > 0 && (
+          <div className="flex flex-col lg:flex-row gap-10">
+            <div className="flex-1 w-full">
+              
+              {/* View Mode: GRID (2 Columns) */}
+              {viewMode === 'grid' ? (
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-7">
+                  {displayArticles.map((art, i) => {
+                    const isBookmarked = bookmarkedSlugs.includes(art.slug);
+                    return (
+                      <motion.article 
+                        key={`${art.slug}-${i}-grid`} 
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.4, delay: i * 0.05 }}
+                        whileHover={{ y: -4 }}
+                        onClick={() => navigate('/blog/' + art.slug)}
+                        className="group cursor-pointer flex flex-col h-full bg-white p-6 rounded-2xl border border-slate-200/90 hover:border-purple-300 hover:shadow-xl transition-all duration-300 shadow-xs relative overflow-hidden"
+                      >
+                        {/* Thumbnail with Blur-up Placeholder */}
+                        {art.image && (
+                          <div className="w-full h-48 overflow-hidden rounded-xl mb-5 relative border border-slate-100 bg-slate-100">
+                            <BlurImage 
+                              src={art.image} 
+                              alt={art.title} 
+                              aspectRatio="16/9"
+                              blurDataURL={DEFAULT_BLUR_BASE64}
+                              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" 
+                            />
+                            {/* Bookmark Button */}
+                            <button
+                              onClick={(e) => toggleBookmark(art.slug, e)}
+                              className="absolute top-3 right-3 p-2 rounded-full bg-white/90 backdrop-blur-md border border-slate-200 hover:bg-white text-slate-600 hover:text-purple-700 shadow-xs transition-transform active:scale-90 z-10 cursor-pointer"
+                              title={isBookmarked ? "Hapus dari bookmark" : "Simpan artikel"}
+                            >
+                              <Bookmark size={14} className={isBookmarked ? "fill-purple-700 text-purple-700" : ""} />
+                            </button>
+                            {art.recommended && (
+                              <div className="absolute bottom-3 left-3 bg-white/95 backdrop-blur-md px-2.5 py-1 rounded-full border border-amber-200/80 shadow-2xs flex items-center gap-1 text-[10px] font-mono font-bold text-amber-800 z-10">
+                                <Star size={10} className="fill-amber-500 text-amber-500" />
+                                <span>Rekomendasi</span>
+                              </div>
+                            )}
+                          </div>
+                        )}
+
+                        {/* Category & Read Time */}
+                        <div className="flex gap-2.5 items-center mb-3">
+                          <span className="text-[10px] font-mono font-bold text-purple-800 bg-purple-50 px-2.5 py-1 rounded-full uppercase tracking-wider border border-purple-100">
+                            {art.cat}
+                          </span>
+                          <span className="text-[10px] font-mono text-slate-400">
+                            {art.readTime}
+                          </span>
+                        </div>
+
+                        {/* Title */}
+                        <h3 className="text-lg md:text-xl font-display font-semibold text-slate-900 leading-snug mb-3 group-hover:text-purple-800 transition-colors tracking-tight line-clamp-2 text-left">
+                          {art.title}
+                        </h3>
+                        
+                        {/* Brief Summary */}
+                        <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-sans mb-5 line-clamp-2 text-left">
+                          {art.desc}
+                        </p>
+
+                        {/* Tags */}
+                        {art.tags && art.tags.length > 0 && (
+                          <div className="flex flex-wrap gap-1.5 mb-6 mt-auto">
+                            {art.tags.slice(0, 3).map((t, idx) => (
+                              <span key={`${t}-${idx}`} className="text-[10px] font-mono px-2 py-0.5 rounded-md bg-slate-100 text-slate-600">
+                                #{t}
+                              </span>
+                            ))}
+                          </div>
+                        )}
+
+                        {/* Card Footer */}
+                        <div className="pt-4 border-t border-slate-100 flex items-center justify-between text-xs font-mono font-bold tracking-wider text-purple-800">
+                          <span>Baca Riset Lengkap</span>
+                          <ArrowRight size={14} className="transform group-hover:translate-x-1 transition-transform" />
+                        </div>
+                      </motion.article>
+                    );
+                  })}
+                </div>
+              ) : (
+                /* View Mode: LIST / EDITORIAL (Horizontal Layout) */
+                <div className="space-y-6">
+                  {displayArticles.map((art, i) => {
+                    const isBookmarked = bookmarkedSlugs.includes(art.slug);
+                    return (
+                      <motion.article 
+                        key={`${art.slug}-${i}-list`} 
+                        initial={{ opacity: 0, y: 15 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.35, delay: i * 0.04 }}
+                        whileHover={{ y: -3 }}
+                        onClick={() => navigate('/blog/' + art.slug)}
+                        className="group cursor-pointer p-6 rounded-2xl bg-white border border-slate-200/90 hover:border-purple-300 hover:shadow-xl transition-all duration-300 shadow-xs flex flex-col md:flex-row gap-6 items-stretch"
+                      >
+                        {/* Left Horizontal Thumbnail with Blur-up Placeholder */}
+                        {art.image && (
+                          <div className="w-full md:w-64 h-48 md:h-auto shrink-0 overflow-hidden rounded-xl relative border border-slate-100 bg-slate-100">
+                            <BlurImage 
+                              src={art.image} 
+                              alt={art.title} 
+                              aspectRatio="16/9"
+                              blurDataURL={DEFAULT_BLUR_BASE64}
+                              className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" 
+                            />
+                            <button
+                              onClick={(e) => toggleBookmark(art.slug, e)}
+                              className="absolute top-2.5 right-2.5 p-1.5 rounded-full bg-white/90 backdrop-blur-md border border-slate-200 hover:bg-white text-slate-600 hover:text-purple-700 shadow-xs transition-transform active:scale-90 z-10 cursor-pointer"
+                              title={isBookmarked ? "Hapus dari bookmark" : "Simpan artikel"}
+                            >
+                              <Bookmark size={13} className={isBookmarked ? "fill-purple-700 text-purple-700" : ""} />
+                            </button>
+                          </div>
+                        )}
+
+                        {/* Right Content */}
+                        <div className="flex flex-col justify-between flex-1 min-w-0">
+                          <div>
+                            <div className="flex items-center gap-2.5 mb-2.5 flex-wrap">
+                              <span className="text-[10px] font-mono font-bold text-purple-800 bg-purple-50 px-2.5 py-1 rounded-full uppercase tracking-wider border border-purple-100">
+                                {art.cat}
+                              </span>
+                              <span className="text-[10px] font-mono text-slate-400">
+                                {art.readTime}
+                              </span>
+                              <span className="text-[10px] font-mono text-slate-400 hidden sm:inline">
+                                • {art.date}
+                              </span>
+                            </div>
+
+                            <h3 className="text-lg md:text-xl font-display font-semibold text-slate-900 leading-snug mb-2.5 group-hover:text-purple-800 transition-colors tracking-tight">
+                              {art.title}
+                            </h3>
+
+                            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed font-sans mb-4 line-clamp-2">
+                              {art.desc}
+                            </p>
+                          </div>
+
+                          <div className="pt-4 border-t border-slate-100 flex items-center justify-between mt-auto">
+                            <div className="flex items-center gap-2">
+                              {art.tags && art.tags.slice(0, 3).map((t, idx) => (
+                                <span key={`${t}-${idx}-list`} className="text-[10px] font-mono px-2 py-0.5 rounded-md bg-slate-100 text-slate-600">
+                                  #{t}
+                                </span>
+                              ))}
+                            </div>
+                            <span className="inline-flex items-center gap-1.5 text-xs font-mono font-bold text-purple-800 group-hover:translate-x-1 transition-transform">
+                              <span>Baca Selengkapnya</span>
+                              <ArrowRight size={13} />
+                            </span>
+                          </div>
+                        </div>
+                      </motion.article>
+                    );
+                  })}
+                </div>
+              )}
+
+              {/* Load More Button */}
+              {hasMore && (
+                <div className="mt-14 flex justify-center">
+                  <button
+                    onClick={handleLoadMore}
+                    className="px-8 py-3.5 rounded-full bg-slate-900 text-white hover:bg-purple-900 text-xs font-mono font-bold uppercase tracking-widest transition-all shadow-md cursor-pointer hover:shadow-xl hover:-translate-y-0.5"
+                  >
+                    Muat Lebih Banyak Insight ({filteredArticles.length - displayArticles.length} tersisa)
+                  </button>
+                </div>
+              )}
+            </div>
+
+            {/* Sidebar Column */}
+            <aside className="w-full lg:w-[320px] shrink-0 space-y-8">
+              
+              {/* Category Breakdown Widget */}
+              <div className="bg-white p-6 rounded-2xl border border-slate-200/90 shadow-xs">
+                <h4 className="font-display font-bold text-slate-900 mb-4 text-xs uppercase tracking-wider flex items-center gap-2">
+                  <Layers size={14} className="text-purple-700" />
+                  <span>Kategori Riset</span>
+                </h4>
+                <ul className="flex flex-col gap-1.5">
+                  {categories.map((cat) => {
+                    const isActive = selectedCategory === cat && !onlyBookmarked;
+                    const count = topicCounts[cat] || 0;
+                    return (
+                      <li key={cat}>
+                        <button
+                          onClick={() => {
+                            setSelectedCategory(cat);
+                            setSelectedTag(null);
+                            setOnlyBookmarked(false);
+                            setCurrentPage(1);
+                          }}
+                          className={`w-full text-left px-3.5 py-2.5 rounded-xl transition-all flex items-center justify-between text-xs font-mono cursor-pointer ${
+                            isActive 
+                              ? 'bg-purple-50 text-purple-900 font-bold ring-1 ring-purple-200' 
+                              : 'text-slate-600 hover:bg-slate-50 hover:text-slate-900'
+                          }`}
+                        >
+                          <span>{cat === 'All' ? 'Semua Jurnal' : cat}</span>
+                          <span className="text-[10px] px-2 py-0.5 rounded-full bg-slate-100 text-slate-500 font-bold">
+                            {count}
+                          </span>
+                        </button>
+                      </li>
+                    );
+                  })}
+                </ul>
+              </div>
+
+              {/* Principal Author Credentials */}
+              <div className="bg-purple-950 text-white p-6 rounded-2xl shadow-xl relative overflow-hidden border border-purple-800">
+                <div className="absolute top-0 right-0 w-32 h-32 bg-purple-600/20 rounded-full blur-2xl pointer-events-none" />
+                <div className="relative z-10">
+                  <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-purple-400 mb-4 bg-purple-900">
+                    <img src="/chesta.png" alt="Chesta Azka" className="w-full h-full object-cover" />
+                  </div>
+                  <h4 className="font-display font-bold text-white text-base">Chesta Azka Sofyan</h4>
+                  <p className="text-[11px] font-mono text-purple-300 uppercase tracking-wider mb-3">Lead Architect &amp; AI Specialist</p>
+                  <p className="text-xs text-slate-300 font-sans leading-relaxed mb-4">
+                    Membantu bisnis di BSD City, Cisauk, dan Jabodetabek membangun arsitektur web modern yang cepat dan terintegrasi dengan Agen AI otomatis.
+                  </p>
+                  <a
+                    href="https://wa.me/6282125447232?text=Halo%20Mas%20Chesta,%20saya%20tertarik%20berdiskusi%20mengenai%20arsitektur%20web%20dan%20otomasi%20AI."
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="inline-flex items-center gap-1.5 text-[11px] font-mono font-bold text-white bg-purple-800 hover:bg-purple-700 px-4 py-2 rounded-xl border border-purple-600 transition-colors w-full justify-center"
+                  >
+                    <span>Konsultasi Teknis Langsung</span>
+                    <ArrowUpRight size={13} />
+                  </a>
+                </div>
+              </div>
+
+              {/* Regional SEO Links */}
+              <div className="bg-white p-6 rounded-2xl border border-slate-200/90 shadow-xs">
+                <h4 className="font-display font-bold text-slate-900 mb-4 text-xs uppercase tracking-wider flex items-center gap-2">
+                  <Globe size={14} className="text-purple-700" />
+                  <span>Jangkauan Wilayah</span>
+                </h4>
+                <ul className="flex flex-col gap-2.5 text-xs font-sans">
+                  <li>
+                    <Link to="/area/bsd-city" className="flex items-center justify-between text-slate-700 hover:text-purple-700 transition-colors py-1 group">
+                      <span>Jasa Pembuatan Web BSD City</span>
+                      <ArrowRight size={12} className="text-slate-300 group-hover:text-purple-700 group-hover:translate-x-1 transition-all" />
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/area/cisauk" className="flex items-center justify-between text-slate-700 hover:text-purple-700 transition-colors py-1 group">
+                      <span>Solusi IT &amp; Website Cisauk</span>
+                      <ArrowRight size={12} className="text-slate-300 group-hover:text-purple-700 group-hover:translate-x-1 transition-all" />
+                    </Link>
+                  </li>
+                  <li>
+                    <Link to="/layanan/jasa-pembuatan-website-bsd-cisauk" className="flex items-center justify-between text-slate-700 hover:text-purple-700 transition-colors py-1 group">
+                      <span>Optimasi SEO Google Lokal Tangerang</span>
+                      <ArrowRight size={12} className="text-slate-300 group-hover:text-purple-700 group-hover:translate-x-1 transition-all" />
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+
+              <RecentPostsWidget />
+
+            </aside>
+          </div>
+        )}
+
+        {/* Bottom Marquee & Newsletter */}
+        <div className="mt-24">
+          <CreativityMarquee />
+        </div>
+        
+        <div className="mt-16">
+          <NewsletterForm />
+        </div>
+
+      </div>
+    </div>
   );
 }

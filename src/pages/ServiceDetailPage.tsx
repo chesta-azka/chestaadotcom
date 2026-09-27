@@ -35,6 +35,8 @@ import ServiceValueComparison from '../components/organisms/ServiceValueComparis
 import TrustSignalsSection from '../components/organisms/TrustSignalsSection';
 import ServiceROIGraphSection from '../components/organisms/ServiceROIGraphSection';
 import { NestedCostEstimatorCard } from '../components/organisms/NestedCostEstimatorCard';
+import ServiceDeliverablesSOW from '../components/organisms/ServiceDeliverablesSOW';
+import ServiceCaseStudiesProof from '../components/organisms/ServiceCaseStudiesProof';
 
 // Lazy-loaded heavy components for code-splitting & Lighthouse performance optimization
 const LazyPricingSection = lazy(() => import('../components/organisms/ServicePricingSection'));
@@ -109,11 +111,28 @@ export default function ServiceDetailPage() {
     'inaction',
     'metrics',
     'engine',
+    'deliverables',
     'timeline',
     'testimonials',
+    'case-studies',
+    'calculator',
     'pricing',
     'faq'
   ]);
+
+  const NAV_SECTIONS = [
+    { id: 'overview', label: 'Ikhtisar' },
+    { id: 'inaction', label: 'Fakta Bisnis' },
+    { id: 'metrics', label: 'Metrik Hasil' },
+    { id: 'engine', label: 'Infrastruktur' },
+    { id: 'deliverables', label: 'Deliverables SOW' },
+    { id: 'timeline', label: 'Timeline Fase' },
+    { id: 'testimonials', label: 'Testimoni' },
+    { id: 'case-studies', label: 'Studi Kasus' },
+    { id: 'calculator', label: 'Kalkulator' },
+    { id: 'pricing', label: 'Paket Investasi' },
+    { id: 'faq', label: 'FAQ' },
+  ];
 
   const service: ServiceDetailData | undefined = slug ? SERVICES_DATA[slug] : undefined;
 
@@ -262,7 +281,7 @@ export default function ServiceDetailPage() {
       <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Elite B2B Assurance Bar (Replaces blog share header) */}
-        <div className="mb-10 p-4 rounded-2xl bg-slate-50 border border-slate-200/80 flex flex-wrap items-center justify-between gap-4 text-xs font-mono">
+        <div className="mb-6 p-4 rounded-2xl bg-slate-50 border border-slate-200/80 flex flex-wrap items-center justify-between gap-4 text-xs font-mono">
           <div className="flex items-center gap-2 text-slate-700">
             <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
             <span className="font-bold text-slate-900">Status Layanan:</span>
@@ -271,6 +290,28 @@ export default function ServiceDetailPage() {
           <div className="flex items-center gap-6 text-slate-600">
             <span className="hidden sm:inline">✨ Dipimpin Langsung oleh Principal Engineer</span>
             <span className="text-purple-700 font-bold">100% Kepemilikan Source Code</span>
+          </div>
+        </div>
+
+        {/* Sticky Sub-navigation Anchor Bar */}
+        <div className="sticky top-20 z-30 mb-12 -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 py-3 bg-white/95 backdrop-blur-md border-y border-slate-200/80 shadow-2xs">
+          <div className="flex items-center gap-2 overflow-x-auto no-scrollbar scroll-smooth">
+            {NAV_SECTIONS.map((sec) => {
+              const isActive = activeSection === sec.id;
+              return (
+                <a
+                  key={sec.id}
+                  href={`#${sec.id}`}
+                  className={`px-3.5 py-1.5 rounded-full text-xs font-mono font-bold whitespace-nowrap transition-all ${
+                    isActive
+                      ? 'bg-purple-900 text-white shadow-xs'
+                      : 'text-slate-600 hover:text-purple-900 hover:bg-purple-50'
+                  }`}
+                >
+                  {sec.label}
+                </a>
+              );
+            })}
           </div>
         </div>
 
@@ -519,6 +560,9 @@ export default function ServiceDetailPage() {
           </div>
         </div>
 
+        {/* STATEMENT OF WORK & DETAILED DELIVERABLES CHECKLIST */}
+        <ServiceDeliverablesSOW />
+
         {/* PROJECT TIMELINES & DELIVERY PHASES (SERVICE FEATURE CARDS) */}
         <div className="mb-24" id="timeline">
           <div className="text-center max-w-2xl mx-auto mb-16">
@@ -717,8 +761,11 @@ export default function ServiceDetailPage() {
         {/* ROI Graph Section Component */}
         <ServiceROIGraphSection />
 
+        {/* REAL CASE STUDIES & PROOF OF EXECUTION */}
+        <ServiceCaseStudiesProof />
+
         {/* NESTED COST ESTIMATOR & TRANSPARENT PRICING MATRIX */}
-        <div className="my-20">
+        <div className="my-20" id="calculator">
           <div className="text-center max-w-2xl mx-auto mb-12">
             <span className="text-xs font-mono font-medium uppercase tracking-widest text-purple-600 mb-3 block">INTERACTIVE CALCULATOR</span>
             <h2 className="text-3xl font-display font-semibold text-slate-900 tracking-tight">Kalkulator Biaya Proyek & Add-on</h2>

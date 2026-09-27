@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { LogOut, MessageSquare, BarChart, PenTool, LayoutDashboard, Search, Home, Users, Menu, X, Shield, Bot, Briefcase, Plus, FileText, Activity, MapPin, Sparkles, Calendar, ChevronLeft, ChevronRight } from 'lucide-react';
+import { LogOut, MessageSquare, BarChart, PenTool, LayoutDashboard, Search, Home, Users, Menu, X, Shield, Bot, Briefcase, Plus, FileText, Activity, MapPin, Sparkles, Calendar, ChevronLeft, ChevronRight, Share2 } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import SystemHealthHeader from '../organisms/SystemHealthHeader';
 
@@ -17,6 +17,7 @@ export default function AdminDashboardLayout({ children, onLogout, activeTab, se
   
   const tabs = [
     { id: 'dashboard', label: 'Dashboard & Analytics', icon: Activity },
+    { id: 'ai_brain', label: 'AI Brain Knowledge Graph', icon: Share2 },
     { id: 'appointments', label: 'Discovery Appointments', icon: Calendar },
     { id: 'kanban', label: 'Live Kanban & Vault', icon: Briefcase },
     { id: 'content_crud', label: 'Content CRUD Hub', icon: FileText },
@@ -133,9 +134,13 @@ export default function AdminDashboardLayout({ children, onLogout, activeTab, se
       </motion.aside>
 
       {/* Main Content Area (No Footer) */}
-      <main className="flex-1 overflow-y-auto pt-20 lg:pt-8 pb-16 px-4 sm:px-8 h-screen w-full lg:w-auto bg-slate-50/80">
+      <main className={`flex-1 overflow-y-auto pt-20 lg:pt-8 pb-16 px-4 sm:px-8 h-screen w-full lg:w-auto transition-colors duration-300 ${
+        activeTab === 'ai_brain' ? 'bg-slate-950 text-white' : 'bg-slate-50/80'
+      }`}>
         <div className="max-w-7xl mx-auto h-full flex flex-col">
-          <div className="flex justify-end mb-6 border-b border-slate-200/80 pb-4 shrink-0">
+          <div className={`flex justify-end mb-6 pb-4 shrink-0 border-b ${
+            activeTab === 'ai_brain' ? 'border-slate-800' : 'border-slate-200/80'
+          }`}>
             <SystemHealthHeader />
           </div>
 

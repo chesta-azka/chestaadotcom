@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import Groq from 'groq-sdk';
+import { GoogleGenAI, Type } from '@google/genai';
 import { z } from 'zod';
 
 // Define strict Zod schema for RFP Cost Estimator Structured Output
@@ -36,11 +36,10 @@ export async function POST(req: NextRequest) {
     // Limit maximum length to prevent token abuse / rate limit exhaustion
     const sanitizedText = trimmedText.slice(0, 15000);
 
-    const groqApiKey = process.env.GROQ_API_KEY;
-    if (!groqApiKey || !groqApiKey.startsWith('gsk_')) {
-      console.warn('Groq API Key missing or invalid. Returning intelligent fallback estimate.');
+    const apiKey = process.env.GEMINI_API_KEY;
+    if (!apiKey) {
+      console.warn('Gemini API Key missing. Returning intelligent fallback estimate.');
       
-      // Fallback response for unconfigured environments
       const fallbackResult: RFPEstimateResponse = {
         estimatedWeeks: 4,
         costTier: "Rp 15M - Rp 30M (Estimasi Standar)",
@@ -58,36 +57,47 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ success: true, data: fallbackResult, source: 'fallback' });
     }
 
-    // 2. Initialize Groq SDK
-    const groq = new Groq({ apiKey: groqApiKey });
+    // 2. Initialize Gemini SDK
+    const ai = new GoogleGenAI({ apiKey });
 
-    const systemPrompt = `You are a senior enterprise software architect and RFP technical estimator at CHESTAADOTCOM.
-Analyze the provided RFP (Request for Proposal) document text and return a precise JSON response matching this exact schema:
-{
-  "estimatedWeeks": number,
-  "costTier": "string representing estimated budget tier in IDR or USD",
-  "summaryBreakdown": ["point 1", "point 2", "point 3"],
-  "recommendedModules": ["module 1", "module 2", "module 3"]
-}
-CRITICAL REQUIREMENTS:
-- Return ONLY valid raw JSON without any markdown formatting wrappers (like \`\`\`json) if possible, or standard JSON object.
-- Keep estimates realistic, professional, and detailed based on industry standards.
-- Language: Indonesian or English matching RFP content (prefer Indonesian if ambiguous).`;
-
-    const completion = await groq.chat.completions.create({
-      model: "llama-3.3-70b-versatile",
-      messages: [
-        { role: "system", content: systemPrompt },
-        { role: "user", content: `RFP Document Text:\n\n${sanitizedText}` }
-      ],
-      response_format: { type: "json_object" },
-      temperature: 0.3,
-      max_tokens: 1500,
+    // Call Gemini with schema-enforced structured JSON output
+    const response = await ai.models.generateContent({
+      model: 'gemini-2.5-flash',
+      contents: `Analyze the provided RFP (Request for Proposal) document text and return a precise JSON response representing estimated weeks, cost tier, summary breakdown, and recommended modules.\n\nRFP Document Text:\n\n${sanitizedText}`,
+      config: {
+        responseMimeType: 'application/json',
+        responseSchema: {
+          type: Type.OBJECT,
+          properties: {
+            estimatedWeeks: {
+              type: Type.INTEGER,
+              description: "Estimated duration in weeks for project completion",
+            },
+            costTier: {
+              type: Type.STRING,
+              description: "Estimated budget range or cost tier (e.g. 'Rp 15M - Rp 25M' or 'Custom Enterprise Pricing')",
+            },
+            summaryBreakdown: {
+              type: Type.ARRAY,
+              items: { type: Type.STRING },
+              description: "List of key technical or project scope summary points",
+            },
+            recommendedModules: {
+              type: Type.ARRAY,
+              items: { type: Type.STRING },
+              description: "List of recommended architecture or software modules based on RFP",
+            },
+          },
+          required: ["estimatedWeeks", "costTier", "summaryBreakdown", "recommendedModules"],
+        },
+        systemInstruction: "You are a senior enterprise software architect and RFP technical estimator at CHESTAADOTCOM. Keep estimates realistic, professional, and detailed based on industry standards. Language: Indonesian or English matching RFP content (prefer Indonesian if ambiguous).",
+        temperature: 0.3,
+      }
     });
 
-    const responseContent = completion.choices[0]?.message?.content;
+    const responseContent = response.text;
     if (!responseContent) {
-      throw new Error('Empty response received from Groq inference engine.');
+      throw new Error('Empty response received from Gemini inference engine.');
     }
 
     // 3. Parse and Validate with Zod
@@ -95,7 +105,7 @@ CRITICAL REQUIREMENTS:
     try {
       parsedJson = JSON.parse(responseContent);
     } catch (parseErr) {
-      console.error('Failed to parse Groq JSON response:', responseContent);
+      console.error('Failed to parse Gemini JSON response:', responseContent);
       throw new Error('Invalid JSON structure returned by LLM.');
     }
 
@@ -104,7 +114,7 @@ CRITICAL REQUIREMENTS:
     return NextResponse.json({
       success: true,
       data: validatedData,
-      source: 'groq-llama-3.3-70b'
+      source: 'gemini-2.5-flash'
     });
 
   } catch (error: any) {
