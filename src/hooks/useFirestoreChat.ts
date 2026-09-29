@@ -204,6 +204,51 @@ export function useFirestoreChat() {
       }).catch(console.warn);
     } catch {}
 
+    // CRITICAL ZERO-COST INTENT ROUTING (LOCAL REGEX INTERCEPTOR)
+    const basicIntentRegexes = [
+      /^(halo|hai|hi|p|pagi|siang|sore|malam|test|tes|hello|oi)(\s+|$)/i,
+      /^(ini apa|ini apa ya|chestaa itu apa|kalian ngapain|layanan ini buat apa|apa ini|what is this|chestaa apa|apa itu chestaa|layanan apa ini|chestaa|buat apa ini|fungsi chestaa|kalian buat apa|jasa apa)(\s+|$)/i
+    ];
+
+    const isBasicIntent = basicIntentRegexes.some(rx => rx.test(cleanText));
+
+    if (isBasicIntent) {
+      // Simulate 800ms typing delay
+      await new Promise(resolve => setTimeout(resolve, 800));
+      setIsTyping(false);
+
+      const assistantMsgId = 'expert_' + (Date.now() + 1);
+      const assistantTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      const hardcodedResponse = "Halo! Gue Chestaa, asisten digital lo. Basically kita ngebangun sistem otonom biar bisnis lo jalan 24/7 tanpa ribet ngurusin admin manual. [SPLIT] Jujurly ini bakal cut biaya operasional lo lumayan banget. Lo pengen gue simulasiin seberapa banyak hematnya buat dominasi market Tangerang dan sekitarnya?";
+
+      const localAssistantMsg: ChatMessage = {
+        id: assistantMsgId,
+        sender: 'expert',
+        text: hardcodedResponse,
+        time: assistantTime,
+        timestamp: Date.now(),
+        isStreaming: false,
+        isNew: true
+      };
+
+      const finalMessages = updatedWithUser.concat(localAssistantMsg);
+      setMessages(finalMessages);
+      isWritingToFirestore.current = true;
+      try {
+        const sessionDocRef = doc(db, 'chat_sessions', sessionId);
+        await setDoc(sessionDocRef, {
+          sessionId,
+          messages: finalMessages,
+          lastUpdated: serverTimestamp()
+        }, { merge: true });
+      } catch (err) {
+        console.warn("Failed to persist local intent response:", err);
+      } finally {
+        isWritingToFirestore.current = false;
+      }
+      return;
+    }
+
     const assistantMsgId = 'expert_' + (Date.now() + 1);
     const assistantTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 

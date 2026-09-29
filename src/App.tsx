@@ -43,6 +43,22 @@ import NotFoundPage from './pages/NotFoundPage.tsx';
 import CaseStudiesPage from './pages/CaseStudiesPage.tsx';
 import CaseStudyDetailPage from './pages/CaseStudyDetailPage.tsx';
 import ServiceDetailPage from './pages/ServiceDetailPage.tsx';
+import LocalSeoServicePage from './pages/LocalSeoServicePage.tsx';
+import ConversionMachineServicePage from './pages/ConversionMachineServicePage.tsx';
+import AiEmployeeServicePage from './pages/AiEmployeeServicePage.tsx';
+import EcommerceAutonomousServicePage from './pages/EcommerceAutonomousServicePage.tsx';
+import LandingPageConversionServicePage from './pages/LandingPageConversionServicePage.tsx';
+import EnterpriseInfrastructureServicePage from './pages/EnterpriseInfrastructureServicePage.tsx';
+import CloudAntiDownServicePage from './pages/CloudAntiDownServicePage.tsx';
+import CybersecurityServicePage from './pages/CybersecurityServicePage.tsx';
+import SeoAeoServicePage from './pages/SeoAeoServicePage.tsx';
+import PerformanceMarketingServicePage from './pages/PerformanceMarketingServicePage.tsx';
+import DigitalAssetProtectionServicePage from './pages/DigitalAssetProtectionServicePage.tsx';
+import SuperAppServicePage from './pages/SuperAppServicePage.tsx';
+import FractionalCtoServicePage from './pages/FractionalCtoServicePage.tsx';
+import ProgrammaticServicePage from './pages/ProgrammaticServicePage.tsx';
+import GlossaryTermPage from './pages/GlossaryTermPage.tsx';
+import InsightDetailPage from './pages/InsightDetailPage.tsx';
 
 import KeyboardShortcutsModal from './components/organisms/KeyboardShortcutsModal.tsx';
 
@@ -107,6 +123,23 @@ function AppContent({ appLoaded, onLoadingComplete }: { appLoaded: boolean; onLo
             
             <Route path="/case-studies" element={<PageWrapper><CaseStudiesPage /></PageWrapper>} />
             <Route path="/case-studies/:slug" element={<PageWrapper><CaseStudyDetailPage /></PageWrapper>} />
+            <Route path="/services/jasa-pembuatan-website-bsd-cisauk" element={<PageWrapper><LocalSeoServicePage /></PageWrapper>} />
+            <Route path="/services/website-mesin-konversi" element={<PageWrapper><ConversionMachineServicePage /></PageWrapper>} />
+            <Route path="/services/karyawan-digital-ai" element={<PageWrapper><AiEmployeeServicePage /></PageWrapper>} />
+            <Route path="/services/toko-online-otonom" element={<PageWrapper><EcommerceAutonomousServicePage /></PageWrapper>} />
+            <Route path="/services/landing-page-konversi" element={<PageWrapper><LandingPageConversionServicePage /></PageWrapper>} />
+            <Route path="/services/infrastruktur-digital-enterprise" element={<PageWrapper><EnterpriseInfrastructureServicePage /></PageWrapper>} />
+            <Route path="/services/infrastruktur-cloud-anti-down" element={<PageWrapper><CloudAntiDownServicePage /></PageWrapper>} />
+            <Route path="/services/keamanan-data-korporat" element={<PageWrapper><CybersecurityServicePage /></PageWrapper>} />
+            <Route path="/services/dominasi-pencarian-seo-aeo" element={<PageWrapper><SeoAeoServicePage /></PageWrapper>} />
+            <Route path="/services/mesin-pelipatganda-roas" element={<PageWrapper><PerformanceMarketingServicePage /></PageWrapper>} />
+            <Route path="/services/proteksi-aset-digital-sla" element={<PageWrapper><DigitalAssetProtectionServicePage /></PageWrapper>} />
+            <Route path="/services/super-app-korporat-pwa" element={<PageWrapper><SuperAppServicePage /></PageWrapper>} />
+            <Route path="/services/konsultasi-cto-eksekutif" element={<PageWrapper><FractionalCtoServicePage /></PageWrapper>} />
+            <Route path="/services/:industry/:city" element={<PageWrapper><ProgrammaticServicePage /></PageWrapper>} />
+            <Route path="/kamus-ai-teknologi/:term" element={<PageWrapper><GlossaryTermPage /></PageWrapper>} />
+            <Route path="/insights/:slug" element={<PageWrapper><InsightDetailPage /></PageWrapper>} />
+            <Route path="/services/:slug" element={<PageWrapper><ServiceDetailPage /></PageWrapper>} />
             <Route path="/layanan/:slug" element={<PageWrapper><ServiceDetailPage /></PageWrapper>} />
             <Route path="*" element={<PageWrapper><NotFoundPage /></PageWrapper>} />
           </Routes>

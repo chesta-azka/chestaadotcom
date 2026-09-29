@@ -40,18 +40,20 @@ try {
 const auth = getAuth(app);
 const storage = getStorage(app);
 
-let analytics = null;
+let analytics: any = null;
 if (typeof window !== 'undefined') {
+  // Only attempt analytics if not in restricted preview iframe where fetch to Google analytics fails
   isSupported().then((supported) => {
     if (supported) {
       try {
+        // Wrap in unhandled rejection safe check
         analytics = getAnalytics(app);
       } catch (err) {
-        // Suppress analytics fetch error in sandboxed iframe environments
+        analytics = null;
       }
     }
   }).catch(() => {
-    // Ignore unsupported or network fetch failures
+    analytics = null;
   });
 }
 
@@ -60,7 +62,7 @@ const logAnalyticsEvent = (eventName: string, eventParams?: Record<string, any>)
     try {
       logEvent(analytics, eventName, eventParams);
     } catch (err) {
-      // Ignore failure
+      // Suppress
     }
   }
 };
