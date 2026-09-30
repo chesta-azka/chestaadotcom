@@ -39,5 +39,45 @@ export const insightsData: InsightArticleData[] = [
     coverImage: "/images/blog-tech-rescue.jpg",
     seoDescription: "Proyek aplikasi mangkrak karena vendor lepas tangan? Kode berantakan? Chestaa masuk sebagai Fractional CTO buat beresin kekacauan arsitektur lo.",
     content: "<h1>Mimpi Buruk Eksekutif: Spaghetti Code</h1><p>Gue sering banget nemuin perusahaan skala menengah ke atas yang sistem datanya berantakan parah. Mereka pernah hire vendor IT abal-abal, bayar ratusan juta, tapi pas aplikasinya jadi, penuh bug dan vendornya kabur. Kodenya hancur lebur (Spaghetti Code) dan nggak bisa di-scale up sama sekali.</p><h2>Biaya Tersembunyi dari Sistem yang Cacat</h2><p>Nahan sistem yang cacat itu jauh lebih mahal daripada ngebangun ulang. Data lo nggak sinkron, rentan kena hack, dan eksekutif nggak bisa ngambil keputusan karena laporannya berantakan. Menggaji tim IT in-house buat beresin ini juga bukan solusi kalau mereka nggak punya visi arsitektur tingkat dewa.</p><h2>Operasi Penyelamatan (Tech Rescue)</h2><p>Chestaa hadir lewat layanan Fractional CTO. Kita bukan sekadar tukang coding. Kita masuk sebagai arsitek eksekutif lo. Kita bedah sistem lo, buang kode yang busuk, dan bangun ulang infrastruktur terpusat menggunakan standar keamanan tingkat bank.</p><p>Hasil akhirnya? Satu dasbor 'God Mode' di mana lo bisa mantau seluruh denyut nadi perusahaan dari layar laptop lo sambil ngopi. Ketenangan pikiran (Peace of Mind) itu mahal harganya, dan kita yang ngebangun bentengnya buat lo.</p>"
+  },
+  {
+    slug: "mitos-seo-b2b-ranking-satu-tidak-cukup",
+    title: "Mitos SEO B2B: Kenapa Ranking 1 Google Aja Nggak Cukup Buat Closing",
+    date: "2026-10-05",
+    category: "SEO & AEO",
+    author: "Chestaa Principal Architect",
+    coverImage: "/images/blog-seo-aeo.jpg",
+    seoDescription: "Percuma trafik ribuan kalau yang masuk cuma mahasiswa nyari referensi. Ini cara Chestaa merakit arsitektur AEO buat narik eksekutif yang siap beli.",
+    content: "<h1>Trafik Sampah vs Trafik Eksekutif</h1><p>Jujurly, agensi SEO jadul selalu pamer berhasil ranking satu di Google. Tapi coba cek analitiknya. Yang ngeklik kebanyakan orang yang nyari gratisan atau mahasiswa yang lagi ngerjain tugas. Bos-bos B2B nggak ngetik kata kunci receh.</p><h2>Era Answer Engine Optimization (AEO)</h2><p>CEO korporat sekarang nanya langsung ke ChatGPT atau Gemini untuk cari rekomendasi vendor. Kalau ekosistem digital lo nggak dioptimasi pakai JSON-LD tingkat lanjut, nama bisnis lo nggak bakal pernah disebut sama AI. Lo kehilangan klien senilai ratusan juta ke tangan kompetitor yang arsitekturnya lebih rapi.</p><p>Di Chestaa, kita nggak cuma ngejar ranking. Kita memanipulasi struktur data supaya AI merekomendasikan layanan lo sebagai solusi mutlak. Ini baru namanya dominasi trafik murni.</p>"
+  },
+  {
+    slug: "psikologi-landing-page-b2b-ceo",
+    title: "Psikologi Landing Page B2B: Cara Menjual Infrastruktur ke CEO",
+    date: "2026-10-06",
+    category: "Performance Web",
+    author: "Chestaa Principal Architect",
+    coverImage: "/images/blog-b2b-psychology.jpg",
+    seoDescription: "CEO nggak peduli sama animasi website yang muter-muter. Mereka cuma peduli ROI. Ini rahasia merancang landing page yang mengunci ego eksekutif.",
+    content: "<h1>Berhenti Membuat Website Brosur</h1><p>Kesalahan fatal pengusaha B2B adalah bikin website yang isinya cuma Visi, Misi, dan Foto Gedung Kantor. Jujurly, klien eksekutif nggak peduli sama itu semua. Mereka datang ke website lo dengan satu pertanyaan: Apa lo bisa mecahin masalah bisnis gue dan bikin profit gue naik?</p><h2>Desain Berbasis ROI dan Kecepatan</h2><p>Kita di Chestaa merancang landing page dengan prinsip UX yang mematikan. Nggak ada animasi lambat yang bikin sakit mata. Kita ganti dengan kalkulator profit, metrik kecepatan muat di bawah 1 detik, dan copywriting agresif yang langsung menyerang rasa takut klien.</p><p>Ketika seorang eksekutif masuk ke infrastruktur yang kita bangun, mereka langsung sadar bahwa mereka sedang berhadapan dengan arsitek kelas atas, bukan sekadar vendor murahan.</p>"
+  },
+  {
+    slug: "dominasi-geo-seo-jakarta-selatan-bsd",
+    title: "Kenapa SEO Biasa Sudah Mati Bagi Perusahaan di Jakarta Selatan dan BSD",
+    date: "2026-10-10",
+    category: "SEO & AEO",
+    author: "Chestaa Principal Architect",
+    coverImage: "/images/blog-geo-jakarta.jpg",
+    seoDescription: "Eksekutif di Sudirman dan BSD tidak mencari vendor murah. Mereka mencari otoritas lokal. Ini cara arsitektur GEO-SEO Chestaa mengunci pasar B2B elit.",
+    content: "<h1>Pencarian Lokal Adalah Medan Perang Eksekutif</h1><p>Jujurly, bersaing memperebutkan kata kunci nasional itu buang-buang waktu kalau target market lo adalah CEO di kawasan elit seperti Jakarta Selatan atau BSD City. Mereka mencari partner teknologi yang bisa diajak meeting di SCBD atau ngopi di BSD dalam hitungan jam.</p><h2>Sinyal Hyper-Local GEO</h2><p>Kita di Chestaa menginjeksi LocalBusiness schema dengan presisi lintang dan bujur tingkat militer. Saat bos-bos di radius 15 kilometer mencari Fractional CTO atau Konsultan AI, sistem Google dan Answer Engine langsung memprioritaskan arsitektur kita. Ini bukan sekadar SEO, ini adalah monopoli wilayah digital.</p>"
+  },
+  {
+    slug: "navigasi-ctrl-k-standar-super-app",
+    title: "Fitur Ctrl+K: Standar Wajib Arsitektur B2B Kelas Enterprise",
+    date: "2026-10-11",
+    category: "Performance Web",
+    author: "Chestaa Principal Architect",
+    coverImage: "/images/blog-ctrl-k.jpg",
+    seoDescription: "Kenapa aplikasi korporat lo terasa lambat dan kuno? Karena UX-nya masih pakai standar tahun 2010. Saatnya migrasi ke navigasi Command Palette ala SaaS global.",
+    content: "<h1>Membunuh Klik yang Tidak Berguna</h1><p>Waktu adalah metrik paling mahal bagi seorang eksekutif. Kalau pengguna aplikasi korporat lo harus mengeklik lima kali cuma buat nyari laporan keuangan, sistem lo literally membakar waktu mereka. Aplikasi modern tidak lagi menggunakan menu navigasi bertingkat yang rumit.</p><h2>Era Command Palette</h2><p>Chestaa membangun antarmuka Command Palette (Ctrl+K) di setiap Super App yang kita kembangkan. Fitur ini memungkinkan klien mengeksekusi perintah, mencari data, atau berpindah halaman hanya dengan mengetik di keyboard. Kecepatannya instan, tanpa loading, dan secara psikologis membuat sistem lo terasa seperti produk seharga miliaran rupiah dari Silicon Valley.</p>"
   }
 ];

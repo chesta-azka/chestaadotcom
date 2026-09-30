@@ -61,6 +61,7 @@ import GlossaryTermPage from './pages/GlossaryTermPage.tsx';
 import InsightDetailPage from './pages/InsightDetailPage.tsx';
 
 import KeyboardShortcutsModal from './components/organisms/KeyboardShortcutsModal.tsx';
+import SpecialPromoAlert from './components/organisms/SpecialPromoAlert.tsx';
 
 import { useVisitorTracker } from './hooks/useVisitorTracker.ts';
 import { useClickTracker } from './hooks/useClickTracker.ts';
@@ -91,6 +92,7 @@ function AppContent({ appLoaded, onLoadingComplete }: { appLoaded: boolean; onLo
   return (
     <div className="relative w-full flex flex-col overflow-x-hidden min-h-screen">
       <LoadingScreen onComplete={onLoadingComplete} />
+      <SpecialPromoAlert />
       
       {/* Main Content Area */}
       <motion.div

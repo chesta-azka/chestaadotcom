@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import SEOMetadata from '../components/atoms/SEOMetadata';
 import { generateArticleSchema } from '../lib/seo';
 import { useParams, Link } from 'react-router-dom';
@@ -706,7 +706,25 @@ export default function BlogPostPage() {
                    InteractiveInsight: { component: InteractiveInsight },
                    QuoteBox: { component: QuoteBox },
                    CheckList: { component: CheckList },
-                   img: { component: LazyImage }
+                   img: { component: LazyImage },
+                   p: {
+                     component: ({ children, ...props }: any) => {
+                       const hasBlockChild = React.Children.toArray(children).some((child: any) => {
+                         return React.isValidElement(child) && (
+                           child.type === 'div' || 
+                           child.type === 'figure' || 
+                           child.type === 'ul' || 
+                           child.type === 'ol' || 
+                           child.type === LazyImage
+                         );
+                       });
+
+                       if (hasBlockChild) {
+                         return <div {...props}>{children}</div>;
+                       }
+                       return <p {...props}>{children}</p>;
+                     }
+                   }
                  }
                }}
              >

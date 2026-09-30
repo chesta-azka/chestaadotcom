@@ -1,0 +1,64 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 1080" width="100%" height="100%">
+  <defs>
+    <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#7c3aed" />
+      <stop offset="50%" stop-color="#6d28d9" />
+      <stop offset="100%" stop-color="#581c87" />
+    </linearGradient>
+    <linearGradient id="box" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="rgba(255,255,255,0.15)" />
+      <stop offset="100%" stop-color="rgba(255,255,255,0.05)" />
+    </linearGradient>
+    <linearGradient id="badge" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#3b1285" />
+      <stop offset="100%" stop-color="#1e0b46" />
+    </linearGradient>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1080" height="1080" fill="url(#bg)" />
+
+  <!-- Grid lines subtle -->
+  <path d="M 0,270 H 1080 M 0,540 H 1080 M 0,810 H 1080 M 270,0 V 1080 M 540,0 V 1080 M 810,0 V 1080" stroke="rgba(255,255,255,0.05)" stroke-width="2" />
+
+  <!-- SPECIAL PROMO Header -->
+  <text x="540" y="160" font-family="system-ui, -apple-system, sans-serif" font-size="84" font-weight="900" fill="#ffffff" text-anchor="middle" letter-spacing="4">SPECIAL PROMO</text>
+
+  <!-- Main Card Box -->
+  <rect x="90" y="240" width="900" height="720" rx="40" fill="url(#box)" stroke="rgba(255,255,255,0.2)" stroke-width="2" />
+
+  <!-- Landing Page Title -->
+  <text x="150" y="340" font-family="system-ui, -apple-system, sans-serif" font-size="52" font-weight="800" fill="#fde047">Landing Page</text>
+
+  <!-- Price Badge -->
+  <g transform="translate(640, 290)">
+    <rect width="300" height="160" rx="28" fill="url(#badge)" stroke="rgba(236,72,153,0.5)" stroke-width="3" />
+    <text x="150" y="45" font-family="system-ui, -apple-system, sans-serif" font-size="24" font-weight="600" fill="#c084fc" text-anchor="middle" letter-spacing="2">Hanya</text>
+    <text x="150" y="115" font-family="system-ui, -apple-system, sans-serif" font-size="72" font-weight="900" fill="#ffffff" text-anchor="middle">540k</text>
+    <text x="150" y="145" font-family="system-ui, -apple-system, sans-serif" font-size="20" font-weight="700" fill="#f472b6" text-anchor="middle" letter-spacing="1">Saja</text>
+  </g>
+
+  <!-- Checklist items -->
+  <g transform="translate(150, 480)" font-family="system-ui, -apple-system, sans-serif" font-size="32" font-weight="500" fill="#f1f5f9">
+    <circle cx="15" cy="-10" r="8" fill="#fde047" />
+    <text x="50" y="0">Domain .COM aktif 1 tahun</text>
+
+    <circle cx="15" cy="70" r="8" fill="#fde047" />
+    <text x="50" y="80">1 Halaman Landing Page Profesional</text>
+
+    <circle cx="15" cy="150" r="8" fill="#fde047" />
+    <text x="50" y="160">Konsultasi Branding &amp; Konten GRATIS</text>
+
+    <circle cx="15" cy="230" r="8" fill="#fde047" />
+    <text x="50" y="240">Mobile &amp; SEO Friendly</text>
+
+    <circle cx="15" cy="310" r="8" fill="#fde047" />
+    <text x="50" y="320">1-3 Hari Selesai | 3x Revisi Ringan</text>
+  </g>
+
+  <!-- Footer -->
+  <g transform="translate(150, 890)" font-family="system-ui, -apple-system, sans-serif" font-size="22" font-weight="600" fill="#e9d5ff">
+    <text x="0" y="0">@chestaadotcom</text>
+    <text x="750" y="0" text-anchor="end">www.chestaa.com</text>
+  </g>
+</svg>
