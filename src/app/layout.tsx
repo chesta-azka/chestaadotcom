@@ -3,6 +3,7 @@ import { ThemeProvider } from '../components/providers/ThemeProvider';
 import { NextErrorBoundary } from '../components/atoms/NextErrorBoundary';
 import { Navbar } from '../components/Navbar';
 import CommandPalette from '../components/organisms/CommandPalette';
+import AIConcierge from '../components/organisms/AIConcierge';
 import '../index.css';
 
 export const metadata: Metadata = {
@@ -24,8 +25,8 @@ export default function RootLayout({
 }) {
   const localBusinessJsonLd = {
     "@context": "https://schema.org",
-    "@type": "LocalBusiness",
-    "name": "Chestaa B2B Tech Agency",
+    "@type": "ProfessionalService",
+    "name": "Chestaa - Jasa AI Automation & IT B2B BSD Tangerang",
     "image": "https://chestaa.com/favicon.ico",
     "url": "https://chestaa.com",
     "telephone": "+6281234567890",
@@ -33,16 +34,23 @@ export default function RootLayout({
     "address": {
       "@type": "PostalAddress",
       "streetAddress": "Green Office Park, BSD City",
-      "addressLocality": "Tangerang",
+      "addressLocality": "Tangerang Selatan",
       "addressRegion": "Banten",
       "postalCode": "15345",
       "addressCountry": "ID"
     },
     "geo": {
       "@type": "GeoCoordinates",
-      "latitude": -6.3024,
-      "longitude": 106.6522
+      "latitude": -6.3006,
+      "longitude": 106.6527
     },
+    "areaServed": [
+      "BSD City",
+      "Tangerang Selatan",
+      "Alam Sutera",
+      "Gading Serpong",
+      "Jakarta Selatan"
+    ],
     "sameAs": [
       "https://instagram.com/chestaadotcom",
       "https://linkedin.com/company/chestaa",
@@ -85,6 +93,7 @@ export default function RootLayout({
           <NextErrorBoundary>
             <Navbar />
             <CommandPalette />
+            <AIConcierge />
             <div className="w-full relative">
               {children}
             </div>

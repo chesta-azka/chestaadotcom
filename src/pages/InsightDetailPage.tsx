@@ -1,8 +1,9 @@
 import React, { useRef } from 'react';
 import { motion } from 'motion/react';
 import { useParams, Link } from 'react-router-dom';
-import { BookOpen, ArrowRight, Sparkles, Clock, Calendar, ShieldCheck } from 'lucide-react';
+import { BookOpen, ArrowRight, Sparkles, Clock, Calendar, ShieldCheck, Layers, Cpu, Zap, Compass } from 'lucide-react';
 import SEOMetadata from '../components/atoms/SEOMetadata';
+import { generateInsightArticleSchema } from '../lib/seo';
 import { insightsData } from '../data/insights';
 
 export default function InsightDetailPage() {
@@ -22,6 +23,14 @@ export default function InsightDetailPage() {
     setMousePos({ x: 0, y: 0 });
   };
 
+  // Semantic hierarchy: guarantee single h1 on page by transforming body h1 to h2
+  const normalizedContent = article.content
+    ? article.content.replace(/<h1(\b[^>]*)>/gi, '<h2$1>').replace(/<\/h1>/gi, '</h2>')
+    : '';
+
+  // Get other insights for cross-linking
+  const otherInsights = insightsData.filter(i => i.slug !== article.slug).slice(0, 3);
+
   return (
     <div className="relative w-full flex flex-col bg-[#0b0b0f] text-slate-100 overflow-x-hidden selection:bg-indigo-600 selection:text-white font-sans">
       <SEOMetadata
@@ -29,6 +38,7 @@ export default function InsightDetailPage() {
         description={article.seoDescription}
         currentRoute={`/insights/${article.slug}`}
         type="article"
+        schema={generateInsightArticleSchema(article)}
       />
 
       {/* ARTICLE HERO & TYPOGRAPHY LAYOUT */}
@@ -63,8 +73,9 @@ export default function InsightDetailPage() {
             {article.seoDescription}
           </p>
 
-          <div className="pt-4 border-t border-white/10 text-xs text-indigo-400 font-mono">
-            [ Penulis: {article.author} ]
+          <div className="pt-4 border-t border-white/10 text-xs text-indigo-400 font-mono flex items-center justify-between flex-wrap gap-2">
+            <span>[ Penulis: {article.author} ]</span>
+            <span className="text-slate-400">Arsitektur Digital & Sistem Penjualan Otonom B2B</span>
           </div>
         </div>
       </section>
@@ -72,10 +83,10 @@ export default function InsightDetailPage() {
       {/* ARTICLE BODY & STICKY SIDEBAR CTA */}
       <section className="py-24 px-6 sm:px-12 bg-[#0d0d12]">
         <div className="max-w-6xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-12 items-start">
-          {/* Main Reading Content (Medium / HBR Typography layout) */}
+          {/* Main Reading Content (Semantic HBR Typography layout) */}
           <article 
-            className="lg:col-span-2 text-lg sm:text-xl text-slate-200 leading-[1.8] font-normal space-y-8 [&_h1]:text-3xl [&_h1]:font-bold [&_h1]:text-white [&_h1]:mt-12 [&_h1]:mb-6 [&_h2]:text-2xl [&_h2]:font-bold [&_h2]:text-white [&_h2]:mt-10 [&_h2]:mb-4 [&_p]:mb-6 bg-white/[0.015] p-8 sm:p-12 rounded-3xl border border-white/5 backdrop-blur-md"
-            dangerouslySetInnerHTML={{ __html: article.content }}
+            className="lg:col-span-2 text-lg sm:text-xl text-slate-200 leading-[1.8] font-normal space-y-8 [&_h2]:text-2xl [&_h2]:font-bold [&_h2]:text-white [&_h2]:mt-10 [&_h2]:mb-4 [&_h3]:text-xl [&_h3]:font-bold [&_h3]:text-white [&_h3]:mt-8 [&_h3]:mb-3 [&_p]:mb-6 bg-white/[0.015] p-8 sm:p-12 rounded-3xl border border-white/5 backdrop-blur-md"
+            dangerouslySetInnerHTML={{ __html: normalizedContent }}
           />
 
           {/* Sticky Sidebar CTA */}
@@ -97,7 +108,98 @@ export default function InsightDetailPage() {
             >
               <span>Jadwalkan Audit Arsitektur</span>
             </Link>
+
+            <div className="pt-4 border-t border-white/10 space-y-3">
+              <span className="text-xs font-mono uppercase text-slate-400">Layanan Relevan:</span>
+              <ul className="text-xs space-y-2 text-indigo-300 font-mono">
+                <li>
+                  <Link to="/services/karyawan-digital-ai" className="hover:underline flex items-center gap-1.5">
+                    <ArrowRight size={12} /> Karyawan Digital AI 24/7
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/services/website-mesin-konversi" className="hover:underline flex items-center gap-1.5">
+                    <ArrowRight size={12} /> Website Mesin Konversi Next.js
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/services/dominasi-pencarian-seo-aeo" className="hover:underline flex items-center gap-1.5">
+                    <ArrowRight size={12} /> Dominasi Pencarian SEO & AEO
+                  </Link>
+                </li>
+                <li>
+                  <Link to="/services/jasa-pembuatan-website-bsd-cisauk" className="hover:underline flex items-center gap-1.5">
+                    <ArrowRight size={12} /> Jasa Website BSD City & Cisauk
+                  </Link>
+                </li>
+              </ul>
+            </div>
           </aside>
+        </div>
+      </section>
+
+      {/* INTERNAL LINKING GRAPH: RELATED ARTICLES & GLOSSARY */}
+      <section className="py-20 px-6 sm:px-12 bg-[#09090d] border-t border-white/10">
+        <div className="max-w-6xl mx-auto space-y-12">
+          <div className="flex flex-col sm:flex-row sm:items-end justify-between gap-4">
+            <div>
+              <span className="text-xs font-mono uppercase text-indigo-400 tracking-widest">[ Jaringan Pengetahuan ]</span>
+              <h2 className="text-2xl sm:text-3xl font-bold text-white mt-1">Artikel & Analisis Terkait</h2>
+            </div>
+            <Link to="/blog" className="text-xs font-mono text-indigo-400 hover:text-indigo-300 inline-flex items-center gap-1">
+              <span>Buka Semua Jurnal Teknologi</span>
+              <ArrowRight size={14} />
+            </Link>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {otherInsights.map((item) => (
+              <Link
+                key={item.slug}
+                to={`/insights/${item.slug}`}
+                className="p-6 rounded-2xl bg-white/[0.02] border border-white/10 hover:border-indigo-500/50 hover:bg-white/[0.04] transition-all space-y-4 group flex flex-col justify-between"
+              >
+                <div className="space-y-3">
+                  <span className="text-[11px] font-mono text-indigo-400 uppercase tracking-wider">{item.category}</span>
+                  <h3 className="text-lg font-bold text-white group-hover:text-indigo-300 transition-colors line-clamp-2">
+                    {item.title}
+                  </h3>
+                  <p className="text-xs text-slate-400 leading-relaxed line-clamp-3">
+                    {item.seoDescription}
+                  </p>
+                </div>
+                <span className="text-xs font-mono text-indigo-400 inline-flex items-center gap-1 pt-2">
+                  <span>Baca Analisis Lengkap</span>
+                  <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
+                </span>
+              </Link>
+            ))}
+          </div>
+
+          {/* Quick Glossary Pill Matrix */}
+          <div className="p-6 rounded-2xl bg-white/[0.015] border border-white/5 space-y-3">
+            <span className="text-xs font-mono text-slate-400 uppercase tracking-wider block">Glosarium Teknologi Relevan:</span>
+            <div className="flex flex-wrap gap-2 text-xs font-mono">
+              <Link to="/kamus-ai-teknologi/nextjs-15" className="px-3 py-1.5 rounded-full bg-white/5 hover:bg-indigo-600 hover:text-white transition-colors text-slate-300 border border-white/10">
+                Next.js 15
+              </Link>
+              <Link to="/kamus-ai-teknologi/machine-learning" className="px-3 py-1.5 rounded-full bg-white/5 hover:bg-indigo-600 hover:text-white transition-colors text-slate-300 border border-white/10">
+                Machine Learning
+              </Link>
+              <Link to="/kamus-ai-teknologi/roas" className="px-3 py-1.5 rounded-full bg-white/5 hover:bg-indigo-600 hover:text-white transition-colors text-slate-300 border border-white/10">
+                ROAS Ads
+              </Link>
+              <Link to="/kamus-ai-teknologi/aeo" className="px-3 py-1.5 rounded-full bg-white/5 hover:bg-indigo-600 hover:text-white transition-colors text-slate-300 border border-white/10">
+                AEO (Answer Engine)
+              </Link>
+              <Link to="/kamus-ai-teknologi/pwa" className="px-3 py-1.5 rounded-full bg-white/5 hover:bg-indigo-600 hover:text-white transition-colors text-slate-300 border border-white/10">
+                PWA Super App
+              </Link>
+              <Link to="/kamus-ai-teknologi/cybersecurity" className="px-3 py-1.5 rounded-full bg-white/5 hover:bg-indigo-600 hover:text-white transition-colors text-slate-300 border border-white/10">
+                Cybersecurity
+              </Link>
+            </div>
+          </div>
         </div>
       </section>
 

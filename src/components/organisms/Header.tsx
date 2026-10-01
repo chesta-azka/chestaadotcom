@@ -19,10 +19,11 @@ const NAV_ITEMS: NavItem[] = [
     name: 'Layanan',
     icon: Code2,
     children: [
-      { name: 'Web Dev Enterprise', href: '/layanan/web-development-nextjs', icon: Code2, subtitle: 'Website Super Cepat & Enterprise' },
-      { name: 'AI & Chatbot', href: '/layanan/ai-integration', icon: Bot, subtitle: 'Otomatisasi Google Gemini 24/7' },
-      { name: 'E-Commerce Automation', href: '/layanan/ecommerce-automation', icon: ShoppingBag, subtitle: 'Toko Online & Checkout Kilat' },
-      { name: 'Landing Page Konversi', href: '/layanan/landing-page', icon: Target, subtitle: 'Melejitkan Omset Iklan Anda' },
+      { name: 'Semua Layanan', href: '/services', icon: Sparkles, subtitle: 'Lihat Seluruh Solusi Digital' },
+      { name: 'Web Dev Enterprise', href: '/services/website-mesin-konversi', icon: Code2, subtitle: 'Website Super Cepat & Enterprise' },
+      { name: 'Karyawan Digital AI', href: '/services/karyawan-digital-ai', icon: Bot, subtitle: 'Otomatisasi AI 24/7' },
+      { name: 'Toko Online E-Commerce', href: '/services/toko-online-otonom', icon: ShoppingBag, subtitle: 'Toko Online & Checkout Kilat' },
+      { name: 'Landing Page Konversi', href: '/services/landing-page-konversi', icon: Target, subtitle: 'Melejitkan Omset Iklan Anda' },
     ]
   },
   {

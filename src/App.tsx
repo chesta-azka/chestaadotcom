@@ -42,6 +42,7 @@ import ClientPortalPage from './pages/ClientPortalPage.tsx';
 import NotFoundPage from './pages/NotFoundPage.tsx';
 import CaseStudiesPage from './pages/CaseStudiesPage.tsx';
 import CaseStudyDetailPage from './pages/CaseStudyDetailPage.tsx';
+import ServicesHubPage from './pages/ServicesHubPage.tsx';
 import ServiceDetailPage from './pages/ServiceDetailPage.tsx';
 import LocalSeoServicePage from './pages/LocalSeoServicePage.tsx';
 import ConversionMachineServicePage from './pages/ConversionMachineServicePage.tsx';
@@ -125,6 +126,8 @@ function AppContent({ appLoaded, onLoadingComplete }: { appLoaded: boolean; onLo
             
             <Route path="/case-studies" element={<PageWrapper><CaseStudiesPage /></PageWrapper>} />
             <Route path="/case-studies/:slug" element={<PageWrapper><CaseStudyDetailPage /></PageWrapper>} />
+            <Route path="/services" element={<PageWrapper><ServicesHubPage /></PageWrapper>} />
+            <Route path="/layanan" element={<PageWrapper><ServicesHubPage /></PageWrapper>} />
             <Route path="/services/jasa-pembuatan-website-bsd-cisauk" element={<PageWrapper><LocalSeoServicePage /></PageWrapper>} />
             <Route path="/services/website-mesin-konversi" element={<PageWrapper><ConversionMachineServicePage /></PageWrapper>} />
             <Route path="/services/karyawan-digital-ai" element={<PageWrapper><AiEmployeeServicePage /></PageWrapper>} />
@@ -181,8 +184,8 @@ import Breadcrumbs from './components/atoms/Breadcrumbs';
 function PageWrapper({ children }: { children: React.ReactNode }) {
   const location = useLocation();
   const currentMeta = ROUTE_METADATA[location.pathname] || {
-    title: 'CHESTAADOTCOM | Arsitek Web & Otomasi AI',
-    description: 'A high-performance B2B website development, enterprise architecture, and AI automation software house in BSD City, Cisauk, and Tangerang.'
+    title: 'CHESTAA | Studio Arsitektur Web Next.js & Otomasi AI B2B',
+    description: 'Jasa pembuatan website performa tinggi, sistem enterprise, dan otomatisasi AI otonom di BSD City, Tangerang & Jakarta.'
   };
 
   return (

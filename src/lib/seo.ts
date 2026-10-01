@@ -27,12 +27,19 @@ export const generateLocalBusinessSchema = () => {
   return {
     "@context": "https://schema.org",
     "@type": ["Organization", "LocalBusiness", "ProfessionalService"],
-    "name": "CHESTAADOTCOM - Digital Architect & AI Automation",
-    "image": "https://chestaa.com/favicon.svg",
-    "description": "Elite B2B Software House specializing in High-Performance Web Development (Next.js) and Agentic AI Automation targeting BSD City, Cisauk, and Tangerang.",
+    "@id": "https://chestaa.com/#localbusiness",
+    "name": "CHESTAA - Arsitek Web Next.js & Otomasi AI",
+    "legalName": "CHESTAADOTCOM (Chesta Azka Sofyan)",
+    "alternateName": ["CHESTAA", "Chestaa B2B Tech Agency", "Chesta Code"],
+    "image": "https://chestaa.com/chesta.png",
+    "logo": "https://chestaa.com/favicon.svg",
+    "description": "Elite B2B Software House dan Studio Arsitektur Web Next.js 15, Karyawan AI 24/7, dan Sistem Otonom di BSD City, Cisauk, Tangerang, dan Jakarta.",
     "url": "https://chestaa.com",
     "telephone": "+6282125447232",
+    "email": "chestaadotcom@gmail.com",
     "priceRange": "$$$",
+    "currenciesAccepted": "IDR",
+    "paymentAccepted": "Cash, Credit Card, Bank Transfer, QRIS",
     "address": {
       "@type": "PostalAddress",
       "streetAddress": "BSD Green Office Park, Level 3",
@@ -46,39 +53,39 @@ export const generateLocalBusinessSchema = () => {
       "latitude": -6.3024,
       "longitude": 106.6522
     },
-    "openingHoursSpecification": {
-      "@type": "OpeningHoursSpecification",
-      "dayOfWeek": [
-        "Monday",
-        "Tuesday",
-        "Wednesday",
-        "Thursday",
-        "Friday"
-      ],
-      "opens": "09:00",
-      "closes": "18:00"
-    },
+    "openingHoursSpecification": [
+      {
+        "@type": "OpeningHoursSpecification",
+        "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+        "opens": "09:00",
+        "closes": "18:00"
+      }
+    ],
     "areaServed": [
       { "@type": "City", "name": "BSD City" },
       { "@type": "City", "name": "Cisauk" },
       { "@type": "City", "name": "Tangerang" },
       { "@type": "City", "name": "Tangerang Selatan" },
       { "@type": "City", "name": "Gading Serpong" },
-      { "@type": "City", "name": "Alam Sutera" }
+      { "@type": "City", "name": "Alam Sutera" },
+      { "@type": "City", "name": "Jakarta Selatan" },
+      { "@type": "City", "name": "Jakarta Pusat" }
     ],
     "sameAs": [
       "https://github.com/chestacode",
       "https://id.linkedin.com/in/chesta-azka",
-      "https://twitter.com/chestacode"
+      "https://twitter.com/chestacode",
+      "https://instagram.com/chestaadotcom",
+      "https://tiktok.com/@chesta_azka"
     ],
     "knowsAbout": [
-      "IT Services",
-      "Web Development",
-      "AI Automation",
       "Next.js Web Development",
-      "AI Agents",
-      "Cloud Automation",
-      "Bot Automation"
+      "Agentic AI Automation",
+      "Enterprise System Architecture",
+      "Cloud Infrastructure SLA 99.99%",
+      "Technical SEO and AEO Optimization",
+      "Core Web Vitals Optimization",
+      "Progressive Web Apps"
     ]
   };
 };
@@ -559,3 +566,73 @@ export const generateHowToSchema = (name, description, steps) => {
     }))
   };
 };
+
+export const generateInsightArticleSchema = (article: {
+  title: string;
+  seoDescription: string;
+  slug: string;
+  date: string;
+  author: string;
+  category: string;
+  coverImage?: string;
+}) => {
+  const url = `https://chestaa.com/insights/${article.slug}`;
+  const image = article.coverImage && article.coverImage.startsWith('http')
+    ? article.coverImage
+    : `https://chestaa.com${article.coverImage || '/favicon.svg'}`;
+
+  return {
+    "@context": "https://schema.org",
+    "@type": ["Article", "TechArticle"],
+    "@id": `${url}#article`,
+    "mainEntityOfPage": {
+      "@type": "WebPage",
+      "@id": url
+    },
+    "headline": article.title,
+    "description": article.seoDescription,
+    "image": image,
+    "datePublished": article.date,
+    "dateModified": article.date,
+    "articleSection": article.category,
+    "inLanguage": "id-ID",
+    "author": {
+      "@type": "Person",
+      "name": article.author || "Chesta Azka",
+      "jobTitle": "Principal Systems Architect",
+      "url": "https://chestaa.com/about"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "CHESTAA",
+      "url": "https://chestaa.com",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://chestaa.com/favicon.svg"
+      }
+    }
+  };
+};
+
+export const generateGlossarySchema = (term: {
+  term: string;
+  slug: string;
+  definition: string;
+  category: string;
+}) => {
+  const url = `https://chestaa.com/kamus-ai-teknologi/${term.slug}`;
+  return {
+    "@context": "https://schema.org",
+    "@type": "DefinedTerm",
+    "@id": `${url}#term`,
+    "name": term.term,
+    "description": term.definition,
+    "inDefinedTermSet": {
+      "@type": "DefinedTermSet",
+      "name": "Kamus AI & Arsitektur Teknologi Chestaa",
+      "url": "https://chestaa.com/services"
+    },
+    "url": url
+  };
+};
+

@@ -103,10 +103,11 @@ export default function FooterSection() {
           <div className="lg:col-span-2 lg:col-start-5">
             <h4 className="text-slate-900 font-sans font-medium tracking-widest uppercase text-[11px] mb-8">Layanan Utama</h4>
             <ul className="space-y-4 text-sm font-sans text-slate-600 font-normal">
-              <li><Link to="/layanan/website-company-profile" onClick={() => window.scrollTo(0,0)} className="hover:text-purple-600 transition-colors">Web Development</Link></li>
-              <li><Link to="/layanan/jasa-seo" onClick={() => window.scrollTo(0,0)} className="hover:text-purple-600 transition-colors">Optimasi SEO Expert</Link></li>
-              <li><Link to="/layanan/website-toko-online" onClick={() => window.scrollTo(0,0)} className="hover:text-purple-600 transition-colors">E-Commerce Setup</Link></li>
-              <li><Link to="/layanan/landing-page" onClick={() => window.scrollTo(0,0)} className="hover:text-purple-600 transition-colors">Landing Page Konversi</Link></li>
+              <li><Link to="/services" onClick={() => window.scrollTo(0,0)} className="hover:text-purple-600 transition-colors font-medium text-purple-900">Semua Layanan</Link></li>
+              <li><Link to="/services/website-mesin-konversi" onClick={() => window.scrollTo(0,0)} className="hover:text-purple-600 transition-colors">Web Development Next.js</Link></li>
+              <li><Link to="/services/dominasi-pencarian-seo-aeo" onClick={() => window.scrollTo(0,0)} className="hover:text-purple-600 transition-colors">Optimasi SEO &amp; AEO</Link></li>
+              <li><Link to="/services/toko-online-otonom" onClick={() => window.scrollTo(0,0)} className="hover:text-purple-600 transition-colors">E-Commerce Setup</Link></li>
+              <li><Link to="/services/landing-page-konversi" onClick={() => window.scrollTo(0,0)} className="hover:text-purple-600 transition-colors">Landing Page Konversi</Link></li>
             </ul>
           </div>
 
@@ -116,7 +117,8 @@ export default function FooterSection() {
             <ul className="space-y-4 text-sm font-sans text-slate-600 font-normal">
               <li><Link to="/area/bsd-city" onClick={() => window.scrollTo(0,0)} className="hover:text-purple-600 transition-colors">Jasa IT BSD City</Link></li>
               <li><Link to="/area/cisauk" onClick={() => window.scrollTo(0,0)} className="hover:text-purple-600 transition-colors">Solusi Web Cisauk</Link></li>
-              <li><Link to="/layanan/agentic-ai-automation" onClick={() => window.scrollTo(0,0)} className="hover:text-purple-600 transition-colors">Agentic AI Indonesia</Link></li>
+              <li><Link to="/area/tangerang-selatan" onClick={() => window.scrollTo(0,0)} className="hover:text-purple-600 transition-colors">Website Tangerang Selatan</Link></li>
+              <li><Link to="/services/karyawan-digital-ai" onClick={() => window.scrollTo(0,0)} className="hover:text-purple-600 transition-colors">Karyawan Digital AI</Link></li>
             </ul>
           </div>
 
@@ -148,6 +150,50 @@ export default function FooterSection() {
                 <Mail size={18} className="shrink-0 text-purple-600" />
                 <span className="leading-relaxed">chestaadotcom@gmail.com</span>
               </li>
+            </ul>
+          </div>
+        </div>
+
+        {/* Internal Link Matrix for Crawlers & Visitors */}
+        <div className="border-t border-slate-200/80 pt-10 pb-6 grid grid-cols-2 md:grid-cols-4 gap-8 text-xs text-slate-600 mb-12">
+          <div>
+            <span className="font-mono uppercase font-bold text-[10px] text-purple-900 block mb-3 tracking-wider">Executive Insights</span>
+            <ul className="space-y-2.5">
+              <li><Link to="/insights/jasa-ai-automation-tangerang-bsd" className="hover:text-purple-600 transition-colors">Jasa AI Tangerang &amp; BSD</Link></li>
+              <li><Link to="/insights/biaya-pembuatan-super-app-b2b-jakarta-selatan" className="hover:text-purple-600 transition-colors">Biaya Super App B2B</Link></li>
+              <li><Link to="/insights/software-house-vs-konsultan-ai-bsd" className="hover:text-purple-600 transition-colors">Konsultan AI vs Software House</Link></li>
+              <li><Link to="/insights/pangkas-gaji-admin-dengan-karyawan-ai" className="hover:text-purple-600 transition-colors">Pangkas Gaji Admin dengan AI</Link></li>
+              <li><Link to="/insights/website-lambat-bunuh-roas-iklan" className="hover:text-purple-600 transition-colors">Website Lambat &amp; ROAS Iklan</Link></li>
+            </ul>
+          </div>
+          <div>
+            <span className="font-mono uppercase font-bold text-[10px] text-purple-900 block mb-3 tracking-wider">Kamus AI &amp; Glosarium</span>
+            <ul className="space-y-2.5">
+              <li><Link to="/kamus-ai-teknologi/nextjs-15" className="hover:text-purple-600 transition-colors">Next.js 15 SSR</Link></li>
+              <li><Link to="/kamus-ai-teknologi/machine-learning" className="hover:text-purple-600 transition-colors">Machine Learning B2B</Link></li>
+              <li><Link to="/kamus-ai-teknologi/roas" className="hover:text-purple-600 transition-colors">ROAS Performance</Link></li>
+              <li><Link to="/kamus-ai-teknologi/seo" className="hover:text-purple-600 transition-colors">Search Engine Optimization</Link></li>
+              <li><Link to="/kamus-ai-teknologi/aeo" className="hover:text-purple-600 transition-colors">Answer Engine Optimization</Link></li>
+            </ul>
+          </div>
+          <div>
+            <span className="font-mono uppercase font-bold text-[10px] text-purple-900 block mb-3 tracking-wider">Layanan Spesialis</span>
+            <ul className="space-y-2.5">
+              <li><Link to="/services/jasa-pembuatan-website-bsd-cisauk" className="hover:text-purple-600 transition-colors">Website BSD City &amp; Cisauk</Link></li>
+              <li><Link to="/services/infrastruktur-cloud-anti-down" className="hover:text-purple-600 transition-colors">Cloud Anti-Down SLA 99.99%</Link></li>
+              <li><Link to="/services/keamanan-data-korporat" className="hover:text-purple-600 transition-colors">Audit Keamanan Data</Link></li>
+              <li><Link to="/services/super-app-korporat-pwa" className="hover:text-purple-600 transition-colors">Super App Korporat PWA</Link></li>
+              <li><Link to="/services/konsultasi-cto-eksekutif" className="hover:text-purple-600 transition-colors">Fractional CTO &amp; Advisory</Link></li>
+            </ul>
+          </div>
+          <div>
+            <span className="font-mono uppercase font-bold text-[10px] text-purple-900 block mb-3 tracking-wider">Area Cakupan Prioritas</span>
+            <ul className="space-y-2.5">
+              <li><Link to="/area/bsd-city" className="hover:text-purple-600 transition-colors">BSD Green Office Park (GOP)</Link></li>
+              <li><Link to="/area/cisauk" className="hover:text-purple-600 transition-colors">Cisauk &amp; Intermoda</Link></li>
+              <li><Link to="/area/gading-serpong" className="hover:text-purple-600 transition-colors">Gading Serpong &amp; SMS</Link></li>
+              <li><Link to="/area/tangerang-selatan" className="hover:text-purple-600 transition-colors">Tangerang Selatan &amp; Bintaro</Link></li>
+              <li><Link to="/area/jakarta" className="hover:text-purple-600 transition-colors">Sudirman &amp; Jakarta Selatan</Link></li>
             </ul>
           </div>
         </div>

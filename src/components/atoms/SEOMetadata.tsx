@@ -1,7 +1,7 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useLocation } from 'react-router-dom';
-import { generateLocalBusinessSchema, generateOrganizationSchema } from '../../lib/seo';
+import { generateFAQSchema, generateLocalBusinessSchema, generateOrganizationSchema, generateWebSiteSchema } from '../../lib/seo';
 
 interface SEOMetadataProps {
   title?: string;
@@ -32,33 +32,78 @@ export default function SEOMetadata({
   type,
   ogType,
   schema,
+  schemaString,
   path
 }: SEOMetadataProps) {
   
-  // Gen-Z Jaksel Persona defaults as specified
-  const defaultTitle = "Chestaa - Agensi AI & Website B2B Paling Kenceng di BSD.";
-  const defaultDescription = "Jujurly, website lambat tuh literally bakar duit iklan lo. Chestaa ngebangun arsitektur Next.js 15 dan sistem AI otonom buat ngelipatgandain ROAS dan pangkas biaya operasional bisnis lo di Tangerang dan sekitarnya.";
-  const defaultKeywords = "agensi AI automation, website B2B BSD, jasa web developer Tangerang, Next.js 15, Chestaa, optimization AEO";
+  const defaultTitle = "CHESTAA | Studio Arsitektur Web Next.js & Otomasi AI B2B";
+  const defaultDescription = "Jasa pembuatan website performa tinggi, arsitektur Next.js 15 sub-detik, dan otomatisasi AI cerdas untuk bisnis modern di BSD City, Tangerang & Jakarta.";
+  const defaultKeywords = "jasa pembuatan website BSD, web development Next.js, AI automation B2B, software house Tangerang, agen AI otonom, Chestaa";
   
-  const seoTitle = title ? (title.includes('Chestaa') ? title : `${title} | Chestaa`) : defaultTitle;
+  const seoTitle = title ? (title.includes('CHESTAA') || title.includes('Chestaa') ? title : `${title} | CHESTAA`) : defaultTitle;
   const seoDescription = description || defaultDescription;
   const seoKeywords = keywords || defaultKeywords;
   
   const location = useLocation();
   const routePath = currentRoute || path || (location ? location.pathname : '');
-  const seoUrl = url || (routePath && routePath !== '/' ? `https://chestaa.com${routePath}` : 'https://chestaa.com');
+  const seoUrl = url || (routePath && routePath !== '/' ? `https://chestaa.com${routePath}` : 'https://chestaa.com/');
   
-  const seoImage = ogImage || image || 'https://picsum.photos/seed/chestaa-og/1200/630';
+  const seoImage = ogImage || image || 'https://chestaa.com/chesta.png';
   const seoType = type || ogType || 'website';
 
-  const localBusinessSchema = generateLocalBusinessSchema();
-  const organizationSchema = generateOrganizationSchema();
+  // Construct structured data logically based on page context
+  let finalSchemas: any[] = [];
 
-  const finalSchemas = schema 
-    ? Array.isArray(schema) 
-      ? [localBusinessSchema, organizationSchema, ...schema] 
-      : [localBusinessSchema, organizationSchema, schema]
-    : [localBusinessSchema, organizationSchema];
+  const homeFaqs = [
+    {
+      question: "Apa keunggulan arsitektur website Next.js buatan Chestaa?",
+      answer: "Website dibangun kustom dengan arsitektur Next.js 15, Server-Side Rendering (SSR), dan Edge Caching sehingga waktu muat halaman berada di bawah 0.8 detik (Core Web Vitals hijau), memotong bounce rate dan meningkatkan konversi."
+    },
+    {
+      question: "Bagaimana sistem Karyawan Digital AI melayani pelanggan 24/7?",
+      answer: "Karyawan Digital AI mengotomasi respon chat WhatsApp dan web secara instan menggunakan Large Language Model kustom, memproses kualifikasi prospek tanpa biaya gaji admin manual."
+    },
+    {
+      question: "Di mana cakupan area layanan fisik dan tatap muka Chestaa?",
+      answer: "Chestaa berkantor di BSD Green Office Park, Level 3, Cisauk, Tangerang, dan melayani konsultasi langsung untuk area BSD City, Cisauk, Tangerang Selatan, Gading Serpong, Alam Sutera, dan Jakarta."
+    }
+  ];
+
+  if (schemaString) {
+    try {
+      const parsed = JSON.parse(schemaString);
+      finalSchemas = Array.isArray(parsed) ? parsed : [parsed];
+    } catch {
+      finalSchemas = [];
+    }
+  } else if (schema) {
+    finalSchemas = Array.isArray(schema) ? schema : [schema];
+  } else if (routePath === '' || routePath === '/') {
+    // Homepage gets Organization, LocalBusiness, WebSite, and FAQ schemas
+    finalSchemas = [
+      generateOrganizationSchema(),
+      generateLocalBusinessSchema(),
+      generateWebSiteSchema(),
+      generateFAQSchema(homeFaqs)
+    ];
+  } else {
+    // Default subpage gets WebPage schema
+    finalSchemas = [
+      {
+        "@context": "https://schema.org",
+        "@type": "WebPage",
+        "name": seoTitle,
+        "description": seoDescription,
+        "url": seoUrl,
+        "publisher": {
+          "@type": "Organization",
+          "name": "CHESTAA",
+          "url": "https://chestaa.com",
+          "logo": "https://chestaa.com/favicon.svg"
+        }
+      }
+    ];
+  }
 
   return (
     <Helmet>
@@ -79,7 +124,7 @@ export default function SEOMetadata({
       <meta property="og:image:width" content="1200" />
       <meta property="og:image:height" content="630" />
       <meta property="og:image:alt" content={seoTitle} />
-      <meta property="og:site_name" content="Chestaa Technology" />
+      <meta property="og:site_name" content="CHESTAA" />
       <meta property="og:locale" content="id_ID" />
 
       {/* Twitter Cards Meta Tags */}
@@ -93,9 +138,11 @@ export default function SEOMetadata({
       <meta name="twitter:domain" content="chestaa.com" />
 
       {/* JSON-LD Structured Data */}
-      <script type="application/ld+json" key="seo-ld-json">
-        {JSON.stringify(finalSchemas)}
-      </script>
+      {finalSchemas.length > 0 && (
+        <script type="application/ld+json" key="seo-ld-json">
+          {JSON.stringify(finalSchemas)}
+        </script>
+      )}
     </Helmet>
   );
 }

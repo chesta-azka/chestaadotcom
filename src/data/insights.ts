@@ -11,6 +11,36 @@ export interface InsightArticleData {
 
 export const insightsData: InsightArticleData[] = [
   {
+    slug: "biaya-pembuatan-super-app-b2b-jakarta-selatan",
+    title: "Berapa Biaya Asli Pembuatan Super App B2B di Jakarta Selatan?",
+    date: "2026-10-15",
+    category: "Enterprise System",
+    author: "Chestaa Principal Architect",
+    coverImage: "/images/blog-biaya-app.jpg",
+    seoDescription: "Jangan mau ditipu vendor nakal. Ini rincian jujur biaya pengembangan Super App dan sistem IT perusahaan untuk eksekutif di Sudirman dan Jakarta Selatan.",
+    content: "<h1>Membongkar Anggaran IT Perusahaan</h1><p>Banyak eksekutif di Jakarta Selatan membuang ratusan juta rupiah untuk menyewa software house tradisional, hanya untuk mendapatkan sistem yang lambat dan sering down. Masalahnya bukan pada budget, tapi pada arsitektur usang yang mereka gunakan.</p><h2>Investasi pada Infrastruktur Modern</h2><p>Di Chestaa, kami tidak menagih biaya untuk sekadar membuat aplikasi. Kami membangun arsitektur Next.js 15 dan Firebase yang siap menangani jutaan permintaan data tanpa latensi. Biaya pengembangan Super App sangat bergantung pada kompleksitas logika bisnis Anda, namun ROI yang dihasilkan dari Karyawan AI akan menutup biaya tersebut dengan cepat. Daripada membakar uang untuk gaji admin manual, alihkan budget tersebut untuk infrastruktur otonom.</p>"
+  },
+  {
+    slug: "software-house-vs-konsultan-ai-bsd",
+    title: "Software House Tradisional vs Konsultan AI: Siapa yang Cocok untuk Perusahaan di BSD?",
+    date: "2026-10-16",
+    category: "AI Automation",
+    author: "Chestaa Principal Architect",
+    coverImage: "/images/blog-vendor-bsd.jpg",
+    seoDescription: "Perusahaan di BSD City mulai meninggalkan software house konvensional. Pelajari mengapa Konsultan AI Automation adalah kunci dominasi bisnis B2B saat ini.",
+    content: "<h1>Kematian Agensi Web Konvensional</h1><p>Kalau Anda memimpin perusahaan di BSD dan masih menyewa agensi untuk sekadar mendesain website, Anda tertinggal lima tahun ke belakang. Website brosur sudah mati. Klien saat ini menuntut respon instan dan pengalaman interaktif.</p><h2>Era Konsultan AI Automation</h2><p>Chestaa beroperasi murni sebagai arsitek otomatisasi. Kami mengubah website statis menjadi mesin penjawab otomatis (AEO) dan Karyawan Digital yang melayani pelanggan Anda 24 jam sehari. Memilih konsultan AI berarti Anda berinvestasi pada sistem yang memangkas biaya operasional secara permanen, bukan sekadar membayar desain visual.</p>"
+  },
+  {
+    slug: "jasa-ai-automation-tangerang-bsd",
+    title: "Jasa AI Automation Tangerang dan BSD: Arsitektur B2B Sub-Detik",
+    date: "2026-10-12",
+    category: "AI Automation",
+    author: "Chestaa Principal Architect",
+    coverImage: "/images/blog-geo-tangerang.jpg",
+    seoDescription: "Mencari jasa ai automation di tangerang atau bsd? Tinggalkan agensi lama yang lambat. Chestaa menghadirkan arsitektur next.js 15 dan karyawan ai 24 jam untuk eksekutif b2b.",
+    content: "<h1>Mendominasi Ekosistem Digital Tangerang Raya</h1><p>Banyak eksekutif di BSD dan Alam Sutera membuang ratusan juta untuk vendor IT yang masih menggunakan teknologi usang. Mereka membayar mahal untuk latensi tinggi dan sistem yang sering down saat trafik iklan membludak. Ini adalah kebocoran ROI yang fatal.</p><h2>Solusi Karyawan AI dan Infrastruktur Sub-Detik</h2><p>Chestaa hadir tepat di jantung Tangerang untuk menggantikan sistem lama perusahaan lo. Kami tidak membuat website brosur. Kami membangun Karyawan Digital AI yang memproses kualifikasi prospek secara otonom, terintegrasi langsung dengan arsitektur pangkalan data berkecepatan tinggi. Kami merakit mesin konversi yang bekerja 24/7 tanpa menuntut gaji bulanan, melibas lambatnya agensi konvensional di area Bintaro hingga Alam Sutera.</p>"
+  },
+  {
     slug: "pangkas-gaji-admin-dengan-karyawan-ai",
     title: "Cara Memangkas Gaji Admin 100 Persen dengan Karyawan Digital AI",
     date: "2026-09-29",

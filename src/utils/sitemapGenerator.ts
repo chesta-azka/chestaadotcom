@@ -2,9 +2,10 @@ import { ALL_ARTICLES } from '../data/blogData';
 import { caseStudyDB } from '../lib/caseStudies';
 import { ACADEMY_DATA } from '../data/academyData';
 import { SERVICES_DATA } from '../data/servicesData';
-import { SERVICE_DEFINITIONS } from '../data/ServiceDefinition';
 import { PROJECTS } from '../data/projects';
 import { CITIES } from '../data/AreasData';
+import { insightsData } from '../data/insights';
+import { glossaryDatabase } from './glossaryUtils';
 
 export interface SitemapRouteEntry {
   path: string;
@@ -13,25 +14,15 @@ export interface SitemapRouteEntry {
   lastmod?: string;
 }
 
-/**
- * Dynamically crawls and compiles all application routes across:
- * - Base static pages
- * - Published blog articles
- * - Verified client case studies
- * - Academy paths & masterclasses
- * - Enterprise & UMKM services
- * - Portfolio projects
- * - Geo-targeted regional pages (BSD City, Cisauk, Tangerang)
- */
 export function getAllSitemapRoutes(): SitemapRouteEntry[] {
   const today = new Date().toISOString().split('T')[0];
 
   // 1. Core Base Pages
   const coreBaseRoutes: SitemapRouteEntry[] = [
     { path: '/', priority: '1.0', changefreq: 'daily', lastmod: today },
-    { path: '/blog', priority: '0.9', changefreq: 'daily', lastmod: today },
+    { path: '/services', priority: '0.95', changefreq: 'weekly', lastmod: today },
     { path: '/portfolio', priority: '0.9', changefreq: 'weekly', lastmod: today },
-    { path: '/services', priority: '0.9', changefreq: 'weekly', lastmod: today },
+    { path: '/blog', priority: '0.9', changefreq: 'daily', lastmod: today },
     { path: '/case-studies', priority: '0.85', changefreq: 'weekly', lastmod: today },
     { path: '/academy', priority: '0.85', changefreq: 'weekly', lastmod: today },
     { path: '/academy/resources', priority: '0.8', changefreq: 'weekly', lastmod: today },
@@ -50,7 +41,7 @@ export function getAllSitemapRoutes(): SitemapRouteEntry[] {
           lastmod = parsed.toISOString().split('T')[0];
         }
       } catch {
-        // Fallback to today
+        // fallback
       }
     }
 
@@ -62,7 +53,37 @@ export function getAllSitemapRoutes(): SitemapRouteEntry[] {
     };
   });
 
-  // 3. Client Case Studies
+  // 3. Executive Insight Articles
+  const insightRoutes: SitemapRouteEntry[] = insightsData.map((article) => {
+    let lastmod = today;
+    if (article.date) {
+      try {
+        const parsed = new Date(article.date);
+        if (!isNaN(parsed.getTime())) {
+          lastmod = parsed.toISOString().split('T')[0];
+        }
+      } catch {
+        // fallback
+      }
+    }
+
+    return {
+      path: `/insights/${article.slug}`,
+      priority: '0.9',
+      changefreq: 'weekly',
+      lastmod
+    };
+  });
+
+  // 4. Technology Glossary Terms (Kamus AI & Teknologi)
+  const glossaryRoutes: SitemapRouteEntry[] = Object.keys(glossaryDatabase).map((key) => ({
+    path: `/kamus-ai-teknologi/${glossaryDatabase[key].slug}`,
+    priority: '0.8',
+    changefreq: 'monthly',
+    lastmod: today
+  }));
+
+  // 5. Client Case Studies
   const caseStudyRoutes: SitemapRouteEntry[] = caseStudyDB.map((study) => ({
     path: `/case-studies/${study.slug}`,
     priority: '0.85',
@@ -70,7 +91,7 @@ export function getAllSitemapRoutes(): SitemapRouteEntry[] {
     lastmod: today
   }));
 
-  // 4. Academy Paths & Masterclasses
+  // 6. Academy Paths and Masterclasses
   const academyRoutes: SitemapRouteEntry[] = ACADEMY_DATA.map((masterclass) => ({
     path: `/academy/${masterclass.slug}`,
     priority: '0.85',
@@ -78,19 +99,32 @@ export function getAllSitemapRoutes(): SitemapRouteEntry[] {
     lastmod: today
   }));
 
-  // 5. Enterprise & Standard Services
-  const serviceSlugs = new Set<string>();
-  Object.keys(SERVICES_DATA).forEach(s => serviceSlugs.add(s));
-  SERVICE_DEFINITIONS.forEach(s => serviceSlugs.add(s.slug));
+  // 7. Dedicated Enterprise and Speciality Service Routes
+  const dedicatedServices: SitemapRouteEntry[] = [
+    { path: '/services/jasa-pembuatan-website-bsd-cisauk', priority: '0.95', changefreq: 'weekly', lastmod: today },
+    { path: '/services/website-mesin-konversi', priority: '0.9', changefreq: 'weekly', lastmod: today },
+    { path: '/services/karyawan-digital-ai', priority: '0.9', changefreq: 'weekly', lastmod: today },
+    { path: '/services/toko-online-otonom', priority: '0.9', changefreq: 'weekly', lastmod: today },
+    { path: '/services/landing-page-konversi', priority: '0.9', changefreq: 'weekly', lastmod: today },
+    { path: '/services/infrastruktur-digital-enterprise', priority: '0.9', changefreq: 'weekly', lastmod: today },
+    { path: '/services/infrastruktur-cloud-anti-down', priority: '0.9', changefreq: 'weekly', lastmod: today },
+    { path: '/services/keamanan-data-korporat', priority: '0.9', changefreq: 'weekly', lastmod: today },
+    { path: '/services/dominasi-pencarian-seo-aeo', priority: '0.9', changefreq: 'weekly', lastmod: today },
+    { path: '/services/mesin-pelipatganda-roas', priority: '0.9', changefreq: 'weekly', lastmod: today },
+    { path: '/services/proteksi-aset-digital-sla', priority: '0.9', changefreq: 'weekly', lastmod: today },
+    { path: '/services/super-app-korporat-pwa', priority: '0.9', changefreq: 'weekly', lastmod: today },
+    { path: '/services/konsultasi-cto-eksekutif', priority: '0.9', changefreq: 'weekly', lastmod: today },
+  ];
 
-  const serviceRoutes: SitemapRouteEntry[] = Array.from(serviceSlugs).map((slug) => ({
-    path: `/layanan/${slug}`,
-    priority: '0.9',
+  // Standard Services from SERVICES_DATA
+  const standardServices: SitemapRouteEntry[] = Object.keys(SERVICES_DATA).map((slug) => ({
+    path: `/services/${slug}`,
+    priority: '0.85',
     changefreq: 'weekly',
     lastmod: today
   }));
 
-  // 6. Portfolio Projects
+  // 8. Portfolio Projects
   const projectRoutes: SitemapRouteEntry[] = PROJECTS.map((proj) => ({
     path: `/portfolio/${proj.id}`,
     priority: '0.85',
@@ -98,39 +132,44 @@ export function getAllSitemapRoutes(): SitemapRouteEntry[] {
     lastmod: today
   }));
 
-  // 7. Area Regional Pages
+  // 9. Area Regional Pages (Authentic regions served)
   const areaRoutes: SitemapRouteEntry[] = CITIES.map((city) => ({
     path: `/area/${city.toLowerCase()}`,
-    priority: '0.8',
+    priority: '0.85',
     changefreq: 'weekly',
     lastmod: today
   }));
 
-  // 8. Geo-Targeted Area + Service Combinations
-  const geoTargets = ['bsd-city', 'bsd', 'cisauk', 'tangerang'];
-  const localGeoRoutes: SitemapRouteEntry[] = [];
-  geoTargets.forEach((area) => {
-    serviceSlugs.forEach((serviceSlug) => {
-      localGeoRoutes.push({
-        path: `/area/${area}/${serviceSlug}`,
-        priority: '0.75',
-        changefreq: 'monthly',
+  // 10. High-Priority Programmatic SEO Targets (Industry x City)
+  const priorityIndustries = ['enterprise', 'b2b-corporate', 'ecommerce', 'real-estate', 'klinik-kesehatan', 'manufaktur'];
+  const priorityCities = ['bsd-city', 'cisauk', 'tangerang', 'tangerang-selatan', 'jakarta-selatan', 'alam-sutera', 'gading-serpong'];
+  const programmaticRoutes: SitemapRouteEntry[] = [];
+
+  for (const ind of priorityIndustries) {
+    for (const ct of priorityCities) {
+      programmaticRoutes.push({
+        path: `/services/${ind}/${ct}`,
+        priority: '0.8',
+        changefreq: 'weekly',
         lastmod: today
       });
-    });
-  });
+    }
+  }
 
   // Deduplicate by path
   const seenPaths = new Set<string>();
   const allRoutes: SitemapRouteEntry[] = [
     ...coreBaseRoutes,
-    ...serviceRoutes,
+    ...dedicatedServices,
+    ...standardServices,
     ...blogRoutes,
+    ...insightRoutes,
+    ...glossaryRoutes,
     ...caseStudyRoutes,
     ...academyRoutes,
     ...projectRoutes,
     ...areaRoutes,
-    ...localGeoRoutes
+    ...programmaticRoutes
   ].filter((entry) => {
     if (seenPaths.has(entry.path)) return false;
     seenPaths.add(entry.path);
@@ -140,9 +179,6 @@ export function getAllSitemapRoutes(): SitemapRouteEntry[] {
   return allRoutes;
 }
 
-/**
- * Generates Google-compliant XML sitemap string
- */
 export function generateSitemapXml(domain: string = 'https://chestaa.com'): string {
   const routes = getAllSitemapRoutes();
 

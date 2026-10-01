@@ -5,6 +5,7 @@ import { MessageCircle, Shield, Sparkles, MapPin, Search, ArrowRight, Target, St
 import { CITIES } from '../data/AreasData';
 import { SERVICE_DEFINITIONS } from '../data/ServiceDefinition';
 import SEOMetadata from '../components/atoms/SEOMetadata';
+import { generateCityGeoSchema } from '../lib/seo';
 import TextRevealSmooth from '../components/atoms/TextRevealSmooth';
 import { Skeleton } from '../components/atoms/Skeleton';
 import Breadcrumbs from '../components/atoms/Breadcrumbs';
@@ -69,8 +70,10 @@ export default function AreaDetailPage() {
   return (
     <div className="pt-40 md:pt-48 pb-28 min-h-screen relative bg-transparent text-slate-900 overflow-hidden">
       <SEOMetadata 
-        title={`Jasa Pembuatan Website ${formattedCityName} Premium`} 
-        description={`Arsitek digital 2026 pembuatan website profesional, cepat, SEO-ready, dan mobile-first untuk UMKM & brand lokal di ${formattedCityName} mulai Rp650K (Promo Rp540K).`}
+        title={`Jasa Pembuatan Website ${formattedCityName} Premium | CHESTAA`} 
+        description={`Jasa pembuatan website profesional, arsitektur Next.js 15 super cepat, SEO lokal Google Maps, dan mobile-first untuk bisnis di ${formattedCityName}.`}
+        currentRoute={`/area/${cityName.toLowerCase()}`}
+        schema={generateCityGeoSchema(formattedCityName)}
       />
 
       {/* Hero Section */}

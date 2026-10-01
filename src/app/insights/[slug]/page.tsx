@@ -4,6 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import RoiCalculator from '../../../components/organisms/RoiCalculator';
 import FAQSection from '../../../components/organisms/FAQSection';
+import { injectAEOEntities } from '../../../lib/seo-linker';
 
 interface PageProps {
   params: {
@@ -79,6 +80,7 @@ export async function generateMetadata({ params }: PageProps) {
   const title = `${article.title} | Chestaa - Konsultan AI & Fractional CTO`;
   const description = `${article.seoDescription} Solusi jasa perbaiki website sering down, vendor IT terpercaya di Tangerang, dan konsultan IT B2B Jakarta Selatan.`;
   const keywords = "jasa perbaiki website sering down, vendor IT terpercaya di Tangerang, konsultan IT B2B Jakarta Selatan, cara otomatisasi operasional bisnis, bikin super app perusahaan, solusi iklan meta boncos, Chestaa";
+  const ogImageUrl = `https://chestaa.com/api/og?title=${encodeURIComponent(article.title)}&category=${encodeURIComponent(article.category)}`;
 
   return {
     title,
@@ -91,7 +93,7 @@ export async function generateMetadata({ params }: PageProps) {
       type: 'article',
       images: [
         {
-          url: 'https://picsum.photos/seed/chestaa-insight/1200/630',
+          url: ogImageUrl,
           width: 1200,
           height: 630,
           alt: article.title
@@ -104,7 +106,7 @@ export async function generateMetadata({ params }: PageProps) {
       creator: '@chestaadotcom',
       title,
       description,
-      images: ['https://picsum.photos/seed/chestaa-insight/1200/630']
+      images: [ogImageUrl]
     }
   };
 }
@@ -112,8 +114,6 @@ export async function generateMetadata({ params }: PageProps) {
 // Server-side fetch for dynamic market trends with ISR revalidation every 24 hours
 async function getMarketTrends(category: string) {
   try {
-    // Native Next.js fetch with ISR revalidate 86400 seconds (24 hours)
-    // In production, this can connect to external news API endpoints
     const trendsMap: Record<string, Array<{ title: string; source: string; url: string; date: string }>> = {
       "AI Automation": [
         { title: "Enterprise LLM Adoption Surges 300% Among Southeast Asian Corporations", source: "TechCrunch Asia", url: "#", date: "Hari Ini" },
@@ -176,6 +176,7 @@ function generateFaqSchema(): FAQPageSchema {
 export default async function InsightServerPage({ params }: PageProps) {
   const article = insightsData.find(i => i.slug === params.slug) || insightsData[0];
   const marketTrends = await getMarketTrends(article.category);
+  const linkedContent = injectAEOEntities(article.content);
   
   const relatedArticles = insightsData
     .filter(i => i.slug !== article.slug)
@@ -267,7 +268,7 @@ export default async function InsightServerPage({ params }: PageProps) {
       .replace(/&/g, '\\u0026');
   };
 
-  const solidBlurBase64 = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNzAwIiBoZWlnaHQ9IjQwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJyZ2IoMTUsIDE1LCAyMyksIDEpIi8+PC9zdmc+";
+  const solidBlurBase64 = "data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNzAwIiBoZWlnaHQ9IjQwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJyZ2IoMTUsIDE1LCAyMywgMSkiLz48L3N2Zz4=";
 
   return (
     <main className="min-h-screen bg-[#0b0b0f] text-slate-100 font-sans selection:bg-indigo-600 selection:text-white">
@@ -341,7 +342,7 @@ export default async function InsightServerPage({ params }: PageProps) {
 
             <article 
               className="prose prose-sm prose-invert max-w-3xl mx-auto md:prose-base lg:prose-lg transition-colors font-serif prose-headings:font-sans prose-p:text-slate-300 prose-p:leading-[1.7] md:prose-p:leading-[1.9] lg:prose-p:leading-[2.2] prose-headings:font-bold prose-headings:text-slate-50 mt-8 mb-4 md:mt-12 lg:mt-16"
-              dangerouslySetInnerHTML={{ __html: article.content }}
+              dangerouslySetInnerHTML={{ __html: linkedContent }}
             />
 
             {/* LATEST MARKET TRENDS & INTELLIGENCE (RSC ISR FETCH) */}

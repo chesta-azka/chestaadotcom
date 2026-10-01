@@ -2,5 +2,8 @@ User-agent: *
 Allow: /
 Disallow: /admin
 Disallow: /api
+Disallow: /portal
+Disallow: /workspace
+Disallow: /client
 
 Sitemap: https://chestaa.com/sitemap.xml

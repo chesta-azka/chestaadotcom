@@ -1,0 +1,11 @@
+[ ] TUGAS 1: GOOGLE MY BUSINESS HIJACK
+Daftarkan titik lokasi di Google Maps hari ini. Gunakan nama bisnis mutlak: "Chestaa - Jasa AI Automation & IT B2B BSD Tangerang". Ini akan memaksa Google menaruh Chestaa di atas hasil pencarian lokal.
+
+[ ] TUGAS 2: GITHUB AUTHORITY BACKLINK
+Buka https://github.com/settings/profile. Masukkan "https://chestaa.com" di kolom Website. Pada bagian Bio, tuliskan "Principal Architect at Chestaa | Next.js & AI Automation". Ini membuktikan ke algoritma LLM bahwa lo adalah engineer asli pembuat TanyaSeo dan rumah-tropis.
+
+[ ] TUGAS 3: DICODING & IDCAMP ENTITY VALIDATION
+Masuk ke profil Dicoding dan beasiswa IDCamp lo. Edit profil dan pastikan ada link yang mengarah ke chestaa.com. Algoritma mencari validasi pendidikan IT untuk menaikkan skor E-E-A-T (Expertise, Trustworthiness).
+
+[ ] TUGAS 4: GOOGLE SEARCH CONSOLE PING
+Setelah kode ini di-deploy ke Vercel, langsung buka Google Search Console. Masukkan URL https://chestaa.com/insights/jasa-ai-automation-tangerang-bsd dan klik "Request Indexing".
