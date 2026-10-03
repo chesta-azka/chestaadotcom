@@ -506,28 +506,7 @@ export default function BlogPostPage() {
   }
   
   if (!post) {
-    return (
-      <main className="min-h-screen bg-slate-50 pt-40 md:pt-48 pb-24 font-sans flex flex-col items-center justify-center px-6">
-        <Helmet>
-          <title>Artikel Tidak Ditemukan | CHESTAADOTCOM</title>
-        </Helmet>
-        <div className="w-24 h-24 bg-white shadow-xl shadow-purple-900/5 rounded-full flex items-center justify-center mb-8 text-purple-600 border border-purple-100">
-          <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M4 19.5v-15A2.5 2.5 0 0 1 6.5 2H20v20H6.5a2.5 2.5 0 0 1 0-5H20"/><path d="m9 9.5 3 3 3-3"/></svg>
-        </div>
-        <h1 className="text-4xl md:text-5xl font-display font-bold text-slate-900 mb-4 text-center tracking-tight">
-          Artikel Tidak Ditemukan
-        </h1>
-        <p className="text-slate-500 text-lg mb-10 max-w-md text-center leading-relaxed">
-          Maaf, jurnal insight yang Anda cari mungkin telah dipindahkan atau URL tidak valid. Mari kembali menjelajahi wawasan strategi digital lainnya.
-        </p>
-        <Link 
-          to="/blog"
-          className="inline-flex items-center gap-2 bg-purple-900 text-white px-8 py-4 rounded-full font-bold uppercase tracking-widest text-xs shadow-lg hover:shadow-xl hover:bg-purple-950 transition-all hover:-translate-y-1"
-        >
-          <ArrowLeft size={16} /> KEMBALI KE BLOG HUB
-        </Link>
-      </main>
-    );
+    return <NotFoundPage />;
   }
 
   const unifiedContent = post.mdxContent || post.content?.map((c: any) => typeof c === 'string' ? c : `![${c.alt}](${c.url})`).join('\n\n') || '';
