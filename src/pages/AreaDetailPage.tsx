@@ -70,8 +70,8 @@ export default function AreaDetailPage() {
   return (
     <div className="pt-40 md:pt-48 pb-28 min-h-screen relative bg-transparent text-slate-900 overflow-hidden">
       <SEOMetadata 
-        title={`Jasa Pembuatan Website ${formattedCityName} Premium | CHESTAA`} 
-        description={`Jasa pembuatan website profesional, arsitektur Next.js 15 super cepat, SEO lokal Google Maps, dan mobile-first untuk bisnis di ${formattedCityName}.`}
+        title={`Jasa Pembuatan Website B2B ${formattedCityName} & Web Developer Perusahaan | CHESTAA`} 
+        description={`Lebih dari sekadar jasa website di ${formattedCityName}, Chestaa mengintegrasikan AI untuk mengotomatisasi bisnis B2B Anda. Arsitektur Next.js 15 super cepat, SEO lokal Google Maps, dan Karyawan AI.`}
         currentRoute={`/area/${cityName.toLowerCase()}`}
         schema={generateCityGeoSchema(formattedCityName)}
       />

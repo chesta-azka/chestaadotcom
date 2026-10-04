@@ -11,6 +11,8 @@
     "postinstall": "npm dedupe"
   },
   "dependencies": {
+    "@ai-sdk/google": "^4.0.87",
+    "@ai-sdk/groq": "^4.0.54",
     "@ai-sdk/openai": "^4.0.71",
     "@google/genai": "^2.19.0",
     "@radix-ui/react-slot": "^1.3.3",

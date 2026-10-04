@@ -63,6 +63,9 @@ import InsightDetailPage from './pages/InsightDetailPage.tsx';
 
 import KeyboardShortcutsModal from './components/organisms/KeyboardShortcutsModal.tsx';
 import SpecialPromoAlert from './components/organisms/SpecialPromoAlert.tsx';
+import TrustCenterPage from './app/trust/page.tsx';
+import ExitIntentAI from './components/organisms/ExitIntentAI.tsx';
+import ServerAnalyticsTracker from './components/atoms/ServerAnalyticsTracker.tsx';
 
 import { useVisitorTracker } from './hooks/useVisitorTracker.ts';
 import { useClickTracker } from './hooks/useClickTracker.ts';
@@ -92,6 +95,8 @@ function AppContent({ appLoaded, onLoadingComplete }: { appLoaded: boolean; onLo
   
   return (
     <div className="relative w-full flex flex-col overflow-x-hidden min-h-screen">
+      <ServerAnalyticsTracker />
+      <ExitIntentAI />
       <LoadingScreen onComplete={onLoadingComplete} />
       <SpecialPromoAlert />
       
@@ -126,6 +131,7 @@ function AppContent({ appLoaded, onLoadingComplete }: { appLoaded: boolean; onLo
             
             <Route path="/case-studies" element={<PageWrapper><CaseStudiesPage /></PageWrapper>} />
             <Route path="/case-studies/:slug" element={<PageWrapper><CaseStudyDetailPage /></PageWrapper>} />
+            <Route path="/trust" element={<PageWrapper><TrustCenterPage /></PageWrapper>} />
             <Route path="/services" element={<PageWrapper><ServicesHubPage /></PageWrapper>} />
             <Route path="/layanan" element={<PageWrapper><ServicesHubPage /></PageWrapper>} />
             <Route path="/services/jasa-pembuatan-website-bsd-cisauk" element={<PageWrapper><LocalSeoServicePage /></PageWrapper>} />

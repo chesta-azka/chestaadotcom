@@ -1,18 +1,21 @@
 'use client';
 
-import React from 'react';
-import { Check, Sparkles, ArrowRight, ShieldCheck } from 'lucide-react';
+import React, { useState } from 'react';
+import { motion, AnimatePresence } from 'motion/react';
+import { Check, Sparkles, ArrowRight, ShieldCheck, TrendingUp, DollarSign } from 'lucide-react';
 
 interface PricingTier {
   id: string;
   name: string;
   badge: string;
   price: string;
+  costViewPrice: string;
   originalPrice?: string;
   period: string;
   description: string;
   highlighted: boolean;
   features: string[];
+  roiFeatures: string[];
   ctaText: string;
   ctaMessage: string;
 }
@@ -22,7 +25,8 @@ const pricingTiers: PricingTier[] = [
     id: "starter",
     name: "Mesin Validasi Kilat",
     badge: "UMKM & Validasi Pasar",
-    price: "Rp 540.000",
+    price: "Biaya Admin 5 Thn: -180 Juta",
+    costViewPrice: "Rp 540.000",
     originalPrice: "Rp 1.200.000",
     period: "sekali bayar • 100% hak milik",
     description: "Website sub-detik untuk validasi pasar dan konversi iklan seketika.",
@@ -34,14 +38,21 @@ const pricingTiers: PricingTier[] = [
       "Formulir langsung terhubung ke WhatsApp",
       "100% Hak Milik Aset (Tanpa Biaya Sewa)"
     ],
+    roiFeatures: [
+      "Penghematan Gaji Admin: +150 Juta/thn",
+      "Lonjakan Closing Rate: +210%",
+      "Zero Downtime & Zero Malware Cost",
+      "ROI Lunas dalam 1 Minggu Pertama"
+    ],
     ctaText: "Amankan Promo Rp 540K",
-    ctaMessage: "Halo Mas Chesta! Saya mau ambil paket promo Mesin Validasi Kilat Rp 540.000 (domain .com + cloud server 1 tahun). Masih tersedia kuotanya?"
+    ctaMessage: "Halo Mas Chesta! Saya mau ambil paket promo Mesin Validasi Kilat Rp 540.000."
   },
   {
     id: "scale",
     name: "Scale Enterprise",
     badge: "Dominasi Skala Menengah",
-    price: "Rp 1.850.000",
+    price: "Biaya Operasional Manual: -300 Juta",
+    costViewPrice: "Rp 1.850.000",
     originalPrice: "Rp 3.500.000",
     period: "sekali bayar • aset mandiri selamanya",
     description: "Arsitektur multi-halaman dengan asisten cerdas 24/7 pelipatganda sales.",
@@ -54,14 +65,21 @@ const pricingTiers: PricingTier[] = [
       "Panel Kelola Konten Mandiri",
       "Handover Source Code & 100% Bebas Biaya Bulanan"
     ],
+    roiFeatures: [
+      "Penghematan Operasional AI: +250 Juta",
+      "Otomatisasi Lead Response 60 Detik",
+      "Dominasi Peringkat Google Lokal BSD",
+      "Payback Period Instan < 14 Hari"
+    ],
     ctaText: "Pilih Scale Enterprise",
-    ctaMessage: "Halo Mas Chesta! Saya tertarik dengan paket Scale Enterprise Rp 1.850.000 untuk meningkatkan kapasitas closing dan efisiensi bisnis kami."
+    ctaMessage: "Halo Mas Chesta! Saya tertarik dengan paket Scale Enterprise Rp 1.850.000."
   },
   {
     id: "corporate",
     name: "Ekosistem Korporat Mandiri",
     badge: "Autonomous Engine Skala Penuh",
-    price: "Mulai Rp 4.500.000",
+    price: "Kerugian Human Error: -750 Juta",
+    costViewPrice: "Mulai Rp 4.500.000",
     period: "investasi kustom • custom architecture",
     description: "Sistem otomasi terintegrasi skala penuh peniup habis human-error operasional.",
     highlighted: false,
@@ -72,12 +90,20 @@ const pricingTiers: PricingTier[] = [
       "Handover Source Code 100% Hak Milik",
       "Dukungan Prioritas VIP SLA Langsung Principal"
     ],
+    roiFeatures: [
+      "Proteksi Margin Korporat: +500 Juta+",
+      "Eliminasi Total Human Error",
+      "Infrastruktur Cloud Enterprise Skalabel",
+      "Dukungan Prioritas VIP Langsung"
+    ],
     ctaText: "Konsultasi Korporat",
-    ctaMessage: "Halo Mas Chesta! Perusahaan kami membutuhkan Ekosistem Korporat Mandiri (Autonomous Business Engine). Mohon info ketersediaan sesi konsultasi teknis."
+    ctaMessage: "Halo Mas Chesta! Perusahaan kami membutuhkan Ekosistem Korporat Mandiri."
   }
 ];
 
 export default function InvestmentTiers() {
+  const [isProfitMode, setIsProfitMode] = useState(false);
+
   const handleOpenWhatsApp = (message: string) => {
     window.open(`https://wa.me/6282125447232?text=${encodeURIComponent(message)}`, '_blank');
   };
@@ -90,7 +116,7 @@ export default function InvestmentTiers() {
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         
         {/* Section Header with Extreme Typographic Hierarchy */}
-        <div className="text-center max-w-4xl mx-auto mb-16">
+        <div className="text-center max-w-4xl mx-auto mb-12">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-purple-50 border border-purple-200/80 text-purple-700 text-xs font-mono font-medium mb-4 shadow-xs">
             <Sparkles className="w-3.5 h-3.5 text-purple-600" />
             <span className="tracking-widest uppercase">INVESTASI TRANSPARAN &amp; MUTLAK</span>
@@ -104,30 +130,59 @@ export default function InvestmentTiers() {
           <p className="text-slate-600 mt-4 text-base md:text-lg font-normal max-w-2xl mx-auto leading-relaxed text-balance">
             Bayar sekali, miliki aset selamanya tanpa biaya sewa platform bulanan.
           </p>
+
+          {/* Mode Biaya vs Mode Profit (ROI) Toggle Switch */}
+          <div className="mt-8 inline-flex items-center gap-3 p-1.5 rounded-full bg-slate-100 border border-slate-200 shadow-inner">
+            <button
+              onClick={() => setIsProfitMode(false)}
+              className={`px-6 py-2.5 rounded-full text-xs font-mono font-bold tracking-wider uppercase transition-all cursor-pointer ${
+                !isProfitMode ? 'bg-purple-900 text-white shadow-md' : 'text-slate-600 hover:text-slate-900'
+              }`}
+            >
+              <b>Mode Biaya</b>
+            </button>
+            <button
+              onClick={() => setIsProfitMode(true)}
+              className={`px-6 py-2.5 rounded-full text-xs font-mono font-bold tracking-wider uppercase transition-all cursor-pointer ${
+                isProfitMode ? 'bg-emerald-600 text-white shadow-md shadow-emerald-600/20' : 'text-slate-600 hover:text-slate-900'
+              }`}
+            >
+              <b>Mode Profit (ROI)</b>
+            </button>
+          </div>
+          <div className="mt-2 text-[11px] font-mono text-slate-500 uppercase tracking-widest">
+            {isProfitMode ? 'Menampilkan Perbandingan Penghematan Operasional & Profit Bersih' : 'Menampilkan Struktur Investasi Inisial Sekali Bayar'}
+          </div>
         </div>
 
-        {/* 3 Pricing Matrices: Scale Enterprise Spatially Dominates with Refined Deep Surface */}
+        {/* 3 Pricing Matrices with Framer Motion Flip Animation */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">
           {pricingTiers.map((tier) => (
-            <div
+            <motion.div
               key={tier.id}
+              layout
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4 }}
               className={`rounded-[2.25rem] p-8 sm:p-10 flex flex-col justify-between relative transition-all duration-300 ${
                 tier.highlighted
-                  ? 'bg-[#120f1d] text-white shadow-2xl shadow-slate-900/10 border border-purple-900/40 lg:scale-105 z-20 relative'
-                  : 'bg-slate-50/80 border border-slate-200/90 text-slate-900 shadow-xl shadow-slate-200/40 hover:border-purple-300 z-10'
+                  ? isProfitMode ? 'bg-slate-950 text-white shadow-2xl border-2 border-emerald-500/80 ring-4 ring-emerald-500/20 lg:scale-105 z-20 relative' : 'bg-[#120f1d] text-white shadow-2xl shadow-slate-900/10 border border-purple-900/40 lg:scale-105 z-20 relative'
+                  : isProfitMode ? 'bg-slate-900 text-white border border-emerald-500/30 shadow-xl z-10' : 'bg-slate-50/80 border border-slate-200/90 text-slate-900 shadow-xl shadow-slate-200/40 hover:border-purple-300 z-10'
               }`}
             >
               {/* Refined corporate badge on middle tier */}
               {tier.highlighted && (
-                <div className="absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1.5 rounded-full bg-purple-900 text-white text-[10px] font-medium font-mono tracking-[0.15em] shadow-xs border border-purple-700 uppercase whitespace-nowrap">
-                  ⭐ PALING DIMINATI KORPORAT
+                <div className={`absolute -top-4 left-1/2 -translate-x-1/2 px-4 py-1.5 rounded-full text-[10px] font-medium font-mono tracking-[0.15em] shadow-xs border uppercase whitespace-nowrap ${
+                  isProfitMode ? 'bg-emerald-600 text-white border-emerald-400' : 'bg-purple-900 text-white border-purple-700'
+                }`}>
+                  {isProfitMode ? '⭐ MAX ROI & PENGHEMATAN' : '⭐ PALING DIMINATI KORPORAT'}
                 </div>
               )}
 
               <div>
                 <div className="flex items-center justify-between mb-6">
                   <span className={`text-[10px] font-medium uppercase tracking-widest px-3.5 py-1.5 rounded-full shadow-xs ${
-                    tier.highlighted 
+                    tier.highlighted || isProfitMode
                       ? 'bg-purple-900/60 text-purple-200 border border-purple-500/40' 
                       : 'bg-white text-purple-700 border border-purple-200/80'
                   }`}>
@@ -135,73 +190,73 @@ export default function InvestmentTiers() {
                   </span>
                 </div>
 
-                <h3 className={`text-2xl sm:text-3xl font-medium mb-2 tracking-tight ${tier.highlighted ? 'text-white' : 'text-slate-900'}`}>
+                <h3 className={`text-2xl sm:text-3xl font-medium mb-2 tracking-tight ${tier.highlighted || isProfitMode ? 'text-white' : 'text-slate-900'}`}>
                   {tier.name}
                 </h3>
-                <p className={`text-xs sm:text-sm font-normal mb-6 leading-relaxed ${tier.highlighted ? 'text-slate-300' : 'text-slate-600'}`}>
+                <p className={`text-xs sm:text-sm font-normal mb-6 leading-relaxed ${tier.highlighted || isProfitMode ? 'text-slate-300' : 'text-slate-600'}`}>
                   {tier.description}
                 </p>
 
-                <div className={`mb-6 pb-6 border-b ${tier.highlighted ? 'border-purple-700/50' : 'border-slate-200/80'}`}>
+                <div className={`mb-6 pb-6 border-b ${tier.highlighted || isProfitMode ? 'border-purple-700/50' : 'border-slate-200/80'}`}>
                   <div className="flex items-baseline gap-3">
-                    <span className={`text-3xl sm:text-4xl lg:text-5xl font-medium tracking-tight ${tier.highlighted ? 'text-white' : 'text-slate-900'}`}>
-                      {tier.price}
+                    <span className={`text-2xl sm:text-3xl lg:text-4xl font-medium tracking-tight ${isProfitMode ? 'text-emerald-400 font-mono font-bold' : tier.highlighted ? 'text-white' : 'text-slate-900'}`}>
+                      {isProfitMode ? tier.price : tier.costViewPrice}
                     </span>
-                    {tier.originalPrice && (
-                      <span className="text-xs sm:text-sm text-rose-500 line-through font-medium font-mono">
+                    {!isProfitMode && tier.originalPrice && (
+                      <span className="text-xs sm:text-sm font-sans text-slate-400 line-through">
                         {tier.originalPrice}
                       </span>
                     )}
                   </div>
-                  <span className={`text-xs font-mono font-medium mt-1.5 block uppercase tracking-wider ${tier.highlighted ? 'text-purple-300' : 'text-slate-500'}`}>
-                    {tier.period}
-                  </span>
+                  <p className={`text-xs font-mono mt-2 font-medium ${isProfitMode ? 'text-emerald-300' : 'text-purple-700'}`}>
+                    {isProfitMode ? 'Dihitung berdasarkan efisiensi operasional 5 tahun' : tier.period}
+                  </p>
                 </div>
 
-                {/* Features List with Short High-Impact Bullet Points */}
+                {/* Features List (Switches between standard specs and ROI metrics) */}
                 <div className="space-y-3 mb-8">
-                  {tier.features.map((feature, i) => (
-                    <div key={i} className="flex items-start gap-2.5 text-xs sm:text-sm">
-                      <div className={`w-4 h-4 rounded-full flex items-center justify-center shrink-0 mt-0.5 ${
-                        tier.highlighted ? 'bg-purple-500 text-white' : 'bg-purple-100 text-purple-700'
-                      }`}>
-                        <Check size={11} className="stroke-[2.5]" />
-                      </div>
-                      <span className={`leading-tight ${tier.highlighted ? 'text-slate-200 font-normal' : 'text-slate-700 font-normal'}`}>
-                        {feature}
-                      </span>
-                    </div>
-                  ))}
+                  <span className={`text-[11px] font-mono font-medium uppercase tracking-wider block ${isProfitMode ? 'text-emerald-400 font-bold' : 'text-slate-400'}`}>
+                    {isProfitMode ? 'Metrik Profit &amp; Penghematan ROI:' : 'Spesifikasi &amp; Fasilitas:'}
+                  </span>
+                  <ul className="space-y-3">
+                    {(isProfitMode ? tier.roiFeatures : tier.features).map((feat, idx) => (
+                      <li key={idx} className="flex items-start gap-2.5 text-xs sm:text-sm font-sans">
+                        <div className={`mt-0.5 w-4 h-4 rounded-full flex items-center justify-center shrink-0 ${
+                          isProfitMode 
+                            ? 'bg-emerald-500/20 text-emerald-400 border border-emerald-500/40' 
+                            : tier.highlighted ? 'bg-purple-600 text-white' : 'bg-purple-100 text-purple-800'
+                        }`}>
+                          <Check size={10} strokeWidth={2.5} />
+                        </div>
+                        <span className={isProfitMode ? 'text-emerald-300 font-medium' : tier.highlighted ? 'text-slate-200' : 'text-slate-700'}>
+                          {feat}
+                        </span>
+                      </li>
+                    ))}
+                  </ul>
                 </div>
               </div>
 
-              {/* Action CTA */}
-              <div className={`pt-4 border-t ${tier.highlighted ? 'border-purple-700/50' : 'border-slate-200/80'}`}>
+              {/* Card CTA Actions */}
+              <div className="pt-4 border-t border-slate-100/10 mt-auto space-y-2.5">
                 <button
                   onClick={() => handleOpenWhatsApp(tier.ctaMessage)}
-                  className={`w-full py-4 rounded-2xl font-medium text-sm tracking-wide transition-all flex items-center justify-center gap-2 cursor-pointer shadow-md ${
-                    tier.highlighted
-                      ? 'bg-purple-900 hover:bg-purple-800 text-white shadow-sm border border-purple-800'
-                      : 'bg-slate-900 hover:bg-purple-950 text-white shadow-sm'
+                  className={`w-full py-3.5 px-5 rounded-xl font-sans text-xs sm:text-sm font-medium flex items-center justify-center gap-2 transition-all cursor-pointer ${
+                    isProfitMode
+                      ? 'bg-emerald-600 hover:bg-emerald-500 text-white shadow-md shadow-emerald-600/30'
+                      : tier.highlighted
+                        ? 'bg-purple-900 hover:bg-purple-800 text-white shadow-sm'
+                        : 'bg-slate-900 hover:bg-purple-950 text-white shadow-sm'
                   }`}
                 >
-                  <span>{tier.ctaText}</span>
-                  <ArrowRight size={16} />
+                  <Sparkles size={16} className={isProfitMode ? 'text-emerald-200' : tier.highlighted ? 'text-white' : 'text-purple-300'} />
+                  <span><b>{tier.ctaText}</b></span>
+                  <ArrowRight size={14} className="opacity-80" />
                 </button>
               </div>
 
-            </div>
+            </motion.div>
           ))}
-        </div>
-
-        {/* Bottom Trust Guarantee Banner */}
-        <div className="mt-12 text-center">
-          <div className="inline-flex items-center gap-3 px-6 py-3.5 rounded-2xl bg-slate-50 border border-slate-200 shadow-xs">
-            <ShieldCheck className="w-5 h-5 text-emerald-600" />
-            <span className="text-xs sm:text-sm font-medium text-slate-700">
-              Garansi Kepemilikan Mutlak: <strong>Source Code Diserahkan 100%</strong> • Bebas Royalti &amp; Tanpa Biaya Bulanan.
-            </span>
-          </div>
         </div>
 
       </div>
