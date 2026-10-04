@@ -66,6 +66,8 @@ import SpecialPromoAlert from './components/organisms/SpecialPromoAlert.tsx';
 import TrustCenterPage from './app/trust/page.tsx';
 import ExitIntentAI from './components/organisms/ExitIntentAI.tsx';
 import ServerAnalyticsTracker from './components/atoms/ServerAnalyticsTracker.tsx';
+import OmniAdminDashboard from './app/admin/page.tsx';
+import AiAuditAdminPage from './app/admin/ai-audit/page.tsx';
 
 import { useVisitorTracker } from './hooks/useVisitorTracker.ts';
 import { useClickTracker } from './hooks/useClickTracker.ts';
@@ -124,7 +126,8 @@ function AppContent({ appLoaded, onLoadingComplete }: { appLoaded: boolean; onLo
             <Route path="/quiz" element={<PageWrapper><QuizIndexPage /></PageWrapper>} />
             <Route path="/quiz/:moduleId" element={<PageWrapper><AcademyQuizPage /></PageWrapper>} />
             <Route path="/area/:cityName" element={<PageWrapper><AreaDetailPage /></PageWrapper>} />
-            <Route path="/admin" element={<PageWrapper><AdminPage /></PageWrapper>} />
+            <Route path="/admin" element={<PageWrapper><OmniAdminDashboard /></PageWrapper>} />
+            <Route path="/admin/ai-audit" element={<PageWrapper><AiAuditAdminPage /></PageWrapper>} />
             <Route path="/portal" element={<PageWrapper><ClientPortalPage /></PageWrapper>} />
             <Route path="/workspace/:slug" element={<PageWrapper><ClientPortalPage /></PageWrapper>} />
             <Route path="/client/:slug" element={<PageWrapper><ClientPortalPage /></PageWrapper>} />

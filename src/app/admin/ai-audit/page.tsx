@@ -7,6 +7,7 @@ import { Terminal, ShieldAlert, TrendingUp, Users, DollarSign, ArrowLeft } from 
 import Link from 'next/link';
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer, CartesianGrid } from 'recharts';
 import LLMCostTracker from '../../../components/admin/LLMCostTracker';
+import LeadWinLossProgress from '../../../components/admin/LeadWinLossProgress';
 import toast from 'react-hot-toast';
 
 interface AuditLead {
@@ -114,6 +115,9 @@ export default function AiAuditAdminPage() {
 
         {/* LLM Cost Tracker & Kill-Switch */}
         <LLMCostTracker />
+
+        {/* Win vs Lost Lead Conversion Progress Bar */}
+        <LeadWinLossProgress />
 
         {/* Metrics Overview */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
