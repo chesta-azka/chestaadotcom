@@ -51,7 +51,18 @@ export default function SEOMetadata({
   const seoImage = ogImage || image || 'https://chestaa.com/chesta.png';
   const seoType = type || ogType || 'website';
 
-  // Construct structured data logically based on page context
+  const protectedRoutes = ['/admin', '/portal', '/workspace', '/client'];
+  const isProtected = protectedRoutes.some(prefix => routePath.startsWith(prefix));
+
+  if (isProtected) {
+    return (
+      <Helmet>
+        <title>{seoTitle}</title>
+        <meta name="robots" content="noindex, nofollow" />
+      </Helmet>
+    );
+  }
+
   let finalSchemas: any[] = [];
 
   const homeFaqs = [
@@ -79,7 +90,6 @@ export default function SEOMetadata({
   } else if (schema) {
     finalSchemas = Array.isArray(schema) ? schema : [schema];
   } else if (routePath === '' || routePath === '/') {
-    // Homepage gets Organization, LocalBusiness, WebSite, and FAQ schemas
     finalSchemas = [
       generateOrganizationSchema(),
       generateLocalBusinessSchema(),
@@ -87,7 +97,6 @@ export default function SEOMetadata({
       generateFAQSchema(homeFaqs)
     ];
   } else {
-    // Default subpage gets WebPage schema
     finalSchemas = [
       {
         "@context": "https://schema.org",

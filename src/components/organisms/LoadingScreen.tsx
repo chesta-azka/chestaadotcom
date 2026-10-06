@@ -51,8 +51,16 @@ export default function LoadingScreen({ onComplete }: { onComplete?: () => void 
       >
         {/* Minimalist Branded Logo Mark */}
         <div className="relative flex items-center justify-center">
-          <div className="w-12 h-12 rounded-2xl bg-white/[0.02] border border-white/[0.08] flex items-center justify-center overflow-hidden">
-            <div className="w-4 h-4 bg-white/90 rounded-sm rotate-45" />
+          <div className="w-14 h-14 rounded-2xl bg-white border border-purple-200 flex items-center justify-center overflow-hidden shadow-lg">
+            <img 
+              src="/chesta.png" 
+              alt="Chestaa Logo" 
+              className="w-full h-full object-cover object-top" 
+              onError={(e) => {
+                const target = e.currentTarget;
+                target.src = '/favicon.svg';
+              }}
+            />
           </div>
           
           {/* Subtle Outer Glow */}

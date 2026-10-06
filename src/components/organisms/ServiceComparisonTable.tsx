@@ -141,7 +141,7 @@ export default function ServiceComparisonTable() {
                       {row.info && (
                         <div className="group/info relative">
                           <Info size={12} className="text-slate-300 hover:text-purple-600 transition-colors cursor-help" />
-                          <div className="absolute left-0 bottom-full mb-3 w-56 p-4 bg-slate-900 text-[11px] text-slate-200 rounded-xl opacity-0 invisible group-hover/info:opacity-100 group-hover/info:visible transition-all z-50 shadow-2xl leading-relaxed border border-slate-800">
+                          <div className="absolute left-0 bottom-full mb-3 w-56 p-4 bg-white text-[11px] text-slate-800 rounded-xl opacity-0 invisible group-hover/info:opacity-100 group-hover/info:visible transition-all z-50 shadow-xl leading-relaxed border border-slate-200">
                             {row.info}
                           </div>
                         </div>
@@ -230,7 +230,7 @@ export default function ServiceComparisonTable() {
                   </div>
 
                   <div className="p-6 border-t border-slate-100 bg-slate-50/50">
-                    <a href="#contact" className="flex items-center justify-center gap-2 w-full py-4 rounded-2xl bg-slate-900 text-white text-[10px] font-black uppercase tracking-widest hover:bg-purple-700 transition-colors shadow-lg">
+                    <a href="#contact" className="flex items-center justify-center gap-2 w-full py-4 rounded-2xl bg-purple-600 text-white text-[10px] font-black uppercase tracking-widest hover:bg-purple-700 transition-colors shadow-md shadow-purple-600/20">
                       Pilih {tier.charAt(0).toUpperCase() + tier.slice(1)}
                     </a>
                   </div>

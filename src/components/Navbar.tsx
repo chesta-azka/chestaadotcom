@@ -3,6 +3,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import { Shield, MessageCircle } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Link } from 'react-router-dom';
+import { SERVICES_DATA } from '../data/servicesData';
 
 export function Navbar() {
   const [scrolled, setScrolled] = useState(false);
@@ -94,7 +95,7 @@ export function Navbar() {
         <nav className="hidden md:flex items-center gap-2 text-sm font-medium text-slate-600">
           <Link to="/" onClick={() => setServicesOpen(false)} className="px-4 py-2 rounded-full hover:bg-slate-100 hover:text-purple-700 transition-colors">Beranda</Link>
           
-          {/* Dropdown Layanan */}
+          {/* Dropdown Layanan - Contains ALL Service Pages */}
           <div 
             className="relative"
             ref={dropdownRef}
@@ -121,7 +122,7 @@ export function Navbar() {
               </svg>
             </button>
             
-            {/* Dropdown Menu */}
+            {/* Dropdown Menu Listing All Service Pages */}
             <AnimatePresence>
               {servicesOpen && (
                 <motion.div 
@@ -129,25 +130,23 @@ export function Navbar() {
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: 6, scale: 0.98 }}
                   transition={{ duration: 0.15, ease: "easeOut" }}
-                  className="absolute top-full left-0 mt-2 w-56 z-50 pointer-events-auto"
+                  className="absolute top-full left-0 mt-2 w-80 z-50 pointer-events-auto"
                 >
-                  <div className="bg-white rounded-2xl shadow-xl border border-slate-100 p-2 flex flex-col gap-1">
-                    <Link to="/#services-web" onClick={() => setServicesOpen(false)} className="px-4 py-2.5 rounded-xl hover:bg-purple-50/80 hover:text-purple-900 transition-colors text-slate-700 block">
-                      <div className="font-medium text-sm">Web Development</div>
-                      <div className="text-[11px] font-normal text-slate-500 mt-0.5">Website Berperforma Tinggi</div>
-                    </Link>
-                    <Link to="/#services-mobile" onClick={() => setServicesOpen(false)} className="px-4 py-2.5 rounded-xl hover:bg-purple-50/80 hover:text-purple-900 transition-colors text-slate-700 block">
-                      <div className="font-medium text-sm">Mobile Apps</div>
-                      <div className="text-[11px] font-normal text-slate-500 mt-0.5">iOS & Android Cross-Platform</div>
-                    </Link>
-                    <Link to="/#services-ai" onClick={() => setServicesOpen(false)} className="px-4 py-2.5 rounded-xl hover:bg-purple-50/80 hover:text-purple-900 transition-colors text-slate-700 block">
-                      <div className="font-medium text-sm">AI Integration</div>
-                      <div className="text-[11px] font-normal text-slate-500 mt-0.5">Otomatisasi dengan Google Gemini</div>
-                    </Link>
-                    <Link to="/#services-uiux" onClick={() => setServicesOpen(false)} className="px-4 py-2.5 rounded-xl hover:bg-purple-50/80 hover:text-purple-900 transition-colors text-slate-700 block">
-                      <div className="font-medium text-sm">UI/UX Design</div>
-                      <div className="text-[11px] font-normal text-slate-500 mt-0.5">Desain antarmuka modern & premium</div>
-                    </Link>
+                  <div className="bg-white rounded-2xl shadow-xl border border-slate-100 p-2 flex flex-col gap-1 max-h-[420px] overflow-y-auto no-scrollbar">
+                    <div className="px-3 py-1.5 text-[10px] font-mono font-bold uppercase tracking-widest text-purple-700 bg-purple-50 rounded-lg mb-1">
+                      Semua Layanan Enterprise ({Object.keys(SERVICES_DATA).length})
+                    </div>
+                    {Object.entries(SERVICES_DATA).map(([key, data]) => (
+                      <Link 
+                        key={key}
+                        to={`/services/${key}`} 
+                        onClick={() => setServicesOpen(false)} 
+                        className="px-3.5 py-2.5 rounded-xl hover:bg-purple-50 hover:text-purple-900 transition-colors text-slate-700 block border border-transparent hover:border-purple-200"
+                      >
+                        <div className="font-bold text-xs text-slate-900">{data.title}</div>
+                        <div className="text-[11px] font-normal text-slate-500 mt-0.5 line-clamp-1">{data.subtitle}</div>
+                      </Link>
+                    ))}
                   </div>
                 </motion.div>
               )}

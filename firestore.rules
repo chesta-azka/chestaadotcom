@@ -51,6 +51,66 @@ service cloud.firestore {
       allow read, write: if true;
     }
 
+    match /server_analytics/{docId} {
+      allow create: if true;
+      allow read, update, delete: if isAdmin();
+    }
+
+    match /page_views/{docId} {
+      allow create: if true;
+      allow read, update, delete: if isAdmin();
+    }
+
+    match /live_visitors/{docId} {
+      allow write: if true;
+      allow read: if isAdmin();
+    }
+
+    match /click_telemetry/{docId} {
+      allow create: if true;
+      allow read, update, delete: if isAdmin();
+    }
+
+    match /content_performance/{docId} {
+      allow create: if true;
+      allow read, update, delete: if isAdmin();
+    }
+
+    match /newsletter_subscribers/{docId} {
+      allow create: if true;
+      allow read, update, delete: if isAdmin();
+    }
+
+    match /ai_leads/{docId} {
+      allow create: if true;
+      allow read, update, delete: if isAdmin();
+    }
+
+    match /audit_leads/{docId} {
+      allow create: if true;
+      allow read, update, delete: if isAdmin();
+    }
+
+    match /academy_quiz_leads/{docId} {
+      allow create: if true;
+      allow read, update, delete: if isAdmin();
+    }
+
+    match /faqs/{docId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /insights/{docId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
+    match /glossary/{docId} {
+      allow read: if true;
+      allow write: if isAdmin();
+    }
+
     match /workspaces/{workspaceId}/{document=**} {
       allow read, write: if true; // Keeping existing permissive behavior for workspaces for now
     }

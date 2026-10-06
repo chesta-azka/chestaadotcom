@@ -14,6 +14,7 @@ import ProjectTimeline from '../components/organisms/ProjectTimeline';
 import ROITrendChart from '../components/organisms/ROITrendChart';
 import RelatedCaseStudiesSlider from '../components/organisms/RelatedCaseStudiesSlider';
 import Breadcrumbs from '../components/atoms/Breadcrumbs';
+import { injectSemanticLinks } from '../lib/semantic-linker';
 
 function TechStackBadges() {
   const stack = ['Enterprise App Router', 'Server Components', 'TypeScript', 'Tailwind CSS v4', 'Google Gemini AI', 'PostgreSQL / Cloud SQL', 'Docker & Cloud Run'];

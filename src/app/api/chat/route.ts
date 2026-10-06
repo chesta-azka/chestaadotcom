@@ -11,12 +11,12 @@ export async function POST(req: Request) {
 
   const bookAuditTool = tool({
     description: 'Saves the executive lead contact information directly to the database.',
-    parameters: z.object({
+    inputSchema: z.object({
       name: z.string(),
       company: z.string(),
       phone: z.string()
     }),
-    execute: async ({ name, company, phone }: { name: string; company: string; phone: string }) => {
+    execute: async ({ name, company, phone }) => {
       try {
         if (db) {
           await addDoc(collection(db, 'audit_leads'), {
@@ -32,7 +32,7 @@ export async function POST(req: Request) {
 
       return 'Terima kasih banyak atas kepercayaannya, Bapak/Ibu ' + name + '. Data Anda sudah kami simpan dengan aman. Mas Chesta akan segera menghubungi Anda secara personal untuk membantu meringankan beban operasional di ' + company + '. Kami siap membantu Anda beristirahat dari urusan teknis yang rumit.';
     }
-  } as any);
+  });
 
   const tools = {
     bookAudit: bookAuditTool

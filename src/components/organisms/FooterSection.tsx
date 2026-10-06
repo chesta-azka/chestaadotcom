@@ -40,11 +40,16 @@ export default function FooterSection() {
           {/* Column 1: Brand & Newsletter */}
           <div className="lg:col-span-4 space-y-8 pr-4">
             <Link to="/" onClick={() => window.scrollTo(0,0)} className="inline-flex items-center gap-3 group">
-              <div className="w-12 h-12 rounded-xl bg-slate-50 border border-slate-200 flex items-center justify-center group-hover:border-purple-300 transition-colors duration-300 shadow-[0_4px_20px_rgba(0,0,0,0.06)]">
-                <svg className="w-6 h-6 text-purple-600 group-hover:scale-110 transition-transform duration-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="m12 3-8 8 8 8 8-8-8-8z" />
-                  <path d="m12 8-4 4 4 4 4-4-4-4z" />
-                </svg>
+              <div className="w-12 h-12 rounded-xl overflow-hidden bg-purple-50 border border-slate-200 flex items-center justify-center group-hover:border-purple-300 transition-colors duration-300 shadow-sm">
+                <img 
+                  src="/chesta.png" 
+                  alt="Chestaa Logo" 
+                  className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300" 
+                  onError={(e) => {
+                    const target = e.currentTarget;
+                    target.src = '/favicon.svg';
+                  }}
+                />
               </div>
               <span className="font-display text-2xl font-medium tracking-tight leading-none text-slate-900">
                 CHESTA<span className="text-purple-600">.</span>

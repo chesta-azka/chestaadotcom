@@ -69,6 +69,34 @@ export default function RootLayout({
     }
   };
 
+  const siteNavigationJsonLd = {
+    "@context": "https://schema.org",
+    "@type": "SiteNavigationElement",
+    "name": "Chestaa Enterprise Navigation Hub",
+    "hasPart": [
+      {
+        "@type": "WebPage",
+        "name": "Services & AI Architecture",
+        "url": "https://chestaa.com/services"
+      },
+      {
+        "@type": "WebPage",
+        "name": "Enterprise Portfolio",
+        "url": "https://chestaa.com/portfolio"
+      },
+      {
+        "@type": "WebPage",
+        "name": "Case Studies & Proof",
+        "url": "https://chestaa.com/case-studies"
+      },
+      {
+        "@type": "WebPage",
+        "name": "AI & Tech Insights",
+        "url": "https://chestaa.com/insights"
+      }
+    ]
+  };
+
   const serializeJsonLd = (schema: object) => {
     return JSON.stringify(schema)
       .replace(/</g, '\\u003c')
@@ -86,6 +114,10 @@ export default function RootLayout({
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: serializeJsonLd(websiteSearchJsonLd) }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: serializeJsonLd(siteNavigationJsonLd) }}
         />
       </head>
       <body className="antialiased bg-white text-slate-900 min-h-screen">

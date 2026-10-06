@@ -14,7 +14,7 @@ export async function trackServerEvent(path: string, userAgent: string) {
     });
     return { success: true };
   } catch (error) {
-    console.error('Server tracking error:', error);
+    // Gracefully handle tracking failures to avoid interrupting client navigation
     return { success: false, error: String(error) };
   }
 }

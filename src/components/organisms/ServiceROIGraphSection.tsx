@@ -62,7 +62,7 @@ export default function ServiceROIGraphSection() {
             <div className="space-y-4 pt-6 border-t border-slate-100">
               <div className="flex items-center justify-between text-xs font-mono">
                 <span className="text-slate-500">Waktu Muat Rata-rata</span>
-                <span className="font-bold text-emerald-600">0.6 Detik (Skor 99)</span>
+                <span className="font-bold text-purple-600">0.6 Detik (Skor 99)</span>
               </div>
               <div className="flex items-center justify-between text-xs font-mono">
                 <span className="text-slate-500">Bounce Rate Penurunan</span>
@@ -116,12 +116,12 @@ export default function ServiceROIGraphSection() {
                     content={({ active, payload, label }) => {
                       if (active && payload && payload.length) {
                         return (
-                          <div className="bg-slate-900 text-white p-3 rounded-2xl shadow-xl border border-purple-500/30 text-xs font-sans">
-                            <p className="font-mono font-bold text-purple-400 mb-1">{label}</p>
-                            <p className="text-slate-200">
-                              CHESTAADOTCOM: <strong className="text-emerald-400 font-bold">{payload[1]?.value} {activeMetric === 'konversi' ? '%' : 'x'}</strong>
+                          <div className="bg-white text-slate-900 p-3 rounded-2xl shadow-xl border border-purple-200 text-xs font-sans">
+                            <p className="font-mono font-bold text-purple-700 mb-1">{label}</p>
+                            <p className="text-slate-800">
+                              CHESTAADOTCOM: <strong className="text-purple-600 font-bold">{payload[1]?.value} {activeMetric === 'konversi' ? '%' : 'x'}</strong>
                             </p>
-                            <p className="text-slate-400 mt-0.5">
+                            <p className="text-slate-500 mt-0.5">
                               Agensi Biasa: {payload[0]?.value} {activeMetric === 'konversi' ? '%' : 'x'}
                             </p>
                           </div>

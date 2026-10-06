@@ -256,21 +256,21 @@ export default function ServicesSection() {
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-100px" }}
-          className="border border-slate-200 rounded-3xl bg-slate-900 relative overflow-hidden shadow-2xl"
+          className="border border-purple-200 rounded-3xl bg-purple-50/60 relative overflow-hidden shadow-xl"
         >
-          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,rgba(147,51,234,0.15),transparent_60%)] pointer-events-none" />
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom,rgba(168,85,247,0.12),transparent_60%)] pointer-events-none" />
           
           <div className="p-8 sm:p-12 lg:p-16 relative z-10">
             <div className="flex flex-col md:flex-row gap-12 lg:gap-24">
               <div className="md:w-1/3">
-                <span className="text-purple-400 font-mono font-bold text-[10px] uppercase tracking-widest block mb-4">
+                <span className="text-purple-700 font-mono font-bold text-[10px] uppercase tracking-widest block mb-4">
                   KEUNGGULAN ARSITEKTUR
                 </span>
-                <AnimatedHeading as="h3" className="text-3xl sm:text-4xl font-display font-black tracking-tight text-white mb-6 leading-tight">
+                <AnimatedHeading as="h3" className="text-3xl sm:text-4xl font-display font-black tracking-tight text-slate-900 mb-6 leading-tight">
                   Standar Mutu <br/> Tanpa Kompromi.
                 </AnimatedHeading>
-                <p className="text-slate-50 font-sans text-base leading-relaxed drop-shadow-sm font-medium">
-                  Kami menolak penggunaan template instan. Setiap baris kode ditulis untuk memastikan stabilitas tingkat tinggi, performa kilat, dan arsitektur yang siap di-*scale* kapan saja.
+                <p className="text-slate-600 font-sans text-base leading-relaxed font-normal">
+                  Kami menolak penggunaan template instan. Setiap baris kode ditulis untuk memastikan stabilitas tingkat tinggi, performa kilat, dan arsitektur yang siap di-scale kapan saja.
                 </p>
               </div>
               
@@ -285,12 +285,12 @@ export default function ServicesSection() {
                     transition={{ type: "spring", stiffness: 100, damping: 20, delay: i * 0.1 }}
                   >
                     <motion.div 
-                      className="w-12 h-12 rounded-xl bg-purple-900/40 border border-purple-500/30 shrink-0 flex items-center justify-center text-purple-400 mt-1 shadow-inner relative overflow-hidden"
+                      className="w-12 h-12 rounded-xl bg-white border border-purple-200 shrink-0 flex items-center justify-center text-purple-600 mt-1 shadow-xs relative overflow-hidden"
                       whileHover={{ 
                         scale: 1.1,
                         rotate: [0, -3, 3, 0],
-                        borderColor: "rgba(216, 180, 254, 0.7)",
-                        backgroundColor: "rgba(107, 33, 168, 0.6)"
+                        borderColor: "rgba(168, 85, 247, 0.7)",
+                        backgroundColor: "rgba(243, 232, 255, 0.8)"
                       }}
                       transition={{ duration: 0.35, ease: "easeOut" }}
                     >
@@ -298,14 +298,14 @@ export default function ServicesSection() {
                         whileHover={{ rotate: 12, scale: 1.1 }}
                         transition={{ type: "spring", stiffness: 300, damping: 15 }}
                       >
-                        <f.icon size={22} strokeWidth={1.5} className="group-hover/feature:text-purple-200 transition-colors duration-300" />
+                        <f.icon size={22} strokeWidth={1.5} className="group-hover/feature:text-purple-700 transition-colors duration-300" />
                       </motion.div>
                     </motion.div>
                     <div>
-                      <h4 className="text-lg font-bold font-display tracking-wide mb-2 text-white drop-shadow-sm group-hover/feature:text-purple-200 transition-colors duration-200">
+                      <h4 className="text-lg font-bold font-display tracking-wide mb-2 text-slate-900 group-hover/feature:text-purple-700 transition-colors duration-200">
                         {f.title}
                       </h4>
-                      <p className="text-sm font-sans text-slate-100/90 leading-relaxed font-normal">
+                      <p className="text-sm font-sans text-slate-600 leading-relaxed font-normal">
                         {f.desc}
                       </p>
                     </div>

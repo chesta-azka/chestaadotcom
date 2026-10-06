@@ -250,7 +250,7 @@ export default function ServiceDetailPage() {
         </p>
         <Link 
           to="/" 
-          className="px-6 py-3 bg-slate-900 hover:bg-slate-800 text-white rounded-xl text-xs font-bold uppercase tracking-widest transition-all shadow-sm"
+          className="px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-xl text-xs font-bold uppercase tracking-widest transition-all shadow-md shadow-purple-600/20"
         >
           Kembali ke Beranda
         </Link>
@@ -283,7 +283,7 @@ export default function ServiceDetailPage() {
         {/* Elite B2B Assurance Bar (Replaces blog share header) */}
         <div className="mb-6 p-4 rounded-2xl bg-slate-50 border border-slate-200/80 flex flex-wrap items-center justify-between gap-4 text-xs font-mono">
           <div className="flex items-center gap-2 text-slate-700">
-            <span className="w-2.5 h-2.5 rounded-full bg-emerald-500 animate-pulse" />
+            <span className="w-2.5 h-2.5 rounded-full bg-purple-600 animate-pulse" />
             <span className="font-bold text-slate-900">Status Layanan:</span>
             <span>Tersedia untuk Penugasan Q1/Q2</span>
           </div>
@@ -338,9 +338,9 @@ export default function ServiceDetailPage() {
               onClick={handleWhatsAppClick}
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.98 }}
-              className="px-8 py-4 bg-slate-900 hover:bg-purple-900 text-white rounded-2xl font-sans font-medium text-xs uppercase tracking-wider shadow-lg transition-all flex items-center justify-center gap-3 cursor-pointer group"
+              className="px-8 py-4 bg-purple-600 hover:bg-purple-700 text-white rounded-2xl font-sans font-medium text-xs uppercase tracking-wider shadow-lg shadow-purple-600/25 transition-all flex items-center justify-center gap-3 cursor-pointer group"
             >
-              <MessageCircle size={18} strokeWidth={1.5} className="text-purple-400 group-hover:text-white transition-colors" />
+              <MessageCircle size={18} strokeWidth={1.5} className="text-white transition-colors" />
               <span>Dapatkan Audit Strategi Gratis</span>
               <ArrowRight size={16} strokeWidth={1.5} />
             </motion.a>
@@ -384,69 +384,69 @@ export default function ServiceDetailPage() {
         </div>
 
          {/* COST OF INACTION SECTION */}
-        <div className="mb-24 p-8 sm:p-12 rounded-3xl bg-gray-950 text-white border border-rose-500/40 shadow-xl relative overflow-hidden" id="inaction">
-          <div className="absolute top-0 right-0 w-85 h-85 bg-rose-600/10 rounded-full blur-3xl pointer-events-none" />
+        <div className="mb-24 p-8 sm:p-12 rounded-3xl bg-rose-50/70 text-slate-900 border border-rose-200 shadow-sm relative overflow-hidden" id="inaction">
+          <div className="absolute top-0 right-0 w-85 h-85 bg-rose-200/40 rounded-full blur-3xl pointer-events-none" />
           
-          <div className="max-w-2xl mb-10 relative z-10 text-white">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-rose-950 border border-rose-800 text-rose-300 text-xs font-mono font-medium uppercase tracking-wider mb-4">
-              <AlertTriangle size={14} strokeWidth={1.5} className="text-rose-400" />
+          <div className="max-w-2xl mb-10 relative z-10 text-slate-900">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-rose-100 border border-rose-300 text-rose-800 text-xs font-mono font-medium uppercase tracking-wider mb-4">
+              <AlertTriangle size={14} strokeWidth={1.5} className="text-rose-600" />
               Peringatan Strategis Bisnis
             </div>
-            <h2 className="text-3xl sm:text-4xl font-display font-semibold tracking-tight mb-4 text-white">
+            <h2 className="text-3xl sm:text-4xl font-display font-semibold tracking-tight mb-4 text-slate-900">
               Fakta Pahit Bisnis di Era Digital.
             </h2>
-            <p className="text-slate-200 font-sans text-sm sm:text-base leading-relaxed">
+            <p className="text-slate-700 font-sans text-sm sm:text-base leading-relaxed">
               Mengabaikan infrastruktur digital profesional bukan sekadar menunda kemajuan—ini adalah tindakan memberikan pangsa pasar Anda secara cuma-cuma kepada kompetitor.
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 relative z-10">
-            <div className="p-6 rounded-2xl bg-white/5 border border-rose-500/30 flex flex-col justify-between backdrop-blur-md text-white">
+            <div className="p-6 rounded-2xl bg-white border border-rose-200/80 flex flex-col justify-between shadow-xs text-slate-900">
               <div>
                 <motion.div 
                   whileHover={{ scale: 1.15, rotate: 6 }}
                   whileTap={{ scale: 0.95 }}
                   transition={{ type: "spring", stiffness: 400, damping: 15 }}
-                  className="p-3 rounded-xl bg-rose-500/20 text-rose-300 border border-rose-500/40 w-fit mb-4 cursor-pointer"
+                  className="p-3 rounded-xl bg-rose-100 text-rose-700 border border-rose-200 w-fit mb-4 cursor-pointer"
                 >
                   <ClockAlert size={20} strokeWidth={1.5} />
                 </motion.div>
-                <h3 className="text-lg font-display font-bold text-white mb-2 tracking-tight">Website Lambat = Kehilangan Sales</h3>
-                <p className="text-xs sm:text-sm font-sans text-slate-200 leading-relaxed">
+                <h3 className="text-lg font-display font-bold text-slate-900 mb-2 tracking-tight">Website Lambat = Kehilangan Sales</h3>
+                <p className="text-xs sm:text-sm font-sans text-slate-600 leading-relaxed">
                   Setiap 1 detik keterlambatan memuat halaman menurunkan rasio konversi hingga 20%. Calon pembeli langsung kabur ke kompetitor.
                 </p>
               </div>
             </div>
 
-            <div className="p-6 rounded-2xl bg-white/5 border border-rose-500/30 flex flex-col justify-between backdrop-blur-md text-white">
+            <div className="p-6 rounded-2xl bg-white border border-rose-200/80 flex flex-col justify-between shadow-xs text-slate-900">
               <div>
                 <motion.div 
                   whileHover={{ scale: 1.15, rotate: 6 }}
                   whileTap={{ scale: 0.95 }}
                   transition={{ type: "spring", stiffness: 400, damping: 15 }}
-                  className="p-3 rounded-xl bg-rose-500/20 text-rose-300 border border-rose-500/40 w-fit mb-4 cursor-pointer"
+                  className="p-3 rounded-xl bg-rose-100 text-rose-700 border border-rose-200 w-fit mb-4 cursor-pointer"
                 >
                   <XCircle size={20} strokeWidth={1.5} />
                 </motion.div>
-                <h3 className="text-lg font-display font-bold text-white mb-2 tracking-tight">Tanpa Sistem Otomatis = Biaya Admin Bengkak</h3>
-                <p className="text-xs sm:text-sm font-sans text-slate-200 leading-relaxed">
+                <h3 className="text-lg font-display font-bold text-slate-900 mb-2 tracking-tight">Tanpa Sistem Otomatis = Biaya Admin Bengkak</h3>
+                <p className="text-xs sm:text-sm font-sans text-slate-600 leading-relaxed">
                   Pekerjaan manual mengurus pesanan dan rekap data menghancurkan efisiensi operasional dan memicu human error yang merugikan.
                 </p>
               </div>
             </div>
 
-            <div className="p-6 rounded-2xl bg-white/5 border border-rose-500/30 flex flex-col justify-between backdrop-blur-md text-white">
+            <div className="p-6 rounded-2xl bg-white border border-rose-200/80 flex flex-col justify-between shadow-xs text-slate-900">
               <div>
                 <motion.div 
                   whileHover={{ scale: 1.15, rotate: 6 }}
                   whileTap={{ scale: 0.95 }}
                   transition={{ type: "spring", stiffness: 400, damping: 15 }}
-                  className="p-3 rounded-xl bg-rose-500/20 text-rose-300 border border-rose-500/40 w-fit mb-4 cursor-pointer"
+                  className="p-3 rounded-xl bg-rose-100 text-rose-700 border border-rose-200 w-fit mb-4 cursor-pointer"
                 >
                   <ShieldCheck size={20} strokeWidth={1.5} />
                 </motion.div>
-                <h3 className="text-lg font-display font-bold text-white mb-2 tracking-tight">Tampilan Murahan = Hilangnya Kepercayaan</h3>
-                <p className="text-xs sm:text-sm font-sans text-slate-200 leading-relaxed">
+                <h3 className="text-lg font-display font-bold text-slate-900 mb-2 tracking-tight">Tampilan Murahan = Hilangnya Kepercayaan</h3>
+                <p className="text-xs sm:text-sm font-sans text-slate-600 leading-relaxed">
                   Klien korporat dan pembeli bernilai tinggi tidak akan pernah bertransaksi dari website amatir yang tampak tidak kredibel.
                 </p>
               </div>
@@ -481,80 +481,80 @@ export default function ServiceDetailPage() {
         </div>
 
         {/* THE "ENGINE ROOM" */}
-        <div className="mb-24 p-8 sm:p-14 rounded-3xl bg-gradient-to-br from-slate-900 to-slate-950 text-white shadow-xl relative overflow-hidden border border-purple-500/20" id="engine">
-          <div className="absolute top-0 right-0 w-80 h-80 bg-purple-600/15 rounded-full blur-3xl pointer-events-none" />
+        <div className="mb-24 p-8 sm:p-14 rounded-3xl bg-purple-50/60 text-slate-900 shadow-sm relative overflow-hidden border border-purple-200" id="engine">
+          <div className="absolute top-0 right-0 w-80 h-80 bg-purple-200/50 rounded-full blur-3xl pointer-events-none" />
           
-          <div className="max-w-xl mb-12 relative z-10 text-white">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-white/10 border border-white/15 text-purple-300 text-xs font-mono font-medium uppercase tracking-wider mb-4 backdrop-blur-md">
-              <Cpu size={14} strokeWidth={1.5} className="text-purple-400" />
+          <div className="max-w-xl mb-12 relative z-10 text-slate-900">
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-purple-100 border border-purple-200 text-purple-700 text-xs font-mono font-medium uppercase tracking-wider mb-4">
+              <Cpu size={14} strokeWidth={1.5} className="text-purple-600" />
               Enterprise Architecture
             </div>
-            <h2 className="text-3xl sm:text-4xl font-display font-semibold tracking-tight mb-4 text-white">
+            <h2 className="text-3xl sm:text-4xl font-display font-semibold tracking-tight mb-4 text-slate-900">
               Infrastruktur Skala Enterprise.
             </h2>
-            <p className="text-slate-200 font-sans text-sm sm:text-base leading-relaxed">
+            <p className="text-slate-600 font-sans text-sm sm:text-base leading-relaxed">
               Kami tidak menggunakan plugin murahan. Seluruh sistem dibangun di atas tumpukan teknologi modern berstandar global yang digunakan oleh unicorn teknologi dunia untuk menjamin zero downtime dan kecepatan kilat.
             </p>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 relative z-10">
-            <div className="p-6 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md flex items-center gap-4 text-white">
+            <div className="p-6 rounded-2xl bg-white border border-purple-100 flex items-center gap-4 text-slate-900 shadow-xs">
               <motion.div 
                 whileHover={{ scale: 1.15, rotate: 6 }}
                 whileTap={{ scale: 0.95 }}
                 transition={{ type: "spring", stiffness: 400, damping: 15 }}
-                className="p-3 rounded-xl bg-purple-500/20 text-purple-300 border border-purple-500/30 cursor-pointer shrink-0"
+                className="p-3 rounded-xl bg-purple-50 text-purple-700 border border-purple-200 cursor-pointer shrink-0"
               >
                 <Globe size={22} strokeWidth={1.5} />
               </motion.div>
               <div>
-                <h4 className="font-display font-bold text-white text-sm">Enterprise App Router</h4>
-                <p className="text-xs text-slate-300 mt-0.5 font-mono">SSR &amp; Edge API</p>
+                <h4 className="font-display font-bold text-slate-900 text-sm">Enterprise App Router</h4>
+                <p className="text-xs text-slate-500 mt-0.5 font-mono">SSR &amp; Edge API</p>
               </div>
             </div>
 
-            <div className="p-6 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md flex items-center gap-4 text-white">
+            <div className="p-6 rounded-2xl bg-white border border-purple-100 flex items-center gap-4 text-slate-900 shadow-xs">
               <motion.div 
                 whileHover={{ scale: 1.15, rotate: 6 }}
                 whileTap={{ scale: 0.95 }}
                 transition={{ type: "spring", stiffness: 400, damping: 15 }}
-                className="p-3 rounded-xl bg-cyan-500/20 text-cyan-300 border border-cyan-500/30 cursor-pointer shrink-0"
+                className="p-3 rounded-xl bg-cyan-50 text-cyan-700 border border-cyan-200 cursor-pointer shrink-0"
               >
                 <Server size={22} strokeWidth={1.5} />
               </motion.div>
               <div>
-                <h4 className="font-display font-bold text-white text-sm">Vercel Edge Global</h4>
-                <p className="text-xs text-slate-300 mt-0.5 font-mono">Global CDN</p>
+                <h4 className="font-display font-bold text-slate-900 text-sm">Vercel Edge Global</h4>
+                <p className="text-xs text-slate-500 mt-0.5 font-mono">Global CDN</p>
               </div>
             </div>
 
-            <div className="p-6 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md flex items-center gap-4 text-white">
+            <div className="p-6 rounded-2xl bg-white border border-purple-100 flex items-center gap-4 text-slate-900 shadow-xs">
               <motion.div 
                 whileHover={{ scale: 1.15, rotate: 6 }}
                 whileTap={{ scale: 0.95 }}
                 transition={{ type: "spring", stiffness: 400, damping: 15 }}
-                className="p-3 rounded-xl bg-amber-500/20 text-amber-300 border border-amber-500/30 cursor-pointer shrink-0"
+                className="p-3 rounded-xl bg-amber-50 text-amber-700 border border-amber-200 cursor-pointer shrink-0"
               >
                 <Database size={22} strokeWidth={1.5} />
               </motion.div>
               <div>
-                <h4 className="font-display font-bold text-white text-sm">Enterprise Data Vault</h4>
-                <p className="text-xs text-slate-300 mt-0.5 font-mono">Real-time Cloud DB</p>
+                <h4 className="font-display font-bold text-slate-900 text-sm">Enterprise Data Vault</h4>
+                <p className="text-xs text-slate-500 mt-0.5 font-mono">Real-time Cloud DB</p>
               </div>
             </div>
 
-            <div className="p-6 rounded-2xl bg-white/5 border border-white/10 backdrop-blur-md flex items-center gap-4 text-white">
+            <div className="p-6 rounded-2xl bg-white border border-purple-100 flex items-center gap-4 text-slate-900 shadow-xs">
               <motion.div 
                 whileHover={{ scale: 1.15, rotate: 6 }}
                 whileTap={{ scale: 0.95 }}
                 transition={{ type: "spring", stiffness: 400, damping: 15 }}
-                className="p-3 rounded-xl bg-sky-500/20 text-sky-300 border border-sky-500/30 cursor-pointer shrink-0"
+                className="p-3 rounded-xl bg-sky-50 text-sky-700 border border-sky-200 cursor-pointer shrink-0"
               >
                 <Layers size={22} strokeWidth={1.5} />
               </motion.div>
               <div>
-                <h4 className="font-display font-bold text-white text-sm">Tailwind CSS v4</h4>
-                <p className="text-xs text-slate-300 mt-0.5 font-mono">Responsive UI</p>
+                <h4 className="font-display font-bold text-slate-900 text-sm">Tailwind CSS v4</h4>
+                <p className="text-xs text-slate-500 mt-0.5 font-mono">Responsive UI</p>
               </div>
             </div>
           </div>
@@ -865,9 +865,9 @@ export default function ServiceDetailPage() {
             href={whatsappUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-slate-900 hover:bg-slate-800 text-white rounded-full text-sm font-bold shadow-lg transition-all active:scale-95"
+            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-purple-600 hover:bg-purple-700 text-white rounded-full text-sm font-bold shadow-lg shadow-purple-600/25 transition-all active:scale-95"
           >
-            <MessageCircle size={16} className="text-emerald-400" />
+            <MessageCircle size={16} className="text-white" />
             <span>Dapatkan Audit Strategi Gratis</span>
             <ArrowRight size={16} />
           </a>

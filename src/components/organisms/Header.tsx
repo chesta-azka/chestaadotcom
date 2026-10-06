@@ -197,10 +197,16 @@ export default function Header() {
           >
             {/* Brand Logo */}
             <Link to="/" className="flex items-center gap-2.5 group select-none pointer-events-auto">
-              <div className="relative flex items-center justify-center w-9 h-9 rounded-xl bg-purple-900 group-hover:bg-purple-800 transition-all duration-300 shadow-sm">
-                <svg className="w-5 h-5 text-white group-hover:scale-110 transition-transform duration-300" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                  <path d="m12 3-8 8 8 8 8-8-8-8z" />
-                </svg>
+              <div className="relative flex items-center justify-center w-9 h-9 rounded-xl overflow-hidden bg-purple-50 border border-purple-200/80 group-hover:border-purple-400 transition-all duration-300 shadow-xs">
+                <img 
+                  src="/chesta.png" 
+                  alt="Chestaa Logo" 
+                  className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300" 
+                  onError={(e) => {
+                    const target = e.currentTarget;
+                    target.src = '/favicon.svg';
+                  }}
+                />
               </div>
               
               <span className="font-display text-lg font-bold tracking-tight text-slate-900 leading-none">
@@ -387,11 +393,16 @@ export default function Header() {
                   onClick={() => setMobileMenuOpen(false)}
                   className="flex items-center gap-2.5 group select-none"
                 >
-                  <div className="flex items-center justify-center w-8 h-8 rounded-xl bg-purple-100/70 border border-purple-200">
-                    <svg className="w-4 h-4 text-purple-700" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-                      <path d="m12 3-8 8 8 8 8-8-8-8z" />
-                      <path d="m12 8-4 4 4 4 4-4-4-4z" />
-                    </svg>
+                  <div className="flex items-center justify-center w-8 h-8 rounded-xl overflow-hidden bg-purple-50 border border-purple-200/80 shadow-2xs">
+                    <img 
+                      src="/chesta.png" 
+                      alt="Chestaa Logo" 
+                      className="w-full h-full object-cover object-top" 
+                      onError={(e) => {
+                        const target = e.currentTarget;
+                        target.src = '/favicon.svg';
+                      }}
+                    />
                   </div>
                   <span className="font-display text-base font-bold tracking-tight text-slate-900">
                     chestaa<span className="text-purple-600">dot</span>com

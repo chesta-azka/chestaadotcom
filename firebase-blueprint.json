@@ -220,6 +220,17 @@
         "metadata": { "type": "object" }
       },
       "required": ["sessionId", "messages"]
+    },
+    "ServerAnalytics": {
+      "title": "Server Analytics Event",
+      "description": "Tracks server-side navigation telemetry and user agent data.",
+      "type": "object",
+      "properties": {
+        "path": { "type": "string" },
+        "userAgent": { "type": "string" },
+        "timestamp": { "type": "string" }
+      },
+      "required": ["path", "timestamp"]
     }
   },
   "firestore": {
@@ -262,6 +273,10 @@
     "/newsletter_subscribers/{docId}": {
       "schema": "NewsletterSubscriber",
       "description": "Newsletter email subscriptions"
+    },
+    "/server_analytics/{docId}": {
+      "schema": "ServerAnalytics",
+      "description": "Server telemetry analytics logs"
     }
   }
 }

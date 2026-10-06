@@ -737,3 +737,19 @@ export const SERVICES_DATA: Record<string, ServiceDetailData> = {
   }
 };
 
+// Aliases for localized routes
+SERVICES_DATA['website-mesin-konversi'] = SERVICES_DATA['web-development-nextjs'];
+SERVICES_DATA['karyawan-digital-ai'] = SERVICES_DATA['ai-integration'];
+SERVICES_DATA['toko-online-otonom'] = SERVICES_DATA['ecommerce-automation'];
+SERVICES_DATA['landing-page-konversi'] = SERVICES_DATA['landing-page'];
+SERVICES_DATA['infrastruktur-digital-enterprise'] = SERVICES_DATA['pembuatan-website'];
+SERVICES_DATA['infrastruktur-cloud-anti-down'] = SERVICES_DATA['cloud-infrastructure'];
+SERVICES_DATA['keamanan-data-korporat'] = SERVICES_DATA['security-audit'];
+SERVICES_DATA['dominasi-pencarian-seo-aeo'] = SERVICES_DATA['seo-aeo'];
+SERVICES_DATA['mesin-pelipatganda-roas'] = SERVICES_DATA['digital-marketing'];
+SERVICES_DATA['proteksi-aset-digital-sla'] = SERVICES_DATA['maintenance'];
+SERVICES_DATA['super-app-korporat-pwa'] = SERVICES_DATA['pembuatan-website'];
+SERVICES_DATA['konsultasi-cto-eksekutif'] = SERVICES_DATA['pembuatan-website'];
+SERVICES_DATA['pengembangan-super-app-custom'] = SERVICES_DATA['pembuatan-website'];
+SERVICES_DATA['programmatic-seo-skala-besar'] = SERVICES_DATA['seo-aeo'];
+
