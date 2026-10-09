@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { LogOut, MessageSquare, BarChart, PenTool, LayoutDashboard, Search, Home, Users, Menu, X, Shield, Bot, Briefcase, Plus, FileText, Activity, MapPin, Sparkles, Calendar, ChevronLeft, ChevronRight, Share2 } from 'lucide-react';
+import { LogOut, MessageSquare, BarChart, PenTool, LayoutDashboard, Search, Home, Users, Menu, X, Shield, Bot, Briefcase, Plus, FileText, Activity, MapPin, Sparkles, Calendar, ChevronLeft, ChevronRight, Share2, Flame, Gauge } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
 import SystemHealthHeader from '../organisms/SystemHealthHeader';
 
@@ -31,6 +31,9 @@ export default function AdminDashboardLayout({ children, onLogout, activeTab, se
     { id: 'blog_moderation', label: 'Blog Moderation', icon: Sparkles },
     { id: 'stats', label: 'Document Generator', icon: FileText },
     { id: 'seo', label: 'SLA Node Health', icon: Shield },
+    { id: 'seo_performance', label: 'Landing SEO Auditor', icon: Search },
+    { id: 'intent_heatmap', label: 'Search Intent Heatmap', icon: Flame },
+    { id: 'load_profile', label: 'Load Profile & LCP AI', icon: Gauge },
     { id: 'seo_manager', label: 'GEO-SEO Radar', icon: MapPin },
     { id: 'users', label: 'User Management', icon: Users },
   ];

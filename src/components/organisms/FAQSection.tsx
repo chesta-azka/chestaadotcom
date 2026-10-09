@@ -96,19 +96,19 @@ export default function FAQSection({ category = 'AI Automation' }: FAQSectionPro
   };
 
   return (
-    <section className="my-16 p-8 sm:p-12 rounded-3xl bg-gradient-to-br from-indigo-950/30 via-[#0d0d12] to-purple-950/30 border border-indigo-500/30 backdrop-blur-2xl shadow-2xl space-y-8">
-      <div className="space-y-3 text-center sm:text-left">
-        <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-indigo-950/80 border border-indigo-500/35 text-indigo-400 text-xs font-mono uppercase tracking-wider">
-          <HelpCircle size={13} />
-          <span>FAQ Eksekutif • {category}</span>
+    <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 my-16">
+      <section className="p-8 sm:p-12 rounded-3xl bg-gradient-to-br from-indigo-950/30 via-[#0d0d12] to-purple-950/30 border border-indigo-500/30 backdrop-blur-2xl shadow-2xl space-y-8 w-full">
+        <div className="space-y-3 text-center sm:text-left">
+          <span className="text-xs font-mono font-medium tracking-[0.2em] text-slate-400 uppercase block">
+            08. Tanya Jawab Eksekutif · {category}
+          </span>
+          <h2 className="text-2xl sm:text-3xl font-display font-extrabold tracking-tight text-white">
+            Pertanyaan Sering Diajukan (FAQ)
+          </h2>
+          <p className="text-sm text-slate-400">
+            Jawaban langsung untuk para eksekutif dan pembuat keputusan korporat.
+          </p>
         </div>
-        <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-white font-sans">
-          Pertanyaan Sering Diajukan (FAQ)
-        </h2>
-        <p className="text-sm text-slate-300">
-          Jawaban langsung untuk para eksekutif dan pembuat keputusan korporat.
-        </p>
-      </div>
 
       <div className="space-y-4">
         {faqs.map((faq, index) => {
@@ -156,5 +156,6 @@ export default function FAQSection({ category = 'AI Automation' }: FAQSectionPro
         })}
       </div>
     </section>
+    </div>
   );
 }

@@ -34,7 +34,7 @@ export default function FooterSection() {
       {/* Decorative Glow */}
       <div className="absolute top-0 right-1/4 w-[500px] h-[500px] bg-[#6b21a8]/5 rounded-full blur-[120px] pointer-events-none" />
 
-      <div className="mx-auto max-w-[1400px] px-6 md:px-12 relative z-10">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10 w-full">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 lg:gap-8 mb-24">
           
           {/* Column 1: Brand & Newsletter */}
@@ -51,9 +51,14 @@ export default function FooterSection() {
                   }}
                 />
               </div>
-              <span className="font-display text-2xl font-medium tracking-tight leading-none text-slate-900">
-                CHESTA<span className="text-purple-600">.</span>
-              </span>
+              <div className="flex flex-col">
+                <span className="font-display text-2xl font-medium tracking-tight leading-none text-slate-900">
+                  CHESTA<span className="text-purple-600">.</span>
+                </span>
+                <span className="text-[10px] font-mono font-bold text-purple-700 uppercase tracking-wider mt-1">
+                  Chesta Azka • Principal Architect
+                </span>
+              </div>
             </Link>
             <p className="text-base font-sans leading-relaxed text-slate-600 max-w-sm font-normal">
               Arsitektur digital premium untuk UMKM dan Brand lokal. Transformasi digital yang fokus pada performa, estetika, dan konversi nyata.

@@ -186,17 +186,13 @@ export default function SuccessRoadmap() {
         {/* ========================================================= */}
         {/* PART 1: 3-STEP HORIZONTAL TIMELINE                        */}
         {/* ========================================================= */}
-        <div className="text-center max-w-4xl mx-auto mb-16">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-purple-50 border border-purple-200/80 text-purple-700 text-xs font-mono font-medium mb-4 shadow-xs">
-            <Compass className="w-3.5 h-3.5 text-purple-600" />
-            <span className="tracking-widest uppercase">ROADMAP EKSEKUSI PRESISI</span>
-          </div>
+        <div className="text-center max-w-4xl mx-auto mb-16 space-y-3">
+          <span className="text-xs font-mono font-medium tracking-[0.2em] text-slate-500 uppercase block">
+            05. Roadmap Eksekusi
+          </span>
           
-          <h2 className="text-3xl md:text-5xl lg:text-6xl font-medium tracking-tight text-slate-950 leading-[1.15] text-balance flex flex-wrap items-center justify-center gap-3">
-            <span className="inline-flex items-center justify-center w-10 h-10 md:w-12 md:h-12 rounded-2xl bg-purple-100/80 border border-purple-200/80 text-purple-900 shadow-xs shrink-0">
-              <Milestone className="w-5 h-5 md:w-6 md:h-6 stroke-[1.8]" />
-            </span>
-            <span>Roadmap Dominasi Pasar Digital.</span>
+          <h2 className="text-3xl md:text-5xl lg:text-6xl font-display font-extrabold tracking-tight text-slate-950 leading-[1.15] text-balance">
+            Roadmap Dominasi Pasar Digital
           </h2>
           
           <p className="text-slate-600 mt-4 text-base md:text-lg font-normal max-w-2xl mx-auto leading-relaxed text-balance">

@@ -2,29 +2,20 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { Terminal, ShieldCheck, ArrowRight, MapPin, Cpu, Sparkles, CheckCircle2 } from 'lucide-react';
+import { INDONESIA_CITIES, CORE_PSEO_SERVICES } from '../../../data/pseo-indonesia';
 
-const GEO_LOCATIONS = ['bsd-city', 'jakarta-selatan', 'scbd', 'senopati', 'gading-serpong', 'alam-sutera', 'pik', 'surabaya-barat'];
-const AEO_SERVICES = ['konsultan-ai-automation', 'jasa-karyawan-digital', 'arsitektur-headless-ecommerce', 'pengembangan-erp-perusahaan', 'fractional-cto-agency', 'jasa-pembuatan-super-app'];
-
-// Helper function to format display names
-function formatDisplayName(str: string): string {
-  return str
-    .split('-')
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
-    .join(' ');
-}
-
-// Slug parser utility
-function parseSlug(slug: string) {
-  for (const geo of GEO_LOCATIONS) {
-    if (slug.endsWith('-' + geo)) {
-      const servicePart = slug.slice(0, slug.length - geo.length - 1);
-      if (AEO_SERVICES.includes(servicePart)) {
+// Helper to parse slug and match with valid cities and services
+function parseNationalSlug(slug: string) {
+  for (const city of INDONESIA_CITIES) {
+    const citySlugPart = '-' + city.toLowerCase().replace(/\s+/g, '-');
+    if (slug.endsWith(citySlugPart)) {
+      const serviceIdPart = slug.slice(0, slug.length - citySlugPart.length);
+      const matchedService = CORE_PSEO_SERVICES.find(s => s.id === serviceIdPart);
+      if (matchedService) {
         return {
-          serviceSlug: servicePart,
-          geoSlug: geo,
-          serviceName: formatDisplayName(servicePart),
-          cityName: formatDisplayName(geo)
+          serviceId: matchedService.id,
+          serviceName: matchedService.name,
+          cityName: city
         };
       }
     }
@@ -38,19 +29,19 @@ type Props = {
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { slug } = await params;
-  const parsedData = parseSlug(slug);
+  const parsed = parseNationalSlug(slug);
 
-  if (!parsedData) {
+  if (!parsed) {
     return {
-      title: 'Area Tidak Ditemukan | CHESTAA',
-      description: 'Halaman pSEO wilayah tidak tersedia.'
+      title: 'Wilayah Tidak Ditemukan | Chestaa',
+      description: 'Halaman pSEO nasional tidak tersedia.'
     };
   }
 
-  const title = parsedData.serviceName + " B2B di " + parsedData.cityName + " | Chestaa Enterprise";
-  const description = "Infrastruktur " + parsedData.serviceName + " kelas Enterprise untuk melipatgandakan ROI perusahaan Anda di wilayah " + parsedData.cityName + ". Jadwalkan audit AI sekarang.";
-  const canonicalUrl = `https://chestaa.com/area/${slug}`;
-  const ogImageUrl = `https://chestaa.com/api/og?title=${encodeURIComponent(title)}&category=pSEO`;
+  const title = "Jasa " + parsed.serviceName + " di " + parsed.cityName + " | Chestaa";
+  const description = "Infrastruktur " + parsed.serviceName + " kelas Enterprise untuk melipatgandakan ROI perusahaan Anda di wilayah " + parsed.cityName + ". Jadwalkan audit AI sekarang.";
+  const canonicalUrl = 'https://chestaa.com/area/' + slug;
+  const ogImageUrl = 'https://chestaa.com/api/og?title=' + encodeURIComponent(title) + '&category=pSEO';
 
   return {
     title: title,
@@ -62,133 +53,153 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       title: title,
       description: description,
       url: canonicalUrl,
+      siteName: 'Chestaa Enterprise AI',
+      images: [{ url: ogImageUrl, width: 1200, height: 630, alt: title }],
+      locale: 'id_ID',
       type: 'website',
-      images: [
-        {
-          url: ogImageUrl,
-          width: 1200,
-          height: 630,
-          alt: title,
-        }
-      ],
     },
-    twitter: {
-      card: 'summary_large_image',
-      title: title,
-      description: description,
-      images: [ogImageUrl],
+    robots: {
+      index: true,
+      follow: true,
     }
   };
 }
 
-export default async function PseoAreaPage({ params }: Props) {
+export default async function NationalAreaPage({ params }: Props) {
   const { slug } = await params;
-  const parsedData = parseSlug(slug);
+  const parsed = parseNationalSlug(slug);
 
-  if (!parsedData) {
+  if (!parsed) {
     notFound();
   }
 
-  const localBusinessSchema = {
-    "@context": "https://schema.org",
-    "@type": "Service",
-    "name": parsedData.serviceName + " di " + parsedData.cityName,
-    "provider": {
-      "@type": "Organization",
-      "name": "Chestaa Enterprise AI",
-      "url": "https://chestaa.com"
+  // Schema.org LocalBusiness JSON-LD injection
+  const jsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'LocalBusiness',
+    name: 'Chestaa Enterprise AI - ' + parsed.cityName,
+    description: 'Penyedia ' + parsed.serviceName + ' terdepan di ' + parsed.cityName + '.',
+    address: {
+      '@type': 'PostalAddress',
+      addressLocality: parsed.cityName,
+      addressCountry: 'ID'
     },
-    "areaServed": {
-      "@type": "Place",
-      "name": parsedData.cityName
-    },
-    "description": "Layanan rekayasa perangkat lunak dan arsitektur AI otonom untuk skala korporat di " + parsedData.cityName + "."
+    url: 'https://chestaa.com/area/' + slug,
+    telephone: '+62-821-2544-7232'
   };
 
-  const serializeJsonLd = (schema: object) => {
-    return JSON.stringify(schema)
-      .replace(/</g, '\\u003c')
-      .replace(/>/g, '\\u003e')
-      .replace(/&/g, '\\u0026');
-  };
+  const whatsappConsultUrl = `https://wa.me/6282125447232?text=Halo%20Chestaa,%20saya%20tertarik%20dengan%20layanan%20${encodeURIComponent(parsed.serviceName)}%20di%20wilayah%20${encodeURIComponent(parsed.cityName)}`;
+  const whatsappMeetingUrl = `https://wa.me/6282125447232?text=Halo%20Chestaa,%20saya%20ingin%20mengatur%20jadwal%20pertemuan%20di%20${encodeURIComponent(parsed.cityName)}`;
 
   return (
-    <div className="min-h-screen bg-black text-emerald-400 font-mono p-6 sm:p-12 selection:bg-emerald-500 selection:text-black">
+    <div className="min-h-screen bg-white text-slate-900 font-sans selection:bg-purple-100 selection:text-purple-900 pt-32 pb-24">
+      {/* JSON-LD Script Injection */}
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: serializeJsonLd(localBusinessSchema) }}
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
 
-      <div className="max-w-6xl mx-auto space-y-12">
-        {/* Breadcrumb */}
-        <nav className="flex items-center gap-2 text-xs text-emerald-500">
-          <Link href="/" className="hover:text-emerald-300 transition-colors">Home</Link>
+      <div className="max-w-[1200px] mx-auto px-6 lg:px-8">
+        
+        {/* Breadcrumb Header */}
+        <div className="mb-8 flex items-center gap-2 text-xs font-mono text-slate-500">
+          <Link href="/" className="hover:text-purple-600 transition-colors">Beranda</Link>
           <span>/</span>
-          <Link href="/services" className="hover:text-emerald-300 transition-colors">Area pSEO</Link>
+          <Link href="/services" className="hover:text-purple-600 transition-colors">Layanan</Link>
           <span>/</span>
-          <span className="text-white font-bold">{parsedData.cityName}</span>
-        </nav>
+          <span className="text-purple-700 font-bold">{parsed.cityName}</span>
+        </div>
 
         {/* Hero Section */}
-        <div className="space-y-6 border-b border-emerald-500/30 pb-10">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded bg-emerald-950 border border-emerald-500/40 text-emerald-300 text-xs uppercase tracking-widest">
-            <MapPin size={14} className="text-emerald-400" />
-            <span>GEO-TARGETED AEO // REGION: {parsedData.cityName.toUpperCase()}</span>
+        <div className="mb-20 max-w-4xl">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-purple-50 border border-purple-200 text-purple-700 text-xs font-mono uppercase tracking-wider mb-6">
+            <MapPin size={14} className="text-purple-600" />
+            <span>Ekspansi Korporat Regional • {parsed.cityName.toUpperCase()}</span>
           </div>
 
-          <h1 className="text-3xl sm:text-6xl font-extrabold tracking-wider text-white uppercase leading-[1.1]">
-            Dominasi {parsedData.cityName} dengan Arsitektur <b>{parsedData.serviceName}</b>
+          <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight text-slate-900 mb-6 leading-[1.1]">
+            Infrastruktur <b>{parsed.serviceName}</b> Terbaik di {parsed.cityName}
           </h1>
 
-          <p className="text-base sm:text-lg text-emerald-300 font-normal leading-relaxed max-w-4xl">
-            Banyak perusahaan di {parsedData.cityName} kehilangan ratusan juta karena sistem manual. Chestaa hadir membawa infrastruktur AI otonom untuk menyelesaikan masalah ini.
+          <p className="text-lg sm:text-xl text-slate-600 leading-relaxed font-normal mb-8">
+            Chestaa hadir untuk mengotomatisasi bisnis dan korporasi di wilayah {parsed.cityName} menggunakan teknologi AI termutakhir. Tinggalkan cara manual.
           </p>
-        </div>
 
-        {/* Features / Value Proposition */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div className="p-6 rounded-2xl bg-emerald-950/20 border border-emerald-500/30 space-y-3">
-            <Cpu size={24} className="text-emerald-400" />
-            <h3 className="text-base font-bold text-white uppercase">Kecepatan Sub-Detik</h3>
-            <p className="text-xs text-emerald-300/80 leading-relaxed">
-              Arsitektur Next.js 15 teroptimasi untuk kawasan {parsedData.cityName} dengan latensi jaringan minimal.
-            </p>
-          </div>
-
-          <div className="p-6 rounded-2xl bg-emerald-950/20 border border-emerald-500/30 space-y-3">
-            <ShieldCheck size={24} className="text-emerald-400" />
-            <h3 className="text-base font-bold text-white uppercase">Karyawan AI 24/7</h3>
-            <p className="text-xs text-emerald-300/80 leading-relaxed">
-              Otomasi kualifikasi lead dan sinkronisasi CRM otonom khusus untuk korporat di {parsedData.cityName}.
-            </p>
-          </div>
-
-          <div className="p-6 rounded-2xl bg-emerald-950/20 border border-emerald-500/30 space-y-3">
-            <Sparkles size={24} className="text-emerald-400" />
-            <h3 className="text-base font-bold text-white uppercase">Dominasi SGE Google</h3>
-            <p className="text-xs text-emerald-300/80 leading-relaxed">
-              Injeksi Schema Markup dan pSEO matang untuk menempatkan brand Anda di posisi teratas hasil pencarian lokal.
-            </p>
-          </div>
-        </div>
-
-        {/* CTA Section */}
-        <div className="p-8 sm:p-12 rounded-3xl bg-emerald-950/30 border border-emerald-500/40 text-center space-y-6">
-          <h2 className="text-2xl sm:text-4xl font-extrabold text-white uppercase tracking-wide">
-            Konsultasi CTO Spesial Area {parsedData.cityName}
-          </h2>
-          <p className="text-sm text-emerald-300 max-w-2xl mx-auto">
-            Jadwalkan sesi peninjauan arsitektur sistem langsung bersama Principal Architect kami untuk wilayah {parsedData.cityName}.
-          </p>
-          <div>
-            <Link
-              href="/admin/ai-audit"
-              className="inline-flex items-center gap-2 px-8 py-4 rounded-xl bg-emerald-500 hover:bg-emerald-400 text-black font-extrabold text-xs uppercase tracking-wider transition-all shadow-xl cursor-pointer"
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
+            <a
+              href={whatsappConsultUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-8 py-4 bg-purple-600 hover:bg-purple-700 text-white rounded-2xl font-bold text-xs uppercase tracking-wider shadow-lg shadow-purple-600/25 transition-all flex items-center justify-center gap-3 cursor-pointer"
             >
-              <span><b>Mulai Audit AI Sekarang</b></span>
+              <span>Konsultasi Wilayah {parsed.cityName}</span>
               <ArrowRight size={16} />
+            </a>
+            <Link
+              href="/services"
+              className="px-7 py-4 bg-white hover:bg-slate-50 text-slate-900 rounded-2xl font-bold text-xs uppercase tracking-wider border border-slate-200 transition-all flex items-center justify-center gap-2 shadow-xs"
+            >
+              <span>Lihat Hub Layanan</span>
             </Link>
           </div>
+        </div>
+
+        {/* Core Value Proposition Grid */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-24">
+          <div className="p-8 rounded-3xl bg-slate-50 border border-slate-200 flex flex-col justify-between shadow-xs">
+            <div>
+              <div className="w-12 h-12 rounded-2xl bg-white border border-purple-200 text-purple-600 flex items-center justify-center mb-6 shadow-xs">
+                <Cpu size={22} />
+              </div>
+              <h3 className="text-lg font-bold text-slate-900 mb-3 tracking-tight">Performa Sub-Detik</h3>
+              <p className="text-sm text-slate-600 leading-relaxed">
+                Infrastruktur web dan sistem AI berkecepatan tinggi yang dioptimalkan khusus untuk latensi rendah di {parsed.cityName}.
+              </p>
+            </div>
+          </div>
+
+          <div className="p-8 rounded-3xl bg-slate-50 border border-slate-200 flex flex-col justify-between shadow-xs">
+            <div>
+              <div className="w-12 h-12 rounded-2xl bg-white border border-purple-200 text-purple-600 flex items-center justify-center mb-6 shadow-xs">
+                <ShieldCheck size={22} />
+              </div>
+              <h3 className="text-lg font-bold text-slate-900 mb-3 tracking-tight">Keamanan Korporat</h3>
+              <p className="text-sm text-slate-600 leading-relaxed">
+                Proteksi data tingkat lanjut dan kepatuhan enkripsi penuh untuk melindungi aset digital perusahaan Anda di {parsed.cityName}.
+              </p>
+            </div>
+          </div>
+
+          <div className="p-8 rounded-3xl bg-slate-50 border border-slate-200 flex flex-col justify-between shadow-xs">
+            <div>
+              <div className="w-12 h-12 rounded-2xl bg-white border border-purple-200 text-purple-600 flex items-center justify-center mb-6 shadow-xs">
+                <Sparkles size={22} />
+              </div>
+              <h3 className="text-lg font-bold text-slate-900 mb-3 tracking-tight">Otomatisasi Autopilot</h3>
+              <p className="text-sm text-slate-600 leading-relaxed">
+                Kurangi biaya operasional hingga 70% dengan agen AI otonom yang bekerja 24/7 tanpa henti.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Localized Execution Note */}
+        <div className="p-8 sm:p-12 rounded-3xl bg-purple-50/70 border border-purple-200 flex flex-col md:flex-row items-center justify-between gap-8 mb-24 shadow-sm">
+          <div className="space-y-3">
+            <span className="text-xs font-mono font-bold text-purple-700 uppercase tracking-widest">Dukungan Lokal {parsed.cityName}</span>
+            <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">Siap Kunjungan &amp; Meeting Tatap Muka</h2>
+            <p className="text-sm text-slate-600 max-w-xl leading-relaxed">
+              Tim Principal Engineer kami siap berkoordinasi langsung dengan pimpinan perusahaan Anda di {parsed.cityName} untuk audit sistem mendalam.
+            </p>
+          </div>
+          <a
+            href={whatsappMeetingUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="px-8 py-4 bg-purple-600 hover:bg-purple-700 text-white rounded-2xl font-bold text-xs uppercase tracking-wider shadow-md shadow-purple-600/20 whitespace-nowrap"
+          >
+            Jadwalkan Pertemuan
+          </a>
         </div>
 
       </div>

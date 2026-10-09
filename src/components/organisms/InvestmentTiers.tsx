@@ -116,17 +116,15 @@ export default function InvestmentTiers() {
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         
         {/* Section Header with Extreme Typographic Hierarchy */}
-        <div className="text-center max-w-4xl mx-auto mb-12">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-purple-50 border border-purple-200/80 text-purple-700 text-xs font-mono font-medium mb-4 shadow-xs">
-            <Sparkles className="w-3.5 h-3.5 text-purple-600" />
-            <span className="tracking-widest uppercase">INVESTASI TRANSPARAN &amp; MUTLAK</span>
-          </div>
-          <h2 className="text-3xl md:text-5xl lg:text-6xl font-medium tracking-tight text-slate-950 leading-[1.15] text-balance flex flex-wrap items-center justify-center gap-3">
-            <span className="inline-flex items-center justify-center w-10 h-10 md:w-12 md:h-12 rounded-2xl bg-purple-100/80 border border-purple-200/80 text-purple-900 shadow-xs shrink-0">
-              <ShieldCheck className="w-5 h-5 md:w-6 md:h-6 stroke-[1.8]" />
-            </span>
-            <span>Pilih Paket Dominasi Bisnis Anda</span>
+        <div className="text-center max-w-4xl mx-auto mb-12 space-y-3">
+          <span className="text-xs font-mono font-medium tracking-[0.2em] text-slate-500 uppercase block">
+            06. Investasi &amp; Paket Layanan
+          </span>
+
+          <h2 className="text-3xl md:text-5xl lg:text-6xl font-display font-extrabold tracking-tight text-slate-950 leading-[1.15] text-balance">
+            Pilih Paket Dominasi Bisnis Anda
           </h2>
+
           <p className="text-slate-600 mt-4 text-base md:text-lg font-normal max-w-2xl mx-auto leading-relaxed text-balance">
             Bayar sekali, miliki aset selamanya tanpa biaya sewa platform bulanan.
           </p>

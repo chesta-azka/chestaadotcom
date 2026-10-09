@@ -33,17 +33,20 @@ export default function BlogInsightSection() {
       <div className="max-w-7xl mx-auto px-6">
         
         {/* EDITORIAL MINIMALIST HEADER */}
-        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16 pb-8 border-b border-slate-100">
-          <div className="max-w-2xl">
-            <div className="flex items-center gap-2 text-xs font-mono tracking-widest text-purple-700 uppercase mb-3">
-              <span>Jurnal &amp; Riset Strategis</span>
+        <div className="flex flex-col md:flex-row md:items-end justify-between gap-8 mb-16 pb-8 border-b border-slate-100 text-left">
+          <div className="max-w-2xl text-left">
+            <div className="flex items-center gap-3 mb-3">
+              <span className="text-xs font-mono font-semibold tracking-[0.2em] text-purple-700 uppercase">
+                Wawasan &amp; Riset
+              </span>
+              <span className="w-12 h-px bg-purple-200" aria-hidden="true" />
             </div>
 
-            <h2 className="text-3xl sm:text-4xl md:text-5xl font-medium tracking-tight text-slate-950 leading-tight">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-extrabold tracking-tight text-slate-950 leading-[1.12]">
               Wawasan Arsitektur &amp; Strategi Digital
             </h2>
 
-            <p className="text-slate-500 mt-4 text-base font-normal leading-relaxed">
+            <p className="text-slate-600 mt-4 text-base font-normal leading-relaxed">
               Koleksi riset ringkas seputar otomatisasi AI, performa web Next.js sub-detik, dan dominasi era pencarian modern.
             </p>
           </div>

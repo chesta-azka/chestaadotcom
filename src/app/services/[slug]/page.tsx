@@ -1,10 +1,13 @@
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
-import { SERVICES_DATA, ServiceDetailData } from '../../../data/servicesData';
+import { SERVICES_DATA } from '../../../data/servicesData';
 import Link from 'next/link';
 import { ArrowLeft, CheckCircle2, MessageCircle, Sparkles, ShieldCheck, Zap } from 'lucide-react';
 import Breadcrumbs from '../../../components/atoms/Breadcrumbs';
 import RelatedServices from '../../../components/organisms/RelatedServices';
+import SEOAreaLinks from '../../../components/organisms/SEOAreaLinks';
+import ServiceFaqExpandable from '../../../components/organisms/ServiceFaqExpandable';
+import AuditConsultationButton from '../../../components/atoms/AuditConsultationButton';
 
 type Props = {
   params: Promise<{ slug: string }>;
@@ -61,6 +64,7 @@ export default async function ServiceSlugPage({ params }: Props) {
     notFound();
   }
 
+  // Service Schema.org JSON-LD
   const serviceSchema = {
     "@context": "https://schema.org",
     "@type": "Service",
@@ -79,6 +83,46 @@ export default async function ServiceSlugPage({ params }: Props) {
     }
   };
 
+  // Dynamic FAQ Schema.org JSON-LD for Rich Snippets
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": service.faqs.map(faq => ({
+      "@type": "Question",
+      "name": faq.q,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": faq.a
+      }
+    }))
+  };
+
+  // Dynamic BreadcrumbList Schema.org JSON-LD
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://chestaa.com/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Services",
+        "item": "https://chestaa.com/services"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": service.title,
+        "item": `https://chestaa.com/services/${slug}`
+      }
+    ]
+  };
+
   const serializeJsonLd = (schema: object) => {
     return JSON.stringify(schema)
       .replace(/</g, '\\u003c')
@@ -91,9 +135,18 @@ export default async function ServiceSlugPage({ params }: Props) {
 
   return (
     <div className="min-h-screen pt-36 pb-28 bg-white text-slate-900 font-sans selection:bg-purple-100 selection:text-purple-900">
+      {/* JSON-LD Schemas */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: serializeJsonLd(serviceSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: serializeJsonLd(faqSchema) }}
+      />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: serializeJsonLd(breadcrumbSchema) }}
       />
 
       <div className="max-w-4xl mx-auto px-6 sm:px-8 space-y-12">
@@ -107,97 +160,83 @@ export default async function ServiceSlugPage({ params }: Props) {
             className="inline-flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-wider text-purple-600 hover:text-purple-700 transition-colors"
           >
             <ArrowLeft size={14} />
-            <span>Kembali ke Services Hub</span>
+            <span>Kembali ke Hub Layanan</span>
           </Link>
         </div>
 
-        {/* Hero Header */}
-        <div className="space-y-6 border-b border-slate-200 pb-12">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-50 border border-purple-200 text-purple-700 text-xs font-mono font-bold uppercase tracking-widest shadow-xs">
-            <Sparkles size={14} />
-            <span>{service.badge}</span>
+        {/* Header Section */}
+        <div className="space-y-6">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-purple-50 border border-purple-200 text-purple-700 text-xs font-mono uppercase tracking-wider">
+            <Sparkles size={13} />
+            <span>{service.category} • {service.badge}</span>
           </div>
 
-          <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-slate-900 leading-[1.12]">
-            {service.heroHeadline}
+          <h1 className="text-4xl sm:text-5xl font-extrabold tracking-tight text-slate-900 leading-[1.12]">
+            {service.title}
           </h1>
 
-          <p className="text-lg text-slate-900 leading-relaxed font-normal">
-            {service.heroDescription}
+          <p className="text-lg sm:text-xl text-slate-600 leading-relaxed font-normal">
+            {service.subtitle}
           </p>
-
-          <div className="pt-4">
-            <a
-              href={whatsappUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-3 px-8 py-4 bg-purple-600 hover:bg-purple-700 text-white rounded-2xl font-sans font-bold text-xs uppercase tracking-wider shadow-lg shadow-purple-600/25 transition-all cursor-pointer"
-            >
-              <MessageCircle size={18} />
-              <span><b>Dapatkan Audit &amp; Konsultasi Gratis</b></span>
-            </a>
-          </div>
         </div>
 
         {/* Core Metrics Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
           {service.coreMetrics.map((metric, idx) => (
-            <div key={idx} className="p-6 rounded-2xl bg-slate-50 border border-slate-200/90 shadow-xs space-y-2">
-              <div className="text-2xl font-extrabold text-purple-600 font-mono">{metric.value}</div>
-              <div className="text-sm font-bold text-slate-900">{metric.label}</div>
-              <div className="text-xs text-slate-900 leading-relaxed">{metric.desc}</div>
+            <div key={idx} className="p-6 rounded-2xl bg-slate-50 border border-slate-200 shadow-xs flex flex-col justify-between space-y-3">
+              <span className="text-xs font-mono text-slate-500 uppercase tracking-widest">{metric.label}</span>
+              <div className="text-3xl font-extrabold text-purple-600 tracking-tight">{metric.value}</div>
+              <p className="text-sm text-slate-600 leading-relaxed">{metric.desc}</p>
             </div>
           ))}
         </div>
 
         {/* Problem Statement */}
-        <div className="space-y-6 pt-6">
-          <h2 className="text-2xl font-extrabold tracking-tight text-slate-900">
+        <div className="p-8 sm:p-10 rounded-3xl bg-rose-50/60 border border-rose-200 space-y-6">
+          <h2 className="text-2xl font-extrabold text-slate-900 tracking-tight">
             {service.problemStatement.title}
           </h2>
-          <div className="space-y-4">
+          <ul className="space-y-4 list-none p-0 m-0">
             {service.problemStatement.points.map((point, idx) => (
-              <div key={idx} className="flex items-start gap-3 p-4 rounded-xl bg-purple-50/50 border border-purple-100">
-                <ShieldCheck size={18} className="text-purple-600 shrink-0 mt-0.5" />
-                <p className="text-sm text-slate-900 leading-relaxed">{point}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        {/* Solution Overview */}
-        <div className="space-y-6 pt-6">
-          <h2 className="text-2xl font-extrabold tracking-tight text-slate-900">
-            {service.solutionOverview.title}
-          </h2>
-          <p className="text-base text-slate-900 leading-relaxed">
-            {service.solutionOverview.description}
-          </p>
-          <ul className="space-y-3">
-            {service.solutionOverview.benefits.map((benefit, idx) => (
-              <li key={idx} className="flex items-start gap-3 text-sm text-slate-900">
-                <CheckCircle2 size={16} className="text-purple-600 shrink-0 mt-0.5" />
-                <span>{benefit}</span>
+              <li key={idx} className="flex items-start gap-3 text-slate-700 text-sm sm:text-base leading-relaxed">
+                <span className="w-2 h-2 rounded-full bg-rose-500 mt-2 shrink-0" />
+                <span>{point}</span>
               </li>
             ))}
           </ul>
         </div>
 
-        {/* Process Steps */}
-        <div className="space-y-6 pt-6">
-          <h2 className="text-2xl font-extrabold tracking-tight text-slate-900">
-            Tahapan Eksekusi &amp; Implementasi
+        {/* Solution Overview */}
+        <div className="p-8 sm:p-10 rounded-3xl bg-purple-50/60 border border-purple-200 space-y-6">
+          <h2 className="text-2xl font-extrabold text-slate-900 tracking-tight">
+            {service.solutionOverview.title}
           </h2>
-          <div className="grid grid-cols-1 gap-4">
+          <p className="text-slate-700 text-base leading-relaxed">
+            {service.solutionOverview.description}
+          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-4">
+            {service.solutionOverview.benefits.map((benefit, idx) => (
+              <div key={idx} className="flex items-center gap-3 p-4 rounded-xl bg-white border border-purple-100 shadow-2xs">
+                <CheckCircle2 size={18} className="text-purple-600 shrink-0" />
+                <span className="text-sm font-bold text-slate-900">{benefit}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* Process Steps */}
+        <div className="space-y-8">
+          <h2 className="text-2xl font-extrabold tracking-tight text-slate-900">
+            Fase Pengerjaan &amp; Metodologi
+          </h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             {service.processSteps.map((step, idx) => (
-              <div key={idx} className="p-6 rounded-2xl bg-white border border-slate-200 shadow-xs flex items-start gap-4">
-                <div className="w-10 h-10 rounded-xl bg-purple-100 text-purple-700 font-mono font-bold flex items-center justify-center shrink-0">
+              <div key={idx} className="p-6 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-3">
+                <div className="w-8 h-8 rounded-xl bg-purple-100 text-purple-700 font-bold flex items-center justify-center text-xs font-mono">
                   {step.step}
                 </div>
-                <div className="space-y-1">
-                  <h3 className="text-base font-bold text-slate-900">{step.title}</h3>
-                  <p className="text-xs sm:text-sm text-slate-900 leading-relaxed">{step.desc}</p>
-                </div>
+                <h3 className="text-lg font-bold text-slate-900">{step.title}</h3>
+                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">{step.desc}</p>
               </div>
             ))}
           </div>
@@ -214,25 +253,23 @@ export default async function ServiceSlugPage({ params }: Props) {
           </p>
         </div>
 
-        {/* FAQs */}
+        {/* FAQs with Individual Show More Toggle Feature */}
         <div className="space-y-6 pt-6">
-          <h2 className="text-2xl font-extrabold tracking-tight text-slate-900">
-            Pertanyaan Sering Diajukan (FAQ)
-          </h2>
-          <div className="space-y-4">
-            {service.faqs.map((faq, idx) => (
-              <div key={idx} className="p-6 rounded-2xl bg-white border border-slate-200 shadow-xs space-y-2">
-                <h3 className="text-base font-bold text-slate-900">{faq.q}</h3>
-                <p className="text-sm text-slate-900 leading-relaxed">{faq.a}</p>
-              </div>
-            ))}
+          <div className="space-y-2">
+            <h2 className="text-2xl font-extrabold tracking-tight text-slate-900">
+              Pertanyaan Sering Diajukan (FAQ)
+            </h2>
+            <p className="text-sm text-slate-500 font-sans">
+              Klik &quot;Lihat Selengkapnya&quot; pada setiap butir pertanyaan untuk membaca jawaban detail.
+            </p>
           </div>
+          <ServiceFaqExpandable faqs={service.faqs} />
         </div>
 
         {/* Related Services Carousel Section */}
         <RelatedServices currentSlug={slug} />
 
-        {/* Bottom CTA Box */}
+        {/* Bottom CTA Box with Event Tracking Hook */}
         <div className="p-10 rounded-3xl bg-purple-600 text-white text-center space-y-6 shadow-xl shadow-purple-600/20 my-16">
           <h2 className="text-3xl font-extrabold tracking-tight text-white">
             Siap Mendominasi Pasar dengan Arsitektur Eksekutif?
@@ -240,18 +277,17 @@ export default async function ServiceSlugPage({ params }: Props) {
           <p className="text-purple-100 max-w-2xl mx-auto text-sm sm:text-base leading-relaxed">
             Jadwalkan konsultasi prioritas langsung bersama Principal Engineer kami dan wujudkan infrastruktur digital tanpa kompromi.
           </p>
-          <div>
-            <a
-              href={whatsappUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 px-8 py-4 bg-white text-purple-600 rounded-full font-bold hover:bg-slate-50 hover:scale-105 transition-transform shadow-lg cursor-pointer"
-            >
-              <MessageCircle size={18} />
-              <span><b>Mulai Konsultasi Prioritas</b></span>
-            </a>
+          <div className="flex justify-center">
+            <AuditConsultationButton 
+              whatsappUrl={whatsappUrl} 
+              serviceTitle={service.title} 
+              serviceSlug={slug} 
+            />
           </div>
         </div>
+
+        {/* National Mega Footer Cross-Linker */}
+        <SEOAreaLinks />
 
       </div>
     </div>

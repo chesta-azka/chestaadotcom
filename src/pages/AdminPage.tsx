@@ -22,6 +22,9 @@ import { ClientVault } from '../components/ClientVault';
 import LeadBadge from '../components/atoms/LeadBadge';
 import AdminConversationSummaries from '../components/organisms/AdminConversationSummaries';
 import AdminKnowledgeGraph from '../components/organisms/AdminKnowledgeGraph';
+import SEOPerformanceAuditor from '../components/admin/SEOPerformanceAuditor';
+import SearchIntentHeatmap from '../components/admin/SearchIntentHeatmap';
+import LoadProfileAssistant from '../components/admin/LoadProfileAssistant';
 
 function AppointmentsDashboard() {
   const [appointments, setAppointments] = useState<any[]>([]);
@@ -1121,6 +1124,18 @@ function AdminDashboard() {
 
       {activeTab === 'seo' && (
         <SEOTool />
+      )}
+
+      {activeTab === 'seo_performance' && (
+        <SEOPerformanceAuditor />
+      )}
+
+      {activeTab === 'intent_heatmap' && (
+        <SearchIntentHeatmap />
+      )}
+
+      {activeTab === 'load_profile' && (
+        <LoadProfileAssistant />
       )}
 
       

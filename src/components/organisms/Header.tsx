@@ -209,8 +209,8 @@ export default function Header() {
                 />
               </div>
               
-              <span className="font-display text-lg font-bold tracking-tight text-slate-900 leading-none">
-                chestaa<span className="text-purple-600">dot</span>com
+              <span className="font-display text-base sm:text-lg font-bold tracking-tight text-slate-900 leading-none">
+                chestaadotcom
               </span>
             </Link>
 
@@ -405,7 +405,7 @@ export default function Header() {
                     />
                   </div>
                   <span className="font-display text-base font-bold tracking-tight text-slate-900">
-                    chestaa<span className="text-purple-600">dot</span>com
+                    chestaadotcom
                   </span>
                 </Link>
 

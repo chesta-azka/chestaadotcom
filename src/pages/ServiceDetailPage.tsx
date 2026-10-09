@@ -30,6 +30,7 @@ import { useState, useMemo, lazy, Suspense } from 'react';
 import toast from 'react-hot-toast';
 import { generateServiceSchema } from '../utils/schemaMarkup';
 import { useScrollSpy } from '../hooks/useScrollSpy';
+import { useAuditCtaTracker } from '../hooks/useAuditCtaTracker';
 import SEOMetadata from '../components/atoms/SEOMetadata';
 import ServiceValueComparison from '../components/organisms/ServiceValueComparison';
 import TrustSignalsSection from '../components/organisms/TrustSignalsSection';
@@ -258,10 +259,17 @@ export default function ServiceDetailPage() {
     );
   }
 
-  const whatsappText = `Halo Mas Chesta, saya tertarik menggunakan layanan ${service.title}. Mohon jadwalkan konsultasi prioritas hari ini.`;
+  const { trackAuditClick } = useAuditCtaTracker();
+  const whatsappText = `Halo Mas Chesta, saya tertarik menggunakan layanan ${service?.title || 'Konsultasi'}. Mohon jadwalkan konsultasi prioritas hari ini.`;
   const whatsappUrl = `https://wa.me/6282125447232?text=${encodeURIComponent(whatsappText)}`;
 
   const handleWhatsAppClick = () => {
+    trackAuditClick({
+      serviceSlug: slug,
+      serviceTitle: service?.title,
+      ctaText: 'Dapatkan Audit & Konsultasi Gratis',
+      href: whatsappUrl,
+    });
     toast.success('Menghubungkan ke WhatsApp Principal Engineer...', {
       duration: 3500,
       icon: '🚀',

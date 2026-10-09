@@ -108,7 +108,7 @@ export default function SEOMetadata({
           "@type": "Organization",
           "name": "CHESTAA",
           "url": "https://chestaa.com",
-          "logo": "https://chestaa.com/favicon.svg"
+          "logo": "https://chestaa.com/chesta.png"
         }
       }
     ];

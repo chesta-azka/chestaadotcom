@@ -26,22 +26,13 @@ export default function RealityWakeUpSection() {
       <div className="max-w-7xl mx-auto px-6 relative z-10">
         
         {/* Section Header with Refined Corporate Contrast */}
-        <div className="text-center max-w-4xl mx-auto mb-16">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-rose-50 border border-rose-200/80 text-rose-700 text-xs font-mono font-medium mb-4 shadow-xs">
-            <AlertTriangle className="w-3.5 h-3.5 text-rose-600" />
-            <span className="tracking-widest uppercase">DIAGNOSA KEBOCORAN PROFIT BISNIS</span>
-          </div>
+        <div className="text-center max-w-4xl mx-auto mb-16 space-y-3">
+          <span className="text-xs font-mono font-medium tracking-[0.2em] text-slate-500 uppercase block">
+            03. Diagnosa Operasional
+          </span>
 
-          <h2 className="text-3xl md:text-5xl lg:text-6xl font-medium tracking-tight text-slate-950 leading-[1.15] text-balance flex flex-wrap items-center justify-center gap-3">
-            <span className="inline-flex items-center justify-center w-10 h-10 md:w-12 md:h-12 rounded-2xl bg-rose-100/70 border border-rose-200/80 text-rose-600 shadow-xs shrink-0">
-              <Flame className="w-5 h-5 md:w-6 md:h-6 stroke-[1.8]" />
-            </span>
-            <span>
-              Masih Membakar Uang Lewat{' '}
-              <span className="text-purple-700 font-serif italic">
-                Cara Manual?
-              </span>
-            </span>
+          <h2 className="text-3xl md:text-5xl lg:text-6xl font-display font-extrabold tracking-tight text-slate-950 leading-[1.15] text-balance">
+            Masih Menguras Anggaran Lewat Cara Manual?
           </h2>
 
           <p className="text-slate-600 mt-4 text-base md:text-lg font-normal max-w-2xl mx-auto leading-relaxed text-balance">

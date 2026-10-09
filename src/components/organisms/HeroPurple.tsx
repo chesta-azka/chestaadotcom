@@ -1,8 +1,8 @@
 "use client"
 
 import React, { useRef } from "react"
-import { ArrowRight, Sparkles, ShieldCheck, Zap, Activity, CheckCircle2 } from "lucide-react"
-import { motion, useMotionValue, useTransform, useSpring } from "motion/react"
+import { ArrowRight } from "lucide-react"
+import { motion } from "motion/react"
 import MagneticButton from "../atoms/MagneticButton"
 
 interface HeroProps {
@@ -18,44 +18,20 @@ interface HeroProps {
 export function HeroPurple({
   eyebrow = "Studio Arsitektur Digital & Sistem Penjualan Otomatis",
   title = "Dominasi Pasar Digital. Amankan Profit Maksimal.",
-  subtitle = "Sistem bisnis otonom berkecepatan tinggi. Nol risiko human-error, respon instan seketika, dan 100% hak milik aset mutlak.",
+  subtitle = "Chestaadotcom membantu perusahaan menyederhanakan proses, menghubungkan operasional, dan mengembangkan bisnis melalui solusi digital yang sesuai kebutuhan industrinya",
   ctaLabel = "Konsultasi Langsung via WhatsApp",
   ctaHref = "https://wa.me/6282125447232?text=Halo%20Mas%20Chesta,%20saya%20ingin%20berdiskusi%20mengenai%20website%20penjualan%20super%20cepat%20dan%20sistem%20otomasi%20bisnis.",
   secondaryCtaLabel = "Lihat Paket Investasi",
   secondaryCtaHref = "#pricing",
 }: HeroProps) {
-  // Track mouse position over the hero section strictly for the Hero Asset
   const heroRef = useRef<HTMLElement>(null);
-  const mouseX = useMotionValue(0);
-  const mouseY = useMotionValue(0);
-
-  // Elite spring configuration for natural momentum
-  const springConfig = { damping: 25, stiffness: 220, mass: 0.6 };
-  const smoothMouseX = useSpring(mouseX, springConfig);
-  const smoothMouseY = useSpring(mouseY, springConfig);
-
-  // 3D Spatial rotation for the Hero Asset ONLY
-  const rotateX = useTransform(smoothMouseY, [-300, 300], [10, -10]);
-  const rotateY = useTransform(smoothMouseX, [-300, 300], [-10, 10]);
-
-  // Subtle floating depth translation
-  const translateZ = useTransform(smoothMouseY, [-300, 300], [15, -15]);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLElement>) => {
     if (!heroRef.current) return;
-    const rect = heroRef.current.getBoundingClientRect();
-    const x = e.clientX - (rect.left + rect.width / 2);
-    const y = e.clientY - (rect.top + rect.height / 2);
-    mouseX.set(x);
-    mouseY.set(y);
   };
 
-  const handleMouseLeave = () => {
-    mouseX.set(0);
-    mouseY.set(0);
-  };
+  const handleMouseLeave = () => {};
 
-  // Masked blur-cascade split-text words for the headline
   const titleWords = title.split(" ");
 
   return (
@@ -64,29 +40,25 @@ export function HeroPurple({
       id="hero"
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      className="relative mx-auto w-full pt-28 md:pt-36 pb-16 md:pb-20 px-6 text-center md:px-8 
-      min-h-[85vh] flex flex-col justify-center items-center bg-gradient-to-b from-white via-slate-50/50 to-white"
+      className="relative mx-auto w-full pt-28 md:pt-36 pb-16 md:pb-24 px-4 sm:px-6 md:px-8 text-center flex flex-col justify-center items-center bg-gradient-to-b from-white via-slate-50/50 to-white overflow-hidden"
     >
-      {/* Background Spatial Atmosphere - Minimalist, Understated */}
-      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
-        <div className="absolute top-1/4 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-purple-100/35 rounded-full blur-[120px]" />
-      </div>
+      {/* Clean Subtle Atmosphere */}
+      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden" aria-hidden="true" />
 
-      <div className="max-w-6xl mx-auto flex flex-col items-center gap-8 relative z-20">
+      <div className="max-w-7xl mx-auto flex flex-col items-center gap-8 relative z-20 w-full">
         
-        {/* Eyebrow Badge (Lightweight clean entrance) */}
-        <motion.div
+        {/* Editorial Eyebrow (Zero Pill, Pure Typography) */}
+        <motion.p
           initial={{ opacity: 0, y: 15 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, ease: "easeOut" }}
-          className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-purple-50 border border-purple-200/80 text-purple-900 text-xs font-medium shadow-xs"
+          className="text-xs font-mono font-semibold tracking-[0.22em] text-slate-500 uppercase"
         >
-          <Sparkles className="w-3.5 h-3.5 text-purple-700" />
-          <span className="uppercase tracking-widest">{eyebrow}</span>
-        </motion.div>
+          {eyebrow}
+        </motion.p>
 
-        {/* MASKED BLUR-CASCADE SPLIT-TEXT REVEAL ONLY FOR MAIN HEADLINE */}
-        <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-[5.5rem] font-medium tracking-tight text-slate-950 leading-[1.06] text-balance">
+        {/* MASKED BLUR-CASCADE SPLIT-TEXT REVEAL FOR MAIN HEADLINE */}
+        <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-[5.5rem] font-medium tracking-tight text-slate-950 leading-[1.06] text-balance max-w-5xl mx-auto">
           {titleWords.map((word, index) => (
             <span key={index} className="inline-block overflow-hidden mr-[0.25em] align-top py-1">
               <motion.span
@@ -105,22 +77,22 @@ export function HeroPurple({
           ))}
         </h1>
 
-        {/* Subtitle with elegant entrance */}
+        {/* Updated Subtitle */}
         <motion.p
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.5, ease: "easeOut" }}
-          className="text-slate-600 text-base md:text-lg font-normal max-w-2xl leading-relaxed text-balance"
+          className="text-slate-600 text-base md:text-lg font-normal max-w-3xl leading-relaxed text-balance mx-auto"
         >
           {subtitle}
         </motion.p>
 
-        {/* Magnetic CTAs ONLY in Hero */}
+        {/* Magnetic CTAs */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6, delay: 0.6, ease: "easeOut" }}
-          className="flex flex-col sm:flex-row items-center gap-4 pt-2"
+          className="flex flex-col sm:flex-row items-center justify-center gap-4 pt-2 mb-10"
         >
           <MagneticButton
             href={ctaHref}
@@ -140,74 +112,58 @@ export function HeroPurple({
           </MagneticButton>
         </motion.div>
 
-        {/* 3D SPATIAL HOLOGRAPHIC HERO ASSET (Advanced Mouse Parallax Applied ONLY Here) */}
-        <div className="w-full max-w-4xl mt-10" style={{ perspective: 1200 }}>
-          <motion.div
-            style={{
-              rotateX,
-              rotateY,
-              z: translateZ,
-              transformStyle: "preserve-3d",
-            }}
-            initial={{ opacity: 0, y: 40, scale: 0.95 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.7, ease: [0.22, 1, 0.36, 1] }}
-            className="relative rounded-[2.25rem] bg-white/90 backdrop-blur-xl border border-slate-200/90 shadow-2xl shadow-slate-200/60 p-6 md:p-8 overflow-hidden text-left"
-          >
-            {/* Top Bar / Status */}
-            <div className="flex flex-wrap items-center justify-between gap-4 pb-6 border-b border-slate-100" style={{ transform: "translateZ(25px)" }}>
-              <div className="flex items-center gap-3">
-                <div className="flex gap-1.5">
-                  <span className="w-3 h-3 rounded-full bg-rose-400" />
-                  <span className="w-3 h-3 rounded-full bg-amber-400" />
-                  <span className="w-3 h-3 rounded-full bg-emerald-400" />
-                </div>
-                <div className="h-4 w-[1px] bg-slate-200 mx-1" />
-                <span className="text-xs font-mono font-medium text-purple-950 uppercase tracking-wider flex items-center gap-2">
-                  <Activity className="w-3.5 h-3.5 text-purple-700" />
-                  Autonomous Engine v3.2
-                </span>
-              </div>
-              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 text-xs font-medium border border-emerald-200/80">
-                <span className="w-2 h-2 rounded-full bg-emerald-500" />
-                <span>Otonom 24/7 Aktif</span>
-              </div>
+        {/* SECTION: 01 — CARA KAMI BERPIKIR (Fully Left-Aligned, Editorial Layout, Zero Icons, No AI Slop) */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.8, delay: 0.7, ease: [0.22, 1, 0.36, 1] }}
+          className="w-full max-w-7xl mx-auto pt-16 md:pt-24 pb-8 text-left relative"
+        >
+          {/* Editorial Top Border Divider */}
+          <div className="w-full h-px bg-slate-200/90 mb-12 sm:mb-16" aria-hidden="true" />
+
+          {/* Section Header: Fully Left Aligned ("fully kiri biar makin power full") */}
+          <div className="max-w-4xl space-y-4 mb-14 sm:mb-16">
+            <div className="flex items-center gap-3">
+              <span className="text-xs font-mono font-semibold tracking-[0.2em] text-purple-700 uppercase">
+                01 — CARA KAMI BERPIKIR
+              </span>
+              <span className="w-12 h-px bg-purple-200" aria-hidden="true" />
             </div>
 
-            {/* Qualitative Outcome Metric Grid */}
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 pt-6" style={{ transform: "translateZ(45px)" }}>
-              <div className="p-4 rounded-2xl bg-purple-50/70 border border-purple-100/90">
-                <div className="flex items-center justify-between text-xs text-purple-950 font-medium mb-2">
-                  <span>Kecepatan Respons</span>
-                  <Zap className="w-4 h-4 text-purple-700" />
-                </div>
-                <div className="text-2xl sm:text-3xl font-medium text-purple-950 tracking-tight">&lt; 0.2s</div>
-                <p className="text-xs text-slate-500 mt-1 font-normal">Tanpa antrean, instan seketika</p>
-              </div>
+            <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-extrabold text-slate-950 tracking-tight leading-[1.12]">
+              Memahami bisnis Anda adalah langkah pertama kami.
+            </h2>
 
-              <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/80">
-                <div className="flex items-center justify-between text-xs text-slate-700 font-medium mb-2">
-                  <span>Akurasi Data Pesanan</span>
-                  <ShieldCheck className="w-4 h-4 text-emerald-600" />
-                </div>
-                <div className="text-2xl sm:text-3xl font-medium text-emerald-700 tracking-tight">Nol Error</div>
-                <p className="text-xs text-slate-500 mt-1 font-normal">Nol risiko human-error admin</p>
-              </div>
+            <p className="text-base sm:text-lg font-sans text-slate-600 leading-relaxed font-normal pt-1 max-w-3xl">
+              Setiap perusahaan memiliki proses, tantangan, dan prioritas yang berbeda. Kami mempelajari cara bisnis Anda bekerja, lalu merancang solusi yang membantu tim menyelesaikan pekerjaan dengan lebih mudah.
+            </p>
+          </div>
 
-              <div className="p-4 rounded-2xl bg-slate-50 border border-slate-200/80">
-                <div className="flex items-center justify-between text-xs text-slate-800 font-medium mb-2">
-                  <span>Kepemilikan Aset</span>
-                  <CheckCircle2 className="w-4 h-4 text-purple-800" />
-                </div>
-                <div className="text-2xl sm:text-3xl font-medium text-slate-900 tracking-tight">100% Hak Milik</div>
-                <p className="text-xs text-slate-500 mt-1 font-normal">Tanpa biaya sewa platform</p>
-              </div>
+          {/* 3 Pillars (Compact Small Typography) */}
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 sm:gap-8 border-t border-slate-200/80 pt-6 sm:pt-8">
+            <div className="text-left space-y-1">
+              <span className="font-mono text-[11px] font-bold text-purple-700 block">01</span>
+              <p className="text-xs sm:text-sm font-medium text-slate-800 tracking-normal leading-snug">
+                Berangkat dari kebutuhan
+              </p>
             </div>
 
-            {/* Decorative ambient subtle sweep */}
-            <div className="absolute -inset-x-20 -bottom-20 h-40 bg-gradient-to-t from-purple-100/20 to-transparent blur-2xl pointer-events-none" />
-          </motion.div>
-        </div>
+            <div className="text-left space-y-1">
+              <span className="font-mono text-[11px] font-bold text-purple-700 block">02</span>
+              <p className="text-xs sm:text-sm font-medium text-slate-800 tracking-normal leading-snug">
+                Prioritas disepakati bersama
+              </p>
+            </div>
+
+            <div className="text-left space-y-1">
+              <span className="font-mono text-[11px] font-bold text-purple-700 block">03</span>
+              <p className="text-xs sm:text-sm font-medium text-slate-800 tracking-normal leading-snug">
+                Penerapan secara bertahap
+              </p>
+            </div>
+          </div>
+        </motion.div>
 
       </div>
     </section>

@@ -88,7 +88,7 @@ export function generateBlogJsonLd(slugOrArticle: string | Article): BlogJsonLdR
       url: siteUrl,
       logo: {
         '@type': 'ImageObject',
-        url: `${siteUrl}/favicon.svg`,
+        url: `${siteUrl}/chesta.png`,
         width: 512,
         height: 512,
       },

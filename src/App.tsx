@@ -31,30 +31,30 @@ import ProjectDetailPage from './pages/ProjectDetailPage.tsx';
 import AboutPage from './pages/AboutPage.tsx';
 import WorkflowPage from './pages/WorkflowPage.tsx';
 import AreaDetailPage from './pages/AreaDetailPage.tsx';
-import AcademyPage from './pages/AcademyPage.tsx';
-import AcademyMasterclassPage from './pages/AcademyMasterclassPage.tsx';
-import AcademyResourcesPage from './pages/AcademyResourcesPage.tsx';
-
-import QuizIndexPage from './pages/QuizIndexPage.tsx';
-import AcademyQuizPage from './pages/AcademyQuizPage.tsx';
-import AdminPage from './pages/AdminPage.tsx';
-import ClientPortalPage from './pages/ClientPortalPage.tsx';
-import NotFoundPage from './pages/NotFoundPage.tsx';
-import CaseStudiesPage from './pages/CaseStudiesPage.tsx';
-import CaseStudyDetailPage from './pages/CaseStudyDetailPage.tsx';
 import ServicesHubPage from './pages/ServicesHubPage.tsx';
 import ServiceDetailPage from './pages/ServiceDetailPage.tsx';
 import ProgrammaticServicePage from './pages/ProgrammaticServicePage.tsx';
 import GlossaryTermPage from './pages/GlossaryTermPage.tsx';
 import InsightDetailPage from './pages/InsightDetailPage.tsx';
+import CaseStudiesPage from './pages/CaseStudiesPage.tsx';
+import CaseStudyDetailPage from './pages/CaseStudyDetailPage.tsx';
+import NotFoundPage from './pages/NotFoundPage.tsx';
+import TrustCenterPage from './app/trust/page.tsx';
+
+// Code-splitting for heavy non-critical pages to drastically shrink initial JS bundle
+const AcademyPage = React.lazy(() => import('./pages/AcademyPage.tsx'));
+const AcademyMasterclassPage = React.lazy(() => import('./pages/AcademyMasterclassPage.tsx'));
+const AcademyResourcesPage = React.lazy(() => import('./pages/AcademyResourcesPage.tsx'));
+const QuizIndexPage = React.lazy(() => import('./pages/QuizIndexPage.tsx'));
+const AcademyQuizPage = React.lazy(() => import('./pages/AcademyQuizPage.tsx'));
+const AdminPage = React.lazy(() => import('./pages/AdminPage.tsx'));
+const OmniAdminDashboard = React.lazy(() => import('./app/admin/page.tsx'));
+const AiAuditAdminPage = React.lazy(() => import('./app/admin/ai-audit/page.tsx'));
+const ClientPortalPage = React.lazy(() => import('./pages/ClientPortalPage.tsx'));
 
 import KeyboardShortcutsModal from './components/organisms/KeyboardShortcutsModal.tsx';
 import SpecialPromoAlert from './components/organisms/SpecialPromoAlert.tsx';
-import TrustCenterPage from './app/trust/page.tsx';
-import ExitIntentAI from './components/organisms/ExitIntentAI.tsx';
 import ServerAnalyticsTracker from './components/atoms/ServerAnalyticsTracker.tsx';
-import OmniAdminDashboard from './app/admin/page.tsx';
-import AiAuditAdminPage from './app/admin/ai-audit/page.tsx';
 
 import { useVisitorTracker } from './hooks/useVisitorTracker.ts';
 import { useClickTracker } from './hooks/useClickTracker.ts';
@@ -85,15 +85,14 @@ function AppContent({ appLoaded, onLoadingComplete }: { appLoaded: boolean; onLo
   return (
     <div className="relative w-full flex flex-col overflow-x-hidden min-h-screen">
       <ServerAnalyticsTracker />
-      <ExitIntentAI />
       <LoadingScreen onComplete={onLoadingComplete} />
       <SpecialPromoAlert />
       
       {/* Main Content Area */}
       <motion.div
-        initial={{ opacity: 0, y: 20 }}
-        animate={appLoaded ? { opacity: 1, y: 0 } : { opacity: 0, y: 20 }}
-        transition={{ duration: 0.8, delay: 0.2 }}
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ duration: 0.3 }}
         className="relative z-10 flex flex-col flex-1 bg-[#fbfbfd]"
       >
         {!/^\/academy\/.+/.test(location.pathname) && <Header />}
@@ -187,12 +186,20 @@ function PageWrapper({ children }: { children: React.ReactNode }) {
         exit="exit"
         className="flex flex-col flex-1"
       >
-        <div className="max-w-7xl mx-auto px-6 lg:px-8 w-full pt-3 pb-1">
-          <Breadcrumbs currentTitle={currentMeta.title} hideOnHome={false} />
-        </div>
+        {location.pathname !== '/' && (
+          <div className="max-w-7xl mx-auto px-6 lg:px-8 w-full pt-3 pb-1">
+            <Breadcrumbs currentTitle={currentMeta.title} hideOnHome={true} />
+          </div>
+        )}
         
-        <motion.div variants={itemVariants} className="flex flex-col flex-1">
-          {children}
+        <motion.div variants={itemVariants} className="flex flex-col flex-1 w-full">
+          <React.Suspense fallback={
+            <div className="flex-1 min-h-[50vh] flex items-center justify-center">
+              <div className="w-8 h-8 rounded-full border-2 border-purple-600 border-t-transparent animate-spin" />
+            </div>
+          }>
+            {children}
+          </React.Suspense>
         </motion.div>
       </motion.div>
 
@@ -203,14 +210,9 @@ function PageWrapper({ children }: { children: React.ReactNode }) {
 
 
 export default function App() {
-  const [appLoaded, setAppLoaded] = useState(false);
+  const [appLoaded, setAppLoaded] = useState(true);
 
   useEffect(() => {
-    // Initial hydration signal
-    const timer = setTimeout(() => {
-      setAppLoaded(true);
-    }, 800);
-    
     // BUTTERY SMOOTH SCROLL (LENIS)
     const lenis = new Lenis({
       duration: 1.2,
@@ -232,7 +234,6 @@ export default function App() {
     
     return () => {
       lenis.destroy();
-      clearTimeout(timer);
     };
   }, []);
 
@@ -244,8 +245,7 @@ export default function App() {
       <AuthProvider>
       <ScrollToTop />
       <Analytics />
-      <main className="bg-[#fbfbfd] text-gray-900 relative min-h-screen">
-        <CustomCursor />
+      <main className="bg-[#fbfbfd] text-gray-900 relative min-h-screen w-full overflow-x-hidden">
         <InteractiveBackground />
         <WebVitalsTracker />
         <CommandPalette />

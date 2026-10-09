@@ -3,10 +3,13 @@
 import React, { useState, useEffect } from 'react';
 import { db } from '../../lib/firebase';
 import { collection, getDocs, query, orderBy, limit } from 'firebase/firestore';
-import { Terminal, ShieldCheck, Activity, Users, DollarSign, Server, Zap, ArrowRight, ExternalLink } from 'lucide-react';
+import { Terminal, ShieldCheck, Activity, Users, DollarSign, Server, Zap, ArrowRight, ExternalLink, Search } from 'lucide-react';
 import Link from 'next/link';
 import { AdminKanbanBoard } from '../../components/AdminKanbanBoard';
 import UpcomingInvoices from '../../components/admin/UpcomingInvoices';
+import SEOPerformanceAuditor from '../../components/admin/SEOPerformanceAuditor';
+import SearchIntentHeatmap from '../../components/admin/SearchIntentHeatmap';
+import LoadProfileAssistant from '../../components/admin/LoadProfileAssistant';
 
 export default function OmniAdminDashboard() {
   const [pipelineTotal, setPipelineTotal] = useState('Rp 1.45 Miliar');
@@ -165,6 +168,13 @@ export default function OmniAdminDashboard() {
             </div>
           </div>
 
+        </div>
+
+        {/* Dedicated Section: SEO Performance Metrics & Search Grounding Actionable Improvements */}
+        <div className="pt-6 border-t border-white/10 space-y-10">
+          <SEOPerformanceAuditor />
+          <SearchIntentHeatmap />
+          <LoadProfileAssistant />
         </div>
 
       </div>

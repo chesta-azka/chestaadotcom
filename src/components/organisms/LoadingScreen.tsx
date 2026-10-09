@@ -1,82 +1,83 @@
 import { motion } from 'motion/react';
 import { useState, useEffect } from 'react';
 
+/**
+ * Real LoadingScreen:
+ * Dismisses as soon as the DOM and assets are actually loaded (document.readyState === 'complete'),
+ * without artificial artificial multi-second setTimeout delays.
+ */
 export default function LoadingScreen({ onComplete }: { onComplete?: () => void }) {
   const [visible, setVisible] = useState(true);
   const [isExiting, setIsExiting] = useState(false);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
+    const handleRealLoad = () => {
       setIsExiting(true);
       if (onComplete) onComplete();
-    }, 2200); // Elegant duration for brand presence
+    };
 
-    return () => clearTimeout(timer);
+    // If document is already complete, dismiss immediately without fake delay
+    if (document.readyState === 'complete') {
+      // Small microtask to allow paint
+      const raf = requestAnimationFrame(() => {
+        handleRealLoad();
+      });
+      return () => cancelAnimationFrame(raf);
+    } else {
+      window.addEventListener('load', handleRealLoad, { once: true });
+      // Fallback safeguard max 600ms if load event was missed or slow asset
+      const fallbackTimer = setTimeout(handleRealLoad, 600);
+      return () => {
+        window.removeEventListener('load', handleRealLoad);
+        clearTimeout(fallbackTimer);
+      };
+    }
   }, [onComplete]);
 
   if (!visible) return null;
 
   return (
     <motion.div
-      className="fixed inset-0 z-[1000] flex flex-col items-center justify-center bg-[#090d16] select-none"
+      className="fixed inset-0 z-[1000] flex flex-col items-center justify-center bg-[#090d16] select-none pointer-events-none"
       initial={{ opacity: 1 }}
       animate={isExiting ? { 
         opacity: 0,
-        filter: 'blur(20px)',
-        scale: 1.05
+        filter: 'blur(8px)',
       } : { 
         opacity: 1,
         filter: 'blur(0px)',
-        scale: 1
       }}
-      transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+      transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
       onAnimationComplete={() => {
         if (isExiting) {
           setVisible(false);
         }
       }}
     >
-      <motion.div
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ 
-          opacity: [0.3, 1, 0.3],
-          scale: [0.98, 1, 0.98]
-        }}
-        transition={{ 
-          duration: 3, 
-          repeat: Infinity, 
-          ease: "easeInOut"
-        }}
-        className="flex flex-col items-center"
-      >
-        {/* Minimalist Branded Logo Mark */}
-        <div className="relative flex items-center justify-center">
-          <div className="w-14 h-14 rounded-2xl bg-white border border-purple-200 flex items-center justify-center overflow-hidden shadow-lg">
-            <img 
-              src="/chesta.png" 
-              alt="Chestaa Logo" 
-              className="w-full h-full object-cover object-top" 
-              onError={(e) => {
-                const target = e.currentTarget;
-                target.src = '/favicon.svg';
-              }}
-            />
-          </div>
-          
-          {/* Subtle Outer Glow */}
-          <div className="absolute inset-0 bg-white/5 blur-2xl rounded-full scale-150 opacity-50" />
+      <div className="flex flex-col items-center">
+        {/* Real Minimalist Fast Logo Indicator */}
+        <div className="w-12 h-12 rounded-2xl bg-white border border-purple-200 flex items-center justify-center overflow-hidden shadow-lg">
+          <img 
+            src="/chesta.png" 
+            alt="Chestaa" 
+            className="w-full h-full object-cover object-top" 
+            onError={(e) => {
+              const target = e.currentTarget;
+              target.src = '/favicon.svg';
+            }}
+          />
         </div>
         
-        {/* Minimalist Branded Identity */}
-        <motion.span 
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.4, duration: 1 }}
-          className="mt-8 text-[10px] tracking-[0.4em] font-light text-white/30 uppercase"
-        >
-          CHESTAADOTCOM
-        </motion.span>
-      </motion.div>
+        {/* Subtle lightweight loading pulse bar */}
+        <div className="w-24 h-0.5 bg-white/10 rounded-full mt-6 overflow-hidden">
+          <motion.div 
+            className="h-full bg-purple-500 rounded-full"
+            initial={{ x: '-100%' }}
+            animate={{ x: '100%' }}
+            transition={{ repeat: Infinity, duration: 0.8, ease: 'easeInOut' }}
+          />
+        </div>
+      </div>
     </motion.div>
   );
 }

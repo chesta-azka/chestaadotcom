@@ -382,7 +382,7 @@ const InlineCTA = () => (
 
 export default function BlogPostPage() {
   const { slug } = useParams<{ slug: string }>();
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
   const [postLikes, setPostLikes] = useState(0);
   const [hasLiked, setHasLiked] = useState(false);
   const [isBookmarked, setIsBookmarked] = useState(false);
@@ -474,12 +474,6 @@ export default function BlogPostPage() {
       toast.error('Gagal ngasih like, coba lagi ya! 😅');
     }
   };
-
-  useEffect(() => {
-    setIsLoading(true);
-    const timer = setTimeout(() => setIsLoading(false), 400);
-    return () => clearTimeout(timer);
-  }, [slug]);
 
   useEffect(() => {
     window.scrollTo(0, 0);

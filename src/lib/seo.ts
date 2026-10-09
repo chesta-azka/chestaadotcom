@@ -32,7 +32,7 @@ export const generateLocalBusinessSchema = () => {
     "legalName": "CHESTAADOTCOM (Chesta Azka Sofyan)",
     "alternateName": ["CHESTAA", "Chestaa B2B Tech Agency", "Chesta Code"],
     "image": "https://chestaa.com/chesta.png",
-    "logo": "https://chestaa.com/favicon.svg",
+    "logo": "https://chestaa.com/chesta.png",
     "description": "Elite B2B Software House dan Studio Arsitektur Web Next.js 15, Karyawan AI 24/7, dan Sistem Otonom di BSD City, Cisauk, Tangerang, dan Jakarta.",
     "url": "https://chestaa.com",
     "telephone": "+6282125447232",
@@ -147,7 +147,7 @@ export const generateOrganizationSchema = () => {
     "@type": "Organization",
     "name": "CHESTAADOTCOM",
     "url": "https://chestaa.com",
-    "logo": "https://chestaa.com/favicon.svg",
+    "logo": "https://chestaa.com/chesta.png",
     "sameAs": [
       "https://github.com/chestacode"
     ],
@@ -608,7 +608,7 @@ export const generateInsightArticleSchema = (article: {
       "url": "https://chestaa.com",
       "logo": {
         "@type": "ImageObject",
-        "url": "https://chestaa.com/favicon.svg"
+        "url": "https://chestaa.com/chesta.png"
       }
     }
   };

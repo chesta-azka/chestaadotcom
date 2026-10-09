@@ -8,6 +8,12 @@
   "theme_color": "#D4FF00",
   "icons": [
     {
+      "src": "/chesta.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
       "src": "/favicon.svg",
       "sizes": "512x512",
       "type": "image/svg+xml",

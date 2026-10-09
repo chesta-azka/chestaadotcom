@@ -323,7 +323,7 @@ export function injectSocialMeta(html: string, url: string): string {
         "name": "CHESTAA",
         "legalName": "CHESTAADOTCOM (Chesta Azka Sofyan)",
         "url": "https://chestaa.com",
-        "logo": "https://chestaa.com/favicon.svg",
+        "logo": "https://chestaa.com/chesta.png",
         "image": "https://chestaa.com/chesta.png",
         "telephone": "+6282125447232",
         "priceRange": "$$$",

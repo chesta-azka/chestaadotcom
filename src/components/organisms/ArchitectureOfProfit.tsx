@@ -154,21 +154,17 @@ export default function ArchitectureOfProfit() {
             whileInView={{ opacity: 1, x: 0, filter: 'blur(0px)' }}
             viewport={{ once: true, amount: 0.2 }}
             transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] as const }}
-            className="lg:col-span-5 lg:sticky lg:top-28 space-y-6"
+            className="lg:col-span-5 lg:sticky lg:top-28 space-y-4"
           >
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-purple-50 border border-purple-200 text-purple-700 text-xs font-medium shadow-xs">
-              <Sparkles className="w-3.5 h-3.5 text-purple-600" />
-              <span className="uppercase tracking-widest">ARSITEKTUR BISNIS OTONOM</span>
-            </div>
+            <span className="text-xs font-mono font-medium tracking-[0.2em] text-slate-500 uppercase block">
+              04. Arsitektur Bisnis Otonom
+            </span>
 
-            <h2 className="text-3xl sm:text-5xl font-medium text-slate-950 tracking-tight leading-[1.15] text-balance flex items-start gap-3.5">
-              <span className="inline-flex items-center justify-center w-10 h-10 sm:w-12 sm:h-12 rounded-2xl bg-purple-100/80 border border-purple-200/80 text-purple-900 shadow-xs shrink-0 mt-1">
-                <Cpu className="w-5 h-5 sm:w-6 sm:h-6 stroke-[1.8]" />
-              </span>
-              <span>Sistem Otonom untuk Profit Maksimal.</span>
+            <h2 className="text-3xl sm:text-5xl font-display font-extrabold text-slate-950 tracking-tight leading-[1.12]">
+              Sistem Otonom untuk Profit Maksimal.
             </h2>
 
-            <p className="text-slate-600 text-base sm:text-lg leading-relaxed font-normal text-balance">
+            <p className="text-slate-600 text-base sm:text-lg leading-relaxed font-normal text-balance pt-1">
               Website sub-detik dan asisten cerdas yang menyaring prospek otomatis 24/7 tanpa biaya sewa bulanan.
             </p>
 
