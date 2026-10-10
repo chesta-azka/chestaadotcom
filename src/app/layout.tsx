@@ -6,6 +6,7 @@ import { Navbar } from '../components/Navbar';
 import DynamicBreadcrumb from '../components/ui/dynamic-breadcrumb';
 import CommandPalette from '../components/organisms/CommandPalette';
 import AIConcierge from '../components/organisms/AIConcierge';
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import '../index.css';
 
 const geistSans = Geist({
@@ -151,6 +152,7 @@ export default function RootLayout({
               <DynamicBreadcrumb />
               {children}
             </main>
+            <SpeedInsights />
           </NextErrorBoundary>
         </ThemeProvider>
       </body>

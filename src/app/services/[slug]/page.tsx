@@ -13,6 +13,9 @@ import {
 import FAQSchema from '../../../components/atoms/FAQSchema';
 
 interface ServiceContent {
+  metaTitle: string;
+  metaDescription: string;
+  commercialKeywords: string;
   tagline: string;
   h1: string;
   subText: string;
@@ -44,9 +47,12 @@ interface ServiceContent {
 }
 
 const DEFAULT_AI_CONTENT: ServiceContent = {
+  metaTitle: 'Jasa Integrasi AI & Otomasi Alur Kerja Bisnis B2B & UMKM | CHESTAADOTCOM',
+  metaDescription: 'Jasa integrasi AI praktis untuk B2B Enterprise dan UMKM komersial. Otomasi alur kerja, chatbot WhatsApp 24/7, knowledge base internal, dan rekomendasi hemat ratusan jam kerja tanpa vendor lock-in.',
+  commercialKeywords: 'jasa integrasi AI, chatbot customer service B2B, automasi workflow UMKM, AI korporasi, konsultan AI enterprise, efisiensi operasional AI',
   tagline: 'Konsultasi Gratis',
-  h1: 'Integrasi AI Praktis untuk Skalabilitas Perusahaan.',
-  subText: 'Kami mengintegrasikan AI praktis untuk chatbot, automasi alur kerja, knowledge base, dan rekomendasi.',
+  h1: 'Jasa Integrasi AI & Otomasi Alur Kerja Perusahaan (B2B & UMKM Komersial)',
+  subText: 'Kami mengintegrasikan AI praktis untuk chatbot, automasi alur kerja, knowledge base, dan rekomendasi bagi korporasi enterprise dan UMKM komersial.',
   miniFeatures: [
     { num: '01', title: 'Tujuan bisnis', subtitle: 'Business Goal' },
     { num: '02', title: 'Pengalaman pengguna', subtitle: 'User Experience' },
@@ -55,11 +61,11 @@ const DEFAULT_AI_CONTENT: ServiceContent = {
   problemHeading: 'Kedengarannya familiar?',
   problemSubText: 'Kami memulai dari hambatan operasional yang dirasakan bisnis—bukan dari daftar teknologi.',
   problemPoints: [
-    { num: '01', text: 'Tim layanan pelanggan menghabiskan waktu menjawab pertanyaan berulang.' },
-    { num: '02', text: 'Banyak proses administratif manual yang sebenarnya dapat berjalan otomatis.' },
-    { num: '03', text: 'Bisnis ingin mengadopsi AI, tetapi belum menemukan titik mulai yang aman, terukur, dan bernilai.' },
+    { num: '01', text: 'Tim layanan pelanggan menghabiskan waktu menjawab pertanyaan berulang yang seharusnya dijawab otomatis oleh AI.' },
+    { num: '02', text: 'Banyak proses administratif manual yang sebenarnya dapat berjalan otomatis 24 jam nonstop.' },
+    { num: '03', text: 'Bisnis ingin mengadopsi AI, tetapi belum menemukan titik mulai yang aman, terukur, dan bernilai ROI nyata.' },
   ],
-  resultStatement: 'Tim Anda menghemat ratusan jam pada pekerjaan berulang tanpa kehilangan kontrol absolut atas kualitas.',
+  resultStatement: 'Tim Anda menghemat ratusan jam pada pekerjaan berulang tanpa kehilangan kontrol absolut atas kualitas dan kepuasan pelanggan.',
   componentsHeading: 'Komponen yang Dihadirkan',
   components: [
     { num: '01', title: 'Chatbot Customer Service', desc: 'Menjawab pertanyaan umum dengan konteks, batasan, dan jalur eskalasi manusia yang jelas.' },
@@ -78,9 +84,9 @@ const DEFAULT_AI_CONTENT: ServiceContent = {
     { num: '04', title: 'Ukur & Skala', desc: 'Memantau kualitas, biaya server, dan dampak operasional sebelum memperluas skala.' },
   ],
   workProofHeading: 'Integrasi AI · Selected Work',
-  workProofProject: 'Enterprise Knowledge Assistant',
+  workProofProject: 'Enterprise Knowledge Assistant & Smart Sales Agent',
   workProofDesc: 'Implementasi AI terkontrol yang mencari jawaban eksklusif dari dokumen internal, menampilkan rujukan sumber, dan secara cerdas meneruskan kasus sensitif kepada agen manusia.',
-  workProofTags: ['OpenAI', 'Vector Database', 'Node.js'],
+  workProofTags: ['OpenAI', 'Vector Database', 'Node.js', 'n8n'],
   partnerValuesHeading: 'Bukan sekadar selesai. Dibangun agar berhasil.',
   partnerValues: [
     { num: '01', title: 'Proses transparan', desc: 'Progres dan arsitektur terlihat di setiap tahap.' },
@@ -106,24 +112,24 @@ const DEFAULT_AI_CONTENT: ServiceContent = {
   faqHeading: 'Pertanyaan seputar jasa Integrasi AI.',
   faqs: [
     {
-      q: 'Model AI apa yang digunakan?',
-      a: 'Model dipilih berdasarkan kebutuhan, privasi data, latency, dan efisiensi biaya—termasuk OpenAI atau Anthropic.',
+      q: 'Model AI apa yang digunakan untuk integrasi bisnis B2B dan UMKM?',
+      a: 'Model dipilih berdasarkan kebutuhan bisnis, privasi data, latency, dan efisiensi biaya—termasuk OpenAI GPT-4o, Anthropic Claude 3.5, atau open-source LLM terisolasi on-premise tanpa melatih model publik.',
     },
     {
-      q: 'Apakah aman untuk data perusahaan?',
-      a: 'Sistem kami menggunakan arsitektur terisolasi. Data Anda tidak dilatih untuk model publik.',
+      q: 'Apakah data rahasia perusahaan aman saat dihubungkan ke sistem AI?',
+      a: 'Sangat aman. Seluruh data diproses melalui arsitektur terisolasi dengan enkripsi end-to-end dan zero-data-retention policy. Data proprietary Anda tidak pernah bocor atau digunakan untuk training model publik.',
     },
     {
-      q: 'Berapa lama fase proof of concept?',
-      a: 'Fase proof of concept biasanya berlangsung antara 7 hingga 14 hari kerja untuk menguji kelayakan, latensi, dan kepuasan pengguna sebelum peluncuran menyeluruh.',
+      q: 'Berapa lama fase Proof of Concept (PoC) untuk mengukur kelayakan ROI?',
+      a: 'Fase PoC berjalan selama 7 hingga 14 hari kerja untuk menguji akurasi, waktu respon, dan kepuasan tim sebelum investasi skala penuh diperluas ke seluruh perusahaan.',
     },
     {
-      q: 'Bisa terhubung ke database kami yang sudah ada?',
-      a: 'Bisa. Kami membangun integrasi API terenkripsi, webhook dua arah, serta konektor langsung ke PostgreSQL, MySQL, SAP, ERP, Odoo, maupun CRM internal Anda.',
+      q: 'Bisakah sistem AI dihubungkan ke database dan aplikasi yang sudah kami gunakan?',
+      a: 'Bisa. Kami membangun konektor REST API, webhook aman, dan integrasi langsung ke PostgreSQL, MySQL, SAP, ERP, Odoo, WhatsApp Business API, CRM, hingga spreadsheet internal.',
     },
     {
-      q: 'Bagaimana ROI (Return on Investment) diukur?',
-      a: 'ROI diukur dari efisiensi ratusan jam operasional manual per bulan, penurunan biaya penanganan tiket bantuan, serta akselerasi siklus konversi penjualan prospek.',
+      q: 'Bagaimana cara menghitung ROI konkret dari integrasi AI ini?',
+      a: 'ROI dihitung secara transparan dari penghematan ratusan jam kerja manual admin per bulan, penurunan biaya penanganan tiket komplain hingga 65%, serta percepatan siklus closing prospek 24 jam nonstop.',
     },
   ],
   ctaHeading: 'Apa hambatan operasional yang ingin Anda hancurkan?',
@@ -161,7 +167,7 @@ export default function ServiceDetailPage() {
             
             <div className="flex flex-wrap items-center gap-3">
               <a
-                href="https://wa.me/6282125447232?text=Halo%20chestaadotcom,%20saya%20ingin%20konsultasi%20gratis%20mengenai%20integrasi%20AI%20dan%20otomatisasi%20bisnis."
+                href="https://wa.me/6282125447232?text=Halo%20chestaadotcom,%20saya%20ingin%20konsultasi%20gratis%20mengenai%20integrasi%20AI%20dan%20layanan%20digital."
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-purple-100/80 text-purple-900 font-medium text-xs hover:bg-purple-200/80 transition-colors"

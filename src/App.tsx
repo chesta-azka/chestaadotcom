@@ -10,6 +10,7 @@ import { Helmet, HelmetProvider } from 'react-helmet-async';
 import { ROUTE_METADATA } from './data/seo-metadata';
 import { BrowserRouter as Router, Routes, Route, useLocation, Link } from 'react-router-dom';
 import { Analytics } from '@vercel/analytics/react';
+import { SpeedInsights } from '@vercel/speed-insights/react';
 import Lenis from 'lenis';
 
 import WebVitalsTracker from './components/atoms/WebVitalsTracker.tsx';
@@ -288,6 +289,7 @@ export default function App() {
       <AuthProvider>
       <ScrollToTop />
       <Analytics />
+      <SpeedInsights />
       <main className="bg-[#fbfbfd] text-gray-900 relative min-h-screen w-full overflow-x-hidden">
         <InteractiveBackground />
         <WebVitalsTracker />
