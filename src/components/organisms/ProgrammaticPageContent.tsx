@@ -16,6 +16,7 @@ import {
   HelpCircle
 } from 'lucide-react';
 import { DynamicCopyResult } from '../../lib/seo-utils';
+import FAQSchema from '../atoms/FAQSchema';
 
 export interface ProgrammaticFaqItem {
   question: string;
@@ -216,6 +217,7 @@ export default function ProgrammaticPageContent({
 
       {/* 3. DYNAMIC FAQ SECTION WITH ACCORDION (Rich Snippet Google Ready) */}
       <section className="py-16 sm:py-24 bg-slate-50/60 border-t border-slate-200/80" id="faqs">
+        <FAQSchema faqs={faqs} />
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-left">
           
           <div className="space-y-3 mb-10 text-left">

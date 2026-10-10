@@ -187,8 +187,8 @@ export default function SuccessRoadmap() {
         {/* PART 1: 3-STEP HORIZONTAL TIMELINE                        */}
         {/* ========================================================= */}
         <div className="text-center max-w-4xl mx-auto mb-16 space-y-3">
-          <span className="text-xs font-mono font-medium tracking-[0.2em] text-slate-500 uppercase block">
-            05. Roadmap Eksekusi
+          <span className="text-[10px] font-bold tracking-[0.2em] text-slate-400 uppercase block">
+            Strategi Implementasi
           </span>
           
           <h2 className="text-3xl md:text-5xl lg:text-6xl font-display font-extrabold tracking-tight text-slate-950 leading-[1.15] text-balance">

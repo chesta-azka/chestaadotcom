@@ -57,7 +57,11 @@ export default function TableOfContents({ items, className = '' }: TableOfConten
     if (el) {
       const yOffset = -100;
       const y = el.getBoundingClientRect().top + window.pageYOffset + yOffset;
-      window.scrollTo({ top: y, behavior: 'smooth' });
+      if ((window as any).__lenis) {
+        (window as any).__lenis.scrollTo(y, { duration: 1 });
+      } else {
+        window.scrollTo({ top: y, behavior: 'smooth' });
+      }
       setActiveId(id);
     }
   };

@@ -11,6 +11,13 @@ export default function InsightDetailPage() {
   const article = insightsData.find(i => i.slug === slug) || insightsData[0];
   const aiSectionRef = useRef<HTMLDivElement>(null);
 
+  React.useEffect(() => {
+    if ((window as any).__lenis) {
+      (window as any).__lenis.scrollTo(0, { immediate: true });
+    }
+    window.scrollTo(0, 0);
+  }, [slug]);
+
   // Magnetic CTA mouse tracking
   const [mousePos, setMousePos] = React.useState({ x: 0, y: 0 });
   const handleMouseMove = (e: React.MouseEvent<HTMLButtonElement>) => {

@@ -1,886 +1,600 @@
+import React, { useState } from 'react';
 import { useParams, Link } from 'react-router-dom';
-import { SERVICES_DATA, ServiceDetailData } from '../data/servicesData';
-import { motion, useScroll, useTransform } from 'motion/react';
 import { 
-  Check, 
   ArrowRight, 
   MessageCircle, 
-  ChevronRight, 
-  Sparkles,
-  ShieldCheck,
-  Zap,
-  AlertTriangle,
-  Award,
-  Layers,
-  Server,
-  Cpu,
-  Globe,
-  Database,
-  TrendingUp,
-  XCircle,
-  ClockAlert,
-  Clock,
-  Star,
-  ChevronLeft,
-  CheckCircle2,
-  Lock,
-  Headphones
+  Sparkles, 
+  ChevronDown, 
+  FolderGit2, 
+  ArrowUpRight 
 } from 'lucide-react';
-import { useState, useMemo, lazy, Suspense } from 'react';
-import toast from 'react-hot-toast';
-import { generateServiceSchema } from '../utils/schemaMarkup';
-import { useScrollSpy } from '../hooks/useScrollSpy';
-import { useAuditCtaTracker } from '../hooks/useAuditCtaTracker';
-import SEOMetadata from '../components/atoms/SEOMetadata';
-import ServiceValueComparison from '../components/organisms/ServiceValueComparison';
-import TrustSignalsSection from '../components/organisms/TrustSignalsSection';
-import ServiceROIGraphSection from '../components/organisms/ServiceROIGraphSection';
-import { NestedCostEstimatorCard } from '../components/organisms/NestedCostEstimatorCard';
-import ServiceDeliverablesSOW from '../components/organisms/ServiceDeliverablesSOW';
-import ServiceCaseStudiesProof from '../components/organisms/ServiceCaseStudiesProof';
+import FAQSchema from '../components/atoms/FAQSchema';
 
-// Lazy-loaded heavy components for code-splitting & Lighthouse performance optimization
-const LazyPricingSection = lazy(() => import('../components/organisms/ServicePricingSection'));
-const LazyFaqSection = lazy(() => import('../components/organisms/ServiceFaqSection'));
-
-interface PricingTier {
-  name: string;
-  price: string;
-  subtitle: string;
-  badge?: string;
-  highlighted?: boolean;
-  features: { title: string; impact: string }[];
+interface ServiceContent {
+  tagline: string;
+  h1: string;
+  subText: string;
+  miniFeatures: { num: string; title: string; subtitle: string }[];
+  problemHeading: string;
+  problemSubText: string;
+  problemPoints: { num: string; text: string }[];
+  resultStatement: string;
+  componentsHeading: string;
+  components: { num: string; title: string; desc: string }[];
+  processHeading: string;
+  processSubText: string;
+  processSteps: { num: string; title: string; desc: string }[];
+  workProofHeading: string;
+  workProofProject: string;
+  workProofDesc: string;
+  workProofTags: string[];
+  partnerValuesHeading: string;
+  partnerValues: { num: string; title: string; desc: string }[];
+  aiMethodologyHeading: string;
+  aiMethodologySubText: string;
+  aiMethodologySteps: { num: string; title: string; desc: string }[];
+  techStackHeading: string;
+  techStack: { name: string; role: string }[];
+  faqHeading: string;
+  faqs: { q: string; a: string }[];
+  ctaHeading: string;
+  ctaSubText: string;
 }
 
-const PRICING_TIERS: PricingTier[] = [
-  {
-    name: 'Starter',
-    price: 'Rp 540k',
-    subtitle: 'Fase Uji Coba Cepat.',
-    features: [
-      { title: '1 Landing Page Premium', impact: '(Desain psikologi marketing untuk mengubah pengunjung sosmed menjadi pembeli).' },
-      { title: 'Tombol Auto-Order WA', impact: '(Pelanggan bisa langsung transaksi dalam 1x klik tanpa ribet).' },
-      { title: 'Setup Kilat 24 Jam', impact: '(Bisnis Anda siap jualan online mulai besok pagi).' }
-    ]
+const DEFAULT_AI_CONTENT: ServiceContent = {
+  tagline: 'Konsultasi Gratis',
+  h1: 'Integrasi AI Praktis untuk Skalabilitas Perusahaan.',
+  subText: 'Kami mengintegrasikan AI praktis untuk chatbot, automasi alur kerja, knowledge base, dan rekomendasi.',
+  miniFeatures: [
+    { num: '01', title: 'Tujuan bisnis', subtitle: 'Business Goal' },
+    { num: '02', title: 'Pengalaman pengguna', subtitle: 'User Experience' },
+    { num: '03', title: 'Fondasi teknis', subtitle: 'Technical Foundation' },
+  ],
+  problemHeading: 'Kedengarannya familiar?',
+  problemSubText: 'Kami memulai dari hambatan operasional yang dirasakan bisnis—bukan dari daftar teknologi.',
+  problemPoints: [
+    { num: '01', text: 'Tim layanan pelanggan menghabiskan waktu menjawab pertanyaan berulang.' },
+    { num: '02', text: 'Banyak proses administratif manual yang sebenarnya dapat berjalan otomatis.' },
+    { num: '03', text: 'Bisnis ingin mengadopsi AI, tetapi belum menemukan titik mulai yang aman, terukur, dan bernilai.' },
+  ],
+  resultStatement: 'Tim Anda menghemat ratusan jam pada pekerjaan berulang tanpa kehilangan kontrol absolut atas kualitas.',
+  componentsHeading: 'Komponen yang Dihadirkan',
+  components: [
+    { num: '01', title: 'Chatbot Customer Service', desc: 'Menjawab pertanyaan umum dengan konteks, batasan, dan jalur eskalasi manusia yang jelas.' },
+    { num: '02', title: 'Automasi Workflow', desc: 'Menghubungkan berbagai perangkat lunak agar tugas administratif berjalan otomatis (Zero-Touch).' },
+    { num: '03', title: 'Sistem Rekomendasi', desc: 'Menyajikan produk atau konten hiper-relevan berdasarkan konteks pengguna.' },
+    { num: '04', title: 'Ringkasan Otomatis', desc: 'Mengubah dokumen atau percakapan panjang menjadi data yang dapat ditindaklanjuti.' },
+    { num: '05', title: 'Knowledge Base', desc: 'Karyawan AI yang menjawab murni berdasarkan dokumen dan sumber data perusahaan yang telah disetujui.' },
+    { num: '06', title: 'Proof of Concept', desc: 'Menguji nilai, risiko, dan ROI sebelum integrasi diperluas ke seluruh perusahaan.' },
+  ],
+  processHeading: 'Proses transparan dari inisiasi hingga rilis.',
+  processSubText: 'Setiap tahap memiliki keluaran pasti, momen peninjauan, dan keputusan yang disepakati bersama.',
+  processSteps: [
+    { num: '01', title: 'Identifikasi', desc: 'Mencari proses repetitif bernilai tinggi untuk diotomatisasi.' },
+    { num: '02', title: 'Proof of Concept', desc: 'Membangun versi terbatas untuk menguji akurasi dan kelayakan.' },
+    { num: '03', title: 'Integrasi', desc: 'Menghubungkan model AI dengan sistem, database, dan workflow perusahaan Anda.' },
+    { num: '04', title: 'Ukur & Skala', desc: 'Memantau kualitas, biaya server, dan dampak operasional sebelum memperluas skala.' },
+  ],
+  workProofHeading: 'Integrasi AI · Selected Work',
+  workProofProject: 'Enterprise Knowledge Assistant',
+  workProofDesc: 'Implementasi AI terkontrol yang mencari jawaban eksklusif dari dokumen internal, menampilkan rujukan sumber, dan secara cerdas meneruskan kasus sensitif kepada agen manusia.',
+  workProofTags: ['OpenAI', 'Vector Database', 'Node.js'],
+  partnerValuesHeading: 'Bukan sekadar selesai. Dibangun agar berhasil.',
+  partnerValues: [
+    { num: '01', title: 'Proses transparan', desc: 'Progres dan arsitektur terlihat di setiap tahap.' },
+    { num: '02', title: 'Timeline jelas', desc: 'Fase, keluaran, dan checkpoint disepakati sejak hari pertama.' },
+    { num: '03', title: 'Hasil terukur', desc: 'Metrik kesuksesan ditentukan berdasarkan efisiensi uang dan waktu.' },
+    { num: '04', title: 'Milik Anda', desc: 'Kode sumber dan aset final diserahkan sepenuhnya. Tidak ada vendor lock-in.' },
+  ],
+  aiMethodologyHeading: 'Dipercepat oleh AI. Disempurnakan oleh Pakar Manusia.',
+  aiMethodologySubText: 'AI mengotomatisasi proses repetitif, sementara keputusan strategis, keamanan, dan kesesuaian bisnis dieksekusi langsung oleh arsitek kami.',
+  aiMethodologySteps: [
+    { num: '01', title: 'Draf awal', desc: 'Mempercepat eksplorasi arsitektur.' },
+    { num: '02', title: 'Kurasi', desc: 'Menyaring logika dan hasil yang paling efisien.' },
+    { num: '03', title: 'Sentuhan manusia', desc: 'Memastikan hasil akhir aman, beretika, dan dapat dipertanggungjawabkan.' },
+  ],
+  techStackHeading: 'Dipilih karena reliabilitas, bukan sekadar tren.',
+  techStack: [
+    { name: 'OpenAI', role: 'LLM & Reasoning' },
+    { name: 'Anthropic', role: 'Claude Engine' },
+    { name: 'Node.js', role: 'High-Concurrency API' },
+    { name: 'n8n', role: 'Workflow Automation' },
+    { name: 'PostgreSQL', role: 'Vector DB & Relational' },
+  ],
+  faqHeading: 'Pertanyaan seputar jasa Integrasi AI.',
+  faqs: [
+    {
+      q: 'Model AI apa yang digunakan?',
+      a: 'Model dipilih berdasarkan kebutuhan, privasi data, latency, dan efisiensi biaya—termasuk OpenAI atau Anthropic.',
+    },
+    {
+      q: 'Apakah aman untuk data perusahaan?',
+      a: 'Sistem kami menggunakan arsitektur terisolasi. Data Anda tidak dilatih untuk model publik.',
+    },
+    {
+      q: 'Berapa lama fase proof of concept?',
+      a: 'Fase proof of concept biasanya berlangsung antara 7 hingga 14 hari kerja untuk menguji kelayakan, latensi, dan kepuasan pengguna sebelum peluncuran menyeluruh.',
+    },
+    {
+      q: 'Bisa terhubung ke database kami yang sudah ada?',
+      a: 'Bisa. Kami membangun integrasi API terenkripsi, webhook dua arah, serta konektor langsung ke PostgreSQL, MySQL, SAP, ERP, Odoo, maupun CRM internal Anda.',
+    },
+    {
+      q: 'Bagaimana ROI (Return on Investment) diukur?',
+      a: 'ROI diukur dari efisiensi ratusan jam operasional manual per bulan, penurunan biaya penanganan tiket bantuan, serta akselerasi siklus konversi penjualan prospek.',
+    },
+  ],
+  ctaHeading: 'Apa hambatan operasional yang ingin Anda hancurkan?',
+  ctaSubText: 'Ceritakan tantangan yang perusahaan Anda hadapi. Kami bantu memetakan arsitektur dan menentukan langkah digitalisasi yang tepat.',
+};
+
+const SERVICES_REGISTRY: Record<string, Partial<ServiceContent>> = {
+  'web-development-nextjs': {
+    h1: 'Web Development Enterprise Berbasis Next.js 15.',
+    subText: 'Arsitektur website super cepat dengan Next.js App Router, Edge Caching, dan integrasi API skala enterprise.',
+    workProofProject: 'Enterprise Corporate Portal Next.js 15',
+    workProofTags: ['Next.js 15', 'TypeScript', 'Tailwind CSS', 'PostgreSQL'],
+    techStack: [
+      { name: 'Next.js 15', role: 'App Router & SSR' },
+      { name: 'React 19', role: 'Client UI Runtime' },
+      { name: 'TypeScript', role: 'Type-Safe Logic' },
+      { name: 'Tailwind CSS', role: 'Design System' },
+      { name: 'PostgreSQL', role: 'Core Database' },
+    ],
+    faqHeading: 'Pertanyaan seputar Web Development Enterprise.',
   },
-  {
-    name: 'Essential',
-    price: 'Rp 1.150.000',
-    subtitle: 'Membangun Otoritas Brand.',
-    features: [
-      { title: 'Struktur Web 3 Halaman', impact: '(Home, Layanan, Profil: Membangun kepercayaan mutlak dari calon klien).' },
-      { title: 'Domain .com / .id Resmi', impact: '(Brand Anda langsung terlihat bonafide & terdaftar profesional).' },
-      { title: 'Optimasi SEO Dasar', impact: '(Mulai ditemukan oleh pelanggan yang mencari di Google).' }
-    ]
+  'website-mesin-konversi': {
+    h1: 'Website Mesin Konversi & Akuisisi Klien B2B.',
+    subText: 'Platform web berorientasi ROI yang dirancang khusus untuk mengubah lalu lintas pengunjung menjadi peluang bisnis bernilai tinggi.',
+    workProofProject: 'B2B Lead Acquisition Machine',
+    workProofTags: ['Next.js', 'Funnel Analytics', 'Speed Optimization'],
+    faqHeading: 'Pertanyaan seputar Website Mesin Konversi.',
   },
-  {
-    name: 'Growth',
-    price: 'Rp 2.250.000',
-    subtitle: 'Mesin Otomatisasi Sales.',
-    badge: 'Paling Laris & Direkomendasikan',
-    highlighted: true,
-    features: [
-      { title: 'Formulir Order Cerdas (API)', impact: '(Sistem menerima pesanan otomatis 24/7 meskipun admin Anda sedang tidur).' },
-      { title: 'Akses Dashboard Mandiri', impact: '(Kendalikan web Anda. Ubah teks/gambar kapan saja tanpa biaya tambahan).' },
-      { title: 'Google Analytics Setup', impact: '(Lacak darimana pembeli Anda berasal untuk strategi iklan yang akurat).' },
-      { title: 'Maksimal 7 Halaman', impact: '(Ruang luas untuk katalog produk dan edukasi market).' }
-    ]
+  'karyawan-digital-ai': {
+    h1: 'Karyawan Digital AI Otonom untuk Efisiensi Bisnis.',
+    subText: 'Otomatisasi tugas operasional, rekonsiliasi data, dan interaksi prospek 24/7 tanpa kelelahan.',
+    workProofProject: 'Autonomous AI Operations Assistant',
+    workProofTags: ['Autonomous Agents', 'RAG Pipeline', 'n8n'],
+    faqHeading: 'Pertanyaan seputar Karyawan Digital AI.',
   },
-  {
-    name: 'Enterprise',
-    price: 'Rp 5.500.000',
-    subtitle: 'Infrastruktur Tanpa Batas.',
-    features: [
-      { title: 'Sistem Bayar Otomatis', impact: '(Terima BCA, OVO, Kartu Kredit tanpa perlu cek mutasi manual).' },
-      { title: 'Rekayasa Database Custom', impact: '(Sistem inventori dan admin panel khusus menyesuaikan workflow bisnis Anda).' },
-      { title: 'Priority Support 24/7', impact: '(Jalur komunikasi VIP langsung dengan tim engineer kami).' }
-    ]
-  }
-];
+  'toko-online-otonom': {
+    h1: 'Headless E-Commerce & Toko Online Otonom.',
+    subText: 'Toko online berkecepatan sub-detik dengan checkout instan, rekomendasi produk cerdas, dan sinkronisasi inventaris otomatis.',
+    workProofProject: 'High-Volume Headless Commerce Store',
+    workProofTags: ['Next.js Commerce', 'Edge Checkout', 'Stripe/Midtrans'],
+    faqHeading: 'Pertanyaan seputar Toko Online Otonom.',
+  },
+  'landing-page-konversi': {
+    h1: 'Landing Page Konversi Tinggi untuk Kampanye B2B.',
+    subText: 'Halaman penawaran dengan arsitektur psikologi persuasi, kecepatan rendering instan, dan pelacakan konversi presisi.',
+    workProofProject: 'High-Converting Corporate Campaign Page',
+    workProofTags: ['Next.js', 'Conversion Design', 'A/B Testing'],
+    faqHeading: 'Pertanyaan seputar Landing Page Konversi.',
+  },
+};
 
 export default function ServiceDetailPage() {
-  const { slug } = useParams<{ slug: string }>();
-  const [openFaq, setOpenFaq] = useState<number | null>(0);
-  const [activeTestimonial, setActiveTestimonial] = useState<number>(0);
+  const { slug } = useParams<{ slug?: string }>();
+  const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0);
 
-  // Sticky CTA scroll tracking
-  const { scrollYProgress } = useScroll();
-  const ctaY = useTransform(scrollYProgress, [0.1, 0.2], [100, 0]);
+  const matchedContent = slug && SERVICES_REGISTRY[slug] 
+    ? { ...DEFAULT_AI_CONTENT, ...SERVICES_REGISTRY[slug] }
+    : DEFAULT_AI_CONTENT;
 
-  const activeSection = useScrollSpy([
-    'overview',
-    'inaction',
-    'metrics',
-    'engine',
-    'deliverables',
-    'timeline',
-    'testimonials',
-    'case-studies',
-    'calculator',
-    'pricing',
-    'faq'
-  ]);
-
-  const NAV_SECTIONS = [
-    { id: 'overview', label: 'Ikhtisar' },
-    { id: 'inaction', label: 'Fakta Bisnis' },
-    { id: 'metrics', label: 'Metrik Hasil' },
-    { id: 'engine', label: 'Infrastruktur' },
-    { id: 'deliverables', label: 'Deliverables SOW' },
-    { id: 'timeline', label: 'Timeline Fase' },
-    { id: 'testimonials', label: 'Testimoni' },
-    { id: 'case-studies', label: 'Studi Kasus' },
-    { id: 'calculator', label: 'Kalkulator' },
-    { id: 'pricing', label: 'Paket Investasi' },
-    { id: 'faq', label: 'FAQ' },
-  ];
-
-  const service: ServiceDetailData | undefined = slug ? SERVICES_DATA[slug] : undefined;
-
-  // Dynamic Testimonial success stories based on service category / slug
-  const successStories = useMemo(() => {
-    if (slug === 'ai-integration') {
-      return [
-        {
-          quote: "Implementasi agen AI untuk customer service di retail kami berhasil memangkas 78% antrean chat manual. Pelanggan mendapatkan respons instan 24/7.",
-          client: "Bapak Hendra",
-          role: "Direktur Operasional, Enterprise Retail BSD",
-          metric: "78% Resolusi Instan",
-          rating: 5
-        },
-        {
-          quote: "Integrasi Gemini API sangat mulus dan akurat memahami konteks tanya jawab produk lokal. Sangat merekomendasikan tim CHESTAADOTCOM.",
-          client: "Ibu Siska",
-          role: "Head of Digital, Tangerang Fashion Hub",
-          metric: "4.8/5 CSAT Score",
-          rating: 5
-        }
-      ];
-    } else if (slug === 'ecommerce-automation' || slug === 'toko-online') {
-      return [
-        {
-          quote: "Platform e-commerce custom yang dibangun melesat di bawah 0.8 detik. Lonjakan transaksi langsung naik signifikan sebesar 32% di bulan pertama.",
-          client: "Rian Pratama",
-          role: "Founder, Cisauk Local Brand",
-          metric: "+32% Conversion Rate",
-          rating: 5
-        },
-        {
-          quote: "Sistem checkout otomatis dan sinkronisasi stok real-time menyelamatkan operasional kami dari human error saat flash sale.",
-          client: "Dewi Lestari",
-          role: "E-Commerce Manager",
-          metric: "Zero Downtime Saat Flash Sale",
-          rating: 5
-        }
-      ];
-    }
-    // Default / General success stories
-    return [
-      {
-        quote: "Kecepatan eksekusi dan kualitas arsitektur kodenya luar biasa. Bisnis kami kini memiliki platform digital berstandar global.",
-        client: "Bapak Aris",
-        role: "CEO, Jakarta Tech Solutions",
-        metric: "< 0.8s Page Load",
-        rating: 5
-      },
-      {
-        quote: "Investasi terbaik tahun ini. Desain sangat profesional dan langsung mendatangkan closing dari klien korporat bernilai tinggi.",
-        client: "Jessica Wijaya",
-        role: "Marketing Director",
-        metric: "3x Peningkatan Lead Kualitas",
-        rating: 5
-      }
-    ];
-  }, [slug]);
-
-  // Comprehensive Article and FAQ JSON-LD Schema Injection for SEO & Regional Indexing
-  const serviceSchema = useMemo(() => {
-    if (!service) return null;
-    
-    const baseSchema = generateServiceSchema({
-      name: service.title,
-      description: service.heroDescription,
-      url: window.location.href,
-      priceRange: "Rp 540k - Rp 5.500.000",
-      providerName: 'ChestaAzka Enterprise Tech'
-    });
-
-    return [
-      baseSchema,
-      {
-        "@type": "TechArticle",
-        "headline": service.heroHeadline,
-        "description": service.heroDescription,
-        "author": {
-          "@type": "Person",
-          "name": "Chesta Azka"
-        },
-        "publisher": {
-          "@type": "Organization",
-          "name": "CHESTAADOTCOM",
-          "logo": {
-            "@type": "ImageObject",
-            "url": "https://chestaa.com/icon.png"
-          }
-        },
-        "areaServed": ["Jakarta", "Tangerang", "BSD City", "Indonesia"]
-      },
-      {
-        "@type": "FAQPage",
-        "mainEntity": service.faqs.map(faq => ({
-          "@type": "Question",
-          "name": faq.q,
-          "acceptedAnswer": {
-            "@type": "Answer",
-            "text": faq.a
-          }
-        }))
-      }
-    ];
-  }, [service]);
-
-  if (!service) {
-    return (
-      <div className="min-h-[80vh] flex flex-col items-center justify-center text-center px-6 bg-white text-slate-900">
-        <div className="w-16 h-16 rounded-2xl bg-slate-100 flex items-center justify-center text-slate-900 mb-6 font-bold text-2xl border border-slate-200 shadow-xs">
-          404
-        </div>
-        <h1 className="text-2xl sm:text-3xl font-display font-bold text-slate-900 mb-3 tracking-tight">Layanan Tidak Ditemukan</h1>
-        <p className="text-slate-600 font-sans max-w-md mb-8 text-sm sm:text-base leading-relaxed">
-          Maaf, layanan yang Anda cari tidak tersedia atau tautan sudah kedaluwarsa.
-        </p>
-        <Link 
-          to="/" 
-          className="px-6 py-3 bg-purple-600 hover:bg-purple-700 text-white rounded-xl text-xs font-bold uppercase tracking-widest transition-all shadow-md shadow-purple-600/20"
-        >
-          Kembali ke Beranda
-        </Link>
-      </div>
-    );
-  }
-
-  const { trackAuditClick } = useAuditCtaTracker();
-  const whatsappText = `Halo Mas Chesta, saya tertarik menggunakan layanan ${service?.title || 'Konsultasi'}. Mohon jadwalkan konsultasi prioritas hari ini.`;
-  const whatsappUrl = `https://wa.me/6282125447232?text=${encodeURIComponent(whatsappText)}`;
-
-  const handleWhatsAppClick = () => {
-    trackAuditClick({
-      serviceSlug: slug,
-      serviceTitle: service?.title,
-      ctaText: 'Dapatkan Audit & Konsultasi Gratis',
-      href: whatsappUrl,
-    });
-    toast.success('Menghubungkan ke WhatsApp Principal Engineer...', {
-      duration: 3500,
-      icon: '🚀',
-    });
+  const toggleFaq = (index: number) => {
+    setOpenFaqIndex(openFaqIndex === index ? null : index);
   };
 
+  const industries = [
+    { number: '01', name: 'Company Profile', href: '/industri/company-profile' },
+    { number: '02', name: 'Rental Mobil', href: '/industri/rental-mobil' },
+    { number: '03', name: 'Klinik & Kesehatan', href: '/industri/klinik-kesehatan' },
+    { number: '04', name: 'Virtual Office', href: '/industri/virtual-office' },
+    { number: '05', name: 'Tour & Travel', href: '/industri/tour-travel' },
+    { number: '06', name: 'Fashion', href: '/industri/fashion' },
+    { number: '07', name: 'Kontraktor', href: '/industri/kontraktor' },
+    { number: '08', name: 'Konsultan', href: '/industri/konsultan' },
+    { number: '09', name: 'Legalitas Usaha', href: '/industri/legalitas-usaha' },
+    { number: '10', name: 'Perhiasan', href: '/industri/perhiasan' },
+  ];
+
   return (
-    <div className="min-h-screen pt-32 pb-24 bg-white text-slate-900 selection:bg-purple-900 selection:text-white">
-      <SEOMetadata 
-        title={service.title} 
-        description={service.heroDescription} 
-        schema={serviceSchema}
-      />
-      {/* Subtle top background glow */}
-      <div className="absolute top-0 left-0 right-0 h-96 bg-gradient-to-b from-purple-100/50 via-purple-50/20 to-transparent pointer-events-none -z-10" />
+    <div className="bg-white text-slate-900 selection:bg-purple-100 selection:text-purple-900 font-sans">
+      <FAQSchema faqs={matchedContent.faqs} />
 
-      <div className="max-w-[1200px] mx-auto px-4 sm:px-6 lg:px-8">
-        
-        {/* Elite B2B Assurance Bar (Replaces blog share header) */}
-        <div className="mb-6 p-4 rounded-2xl bg-slate-50 border border-slate-200/80 flex flex-wrap items-center justify-between gap-4 text-xs font-mono">
-          <div className="flex items-center gap-2 text-slate-700">
-            <span className="w-2.5 h-2.5 rounded-full bg-purple-600 animate-pulse" />
-            <span className="font-bold text-slate-900">Status Layanan:</span>
-            <span>Tersedia untuk Penugasan Q1/Q2</span>
-          </div>
-          <div className="flex items-center gap-6 text-slate-600">
-            <span className="hidden sm:inline">✨ Dipimpin Langsung oleh Principal Engineer</span>
-            <span className="text-purple-700 font-bold">100% Kepemilikan Source Code</span>
-          </div>
-        </div>
-
-        {/* Sticky Sub-navigation Anchor Bar */}
-        <div className="sticky top-20 z-30 mb-12 -mx-4 sm:-mx-6 lg:-mx-8 px-4 sm:px-6 lg:px-8 py-3 bg-white/95 backdrop-blur-md border-y border-slate-200/80 shadow-2xs">
-          <div className="flex items-center gap-2 overflow-x-auto no-scrollbar scroll-smooth">
-            {NAV_SECTIONS.map((sec) => {
-              const isActive = activeSection === sec.id;
-              return (
-                <a
-                  key={sec.id}
-                  href={`#${sec.id}`}
-                  className={`px-3.5 py-1.5 rounded-full text-xs font-mono font-bold whitespace-nowrap transition-all ${
-                    isActive
-                      ? 'bg-purple-900 text-white shadow-xs'
-                      : 'text-slate-600 hover:text-purple-900 hover:bg-purple-50'
-                  }`}
-                >
-                  {sec.label}
-                </a>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* Hero Section */}
-        <div className="max-w-4xl mb-20" id="overview">
-          <div className="inline-flex items-center gap-2.5 px-4 py-2 rounded-full bg-purple-50 border border-purple-200 text-purple-900 text-xs font-mono font-medium uppercase tracking-wider mb-6 shadow-2xs">
-            <Sparkles size={14} strokeWidth={1.5} className="text-purple-700" />
-            {service.badge}
-          </div>
-
-          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-display font-semibold text-slate-900 tracking-tight leading-[1.05] mb-8">
-            {service.heroHeadline}
-          </h1>
-
-          <p className="text-lg sm:text-xl text-slate-600 font-sans leading-relaxed mb-10 max-w-3xl">
-            {service.heroDescription}
-          </p>
-
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-4">
-            <motion.a
-              href={whatsappUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={handleWhatsAppClick}
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              className="px-8 py-4 bg-purple-600 hover:bg-purple-700 text-white rounded-2xl font-sans font-medium text-xs uppercase tracking-wider shadow-lg shadow-purple-600/25 transition-all flex items-center justify-center gap-3 cursor-pointer group"
-            >
-              <MessageCircle size={18} strokeWidth={1.5} className="text-white transition-colors" />
-              <span>Dapatkan Audit Strategi Gratis</span>
-              <ArrowRight size={16} strokeWidth={1.5} />
-            </motion.a>
+      {/* SECTION 1: HERO */}
+      <section id="hero" className="relative py-24 md:py-32 bg-gradient-to-b from-purple-50/50 via-white to-white border-b border-slate-100">
+        <div className="max-w-6xl mx-auto px-6 sm:px-8">
+          <div className="space-y-8 max-w-4xl">
             
-            <motion.a
-              href="#pricing"
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              className="px-7 py-4 bg-white hover:bg-slate-50 text-slate-900 rounded-2xl font-sans font-medium text-xs uppercase tracking-wider border border-slate-200 transition-all flex items-center justify-center gap-2 cursor-pointer shadow-sm"
-            >
-              <span>Lihat Skema Investasi</span>
-            </motion.a>
-          </div>
+            <div className="flex flex-wrap items-center gap-3">
+              <a
+                href="https://wa.me/6282125447232?text=Halo%20chestaadotcom,%20saya%20ingin%20konsultasi%20gratis%20mengenai%20integrasi%20AI%20dan%20otomatisasi%20bisnis."
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-purple-100/80 text-purple-900 font-medium text-xs hover:bg-purple-200/80 transition-colors"
+              >
+                <Sparkles size={13} className="text-purple-700" />
+                <span>{matchedContent.tagline}</span>
+              </a>
+              <span className="text-slate-300">|</span>
+              <a
+                href="#components"
+                className="inline-flex items-center gap-1.5 text-xs font-medium text-slate-600 hover:text-purple-700 transition-colors"
+              >
+                <span>Lihat lingkup ↓</span>
+              </a>
+            </div>
 
-          {/* Trust Signals Section integrated right below hero */}
-          <div className="mt-16">
-            <TrustSignalsSection />
-          </div>
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-extrabold text-slate-950 tracking-tight leading-[1.12]">
+              {matchedContent.h1}
+            </h1>
 
-          {/* Trust badges strip */}
-          <div className="mt-12 pt-8 border-t border-slate-200 flex flex-wrap items-center gap-8 text-xs text-slate-600 font-mono">
-            <div className="flex items-center gap-2.5">
-              <div className="bg-white/85 backdrop-blur-md border border-slate-200 p-2.5 rounded-xl text-emerald-600 shadow-2xs">
-                <ShieldCheck size={16} strokeWidth={1.5} />
-              </div>
-              <span className="font-medium text-slate-800">100% Hak Milik Source Code</span>
+            <p className="text-base sm:text-lg md:text-xl text-slate-600 font-normal leading-relaxed max-w-3xl">
+              {matchedContent.subText}
+            </p>
+
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4 border-t border-slate-100">
+              {matchedContent.miniFeatures.map((feat) => (
+                <div key={feat.num} className="p-4 rounded-2xl bg-white border border-slate-200/80 shadow-xs space-y-1">
+                  <span className="text-xs font-mono font-bold text-purple-700">{feat.num}</span>
+                  <div className="font-bold text-sm text-slate-950">{feat.title}</div>
+                  <div className="text-xs text-slate-500 font-normal">{feat.subtitle}</div>
+                </div>
+              ))}
             </div>
-            <div className="flex items-center gap-2.5">
-              <div className="bg-white/85 backdrop-blur-md border border-slate-200 p-2.5 rounded-xl text-amber-500 shadow-2xs">
-                <Zap size={16} strokeWidth={1.5} />
-              </div>
-              <span className="font-medium text-slate-800">Garansi Performa 99+</span>
-            </div>
-            <div className="flex items-center gap-2.5">
-              <div className="bg-white/85 backdrop-blur-md border border-slate-200 p-2.5 rounded-xl text-purple-600 shadow-2xs">
-                <Award size={16} strokeWidth={1.5} />
-              </div>
-              <span className="font-medium text-slate-800">Tanpa Biaya Tersembunyi</span>
-            </div>
+
           </div>
         </div>
+      </section>
 
-         {/* COST OF INACTION SECTION */}
-        <div className="mb-24 p-8 sm:p-12 rounded-3xl bg-rose-50/70 text-slate-900 border border-rose-200 shadow-sm relative overflow-hidden" id="inaction">
-          <div className="absolute top-0 right-0 w-85 h-85 bg-rose-200/40 rounded-full blur-3xl pointer-events-none" />
+      {/* SECTION 2: PROBLEM */}
+      <section id="problem" className="py-24 bg-white border-b border-slate-100">
+        <div className="max-w-6xl mx-auto px-6 sm:px-8 space-y-12">
           
-          <div className="max-w-2xl mb-10 relative z-10 text-slate-900">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-rose-100 border border-rose-300 text-rose-800 text-xs font-mono font-medium uppercase tracking-wider mb-4">
-              <AlertTriangle size={14} strokeWidth={1.5} className="text-rose-600" />
-              Peringatan Strategis Bisnis
-            </div>
-            <h2 className="text-3xl sm:text-4xl font-display font-semibold tracking-tight mb-4 text-slate-900">
-              Fakta Pahit Bisnis di Era Digital.
+          <div className="max-w-3xl space-y-3">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-display font-bold text-slate-950 tracking-tight">
+              {matchedContent.problemHeading}
             </h2>
-            <p className="text-slate-700 font-sans text-sm sm:text-base leading-relaxed">
-              Mengabaikan infrastruktur digital profesional bukan sekadar menunda kemajuan—ini adalah tindakan memberikan pangsa pasar Anda secara cuma-cuma kepada kompetitor.
+            <p className="text-slate-600 text-sm sm:text-base leading-relaxed">
+              {matchedContent.problemSubText}
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 relative z-10">
-            <div className="p-6 rounded-2xl bg-white border border-rose-200/80 flex flex-col justify-between shadow-xs text-slate-900">
-              <div>
-                <motion.div 
-                  whileHover={{ scale: 1.15, rotate: 6 }}
-                  whileTap={{ scale: 0.95 }}
-                  transition={{ type: "spring", stiffness: 400, damping: 15 }}
-                  className="p-3 rounded-xl bg-rose-100 text-rose-700 border border-rose-200 w-fit mb-4 cursor-pointer"
-                >
-                  <ClockAlert size={20} strokeWidth={1.5} />
-                </motion.div>
-                <h3 className="text-lg font-display font-bold text-slate-900 mb-2 tracking-tight">Website Lambat = Kehilangan Sales</h3>
-                <p className="text-xs sm:text-sm font-sans text-slate-600 leading-relaxed">
-                  Setiap 1 detik keterlambatan memuat halaman menurunkan rasio konversi hingga 20%. Calon pembeli langsung kabur ke kompetitor.
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {matchedContent.problemPoints.map((point) => (
+              <div key={point.num} className="p-8 rounded-3xl bg-slate-50 border border-slate-200/80 space-y-4 hover:border-purple-300 transition-all">
+                <span className="text-xs font-mono font-bold text-purple-700 bg-purple-100 px-2.5 py-1 rounded-md inline-block">
+                  {point.num}
+                </span>
+                <p className="text-sm sm:text-base font-medium text-slate-900 leading-relaxed">
+                  {point.text}
                 </p>
               </div>
-            </div>
+            ))}
+          </div>
 
-            <div className="p-6 rounded-2xl bg-white border border-rose-200/80 flex flex-col justify-between shadow-xs text-slate-900">
-              <div>
-                <motion.div 
-                  whileHover={{ scale: 1.15, rotate: 6 }}
-                  whileTap={{ scale: 0.95 }}
-                  transition={{ type: "spring", stiffness: 400, damping: 15 }}
-                  className="p-3 rounded-xl bg-rose-100 text-rose-700 border border-rose-200 w-fit mb-4 cursor-pointer"
-                >
-                  <XCircle size={20} strokeWidth={1.5} />
-                </motion.div>
-                <h3 className="text-lg font-display font-bold text-slate-900 mb-2 tracking-tight">Tanpa Sistem Otomatis = Biaya Admin Bengkak</h3>
-                <p className="text-xs sm:text-sm font-sans text-slate-600 leading-relaxed">
-                  Pekerjaan manual mengurus pesanan dan rekap data menghancurkan efisiensi operasional dan memicu human error yang merugikan.
-                </p>
-              </div>
-            </div>
+        </div>
+      </section>
 
-            <div className="p-6 rounded-2xl bg-white border border-rose-200/80 flex flex-col justify-between shadow-xs text-slate-900">
-              <div>
-                <motion.div 
-                  whileHover={{ scale: 1.15, rotate: 6 }}
-                  whileTap={{ scale: 0.95 }}
-                  transition={{ type: "spring", stiffness: 400, damping: 15 }}
-                  className="p-3 rounded-xl bg-rose-100 text-rose-700 border border-rose-200 w-fit mb-4 cursor-pointer"
-                >
-                  <ShieldCheck size={20} strokeWidth={1.5} />
-                </motion.div>
-                <h3 className="text-lg font-display font-bold text-slate-900 mb-2 tracking-tight">Tampilan Murahan = Hilangnya Kepercayaan</h3>
-                <p className="text-xs sm:text-sm font-sans text-slate-600 leading-relaxed">
-                  Klien korporat dan pembeli bernilai tinggi tidak akan pernah bertransaksi dari website amatir yang tampak tidak kredibel.
-                </p>
-              </div>
-            </div>
+      {/* SECTION 3: RESULT */}
+      <section id="result" className="py-24 bg-purple-900 text-white relative overflow-hidden">
+        <div className="max-w-6xl mx-auto px-6 sm:px-8">
+          <div className="max-w-4xl space-y-6">
+            <blockquote className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-extrabold leading-tight text-white tracking-tight">
+              &ldquo;{matchedContent.resultStatement}&rdquo;
+            </blockquote>
           </div>
         </div>
+      </section>
 
-        {/* Core Metrics Grid */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6 mb-24" id="metrics">
-          {service.coreMetrics.map((metric, idx) => (
-            <motion.div 
-              key={idx} 
-              whileHover={{ y: -6, scale: 1.02 }} 
-              transition={{ type: "spring", stiffness: 300, damping: 20 }}
-              className="p-8 rounded-3xl bg-white/75 backdrop-blur-md border border-slate-200/90 flex flex-col justify-between shadow-sm text-slate-900"
-            >
-              <motion.div 
-                whileHover={{ scale: 1.15, rotate: 6 }}
-                whileTap={{ scale: 0.95 }}
-                transition={{ type: "spring", stiffness: 400, damping: 15 }}
-                className="bg-purple-50 border border-purple-100 p-3.5 rounded-2xl text-purple-700 shadow-2xs w-fit mb-6 cursor-pointer"
-              >
-                <TrendingUp size={20} strokeWidth={1.5} />
-              </motion.div>
-              <div>
-                <span className="text-[11px] font-mono font-medium text-purple-700 uppercase tracking-widest block mb-2">{metric.label}</span>
-                <div className="text-3xl sm:text-4xl font-display font-semibold text-slate-900 mb-2 tracking-tight">{metric.value}</div>
-                <span className="text-xs font-sans font-medium text-slate-600 leading-relaxed block">{metric.desc}</span>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-
-        {/* THE "ENGINE ROOM" */}
-        <div className="mb-24 p-8 sm:p-14 rounded-3xl bg-purple-50/60 text-slate-900 shadow-sm relative overflow-hidden border border-purple-200" id="engine">
-          <div className="absolute top-0 right-0 w-80 h-80 bg-purple-200/50 rounded-full blur-3xl pointer-events-none" />
+      {/* SECTION 4: COMPONENTS */}
+      <section id="components" className="py-24 bg-white border-b border-slate-100">
+        <div className="max-w-6xl mx-auto px-6 sm:px-8 space-y-12">
           
-          <div className="max-w-xl mb-12 relative z-10 text-slate-900">
-            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-purple-100 border border-purple-200 text-purple-700 text-xs font-mono font-medium uppercase tracking-wider mb-4">
-              <Cpu size={14} strokeWidth={1.5} className="text-purple-600" />
-              Enterprise Architecture
-            </div>
-            <h2 className="text-3xl sm:text-4xl font-display font-semibold tracking-tight mb-4 text-slate-900">
-              Infrastruktur Skala Enterprise.
+          <div className="max-w-2xl space-y-2">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-display font-bold text-slate-950 tracking-tight">
+              {matchedContent.componentsHeading}
             </h2>
-            <p className="text-slate-600 font-sans text-sm sm:text-base leading-relaxed">
-              Kami tidak menggunakan plugin murahan. Seluruh sistem dibangun di atas tumpukan teknologi modern berstandar global yang digunakan oleh unicorn teknologi dunia untuk menjamin zero downtime dan kecepatan kilat.
-            </p>
           </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 relative z-10">
-            <div className="p-6 rounded-2xl bg-white border border-purple-100 flex items-center gap-4 text-slate-900 shadow-xs">
-              <motion.div 
-                whileHover={{ scale: 1.15, rotate: 6 }}
-                whileTap={{ scale: 0.95 }}
-                transition={{ type: "spring", stiffness: 400, damping: 15 }}
-                className="p-3 rounded-xl bg-purple-50 text-purple-700 border border-purple-200 cursor-pointer shrink-0"
-              >
-                <Globe size={22} strokeWidth={1.5} />
-              </motion.div>
-              <div>
-                <h4 className="font-display font-bold text-slate-900 text-sm">Enterprise App Router</h4>
-                <p className="text-xs text-slate-500 mt-0.5 font-mono">SSR &amp; Edge API</p>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {matchedContent.components.map((comp) => (
+              <div key={comp.num} className="p-7 rounded-3xl bg-slate-50 border border-slate-200/80 hover:border-purple-300 hover:shadow-xl hover:shadow-purple-900/5 transition-all space-y-3">
+                <span className="text-xs font-mono font-bold text-purple-700">{comp.num}</span>
+                <h3 className="font-bold text-base text-slate-950">{comp.title}</h3>
+                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                  {comp.desc}
+                </p>
               </div>
-            </div>
-
-            <div className="p-6 rounded-2xl bg-white border border-purple-100 flex items-center gap-4 text-slate-900 shadow-xs">
-              <motion.div 
-                whileHover={{ scale: 1.15, rotate: 6 }}
-                whileTap={{ scale: 0.95 }}
-                transition={{ type: "spring", stiffness: 400, damping: 15 }}
-                className="p-3 rounded-xl bg-cyan-50 text-cyan-700 border border-cyan-200 cursor-pointer shrink-0"
-              >
-                <Server size={22} strokeWidth={1.5} />
-              </motion.div>
-              <div>
-                <h4 className="font-display font-bold text-slate-900 text-sm">Vercel Edge Global</h4>
-                <p className="text-xs text-slate-500 mt-0.5 font-mono">Global CDN</p>
-              </div>
-            </div>
-
-            <div className="p-6 rounded-2xl bg-white border border-purple-100 flex items-center gap-4 text-slate-900 shadow-xs">
-              <motion.div 
-                whileHover={{ scale: 1.15, rotate: 6 }}
-                whileTap={{ scale: 0.95 }}
-                transition={{ type: "spring", stiffness: 400, damping: 15 }}
-                className="p-3 rounded-xl bg-amber-50 text-amber-700 border border-amber-200 cursor-pointer shrink-0"
-              >
-                <Database size={22} strokeWidth={1.5} />
-              </motion.div>
-              <div>
-                <h4 className="font-display font-bold text-slate-900 text-sm">Enterprise Data Vault</h4>
-                <p className="text-xs text-slate-500 mt-0.5 font-mono">Real-time Cloud DB</p>
-              </div>
-            </div>
-
-            <div className="p-6 rounded-2xl bg-white border border-purple-100 flex items-center gap-4 text-slate-900 shadow-xs">
-              <motion.div 
-                whileHover={{ scale: 1.15, rotate: 6 }}
-                whileTap={{ scale: 0.95 }}
-                transition={{ type: "spring", stiffness: 400, damping: 15 }}
-                className="p-3 rounded-xl bg-sky-50 text-sky-700 border border-sky-200 cursor-pointer shrink-0"
-              >
-                <Layers size={22} strokeWidth={1.5} />
-              </motion.div>
-              <div>
-                <h4 className="font-display font-bold text-slate-900 text-sm">Tailwind CSS v4</h4>
-                <p className="text-xs text-slate-500 mt-0.5 font-mono">Responsive UI</p>
-              </div>
-            </div>
+            ))}
           </div>
+
         </div>
+      </section>
 
-        {/* STATEMENT OF WORK & DETAILED DELIVERABLES CHECKLIST */}
-        <ServiceDeliverablesSOW />
-
-        {/* PROJECT TIMELINES & DELIVERY PHASES (SERVICE FEATURE CARDS) */}
-        <div className="mb-24" id="timeline">
-          <div className="text-center max-w-2xl mx-auto mb-16">
-            <span className="text-xs font-mono font-medium text-purple-700 uppercase tracking-widest block mb-2">Metodologi &amp; Eksekusi</span>
-            <h2 className="text-3xl sm:text-4xl font-display font-semibold text-slate-900 tracking-tight">
-              Timeline &amp; Fase Pengerjaan Proyek
+      {/* SECTION 5: PROCESS */}
+      <section id="process" className="py-24 bg-slate-50 border-b border-slate-200/80">
+        <div className="max-w-6xl mx-auto px-6 sm:px-8 space-y-12">
+          
+          <div className="max-w-3xl space-y-2">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-display font-bold text-slate-950 tracking-tight">
+              {matchedContent.processHeading}
             </h2>
-            <p className="text-slate-600 font-sans text-sm sm:text-base mt-3">
-              Transparansi penuh dari hari pertama hingga peluncuran live untuk menjamin hasil yang tepat waktu dan berdampak tinggi.
+            <p className="text-slate-600 text-sm sm:text-base leading-relaxed">
+              {matchedContent.processSubText}
             </p>
+          </div>
+
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {matchedContent.processSteps.map((step) => (
+              <div key={step.num} className="p-6 rounded-3xl bg-white border border-slate-200 shadow-xs space-y-3">
+                <span className="text-xs font-mono font-bold text-purple-700 bg-purple-50 px-2.5 py-1 rounded-md inline-block">
+                  {step.num}
+                </span>
+                <h3 className="font-bold text-base text-slate-950">{step.title}</h3>
+                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                  {step.desc}
+                </p>
+              </div>
+            ))}
+          </div>
+
+        </div>
+      </section>
+
+      {/* SECTION 6: WORK PROOF */}
+      <section id="work-proof" className="py-24 bg-white border-b border-slate-100">
+        <div className="max-w-6xl mx-auto px-6 sm:px-8 space-y-8">
+          
+          <div className="space-y-1">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-display font-bold text-slate-950 tracking-tight">
+              {matchedContent.workProofHeading}
+            </h2>
+          </div>
+
+          <div className="p-8 sm:p-10 rounded-3xl bg-slate-50 border border-slate-200/90 shadow-sm space-y-6">
+            <div className="space-y-3 max-w-3xl">
+              <h3 className="text-xl sm:text-2xl font-bold font-display text-slate-950">
+                {matchedContent.workProofProject}
+              </h3>
+              <p className="text-sm sm:text-base text-slate-600 leading-relaxed">
+                {matchedContent.workProofDesc}
+              </p>
+            </div>
+
+            <div className="flex flex-wrap items-center gap-2 pt-2">
+              {matchedContent.workProofTags.map((tag) => (
+                <span key={tag} className="px-3 py-1 rounded-full bg-white border border-slate-200 text-xs font-mono font-semibold text-slate-700">
+                  {tag}
+                </span>
+              ))}
+            </div>
+
+            <div className="pt-4 border-t border-slate-200">
+              <Link
+                to="/portfolio"
+                className="inline-flex items-center gap-2 text-sm font-semibold text-purple-700 hover:text-purple-900 transition-colors"
+              >
+                <span>Lihat portofolio</span>
+                <ArrowRight size={15} />
+              </Link>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      {/* SECTION 7: PARTNER VALUES */}
+      <section id="partner-values" className="py-24 bg-slate-50 border-b border-slate-200/80">
+        <div className="max-w-6xl mx-auto px-6 sm:px-8 space-y-12">
+          
+          <div className="max-w-3xl space-y-2">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-display font-bold text-slate-950 tracking-tight">
+              {matchedContent.partnerValuesHeading}
+            </h2>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {service.processSteps.map((phaseItem, idx) => {
-              let timelineStr = "";
-              if (idx === 0) timelineStr = "Minggu 1";
-              else if (idx === 1) timelineStr = "Minggu 1-2";
-              else if (idx === 2) timelineStr = "Minggu 2-3";
-              else timelineStr = "Minggu 3-4";
-
-              return (
-                <motion.div
-                  key={idx}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: idx * 0.1, duration: 0.4 }}
-                  whileHover={{ y: -8, scale: 1.02 }}
-                  className="p-7 rounded-3xl bg-white border border-slate-200/90 shadow-sm flex flex-col justify-between group hover:border-purple-300 hover:shadow-xl transition-all"
-                >
-                  <div>
-                    <div className="flex items-center justify-between mb-6">
-                      <span className="px-3 py-1 rounded-xl bg-purple-50 text-purple-700 font-mono text-xs font-bold border border-purple-100">
-                        Fase {phaseItem.step}
-                      </span>
-                      <span className="inline-flex items-center gap-1.5 text-xs font-mono font-medium text-slate-500">
-                        <Clock size={13} className="text-purple-600" />
-                        {timelineStr}
-                      </span>
-                    </div>
-                    <h3 className="text-lg font-display font-bold text-slate-900 mb-2 group-hover:text-purple-950 transition-colors">
-                      {phaseItem.title}
-                    </h3>
-                    <p className="text-xs sm:text-sm font-sans text-slate-600 leading-relaxed">
-                      {phaseItem.desc}
-                    </p>
-                  </div>
-                  <div className="mt-6 pt-4 border-t border-slate-100 flex items-center gap-2 text-xs font-mono font-bold text-purple-700">
-                    <span>Status: Terstruktur</span>
-                    <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse ml-auto" />
-                  </div>
-                </motion.div>
-              );
-            })}
-          </div>
-        </div>
-
-        {/* DYNAMIC SUCCESS STORIES / TESTIMONIAL CAROUSEL */}
-        <div className="mb-24 p-8 sm:p-14 rounded-3xl bg-gradient-to-br from-purple-950 via-purple-900 to-slate-950 text-white shadow-2xl relative overflow-hidden border border-purple-500/30" id="testimonials">
-          <div className="absolute -top-24 -right-24 w-96 h-96 bg-purple-600/20 rounded-full blur-3xl pointer-events-none" />
-          
-          <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 relative z-10 gap-6">
-            <div>
-              <span className="text-xs font-mono font-medium text-purple-300 uppercase tracking-widest block mb-2">Success Stories &amp; Testimoni</span>
-              <h2 className="text-3xl sm:text-4xl font-display font-semibold text-white tracking-tight">
-                Kisah Sukses Klien untuk Layanan Ini
-              </h2>
-            </div>
-            
-            {/* Carousel Controls */}
-            <div className="flex items-center gap-3">
-              <button
-                onClick={() => setActiveTestimonial((prev) => (prev === 0 ? successStories.length - 1 : prev - 1))}
-                className="w-11 h-11 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 flex items-center justify-center text-white transition-all cursor-pointer"
-                aria-label="Previous Testimonial"
-              >
-                <ChevronLeft size={18} />
-              </button>
-              <button
-                onClick={() => setActiveTestimonial((prev) => (prev === successStories.length - 1 ? 0 : prev + 1))}
-                className="w-11 h-11 rounded-xl bg-white/10 hover:bg-white/20 border border-white/20 flex items-center justify-center text-white transition-all cursor-pointer"
-                aria-label="Next Testimonial"
-              >
-                <ChevronRight size={18} />
-              </button>
-            </div>
-          </div>
-
-          <div className="relative z-10 min-h-[220px]">
-            <motion.div
-              key={activeTestimonial}
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              exit={{ opacity: 0, x: -20 }}
-              transition={{ duration: 0.3 }}
-              className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center bg-white/5 border border-white/10 p-8 sm:p-10 rounded-3xl backdrop-blur-md"
-            >
-              <div className="lg:col-span-2 space-y-6">
-                <div className="flex items-center gap-1 text-amber-400">
-                  {[...Array(successStories[activeTestimonial].rating)].map((_, i) => (
-                    <Star key={i} size={16} fill="currentColor" />
-                  ))}
-                  <span className="ml-2 font-mono text-xs text-purple-200">Terverifikasi Klien Enterprise</span>
-                </div>
-                
-                <p className="text-base sm:text-xl font-display italic text-white/95 leading-relaxed">
-                  "{successStories[activeTestimonial].quote}"
+            {matchedContent.partnerValues.map((val) => (
+              <div key={val.num} className="p-6 rounded-3xl bg-white border border-slate-200 shadow-xs space-y-2">
+                <span className="text-xs font-mono font-bold text-purple-700">{val.num}</span>
+                <h3 className="font-bold text-base text-slate-950">{val.title}</h3>
+                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                  {val.desc}
                 </p>
-
-                <div>
-                  <h4 className="font-display font-bold text-white text-base">{successStories[activeTestimonial].client}</h4>
-                  <p className="text-xs font-sans text-purple-200 mt-0.5">{successStories[activeTestimonial].role}</p>
-                </div>
               </div>
-
-              <div className="flex flex-col items-center justify-center p-6 rounded-2xl bg-purple-900/50 border border-purple-500/40 text-center">
-                <span className="text-xs font-mono font-medium text-purple-300 uppercase tracking-wider mb-1">Dampak Utama</span>
-                <div className="text-2xl sm:text-3xl font-display font-semibold text-white mb-2">
-                  {successStories[activeTestimonial].metric}
-                </div>
-                <span className="text-[11px] font-sans text-purple-200">Hasil terukur pasca implementasi sistem.</span>
-              </div>
-            </motion.div>
-          </div>
-
-          {/* Dots Indicator */}
-          <div className="flex items-center justify-center gap-2 mt-8 relative z-10">
-            {successStories.map((_, idx) => (
-              <button
-                key={idx}
-                onClick={() => setActiveTestimonial(idx)}
-                className={`h-2 rounded-full transition-all cursor-pointer ${activeTestimonial === idx ? 'w-8 bg-purple-400' : 'w-2 bg-white/30'}`}
-                aria-label={`Go to slide ${idx + 1}`}
-              />
             ))}
           </div>
-        </div>
 
-        {/* ELITE TRUST VAULT / PRINCIPAL GUARANTEE SECTION (Replaces blog preview generator) */}
-        <div className="my-20 p-8 sm:p-12 rounded-3xl bg-slate-50 border border-slate-200/90 relative overflow-hidden shadow-sm">
-          <div className="absolute top-0 right-0 w-72 h-72 bg-purple-500/5 rounded-full blur-3xl pointer-events-none" />
-          <div className="max-w-3xl mx-auto text-center relative z-10">
-            <span className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-purple-100 text-purple-900 text-xs font-mono font-medium uppercase tracking-wider mb-4">
-              <ShieldCheck size={16} className="text-purple-700" />
-              Garansi Jaminan Mutu &amp; Keamanan Klien
-            </span>
-            <h3 className="text-2xl sm:text-3xl font-display font-semibold text-slate-900 mb-4 tracking-tight">
-              Komitmen Profesional Langsung dari Principal Engineer
-            </h3>
-            <p className="text-slate-600 font-sans text-sm sm:text-base leading-relaxed mb-8">
-              Kami percaya pada transparansi mutlak dan kepemilikan penuh. Setiap proyek dikerjakan langsung oleh tim arsitek senior dengan standar korporat tertinggi di BSD City, Tangerang Selatan.
+        </div>
+      </section>
+
+      {/* SECTION 8: AI METHODOLOGY */}
+      <section id="ai-methodology" className="py-24 bg-white border-b border-slate-100">
+        <div className="max-w-6xl mx-auto px-6 sm:px-8 space-y-12">
+          
+          <div className="max-w-3xl space-y-3">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-display font-bold text-slate-950 tracking-tight">
+              {matchedContent.aiMethodologyHeading}
+            </h2>
+            <p className="text-slate-600 text-sm sm:text-base leading-relaxed">
+              {matchedContent.aiMethodologySubText}
             </p>
-
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 text-left mb-8">
-              <div className="p-5 rounded-2xl bg-white border border-slate-200 shadow-2xs">
-                <div className="w-10 h-10 rounded-xl bg-purple-50 text-purple-700 flex items-center justify-center mb-3">
-                  <Lock size={20} />
-                </div>
-                <h4 className="font-display font-bold text-slate-900 text-sm mb-1">100% Full Ownership</h4>
-                <p className="text-xs text-slate-500 leading-relaxed">Source code dan repositori sepenuhnya milik Anda tanpa biaya lisensi tersembunyi.</p>
-              </div>
-
-              <div className="p-5 rounded-2xl bg-white border border-slate-200 shadow-2xs">
-                <div className="w-10 h-10 rounded-xl bg-purple-50 text-purple-700 flex items-center justify-center mb-3">
-                  <Zap size={20} />
-                </div>
-                <h4 className="font-display font-bold text-slate-900 text-sm mb-1">Garansi Performa SLA</h4>
-                <p className="text-xs text-slate-500 leading-relaxed">Skor Google Lighthouse 95-100 diuji sebelum serah terima proyek.</p>
-              </div>
-
-              <div className="p-5 rounded-2xl bg-white border border-slate-200 shadow-2xs">
-                <div className="w-10 h-10 rounded-xl bg-purple-50 text-purple-700 flex items-center justify-center mb-3">
-                  <Headphones size={20} />
-                </div>
-                <h4 className="font-display font-bold text-slate-900 text-sm mb-1">Dedicated Support</h4>
-                <p className="text-xs text-slate-500 leading-relaxed">Komunikasi langsung via WhatsApp dengan tim developer tanpa perantara sales.</p>
-              </div>
-            </div>
-
-            <a
-              href={whatsappUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              onClick={handleWhatsAppClick}
-              className="inline-flex items-center gap-2 px-8 py-4 bg-purple-600 hover:bg-purple-700 text-white rounded-2xl font-bold text-xs uppercase tracking-wider shadow-lg shadow-purple-600/20 transition-all cursor-pointer"
-            >
-              <MessageCircle size={16} />
-              <span>Dapatkan Audit Strategi Gratis</span>
-            </a>
           </div>
-        </div>
 
-        {/* Value Comparison Component */}
-        <ServiceValueComparison />
-
-        {/* ROI Graph Section Component */}
-        <ServiceROIGraphSection />
-
-        {/* REAL CASE STUDIES & PROOF OF EXECUTION */}
-        <ServiceCaseStudiesProof />
-
-        {/* NESTED COST ESTIMATOR & TRANSPARENT PRICING MATRIX */}
-        <div className="my-20" id="calculator">
-          <div className="text-center max-w-2xl mx-auto mb-12">
-            <span className="text-xs font-mono font-medium uppercase tracking-widest text-purple-600 mb-3 block">INTERACTIVE CALCULATOR</span>
-            <h2 className="text-3xl font-display font-semibold text-slate-900 tracking-tight">Kalkulator Biaya Proyek & Add-on</h2>
-            <p className="text-slate-500 text-sm mt-2">Sesuaikan jumlah halaman statis, dinamis, dan modul AI sesuai kebutuhan spesifik Anda secara transparan.</p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {matchedContent.aiMethodologySteps.map((step) => (
+              <div key={step.num} className="p-7 rounded-3xl bg-slate-50 border border-slate-200/80 space-y-3 hover:border-purple-300 transition-all">
+                <span className="text-xs font-mono font-bold text-purple-700 bg-purple-100 px-2.5 py-1 rounded-md inline-block">
+                  {step.num}
+                </span>
+                <h3 className="font-bold text-base text-slate-950">{step.title}</h3>
+                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
+                  {step.desc}
+                </p>
+              </div>
+            ))}
           </div>
-          <NestedCostEstimatorCard />
-        </div>
 
-        {/* LAZY LOADED: 4-TIER IMPACT-DRIVEN PRICING GRID */}
-        <div id="pricing">
-          <Suspense fallback={<div className="py-20 text-center text-slate-400 font-mono text-xs">Memuat Opsi Investasi...</div>}>
-            <LazyPricingSection pricingTiers={PRICING_TIERS} whatsappUrl={whatsappUrl} onWhatsAppClick={handleWhatsAppClick} />
-          </Suspense>
         </div>
+      </section>
 
-        {/* LAZY LOADED: FAQs */}
-        <div id="faq">
-          <Suspense fallback={<div className="py-20 text-center text-slate-400 font-mono text-xs">Memuat Pusat Bantuan...</div>}>
-            <LazyFaqSection faqs={service.faqs} openFaq={openFaq} setOpenFaq={setOpenFaq} />
-          </Suspense>
+      {/* SECTION 9: INDUSTRY CONTEXT (WITH RICH PURPLE HOVER & AUDIT TOOLTIP) */}
+      <section id="industry-context" className="py-24 bg-slate-50 border-b border-slate-200/80 overflow-visible">
+        <div className="max-w-6xl mx-auto px-6 sm:px-8 space-y-10">
+          
+          <div className="max-w-3xl space-y-2">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-display font-bold text-slate-950 tracking-tight">
+              Konteks industri mengubah solusinya.
+            </h2>
+            <p className="text-slate-600 text-sm sm:text-base leading-relaxed">
+              Jelajahi bagaimana arsitektur AI kami disesuaikan dengan alur konversi di sektor spesifik Anda.
+            </p>
+          </div>
+
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 pt-4">
+            {industries.map((ind) => (
+              <div key={ind.number} className="relative group">
+                {/* Audit Industry Needs Tooltip */}
+                <div 
+                  role="tooltip"
+                  className="absolute -top-10 left-1/2 -translate-x-1/2 pointer-events-none opacity-0 group-hover:opacity-100 group-hover:-translate-y-1 transition-all duration-200 z-30 whitespace-nowrap"
+                >
+                  <div className="px-2.5 py-1 rounded-md bg-purple-950 text-white text-[11px] font-mono font-medium shadow-xl border border-purple-400/40 flex items-center gap-1.5">
+                    <Sparkles size={11} className="text-purple-300" />
+                    <span>Audit Industry Needs</span>
+                  </div>
+                  <div className="w-2 h-2 bg-purple-950 rotate-45 mx-auto -mt-1 border-r border-b border-purple-400/40" />
+                </div>
+
+                <Link
+                  to={ind.href}
+                  className="w-full p-4 rounded-2xl bg-white border border-slate-200/90 group-hover:border-purple-600 group-hover:bg-purple-900 transition-all duration-300 shadow-2xs group-hover:shadow-xl group-hover:shadow-purple-900/20 flex flex-col justify-between min-h-[104px]"
+                >
+                  <div className="flex items-center justify-between">
+                    <span className="text-[10px] font-mono font-bold text-purple-700 group-hover:text-purple-300 transition-colors">
+                      {ind.number}
+                    </span>
+                    <ArrowUpRight size={14} className="text-slate-400 group-hover:text-purple-200 transition-all group-hover:translate-x-0.5 group-hover:-translate-y-0.5" />
+                  </div>
+                  <div className="font-semibold text-xs sm:text-sm text-slate-900 group-hover:text-white leading-tight transition-colors">
+                    {ind.name}
+                  </div>
+                  <div className="text-[10px] text-slate-400 group-hover:text-purple-300/80 transition-colors">
+                    Solusi Khusus Sektor
+                  </div>
+                </Link>
+              </div>
+            ))}
+          </div>
+
         </div>
+      </section>
 
-        {/* RELATED SERVICES / DISCOVER OTHER SOLUTIONS */}
-        <div className="mt-32 pt-24 border-t border-slate-100">
-          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-16">
-            <div className="max-w-2xl">
-              <span className="text-[10px] font-mono font-medium uppercase tracking-[0.2em] text-slate-400 mb-4 block">
-                EXPLORE ECOSYSTEM
+      {/* SECTION 10: TECH STACK */}
+      <section id="tech-stack" className="py-24 bg-white border-b border-slate-100">
+        <div className="max-w-6xl mx-auto px-6 sm:px-8 space-y-10">
+          
+          <div className="max-w-3xl space-y-2">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-display font-bold text-slate-950 tracking-tight">
+              {matchedContent.techStackHeading}
+            </h2>
+          </div>
+
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
+            {matchedContent.techStack.map((tech) => (
+              <div key={tech.name} className="p-6 rounded-2xl bg-slate-50 border border-slate-200 text-center space-y-2 hover:border-purple-300 transition-colors">
+                <div className="font-display font-bold text-base text-slate-950">{tech.name}</div>
+                <div className="text-[11px] font-mono text-slate-500">{tech.role}</div>
+              </div>
+            ))}
+          </div>
+
+        </div>
+      </section>
+
+      {/* SECTION 11: FAQ */}
+      <section id="faq" className="py-24 bg-slate-50 border-b border-slate-200/80">
+        <div className="max-w-4xl mx-auto px-6 sm:px-8 space-y-10">
+          
+          <div className="text-center space-y-2">
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-display font-bold text-slate-950 tracking-tight">
+              {matchedContent.faqHeading}
+            </h2>
+          </div>
+
+          <div className="space-y-3">
+            {matchedContent.faqs.map((faq, index) => (
+              <div
+                key={index}
+                className="rounded-2xl border border-slate-200 bg-white overflow-hidden shadow-2xs"
+              >
+                <button
+                  type="button"
+                  onClick={() => toggleFaq(index)}
+                  className="w-full text-left p-5 sm:p-6 flex items-center justify-between gap-4 font-semibold text-sm sm:text-base text-slate-900 hover:text-purple-700 transition-colors cursor-pointer"
+                >
+                  <span>{faq.q}</span>
+                  <ChevronDown
+                    size={16}
+                    className={`text-slate-400 shrink-0 transition-transform duration-200 ${
+                      openFaqIndex === index ? 'rotate-180 text-purple-600' : ''
+                    }`}
+                  />
+                </button>
+                {openFaqIndex === index && (
+                  <div className="px-5 sm:px-6 pb-6 pt-1 text-xs sm:text-sm text-slate-600 leading-relaxed border-t border-slate-100">
+                    {faq.a}
+                  </div>
+                )}
+              </div>
+            ))}
+          </div>
+
+        </div>
+      </section>
+
+      {/* BOTTOM CTA */}
+      <section className="py-24 bg-white text-center">
+        <div className="max-w-4xl mx-auto px-6 sm:px-8">
+          <div className="p-8 sm:p-12 md:p-16 rounded-3xl bg-purple-950 text-white space-y-6 shadow-2xl shadow-purple-950/20">
+            <div className="space-y-3 max-w-2xl mx-auto">
+              <span className="text-xs font-mono uppercase tracking-widest text-purple-300 font-bold">
+                Langkah Berikutnya
               </span>
-              <h2 className="text-3xl sm:text-4xl font-display font-semibold text-slate-900 tracking-tight">
-                Solusi Arsitektur <br className="hidden sm:block" /> Digital Lainnya.
+              <h2 className="text-2xl sm:text-3xl md:text-4xl font-display font-extrabold text-white tracking-tight">
+                {matchedContent.ctaHeading}
               </h2>
-              <p className="text-slate-500 text-sm sm:text-base max-w-xl mt-4 leading-relaxed">
-                Tingkatkan skala bisnis Anda lebih jauh dengan mengintegrasikan solusi rekayasa dan otomasi AI kami yang saling terhubung.
+              <p className="text-xs sm:text-sm md:text-base text-purple-200 leading-relaxed">
+                {matchedContent.ctaSubText}
               </p>
             </div>
-            <Link 
-              to="/#services" 
-              className="group flex items-center gap-2 text-[11px] font-mono font-medium text-purple-600 uppercase tracking-widest hover:text-purple-800 transition-colors"
-            >
-              <span>Lihat Semua Layanan</span>
-              <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
-            </Link>
-          </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
-            {Object.entries(SERVICES_DATA)
-              .filter(([key]) => key !== slug)
-              .slice(0, 3)
-              .map(([key, data]) => (
-                <motion.div
-                  key={key}
-                  whileHover={{ y: -8 }}
-                  className="group"
-                >
-                  <Link 
-                    to={`/layanan/${key}`}
-                    onClick={() => window.scrollTo(0, 0)}
-                    className="flex flex-col h-full p-8 rounded-3xl bg-slate-50 border border-slate-200 hover:border-purple-300 hover:bg-white hover:shadow-xl hover:shadow-purple-900/[0.03] transition-all duration-500"
-                  >
-                    <div className="w-12 h-12 rounded-2xl bg-white border border-slate-200 flex items-center justify-center text-slate-400 group-hover:text-purple-600 group-hover:border-purple-200 group-hover:scale-110 transition-all duration-500 mb-8 shadow-xs">
-                      {key === 'ai-integration' ? <Cpu size={24} /> : 
-                       key === 'ecommerce-automation' ? <Database size={24} /> : 
-                       <Globe size={24} />}
-                    </div>
-                    <h3 className="text-xl font-display font-bold text-slate-900 mb-3 tracking-tight group-hover:text-purple-900 transition-colors">
-                      {data.title}
-                    </h3>
-                    <p className="text-sm text-slate-500 leading-relaxed font-sans mb-8 flex-grow">
-                      {data.heroDescription.split('.')[0]}.
-                    </p>
-                    <div className="flex items-center justify-between pt-6 border-t border-slate-200 group-hover:border-purple-100">
-                      <span className="text-[10px] font-mono font-bold text-slate-400 group-hover:text-purple-600 uppercase tracking-widest">Detail Solusi</span>
-                      <div className="w-8 h-8 rounded-full border border-slate-200 flex items-center justify-center group-hover:bg-purple-600 group-hover:border-purple-600 transition-all duration-300">
-                        <ArrowRight size={14} className="text-slate-400 group-hover:text-white transition-colors" />
-                      </div>
-                    </div>
-                  </Link>
-                </motion.div>
-              ))}
+            <div className="pt-2 flex flex-wrap justify-center items-center gap-3.5">
+              <a
+                href="https://wa.me/6282125447232?text=Halo%20chestaadotcom!%20Saya%20ingin%20diskusikan%20kebutuhan%20integrasi%20AI%20dan%20otomatisasi%20bisnis."
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 px-6 py-3.5 bg-white hover:bg-slate-100 text-purple-950 rounded-full font-bold text-xs sm:text-sm shadow-md transition-all cursor-pointer"
+              >
+                <MessageCircle size={16} className="text-purple-900" />
+                <span>Diskusikan Kebutuhan Anda</span>
+                <ArrowRight size={14} />
+              </a>
+
+              <Link
+                to="/portfolio"
+                className="inline-flex items-center gap-2 px-5 py-3.5 bg-purple-900/60 hover:bg-purple-900 text-white rounded-full font-semibold text-xs sm:text-sm border border-purple-700/60 transition-colors"
+              >
+                <FolderGit2 size={15} />
+                <span>Lihat Karya Kami</span>
+              </Link>
+            </div>
           </div>
         </div>
+      </section>
 
-      </div>
-
-      {/* Sticky CTA Bar */}
-      <motion.div 
-        style={{ y: ctaY }}
-        className="fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-xl border-t border-slate-200 shadow-[0_-10px_40px_rgba(0,0,0,0.05)]"
-      >
-        <div className="max-w-[1200px] mx-auto px-6 py-4 flex items-center justify-between">
-          <div className="hidden sm:flex flex-col">
-            <span className="text-xs font-mono font-bold text-slate-500 uppercase tracking-widest">{service.title}</span>
-            <span className="text-sm font-semibold text-slate-900 mt-0.5">Sudah siap untuk transformasi digital?</span>
-          </div>
-          <a
-            href={whatsappUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="w-full sm:w-auto inline-flex items-center justify-center gap-2 px-8 py-3.5 bg-purple-600 hover:bg-purple-700 text-white rounded-full text-sm font-bold shadow-lg shadow-purple-600/25 transition-all active:scale-95"
-          >
-            <MessageCircle size={16} className="text-white" />
-            <span>Dapatkan Audit Strategi Gratis</span>
-            <ArrowRight size={16} />
-          </a>
-        </div>
-      </motion.div>
     </div>
   );
 }

@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { ChevronDown, ChevronUp, HelpCircle } from 'lucide-react';
 import { motion, AnimatePresence } from 'motion/react';
+import FAQSchema from '../atoms/FAQSchema';
 
 interface FaqItem {
   q: string;
@@ -28,6 +29,7 @@ export default function ServiceFaqExpandable({ faqs }: ServiceFaqExpandableProps
 
   return (
     <div className="space-y-4">
+      <FAQSchema faqs={faqs.map(f => ({ question: f.q, answer: f.a }))} />
       {faqs.map((faq, idx) => {
         const isExpanded = !!expandedItems[idx];
         const isLongAnswer = faq.a.length > PREVIEW_LENGTH;

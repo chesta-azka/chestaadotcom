@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { Plus, Minus } from 'lucide-react';
+import FAQSchema from '../atoms/FAQSchema';
 
 const FAQS = [
   {
@@ -32,6 +33,9 @@ export default function FAQAccordion() {
 
   return (
     <section className="w-full py-24 bg-white">
+      {/* Valid JSON-LD Schema with Question & Answer entities for Google SEO Rich Results */}
+      <FAQSchema faqs={FAQS.map(f => ({ question: f.q, answer: f.a }))} />
+
       <div className="max-w-3xl mx-auto px-4 sm:px-6">
         <div className="text-center mb-16">
           <motion.span

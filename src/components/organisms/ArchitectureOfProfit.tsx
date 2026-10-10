@@ -156,8 +156,8 @@ export default function ArchitectureOfProfit() {
             transition={{ duration: 0.75, ease: [0.16, 1, 0.3, 1] as const }}
             className="lg:col-span-5 lg:sticky lg:top-28 space-y-4"
           >
-            <span className="text-xs font-mono font-medium tracking-[0.2em] text-slate-500 uppercase block">
-              04. Arsitektur Bisnis Otonom
+            <span className="text-[10px] font-bold tracking-[0.2em] text-slate-400 uppercase block">
+              Pilar Profitabilitas Digital
             </span>
 
             <h2 className="text-3xl sm:text-5xl font-display font-extrabold text-slate-950 tracking-tight leading-[1.12]">
@@ -213,7 +213,7 @@ export default function ArchitectureOfProfit() {
               <div>
                 <div className="flex items-center justify-between gap-4 mb-4">
                   <span className="text-[10px] font-mono font-medium uppercase tracking-widest text-purple-700 bg-purple-50 px-3.5 py-1.5 rounded-full border border-purple-200">
-                    LAYANAN UTAMA • 01
+                    LAYANAN UTAMA
                   </span>
                   <div className="w-10 h-10 rounded-xl bg-purple-900 text-white flex items-center justify-center shadow-xs border border-purple-800">
                     <Zap size={20} />

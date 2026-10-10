@@ -2,7 +2,6 @@ import { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { MessageCircle, Menu, X, Home, Sparkles, Briefcase, GitFork, User, BookOpen, ArrowRight, Search, Mail, Phone, ChevronRight, ChevronDown, MapPin, GraduationCap, CheckSquare, Code2, Bot, ShoppingBag, Target, FolderGit2, LineChart, UserCircle2, Terminal } from 'lucide-react';
 import { Link, useLocation } from 'react-router-dom';
-import LocalSEOBanner from '../molecules/LocalSEOBanner.tsx';
 import MagneticButton from '../atoms/MagneticButton';
 
 interface NavItem {
@@ -20,10 +19,22 @@ const NAV_ITEMS: NavItem[] = [
     icon: Code2,
     children: [
       { name: 'Semua Layanan', href: '/services', icon: Sparkles, subtitle: 'Lihat Seluruh Solusi Digital' },
-      { name: 'Web Dev Enterprise', href: '/services/website-mesin-konversi', icon: Code2, subtitle: 'Website Super Cepat & Enterprise' },
-      { name: 'Karyawan Digital AI', href: '/services/karyawan-digital-ai', icon: Bot, subtitle: 'Otomatisasi AI 24/7' },
-      { name: 'Toko Online E-Commerce', href: '/services/toko-online-otonom', icon: ShoppingBag, subtitle: 'Toko Online & Checkout Kilat' },
-      { name: 'Landing Page Konversi', href: '/services/landing-page-konversi', icon: Target, subtitle: 'Melejitkan Omset Iklan Anda' },
+      { name: 'Integrasi AI & Otomasi', href: '/services/ai-integration', icon: Bot, subtitle: 'Otomatisasi Alur Kerja AI 24/7' },
+      { name: 'Web Dev Enterprise', href: '/services/web-development-nextjs', icon: Code2, subtitle: 'Arsitektur Next.js 15 Super Cepat' },
+      { name: 'Mesin Penjualan B2B', href: '/services/website-mesin-konversi', icon: Target, subtitle: 'Sistem Akuisisi Pelanggan Presisi' },
+      { name: 'Karyawan Digital AI', href: '/services/karyawan-digital-ai', icon: Bot, subtitle: 'Asisten Cerdas Tanpa Henti' },
+      { name: 'Toko Online E-Commerce', href: '/services/toko-online-otonom', icon: ShoppingBag, subtitle: 'Headless Storefront & Checkout Kilat' },
+      { name: 'Landing Page Konversi', href: '/services/landing-page-konversi', icon: Sparkles, subtitle: 'Pelipatganda Omset Kampanye Iklan' },
+    ]
+  },
+  {
+    name: 'Area Layanan',
+    icon: MapPin,
+    children: [
+      { name: 'Cisauk (Intermoda & Stasiun)', href: '/area/cisauk', icon: MapPin, subtitle: 'Tatap Muka Langsung di Cisauk & Sekitarnya' },
+      { name: 'Rawa Buntu (Serpong & De Latinos)', href: '/area/rawa-buntu', icon: MapPin, subtitle: 'Dekat Stasiun Rawa Buntu & Pintu Tol BSD' },
+      { name: 'Pemalang (Jawa Tengah)', href: '/area/pemalang', icon: MapPin, subtitle: 'Dukungan UMKM, Konveksi & Grosir Pemalang' },
+      { name: 'BSD City & Tangsel', href: '/area/bsd-city', icon: MapPin, subtitle: 'Digital Hub & Kawasan Bisnis Komersial' },
     ]
   },
   {
@@ -180,11 +191,6 @@ export default function Header() {
   return (
     <>
       <header ref={headerRef} className={`fixed top-0 left-0 right-0 z-50 flex flex-col items-center pointer-events-none transition-transform duration-300 ease-in-out translate-y-0`}>
-        {/* Top Notice Banner */}
-        <div className="w-full pointer-events-auto">
-          <LocalSEOBanner />
-        </div>
-
         {/* Desktop Navbar */}
         <div className="w-full max-w-7xl mx-auto px-4 md:px-6 pt-3 pointer-events-auto">
           <motion.div
@@ -201,6 +207,10 @@ export default function Header() {
                 <img 
                   src="/chesta.png" 
                   alt="Chestaa Logo" 
+                  width={36}
+                  height={36}
+                  // @ts-ignore
+                  fetchPriority="high"
                   className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300" 
                   onError={(e) => {
                     const target = e.currentTarget;

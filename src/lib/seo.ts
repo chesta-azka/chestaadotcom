@@ -91,21 +91,67 @@ export const generateLocalBusinessSchema = () => {
 };
 
 export const generateCityGeoSchema = (cityName: string) => {
+  const geoMap: Record<string, { lat: number; lng: number; region: string; postalCode?: string }> = {
+    'CISAUK': { lat: -6.3262, lng: 106.6433, region: 'Kabupaten Tangerang, Banten', postalCode: '15341' },
+    'RAWA-BUNTU': { lat: -6.3195, lng: 106.6896, region: 'Serpong, Kota Tangerang Selatan', postalCode: '15318' },
+    'PEMALANG': { lat: -6.8927, lng: 109.3807, region: 'Kabupaten Pemalang, Jawa Tengah', postalCode: '52319' },
+    'BSD-CITY': { lat: -6.3015, lng: 106.6534, region: 'Tangerang Selatan, Banten', postalCode: '15321' },
+    'TANGERANG-SELATAN': { lat: -6.2888, lng: 106.7179, region: 'Banten', postalCode: '15411' },
+    'GADING-SERPONG': { lat: -6.2411, lng: 106.6288, region: 'Kabupaten Tangerang', postalCode: '15810' },
+  };
+
+  const normalized = cityName.toUpperCase().replace(/\s+/g, '-');
+  const geo = geoMap[normalized] || { lat: -6.3015, lng: 106.6534, region: 'Indonesia' };
+
   return {
     "@context": "https://schema.org",
     "@type": "ProfessionalService",
-    "name": `Jasa Pembuatan Website ${cityName} | CHESTAADOTCOM`,
+    "name": `Jasa Pembuatan Website ${cityName} & Otomasi AI | CHESTAADOTCOM`,
     "image": "https://chestaa.com/favicon.svg",
-    "description": `Mitra transformasi digital dan jasa pembuatan website premium terbaik untuk bisnis Anda di ${cityName}. Tingkatkan SEO lokal dan konversi penjualan dengan arsitektur web modern.`,
-    "areaServed": {
-      "@type": "City",
-      "name": cityName
+    "description": `Mitra transformasi digital, jasa pembuatan website berkecepatan tinggi, dan automasi AI bisnis terbaik di wilayah ${cityName} (${geo.region}). Siap meeting tatap muka langsung.`,
+    "telephone": "+6282125447232",
+    "priceRange": "$$",
+    "areaServed": [
+      {
+        "@type": "City",
+        "name": cityName
+      },
+      {
+        "@type": "AdministrativeArea",
+        "name": geo.region
+      }
+    ],
+    "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": geo.lat,
+      "longitude": geo.lng
+    },
+    "address": {
+      "@type": "PostalAddress",
+      "addressLocality": cityName,
+      "addressRegion": geo.region,
+      "postalCode": geo.postalCode || "15341",
+      "addressCountry": "ID"
     },
     "provider": {
       "@type": "ProfessionalService",
-      "name": "CHESTAADOTCOM - Digital Architect"
+      "name": "CHESTAADOTCOM - Principal Architecture & Autonomous AI Systems",
+      "url": "https://chestaa.com"
     },
-    "url": `https://chestaa.com/area/${cityName.toLowerCase()}`
+    "url": `https://chestaa.com/area/${cityName.toLowerCase()}`,
+    "hasOfferCatalog": {
+      "@type": "OfferCatalog",
+      "name": `Katalog Layanan Digital Chestaa - ${cityName}`,
+      "itemListElement": Object.values(SERVICES_DATA).map((service, index) => ({
+        "@type": "Offer",
+        "position": index + 1,
+        "itemOffered": {
+          "@type": "Service",
+          "name": service.title,
+          "description": service.subtitle
+        }
+      }))
+    }
   };
 };
 

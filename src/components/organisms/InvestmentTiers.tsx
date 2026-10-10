@@ -117,8 +117,8 @@ export default function InvestmentTiers() {
         
         {/* Section Header with Extreme Typographic Hierarchy */}
         <div className="text-center max-w-4xl mx-auto mb-12 space-y-3">
-          <span className="text-xs font-mono font-medium tracking-[0.2em] text-slate-500 uppercase block">
-            06. Investasi &amp; Paket Layanan
+          <span className="text-[10px] font-bold tracking-[0.2em] text-slate-400 uppercase block">
+            Struktur Investasi Strategis
           </span>
 
           <h2 className="text-3xl md:text-5xl lg:text-6xl font-display font-extrabold tracking-tight text-slate-950 leading-[1.15] text-balance">

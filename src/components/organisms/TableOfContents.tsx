@@ -48,12 +48,19 @@ export default function TableOfContents({ headings }: { headings: Heading[] }) {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [headings]);
 
-  // Auto-scroll TOC list when active item changes
+  // Auto-scroll TOC list internally when active item changes (WITHOUT hijacking window scroll)
   useEffect(() => {
     if (activeId && tocListRef.current) {
-      const activeEl = tocListRef.current.querySelector(`[data-id="${activeId}"]`);
+      const activeEl = tocListRef.current.querySelector(`[data-id="${activeId}"]`) as HTMLElement | null;
       if (activeEl) {
-        activeEl.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+        const container = tocListRef.current;
+        const elTop = activeEl.offsetTop;
+        const elBottom = elTop + activeEl.offsetHeight;
+        if (elTop < container.scrollTop) {
+          container.scrollTo({ top: elTop - 8, behavior: 'smooth' });
+        } else if (elBottom > container.scrollTop + container.clientHeight) {
+          container.scrollTo({ top: elBottom - container.clientHeight + 8, behavior: 'smooth' });
+        }
       }
     }
   }, [activeId]);
@@ -63,7 +70,11 @@ export default function TableOfContents({ headings }: { headings: Heading[] }) {
     if (element) {
       const yOffset = -120;
       const y = element.getBoundingClientRect().top + window.pageYOffset + yOffset;
-      window.scrollTo({ top: y, behavior: 'smooth' });
+      if ((window as any).__lenis) {
+        (window as any).__lenis.scrollTo(y, { duration: 1 });
+      } else {
+        window.scrollTo({ top: y, behavior: 'smooth' });
+      }
       window.history.pushState(null, '', `#${id}`);
       setActiveId(id);
     }
@@ -71,7 +82,11 @@ export default function TableOfContents({ headings }: { headings: Heading[] }) {
   };
 
   const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+    if ((window as any).__lenis) {
+      (window as any).__lenis.scrollTo(0, { duration: 1 });
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
   };
 
   if (headings.length === 0) return null;

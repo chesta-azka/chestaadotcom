@@ -131,10 +131,62 @@ export function generateBlogJsonLd(slugOrArticle: string | Article): BlogJsonLdR
     ],
   };
 
+  // 3. Dynamic FAQPage Schema with Question and Answer entities
+  const extractArticleFaqs = (content: string) => {
+    const list: { question: string; answer: string }[] = [];
+    const faqMatch = content.match(/##\s*[^#\n]*(?:FAQ|Pertanyaan)[^\n]*\n([\s\S]*?)(?=\n##\s|\n---\s*\n##|$)/i);
+    if (faqMatch && faqMatch[1]) {
+      const qBlocks = faqMatch[1].trim().split(/\n+(?=(?:\*\*[^*]+\?\*\*|###\s+[^\n]+\?))/);
+      for (const block of qBlocks) {
+        const qMatch = block.match(/^(?:\*\*(.*?)\*\*|###\s+(.*))\s*\n+([\s\S]+)$/);
+        if (qMatch) {
+          const q = (qMatch[1] || qMatch[2] || '').trim();
+          const a = (qMatch[3] || '')
+            .replace(/<[^>]*>/g, '')
+            .replace(/\*\*/g, '')
+            .replace(/`/g, '')
+            .trim();
+          if (q && a) list.push({ question: q, answer: a });
+        }
+      }
+    }
+    return list;
+  };
+
+  const parsedFaqs = extractArticleFaqs(textBody);
+  const resolvedFaqs = parsedFaqs.length > 0 ? parsedFaqs : [
+    {
+      question: `Apa fokus strategis dari artikel "${article.title}"?`,
+      answer: rawDescription,
+    },
+    {
+      question: `Bagaimana implementasi arsitektur sistem CHESTAADOTCOM mendukung topik ini?`,
+      answer: `CHESTAADOTCOM menerapkan arsitektur berkinerja tinggi, efisiensi otomatisasi cerdas, dan mitigasi risiko teknis untuk memastikan keunggulan kompetitif bisnis di pasar modern.`
+    },
+    {
+      question: `Bagaimana cara berkonsultasi mengenai implementasi arsitektur dalam artikel ini?`,
+      answer: `Pembuat keputusan dapat menjadwalkan audit arsitektur sistem dan sesi konsultasi strategis langsung bersama tim CHESTAADOTCOM.`
+    }
+  ];
+
+  const faqSchema = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    '@id': `${articleUrl}#faq`,
+    mainEntity: resolvedFaqs.map(faq => ({
+      '@type': 'Question',
+      name: faq.question,
+      acceptedAnswer: {
+        '@type': 'Answer',
+        text: faq.answer,
+      },
+    })),
+  };
+
   // Combined Graph Schema
   const combinedSchema = {
     '@context': 'https://schema.org',
-    '@graph': [articleSchema, breadcrumbSchema],
+    '@graph': [articleSchema, breadcrumbSchema, faqSchema],
   };
 
   return {

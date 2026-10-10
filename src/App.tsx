@@ -8,7 +8,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { useEffect, useState } from 'react';
 import { Helmet, HelmetProvider } from 'react-helmet-async';
 import { ROUTE_METADATA } from './data/seo-metadata';
-import { BrowserRouter as Router, Routes, Route, useLocation } from 'react-router-dom';
+import { BrowserRouter as Router, Routes, Route, useLocation, Link } from 'react-router-dom';
 import { Analytics } from '@vercel/analytics/react';
 import Lenis from 'lenis';
 
@@ -23,25 +23,24 @@ import LoadingScreen from './components/organisms/LoadingScreen.tsx';
 import InteractiveBackground from './components/atoms/InteractiveBackground.tsx';
 import CustomCursor from './components/atoms/CustomCursor.tsx';
 
-import HomePage from './pages/HomePage.tsx';
-import BlogHubPage from './pages/BlogHubPage.tsx';
-import BlogPostPage from './pages/BlogPostPage.tsx';
-import PortfolioPage from './pages/PortfolioPage.tsx';
-import ProjectDetailPage from './pages/ProjectDetailPage.tsx';
-import AboutPage from './pages/AboutPage.tsx';
-import WorkflowPage from './pages/WorkflowPage.tsx';
-import AreaDetailPage from './pages/AreaDetailPage.tsx';
-import ServicesHubPage from './pages/ServicesHubPage.tsx';
-import ServiceDetailPage from './pages/ServiceDetailPage.tsx';
-import ProgrammaticServicePage from './pages/ProgrammaticServicePage.tsx';
-import GlossaryTermPage from './pages/GlossaryTermPage.tsx';
-import InsightDetailPage from './pages/InsightDetailPage.tsx';
-import CaseStudiesPage from './pages/CaseStudiesPage.tsx';
-import CaseStudyDetailPage from './pages/CaseStudyDetailPage.tsx';
-import NotFoundPage from './pages/NotFoundPage.tsx';
-import TrustCenterPage from './app/trust/page.tsx';
-
-// Code-splitting for heavy non-critical pages to drastically shrink initial JS bundle
+// Code-splitting for ALL pages to drastically shrink initial JS bundle
+const HomePage = React.lazy(() => import('./pages/HomePage.tsx'));
+const BlogHubPage = React.lazy(() => import('./pages/BlogHubPage.tsx'));
+const BlogPostPage = React.lazy(() => import('./pages/BlogPostPage.tsx'));
+const PortfolioPage = React.lazy(() => import('./pages/PortfolioPage.tsx'));
+const ProjectDetailPage = React.lazy(() => import('./pages/ProjectDetailPage.tsx'));
+const AboutPage = React.lazy(() => import('./pages/AboutPage.tsx'));
+const WorkflowPage = React.lazy(() => import('./pages/WorkflowPage.tsx'));
+const AreaDetailPage = React.lazy(() => import('./pages/AreaDetailPage.tsx'));
+const ServicesHubPage = React.lazy(() => import('./pages/ServicesHubPage.tsx'));
+const ServiceDetailPage = React.lazy(() => import('./pages/ServiceDetailPage.tsx'));
+const ProgrammaticServicePage = React.lazy(() => import('./pages/ProgrammaticServicePage.tsx'));
+const GlossaryTermPage = React.lazy(() => import('./pages/GlossaryTermPage.tsx'));
+const InsightDetailPage = React.lazy(() => import('./pages/InsightDetailPage.tsx'));
+const CaseStudiesPage = React.lazy(() => import('./pages/CaseStudiesPage.tsx'));
+const CaseStudyDetailPage = React.lazy(() => import('./pages/CaseStudyDetailPage.tsx'));
+const NotFoundPage = React.lazy(() => import('./pages/NotFoundPage.tsx'));
+const TrustCenterPage = React.lazy(() => import('./app/trust/page.tsx'));
 const AcademyPage = React.lazy(() => import('./pages/AcademyPage.tsx'));
 const AcademyMasterclassPage = React.lazy(() => import('./pages/AcademyMasterclassPage.tsx'));
 const AcademyResourcesPage = React.lazy(() => import('./pages/AcademyResourcesPage.tsx'));
@@ -66,6 +65,9 @@ function ScrollToTop() {
   const { pathname } = useLocation();
   
   useEffect(() => {
+    if ((window as any).__lenis) {
+      (window as any).__lenis.scrollTo(0, { immediate: true });
+    }
     window.scrollTo(0, 0);
   }, [pathname]);
   
@@ -97,6 +99,40 @@ function AppContent({ appLoaded, onLoadingComplete }: { appLoaded: boolean; onLo
       >
         {!/^\/academy\/.+/.test(location.pathname) && <Header />}
         
+        {location.pathname !== '/' && !/^\/academy\/.+/.test(location.pathname) && (
+          <nav aria-label="Breadcrumb" className="w-full max-w-7xl mx-auto px-6 sm:px-8 pt-24 sm:pt-28 pb-2 relative z-20">
+            <ol className="flex flex-wrap items-center gap-2 text-sm text-slate-500 font-medium">
+              <li className="inline-flex items-center">
+                <Link to="/" className="text-slate-500 hover:text-purple-600 transition-colors">
+                  Beranda
+                </Link>
+              </li>
+              {location.pathname.split('/').filter(Boolean).map((segment, index, arr) => {
+                const href = `/${arr.slice(0, index + 1).join('/')}`;
+                const isLast = index === arr.length - 1;
+                const formattedLabel = segment
+                  .split('-')
+                  .map((w) => (w ? w.charAt(0).toUpperCase() + w.slice(1).toLowerCase() : ''))
+                  .join(' ');
+                return (
+                  <li key={href} className="inline-flex items-center gap-2">
+                    <span className="text-slate-300 text-xs">/</span>
+                    {isLast ? (
+                      <span className="font-semibold text-purple-600 truncate max-w-[260px] sm:max-w-none" aria-current="page">
+                        {formattedLabel}
+                      </span>
+                    ) : (
+                      <Link to={href} className="text-slate-500 hover:text-purple-600 transition-colors truncate max-w-[180px] sm:max-w-none">
+                        {formattedLabel}
+                      </Link>
+                    )}
+                  </li>
+                );
+              })}
+            </ol>
+          </nav>
+        )}
+
         <AnimatePresence mode="wait">
           <Routes location={location} >
             <Route path="/" element={<PageWrapper><HomePage /></PageWrapper>} />
@@ -124,6 +160,8 @@ function AppContent({ appLoaded, onLoadingComplete }: { appLoaded: boolean; onLo
             <Route path="/services" element={<PageWrapper><ServicesHubPage /></PageWrapper>} />
             <Route path="/layanan" element={<PageWrapper><ServicesHubPage /></PageWrapper>} />
             <Route path="/services/:industry/:city" element={<PageWrapper><ProgrammaticServicePage /></PageWrapper>} />
+            <Route path="/industri/:industry" element={<PageWrapper><ProgrammaticServicePage /></PageWrapper>} />
+            <Route path="/industri/:industry/:city" element={<PageWrapper><ProgrammaticServicePage /></PageWrapper>} />
             <Route path="/kamus-ai-teknologi/:term" element={<PageWrapper><GlossaryTermPage /></PageWrapper>} />
             <Route path="/insights/:slug" element={<PageWrapper><InsightDetailPage /></PageWrapper>} />
             <Route path="/services/:slug" element={<PageWrapper><ServiceDetailPage /></PageWrapper>} />
@@ -225,14 +263,19 @@ export default function App() {
       infinite: false,
     });
 
+    (window as any).__lenis = lenis;
+
+    let rafId: number;
     function raf(time: number) {
       lenis.raf(time);
-      requestAnimationFrame(raf);
+      rafId = requestAnimationFrame(raf);
     }
 
-    requestAnimationFrame(raf);
+    rafId = requestAnimationFrame(raf);
     
     return () => {
+      cancelAnimationFrame(rafId);
+      delete (window as any).__lenis;
       lenis.destroy();
     };
   }, []);

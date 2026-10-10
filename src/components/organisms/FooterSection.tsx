@@ -123,12 +123,13 @@ export default function FooterSection() {
 
           {/* Column 2b: Local SEO */}
           <div className="lg:col-span-2">
-            <h4 className="text-slate-900 font-sans font-medium tracking-widest uppercase text-[11px] mb-8">Area &amp; Solusi</h4>
-            <ul className="space-y-4 text-sm font-sans text-slate-600 font-normal">
+            <h4 className="text-slate-900 font-sans font-medium tracking-widest uppercase text-[11px] mb-8">Area Prioritas</h4>
+            <ul className="space-y-3.5 text-sm font-sans text-slate-600 font-normal">
+              <li><Link to="/area/cisauk" onClick={() => window.scrollTo(0,0)} className="hover:text-purple-600 transition-colors font-medium text-slate-900">Web Developer Cisauk</Link></li>
+              <li><Link to="/area/rawa-buntu" onClick={() => window.scrollTo(0,0)} className="hover:text-purple-600 transition-colors font-medium text-slate-900">Web Developer Rawa Buntu</Link></li>
+              <li><Link to="/area/pemalang" onClick={() => window.scrollTo(0,0)} className="hover:text-purple-600 transition-colors font-medium text-slate-900">Jasa Website Pemalang</Link></li>
               <li><Link to="/area/bsd-city" onClick={() => window.scrollTo(0,0)} className="hover:text-purple-600 transition-colors">Jasa IT BSD City</Link></li>
-              <li><Link to="/area/cisauk" onClick={() => window.scrollTo(0,0)} className="hover:text-purple-600 transition-colors">Solusi Web Cisauk</Link></li>
               <li><Link to="/area/tangerang-selatan" onClick={() => window.scrollTo(0,0)} className="hover:text-purple-600 transition-colors">Website Tangerang Selatan</Link></li>
-              <li><Link to="/services/karyawan-digital-ai" onClick={() => window.scrollTo(0,0)} className="hover:text-purple-600 transition-colors">Karyawan Digital AI</Link></li>
             </ul>
           </div>
 

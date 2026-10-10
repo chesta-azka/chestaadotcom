@@ -1,117 +1,104 @@
+'use client';
+
 import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import Link from 'next/link';
+import { usePathname } from 'next/navigation';
 import { ChevronRight, Home } from 'lucide-react';
-import { generateBreadcrumbs, getBreadcrumbsForRoute, BreadcrumbItemSchema } from '../../lib/seo';
 
 export interface BreadcrumbItem {
-  name?: string;
-  label?: string;
-  item?: string;
-  path?: string;
+  name: string;
+  item: string;
 }
 
 interface BreadcrumbsProps {
   items?: BreadcrumbItem[];
-  currentTitle?: string;
   className?: string;
+  currentTitle?: string;
   hideOnHome?: boolean;
 }
 
 export default function Breadcrumbs({ 
   items, 
-  currentTitle, 
-  className = '', 
-  hideOnHome = false 
+  className = '',
+  currentTitle,
+  hideOnHome = true
 }: BreadcrumbsProps) {
-  const location = useLocation();
-  const isHome = location.pathname === '/' || location.pathname === '';
+  const pathname = usePathname();
+  
+  // Handle null pathname safely
+  if (!pathname) return null;
 
+  const isHome = pathname === '/' || pathname === '';
+
+  // Don't show on homepage if hideOnHome is true
   if (isHome && hideOnHome) return null;
   
-  let fullItems: BreadcrumbItemSchema[] = [];
+  let fullItems: BreadcrumbItem[] = [];
 
   if (items && items.length > 0) {
     fullItems = [
-      { name: 'Beranda', item: 'https://chestaa.com/' },
-      ...items.map(i => {
-        const rawPath = i.item || i.path || '';
-        const fullUrl = rawPath.startsWith('http') 
-          ? rawPath 
-          : `https://chestaa.com${rawPath.startsWith('/') ? rawPath : '/' + rawPath}`;
-        return {
-          name: i.name || i.label || '',
-          item: fullUrl
-        };
-      })
-    ];
-  } else if (isHome) {
-    fullItems = [
-      { name: 'Beranda', item: 'https://chestaa.com/' },
-      { name: 'Arsitektur Web & Otomasi AI', item: 'https://chestaa.com/' }
+      { name: 'Beranda', item: '/' },
+      ...items
     ];
   } else {
-    fullItems = getBreadcrumbsForRoute(location.pathname, currentTitle);
-  }
+    // Auto-generate from path
+    const segments = pathname.split('/').filter(Boolean);
+    fullItems = [
+      { name: 'Beranda', item: '/' },
+      ...segments.map((seg, i) => {
+        const path = `/${segments.slice(0, i + 1).join('/')}`;
+        const isLast = i === segments.length - 1;
+        
+        // Use currentTitle for the last segment if provided
+        if (isLast && currentTitle) {
+          return { name: currentTitle, item: path };
+        }
 
-  // Fallback for custom nested paths
-  if (fullItems.length <= 1 && !isHome) {
-    const segments = location.pathname.split('/').filter(Boolean);
-    if (segments.length > 0) {
-      fullItems = [
-        { name: 'Beranda', item: 'https://chestaa.com/' },
-        ...segments.map((seg, i) => ({
-          name: seg.split('-').map(w => w.charAt(0).toUpperCase() + w.slice(1)).join(' '),
-          item: `https://chestaa.com/${segments.slice(0, i + 1).join('/')}`
-        }))
-      ];
-    }
+        // Prettify segment
+        let name = seg
+          .split('-')
+          .map(w => w.charAt(0).toUpperCase() + w.slice(1))
+          .join(' ');
+        
+        // Custom name mapping if needed
+        if (seg === 'services') name = 'Layanan';
+        if (seg === 'area') name = 'Wilayah';
+        
+        return { name, item: path };
+      })
+    ];
   }
-
-  const schema = generateBreadcrumbs(fullItems);
 
   return (
     <nav 
       aria-label="Breadcrumb" 
-      className={`flex items-center text-[10px] sm:text-[11px] font-mono tracking-wider text-slate-400 overflow-x-auto whitespace-nowrap py-2 no-scrollbar ${className}`}
+      className={`flex items-center text-[10px] sm:text-[11px] font-bold tracking-widest text-slate-400 py-4 ${className}`}
     >
-      <script 
-        type="application/ld+json" 
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} 
-      />
-      <ol className="flex items-center gap-2.5 list-none p-0 m-0">
+      <ol className="flex items-center gap-3 list-none p-0 m-0">
         {fullItems.map((bc, idx) => {
-          const isFirst = idx === 0;
           const isLast = idx === fullItems.length - 1;
-          const localPath = bc.item.replace('https://chestaa.com', '') || '/';
 
           return (
-            <li key={bc.item + idx} className="flex items-center gap-2.5 list-none">
-              {isFirst ? (
-                <Link 
-                  to="/" 
-                  className="flex items-center gap-1.5 text-slate-500 hover:text-purple-700 transition-colors group font-medium"
-                  title="Beranda CHESTAADOTCOM"
-                >
-                  <Home size={12} className="shrink-0 text-slate-400 group-hover:text-purple-700 transition-colors" />
-                  <span>BERANDA</span>
-                </Link>
-              ) : isLast ? (
+            <li key={bc.item + idx} className="flex items-center gap-3">
+              {isLast ? (
                 <span 
                   aria-current="page"
-                  className="text-purple-700 font-semibold truncate max-w-[180px] sm:max-w-xs md:max-w-md"
-                  title={bc.name}
+                  className="text-purple-600 truncate max-w-[200px]"
                 >
                   {bc.name.toUpperCase()}
                 </span>
               ) : (
                 <Link 
-                  to={localPath} 
-                  className="text-slate-500 hover:text-purple-700 transition-colors truncate max-w-[130px] sm:max-w-xs font-medium"
+                  href={bc.item} 
+                  className="hover:text-purple-700 transition-colors flex items-center gap-1.5"
                 >
-                  {bc.name.toUpperCase()}
+                  {idx === 0 && <Home size={12} className="shrink-0" />}
+                  <span>{bc.name.toUpperCase()}</span>
                 </Link>
               )}
-              {!isLast && <ChevronRight size={10} className="text-slate-300 shrink-0" />}
+              {!isLast && (
+                <ChevronRight size={10} className="text-slate-300 shrink-0" />
+              )}
             </li>
           );
         })}

@@ -7,6 +7,24 @@ export default defineConfig(() => {
   return {
     plugins: [react(), tailwindcss()],
     envPrefix: ['VITE_', 'NEXT_PUBLIC_'],
+    build: {
+      target: 'esnext',
+      minify: true,
+      cssMinify: true,
+      rollupOptions: {
+        output: {
+          manualChunks: {
+            'vendor-react': ['react', 'react-dom', 'react-router-dom', 'react-helmet-async'],
+            'vendor-motion': ['motion', 'framer-motion'],
+            'vendor-ui': ['lucide-react', 'clsx', 'tailwind-merge'],
+            'vendor-utils': ['date-fns', 'zod', 'fuse.js', 'lenis'],
+            'vendor-firebase': ['firebase/app', 'firebase/auth', 'firebase/firestore'],
+          },
+        },
+      },
+      chunkSizeWarningLimit: 1000,
+      reportCompressedSize: false,
+    },
     define: {
       'process.env.NEXT_PUBLIC_FIREBASE_API_KEY': JSON.stringify(process.env.NEXT_PUBLIC_FIREBASE_API_KEY || 'AIzaSyCcqgaoqt1IXxXFSpg4DcrVmSHaqqIefCM'),
       'process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN': JSON.stringify(process.env.NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN || 'core-lambda-wcf5x.firebaseapp.com'),

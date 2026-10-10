@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { HelpCircle, ChevronDown } from 'lucide-react';
+import FAQSchema from '../atoms/FAQSchema';
 
 interface FAQItem {
   question: string;
@@ -97,6 +98,7 @@ export default function FAQSection({ category = 'AI Automation' }: FAQSectionPro
 
   return (
     <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 my-16">
+      <FAQSchema faqs={faqs} />
       <section className="p-8 sm:p-12 rounded-3xl bg-gradient-to-br from-indigo-950/30 via-[#0d0d12] to-purple-950/30 border border-indigo-500/30 backdrop-blur-2xl shadow-2xl space-y-8 w-full">
         <div className="space-y-3 text-center sm:text-left">
           <span className="text-xs font-mono font-medium tracking-[0.2em] text-slate-400 uppercase block">

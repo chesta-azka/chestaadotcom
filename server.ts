@@ -1,5 +1,6 @@
 import express from "express";
 import path from "path";
+import compression from "compression";
 import fs from "fs/promises";
 import { createServer as createViteServer } from "vite";
 import { GoogleGenAI } from "@google/genai";
@@ -20,6 +21,7 @@ import { generateSitemapXml } from "./src/utils/sitemapGenerator";
 import { z } from "zod";
 
 const app = express();
+app.use(compression());
 
 
 
@@ -1726,8 +1728,31 @@ app.get(["/sitemap.xml", "/sitemap", "/api/sitemap.xml"], (req, res) => {
     // For social sharing, dev mode doesn't matter much.
   } else {
     const distPath = path.join(process.cwd(), 'dist');
-    // Important: DO NOT serve index.html statically, otherwise it overrides our wildcard
-    app.use(express.static(distPath, { index: false }));
+    
+    // Aggressive caching for static assets (JS, CSS, Images in dist/assets)
+    // These are hashed by Vite, so we can cache them for 1 year safely.
+    app.use('/assets', express.static(path.join(distPath, 'assets'), {
+      maxAge: '1y',
+      immutable: true,
+      index: false
+    }));
+
+    // General static file serving (public folder assets like /chesta.png)
+    app.use(express.static(distPath, { index: false, maxAge: '1d' }));
+
+    // Caching headers for Programmatic SEO pages (Area & Solutions) to improve LCP and TTFB
+    app.get(['/area/*', '/solusi/*'], (req, res, next) => {
+      // 1 hour browser cache, 24 hours stale-while-revalidate for CDN
+      res.setHeader('Cache-Control', 'public, s-maxage=3600, stale-while-revalidate=86400');
+      
+      // Early Hints / Preload critical assets via Link header
+      res.setHeader('Link', [
+        '</chesta.png>; rel=preload; as=image',
+        '<https://fonts.googleapis.com>; rel=preconnect',
+      ].join(', '));
+      
+      next();
+    });
     
     app.get('*', async (req, res) => {
       try {

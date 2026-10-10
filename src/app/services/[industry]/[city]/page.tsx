@@ -87,20 +87,6 @@ export default async function ProgrammaticSEOPage({ params }: PageProps) {
     ],
   };
 
-  // 2. Dynamic FAQPage JSON-LD Schema for Google Rich Snippets
-  const faqSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    mainEntity: programmaticFaqs.map((faq) => ({
-      '@type': 'Question',
-      name: faq.question,
-      acceptedAnswer: {
-        '@type': 'Answer',
-        text: faq.answer,
-      },
-    })),
-  };
-
   // 3. Localized Service Schema
   const serviceSchema = {
     '@context': 'https://schema.org',
@@ -142,10 +128,6 @@ export default async function ProgrammaticSEOPage({ params }: PageProps) {
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: serializeJsonLd(breadcrumbSchema) }}
-      />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: serializeJsonLd(faqSchema) }}
       />
       <script
         type="application/ld+json"

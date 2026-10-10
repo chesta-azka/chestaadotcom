@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Sparkles, ExternalLink, Globe } from 'lucide-react';
 import { PROJECTS } from '../../data/projects';
+import OptimizedImage from '../atoms/OptimizedImage';
 
 export default function PortfolioShowcaseSection() {
   const [activeFilter, setActiveFilter] = useState('Semua');
@@ -91,11 +92,10 @@ export default function PortfolioShowcaseSection() {
               >
                 {/* Thumbnail Container */}
                 <div className="relative aspect-[16/10] overflow-hidden bg-slate-100">
-                  <img
+                  <OptimizedImage
                     src={project.thumbnail}
                     alt={project.title}
                     className="w-full h-full object-cover object-center group-hover:scale-105 transition-transform duration-700"
-                    referrerPolicy="no-referrer"
                   />
                   <div className="absolute inset-0 bg-gradient-to-t from-slate-950/60 via-transparent to-transparent opacity-80" />
                   

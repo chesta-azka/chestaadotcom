@@ -6,15 +6,21 @@ export const INDONESIA_CITIES = [
   'Bandung', 
   'Medan', 
   'Semarang', 
-  'Makassar', 
-  'Bali', 
-  'Yogyakarta', 
   'Tangerang', 
-  'BSD City', 
   'Depok', 
   'Bekasi', 
-  'Palembang', 
-  'Batam'
+  'BSD City',
+  'Gading Serpong',
+  'SCBD',
+  'Mega Kuningan',
+  'Kelapa Gading',
+  'Pantai Indah Kapuk',
+  'Sudirman',
+  'Thamrin',
+  'Kuningan',
+  'Cisauk',
+  'Rawa Buntu',
+  'Pemalang',
 ];
 
 export const CORE_PSEO_SERVICES = [

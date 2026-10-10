@@ -27,8 +27,8 @@ export default function RealityWakeUpSection() {
         
         {/* Section Header with Refined Corporate Contrast */}
         <div className="text-center max-w-4xl mx-auto mb-16 space-y-3">
-          <span className="text-xs font-mono font-medium tracking-[0.2em] text-slate-500 uppercase block">
-            03. Diagnosa Operasional
+          <span className="text-[10px] font-bold tracking-[0.2em] text-slate-400 uppercase block">
+            Analisis Inefisiensi Operasional
           </span>
 
           <h2 className="text-3xl md:text-5xl lg:text-6xl font-display font-extrabold tracking-tight text-slate-950 leading-[1.15] text-balance">

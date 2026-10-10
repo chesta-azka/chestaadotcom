@@ -1,20 +1,32 @@
 import type { Metadata } from 'next';
+import { Geist, Geist_Mono } from 'next/font/google';
 import { ThemeProvider } from '../components/providers/ThemeProvider';
 import { NextErrorBoundary } from '../components/atoms/NextErrorBoundary';
 import { Navbar } from '../components/Navbar';
+import DynamicBreadcrumb from '../components/ui/dynamic-breadcrumb';
 import CommandPalette from '../components/organisms/CommandPalette';
 import AIConcierge from '../components/organisms/AIConcierge';
 import '../index.css';
 
+const geistSans = Geist({
+  variable: "--font-geist-sans",
+  subsets: ["latin"],
+});
+
+const geistMono = Geist_Mono({
+  variable: "--font-geist-mono",
+  subsets: ["latin"],
+});
+
 export const metadata: Metadata = {
-  title: 'CHESTADOTCOM | Pembuatan Website Modern & Promo UMKM Rp540K',
-  description: 'Jasa pembuatan website profesional berkecepatan tinggi dengan paket promo UMKM Rp540K domain .com, dan solusi digital terpercaya berbasis BSD Tangerang.',
+  title: 'Chestaa | Solusi Digital Enterprise, AI & ERP Terpercaya Indonesia',
+  description: 'Chestaa menghadirkan arsitektur AI Enterprise, sistem ERP kustom, dan website B2B performa tinggi untuk akselerasi bisnis Anda. Partner transformasi digital terpercaya.',
   openGraph: {
-    title: 'CHESTADOTCOM | Pembuatan Website Modern & Promo UMKM Rp540K',
-    description: 'Jasa pembuatan website profesional berkecepatan tinggi dengan paket promo UMKM Rp540K domain .com, dan solusi digital terpercaya berbasis BSD Tangerang.',
+    title: 'Chestaa | Solusi Digital Enterprise, AI & ERP Terpercaya Indonesia',
+    description: 'Chestaa menghadirkan arsitektur AI Enterprise, sistem ERP kustom, dan website B2B performa tinggi untuk akselerasi bisnis Anda.',
     type: 'website',
     locale: 'id_ID',
-    siteName: 'CHESTADOTCOM',
+    siteName: 'Chestaa Enterprise AI',
   }
 };
 
@@ -26,14 +38,14 @@ export default function RootLayout({
   const localBusinessJsonLd = {
     "@context": "https://schema.org",
     "@type": "ProfessionalService",
-    "name": "Chestaa - Jasa AI Automation & IT B2B BSD Tangerang",
-    "image": "https://chestaa.com/favicon.ico",
+    "name": "Chestaa Enterprise AI - Jasa IT & Otomatisasi B2B",
+    "image": "https://chestaa.com/chesta.png",
     "url": "https://chestaa.com",
-    "telephone": "+6281234567890",
-    "priceRange": "$$$$",
+    "telephone": "+6282125447232",
+    "priceRange": "$$$",
     "address": {
       "@type": "PostalAddress",
-      "streetAddress": "Green Office Park, BSD City",
+      "streetAddress": "The Breeze, BSD City",
       "addressLocality": "Tangerang Selatan",
       "addressRegion": "Banten",
       "postalCode": "15345",
@@ -46,10 +58,12 @@ export default function RootLayout({
     },
     "areaServed": [
       "BSD City",
+      "Cisauk",
+      "Pemalang",
+      "Rawa Buntu",
       "Tangerang Selatan",
-      "Alam Sutera",
-      "Gading Serpong",
-      "Jakarta Selatan"
+      "Jakarta Selatan",
+      "Indonesia"
     ],
     "sameAs": [
       "https://instagram.com/chestaadotcom",
@@ -64,7 +78,7 @@ export default function RootLayout({
     "url": "https://chestaa.com",
     "potentialAction": {
       "@type": "SearchAction",
-      "target": "https://chestaa.com/insights?q={search_term_string}",
+      "target": "https://chestaa.com/blog?q={search_term_string}",
       "query-input": "required name=search_term_string"
     }
   };
@@ -76,23 +90,18 @@ export default function RootLayout({
     "hasPart": [
       {
         "@type": "WebPage",
-        "name": "Services & AI Architecture",
+        "name": "Layanan AI & Arsitektur",
         "url": "https://chestaa.com/services"
       },
       {
         "@type": "WebPage",
-        "name": "Enterprise Portfolio",
-        "url": "https://chestaa.com/portfolio"
+        "name": "Area Jangkauan Regional",
+        "url": "https://chestaa.com/area"
       },
       {
         "@type": "WebPage",
-        "name": "Case Studies & Proof",
-        "url": "https://chestaa.com/case-studies"
-      },
-      {
-        "@type": "WebPage",
-        "name": "AI & Tech Insights",
-        "url": "https://chestaa.com/insights"
+        "name": "Jurnal Strategis Blog",
+        "url": "https://chestaa.com/blog"
       }
     ]
   };
@@ -107,6 +116,7 @@ export default function RootLayout({
   return (
     <html lang="id" suppressHydrationWarning>
       <head>
+        <link rel="preload" href="/chesta.png" as="image" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: serializeJsonLd(localBusinessJsonLd) }}
@@ -119,16 +129,28 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: serializeJsonLd(siteNavigationJsonLd) }}
         />
+        <script async src="https://www.googletagmanager.com/gtag/js?id=G-L0TSZYYPXL" />
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              window.dataLayer = window.dataLayer || [];
+              function gtag(){dataLayer.push(arguments);}
+              gtag('js', new Date());
+              gtag('config', 'G-L0TSZYYPXL');
+            `,
+          }}
+        />
       </head>
-      <body className="antialiased bg-white text-slate-900 min-h-screen">
+      <body className={`${geistSans.variable} ${geistMono.variable} antialiased bg-white text-slate-900 min-h-screen selection:bg-purple-100 selection:text-purple-900`}>
         <ThemeProvider>
           <NextErrorBoundary>
             <Navbar />
             <CommandPalette />
             <AIConcierge />
-            <div className="w-full relative">
+            <main>
+              <DynamicBreadcrumb />
               {children}
-            </div>
+            </main>
           </NextErrorBoundary>
         </ThemeProvider>
       </body>

@@ -3,6 +3,7 @@
 import React, { useRef } from "react"
 import { ArrowRight } from "lucide-react"
 import { motion } from "motion/react"
+import Link from "next/link"
 import MagneticButton from "../atoms/MagneticButton"
 
 interface HeroProps {
@@ -16,13 +17,13 @@ interface HeroProps {
 }
 
 export function HeroPurple({
-  eyebrow = "Studio Arsitektur Digital & Sistem Penjualan Otomatis",
-  title = "Dominasi Pasar Digital. Amankan Profit Maksimal.",
-  subtitle = "Chestaadotcom membantu perusahaan menyederhanakan proses, menghubungkan operasional, dan mengembangkan bisnis melalui solusi digital yang sesuai kebutuhan industrinya",
-  ctaLabel = "Konsultasi Langsung via WhatsApp",
-  ctaHref = "https://wa.me/6282125447232?text=Halo%20Mas%20Chesta,%20saya%20ingin%20berdiskusi%20mengenai%20website%20penjualan%20super%20cepat%20dan%20sistem%20otomasi%20bisnis.",
-  secondaryCtaLabel = "Lihat Paket Investasi",
-  secondaryCtaHref = "#pricing",
+  eyebrow = "Principal Digital Architecture & AI Automation Hub",
+  title = "Arsitektur AI Enterprise. Dominasi Pasar Digital.",
+  subtitle = "Chestaa menghadirkan infrastruktur teknologi performa tinggi, sistem ERP kustom, dan otomasi AI otonom untuk akselerasi pertumbuhan korporat Anda.",
+  ctaLabel = "Konsultasi Strategis via WhatsApp",
+  ctaHref = "https://wa.me/6282125447232?text=Halo%20Mas%20Chesta,%20saya%20ingin%20berdiskusi%20mengenai%20arsitektur%20AI%20enterprise%20dan%20modernisasi%20sistem%20bisnis.",
+  secondaryCtaLabel = "Jelajahi Katalog Solusi",
+  secondaryCtaHref = "/services",
 }: HeroProps) {
   const heroRef = useRef<HTMLElement>(null);
 

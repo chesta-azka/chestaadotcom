@@ -3,6 +3,7 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ChevronDown, Plus, Minus } from 'lucide-react';
+import FAQSchema from '../atoms/FAQSchema';
 
 interface FAQItem {
   number: string;
@@ -51,6 +52,9 @@ export default function HomeFAQSection() {
       id="faq"
       aria-label="Pertanyaan yang sering diajukan"
     >
+      {/* Valid JSON-LD Schema with Question & Answer entities for Google SEO Rich Results */}
+      <FAQSchema faqs={HOME_FAQS.map(f => ({ question: f.question, answer: f.answer }))} />
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full text-left">
         
         {/* Section Header: Fully Left-Aligned Editorial Hierarchy */}

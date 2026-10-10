@@ -171,63 +171,75 @@ export const SERVICES_DATA: Record<string, ServiceDetailData> = {
 
   'ai-integration': {
     slug: 'ai-integration',
-    title: 'Karyawan Digital AI (Tanya Jawab Otomatis)',
-    subtitle: 'Pasang sistem pintar yang bisa belajar dan kerja sendiri. Selesaikan urusan pelanggan 24 jam tanpa harus nambah orang.',
+    title: 'Integrasi AI',
+    subtitle: 'AI yang mengerjakan pekerjaan berulang, supaya timmu fokus pada hal penting.',
     category: 'Kecerdasan Buatan (AI)',
-    badge: 'Hemat Biaya 80%',
-    heroHeadline: 'Urusan Ribet Jadi Otomatis. Bisnis Makin Pinter 24 Jam.',
-    heroDescription: 'Capek balesin chat yang itu-itu aja atau input data manual? Kami buatkan Asisten AI pintar yang bisa jawab chat, bantu urus data, dan ngambil keputusan cepet kayak manusia—tapi ga pernah tidur dan tau semua isi bisnis Anda.',
+    badge: 'Otomasi Cerdas',
+    heroHeadline: 'Percepat kerja bernilai dengan AI.',
+    heroDescription: 'Kami mengintegrasikan AI praktis untuk chatbot, automasi alur kerja, knowledge base, dan rekomendasi.',
     coreMetrics: [
-      { label: 'Kecepatan Jawab', value: '< 2 detik', desc: 'Jawaban instan buat tiap pertanyaan pelanggan' },
-      { label: 'Hemat Biaya', value: '75%', desc: 'Kurangi biaya admin buat tugas-tugas yang membosankan' },
-      { label: 'Akurasi Jawaban', value: '98.5%', desc: 'AI pinter karena diajarin pake data asli bisnis Anda' },
-      { label: 'Selalu Aktif', value: '100%', desc: 'Bisnis jalan terus biarpun Anda lagi tidur atau liburan' }
+      { label: 'Efisiensi Kerja', value: '+75%', desc: 'Otomasi tugas berulang' },
+      { label: 'Respons Pelanggan', value: '< 2 Detik', desc: 'Layanan 24/7 tanpa jeda' },
     ],
     problemStatement: {
-      title: 'Masalah Kalo Bisnis Masih Pake Cara Manual',
+      title: 'Kami memulai dari hambatan yang dirasakan bisnis dan pengguna—bukan dari daftar teknologi.',
       points: [
-        'Admin Kewalahan: Kalo pelanggan makin banyak, biaya buat gaji admin juga makin bengkak.',
-        'Salah Input Data: Manusia bisa capek dan salah nulis, bisa bikin rugi bisnis Anda.',
-        'Data Berantakan: Info penting bisnis ketumpuk di file atau chat, susah dicari pas butuh.',
-        'Pelanggan Kabur: Orang jaman sekarang mau jawaban cepet. Telat dikit, mereka pindah ke lain hati.'
+        'Tim layanan pelanggan menghabiskan waktu menjawab pertanyaan yang sama.',
+        'Banyak proses manual sebenarnya dapat berjalan otomatis.',
+        'Bisnis ingin memakai AI tetapi belum menemukan titik mulai yang aman dan bernilai.'
       ]
     },
     solutionOverview: {
-      title: 'AI Bukan Cuma Chatbot Biasa',
-      description: 'Kami ga cuma bikin robot chat yang jawabannya kaku. Kami bikin Asisten Pintar (pake teknologi Google Gemini) yang bener-bener ngerti produk Anda, cara kerja Anda, dan bisa bantuin pelanggan di mana aja.',
+      title: 'Solusi lengkap untuk jasa integrasi ai.',
+      description: 'Lingkup akhir mengikuti prioritas proyek. Enam komponen ini menjadi fondasi yang paling sering dibutuhkan.',
       benefits: [
-        'AI yang "Kenal" Bisnis Anda: Ga asal jawab, tapi pake data dan aturan dari Anda sendiri.',
-        'Bisa di WhatsApp & Web: Pelanggan bisa tanya di mana aja dan dapet jawaban yang sama pinter.',
-        'Bantu Olah Data Otomatis: Bisa bantuin baca laporan, invoice, atau data ribet jadi ringkasan mudah.',
-        'Tim Tetap Aman: AI bakal oper ke manusia cuma kalo emang ada masalah yang bener-bener butuh bantuan orang.'
+        'Menjawab pertanyaan umum dengan konteks dan batasan jelas.',
+        'Menghubungkan tool agar tugas administratif berjalan otomatis.',
+        'Menyajikan produk atau konten relevan berdasarkan konteks.',
+        'Mengubah dokumen panjang menjadi informasi tindak lanjut.',
+        'AI menjawab berdasarkan dokumen yang telah disetujui.',
+        'Menguji nilai dan risiko sebelum integrasi diperluas.'
       ]
     },
     processSteps: [
-      { step: '01', title: 'Belajar Data Anda', desc: 'Kita kumpulin aturan dan data bisnis Anda buat "diajarin" ke AI.' },
-      { step: '02', title: 'Setting Si Pintar', desc: 'Proses merancang gimana cara AI Anda ngomong dan bantu pelanggan.' },
-      { step: '03', title: 'Sambungin ke Sistem', desc: 'Kita pasang AI-nya di WhatsApp, Web, atau aplikasi kantor Anda.' },
-      { step: '04', title: 'Uji Coba & Aman', desc: 'Tes biar jawabannya bener-bener pas dan ga ngaco sebelum dipake umum.' }
+      { step: '01', title: 'Identifikasi', desc: 'Mencari proses berulang yang bernilai tinggi untuk diperbaiki.' },
+      { step: '02', title: 'Proof of Concept', desc: 'Membangun versi terbatas untuk menguji kualitas dan kelayakan.' },
+      { step: '03', title: 'Integrasi', desc: 'Menghubungkan model dengan sistem, data, dan workflow yang ada.' },
+      { step: '04', title: 'Ukur & Skala', desc: 'Memantau kualitas dan dampak sebelum memperluas implementasi.' }
     ],
-    guarantee: 'Jaminan AI yang pinter dan data bisnis Anda aman 100%. Data Anda ga bakal disebar ke mana-mana.',
+    guarantee: 'Tim menghemat waktu pada pekerjaan berulang tanpa kehilangan kontrol atas kualitas.',
     investment: {
-      price: 'Investasi Mulai dari Rp 10.000.000',
-      duration: 'Siklus Pengerjaan 3-4 Minggu',
+      price: 'Mulai dari Rp 10.000.000',
+      duration: '3-4 Minggu',
       features: [
-        'Sistem AI Pintar Custom (Bukan AI Pasaran)',
-        'Pake Teknologi Google Gemini Terbaru',
-        'Input Data Bisnis Anda Jadi Pengetahuan AI',
-        'Bisa Dipasang di WhatsApp & Website',
-        'Setting Keamanan Biar AI Ga Ngasal Jawab'
+        'Chatbot Customer Service',
+        'Automasi Workflow',
+        'Sistem Rekomendasi',
+        'Ringkasan Otomatis',
+        'Knowledge Base',
+        'Proof of Concept'
       ]
     },
     faqs: [
       {
-        q: 'AI-nya bakal ngaco atau salah jawab ga?',
-        a: 'Kami pake sistem khusus yang "ngunci" AI cuma boleh jawab pake data yang Anda kasih. Jadi dia ga bakal ngarang bebas di luar urusan bisnis Anda.'
+        q: 'Model AI apa yang digunakan?',
+        a: 'Model dipilih berdasarkan kebutuhan, privasi, kualitas, latency, dan biaya—termasuk OpenAI atau Anthropic.'
       },
       {
-        q: 'Data saya aman ga dipake buat latihan AI lain?',
-        a: 'Aman 100%. Kita pake jalur khusus perusahaan yang jamin data Anda cuma dipake buat bisnis Anda sendiri, bukan buat umum.'
+        q: 'Apakah aman untuk data perusahaan?',
+        a: 'Sangat aman. Kami menggunakan API enterprise di mana data Anda tidak digunakan untuk melatih model publik.'
+      },
+      {
+        q: 'Berapa lama proof of concept?',
+        a: 'Biasanya memakan waktu 1-2 minggu untuk melihat hasil awal dan kelayakan sistem.'
+      },
+      {
+        q: 'Bisa terhubung ke data kami?',
+        a: 'Bisa. Kami mengintegrasikan AI dengan database, CRM, atau sistem internal Anda melalui API aman.'
+      },
+      {
+        q: 'Bagaimana hasilnya diukur?',
+        a: 'Melalui metrik efisiensi waktu, akurasi jawaban, dan penurunan beban kerja manual tim Anda.'
       }
     ]
   },

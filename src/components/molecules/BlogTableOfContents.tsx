@@ -47,7 +47,13 @@ export default function BlogTableOfContents({ headings, variant = 'desktop' }: B
     e.preventDefault();
     const target = document.getElementById(id);
     if (target) {
-      target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      const yOffset = -120;
+      const y = target.getBoundingClientRect().top + window.pageYOffset + yOffset;
+      if ((window as any).__lenis) {
+        (window as any).__lenis.scrollTo(y, { duration: 1 });
+      } else {
+        window.scrollTo({ top: y, behavior: 'smooth' });
+      }
       window.history.pushState(null, '', `#${id}`);
       setActiveId(id);
     }

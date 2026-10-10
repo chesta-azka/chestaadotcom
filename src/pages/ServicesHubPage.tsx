@@ -21,6 +21,7 @@ import {
 } from 'lucide-react';
 import SEOMetadata from '../components/atoms/SEOMetadata';
 import Breadcrumbs from '../components/atoms/Breadcrumbs';
+import FAQSchema from '../components/atoms/FAQSchema';
 import { PORTFOLIO_ITEMS } from '../data/portfolio';
 
 export default function ServicesHubPage() {
@@ -110,7 +111,7 @@ export default function ServicesHubPage() {
       />
 
       <div className="max-w-7xl mx-auto px-6 sm:px-8 space-y-16 relative z-10">
-        <Breadcrumbs items={[{ label: 'Home', path: '/' }, { label: 'Services Hub', path: '/services' }]} />
+        <Breadcrumbs items={[{ name: 'Home', item: '/' }, { name: 'Services Hub', item: '/services' }]} />
 
         {/* Hero Header */}
         <div className="text-center max-w-4xl mx-auto space-y-6">
@@ -203,6 +204,65 @@ export default function ServicesHubPage() {
               </div>
             );
           })}
+        </div>
+
+        {/* Enterprise Services FAQ Section */}
+        <div className="pt-16 border-t border-slate-200 max-w-4xl mx-auto space-y-8">
+          <div className="text-center space-y-2">
+            <span className="text-xs font-mono font-bold uppercase tracking-wider text-purple-700 bg-purple-100 px-3 py-1 rounded-md">
+              FAQ Layanan Enterprise
+            </span>
+            <h2 className="text-2xl sm:text-3xl font-display font-bold text-slate-950 tracking-tight">
+              Pertanyaan Umum Seputar Solusi Digital chestaadotcom
+            </h2>
+          </div>
+
+          <div className="space-y-3">
+            {[
+              {
+                q: 'Model arsitektur apa yang digunakan untuk pengembangan layanan?',
+                a: 'Kami mengadopsi stack enterprise modern berbasis Next.js 15, arsitektur headless, database terdistribusi, serta integrasi LLM dan agen otonom (OpenAI & Anthropic) dengan keamanan data terisolasi.'
+              },
+              {
+                q: 'Berapa lama estimasi pengerjaan proyek dari audit hingga deployment?',
+                a: 'Fase Proof of Concept (PoC) diselesaikan dalam 7-14 hari kerja, sedangkan implementasi enterprise penuh memakan waktu 4-8 minggu dengan checkpoint mingguan transparan.'
+              },
+              {
+                q: 'Apakah kode sumber dan data sepenuhnya menjadi milik klien?',
+                a: 'Ya, 100% kode sumber, dokumentasi arsitektur, dan hak akses infrastruktur diserahkan sepenuhnya kepada perusahaan Anda tanpa vendor lock-in.'
+              },
+              {
+                q: 'Bagaimana cara memulai konsultasi awal bersama tim arsitek?',
+                a: 'Anda dapat menghubungi kami langsung melalui WhatsApp untuk sesi discovery call 30 menit tanpa biaya guna memetakan arsitektur dan estimasi ROI bisnis.'
+              }
+            ].map((faq, idx) => (
+              <div key={idx} className="p-5 rounded-2xl bg-white border border-slate-200/90 shadow-2xs space-y-2">
+                <div className="font-semibold text-sm sm:text-base text-slate-900">{faq.q}</div>
+                <div className="text-xs sm:text-sm text-slate-600 leading-relaxed">{faq.a}</div>
+              </div>
+            ))}
+          </div>
+
+          <FAQSchema 
+            faqs={[
+              {
+                q: 'Model arsitektur apa yang digunakan untuk pengembangan layanan?',
+                a: 'Kami mengadopsi stack enterprise modern berbasis Next.js 15, arsitektur headless, database terdistribusi, serta integrasi LLM dan agen otonom (OpenAI & Anthropic) dengan keamanan data terisolasi.'
+              },
+              {
+                q: 'Berapa lama estimasi pengerjaan proyek dari audit hingga deployment?',
+                a: 'Fase Proof of Concept (PoC) diselesaikan dalam 7-14 hari kerja, sedangkan implementasi enterprise penuh memakan waktu 4-8 minggu dengan checkpoint mingguan transparan.'
+              },
+              {
+                q: 'Apakah kode sumber dan data sepenuhnya menjadi milik klien?',
+                a: 'Ya, 100% kode sumber, dokumentasi arsitektur, dan hak akses infrastruktur diserahkan sepenuhnya kepada perusahaan Anda tanpa vendor lock-in.'
+              },
+              {
+                q: 'Bagaimana cara memulai konsultasi awal bersama tim arsitek?',
+                a: 'Anda dapat menghubungi kami langsung melalui WhatsApp untuk sesi discovery call 30 menit tanpa biaya guna memetakan arsitektur dan estimasi ROI bisnis.'
+              }
+            ]} 
+          />
         </div>
 
       </div>

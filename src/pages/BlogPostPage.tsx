@@ -2,8 +2,8 @@ import React, { useEffect, useState } from 'react';
 import SEOMetadata from '../components/atoms/SEOMetadata';
 import { generateArticleSchema } from '../lib/seo';
 import { useParams, Link } from 'react-router-dom';
-import { motion, useScroll, useSpring } from 'motion/react';
-import { ArrowLeft, Clock, Calendar, Zap, ChevronLeft, Check, Copy, MessageSquare, User, Briefcase, CheckCircle2, Sparkles, Layers, ShieldCheck, Quote, ArrowRight, Link as LinkIcon, Heart, Bookmark } from 'lucide-react';
+import { motion, useScroll, useSpring, AnimatePresence } from 'motion/react';
+import { ArrowLeft, ArrowUp, Clock, Calendar, Zap, ChevronLeft, Check, Copy, MessageSquare, User, Briefcase, CheckCircle2, Sparkles, Layers, ShieldCheck, Quote, ArrowRight, Link as LinkIcon, Heart, Bookmark } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
 import Markdown from 'markdown-to-jsx';
 import { Prism as SyntaxHighlighter } from 'react-syntax-highlighter';
@@ -386,6 +386,24 @@ export default function BlogPostPage() {
   const [postLikes, setPostLikes] = useState(0);
   const [hasLiked, setHasLiked] = useState(false);
   const [isBookmarked, setIsBookmarked] = useState(false);
+  const [showBackToTop, setShowBackToTop] = useState(false);
+
+  // Floating Back-To-Top visibility tracker
+  useEffect(() => {
+    const handleScroll = () => {
+      setShowBackToTop(window.scrollY > 320);
+    };
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const handleScrollToTop = () => {
+    if ((window as any).__lenis) {
+      (window as any).__lenis.scrollTo(0, { duration: 1.2 });
+    } else {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
 
   // Reading progress indicator
   const { scrollYProgress } = useScroll();
@@ -476,7 +494,15 @@ export default function BlogPostPage() {
   };
 
   useEffect(() => {
+    if ((window as any).__lenis) {
+      (window as any).__lenis.scrollTo(0, { immediate: true });
+    }
     window.scrollTo(0, 0);
+
+    const timer = setTimeout(() => {
+      (window as any).__lenis?.resize();
+    }, 150);
+    return () => clearTimeout(timer);
   }, [slug]);
   
   // Find article from real data
@@ -536,6 +562,12 @@ export default function BlogPostPage() {
         path={`/blog/${post.slug}`}
         schemaString={jsonLdString || JSON.stringify(generateArticleSchema(post.title, optimizedDescription, `https://chestaa.com/blog/${post.slug}`, post.image || "https://chestaa.com/favicon.svg", post.date, post.author?.name || "Chesta Azka Sofyan"))}
       />
+
+      {post.image && (
+        <Helmet>
+          <link rel="preload" as="image" href={post.image} fetchPriority="high" />
+        </Helmet>
+      )}
 
       <FloatingSocialShare title={post.title} description={post.desc} />
 
@@ -626,6 +658,7 @@ export default function BlogPostPage() {
               src={post.image || 'https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=2000'} 
               blurSrc={(post.image || 'https://images.unsplash.com/photo-1677442136019-21780ecad995?auto=format&fit=crop&q=80&w=20') + '&blur=20'}
               alt={post.title}
+              priority={true}
               className="w-full h-full object-cover"
             />
           </div>
@@ -822,6 +855,24 @@ export default function BlogPostPage() {
         {/* Dynamic Intelligent Related Articles Section */}
         <ReadNextSection currentArticle={post} allArticles={ALL_ARTICLES} />
       </div>
+
+      {/* Floating Back to Top Button for instant, smooth scroll back to article header */}
+      <AnimatePresence>
+        {showBackToTop && (
+          <motion.button
+            initial={{ opacity: 0, scale: 0.8, y: 15 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.8, y: 15 }}
+            transition={{ duration: 0.2 }}
+            onClick={handleScrollToTop}
+            aria-label="Kembali ke atas"
+            className="fixed bottom-6 right-6 lg:bottom-10 lg:right-10 z-50 flex items-center gap-2 px-4 py-2.5 rounded-full bg-slate-900/95 hover:bg-purple-950 text-white shadow-2xl shadow-purple-950/30 border border-purple-500/30 backdrop-blur-md text-xs font-mono font-bold tracking-wider uppercase cursor-pointer hover:scale-105 active:scale-95 transition-all group"
+          >
+            <ArrowUp size={14} className="text-purple-400 group-hover:-translate-y-1 transition-transform" />
+            <span className="hidden sm:inline">Ke Atas</span>
+          </motion.button>
+        )}
+      </AnimatePresence>
     </main>
   );
 }

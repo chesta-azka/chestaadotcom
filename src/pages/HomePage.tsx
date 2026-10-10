@@ -3,14 +3,14 @@
 import React from 'react';
 import SEOMetadata from '../components/atoms/SEOMetadata';
 import { HeroPurple } from '../components/organisms/HeroPurple';
-import SolutionsServiceOverviewSection from '../components/organisms/SolutionsServiceOverviewSection';
-import PortfolioShowcaseSection from '../components/organisms/PortfolioShowcaseSection';
-import BehindTheScenesSection from '../components/organisms/BehindTheScenesSection';
-import ProjectRhythmSection from '../components/organisms/ProjectRhythmSection';
-import IndustryContextSection from '../components/organisms/IndustryContextSection';
-import BlogInsightSection from '../components/organisms/BlogInsightSection';
-import HomeFAQSection from '../components/organisms/HomeFAQSection';
-import HomeCTASection from '../components/organisms/HomeCTASection';
+const SolutionsServiceOverviewSection = React.lazy(() => import('../components/organisms/SolutionsServiceOverviewSection'));
+const PortfolioShowcaseSection = React.lazy(() => import('../components/organisms/PortfolioShowcaseSection'));
+const BehindTheScenesSection = React.lazy(() => import('../components/organisms/BehindTheScenesSection'));
+const ProjectRhythmSection = React.lazy(() => import('../components/organisms/ProjectRhythmSection'));
+const IndustryContextSection = React.lazy(() => import('../components/organisms/IndustryContextSection'));
+const BlogInsightSection = React.lazy(() => import('../components/organisms/BlogInsightSection'));
+const HomeFAQSection = React.lazy(() => import('../components/organisms/HomeFAQSection'));
+const HomeCTASection = React.lazy(() => import('../components/organisms/HomeCTASection'));
 
 export default function HomePage() {
   return (
@@ -22,34 +22,18 @@ export default function HomePage() {
 
       {/* THE 7-SECTION HIGH-CONVERTING FUNNEL */}
       <div className="flex flex-col w-full relative">
-
-        {/* SECTION 1: HERO SECTION (HeroPurple) */}
         <HeroPurple />
 
-        {/* SOLUTIONS OVERVIEW SECTION */}
-        <SolutionsServiceOverviewSection />
-
-        {/* PORTFOLIO SHOWCASE SECTION */}
-        <PortfolioShowcaseSection />
-
-        {/* SECTION: DI BALIK LAYAR (Perubahan yang terasa dalam pekerjaan sehari-hari) */}
-        <BehindTheScenesSection />
-
-        {/* SECTION: RITME PROYEK (Langkah yang jelas, dari kebutuhan hingga penerapan) */}
-        <ProjectRhythmSection />
-
-        {/* SECTION: KONTEKS INDUSTRI (Memahami industrinya. Menyesuaikan solusinya.) */}
-        <IndustryContextSection />
-
-        {/* SECTION: BLOG & WAWASAN (Wawasan Arsitektur & Strategi Digital) */}
-        <BlogInsightSection />
-
-        {/* SECTION: FAQ / TANYA JAWAB (Pertanyaan yang sering diajukan) */}
-        <HomeFAQSection />
-
-        {/* SECTION: CTA (Diskusikan kebutuhan bisnis Anda bersama kami) */}
-        <HomeCTASection />
-
+        <React.Suspense fallback={<div className="h-96 w-full animate-pulse bg-slate-100 rounded-3xl my-8" />}>
+          <SolutionsServiceOverviewSection />
+          <PortfolioShowcaseSection />
+          <BehindTheScenesSection />
+          <ProjectRhythmSection />
+          <IndustryContextSection />
+          <BlogInsightSection />
+          <HomeFAQSection />
+          <HomeCTASection />
+        </React.Suspense>
       </div>
     </div>
   );

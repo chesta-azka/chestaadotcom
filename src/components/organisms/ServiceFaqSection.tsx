@@ -1,4 +1,5 @@
 import { motion, AnimatePresence } from 'motion/react';
+import FAQSchema from '../atoms/FAQSchema';
 
 interface FaqItem {
   q: string;
@@ -14,6 +15,9 @@ interface ServiceFaqSectionProps {
 export default function ServiceFaqSection({ faqs, openFaq, setOpenFaq }: ServiceFaqSectionProps) {
   return (
     <div className="max-w-3xl mx-auto mb-16 text-slate-900">
+      {/* Valid JSON-LD Schema with Question & Answer entities for Google SEO Rich Results */}
+      <FAQSchema faqs={faqs.map(f => ({ question: f.q, answer: f.a }))} />
+
       <div className="text-center mb-12">
         <span className="text-xs font-mono font-bold text-purple-700 uppercase tracking-widest block mb-2">Pusat Bantuan &amp; FAQ</span>
         <h2 className="text-3xl sm:text-4xl font-display font-black text-slate-900 tracking-tight">

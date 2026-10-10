@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'motion/react';
 import { ChevronDown } from 'lucide-react';
 import { db } from '../../lib/firebase';
 import { collection, query, where, getDocs, addDoc, orderBy } from 'firebase/firestore';
+import FAQSchema from '../atoms/FAQSchema';
 
 interface FAQ {
   id: string;
@@ -84,6 +85,9 @@ export default function ServiceFAQ({ serviceSlug }: { serviceSlug: string }) {
 
   return (
     <section className="w-full max-w-3xl mx-auto py-24 px-6 relative z-10">
+      {/* Valid JSON-LD Schema with Question & Answer entities for Google SEO Rich Results */}
+      <FAQSchema faqs={faqs.map(f => ({ question: f.question, answer: f.answer }))} />
+
       <div className="text-center mb-12">
         <h2 className="text-3xl font-display font-black text-slate-900">Pertanyaan yang Sering Diajukan</h2>
         <p className="text-slate-600 mt-4">Jawaban atas pertanyaan umum seputar layanan dan investasi korporat.</p>
