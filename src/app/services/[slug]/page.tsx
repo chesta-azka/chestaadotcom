@@ -1,7 +1,6 @@
-'use client';
-
-import React, { useState } from 'react';
+import React from 'react';
 import Link from 'next/link';
+import { Metadata } from 'next';
 import { 
   ArrowRight, 
   MessageCircle, 
@@ -10,138 +9,71 @@ import {
   FolderGit2, 
   ArrowUpRight 
 } from 'lucide-react';
-import FAQSchema from '../../../components/atoms/FAQSchema';
+import { getServiceContentBySlug, B2B_SERVICES_MAP } from '../../../data/b2bServicesData';
 
-interface ServiceContent {
-  metaTitle: string;
-  metaDescription: string;
-  commercialKeywords: string;
-  tagline: string;
-  h1: string;
-  subText: string;
-  miniFeatures: { num: string; title: string; subtitle: string }[];
-  problemHeading: string;
-  problemSubText: string;
-  problemPoints: { num: string; text: string }[];
-  resultStatement: string;
-  componentsHeading: string;
-  components: { num: string; title: string; desc: string }[];
-  processHeading: string;
-  processSubText: string;
-  processSteps: { num: string; title: string; desc: string }[];
-  workProofHeading: string;
-  workProofProject: string;
-  workProofDesc: string;
-  workProofTags: string[];
-  partnerValuesHeading: string;
-  partnerValues: { num: string; title: string; desc: string }[];
-  aiMethodologyHeading: string;
-  aiMethodologySubText: string;
-  aiMethodologySteps: { num: string; title: string; desc: string }[];
-  techStackHeading: string;
-  techStack: { name: string; role: string }[];
-  faqHeading: string;
-  faqs: { q: string; a: string }[];
-  ctaHeading: string;
-  ctaSubText: string;
+interface PageProps {
+  params: Promise<{ slug?: string }>;
 }
 
-const DEFAULT_AI_CONTENT: ServiceContent = {
-  metaTitle: 'Jasa Integrasi AI & Otomasi Alur Kerja Bisnis B2B & UMKM | CHESTAADOTCOM',
-  metaDescription: 'Jasa integrasi AI praktis untuk B2B Enterprise dan UMKM komersial. Otomasi alur kerja, chatbot WhatsApp 24/7, knowledge base internal, dan rekomendasi hemat ratusan jam kerja tanpa vendor lock-in.',
-  commercialKeywords: 'jasa integrasi AI, chatbot customer service B2B, automasi workflow UMKM, AI korporasi, konsultan AI enterprise, efisiensi operasional AI',
-  tagline: 'Konsultasi Gratis',
-  h1: 'Jasa Integrasi AI & Otomasi Alur Kerja Perusahaan (B2B & UMKM Komersial)',
-  subText: 'Kami mengintegrasikan AI praktis untuk chatbot, automasi alur kerja, knowledge base, dan rekomendasi bagi korporasi enterprise dan UMKM komersial.',
-  miniFeatures: [
-    { num: '01', title: 'Tujuan bisnis', subtitle: 'Business Goal' },
-    { num: '02', title: 'Pengalaman pengguna', subtitle: 'User Experience' },
-    { num: '03', title: 'Fondasi teknis', subtitle: 'Technical Foundation' },
-  ],
-  problemHeading: 'Kedengarannya familiar?',
-  problemSubText: 'Kami memulai dari hambatan operasional yang dirasakan bisnis—bukan dari daftar teknologi.',
-  problemPoints: [
-    { num: '01', text: 'Tim layanan pelanggan menghabiskan waktu menjawab pertanyaan berulang yang seharusnya dijawab otomatis oleh AI.' },
-    { num: '02', text: 'Banyak proses administratif manual yang sebenarnya dapat berjalan otomatis 24 jam nonstop.' },
-    { num: '03', text: 'Bisnis ingin mengadopsi AI, tetapi belum menemukan titik mulai yang aman, terukur, dan bernilai ROI nyata.' },
-  ],
-  resultStatement: 'Tim Anda menghemat ratusan jam pada pekerjaan berulang tanpa kehilangan kontrol absolut atas kualitas dan kepuasan pelanggan.',
-  componentsHeading: 'Komponen yang Dihadirkan',
-  components: [
-    { num: '01', title: 'Chatbot Customer Service', desc: 'Menjawab pertanyaan umum dengan konteks, batasan, dan jalur eskalasi manusia yang jelas.' },
-    { num: '02', title: 'Automasi Workflow', desc: 'Menghubungkan berbagai perangkat lunak agar tugas administratif berjalan otomatis (Zero-Touch).' },
-    { num: '03', title: 'Sistem Rekomendasi', desc: 'Menyajikan produk atau konten hiper-relevan berdasarkan konteks pengguna.' },
-    { num: '04', title: 'Ringkasan Otomatis', desc: 'Mengubah dokumen atau percakapan panjang menjadi data yang dapat ditindaklanjuti.' },
-    { num: '05', title: 'Knowledge Base', desc: 'Karyawan AI yang menjawab murni berdasarkan dokumen dan sumber data perusahaan yang telah disetujui.' },
-    { num: '06', title: 'Proof of Concept', desc: 'Menguji nilai, risiko, dan ROI sebelum integrasi diperluas ke seluruh perusahaan.' },
-  ],
-  processHeading: 'Proses transparan dari inisiasi hingga rilis.',
-  processSubText: 'Setiap tahap memiliki keluaran pasti, momen peninjauan, dan keputusan yang disepakati bersama.',
-  processSteps: [
-    { num: '01', title: 'Identifikasi', desc: 'Mencari proses repetitif bernilai tinggi untuk diotomatisasi.' },
-    { num: '02', title: 'Proof of Concept', desc: 'Membangun versi terbatas untuk menguji akurasi dan kelayakan.' },
-    { num: '03', title: 'Integrasi', desc: 'Menghubungkan model AI dengan sistem, database, dan workflow perusahaan Anda.' },
-    { num: '04', title: 'Ukur & Skala', desc: 'Memantau kualitas, biaya server, dan dampak operasional sebelum memperluas skala.' },
-  ],
-  workProofHeading: 'Integrasi AI · Selected Work',
-  workProofProject: 'Enterprise Knowledge Assistant & Smart Sales Agent',
-  workProofDesc: 'Implementasi AI terkontrol yang mencari jawaban eksklusif dari dokumen internal, menampilkan rujukan sumber, dan secara cerdas meneruskan kasus sensitif kepada agen manusia.',
-  workProofTags: ['OpenAI', 'Vector Database', 'Node.js', 'n8n'],
-  partnerValuesHeading: 'Bukan sekadar selesai. Dibangun agar berhasil.',
-  partnerValues: [
-    { num: '01', title: 'Proses transparan', desc: 'Progres dan arsitektur terlihat di setiap tahap.' },
-    { num: '02', title: 'Timeline jelas', desc: 'Fase, keluaran, dan checkpoint disepakati sejak hari pertama.' },
-    { num: '03', title: 'Hasil terukur', desc: 'Metrik kesuksesan ditentukan berdasarkan efisiensi uang dan waktu.' },
-    { num: '04', title: 'Milik Anda', desc: 'Kode sumber dan aset final diserahkan sepenuhnya. Tidak ada vendor lock-in.' },
-  ],
-  aiMethodologyHeading: 'Dipercepat oleh AI. Disempurnakan oleh Pakar Manusia.',
-  aiMethodologySubText: 'AI mengotomatisasi proses repetitif, sementara keputusan strategis, keamanan, dan kesesuaian bisnis dieksekusi langsung oleh arsitek kami.',
-  aiMethodologySteps: [
-    { num: '01', title: 'Draf awal', desc: 'Mempercepat eksplorasi arsitektur.' },
-    { num: '02', title: 'Kurasi', desc: 'Menyaring logika dan hasil yang paling efisien.' },
-    { num: '03', title: 'Sentuhan manusia', desc: 'Memastikan hasil akhir aman, beretika, dan dapat dipertanggungjawabkan.' },
-  ],
-  techStackHeading: 'Dipilih karena reliabilitas, bukan sekadar tren.',
-  techStack: [
-    { name: 'OpenAI', role: 'LLM & Reasoning' },
-    { name: 'Anthropic', role: 'Claude Engine' },
-    { name: 'Node.js', role: 'High-Concurrency API' },
-    { name: 'n8n', role: 'Workflow Automation' },
-    { name: 'PostgreSQL', role: 'Vector DB & Relational' },
-  ],
-  faqHeading: 'Pertanyaan seputar jasa Integrasi AI.',
-  faqs: [
-    {
-      q: 'Model AI apa yang digunakan untuk integrasi bisnis B2B dan UMKM?',
-      a: 'Model dipilih berdasarkan kebutuhan bisnis, privasi data, latency, dan efisiensi biaya—termasuk OpenAI GPT-4o, Anthropic Claude 3.5, atau open-source LLM terisolasi on-premise tanpa melatih model publik.',
-    },
-    {
-      q: 'Apakah data rahasia perusahaan aman saat dihubungkan ke sistem AI?',
-      a: 'Sangat aman. Seluruh data diproses melalui arsitektur terisolasi dengan enkripsi end-to-end dan zero-data-retention policy. Data proprietary Anda tidak pernah bocor atau digunakan untuk training model publik.',
-    },
-    {
-      q: 'Berapa lama fase Proof of Concept (PoC) untuk mengukur kelayakan ROI?',
-      a: 'Fase PoC berjalan selama 7 hingga 14 hari kerja untuk menguji akurasi, waktu respon, dan kepuasan tim sebelum investasi skala penuh diperluas ke seluruh perusahaan.',
-    },
-    {
-      q: 'Bisakah sistem AI dihubungkan ke database dan aplikasi yang sudah kami gunakan?',
-      a: 'Bisa. Kami membangun konektor REST API, webhook aman, dan integrasi langsung ke PostgreSQL, MySQL, SAP, ERP, Odoo, WhatsApp Business API, CRM, hingga spreadsheet internal.',
-    },
-    {
-      q: 'Bagaimana cara menghitung ROI konkret dari integrasi AI ini?',
-      a: 'ROI dihitung secara transparan dari penghematan ratusan jam kerja manual admin per bulan, penurunan biaya penanganan tiket komplain hingga 65%, serta percepatan siklus closing prospek 24 jam nonstop.',
-    },
-  ],
-  ctaHeading: 'Apa hambatan operasional yang ingin Anda hancurkan?',
-  ctaSubText: 'Ceritakan tantangan yang perusahaan Anda hadapi. Kami bantu memetakan arsitektur dan menentukan langkah digitalisasi yang tepat.',
-};
+export async function generateStaticParams() {
+  return Object.keys(B2B_SERVICES_MAP).map((slug) => ({ slug }));
+}
 
-export default function ServiceDetailPage() {
-  const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(0);
+export async function generateMetadata({ params }: PageProps): Promise<Metadata> {
+  const resolvedParams = await params;
+  const slug = resolvedParams?.slug;
+  const matchedContent = getServiceContentBySlug(slug);
 
-  const toggleFaq = (index: number) => {
-    setOpenFaqIndex(openFaqIndex === index ? null : index);
+  const title = `Konsultan ${matchedContent.title} & Efisiensi Operasional Skala Enterprise | chestaadotcom`;
+  const description = `Tingkatkan ROI dan efisiensi operasional perusahaan Anda melalui ${matchedContent.title}. Solusi arsitektur digital berkinerja tinggi untuk B2B Enterprise dan UMKM Komersial bersama chestaadotcom.`;
+  const keywords = matchedContent.commercialKeywords || 'jasa it enterprise, konsultan ai b2b, efisiensi operasional, roi bisnis, chestaadotcom';
+
+  return {
+    title,
+    description,
+    keywords,
+    openGraph: {
+      title,
+      description,
+      type: 'website',
+      locale: 'id_ID',
+      siteName: 'chestaadotcom',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title,
+      description,
+    },
   };
+}
+
+export default async function ServiceDetailPage({ params }: PageProps) {
+  const resolvedParams = await params;
+  const slug = resolvedParams?.slug;
+  const matchedContent = getServiceContentBySlug(slug);
+
+  // Generate valid FAQPage JSON-LD schema on server
+  const validFaqs = (matchedContent.faqs || [])
+    .map((item: any) => ({
+      question: (item.question || item.q || '').trim(),
+      answer: (item.answer || item.a || '').replace(/<[^>]*>/g, '').replace(/\*\*/g, '').trim(),
+    }))
+    .filter((f) => f.question.length > 0 && f.answer.length > 0);
+
+  const faqSchemaMarkup = {
+    '@context': 'https://schema.org',
+    '@type': 'FAQPage',
+    'mainEntity': validFaqs.map((faq) => ({
+      '@type': 'Question',
+      'name': faq.question,
+      'acceptedAnswer': {
+        '@type': 'Answer',
+        'text': faq.answer,
+      },
+    })),
+  };
+
+  const faqJsonString = JSON.stringify(faqSchemaMarkup);
 
   const industries = [
     { number: '01', name: 'Company Profile', href: '/industri/company-profile' },
@@ -158,7 +90,10 @@ export default function ServiceDetailPage() {
 
   return (
     <div className="bg-white text-slate-900 selection:bg-purple-100 selection:text-purple-900 font-sans">
-      <FAQSchema faqs={DEFAULT_AI_CONTENT.faqs} />
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: faqJsonString }}
+      />
 
       {/* SECTION 1: HERO */}
       <section id="hero" className="relative py-24 md:py-32 bg-gradient-to-b from-purple-50/50 via-white to-white border-b border-slate-100">
@@ -173,7 +108,7 @@ export default function ServiceDetailPage() {
                 className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-purple-100/80 text-purple-900 font-medium text-xs hover:bg-purple-200/80 transition-colors"
               >
                 <Sparkles size={13} className="text-purple-700" />
-                <span>{DEFAULT_AI_CONTENT.tagline}</span>
+                <span>{matchedContent.tagline}</span>
               </a>
               <span className="text-slate-300">|</span>
               <a
@@ -184,16 +119,16 @@ export default function ServiceDetailPage() {
               </a>
             </div>
 
-            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-display font-extrabold text-slate-950 tracking-tight leading-[1.12]">
-              {DEFAULT_AI_CONTENT.h1}
+            <h1 className="text-5xl font-extrabold text-slate-900 leading-tight">
+              Infrastruktur <span className="text-purple-600">{matchedContent.title}</span> untuk Skala Bisnis
             </h1>
 
             <p className="text-base sm:text-lg md:text-xl text-slate-600 font-normal leading-relaxed max-w-3xl">
-              {DEFAULT_AI_CONTENT.subText}
+              {matchedContent.subText}
             </p>
 
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-4 border-t border-slate-100">
-              {DEFAULT_AI_CONTENT.miniFeatures.map((feat) => (
+              {matchedContent.miniFeatures.map((feat) => (
                 <div key={feat.num} className="p-4 rounded-2xl bg-white border border-slate-200/80 shadow-xs space-y-1">
                   <span className="text-xs font-mono font-bold text-purple-700">{feat.num}</span>
                   <div className="font-bold text-sm text-slate-950">{feat.title}</div>
@@ -212,17 +147,17 @@ export default function ServiceDetailPage() {
           
           <div className="max-w-3xl space-y-3">
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-display font-bold text-slate-950 tracking-tight">
-              {DEFAULT_AI_CONTENT.problemHeading}
+              {matchedContent.problemHeading}
             </h2>
             <p className="text-slate-600 text-sm sm:text-base leading-relaxed">
-              {DEFAULT_AI_CONTENT.problemSubText}
+              {matchedContent.problemSubText}
             </p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {DEFAULT_AI_CONTENT.problemPoints.map((point) => (
-              <div key={point.num} className="p-8 rounded-3xl bg-slate-50 border border-slate-200/80 space-y-4 hover:border-purple-300 transition-all">
-                <span className="text-xs font-mono font-bold text-purple-700 bg-purple-100 px-2.5 py-1 rounded-md inline-block">
+            {matchedContent.problemPoints.map((point) => (
+              <div key={point.num} className="p-8 rounded-3xl bg-slate-50 border border-slate-200/80 space-y-3">
+                <span className="text-xs font-mono font-bold text-red-600 bg-red-50 px-2.5 py-1 rounded-md border border-red-200">
                   {point.num}
                 </span>
                 <p className="text-sm sm:text-base font-medium text-slate-900 leading-relaxed">
@@ -232,38 +167,46 @@ export default function ServiceDetailPage() {
             ))}
           </div>
 
-        </div>
-      </section>
-
-      {/* SECTION 3: RESULT */}
-      <section id="result" className="py-24 bg-purple-900 text-white relative overflow-hidden">
-        <div className="max-w-6xl mx-auto px-6 sm:px-8">
-          <div className="max-w-4xl space-y-6">
-            <blockquote className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-display font-extrabold leading-tight text-white tracking-tight">
-              &ldquo;{DEFAULT_AI_CONTENT.resultStatement}&rdquo;
-            </blockquote>
+          <div className="p-6 sm:p-8 rounded-3xl bg-purple-950 text-white shadow-xl flex flex-col md:flex-row items-center justify-between gap-6">
+            <div className="space-y-1">
+              <span className="text-xs font-mono uppercase tracking-widest text-purple-300 font-bold">
+                Solusi &amp; Hasil Nyata
+              </span>
+              <p className="text-sm sm:text-base font-semibold text-purple-100 leading-relaxed">
+                {matchedContent.resultStatement}
+              </p>
+            </div>
+            <a
+              href="https://wa.me/6282125447232?text=Halo%20chestaadotcom,%20saya%20ingin%20konsultasi%20mengenai%20solusi%20ini."
+              target="_blank"
+              rel="noopener noreferrer"
+              className="px-6 py-3.5 rounded-full bg-white hover:bg-slate-100 text-purple-950 font-bold text-xs uppercase tracking-wider whitespace-nowrap shadow-md transition-all shrink-0 cursor-pointer"
+            >
+              Konsultasikan Masalah Anda
+            </a>
           </div>
+
         </div>
       </section>
 
-      {/* SECTION 4: COMPONENTS */}
-      <section id="components" className="py-24 bg-white border-b border-slate-100">
+      {/* SECTION 3: COMPONENTS / SCOPE */}
+      <section id="components" className="py-24 bg-slate-50 border-b border-slate-200/80">
         <div className="max-w-6xl mx-auto px-6 sm:px-8 space-y-12">
           
-          <div className="max-w-2xl space-y-2">
+          <div className="max-w-3xl space-y-2">
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-display font-bold text-slate-950 tracking-tight">
-              {DEFAULT_AI_CONTENT.componentsHeading}
+              {matchedContent.componentsHeading}
             </h2>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {DEFAULT_AI_CONTENT.components.map((comp) => (
-              <div key={comp.num} className="p-7 rounded-3xl bg-slate-50 border border-slate-200/80 hover:border-purple-300 hover:shadow-xl hover:shadow-purple-900/5 transition-all space-y-3">
-                <span className="text-xs font-mono font-bold text-purple-700">{comp.num}</span>
-                <h3 className="font-bold text-base text-slate-950">{comp.title}</h3>
-                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-                  {comp.desc}
-                </p>
+            {matchedContent.components.map((comp) => (
+              <div key={comp.num} className="p-8 rounded-3xl bg-white border border-slate-200/90 shadow-2xs space-y-3 hover:border-purple-300 transition-colors">
+                <span className="text-xs font-mono font-bold text-purple-700 bg-purple-50 px-2.5 py-1 rounded-md border border-purple-100">
+                  {comp.num}
+                </span>
+                <h3 className="text-lg font-bold text-slate-950">{comp.title}</h3>
+                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">{comp.desc}</p>
               </div>
             ))}
           </div>
@@ -271,29 +214,25 @@ export default function ServiceDetailPage() {
         </div>
       </section>
 
-      {/* SECTION 5: PROCESS */}
-      <section id="process" className="py-24 bg-slate-50 border-b border-slate-200/80">
+      {/* SECTION 4: PROCESS */}
+      <section id="process" className="py-24 bg-white border-b border-slate-100">
         <div className="max-w-6xl mx-auto px-6 sm:px-8 space-y-12">
           
           <div className="max-w-3xl space-y-2">
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-display font-bold text-slate-950 tracking-tight">
-              {DEFAULT_AI_CONTENT.processHeading}
+              {matchedContent.processHeading}
             </h2>
-            <p className="text-slate-600 text-sm sm:text-base leading-relaxed">
-              {DEFAULT_AI_CONTENT.processSubText}
+            <p className="text-slate-600 text-sm sm:text-base">
+              {matchedContent.processSubText}
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {DEFAULT_AI_CONTENT.processSteps.map((step) => (
-              <div key={step.num} className="p-6 rounded-3xl bg-white border border-slate-200 shadow-xs space-y-3">
-                <span className="text-xs font-mono font-bold text-purple-700 bg-purple-50 px-2.5 py-1 rounded-md inline-block">
-                  {step.num}
-                </span>
-                <h3 className="font-bold text-base text-slate-950">{step.title}</h3>
-                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-                  {step.desc}
-                </p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {matchedContent.processSteps.map((step) => (
+              <div key={step.num} className="p-6 rounded-2xl bg-slate-50 border border-slate-200 space-y-3">
+                <span className="text-xs font-mono font-bold text-purple-700">{step.num}</span>
+                <div className="font-bold text-base text-slate-950">{step.title}</div>
+                <div className="text-xs text-slate-600 leading-relaxed">{step.desc}</div>
               </div>
             ))}
           </div>
@@ -301,66 +240,50 @@ export default function ServiceDetailPage() {
         </div>
       </section>
 
-      {/* SECTION 6: WORK PROOF */}
-      <section id="work-proof" className="py-24 bg-white border-b border-slate-100">
-        <div className="max-w-6xl mx-auto px-6 sm:px-8 space-y-8">
+      {/* SECTION 5: WORK PROOF */}
+      <section id="work-proof" className="py-24 bg-slate-950 text-white border-b border-slate-800">
+        <div className="max-w-6xl mx-auto px-6 sm:px-8 space-y-10">
           
-          <div className="space-y-1">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-display font-bold text-slate-950 tracking-tight">
-              {DEFAULT_AI_CONTENT.workProofHeading}
+          <div className="space-y-2">
+            <span className="text-xs font-mono uppercase tracking-widest text-purple-400 font-bold">
+              {matchedContent.workProofHeading}
+            </span>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-display font-bold text-white tracking-tight">
+              {matchedContent.workProofProject}
             </h2>
           </div>
 
-          <div className="p-8 sm:p-10 rounded-3xl bg-slate-50 border border-slate-200/90 shadow-sm space-y-6">
-            <div className="space-y-3 max-w-3xl">
-              <h3 className="text-xl sm:text-2xl font-bold font-display text-slate-950">
-                {DEFAULT_AI_CONTENT.workProofProject}
-              </h3>
-              <p className="text-sm sm:text-base text-slate-600 leading-relaxed">
-                {DEFAULT_AI_CONTENT.workProofDesc}
-              </p>
-            </div>
+          <p className="text-sm sm:text-base text-slate-300 max-w-3xl leading-relaxed">
+            {matchedContent.workProofDesc}
+          </p>
 
-            <div className="flex flex-wrap items-center gap-2 pt-2">
-              {DEFAULT_AI_CONTENT.workProofTags.map((tag) => (
-                <span key={tag} className="px-3 py-1 rounded-full bg-white border border-slate-200 text-xs font-mono font-semibold text-slate-700">
-                  {tag}
-                </span>
-              ))}
-            </div>
-
-            <div className="pt-4 border-t border-slate-200">
-              <Link
-                href="/portfolio"
-                className="inline-flex items-center gap-2 text-sm font-semibold text-purple-700 hover:text-purple-900 transition-colors"
-              >
-                <span>Lihat portofolio</span>
-                <ArrowRight size={15} />
-              </Link>
-            </div>
+          <div className="flex flex-wrap gap-2 pt-2">
+            {matchedContent.workProofTags.map((tag, idx) => (
+              <span key={idx} className="px-3 py-1 rounded-full bg-purple-950 text-purple-200 border border-purple-500/30 text-xs font-mono font-medium">
+                {tag}
+              </span>
+            ))}
           </div>
 
         </div>
       </section>
 
-      {/* SECTION 7: PARTNER VALUES */}
-      <section id="partner-values" className="py-24 bg-slate-50 border-b border-slate-200/80">
+      {/* SECTION 6: PARTNER VALUES */}
+      <section id="partner-values" className="py-24 bg-white border-b border-slate-100">
         <div className="max-w-6xl mx-auto px-6 sm:px-8 space-y-12">
           
           <div className="max-w-3xl space-y-2">
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-display font-bold text-slate-950 tracking-tight">
-              {DEFAULT_AI_CONTENT.partnerValuesHeading}
+              {matchedContent.partnerValuesHeading}
             </h2>
           </div>
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-            {DEFAULT_AI_CONTENT.partnerValues.map((val) => (
-              <div key={val.num} className="p-6 rounded-3xl bg-white border border-slate-200 shadow-xs space-y-2">
+            {matchedContent.partnerValues.map((val) => (
+              <div key={val.num} className="p-6 rounded-2xl bg-slate-50 border border-slate-200 space-y-2">
                 <span className="text-xs font-mono font-bold text-purple-700">{val.num}</span>
-                <h3 className="font-bold text-base text-slate-950">{val.title}</h3>
-                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-                  {val.desc}
-                </p>
+                <div className="font-bold text-sm text-slate-950">{val.title}</div>
+                <div className="text-xs text-slate-600 leading-relaxed">{val.desc}</div>
               </div>
             ))}
           </div>
@@ -368,53 +291,48 @@ export default function ServiceDetailPage() {
         </div>
       </section>
 
-      {/* SECTION 8: AI METHODOLOGY */}
-      <section id="ai-methodology" className="py-24 bg-white border-b border-slate-100">
+      {/* SECTION 7: AI METHODOLOGY */}
+      <section id="ai-methodology" className="py-24 bg-slate-50 border-b border-slate-200/80">
         <div className="max-w-6xl mx-auto px-6 sm:px-8 space-y-12">
-          
-          <div className="max-w-3xl space-y-3">
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-display font-bold text-slate-950 tracking-tight">
-              {DEFAULT_AI_CONTENT.aiMethodologyHeading}
-            </h2>
-            <p className="text-slate-600 text-sm sm:text-base leading-relaxed">
-              {DEFAULT_AI_CONTENT.aiMethodologySubText}
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {DEFAULT_AI_CONTENT.aiMethodologySteps.map((step) => (
-              <div key={step.num} className="p-7 rounded-3xl bg-slate-50 border border-slate-200/80 space-y-3 hover:border-purple-300 transition-all">
-                <span className="text-xs font-mono font-bold text-purple-700 bg-purple-100 px-2.5 py-1 rounded-md inline-block">
-                  {step.num}
-                </span>
-                <h3 className="font-bold text-base text-slate-950">{step.title}</h3>
-                <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-                  {step.desc}
-                </p>
-              </div>
-            ))}
-          </div>
-
-        </div>
-      </section>
-
-      {/* SECTION 9: INDUSTRY CONTEXT (WITH RICH PURPLE HOVER & AUDIT TOOLTIP) */}
-      <section id="industry-context" className="py-24 bg-slate-50 border-b border-slate-200/80 overflow-visible">
-        <div className="max-w-6xl mx-auto px-6 sm:px-8 space-y-10">
           
           <div className="max-w-3xl space-y-2">
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-display font-bold text-slate-950 tracking-tight">
-              Konteks industri mengubah solusinya.
+              {matchedContent.aiMethodologyHeading}
             </h2>
             <p className="text-slate-600 text-sm sm:text-base leading-relaxed">
-              Jelajahi bagaimana arsitektur AI kami disesuaikan dengan alur konversi di sektor spesifik Anda.
+              {matchedContent.aiMethodologySubText}
             </p>
+          </div>
+
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+            {matchedContent.aiMethodologySteps.map((step) => (
+              <div key={step.num} className="p-6 rounded-2xl bg-white border border-slate-200 space-y-2 shadow-2xs">
+                <span className="text-xs font-mono font-bold text-purple-700">{step.num}</span>
+                <div className="font-bold text-sm text-slate-950">{step.title}</div>
+                <div className="text-xs text-slate-600 leading-relaxed">{step.desc}</div>
+              </div>
+            ))}
+          </div>
+
+        </div>
+      </section>
+
+      {/* SECTION 8: INDUSTRY CONTEXT */}
+      <section id="industri" className="py-24 bg-white border-b border-slate-100">
+        <div className="max-w-6xl mx-auto px-6 sm:px-8 space-y-10">
+          
+          <div className="space-y-2 max-w-3xl">
+            <span className="text-xs font-mono uppercase tracking-widest text-purple-700 font-bold">
+              Cakupan Sektor Industri
+            </span>
+            <h2 className="text-2xl sm:text-3xl md:text-4xl font-display font-bold text-slate-950 tracking-tight">
+              Solusi Teruji untuk Berbagai Sektor Korporat &amp; UMKM Komersial
+            </h2>
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4 pt-4">
             {industries.map((ind) => (
               <div key={ind.number} className="relative group">
-                {/* Audit Industry Needs Tooltip */}
                 <div 
                   role="tooltip"
                   className="absolute -top-10 left-1/2 -translate-x-1/2 pointer-events-none opacity-0 group-hover:opacity-100 group-hover:-translate-y-1 transition-all duration-200 z-30 whitespace-nowrap"
@@ -456,12 +374,12 @@ export default function ServiceDetailPage() {
           
           <div className="max-w-3xl space-y-2">
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-display font-bold text-slate-950 tracking-tight">
-              {DEFAULT_AI_CONTENT.techStackHeading}
+              {matchedContent.techStackHeading}
             </h2>
           </div>
 
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-4">
-            {DEFAULT_AI_CONTENT.techStack.map((tech) => (
+            {matchedContent.techStack.map((tech) => (
               <div key={tech.name} className="p-6 rounded-2xl bg-slate-50 border border-slate-200 text-center space-y-2 hover:border-purple-300 transition-colors">
                 <div className="font-display font-bold text-base text-slate-950">{tech.name}</div>
                 <div className="text-[11px] font-mono text-slate-500">{tech.role}</div>
@@ -478,34 +396,22 @@ export default function ServiceDetailPage() {
           
           <div className="text-center space-y-2">
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-display font-bold text-slate-950 tracking-tight">
-              {DEFAULT_AI_CONTENT.faqHeading}
+              {matchedContent.faqHeading}
             </h2>
           </div>
 
           <div className="space-y-3">
-            {DEFAULT_AI_CONTENT.faqs.map((faq, index) => (
+            {matchedContent.faqs.map((faq, index) => (
               <div
                 key={index}
                 className="rounded-2xl border border-slate-200 bg-white overflow-hidden shadow-2xs"
               >
-                <button
-                  type="button"
-                  onClick={() => toggleFaq(index)}
-                  className="w-full text-left p-5 sm:p-6 flex items-center justify-between gap-4 font-semibold text-sm sm:text-base text-slate-900 hover:text-purple-700 transition-colors cursor-pointer"
-                >
-                  <span>{faq.q}</span>
-                  <ChevronDown
-                    size={16}
-                    className={`text-slate-400 shrink-0 transition-transform duration-200 ${
-                      openFaqIndex === index ? 'rotate-180 text-purple-600' : ''
-                    }`}
-                  />
-                </button>
-                {openFaqIndex === index && (
-                  <div className="px-5 sm:px-6 pb-6 pt-1 text-xs sm:text-sm text-slate-600 leading-relaxed border-t border-slate-100">
+                <div className="p-5 sm:p-6 space-y-2">
+                  <div className="font-semibold text-sm sm:text-base text-slate-900">{faq.q}</div>
+                  <div className="text-xs sm:text-sm text-slate-600 leading-relaxed border-t border-slate-100 pt-3">
                     {faq.a}
                   </div>
-                )}
+                </div>
               </div>
             ))}
           </div>
@@ -522,10 +428,10 @@ export default function ServiceDetailPage() {
                 Langkah Berikutnya
               </span>
               <h2 className="text-2xl sm:text-3xl md:text-4xl font-display font-extrabold text-white tracking-tight">
-                {DEFAULT_AI_CONTENT.ctaHeading}
+                {matchedContent.ctaHeading}
               </h2>
               <p className="text-xs sm:text-sm md:text-base text-purple-200 leading-relaxed">
-                {DEFAULT_AI_CONTENT.ctaSubText}
+                {matchedContent.ctaSubText}
               </p>
             </div>
 

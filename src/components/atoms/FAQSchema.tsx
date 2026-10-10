@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 export interface FAQItem {
   question?: string;
@@ -18,7 +18,7 @@ export default function FAQSchema({
     .map((item: any) => {
       const question = (item.question || item.q || '').trim();
       const rawAnswer = (item.answer || item.a || '').trim();
-      // Clean any potential HTML/markdown tags for clean text rendering in Google Search Rich Results
+      // Clean any potential HTML tags for clean text rendering in Google Search Rich Results
       const answer = rawAnswer
         .replace(/<[^>]*>/g, '')
         .replace(/\*\*/g, '')
@@ -43,10 +43,29 @@ export default function FAQSchema({
     }))
   };
 
+  const jsonString = JSON.stringify(schemaMarkup);
+
+  useEffect(() => {
+    if (typeof document === 'undefined') return;
+    let script = document.getElementById('faq-schema-jsonld') as HTMLScriptElement | null;
+    if (!script) {
+      script = document.createElement('script');
+      script.id = 'faq-schema-jsonld';
+      script.type = 'application/ld+json';
+      document.head.appendChild(script);
+    }
+    script.textContent = jsonString;
+
+    return () => {
+      const el = document.getElementById('faq-schema-jsonld');
+      if (el) el.remove();
+    };
+  }, [jsonString]);
+
   return (
     <script 
       type="application/ld+json"
-      dangerouslySetInnerHTML={{ __html: JSON.stringify(schemaMarkup) }}
+      dangerouslySetInnerHTML={{ __html: jsonString }}
     />
   );
 }

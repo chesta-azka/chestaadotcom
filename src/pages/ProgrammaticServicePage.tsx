@@ -9,6 +9,7 @@ import {
 import { useParams, Link } from 'react-router-dom';
 import SEOMetadata from '../components/atoms/SEOMetadata';
 import AeoSchema from '../components/atoms/AeoSchema';
+import FAQSchema from '../components/atoms/FAQSchema';
 import RoiCalculator from '../components/organisms/RoiCalculator';
 import { generateDynamicCopy } from '../utils/pseoUtils';
 
@@ -206,6 +207,67 @@ export default function ProgrammaticServicePage() {
               <MessageSquare size={16} />
             </Link>
           </div>
+        </div>
+      </section>
+
+      {/* SECTION 4: FAQ SCHEMA & LOCAL INDUSTRY FAQ */}
+      <section className="py-20 px-6 sm:px-12 bg-slate-50 border-t border-slate-200/80">
+        <div className="max-w-4xl mx-auto space-y-8">
+          <div className="text-center space-y-2">
+            <span className="text-xs font-mono font-bold uppercase tracking-wider text-purple-700 bg-purple-100 px-3 py-1 rounded-md">
+              FAQ Sektor &amp; Wilayah
+            </span>
+            <h2 className="text-2xl sm:text-3xl font-display font-bold text-slate-950 tracking-tight">
+              Pertanyaan seputar Solusi Digital {pseo.industry} di {pseo.city}
+            </h2>
+          </div>
+
+          <div className="space-y-3">
+            {[
+              {
+                q: `Bagaimana implementasi AI dan website ini disesuaikan khusus untuk ${pseo.industry} di ${pseo.city}?`,
+                a: `Kami memetakan jalur konversi unik untuk sektor ${pseo.industry}, mengintegrasikan kata kunci lokal ${pseo.city}, serta memasang chatbot AI cerdas yang menguasai SOP dan katalog penawaran bisnis Anda.`
+              },
+              {
+                q: `Berapa lama waktu peluncuran sistem digital untuk bisnis ${pseo.industry}?`,
+                a: `Versi Proof of Concept (PoC) siap dalam 7-14 hari kerja, lengkap dengan integrasi WhatsApp Cloud API, sistem booking/leads, dan optimasi Google Maps lokal ${pseo.city}.`
+              },
+              {
+                q: `Apakah solusi ini membantu meningkatkan omzet dan closing klien di wilayah ${pseo.city}?`,
+                a: `Ya. Berdasarkan data klien kami, perpaduan website sub-detik dan respon AI 24/7 menghasilkan lonjakan konversi closing rata-rata di atas 180% pada bulan pertama.`
+              },
+              {
+                q: 'Apakah source code dan aset sistem menjadi hak milik penuh perusahaan kami?',
+                a: '100% kepemilikan kode sumber dan data diserahkan seutuhnya kepada Anda tanpa biaya sewa lisensi bulanan tersembunyi.'
+              }
+            ].map((faq, idx) => (
+              <div key={idx} className="p-5 rounded-2xl bg-white border border-slate-200/90 shadow-2xs space-y-2">
+                <div className="font-semibold text-sm sm:text-base text-slate-900">{faq.q}</div>
+                <div className="text-xs sm:text-sm text-slate-600 leading-relaxed">{faq.a}</div>
+              </div>
+            ))}
+          </div>
+
+          <FAQSchema
+            faqs={[
+              {
+                q: `Bagaimana implementasi AI dan website ini disesuaikan khusus untuk ${pseo.industry} di ${pseo.city}?`,
+                a: `Kami memetakan jalur konversi unik untuk sektor ${pseo.industry}, mengintegrasikan kata kunci lokal ${pseo.city}, serta memasang chatbot AI cerdas yang menguasai SOP dan katalog penawaran bisnis Anda.`
+              },
+              {
+                q: `Berapa lama waktu peluncuran sistem digital untuk bisnis ${pseo.industry}?`,
+                a: `Versi Proof of Concept (PoC) siap dalam 7-14 hari kerja, lengkap dengan integrasi WhatsApp Cloud API, sistem booking/leads, dan optimasi Google Maps lokal ${pseo.city}.`
+              },
+              {
+                q: `Apakah solusi ini membantu meningkatkan omzet dan closing klien di wilayah ${pseo.city}?`,
+                a: `Ya. Berdasarkan data klien kami, perpaduan website sub-detik dan respon AI 24/7 menghasilkan lonjakan konversi closing rata-rata di atas 180% pada bulan pertama.`
+              },
+              {
+                q: 'Apakah source code dan aset sistem menjadi hak milik penuh perusahaan kami?',
+                a: '100% kepemilikan kode sumber dan data diserahkan seutuhnya kepada Anda tanpa biaya sewa lisensi bulanan tersembunyi.'
+              }
+            ]}
+          />
         </div>
       </section>
     </div>

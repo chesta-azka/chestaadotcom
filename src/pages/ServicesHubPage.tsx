@@ -100,8 +100,8 @@ export default function ServicesHubPage() {
   return (
     <div className="pt-36 pb-28 min-h-screen font-sans bg-slate-50 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-purple-50 via-slate-50 to-white text-slate-900 relative">
       <SEOMetadata 
-        title="Jasa Pembuatan Website B2B & Karyawan AI Enterprise | CHESTAA"
-        description="Solusi hybrid full-service: Headless E-Commerce Next.js 15, Programmatic SEO, dan Autonomous ERP bertenaga AI untuk skala enterprise di BSD dan Jakarta."
+        title="Jasa Pembuatan Website B2B, Chatbot AI & Sistem UMKM Enterprise | CHESTAADOTCOM"
+        description="Jasa pembuatan website Next.js 15, integrasi AI praktis, otomatisasi alur kerja, dan toko online tanpa komisi untuk B2B Enterprise dan UMKM komersial. Konsultasi gratis bersama arsitek chestaadotcom."
         currentRoute="/services"
       />
 
@@ -117,15 +117,15 @@ export default function ServicesHubPage() {
         <div className="text-center max-w-4xl mx-auto space-y-6">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-purple-50 border border-purple-200 text-purple-700 text-xs font-mono uppercase tracking-widest shadow-xs">
             <Sparkles size={14} className="text-purple-600" />
-            <span>Hybrid Full-Service &amp; AI Architecture</span>
+            <span>Hybrid Full-Service &amp; AI Architecture (B2B &amp; UMKM)</span>
           </div>
           
           <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight text-slate-900 leading-[1.1]">
-            Infrastruktur Digital &amp; <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-indigo-500">AI Enterprise</span>
+            Infrastruktur Digital &amp; <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-indigo-500">Jasa Integrasi AI Enterprise</span>
           </h1>
 
           <p className="text-lg sm:text-xl text-slate-600 font-normal leading-relaxed max-w-3xl mx-auto">
-            Kami menggabungkan rekayasa perangkat lunak berkecepatan tinggi dengan Karyawan AI otonom untuk mengubah bisnis Anda menjadi mesin profit 24/7.
+            Solusi cerdas bagi korporasi enterprise dan UMKM komersial: kami menggabungkan rekayasa Next.js 15, toko online mandiri tanpa komisi, dan Karyawan AI otonom untuk mengubah bisnis Anda menjadi mesin profit 24/7.
           </p>
         </div>
 
@@ -220,20 +220,24 @@ export default function ServicesHubPage() {
           <div className="space-y-3">
             {[
               {
-                q: 'Model arsitektur apa yang digunakan untuk pengembangan layanan?',
-                a: 'Kami mengadopsi stack enterprise modern berbasis Next.js 15, arsitektur headless, database terdistribusi, serta integrasi LLM dan agen otonom (OpenAI & Anthropic) dengan keamanan data terisolasi.'
+                q: 'Berapa biaya jasa pembuatan website Next.js dan integrasi AI di chestaadotcom?',
+                a: 'Biaya disesuaikan secara transparan berdasarkan lingkup fitur, mulai dari landing page UMKM komersial terjangkau hingga sistem ERP dan Karyawan AI multi-agent skala enterprise, tanpa biaya lisensi bulanan tersembunyi.'
               },
               {
-                q: 'Berapa lama estimasi pengerjaan proyek dari audit hingga deployment?',
-                a: 'Fase Proof of Concept (PoC) diselesaikan dalam 7-14 hari kerja, sedangkan implementasi enterprise penuh memakan waktu 4-8 minggu dengan checkpoint mingguan transparan.'
+                q: 'Apakah solusi ini cocok untuk UMKM komersial selain korporasi enterprise?',
+                a: 'Sangat cocok. Kami merancang arsitektur modular dari toko online tanpa komisi dan chatbot WhatsApp UMKM hingga portal korporat enterprise ribuan halaman dengan tingkat ROI yang terukur.'
+              },
+              {
+                q: 'Model arsitektur apa yang digunakan untuk pengembangan layanan?',
+                a: 'Kami mengadopsi stack enterprise modern berbasis Next.js 15, arsitektur headless, database terdistribusi PostgreSQL, serta integrasi LLM dan agen otonom (OpenAI & Anthropic) dengan keamanan data terisolasi.'
               },
               {
                 q: 'Apakah kode sumber dan data sepenuhnya menjadi milik klien?',
                 a: 'Ya, 100% kode sumber, dokumentasi arsitektur, dan hak akses infrastruktur diserahkan sepenuhnya kepada perusahaan Anda tanpa vendor lock-in.'
               },
               {
-                q: 'Bagaimana cara memulai konsultasi awal bersama tim arsitek?',
-                a: 'Anda dapat menghubungi kami langsung melalui WhatsApp untuk sesi discovery call 30 menit tanpa biaya guna memetakan arsitektur dan estimasi ROI bisnis.'
+                q: 'Berapa lama estimasi pengerjaan proyek dari inisiasi hingga deployment?',
+                a: 'Fase Proof of Concept (PoC) diselesaikan dalam 7-14 hari kerja, sedangkan implementasi enterprise penuh memakan waktu 3-6 minggu dengan checkpoint mingguan transparan.'
               }
             ].map((faq, idx) => (
               <div key={idx} className="p-5 rounded-2xl bg-white border border-slate-200/90 shadow-2xs space-y-2">
@@ -246,20 +250,24 @@ export default function ServicesHubPage() {
           <FAQSchema 
             faqs={[
               {
-                q: 'Model arsitektur apa yang digunakan untuk pengembangan layanan?',
-                a: 'Kami mengadopsi stack enterprise modern berbasis Next.js 15, arsitektur headless, database terdistribusi, serta integrasi LLM dan agen otonom (OpenAI & Anthropic) dengan keamanan data terisolasi.'
+                q: 'Berapa biaya jasa pembuatan website Next.js dan integrasi AI di chestaadotcom?',
+                a: 'Biaya disesuaikan secara transparan berdasarkan lingkup fitur, mulai dari landing page UMKM komersial terjangkau hingga sistem ERP dan Karyawan AI multi-agent skala enterprise, tanpa biaya lisensi bulanan tersembunyi.'
               },
               {
-                q: 'Berapa lama estimasi pengerjaan proyek dari audit hingga deployment?',
-                a: 'Fase Proof of Concept (PoC) diselesaikan dalam 7-14 hari kerja, sedangkan implementasi enterprise penuh memakan waktu 4-8 minggu dengan checkpoint mingguan transparan.'
+                q: 'Apakah solusi ini cocok untuk UMKM komersial selain korporasi enterprise?',
+                a: 'Sangat cocok. Kami merancang arsitektur modular dari toko online tanpa komisi dan chatbot WhatsApp UMKM hingga portal korporat enterprise ribuan halaman dengan tingkat ROI yang terukur.'
+              },
+              {
+                q: 'Model arsitektur apa yang digunakan untuk pengembangan layanan?',
+                a: 'Kami mengadopsi stack enterprise modern berbasis Next.js 15, arsitektur headless, database terdistribusi PostgreSQL, serta integrasi LLM dan agen otonom (OpenAI & Anthropic) dengan keamanan data terisolasi.'
               },
               {
                 q: 'Apakah kode sumber dan data sepenuhnya menjadi milik klien?',
                 a: 'Ya, 100% kode sumber, dokumentasi arsitektur, dan hak akses infrastruktur diserahkan sepenuhnya kepada perusahaan Anda tanpa vendor lock-in.'
               },
               {
-                q: 'Bagaimana cara memulai konsultasi awal bersama tim arsitek?',
-                a: 'Anda dapat menghubungi kami langsung melalui WhatsApp untuk sesi discovery call 30 menit tanpa biaya guna memetakan arsitektur dan estimasi ROI bisnis.'
+                q: 'Berapa lama estimasi pengerjaan proyek dari inisiasi hingga deployment?',
+                a: 'Fase Proof of Concept (PoC) diselesaikan dalam 7-14 hari kerja, sedangkan implementasi enterprise penuh memakan waktu 3-6 minggu dengan checkpoint mingguan transparan.'
               }
             ]} 
           />

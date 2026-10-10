@@ -1,97 +1,87 @@
-# Rencana Implementasi: Optimasi Kata Kunci Komersial Tinggi (B2B & UMKM) pada Halaman Layanan
+TECHNICAL PLANNING DOCUMENT: NEXT.JS 15 SEO & ENTERPRISE ARCHITECTURE UPGRADE
 
-## 1. User Intent & Problem Analysis
-Klien menginginkan halaman layanan chestaadotcom dioptimalkan dengan kata kunci (search keywords) nyata yang secara aktif dicari oleh target klien di Google, mencakup spektrum **B2B Enterprise** (korporasi, holding, manufaktur) hingga **UMKM Komersial** (bisnis retail, jasa lokal, e-commerce).
+PROJECT: CHESTAADOTCOM ENTERPRISE & UMKM DIGITAL PLATFORM
+PRINCIPAL ARCHITECT: CHESTA
+DATE: OCTOBER 2026
 
-Berdasarkan jawaban klarifikasi pengguna:
-- **Kategori Prioritas**: Kombinasi sinergis B2B Enterprise dan UMKM Komersial (All-in high-volume commercial intent).
-- **Lokasi Injeksi Kata Kunci**: Hero H1, Subheadline, Meta Tags (Title, Description, OpenGraph), dan Rich Snippet Schema.org (FAQPage JSON-LD).
-- **Tone of Voice**: Profesional, meyakinkan, dan berorientasi hasil nyata (ROI, efisiensi waktu, dan penghematan biaya operasional).
+OVERVIEW
+This document outlines the comprehensive engineering and editorial plan for upgrading chestaadotcom's Next.js 15 architecture. The primary objectives are to inject robust JSON-LD FAQ schemas, synchronize high-intent B2B Enterprise and UMKM Komersial keywords across H1 headings and meta descriptions, and expand our thought-leadership blog database with 5 high-converting B2B articles.
 
----
+--------------------------------------------------------------------------------
 
-## 2. Target Application Domain & Design System
-- **Domain**: B2B Enterprise & Commercial Service Marketplace / Agency Landing Page (`2_landing_marketing.md`).
-- **Palet Warna**: *Premium Clean White & Purple* (Background: `#FFFFFF` / `bg-slate-50`, Aksen Ungu: `#581C87` / `purple-900` & `#9333EA` / `purple-600`, Teks Primer: `#020617` / `slate-950`).
-- **Tipografi**: Display font bold dan terstruktur, penataan hierarki editorial yang bersih tanpa asteris markdown di kode, padding lapang `py-24` antar section.
-- **Batasan Kritis**: Mempertahankan arsitektur 11 section semantik berurutan + Bottom CTA, serta kepatuhan mutlak terhadap identitas merek **chestaadotcom** (tanpa istilah lawas).
+PHASE 1: FAQ SCHEMA INJECTION STRATEGY (ServiceDetailPage)
 
----
+1. CUSTOM HOOK / UTILITY DESIGN ('useFaqSchema' / 'FAQSchema')
+- Create a dedicated React component and utility parser that accepts raw FAQ arrays containing either '{ question, answer }' or '{ q, a }'.
+- Strip any HTML markup and formatting symbols from the answer string to ensure pristine plain-text rendering for Google Rich Results.
 
-## 3. Architecture & Data Flow
+2. JSON-LD STRUCTURE SPECIFICATION
+- Construct a valid Schema.org 'FAQPage' object:
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "[Sanitized Question String]",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "[Sanitized Answer String]"
+        }
+      }
+    ]
+  }
 
-```
-┌────────────────────────────────────────────────────────────────────────┐
-│                   TARGET SEARCH INTENT INGESTION                       │
-│  • B2B: "Jasa Integrasi AI Enterprise", "Otomatisasi Workflow Bisnis"  │
-│  • UMKM: "Jasa Pembuatan Website & Chatbot Toko Online", "Konsultan AI"│
-└───────────────────────────────────┬────────────────────────────────────┘
-                                    │
-                                    ▼
-┌────────────────────────────────────────────────────────────────────────┐
-│             PAGE ARCHITECTURE & METADATA INJECTION HUBS                │
-│                                                                        │
-│  ┌───────────────────────┐  ┌───────────────────────────────────────┐  │
-│  │   SEO & OpenGraph     │  │          11 SEMANTIC SECTIONS         │  │
-│  │  • Meta Title         │  │  1. Hero H1 (Target Commercial Key)   │  │
-│  │  • Meta Description   │  │  2. Problem (Operational Agitation)   │  │
-│  │  • Canonical URL      │  │  3. Result (ROI & Metric Impact)      │  │
-│  │  • FAQPage JSON-LD    │  │  4. Components (Scope Deliverables)   │  │
-│  └───────────────────────┘  │  5. Process (Sprint Milestones)       │  │
-│                             │  6. Work Proof (Selected Case Study)  │  │
-│                             │  7. Partner Values (chestaadotcom)    │  │
-│                             │  8. AI Methodology (Hybrid Delivery)  │  │
-│                             │  9. Industry Context (10 Clickable)   │  │
-│                             │ 10. Tech Stack (Reliable Stack)       │  │
-│                             │ 11. FAQ (Indexed Objection Schema)    │  │
-│                             │  + Bottom CTA (WhatsApp Conversion)   │  │
-│                             └───────────────────────────────────────┘  │
-└────────────────────────────────────────────────────────────────────────┘
-```
+3. HYDRATION & HEAD INJECTION SAFETY
+- Implement both client-side DOM insertion (via 'useEffect' modifying 'document.head' with an element ID '#faq-schema-jsonld') and Server-Side Rendering (SSR) via `<script type="application/ld+json" dangerouslySetInnerHTML={{ __html: jsonString }} />`.
+- Prevent Next.js 15 hydration mismatches by ensuring consistent JSON stringification on both server and client execution cycles.
 
----
+--------------------------------------------------------------------------------
 
-## 4. Concrete Implementation Steps
+PHASE 2: H1 & META DESCRIPTION SYNCHRONIZATION
 
-### Tahap 1: Kurasi Keyword Matrix Berkepadatan Tinggi
-Mengintegrasikan kombinasi kata kunci pencarian bernilai komersial tinggi ke dalam konten:
-- **Keyword Utama (Primary Head)**:
-  - *"Jasa Integrasi AI & Otomatisasi Bisnis Perusahaan"*
-  - *"Pembuatan Website Enterprise, Chatbot AI & Sistem UMKM"*
-- **Keyword Sekunder (High-Intent Long-Tail)**:
-  - *"Jasa Otomatisasi Alur Kerja (Workflow Automation) 24/7"*
-  - *"Konsultan AI & Knowledge Base Internal Perusahaan"*
-  - *"Pembuatan Website Toko Online Cepat & Landing Page Konversi"*
-  - *"Jasa Bikin Chatbot Customer Service WhatsApp & Web"*
+1. GENERATE METADATA API STRATEGY
+- Dynamically formulate 'title', 'metaDescription', and OpenGraph metadata in 'src/app/services/[slug]/page.tsx'.
+- Inject high-intent commercial modifiers such as 'Konsultan Sistem ERP', 'Otomatisasi Workflow AI', and 'Jasa IT Enterprise Indonesia' tailored to both B2B Enterprise and UMKM Komersial segments.
 
-### Tahap 2: Optimasi Section 1 (Hero) & Metadata Halaman
-- Memperkuat H1 dengan kata kunci target: *"Jasa Integrasi AI & Otomatisasi Bisnis untuk Skalabilitas Perusahaan."*
-- Memperkaya subheadline dengan proposisi gabungan B2B & UMKM: *"Solusi cerdas bagi korporasi dan bisnis berkembang untuk mengintegrasikan chatbot cerdas, automasi alur kerja, knowledge base internal, dan sistem rekomendasi tanpa vendor lock-in."*
-- Memperbarui tag `<title>` dan `<meta name="description">` dengan frasa komersial terindeks Google.
+2. H1 HEADINGS MATRIX PLAN
+- Combine service slugs with high-intent localized commercial intent keywords:
+  • 'jasa-website' -> H1: "Jasa Website & Infrastruktur Digital Skala Komersial"
+  • 'ai-integration' -> H1: "Konsultan Integrasi AI & Otomatisasi Workflow Enterprise"
+  • 'infrastruktur-digital-enterprise' -> H1: "Implementasi ERP Kustom & Arsitektur Private Cloud"
 
-### Tahap 3: Optimasi Section 11 & FAQPage JSON-LD Schema
-- Menyelaraskan pertanyaan dan jawaban FAQ agar menyerap query pencarian Google yang paling sering diajukan klien (misal: biaya, keamanan data internal, waktu implementasi, integrasi ke database lama).
-- Memastikan structured data Schema.org (`FAQPage`) ter-render secara valid untuk mendapatkan rich snippet di hasil pencarian Google.
+--------------------------------------------------------------------------------
 
-### Tahap 4: Sinkronisasi Ganda (Next.js & Vite Client Runtime)
-- Menerapkan pembaruan secara identik pada:
-  - `src/app/services/[slug]/page.tsx` (Next.js 15 App Router)
-  - `src/pages/ServiceDetailPage.tsx` (Runtime Client Browser)
-- Mempertahankan seluruh 10 tautan industri yang dapat diklik di Section 9, breadcrumbs dinamis, dan interaktivitas grid.
+PHASE 3: CONTENT DATABASE PREPARATION (5 NEW ENTERPRISE B2B BLOGS)
 
----
+We will expand 'src/data/blogs.ts' with 5 new high-converting B2B and UMKM articles formatted in valid HTML strings:
 
-## 5. Risk Analysis & Mitigation
-- **Risiko Keyword Stuffing**: Pengulangan kata kunci yang berlebihan dapat menurunkan kualitas visual dan pengalaman pengguna (UX).
-  - *Mitigasi*: Menjaga keterbacaan alami (natural readability) dengan gaya bahasa B2B profesional yang menekankan ROI dan efisiensi operasional.
-- **Kepatuhan Larangan Asteris**: Menjaga agar tidak ada karakter `*` di dalam kode maupun komentar.
-  - *Mitigasi*: Validasi otomatis menggunakan pemindaian teks sebelum verifikasi build.
+1. Blog 15:
+- Slug: "kebocoran-margin-umkm-komersial-pos"
+- Title: "Jangan Biarkan Kasir Mencuri Margin Anda: Integrasi POS & AI untuk Franchise"
+- Category: "Retail Automation"
+- Summary: Point of Sale otonom untuk mencegah kebocoran margin UMKM franchise.
 
----
+2. Blog 16:
+- Slug: "portal-b2b-distributor-otomatis"
+- Title: "Distributor Kehilangan Pesanan Karena WhatsApp? Beralih ke Portal B2B Otonom"
+- Category: "B2B E-commerce"
+- Summary: Mengubah pemesanan agen manual WhatsApp menjadi platform B2B 24 jam.
 
-## 6. Verification & Validation Checklist
-- [ ] Validasi kata kunci utama termuat secara alami pada Hero H1, sub-text, dan FAQ Schema.
-- [ ] Struktur 11 section semantik dan Bottom CTA tetap utuh tanpa section tambahan.
-- [ ] Seluruh 10 tautan industri di Section 9 tetap aktif dan dapat diklik.
-- [ ] Pemeriksaan case-insensitive memastikan tidak ada penyebutan brand lama (zero-tolerance).
-- [ ] Kompilasi Next.js (`npm run build`) dan lint TypeScript (`tsc --noEmit`) berhasil tanpa error.
+3. Blog 17:
+- Slug: "telemedicine-klinik-kustom"
+- Title: "Pasien Lari ke Kompetitor? Ini Bahayanya Admin Klinik yang Lambat Merespon"
+- Category: "Healthcare IT"
+- Summary: AI Triage dan reservasi instan untuk klinik kesehatan premium.
+
+4. Blog 18:
+- Slug: "ransomware-menghancurkan-reputasi-korporat"
+- Title: "Satu Serangan Ransomware Bisa Menghancurkan Reputasi 10 Tahun Perusahaan Anda"
+- Category: "Cybersecurity"
+- Summary: Asuransi digital dan arsitektur database terisolasi untuk korporat.
+
+5. Blog 19:
+- Slug: "meninggalkan-software-akuntansi-murah"
+- Title: "Bahaya Mengandalkan Software Akuntansi Murah untuk Operasional Skala Menengah"
+- Category: "Financial Architecture"
+- Summary: Transisi dari software SaaS murah ke ERP finansial kustom berbasis Node.js & PostgreSQL.
