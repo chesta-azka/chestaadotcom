@@ -10,6 +10,7 @@ import RelatedArticles from '../../../components/organisms/RelatedArticles';
 import BlogTableOfContents from '../../../components/molecules/BlogTableOfContents';
 import { injectSemanticLinks } from '../../../lib/semantic-linker';
 import BlogFAQ from '../../../components/blog/BlogFAQ';
+import { generateFaqSchema } from '../../../lib/seo/faqSchema';
 
 const solidBlurBase64 =
   'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNzAwIiBoZWlnaHQ9IjQwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJyZ2IoMjQxLCAyNDUsIDI0OSwgMSkiLz48L3N2Zz4=';
@@ -408,19 +409,7 @@ export default async function BlogPostPage({ params }: Props) {
     }
   ];
 
-  const faqSchema = {
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    '@id': `${articleUrl}#faq`,
-    'mainEntity': resolvedFaqs.map(faq => ({
-      '@type': 'Question',
-      'name': faq.question,
-      'acceptedAnswer': {
-        '@type': 'Answer',
-        'text': faq.answer
-      }
-    }))
-  };
+  const faqJsonString = generateFaqSchema(resolvedFaqs);
 
   return (
     <div className="pt-36 pb-28 min-h-screen h-auto font-sans bg-[#fbfbfd] text-slate-900 overflow-x-hidden overflow-y-visible scroll-smooth">
@@ -432,10 +421,12 @@ export default async function BlogPostPage({ params }: Props) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: serializeJsonLd(breadcrumbSchema) }}
       />
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: serializeJsonLd(faqSchema) }}
-      />
+      {faqJsonString && (
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{ __html: faqJsonString }}
+        />
+      )}
 
       <div className="max-w-7xl mx-auto px-6 sm:px-8 h-auto overflow-visible space-y-10">
 

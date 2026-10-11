@@ -200,14 +200,18 @@ export function AdminKanbanBoard({ workspaceSlug }: { workspaceSlug: string }) {
 
       {/* 4-Column Board */}
       <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-5">
-        {columns.map(col => {
+        {columns.map((col, idx) => {
           const colTickets = filteredTickets.filter(t => t.status === col.title);
           const ColIcon = col.icon;
 
           return (
-            <div 
+            <motion.div 
+              layout
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: idx * 0.08 }}
               key={col.title} 
-              className={`rounded-xl p-4 flex flex-col gap-3 border shadow-xs ${col.color} min-h-[450px]`}
+              className={`rounded-xl p-4 flex flex-col gap-3 border shadow-xs ${col.color} min-h-[450px] transition-colors`}
             >
               {/* Column Header */}
               <div className="flex items-center justify-between px-1 py-1">
@@ -217,9 +221,15 @@ export function AdminKanbanBoard({ workspaceSlug }: { workspaceSlug: string }) {
                     {col.title}
                   </h3>
                 </div>
-                <span className="text-xs font-mono font-medium bg-white px-2 py-0.5 rounded-full border border-purple-100">
+                <motion.span 
+                  key={colTickets.length}
+                  initial={{ scale: 1.3, opacity: 0.4 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  transition={{ type: 'spring', stiffness: 350, damping: 22 }}
+                  className="text-xs font-mono font-medium bg-white px-2 py-0.5 rounded-full border border-purple-100 shadow-xs"
+                >
                   {colTickets.length}
-                </span>
+                </motion.span>
               </div>
 
               {/* Tickets List */}
@@ -339,10 +349,10 @@ export function AdminKanbanBoard({ workspaceSlug }: { workspaceSlug: string }) {
                 <Plus size={13} />
                 <span>Tambah ke {col.title}</span>
               </button>
-            </div>
-          );
-        })}
-      </div>
+              </motion.div>
+            );
+          })}
+        </div>
 
       {/* Revision History Side Drawer */}
       <AnimatePresence>
