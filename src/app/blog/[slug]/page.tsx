@@ -9,6 +9,7 @@ import { ArrowLeft, Calendar, Clock, User, ListTree, ChevronRight, Hash, Sparkle
 import RelatedArticles from '../../../components/organisms/RelatedArticles';
 import BlogTableOfContents from '../../../components/molecules/BlogTableOfContents';
 import { injectSemanticLinks } from '../../../lib/semantic-linker';
+import BlogFAQ from '../../../components/blog/BlogFAQ';
 
 const solidBlurBase64 =
   'data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNzAwIiBoZWlnaHQ9IjQwMCIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIj48cmVjdCB3aWR0aD0iMTAwJSIgaGVpZ2h0PSIxMDAlIiBmaWxsPSJyZ2IoMjQxLCAyNDUsIDI0OSwgMSkiLz48L3N2Zz4=';
@@ -498,6 +499,8 @@ export default async function BlogPostPage({ params }: Props) {
             <article className="prose prose-slate prose-lg max-w-none font-sans leading-relaxed text-slate-700 text-base sm:text-lg h-auto overflow-visible">
               <div dangerouslySetInnerHTML={{ __html: optimizedContent }} />
             </article>
+
+            <BlogFAQ faqs={resolvedFaqs} />
 
             <div className="pt-12 border-t border-slate-200">
               <RelatedArticles currentSlug={slug} category={post.cat} />

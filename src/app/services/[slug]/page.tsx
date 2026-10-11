@@ -10,7 +10,7 @@ import {
   ArrowUpRight 
 } from 'lucide-react';
 import { getServiceContentBySlug, B2B_SERVICES_MAP } from '../../../data/b2bServicesData';
-import { useFaqSchema } from '../../../hooks/useFaqSchema';
+import { generateFaqSchema } from '../../../lib/seo/faqSchema';
 import AeoCompareTable from '../../../components/aeo/AeoCompareTable';
 import SiloLinks from '../../../components/seo/SiloLinks';
 
@@ -27,21 +27,9 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const slug = resolvedParams?.slug || '';
   const matchedContent = getServiceContentBySlug(slug);
 
-  const isUmkm = slug.includes('umkm') || slug.includes('toko') || slug.includes('kasir') || slug.includes('murah') || slug.includes('ukm') || slug.includes('website') || slug.includes('antrean');
-
-  let title = '';
-  let description = '';
-  let keywords = '';
-
-  if (isUmkm) {
-    title = `Jasa ${matchedContent.title} Terbaik untuk UMKM & Bisnis Lokal | chestaadotcom`;
-    description = `Tingkatkan omzet bisnis lokal dan waralaba Anda dengan sistem operasional otomatis. Harga terjangkau, bebas biaya bulanan SaaS, dan mudah digunakan.`;
-    keywords = `jasa umkm, aplikasi kasir lokal, web toko online murah, otomatisasi bisnis lokal, chestaadotcom, ${matchedContent.commercialKeywords}`;
-  } else {
-    title = `Konsultan ${matchedContent.title} Enterprise & Automasi Workflow | chestaadotcom`;
-    description = `Transformasi IT skala enterprise. Tingkatkan ROI, pangkas biaya lisensi, dan optimalkan efisiensi operasional dengan arsitektur kustom.`;
-    keywords = `konsultan enterprise, automasi workflow, skala enterprise, efisiensi operasional, roi, chestaadotcom, ${matchedContent.commercialKeywords}`;
-  }
+  const title = `Konsultan ${matchedContent.title} & Otomatisasi Workflow AI | chestaadotcom`;
+  const description = `Solusi Konsultasi ${matchedContent.title} terbaik untuk Skala Enterprise. Tingkatkan Efisiensi Operasional dan maksimalkan ROI bisnis Anda bersama chestaadotcom.`;
+  const keywords = `Skala Enterprise, Efisiensi Operasional, ROI, ${matchedContent.title}, konsultan ai, otomatisasi workflow, chestaadotcom, ${matchedContent.commercialKeywords}`;
 
   return {
     title,
@@ -69,20 +57,8 @@ export default async function ServiceDetailPage({ params }: PageProps) {
 
   const isUmkm = slug.includes('umkm') || slug.includes('toko') || slug.includes('kasir') || slug.includes('murah') || slug.includes('ukm') || slug.includes('website') || slug.includes('antrean');
 
-  // Generate valid FAQPage JSON-LD schema using useFaqSchema hook
-  // Note: Since useFaqSchema returns a memoized string, we can generate it directly on the server
-  const faqJsonString = JSON.stringify({
-    '@context': 'https://schema.org',
-    '@type': 'FAQPage',
-    'mainEntity': (matchedContent.faqs || []).map((faq: any) => ({
-      '@type': 'Question',
-      'name': (faq.question || faq.q || '').trim(),
-      'acceptedAnswer': {
-        '@type': 'Answer',
-        'text': (faq.answer || faq.a || '').replace(/<[^>]*>/g, '').replace(/\*\*/g, '').trim(),
-      },
-    })),
-  });
+  // Generate valid FAQPage JSON-LD schema using generateFaqSchema utility
+  const faqJsonString = generateFaqSchema(matchedContent.faqs || []);
 
   const industries = [
     { number: '01', name: 'Company Profile', href: '/industri/company-profile' },

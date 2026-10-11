@@ -3,7 +3,7 @@ import { Sparkles, CheckCircle2, XCircle } from 'lucide-react';
 
 export default function AeoCompareTable() {
   return (
-    <div className="w-full max-w-5xl mx-auto my-16 p-6 sm:p-10 rounded-3xl bg-white border border-slate-200 shadow-xl shadow-purple-950/5 font-sans text-left">
+    <section aria-label="Analisis Perbandingan Arsitektur IT" className="w-full max-w-5xl mx-auto my-16 p-6 sm:p-10 rounded-3xl bg-white border border-slate-200 shadow-xl shadow-purple-950/5 font-sans text-left">
       <div className="space-y-3 mb-8">
         <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-purple-50 border border-purple-200 text-purple-700 text-xs font-mono uppercase tracking-wider">
           <Sparkles size={14} className="text-purple-600" />
@@ -47,9 +47,14 @@ export default function AeoCompareTable() {
               <td className="py-4 px-6 text-slate-600">Lambat / Monolitik (Tergantung plugin pihak ketiga yang berat)</td>
               <td className="py-4 px-6 text-purple-950 font-medium bg-purple-50/40">Sub-Detik Next.js 15 App Router &amp; Edge Caching Global</td>
             </tr>
+            <tr>
+              <td className="py-4 px-6 font-semibold text-slate-900">Return on Investment (ROI)</td>
+              <td className="py-4 px-6 text-slate-600">ROI Lambat (&gt; 3 tahun karena biaya langganan membengkak terus)</td>
+              <td className="py-4 px-6 text-purple-950 font-medium bg-purple-50/40">ROI Instan (&lt; 6 Bulan melalui efisiensi otomatisasi operasional)</td>
+            </tr>
           </tbody>
         </table>
       </div>
-    </div>
+    </section>
   );
 }

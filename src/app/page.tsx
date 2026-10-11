@@ -1,4 +1,6 @@
 import React from 'react';
+import Link from 'next/link';
+import { ArrowRight } from 'lucide-react';
 import { HeroPurple } from '../components/organisms/HeroPurple';
 import SoftDivider from '../components/atoms/SoftDivider';
 import RealityWakeUpSection from '../components/organisms/RealityWakeUpSection';
@@ -45,6 +47,36 @@ export default function Page() {
 
         {/* SECTION 2: REALITY WAKE-UP */}
         <RealityWakeUpSection />
+
+        <SoftDivider />
+
+        {/* ARCHITECTURAL TEARDOWN PROMINENT CTA BANNER */}
+        <section className="w-full bg-gradient-to-r from-purple-900 via-indigo-950 to-slate-950 py-12 px-6 relative overflow-hidden text-white shadow-2xl">
+          <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-purple-500/20 via-transparent to-transparent pointer-events-none" />
+          <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-8 relative z-10">
+            <div className="space-y-3 text-center md:text-left max-w-2xl">
+              <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-purple-500/20 border border-purple-400/30 text-[11px] font-mono text-purple-200 tracking-wider uppercase font-semibold">
+                <span className="w-2 h-2 rounded-full bg-amber-400 animate-pulse" />
+                Forensik Sistem Korporasi
+              </span>
+              <h3 className="text-2xl md:text-3xl font-display font-bold tracking-tight text-white leading-snug">
+                Bedah Kasus Nyata: Mengapa Sistem Lama Lumpuh & Bagaimana chestaadotcom Menyelamatkannya
+              </h3>
+              <p className="text-slate-300 text-sm md:text-base leading-relaxed">
+                Pelajari analisis forensik insiden flash sale e-commerce dan latensi core banking QRIS. Bongkar kegagalan arsitektur monolitik dan temukan solusi rekayasa otonom kami.
+              </p>
+            </div>
+            <div className="flex-shrink-0">
+              <Link 
+                href="/teardowns" 
+                className="inline-flex items-center gap-3 px-8 py-4 rounded-2xl bg-white text-slate-950 font-semibold text-sm hover:bg-slate-100 transition-all shadow-xl hover:scale-105 active:scale-95 group"
+              >
+                <span>Lihat Semua Bedah Sistem</span>
+                <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
+              </Link>
+            </div>
+          </div>
+        </section>
 
         <SoftDivider />
 

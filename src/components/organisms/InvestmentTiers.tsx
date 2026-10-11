@@ -24,80 +24,132 @@ const pricingTiers: PricingTier[] = [
   {
     id: "starter",
     name: "Mesin Validasi Kilat",
-    badge: "UMKM & Validasi Pasar",
-    price: "Biaya Admin 5 Thn: -180 Juta",
-    costViewPrice: "Rp 540.000",
-    originalPrice: "Rp 1.200.000",
+    badge: "UMKM & Validasi",
+    price: "Biaya Admin 5 Thn: -150 Juta",
+    costViewPrice: "Rp 850.000",
+    originalPrice: "Rp 1.500.000",
     period: "sekali bayar • 100% hak milik",
-    description: "Website sub-detik untuk validasi pasar dan konversi iklan seketika.",
+    description: "Website sub-detik berkecepatan tinggi untuk validasi pasar dan konversi instan.",
     highlighted: false,
     features: [
       "Siap jualan dalam 1–3 hari kerja",
-      "Performa loading instan (< 0.2s)",
-      "Gratis Domain .com & Cloud Server 1 Tahun",
-      "Formulir langsung terhubung ke WhatsApp",
-      "100% Hak Milik Aset (Tanpa Biaya Sewa)"
+      "Performa loading kilat (< 0.2s)",
+      "Gratis Domain & Cloud Server 1 Tahun",
+      "Tombol Direct WhatsApp Order",
+      "100% Hak Milik Aset (Tanpa Sewa)"
     ],
     roiFeatures: [
-      "Penghematan Gaji Admin: +150 Juta/thn",
-      "Lonjakan Closing Rate: +210%",
-      "Zero Downtime & Zero Malware Cost",
-      "ROI Lunas dalam 1 Minggu Pertama"
+      "Penghematan Gaji Admin: +120 Juta/thn",
+      "Lonjakan Closing Rate: +180%",
+      "Zero Downtime & Malware Free",
+      "ROI Lunas dalam Minggu Pertama"
     ],
-    ctaText: "Amankan Promo Rp 540K",
-    ctaMessage: "Halo Mas Chesta! Saya mau ambil paket promo Mesin Validasi Kilat Rp 540.000."
+    ctaText: "Amankan Rp 850K",
+    ctaMessage: "Halo Mas Chesta! Saya mau ambil paket Mesin Validasi Kilat Rp 850.000."
+  },
+  {
+    id: "professional",
+    name: "Landing Page Korporat Pro",
+    badge: "Bisnis Berkembang",
+    price: "Efisiensi Operasional: -220 Juta",
+    costViewPrice: "Rp 1.850.000",
+    originalPrice: "Rp 3.000.000",
+    period: "sekali bayar • aset mandiri selamanya",
+    description: "Multi-section profesional dengan struktur AEO dan SEO siap mendominasi Google.",
+    highlighted: false,
+    features: [
+      "Desain Eksklusif Enterprise-Grade",
+      "Struktur SEO & AEO Terintegrasi",
+      "Formulir Lead Generation Canggih",
+      "Optimasi Kecepatan Edge Runtime",
+      "Full Handover Source Code"
+    ],
+    roiFeatures: [
+      "Peningkatan Trafik Organik: +250%",
+      "Otomatisasi Lead Capture 24 Jam",
+      "Dominasi Keyword Lokal",
+      "Payback Period < 10 Hari"
+    ],
+    ctaText: "Pilih Pro Rp 1.850K",
+    ctaMessage: "Halo Mas Chesta! Saya tertarik dengan paket Landing Page Korporat Pro Rp 1.850.000."
   },
   {
     id: "scale",
-    name: "Scale Enterprise",
-    badge: "Dominasi Skala Menengah",
-    price: "Biaya Operasional Manual: -300 Juta",
-    costViewPrice: "Rp 1.850.000",
-    originalPrice: "Rp 3.500.000",
-    period: "sekali bayar • aset mandiri selamanya",
-    description: "Arsitektur multi-halaman dengan asisten cerdas 24/7 pelipatganda sales.",
+    name: "Scale Enterprise AI",
+    badge: "Paling Diminati Korporat",
+    price: "Biaya Operasional Manual: -450 Juta",
+    costViewPrice: "Rp 3.850.000",
+    originalPrice: "Rp 6.500.000",
+    period: "sekali bayar • otomatisasi penuh",
+    description: "Arsitektur otonom dengan asisten cerdas AI 24/7 pelipatganda sales korporat.",
     highlighted: true,
     features: [
-      "Arsitektur Multi-Halaman Eksklusif",
-      "Asisten Cerdas 24/7 (Saring Prospek Otomatis)",
-      "Sistem Katalog Interaktif Tanpa Lemot",
-      "Optimasi SEO & Kecepatan Standar Korporat",
+      "Arsitektur Next.js 15 Edge Runtime",
+      "Asisten Cerdas AI 24/7 (Saring Prospek)",
+      "Sistem Katalog Interaktif Masif",
       "Panel Kelola Konten Mandiri",
-      "Handover Source Code & 100% Bebas Biaya Bulanan"
+      "Proteksi Keamanan Tingkat Tinggi",
+      "100% Bebas Biaya Bulanan Platform"
     ],
     roiFeatures: [
-      "Penghematan Operasional AI: +250 Juta",
-      "Otomatisasi Lead Response 60 Detik",
-      "Dominasi Peringkat Google Lokal BSD",
+      "Penghematan Operasional AI: +350 Juta",
+      "Otomatisasi Respon Klien < 30 Detik",
+      "Dominasi Peringkat Regional & Nasional",
       "Payback Period Instan < 14 Hari"
     ],
-    ctaText: "Pilih Scale Enterprise",
-    ctaMessage: "Halo Mas Chesta! Saya tertarik dengan paket Scale Enterprise Rp 1.850.000."
+    ctaText: "Pilih Scale Enterprise AI",
+    ctaMessage: "Halo Mas Chesta! Saya ingin mengambil paket Scale Enterprise AI Rp 3.850.000."
   },
   {
-    id: "corporate",
-    name: "Ekosistem Korporat Mandiri",
-    badge: "Autonomous Engine Skala Penuh",
-    price: "Kerugian Human Error: -750 Juta",
-    costViewPrice: "Mulai Rp 4.500.000",
-    period: "investasi kustom • custom architecture",
-    description: "Sistem otomasi terintegrasi skala penuh peniup habis human-error operasional.",
+    id: "erp-pos",
+    name: "Sistem ERP & POS Cabang",
+    badge: "Retail, Pabrik & F&B",
+    price: "Kerugian Stok Hilang: -600 Juta",
+    costViewPrice: "Rp 7.500.000",
+    originalPrice: "Rp 12.000.000",
+    period: "sekali bayar • multi-cabang",
+    description: "Sinkronisasi stok real-time, laporan tutup buku EOD otomatis, dan anti crash.",
     highlighted: false,
     features: [
-      "Custom Workflow & Multi-User Access",
-      "Zero-Error Data Integration (Sinkronisasi Otomatis)",
-      "Proteksi Keamanan Berlapis Standar Perbankan",
-      "Handover Source Code 100% Hak Milik",
-      "Dukungan Prioritas VIP SLA Langsung Principal"
+      "Manajemen Multi-Cabang & Gudang",
+      "Automated EOD Closing & Laporan Keuangan",
+      "Anti Crash Saat Lonjakan Tutup Buku",
+      "Integrasi Barcode & POS Hardware",
+      "Database SQL Teroptimasi & Redis Caching"
     ],
     roiFeatures: [
-      "Proteksi Margin Korporat: +500 Juta+",
-      "Eliminasi Total Human Error",
-      "Infrastruktur Cloud Enterprise Skalabel",
-      "Dukungan Prioritas VIP Langsung"
+      "Eliminasi Selisih Stok: +500 Juta",
+      "Zero Downtime Saat Tutup Buku Jam 10 Malam",
+      "Kecepatan Rekapitulasi 10x Lipat",
+      "ROI 300% dalam Bulan Pertama"
     ],
-    ctaText: "Konsultasi Korporat",
-    ctaMessage: "Halo Mas Chesta! Perusahaan kami membutuhkan Ekosistem Korporat Mandiri."
+    ctaText: "Pilih ERP Cabang",
+    ctaMessage: "Halo Mas Chesta! Perusahaan kami butuh Sistem ERP & POS Cabang Rp 7.500.000."
+  },
+  {
+    id: "corporate-custom",
+    name: "Ekosistem Autonomous Custom",
+    badge: "Full Enterprise Grade",
+    price: "Proteksi Risiko: -1.2 Miliar+",
+    costViewPrice: "Mulai Rp 15.000.000",
+    period: "kustom penuh • dedicated SLA",
+    description: "Solusi enterprise end-to-end custom sesuai blueprint operasional korporasi Anda.",
+    highlighted: false,
+    features: [
+      "Custom Workflow & Multi-Role RBAC",
+      "Integrasi API Pihak Ketiga & ERP Lama",
+      "Dedicated Cloud Infrastructure & SLA 99.9%",
+      "Pendampingan Langsung Principal Engineer",
+      "Garansi Keamanan & Code Ownership Mutlak"
+    ],
+    roiFeatures: [
+      "Efisiensi Maksimal Skala Korporasi Besar",
+      "Eliminasi Total Risiko Human Error",
+      "Skalabilitas Tanpa Batas Kapasitas",
+      "Dukungan VIP 24/7 Langsung Tim Ahli"
+    ],
+    ctaText: "Diskusi Kustom Korporat",
+    ctaMessage: "Halo Mas Chesta! Kami ingin konsultasi custom Ekosistem Autonomous Enterprise."
   }
 ];
 
@@ -153,8 +205,8 @@ export default function InvestmentTiers() {
           </div>
         </div>
 
-        {/* 3 Pricing Matrices with Framer Motion Flip Animation */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">
+        {/* 5 Pricing Matrices with Framer Motion Flip Animation */}
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 items-stretch">
           {pricingTiers.map((tier) => (
             <motion.div
               key={tier.id}

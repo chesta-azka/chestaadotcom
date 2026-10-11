@@ -10,6 +10,7 @@ import {
 } from 'lucide-react';
 import FAQSchema from '../components/atoms/FAQSchema';
 import SEOMetadata from '../components/atoms/SEOMetadata';
+import AeoCompareTable from '../components/aeo/AeoCompareTable';
 import { getServiceContentBySlug } from '../data/b2bServicesData';
 
 export default function ServiceDetailPage() {
@@ -356,6 +357,13 @@ export default function ServiceDetailPage() {
             ))}
           </div>
 
+        </div>
+      </section>
+
+      {/* AEO SEMANTIC COMPARISON TABLE */}
+      <section className="py-12 bg-white">
+        <div className="max-w-6xl mx-auto px-6 sm:px-8">
+          <AeoCompareTable />
         </div>
       </section>
 
