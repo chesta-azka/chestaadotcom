@@ -405,6 +405,187 @@ Anda tidak bisa memaksakan mesin mobil LCGC untuk balapan Formula 1 bersama ches
 <p class="font-semibold text-purple-900 bg-purple-50 p-6 rounded-2xl border border-purple-200">
 Chestaa membangun sistem pencatatan keuangan dan ERP berbasis Node.js dan PostgreSQL yang mampu menangani beban jutaan kueri tanpa hambatan, menghasilkan laporan keuangan terkonsolidasi dari 50 cabang dalam waktu kurang dari dua detik.
 </p>`
+  },
+  {
+    slug: 'panduan-arsitektur-it-enterprise-1500-kata',
+    title: 'Blueprint 2027: Merombak Arsitektur IT Konvensional Menjadi Mesin ROI Otonom',
+    excerpt: 'Panduan teknis komprehensif bagaimana perusahaan skala enterprise memangkas biaya server, menghilangkan SaaS fatigue, dan mengimplementasikan Karyawan AI.',
+    date: '2026-10-27',
+    author: 'Chesta - Principal Architect',
+    category: 'Enterprise Whitepaper',
+    readTime: '15 MIN READ',
+    readTimeMinutes: 15,
+    image: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=2670&auto=format&fit=crop',
+    content: `<p class="lead text-xl font-semibold text-slate-900 mb-8">
+    Dalam lanskap bisnis modern yang bergerak secepat kilat, sebagian besar perusahaan skala menengah dan enterprise masih beroperasi di atas fondasi teknologi yang usang. Mereka terjebak dalam siklus pengeluaran berulang (OPEX) yang mencekik, vendor lock-in yang kaku, serta silo data yang menghambat pengambilan keputusan strategis. Whitepaper komprehensif dari chestaadotcom ini membedah secara mendalam bagaimana merombak total arsitektur IT konvensional menjadi aset infrastruktur otonom yang menghasilkan Return on Investment (ROI) masif.
+    </p>
+
+    <h2 class="text-3xl font-bold text-slate-950 mt-12 mb-6">BAB 1: The Executive Problem - Jebakan SaaS Fatigue &amp; Biaya Lisensi Eksponensial</h2>
+    <p class="mb-6">
+    Berapa banyak aplikasi berbasis Software as a Service (SaaS) yang perusahaan Anda bayar setiap bulan? Mulai dari platform manajemen proyek (Trello, Asana), sistem komunikasi (Slack, Microsoft Teams), perangkat lunak CRM (Salesforce, HubSpot), hingga aplikasi HRIS dan pembukuan terpisah. Pada pandangan pertama, berlangganan per bulan tampak seperti keputusan operasional yang ringan dan fleksibel. Namun, ketika perusahaan Anda memasuki fase scaling, model per-seat pricing (biaya per pengguna) berubah menjadi monster keuangan.
+    </p>
+    <p class="mb-6">
+    Setiap kali Anda merekrut karyawan baru, bukan hanya gaji dan fasilitas mereka yang bertambah, tetapi juga pajak lisensi software. Perusahaan dengan 200 karyawan yang berlangganan 10 platform SaaS berbeda rata-rata membakar lebih dari 1,5 hingga 3 miliar rupiah per tahun hanya untuk hak sewa perangkat lunak. Yang lebih menyedihkan, data perusahaan terfragmentasi di puluhan database pihak ketiga yang tidak saling terhubung secara real-time. Karyawan harus melakukan copy-paste data secara manual dari aplikasi A ke aplikasi B, menciptakan celah human error yang mengancam akurasi laporan keuangan direksi.
+    </p>
+    <p class="mb-6">
+    Inilah yang disebut sebagai SaaS Fatigue. Perusahaan tidak lagi mengendalikan teknologi mereka; sebaliknya, vendor perangkat lunak lah yang mendikte alur kerja dan anggaran korporat Anda. chestaadotcom hadir untuk memutus rantai ketergantungan ini melalui pembangunan infrastruktur kustom yang sepenuhnya menjadi milik Anda.
+    </p>
+
+    <h2 class="text-3xl font-bold text-slate-950 mt-12 mb-6">BAB 2: Legacy Systems vs Headless Architecture - Mengapa Monolithic ERP Gagal</h2>
+    <p class="mb-6">
+    Kesalahan terbesar yang sering dilakukan oleh CTO atau pimpinan operasional adalah mengandalkan Enterprise Resource Planning (ERP) konvensional yang bersifat monolitik. Sistem lama ini dibangun di atas basis kode kuno yang berat, membutuhkan server fisik berkapasitas besar, dan sangat rentan terhadap kegagalan sistem (system downtime). Ketika perusahaan ingin mengubah satu alur persetujuan (approval workflow) saja, tim pengembang harus merombak seluruh modul yang berdampak pada terhentinya operasional harian.
+    </p>
+    <p class="mb-6">
+    Sebagai tandingan mutlak, chestaadotcom memperkenalkan arsitektur Headless berbasis Next.js 15 dan PostgreSQL. Dalam paradigma ini, lapisan antarmuka pengguna (frontend) dipisahkan secara total dari lapisan pemrosesan data (backend). Frontend dirender di Edge Network dengan kecepatan sub-detik, sementara backend bekerja di dalam kontainer terisolasi yang aman.
+    </p>
+    <ul class="list-disc pl-6 space-y-3 mb-8 text-slate-700">
+        <li><strong>Zero Vendor Lock-in:</strong> Anda memegang 100% kode sumber (source code). Tidak ada lagi tagihan perpanjangan lisensi tahunan yang menaikkan harga secara sepihak.</li>
+        <li><strong>Skalabilitas Tanpa Batas:</strong> Tambahkan 10 atau 10.000 pengguna baru ke dalam sistem; kapasitas pemrosesan tetap stabil tanpa lonjakan biaya lisensi.</li>
+        <li><strong>Performa Sub-Detik:</strong> Pengguna tidak perlu menunggu halaman memuat ulang. Seluruh transisi data terjadi secara asinkron dalam milidetik.</li>
+    </ul>
+
+    <h2 class="text-3xl font-bold text-slate-950 mt-12 mb-6">BAB 3: The AI Integration Framework - Menerapkan Karyawan AI Otonom</h2>
+    <p class="mb-6">
+    Banyak perusahaan mengira adopsi AI berarti sekadar menyematkan widget chatbot generik di sudut kanan bawah website mereka. Ini adalah pemahaman yang dangkal. Adopsi AI tingkat enterprise menuntut integrasi model bahasa besar (LLM) langsung ke dalam inti basis data dan alur kerja perusahaan.
+    </p>
+    <p class="mb-6">
+    chestaadotcom merancang kerangka kerja Karyawan Digital AI yang beroperasi dalam tiga lapisan ketat:
+    </p>
+    <ol class="list-decimal pl-6 space-y-3 mb-8 text-slate-700">
+        <li><strong>Retrieval-Augmented Generation (RAG) Terisolasi:</strong> Agen AI dilatih secara eksklusif menggunakan dokumen Standar Operasional Prosedur (SOP), katalog produk, dan riwayat transaksi perusahaan Anda. Tidak ada data rahasia yang bocor ke ranah publik.</li>
+        <li><strong>Multi-Agent Orchestration:</strong> Agen AI dibagi berdasarkan divisi spesifik—ada yang bertugas sebagai Customer Service otonom di WhatsApp, ada yang memantau anomali stok gudang, dan ada yang menyusun draf laporan keuangan mingguan untuk direksi.</li>
+        <li><strong>Human-in-the-Loop Guardrails:</strong> Untuk transaksi finansial atau keputusan sensitif di atas batas nominal tertentu, sistem otomatis menahan eksekusi dan mengirimkan tombol persetujuan satu klik (one-click approval) ke perangkat pimpinan perusahaan.</li>
+    </ol>
+
+    <h2 class="text-3xl font-bold text-slate-950 mt-12 mb-6">BAB 4: Financial Impact &amp; Simulasi Kalkulasi ROI (Studi Kasus 2 Miliar Rupiah)</h2>
+    <p class="mb-6">
+    Untuk membuktikan dampak finansial secara nyata, mari kita bedah simulasi perhitungan ROI dari salah satu klien manufaktur menengah yang bermitra dengan chestaadotcom di kawasan industri BSD City.
+    </p>
+    <div class="p-6 rounded-2xl bg-purple-50 border border-purple-200 my-6 space-y-4 text-slate-800">
+        <h4 class="font-bold text-lg text-purple-950">Simulasi Finansial Migrasi SaaS ke Custom Web App chestaadotcom</h4>
+        <ul class="space-y-2 text-sm">
+            <li><strong>Biaya Tahunan 5 SaaS Lama (CRM, ERP, Helpdesk, HRIS, Project Mgmt):</strong> Rp 2.400.000.000 / tahun</li>
+            <li><strong>Biaya Pengembangan Infrastruktur Kustom chestaadotcom (Investasi Sekali):</strong> Rp 350.000.000 (Satu waktu)</li>
+            <li><strong>Biaya Pemeliharaan Server Cloud Tahunan:</strong> Rp 45.000.000 / tahun</li>
+            <li><strong>Penghematan Bersih Tahun Pertama:</strong> Rp 2.005.000.000 (Dua Miliar Lima Juta Rupiah)</li>
+            <li><strong>Penghematan Bersih Tahun Kedua dan Seterusnya:</strong> Rp 2.355.000.000 per tahun</li>
+        </ul>
+    </div>
+    <p class="mb-6">
+    Angka di atas berbicara sendiri. Investasi pada arsitektur kustom bukanlah pengeluaran operasional (OPEX) yang habis terbuang, melainkan aset modal (CAPEX) yang melipatgandakan marjin laba bersih perusahaan secara permanen.
+    </p>
+
+    <h2 class="text-3xl font-bold text-slate-950 mt-12 mb-6">BAB 5: Keamanan Siber, Kepatuhan (Compliance), &amp; Tenant-Isolation</h2>
+    <p class="mb-6">
+    Di era regulasi perlindungan data pribadi yang semakin ketat, keamanan siber adalah benteng pertahanan terakhir perusahaan Anda. Sebagian besar platform cloud murah menggunakan database bersama (shared database), di mana data perusahaan Anda berdampingan dengan data kompetitor di server yang sama.
+    </p>
+    <p class="mb-6">
+    chestaadotcom menerapkan standar Tenant-Isolation mutlak. Setiap klien enterprise mendapatkan instance database PostgreSQL terdedikasi yang dienkripsi menggunakan standar militer (AES-256). Sistem pertahanan berlapis, termasuk Cloudflare WAF, proteksi anti-DDoS, dan audit trail transparan, memastikan bahwa ancaman seperti ransomware atau kebocoran data dapat dicegah sepenuhnya sebelum terjadi.
+    </p>
+
+    <h2 class="text-3xl font-bold text-slate-950 mt-12 mb-6">BAB 6: Roadmap Implementasi - Dari Audit Hingga Rilis Otonom</h2>
+    <p class="mb-6">
+    Transformasi digital tidak harus menakutkan atau menghentikan operasional harian perusahaan. chestaadotcom menerapkan metodologi Strangulation Pattern yang teruji:
+    </p>
+    <ol class="list-decimal pl-6 space-y-3 mb-8 text-slate-700">
+        <li><strong>Fase 1: Audit Inefisiensi &amp; Pemetaan Proses (Minggu 1):</strong> Arsitek kami turun langsung ke kantor Anda untuk membedah seluruh alur kerja manual, mencatat kebocoran anggaran SaaS, dan menyusun blueprint sistem.</li>
+        <li><strong>Fase 2: Proof of Concept &amp; Prototipe Terbatas (Minggu 2-3):</strong> Membangun versi beta dari aplikasi kustom dan menguji integrasi Karyawan AI pada satu divisi spesifik.</li>
+        <li><strong>Fase 3: Migrasi Paralel &amp; Parallel Run (Minggu 4-5):</strong> Menjalankan sistem baru berdampingan dengan sistem lama untuk memastikan akurasi data 100% tanpa downtime.</li>
+        <li><strong>Fase 4: Peluncuran Penuh &amp; Pelatihan Staf (Minggu 6):</strong> Penyerahan seluruh aset source code, dokumentasi teknis, serta pelatihan intensif bagi tim internal Anda.</li>
+    </ol>
+  },
+  {
+    slug: 'blueprint-otomatisasi-pabrik-kawasan-industri-1500-kata',
+    title: 'Blueprint Manufaktur 2027: Membawa Artificial Intelligence ke Lantai Pabrik Cikarang & Karawang',
+    excerpt: 'Panduan 1.500 kata untuk direktur manufaktur. Mengapa mesin produksi miliaran rupiah Anda kehilangan nilai tanpa lapisan AI otonom dan komputasi edge.',
+    date: '2026-10-28',
+    author: 'Chesta - Principal Architect',
+    category: 'Industrial Automation',
+    readTime: '18 MIN READ',
+    readTimeMinutes: 18,
+    image: 'https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?q=80&w=2670&auto=format&fit=crop',
+    content: `<p class="lead text-xl font-semibold text-slate-900 mb-8">
+    Koridor industri timur Jakarta—mulai dari Kawasan Industri MM2100 Cikarang, Jababeka, EJIP, KIIC Karawang, hingga GIIC Deltamas—adalah jantung penggerak perekonomian manufaktur nasional. Di dalam pabrik-pabrik berstandar global ini, mesin produksi bernilai puluhan hingga ratusan miliar rupiah beroperasi 24 jam sehari. Namun, sebuah ironi besar terjadi di ruang kendali dan kantor operasional: manajemen rantai pasok dan pencatatan inventaris lantai pabrik masih dikelola menggunakan spreadsheet Excel yang rentan kesalahan dan sistem ERP monolitik yang lambat. Whitepaper mendalam dari chestaadotcom ini mengupas tuntas blueprint revolusioner untuk mentransformasi lantai pabrik konvensional menjadi ekosistem manufaktur otonom berbasis Artificial Intelligence dan Edge Computing.
+    </p>
+
+    <h2 class="text-3xl font-bold text-slate-950 mt-12 mb-6">BAB 1: The Disconnected Factory Floor - Ketika Mesin Canggih Berjalan di Atas Data Buta</h2>
+    <p class="mb-6">
+    Bayangkan sebuah pabrik perakitan otomotif di Kawasan Industri MM2100. Di lini produksi utama, puluhan lengan robotik presisi tinggi bekerja tanpa henti mengelas rangka kendaraan. Setiap detik, sensor IoT (Internet of Things) pada mesin tersebut menghasilkan jutaan data titik telemetri: suhu motor, getaran spindle, tekanan hidrolik, dan konsumsi daya listrik. Secara teori, ini adalah surga data bagi para insinyur. Namun pada praktiknya, apa yang terjadi di lapangan?
+    </p>
+    <p class="mb-6">
+    Sebagian besar data telemetri tersebut menguap begitu saja atau terjebak di dalam sistem komputer lokal berbasis Windows XP atau Windows 7 yang terisolasi dari internet demi alasan keamanan (air-gapped). Ketika terjadi anomali getaran pada mesin press hidrolik, operator lini produksi tidak mengetahuinya hingga mesin tersebut mengalami mogok total (catastrophic failure). Sesampainya di kantor administrasi, supervisor pabrik harus membuka file Excel berukuran raksasa, memasukkan data laporan harian secara manual, dan mengirimkan rekapitulasi melalui email kepada general manager.
+    </p>
+    <p class="mb-6">
+    Bottleneck administratif ini menciptakan jurang pemisah yang fatal antara kapasitas fisik mesin dan kecepatan pengambilan keputusan manajerial. Keterlambatan pelaporan bahan baku selama dua jam saja dapat melumpuhkan seluruh jadwal pengiriman ekspor ke Cikarang Dry Port. chestaadotcom hadir untuk meruntuhkan sekat silo data ini dengan menghubungkan sensor fisik lantai pabrik langsung ke dalam arsitektur database otonom yang cerdas, aman, dan instan.
+    </p>
+
+    <h2 class="text-3xl font-bold text-slate-950 mt-12 mb-6">BAB 2: Edge Computing &amp; Low-Latency AI - Mengapa Cloud Publik Gagal di Lantai Pabrik</h2>
+    <p class="mb-6">
+    Kesalahan arsitektural yang sering dilakukan oleh konsultan IT amatiran adalah mengirimkan seluruh data sensor dari mesin pabrik langsung ke cloud publik (seperti AWS US-East atau GCP Singapore) untuk dianalisis oleh model Artificial Intelligence. Bagi sebuah perusahaan e-commerce, latensi jaringan 200 milidetik tidak menjadi masalah. Namun di lantai pabrik Cikarang atau Karawang, latensi 200 milidetik dapat berarti perbedaan antara menghentikan mesin sebelum rusak atau menghancurkan cetakan baja senilai dua miliar rupiah.
+    </p>
+    <p class="mb-6">
+    Di sinilah pentingnya penerapan Edge Computing dan On-Premise AI yang dipelopori oleh chestaadotcom. Kami menempatkan server mini berkinerja tinggi (Edge Node) di dalam ruang server pabrik Anda. Model Machine Learning dan agen otonom berjalan secara lokal di dalam gedung pabrik, memproses data telemetri mesin dalam hitungan milidetik tanpa harus keluar ke internet publik.
+    </p>
+    <ul class="list-disc pl-6 space-y-3 mb-8 text-slate-700">
+        <li><strong>Zero Latency Decision Making:</strong> Deteksi anomali getaran mesin dieksekusi dalam waktu kurang dari 15 milidetik, langsung memicu mekanisme pengamanan otomatis.</li>
+        <li><strong>Kedaulatan Data Mutlak:</strong> Seluruh rahasia dagang, formula produk, dan parameter operasional pabrik tidak pernah meninggalkan perimeter fisik perusahaan Anda.</li>
+        <li><strong>Ketahanan Koneksi Internet:</strong> Jika koneksi internet utama terputus, pabrik tetap beroperasi secara mandiri tanpa terganggu sama sekali.</li>
+    </ul>
+
+    <h2 class="text-3xl font-bold text-slate-950 mt-12 mb-6">BAB 3: Supply Chain Autonomy - Karyawan AI sebagai Pengelola Rantai Pasok</h2>
+    <p class="mb-6">
+    Rantai pasok (supply chain) manufaktur modern sangat rentan terhadap guncangan eksternal: mulai dari kemacetan jalur logistik pelabuhan, keterlambatan pengiriman bahan baku baja dari supplier luar negeri, hingga fluktuasi mendadak permintaan pasar ekspor. Manajemen rantai pasok konvensional bereaksi secara reaktif—mereka baru memesan barang setelah stok di gudang benar-benar habis.
+    </p>
+    <p class="mb-6">
+    chestaadotcom mengubah paradigma ini menjadi otonom melalui integrasi Karyawan Digital AI yang mengawasi rantai pasok 24 jam sehari. Agen AI kami terhubung langsung dengan sistem inventaris gudang, jadwal kedatangan kontainer di Cikarang Dry Port, dan data cuaca maritim global.
+    </p>
+    <ol class="list-decimal pl-6 space-y-3 mb-8 text-slate-700">
+        <li><strong>Prediksi Konsumsi Material Akurat:</strong> AI menghitung tingkat konsumsi resin atau lembaran baja berdasarkan kecepatan produksi harian dan tren pesanan pelanggan.</li>
+        <li><strong>Otomasi Pemesanan Ulang (Autonomous Purchase Order):</strong> Ketika stok bahan baku mendekati ambang batas aman (safety stock), sistem AI secara otonom menyusun draf surat pesanan ke vendor pilihan terbaik berdasarkan riwayat harga dan kecepatan pengiriman.</li>
+        <li><strong>Persetujuan Direksi Satu Klik:</strong> Pimpinan pabrik menerima pemberitahuan di WhatsApp atau dasbor eksekutif lengkap dengan analisis perbandingan harga vendor, lalu menyetujuinya hanya dengan satu klik.</li>
+    </ol>
+
+    <h2 class="text-3xl font-bold text-slate-950 mt-12 mb-6">BAB 4: Overall Equipment Effectiveness (OEE) &amp; Kalkulasi ROI Prediktif</h2>
+    <p class="mb-6">
+    Di dunia manufaktur, metrik paling sakral adalah Overall Equipment Effectiveness (OEE)—gabungan dari ketersediaan mesin (availability), kinerja produksi (performance), dan tingkat kualitas produk (quality). Pabrik rata-rata di kawasan industri Cikarang mencatat angka OEE sekitar 65%. Artinya, 35% potensi kapasitas pabrik hilang begitu saja akibat kemacetan mesin, waktu setup yang lama, dan produk cacat.
+    </p>
+    <p class="mb-6">
+    Mari kita bedah secara matematis dampak finansial dari penerapan Predictive Maintenance AI yang dibangun oleh chestaadotcom.
+    </p>
+    <div class="p-6 rounded-2xl bg-purple-50 border border-purple-200 my-6 space-y-4 text-slate-800">
+        <h4 class="font-bold text-lg text-purple-950">Simulasi Finansial Penghematan OEE &amp; Downtime Pabrik Menengah</h4>
+        <ul class="space-y-2 text-sm">
+            <li><strong>Kerugian Rata-rata Downtime Mesin Utama:</strong> Rp 150.000.000 per jam</li>
+            <li><strong>Frekuensi Kerusakan Mendadak (Sebelum AI):</strong> 4 kali per bulan = 12 jam downtime / bulan</li>
+            <li><strong>Total Kerugian Bulanan Akibat Kerusakan:</strong> Rp 1.800.000.000 / bulan</li>
+            <li><strong>Reduksi Kerusakan dengan AI Predictive Maintenance:</strong> Berkurang hingga 90%</li>
+            <li><strong>Penghematan Bersih Tahunan:</strong> Rp 19.440.000.000 (Sembilan Belas Miliar Empat Ratus Empat Puluh Juta Rupiah)</li>
+        </ul>
+    </div>
+    <p class="mb-6">
+    Angka di atas membuktikan bahwa investasi pada infrastruktur AI lantai pabrik bukanlah biaya tambahan, melainkan penyelamat profitabilitas yang mengembalikan modalnya dalam hitungan minggu.
+    </p>
+
+    <h2 class="text-3xl font-bold text-slate-950 mt-12 mb-6">BAB 5: Cybersecurity on the Factory Floor - Menangkal Ancaman Industrial Ransomware</h2>
+    <p class="mb-6">
+    Ketika sebuah pabrik terhubung dengan dunia digital, ia juga membuka pintu bagi ancaman siber paling mematikan di era modern: Industrial Ransomware. Berbeda dengan kantor perusahaan biasa, serangan ransomware di pabrik manufaktur dapat mengunci sistem SCADA, mematikan katup pengaman tekanan boiler, atau merusak seluruh riwayat produksi secara permanen.
+    </p>
+    <p class="mb-6">
+    chestaadotcom menerapkan protokol keamanan tingkat militer untuk infrastruktur manufaktur. Kami menggunakan arsitektur Air-Gapped Network Isolation, di mana jaringan mesin operasional (OT) dipisahkan secara fisik dan kriptografis dari jaringan kantor administrasi (IT). Bahkan jika komputer kantor terserang phising atau malware, lini produksi pabrik tetap berjalan tanpa terpengaruh sedikit pun.
+    </p>
+
+    <h2 class="text-3xl font-bold text-slate-950 mt-12 mb-6">BAB 6: The 90-Day Deployment Roadmap - Dari Audit Pabrik Hingga Rilis Otonom</h2>
+    <p class="mb-6">
+    Kami memahami bahwa menghentikan lini produksi pabrik bahkan selama satu hari saja dapat menimbulkan kerugian besar. Oleh karena itu, chestaadotcom merancang metodologi penerapan 90 hari yang dirancang khusus untuk korporasi manufaktur tanpa mengganggu shift kerja harian:
+    </p>
+    <ol class="list-decimal pl-6 space-y-3 mb-8 text-slate-700">
+        <li><strong>Bulan 1 (Hari 1-30): Audit Sensor &amp; Pemetaan Protokol Mesin:</strong> Tim arsitek kami mendatangi pabrik Anda di Cikarang atau Karawang untuk memetakan seluruh jenis PLC, sensor IoT, dan format data legacy yang digunakan mesin Anda.</li>
+        <li><strong>Bulan 2 (Hari 31-60): Instalasi Edge Node &amp; Training Model AI:</strong> Pemasangan server lokal di ruang kontrol pabrik, kalibrasi model prediksi kerusakan mesin, dan penyusunan antarmuka dasbor Next.js 15.</li>
+        <li><strong>Bulan 3 (Hari 61-90): Integrasi ERP, Uji Coba Paralel &amp; Handover:</strong> Menghubungkan sistem AI dengan modul inventaris gudang, pelatihan operator lantai pabrik, dan peluncuran resmi sistem otonom.</li>
+    </ol>
+    <p class="font-semibold text-purple-900 bg-purple-50 p-6 rounded-2xl border border-purple-200">
+    Kesimpulan: Masa depan manufaktur Indonesia ditentukan oleh kecepatan adaptasi teknologi. Jangan biarkan pabrik Anda tertinggal di era digital. Hubungi chestaadotcom hari ini dan mulailah perjalanan menuju efisiensi mutlak dan dominasi industri.
+    </p>`
   }
 ];
 
