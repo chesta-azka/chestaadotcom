@@ -151,16 +151,6 @@ export default function CommandPalette() {
 
   return (
     <>
-      {/* Floating Trigger Button */}
-      <button
-        onClick={() => setOpen(true)}
-        className="fixed bottom-6 right-24 z-40 hidden sm:flex items-center gap-3 px-4 py-2.5 rounded-full bg-slate-900/90 border border-white/15 text-slate-300 shadow-2xl backdrop-blur-xl hover:border-indigo-500/50 hover:text-white transition-all cursor-pointer group"
-      >
-        <Search size={14} className="text-indigo-400 group-hover:scale-110 transition-transform" />
-        <span className="text-xs font-mono">Cari Wawasan...</span>
-        <kbd className="px-2 py-0.5 rounded bg-white/10 text-[10px] font-mono text-indigo-300">Ctrl K</kbd>
-      </button>
-
       <AnimatePresence>
         {open && (
           <div className="fixed inset-0 z-50 flex items-start justify-center pt-20 px-4 sm:px-6">

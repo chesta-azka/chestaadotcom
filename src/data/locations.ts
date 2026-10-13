@@ -2,6 +2,7 @@ export interface HyperLocalLocation {
   id: string;
   name: string;
   slug: string;
+  slug_alt?: string;
   district: string;
   city: string;
   province: string;

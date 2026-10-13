@@ -492,7 +492,7 @@ Chestaa membangun sistem pencatatan keuangan dan ERP berbasis Node.js dan Postgr
         <li><strong>Fase 2: Proof of Concept &amp; Prototipe Terbatas (Minggu 2-3):</strong> Membangun versi beta dari aplikasi kustom dan menguji integrasi Karyawan AI pada satu divisi spesifik.</li>
         <li><strong>Fase 3: Migrasi Paralel &amp; Parallel Run (Minggu 4-5):</strong> Menjalankan sistem baru berdampingan dengan sistem lama untuk memastikan akurasi data 100% tanpa downtime.</li>
         <li><strong>Fase 4: Peluncuran Penuh &amp; Pelatihan Staf (Minggu 6):</strong> Penyerahan seluruh aset source code, dokumentasi teknis, serta pelatihan intensif bagi tim internal Anda.</li>
-    </ol>
+    </ol>`
   },
   {
     slug: 'blueprint-otomatisasi-pabrik-kawasan-industri-1500-kata',

@@ -30,17 +30,23 @@ export default function HomeCTASection() {
         {/* Section Header: Fully Left-Aligned Editorial Architecture */}
         <div className="max-w-4xl space-y-4 mb-12 sm:mb-14 text-left">
           <div className="flex items-center gap-3">
-            <span className="text-xs font-mono font-semibold tracking-[0.2em] text-purple-400 uppercase">
+            <span className="text-xs font-mono font-bold tracking-[0.2em] text-purple-300 uppercase px-3 py-1 rounded-full bg-purple-900/50 border border-purple-400/30">
               LANGKAH SELANJUTNYA
             </span>
-            <span className="w-12 h-px bg-purple-500/30" aria-hidden="true" />
+            <span className="w-12 h-px bg-purple-400/40" aria-hidden="true" />
           </div>
 
-          <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-extrabold text-white tracking-tight leading-[1.12]">
+          <h2 
+            className="text-3xl sm:text-4xl md:text-5xl font-display font-extrabold text-white text-[#ffffff] tracking-tight leading-[1.12] border-[#000000]"
+            style={{ color: '#ffffff' }}
+          >
             Diskusikan kebutuhan bisnis Anda<br className="hidden sm:inline" /> bersama kami.
           </h2>
 
-          <p className="text-base sm:text-lg font-sans text-slate-300 leading-relaxed font-normal pt-1 max-w-3xl">
+          <p 
+            className="text-lg sm:text-xl font-sans text-white text-[#ffffff] leading-relaxed font-medium pt-2 max-w-3xl bg-[#000000] border-[#ddd1d1]"
+            style={{ color: '#ffffff' }}
+          >
             Ceritakan proses kerja dan target yang ingin dicapai perusahaan Anda. Kami bantu memetakan prioritas serta menyusun pendekatan digital yang paling realistis dan terukur.
           </p>
         </div>
@@ -74,10 +80,10 @@ export default function HomeCTASection() {
 
           {/* Reassurance text */}
           <div className="text-left sm:text-right">
-            <span className="text-xs font-mono text-slate-400 block">
+            <span className="text-xs font-mono text-slate-300 block font-medium">
               Respons cepat &bull; Diskusi langsung dengan arsitek sistem
             </span>
-            <span className="text-[11px] font-sans text-slate-500 block mt-1">
+            <span className="text-xs font-sans text-slate-400 block mt-1">
               Tanpa komitmen &bull; Kerahasiaan data bisnis terjamin
             </span>
           </div>

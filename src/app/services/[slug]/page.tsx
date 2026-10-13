@@ -26,10 +26,11 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
   const resolvedParams = await params;
   const slug = resolvedParams?.slug || '';
   const matchedContent = getServiceContentBySlug(slug);
+  const serviceTitle = matchedContent.title || matchedContent.h1.split('(')[0].trim();
 
-  const title = `Konsultan ${matchedContent.title} & Otomatisasi Workflow AI | chestaadotcom`;
-  const description = `Solusi Konsultasi ${matchedContent.title} terbaik untuk Skala Enterprise. Tingkatkan Efisiensi Operasional dan maksimalkan ROI bisnis Anda bersama chestaadotcom.`;
-  const keywords = `Skala Enterprise, Efisiensi Operasional, ROI, ${matchedContent.title}, konsultan ai, otomatisasi workflow, chestaadotcom, ${matchedContent.commercialKeywords}`;
+  const title = `Konsultan ${serviceTitle} & Otomatisasi Workflow AI | chestaadotcom`;
+  const description = `Solusi Konsultasi ${serviceTitle} terbaik untuk Skala Enterprise. Tingkatkan Efisiensi Operasional dan maksimalkan ROI bisnis Anda bersama chestaadotcom.`;
+  const keywords = `Skala Enterprise, Efisiensi Operasional, ROI, ${serviceTitle}, konsultan ai, otomatisasi workflow, chestaadotcom, ${matchedContent.commercialKeywords}`;
 
   return {
     title,
@@ -110,7 +111,7 @@ export default async function ServiceDetailPage({ params }: PageProps) {
             </div>
 
             <h1 className="text-5xl font-extrabold text-slate-900 leading-tight">
-              Solusi <span className="text-purple-600">{matchedContent.title}</span> untuk <br/>
+              Solusi <span className="text-purple-600">{matchedContent.title || matchedContent.h1.split('(')[0].trim()}</span> untuk <br/>
               {isUmkm ? 'Dominasi Bisnis Lokal' : 'Skala Enterprise'}
             </h1>
 

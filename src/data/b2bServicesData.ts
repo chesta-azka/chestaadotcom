@@ -1,5 +1,6 @@
 export interface B2BServiceContent {
   slug: string;
+  title?: string;
   metaTitle: string;
   metaDescription: string;
   commercialKeywords: string;
