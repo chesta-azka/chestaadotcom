@@ -1,21 +1,109 @@
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,200..800;1,200..800&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=JetBrains+Mono:wght@400;500;600&display=swap');
 @import "tailwindcss";
 
 @theme {
-  --font-sans: "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-sans: "Plus Jakarta Sans", "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, monospace;
-  --font-display: "Plus Jakarta Sans", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-  --font-serif: "Plus Jakarta Sans", Georgia, serif;
-  
-  --text-fluid-h1: clamp(2.25rem, 5vw + 1rem, 4.75rem);
-  --text-fluid-h2: clamp(1.75rem, 3.5vw + 1rem, 3.5rem);
-  --text-fluid-h3: clamp(1.25rem, 2.5vw + 1rem, 2.25rem);
+  --font-display: "Plus Jakarta Sans", "Inter", system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+  --color-bg: #FFFFFF;
+  --color-bg-soft: #F8F6FE;
+  --color-bg-tint: #EFEAFB;
+  --color-ink: #17122B;
+  --color-ink-muted: #5B5675;
+  --color-line: rgba(91, 60, 196, 0.14);
+  --color-purple-300: #B9A2F2;
+  --color-purple-500: #7C54E0;
+  --color-purple-600: #6A3FD0;
+  --color-purple-700: #5230B0;
+  --color-purple-900: #2B1763;
+
+  --text-fluid-h1: clamp(2rem, 4.2vw, 3.25rem);
+  --text-fluid-h2: clamp(1.5rem, 2.8vw, 2.25rem);
+  --text-fluid-h3: 1.125rem;
 }
 
-@keyframes shimmer {
-  100% {
-    transform: translateX(100%);
+:root {
+  --bg: #FFFFFF;
+  --bg-soft: #F8F6FE;
+  --bg-tint: #EFEAFB;
+  --ink: #17122B;
+  --ink-muted: #5B5675;
+  --line: rgba(91, 60, 196, 0.14);
+  --purple-300: #B9A2F2;
+  --purple-500: #7C54E0;
+  --purple-600: #6A3FD0;
+  --purple-700: #5230B0;
+  --purple-900: #2B1763;
+
+  /* Motion Tokens — Easings */
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  --ease-soft: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-spring: cubic-bezier(0.16, 1, 0.3, 1);
+
+  /* Motion Tokens — Durations & Stagger */
+  --dur-micro: 150ms;
+  --dur-ui: 280ms;
+  --dur-reveal: 700ms;
+  --dur-hero: 1000ms;
+  --stagger-step: 60ms;
+
+  /* Runtime Scroll & Velocity Vars */
+  --scroll-progress: 0;
+  --marquee-duration: 32s;
+}
+
+@supports (transition-timing-function: linear(0, 1)) {
+  :root {
+    --ease-spring: linear(
+      0, 0.009, 0.035 2.1%, 0.141, 0.281 6.7%, 0.723 12.9%, 0.938 16.7%, 1.017,
+      1.077, 1.121, 1.149 24.3%, 1.159, 1.163, 1.161, 1.154 29.9%, 1.129 32.8%,
+      1.051 39.6%, 1.017 43.1%, 0.991, 0.977 51%, 0.974 53.8%, 0.975 57.1%,
+      0.997 69.8%, 1.003 76.9%, 1.004 83.8%, 1
+    );
   }
+}
+
+/* Cross-Document & SPA View Transitions */
+@view-transition {
+  navigation: auto;
+}
+
+@keyframes vtFadeOut {
+  from {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    opacity: 0;
+    transform: translate3d(0, -6px, 0);
+  }
+}
+
+@keyframes vtFadeIn {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 8px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+::view-transition-old(root) {
+  animation: vtFadeOut 180ms var(--ease-out) both;
+}
+
+::view-transition-new(root) {
+  animation: vtFadeIn 260ms var(--ease-out) both;
+}
+
+/* Instant Language Switch Override (<120ms opacity only, zero translate) */
+html[data-lang-switching="true"]::view-transition-old(root),
+html[data-lang-switching="true"]::view-transition-new(root) {
+  animation-duration: 100ms !important;
+  transform: none !important;
 }
 
 html {
@@ -24,9 +112,13 @@ html {
   -moz-osx-font-smoothing: grayscale;
   overflow-x: hidden;
   width: 100%;
+  background-color: var(--bg);
+  color: var(--ink);
+  scroll-behavior: smooth;
 }
 
-html.lenis, html.lenis body {
+html.lenis,
+html.lenis body {
   height: auto;
 }
 
@@ -43,12 +135,12 @@ html.lenis, html.lenis body {
 }
 
 body {
-  background-color: #FFFFFF;
-  color: #0b0f19;
+  background-color: var(--bg);
+  color: var(--ink);
   font-family: var(--font-sans);
-  font-size: 16px;
-  line-height: 1.75;
-  letter-spacing: -0.005em;
+  font-size: 15px;
+  line-height: 1.65;
+  letter-spacing: -0.01em;
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -58,72 +150,82 @@ body {
   padding: 0;
 }
 
-/* Refined typographic hierarchy: tame excessive boldness across all headers and components */
+@media (min-width: 768px) {
+  body {
+    font-size: 16px;
+  }
+}
+
 h1 {
   font-family: var(--font-display);
   font-size: var(--text-fluid-h1);
-  letter-spacing: -0.03em;
+  letter-spacing: -0.025em;
   line-height: 1.1;
-  font-weight: 450; /* Highly sophisticated editorial weight */
-  color: #090d16;
+  font-weight: 600;
+  color: var(--ink);
+  text-wrap: balance;
 }
 
 h2 {
   font-family: var(--font-display);
   font-size: var(--text-fluid-h2);
-  letter-spacing: -0.025em;
+  letter-spacing: -0.02em;
   line-height: 1.16;
-  font-weight: 450; /* Highly sophisticated editorial weight */
-  color: #090d16;
+  font-weight: 600;
+  color: var(--ink);
+  text-wrap: balance;
 }
 
 h3 {
   font-family: var(--font-display);
   font-size: var(--text-fluid-h3);
-  letter-spacing: -0.02em;
-  line-height: 1.24;
-  font-weight: 450; /* Highly sophisticated editorial weight */
-  color: #090d16;
+  letter-spacing: -0.015em;
+  line-height: 1.3;
+  font-weight: 600;
+  color: var(--ink);
+  text-wrap: balance;
 }
 
-h4, h5, h6 {
+h4,
+h5,
+h6 {
   font-family: var(--font-display);
-  letter-spacing: -0.015em;
-  line-height: 1.32;
-  font-weight: 450;
-  color: #090d16;
+  letter-spacing: -0.01em;
+  line-height: 1.35;
+  font-weight: 600;
+  color: var(--ink);
 }
 
 p {
-  line-height: 1.8;
-  letter-spacing: -0.003em;
-  color: #475569;
-  font-family: var(--font-sans);
-  font-weight: 350; /* Lighter body weight for extreme legibility & high editorial feel */
+  line-height: 1.65;
+  color: var(--ink-muted);
 }
 
-/* Global font weight softening for modern editorial elegance */
-.font-bold {
-  font-weight: 500 !important;
+/* Global Accessible Focus Ring with Smooth Fade */
+a,
+button,
+input,
+select,
+textarea,
+[role="button"] {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+  transition: outline-color var(--dur-micro) var(--ease-out);
 }
 
-.font-extrabold,
-.font-black {
-  font-weight: 550 !important;
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible,
+[role="button"]:focus-visible {
+  outline: 2px solid var(--purple-600);
+  outline-offset: 2px;
 }
 
-.font-semibold {
-  font-weight: 450 !important;
-}
-
-b, strong {
-  font-weight: 500;
-}
-
-/* Clean, Elegant Purple Selection and Scrollbar */
 ::selection {
-  background-color: #581c87;
-  color: #ffffff;
+  background-color: var(--bg-tint);
+  color: var(--purple-700);
 }
 
 ::-webkit-scrollbar {
@@ -131,61 +233,487 @@ b, strong {
   height: 6px;
 }
 ::-webkit-scrollbar-track {
-  background: #f8fafc;
+  background: var(--bg-soft);
 }
 ::-webkit-scrollbar-thumb {
-  background: #9333ea;
+  background: var(--purple-300);
   border-radius: 9999px;
-  border: 1px solid rgba(255,255,255,0.6);
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #7e22ce;
+  background: var(--purple-500);
 }
 
-/* react-calendar-heatmap custom colors */
-.react-calendar-heatmap .color-empty { fill: #f8fafc; }
-.react-calendar-heatmap .color-scale-1 { fill: #f3e8ff; }
-.react-calendar-heatmap .color-scale-2 { fill: #d8b4fe; }
-.react-calendar-heatmap .color-scale-3 { fill: #a855f7; }
-.react-calendar-heatmap .color-scale-4 { fill: #6b21a8; }
-
-.react-calendar-heatmap text {
-  font-size: 10px;
-  fill: #6b21a8;
-  font-family: var(--font-mono);
+/* Top Scroll Progress Bar (transform scaleX only) */
+.scroll-progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, var(--purple-600), var(--purple-500));
+  transform-origin: 0% 50%;
+  transform: scaleX(var(--scroll-progress, 0));
+  z-index: 60;
+  pointer-events: none;
 }
 
-@layer components {
-  .glass-panel {
-    background-color: rgba(255, 255, 255, 0.96);
-    backdrop-filter: blur(16px);
-    -webkit-backdrop-filter: blur(16px);
-    border: 1px solid rgba(226, 232, 240, 0.9);
-    box-shadow: 0 4px 20px -2px rgba(15, 23, 42, 0.05);
-  }
+/* Restrained Glassmorphism (Max 3 visible at once) */
+.glass-pill {
+  background: rgba(255, 255, 255, 0.82);
+  backdrop-filter: blur(16px) saturate(150%);
+  -webkit-backdrop-filter: blur(16px) saturate(150%);
+  border: 1px solid var(--line);
+  box-shadow: 0 8px 24px -8px rgba(106, 63, 208, 0.06);
+}
 
-  .btn-vibrant-purple {
-    background-color: #4c1d95;
-    color: #ffffff;
-    box-shadow: 0 2px 10px rgba(76, 29, 149, 0.2);
-    border: 1px solid rgba(109, 40, 217, 0.4);
-    transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+.glass-card {
+  background: rgba(255, 255, 255, 0.86);
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  border: 1px solid var(--line);
+  box-shadow: 0 8px 24px -8px rgba(106, 63, 208, 0.06);
+}
+
+.glass-dark {
+  background: rgba(43, 23, 99, 0.84);
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  border: 1px solid rgba(185, 162, 242, 0.24);
+  box-shadow: 0 12px 32px -12px rgba(23, 18, 43, 0.35);
+}
+
+@supports not (backdrop-filter: blur(10px)) {
+  .glass-pill,
+  .glass-card {
+    background: #FFFFFF;
+    border: 1px solid var(--line);
   }
-  .btn-vibrant-purple:hover {
-    background-color: #581c87;
-    box-shadow: 0 4px 14px rgba(76, 29, 149, 0.28);
-    transform: translateY(-1px);
+  .glass-dark {
+    background: #2B1763;
+    border: 1px solid rgba(185, 162, 242, 0.3);
   }
 }
 
-@layer utilities {
-  .markdown-body ul {
-    @apply list-disc list-inside space-y-2 mt-4;
+/* Native <dialog> Menu & Plain Scrim Backdrop (opacity animation only) */
+dialog.site-menu-dialog {
+  max-width: 100vw;
+  max-height: 100dvh;
+  width: 100vw;
+  height: 100dvh;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--ink);
+  overflow: hidden;
+}
+
+dialog.site-menu-dialog:not([open]) {
+  display: none !important;
+  pointer-events: none !important;
+}
+
+dialog.site-menu-dialog[open] {
+  display: flex !important;
+  pointer-events: auto !important;
+}
+
+dialog.site-menu-dialog::backdrop {
+  background: rgba(23, 18, 43, 0.26);
+  opacity: 0;
+  transition: opacity var(--dur-ui) var(--ease-out);
+}
+
+dialog.site-menu-dialog[data-backdrop-visible="true"]::backdrop {
+  opacity: 1;
+}
+
+/* Below-the-fold performance optimization */
+.cv-auto {
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 600px;
+}
+
+/* ============================================================================
+ * 1. TEXT REVEALS: Word Line Mask & Subtitle Blur-to-Sharp
+ * Visible by default without JS; animated when html.js is active;
+ * forced visible after 1.5s via html.js-reveal-safe if observer hasn't fired.
+ * ========================================================================== */
+.word-mask {
+  display: inline-block;
+  overflow: clip;
+  vertical-align: bottom;
+  padding-bottom: 0.08em;
+  margin-bottom: -0.08em;
+}
+
+.word-mask-inner {
+  display: inline-block;
+  transform: translate3d(0, 0%, 0);
+  transition: transform var(--dur-reveal) var(--ease-out);
+  transition-delay: calc(var(--word-index, 0) * 38ms);
+}
+
+html.js:not(.js-reveal-safe) [data-word-reveal="pending"] .word-mask-inner {
+  transform: translate3d(0, 105%, 0);
+}
+
+[data-word-reveal="visible"] .word-mask-inner {
+  transform: translate3d(0, 0%, 0);
+}
+
+.subtitle-reveal {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+  filter: blur(0px);
+  transition:
+    opacity 620ms var(--ease-out),
+    transform 620ms var(--ease-out),
+    filter 580ms var(--ease-out);
+  transition-delay: var(--subtitle-delay, 120ms);
+}
+
+html.js:not(.js-reveal-safe) .subtitle-reveal[data-reveal-state="pending"] {
+  opacity: 0.01;
+  transform: translate3d(0, 14px, 0);
+  filter: blur(6px);
+}
+
+/* ============================================================================
+ * 2. SCROLL REVEAL SYSTEM (CSS Scroll-Driven view() + Observer Fallback)
+ * ========================================================================== */
+@keyframes cssScrollReveal {
+  from {
+    opacity: 0.01;
+    transform: translate3d(0, 24px, 0);
   }
-  .markdown-body li {
-    @apply text-slate-700;
-  }
-  .markdown-body strong {
-    @apply text-slate-900 font-medium;
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
   }
 }
+
+.reveal-item {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+  transition:
+    opacity var(--dur-reveal) var(--ease-out),
+    transform var(--dur-reveal) var(--ease-out),
+    filter 580ms var(--ease-out);
+  transition-delay: calc(var(--stagger-index, 0) * var(--stagger-step, 60ms));
+}
+
+html.js:not(.js-reveal-safe) .reveal-item[data-reveal-state="pending"] {
+  opacity: 0.01;
+  transform: translate3d(0, 24px, 0);
+}
+
+html.js:not(.js-reveal-safe) .reveal-item[data-reveal-blur="true"][data-reveal-state="pending"] {
+  filter: blur(6px);
+}
+
+/* Native CSS Scroll-Driven Animation when supported and no custom delay is needed */
+@supports (animation-timeline: view()) {
+  html[data-motion-mode="full"] .reveal-css-view {
+    animation: cssScrollReveal linear both;
+    animation-timeline: view();
+    animation-range: entry 8% cover 26%;
+  }
+}
+
+/* ============================================================================
+ * 6. BENTO & CARDS: Cursor Spotlight, 3D Tilt, Glare, Image Scale, Arrow Slide
+ * ========================================================================== */
+.bento-card {
+  position: relative;
+  transform-style: preserve-3d;
+  transform: perspective(1000px) rotateX(var(--tilt-x, 0deg)) rotateY(var(--tilt-y, 0deg)) scale(var(--card-scale, 1));
+  transition:
+    transform var(--dur-ui) var(--ease-soft),
+    border-color var(--dur-micro) var(--ease-out);
+}
+
+.bento-card:active {
+  --card-scale: 0.98;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  html[data-motion-mode="full"] .bento-card::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    background: radial-gradient(
+      420px circle at var(--spot-x, 50%) var(--spot-y, 50%),
+      rgba(124, 84, 224, 0.09),
+      transparent 70%
+    );
+    opacity: var(--spot-opacity, 0);
+    transition: opacity var(--dur-ui) var(--ease-out);
+    z-index: 1;
+  }
+
+  html[data-motion-mode="full"] .bento-card::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    pointer-events: none;
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.32) 0%,
+      rgba(255, 255, 255, 0) 55%
+    );
+    opacity: calc(var(--spot-opacity, 0) * 0.55);
+    transition: opacity var(--dur-ui) var(--ease-out);
+    z-index: 1;
+  }
+}
+
+.bento-card img,
+.card-media-zoom img {
+  transition: transform var(--dur-reveal) var(--ease-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .bento-card:hover .card-media-zoom img,
+  .group:hover .card-media-zoom img {
+    transform: scale(1.04);
+  }
+
+  .bento-card:hover .icon-slide-hover,
+  .group:hover .icon-slide-hover,
+  a:hover .icon-slide-hover,
+  button:hover .icon-slide-hover {
+    transform: translate3d(4px, 0, 0);
+  }
+}
+
+.icon-slide-hover {
+  transition: transform var(--dur-micro) var(--ease-out);
+}
+
+/* ============================================================================
+ * 7. BUTTONS & LINKS: Magnetic Pull, Vertical Text-Swap, ScaleX Underline
+ * ========================================================================== */
+.btn-magnetic {
+  transform: translate3d(var(--mag-x, 0px), var(--mag-y, 0px), 0) scale(var(--btn-press-scale, 1));
+  transition:
+    transform var(--dur-ui) var(--ease-spring),
+    background-color var(--dur-micro) var(--ease-out),
+    border-color var(--dur-micro) var(--ease-out),
+    color var(--dur-micro) var(--ease-out);
+}
+
+.btn-magnetic:active {
+  --btn-press-scale: 0.98;
+}
+
+.btn-text-swap {
+  position: relative;
+  display: inline-flex;
+  overflow: clip;
+  line-height: 1.25;
+}
+
+.btn-text-primary,
+.btn-text-clone {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: transform var(--dur-ui) var(--ease-out);
+}
+
+.btn-text-clone {
+  position: absolute;
+  inset: 0;
+  transform: translate3d(0, 115%, 0);
+  aria-hidden: true;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  html[data-motion-mode="full"] .btn-magnetic:hover .btn-text-primary {
+    transform: translate3d(0, -115%, 0);
+  }
+  html[data-motion-mode="full"] .btn-magnetic:hover .btn-text-clone {
+    transform: translate3d(0, 0%, 0);
+  }
+}
+
+/* Animated Underline that draws with transform: scaleX */
+.link-underline {
+  position: relative;
+  display: inline-block;
+}
+
+.link-underline::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  height: 1.5px;
+  background-color: currentColor;
+  transform: scaleX(0);
+  transform-origin: 100% 50%;
+  transition: transform var(--dur-ui) var(--ease-out);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .link-underline:hover::after,
+  .link-underline:focus-visible::after {
+    transform: scaleX(1);
+    transform-origin: 0% 50%;
+  }
+}
+
+/* ============================================================================
+ * 9. MARQUEE: Velocity-Aware CSS Transform Loop
+ * ========================================================================== */
+@keyframes marquee {
+  0% {
+    transform: translate3d(0%, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee var(--marquee-duration, 32s) linear infinite;
+}
+
+.animate-marquee:hover,
+.animate-marquee[data-offscreen="true"] {
+  animation-play-state: paused;
+}
+
+/* ============================================================================
+ * 10. IMAGES: Clip-Path Inset Reveal (8% -> 0%) + 1.06 -> 1 Scale Settle
+ * ========================================================================== */
+.img-clip-reveal {
+  clip-path: inset(0% 0% 0% 0% round 16px);
+  transform: scale(1);
+  transition:
+    clip-path var(--dur-reveal) var(--ease-out),
+    transform var(--dur-reveal) var(--ease-out),
+    opacity var(--dur-ui) var(--ease-out);
+}
+
+html.js:not(.js-reveal-safe) .img-clip-reveal[data-img-state="pending"] {
+  clip-path: inset(8% 8% 8% 8% round 16px);
+  transform: scale(1.06);
+}
+
+/* ============================================================================
+ * 11. ACCORDION (FAQ): grid-template-rows 0fr -> 1fr + Inner Opacity
+ * ========================================================================== */
+.accordion-content {
+  display: grid;
+  grid-template-rows: 0fr;
+  transition: grid-template-rows var(--dur-ui) var(--ease-soft);
+}
+
+.accordion-content.open {
+  grid-template-rows: 1fr;
+}
+
+.accordion-inner {
+  overflow: hidden;
+  opacity: 0;
+  transform: translate3d(0, -4px, 0);
+  transition:
+    opacity 220ms var(--ease-out),
+    transform 220ms var(--ease-out);
+}
+
+.accordion-content.open .accordion-inner {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+/* ============================================================================
+ * 14. FOOTER & FINAL CTA: Slow 6s Opacity-Only Glow Breathing + Ambient Blob
+ * ========================================================================== */
+@keyframes ctaGlowBreathe {
+  0%,
+  100% {
+    opacity: 0.32;
+    transform: scale(0.98);
+  }
+  50% {
+    opacity: 0.68;
+    transform: scale(1.03);
+  }
+}
+
+.cta-glow-breathe {
+  animation: ctaGlowBreathe 6s var(--ease-in-out) infinite;
+}
+
+@keyframes ambientBlob1 {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0) scale(1);
+  }
+  50% {
+    transform: translate3d(20px, -14px, 0) scale(1.03);
+  }
+}
+
+.ambient-blob-1 {
+  animation: ambientBlob1 20s var(--ease-in-out) infinite;
+}
+
+/* ============================================================================
+ * LITE MODE & REDUCED MOTION GUARDRAILS
+ * ========================================================================== */
+html[data-motion-mode="lite"] .ambient-blob-1,
+html[data-motion-mode="lite"] .cta-glow-breathe {
+  animation: none !important;
+}
+
+html[data-motion-mode="lite"] .subtitle-reveal,
+html[data-motion-mode="lite"] .reveal-item {
+  filter: none !important;
+}
+
+html[data-motion-mode="lite"] .bento-card {
+  transform: scale(var(--card-scale, 1)) !important;
+}
+
+html[data-motion-mode="lite"] .bento-card::before,
+html[data-motion-mode="lite"] .bento-card::after {
+  display: none !important;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  ::before,
+  ::after {
+    animation-duration: 160ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 160ms !important;
+    scroll-behavior: auto !important;
+  }
+  .animate-marquee,
+  .ambient-blob-1,
+  .cta-glow-breathe {
+    animation: none !important;
+  }
+  .word-mask-inner,
+  .subtitle-reveal,
+  .reveal-item,
+  .img-clip-reveal,
+  .bento-card,
+  .btn-magnetic {
+    transform: none !important;
+    filter: none !important;
+    clip-path: none !important;
+    opacity: 1 !important;
+  }
+}
+

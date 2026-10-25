@@ -1,210 +1,562 @@
+import React, { useMemo } from 'react';
+import { Link, useSearchParams, useLocation } from 'react-router-dom';
+import {
+  ArrowRight,
+  ArrowUpRight,
+  BookOpen,
+  Filter,
+  RotateCcw,
+  Layers,
+} from 'lucide-react';
 import SEOMetadata from '../components/atoms/SEOMetadata';
-import { useState, useEffect } from 'react';
-import { motion } from 'motion/react';
-import { ArrowUpRight, CheckCircle2, Eye, MessageCircle, Search } from 'lucide-react';
-import { Link } from 'react-router-dom';
-import { PROJECTS } from '../data/projects';
-import Breadcrumbs from '../components/atoms/Breadcrumbs';
-import CreativityMarquee from '../components/organisms/CreativityMarquee.tsx';
-import AICaseStudies from '../components/organisms/AICaseStudies.tsx';
-import ClientTestimonials from '../components/organisms/ClientTestimonials.tsx';
-import LazyImage from '../components/atoms/LazyImage.tsx';
-
-import SectionHeader from '../components/organisms/SectionHeader';
-import QuickViewModal, { QuickViewData } from '../components/organisms/QuickViewModal';
-
-const CATEGORIES = ['All', 'Website', 'Landing Page', 'Company Profile', 'Enterprise', 'AI'];
-
-const PortfolioSkeleton = () => (
-  <div className="relative flex flex-col h-full bg-white/40 backdrop-blur-xl p-6 rounded-xl border border-white/60 animate-pulse text-left shadow-xl shadow-purple-900/5">
-    <div className="w-full aspect-[4/3] bg-slate-100 rounded-2xl mb-5" />
-    <div className="flex gap-2.5 items-center mb-3">
-      <div className="h-5 w-24 bg-purple-50 rounded-full" />
-    </div>
-    <div className="space-y-2 mb-4">
-      <div className="h-6 w-3/4 bg-slate-200 rounded" />
-    </div>
-    <div className="space-y-2 mb-6">
-      <div className="h-4 w-full bg-slate-100 rounded" />
-      <div className="h-4 w-5/6 bg-slate-100 rounded" />
-    </div>
-  </div>
-);
+import {
+  getPublishedProjects,
+  getPortfolioIndustries,
+  getPortfolioCategories,
+  PortfolioProject,
+  ProjectCategory,
+} from '../data/projects';
+import { SITE_IMAGES } from '../config/images';
+import {
+  Container,
+  Button,
+  Card,
+  Badge,
+  WordRevealHeading,
+  Reveal,
+  CTABlock,
+  Breadcrumb,
+  ImageWithFallback,
+} from '../components/ui/DesignSystem';
+import { parseLocalizedPath, toLocalizedHref } from '../lib/i18n';
 
 export default function PortfolioPage() {
-  const [filter, setFilter] = useState('All');
-  const [loading, setLoading] = useState(true);
+  const location = useLocation();
+  const { locale, prefixMode } = parseLocalizedPath(location.pathname);
+  const isEn = locale === 'en';
+  const allIndustryLabel = isEn ? 'All Industries' : 'Semua Industri';
 
-  useEffect(() => {
-    setLoading(true);
-    const timer = setTimeout(() => setLoading(false), 800);
-    return () => clearTimeout(timer);
-  }, [filter]);
-  const [quickViewData, setQuickViewData] = useState<QuickViewData | null>(null);
+  const [searchParams, setSearchParams] = useSearchParams();
+  const allProjects = useMemo(() => getPublishedProjects(locale), [locale]);
+  const industries = useMemo(() => getPortfolioIndustries(locale), [locale]);
+  const categories = useMemo(() => getPortfolioCategories(locale), [locale]);
 
-  const filteredProjects = filter === 'All' 
-    ? PROJECTS 
-    : PROJECTS.filter(p => p.category === filter || (p.techStack && p.techStack.some(t => t.toLowerCase().includes(filter.toLowerCase()))));
+  const rawCategory = searchParams.get('kategori') || 'semua';
+  const activeCategory: 'semua' | ProjectCategory = categories.some(
+    (c) => c.id === rawCategory
+  )
+    ? (rawCategory as 'semua' | ProjectCategory)
+    : 'semua';
 
+  const rawIndustry = searchParams.get('industri') || allIndustryLabel;
+  const activeIndustry = industries.includes(rawIndustry) ? rawIndustry : allIndustryLabel;
+
+  const handleCategoryChange = (categoryId: 'semua' | ProjectCategory) => {
+    const nextParams = new URLSearchParams(searchParams);
+    if (categoryId === 'semua') {
+      nextParams.delete('kategori');
+    } else {
+      nextParams.set('kategori', categoryId);
+    }
+    setSearchParams(nextParams, { replace: true });
+  };
+
+  const handleIndustryChange = (industryValue: string) => {
+    const nextParams = new URLSearchParams(searchParams);
+    if (industryValue === allIndustryLabel) {
+      nextParams.delete('industri');
+    } else {
+      nextParams.set('industri', industryValue);
+    }
+    setSearchParams(nextParams, { replace: true });
+  };
+
+  const handleResetFilters = () => {
+    setSearchParams({}, { replace: true });
+  };
+
+  const filteredProjects = useMemo(() => {
+    return allProjects.filter((project) => {
+      const matchCategory =
+        activeCategory === 'semua' || project.category === activeCategory;
+      const matchIndustry =
+        activeIndustry === allIndustryLabel || project.industry === activeIndustry;
+      return matchCategory && matchIndustry;
+    });
+  }, [allProjects, activeCategory, activeIndustry, allIndustryLabel]);
+
+  const portfolioHref = toLocalizedHref('/portfolio', locale, prefixMode);
+
+  const jsonLdGraph = useMemo(
+    () => ({
+      '@context': 'https://schema.org',
+      '@graph': [
+        {
+          '@type': 'CollectionPage',
+          '@id': `https://chestaa.com${portfolioHref}#collection`,
+          url: `https://chestaa.com${portfolioHref}`,
+          name: isEn
+            ? 'Projects We Have Built — Custom Software & AI Agent Portfolio | CHESTAADOTCOM'
+            : 'Proyek yang Sudah Kami Bangun — Portofolio Software & AI Agent | CHESTAADOTCOM',
+          description: isEn
+            ? 'Visual showcase of website, landing page, WhatsApp AI agent, custom software, and workflow automation projects by CHESTAADOTCOM in BSD City & South Tangerang.'
+            : 'Etalase visual proyek website, landing page, AI agent WhatsApp, software custom, dan otomasi workflow oleh CHESTAADOTCOM di BSD City & Tangerang Selatan.',
+          inLanguage: isEn ? 'en' : 'id-ID',
+          mainEntity: {
+            '@type': 'ItemList',
+            itemListElement: allProjects.map((project, idx) => ({
+              '@type': 'ListItem',
+              position: idx + 1,
+              url: `https://chestaa.com${toLocalizedHref(`/portfolio/${project.slug}`, locale, prefixMode)}`,
+              name: project.title,
+              description: project.oneLiner,
+            })),
+          },
+        },
+        {
+          '@type': 'BreadcrumbList',
+          '@id': `https://chestaa.com${portfolioHref}#breadcrumb`,
+          itemListElement: [
+            {
+              '@type': 'ListItem',
+              position: 1,
+              name: isEn ? 'Home' : 'Beranda',
+              item: `https://chestaa.com${toLocalizedHref('/', locale, prefixMode)}`,
+            },
+            {
+              '@type': 'ListItem',
+              position: 2,
+              name: isEn ? 'Portfolio' : 'Portofolio',
+              item: `https://chestaa.com${portfolioHref}`,
+            },
+          ],
+        },
+      ],
+    }),
+    [allProjects, isEn, locale, portfolioHref, prefixMode]
+  );
 
   return (
-    <div className="pb-32 min-h-screen relative bg-transparent select-none">
-      <QuickViewModal isOpen={!!quickViewData} onClose={() => setQuickViewData(null)} data={quickViewData} />
-      <SEOMetadata 
-        title="Client Case Studies & Portfolio"
-        description="Jelajahi portfolio digital masterpieces yang dirancang khusus untuk bisnis modern B2B & Enterprise di Indonesia."
+    <div className="bg-[#FFFFFF] text-[#17122B] min-h-screen">
+      <SEOMetadata
+        title={
+          isEn
+            ? 'Projects We Have Built — Custom Software & AI Agent Portfolio | CHESTAADOTCOM'
+            : 'Proyek yang Sudah Kami Bangun — Portofolio Software & AI Agent | CHESTAADOTCOM'
+        }
+        description={
+          isEn
+            ? 'Visual showcase of landing page, WhatsApp AI agent, custom software, and workflow automation projects for businesses in BSD City, South Tangerang, and Greater Jakarta.'
+            : 'Etalase visual proyek pembuatan landing page, AI agent WhatsApp, software custom, dan otomasi workflow untuk bisnis di BSD City, Tangerang Selatan, dan Jabodetabek.'
+        }
+        path={portfolioHref}
+        jsonLd={jsonLdGraph}
       />
 
-      {/* Cinematic Hero */}
-      <section className="relative min-h-[45vh] flex flex-col justify-end pt-40 md:pt-48 pb-24 border-b border-slate-100 mb-20 overflow-hidden">
-        <div className="absolute inset-0 bg-purple-50/50 rounded-full blur-[120px] pointer-events-none -z-10 mix-blend-multiply" />
-        
-        <div className="mx-auto max-w-7xl px-6 w-full relative z-10">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-8 items-end mt-8">
-            <div className="lg:col-span-8">
-              <SectionHeader 
-                metaTag="SHOWCASE PORTFOLIO"
-                title={
-                  <>
-                    Selected <br />
-                    <span className="text-purple-700 font-serif italic pr-4">Works.</span>
-                  </>
-                }
-                description="Mengubah ide menjadi karya arsitektur digital premium yang mendorong konversi dan pertumbuhan omset bisnis Anda secara nyata."
-              />
-            </div>
-            
-            <motion.div 
-              initial={{ opacity: 0, x: 20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.3, duration: 0.6, ease: "easeOut" }}
-              className="lg:col-span-4 lg:pb-6 flex lg:justify-end"
-            >
-               <div className="flex gap-2 mb-12 flex-wrap pb-4 items-center">
-                  <span className="text-[11px] font-sans font-semibold tracking-widest uppercase text-slate-600 whitespace-nowrap mb-2 w-full">Filter By:</span>
-                  {CATEGORIES.map(cat => (
-                    <button 
-                      key={cat}
-                      onClick={() => setFilter(cat)}
-                      className={`px-6 py-2.5 rounded-full font-sans font-semibold text-[11px] uppercase tracking-widest border transition-all duration-300 ${filter === cat ? 'bg-[#6b21a8] text-white border-[#6b21a8] shadow-md' : 'bg-white/40 backdrop-blur-xl border border-white/60 text-slate-500 hover:text-slate-900 hover:border-purple-300 shadow-xl shadow-purple-900/5 hover:bg-white/60'}`}
-                    >
-                      {cat}
-                    </button>
-                  ))}
-                  <button
-                    onClick={() => window.dispatchEvent(new CustomEvent('open-command-palette', { detail: { category: 'portfolio' } }))}
-                    className="px-5 py-2.5 rounded-full font-sans font-semibold text-[11px] uppercase tracking-widest bg-purple-50 hover:bg-purple-100 text-purple-900 border border-purple-200 transition-all flex items-center gap-1.5 cursor-pointer shadow-2xs"
-                    title="Cari seluruh proyek & studi kasus (⌘K)"
-                  >
-                    <Search size={13} className="text-purple-700" />
-                    <span>Cari Proyek</span>
-                    <kbd className="text-[9px] font-mono px-1 py-0.5 rounded bg-white text-purple-900 border border-purple-200 font-bold ml-1">⌘K</kbd>
-                  </button>
-               </div>
-            </motion.div>
+      {/* =====================================================
+          1. COMPACT HEADER
+          ===================================================== */}
+      <section className="pt-28 pb-12 md:pt-36 md:pb-16 bg-gradient-to-b from-[#FFFFFF] via-[#F8F6FE] to-[#FFFFFF] border-b border-[rgba(91,60,196,0.14)]">
+        <Container>
+          <Breadcrumb items={[{ label: isEn ? 'Portfolio' : 'Portofolio' }]} />
+
+          <div className="max-w-3xl space-y-4">
+            <Badge variant="tint">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#6A3FD0]" />
+              <span>
+                {isEn
+                  ? 'PORTFOLIO & VISUAL ARCHITECTURE'
+                  : 'PORTOFOLIO & ARSITEKTUR VISUAL'}
+              </span>
+            </Badge>
+
+            <WordRevealHeading
+              as="h1"
+              priority
+              text={isEn ? 'Projects we have built' : 'Proyek yang sudah kami bangun'}
+            />
+
+            <p className="text-[15px] md:text-[16px] text-[#5B5675] leading-[1.65]">
+              {isEn
+                ? 'Screenshots of web interfaces, WhatsApp AI agents, and operational dashboards we designed for industries across BSD City, South Tangerang, and Greater Jakarta.'
+                : 'Tangkapan layar antarmuka web, AI agent WhatsApp, dan dashboard operasional yang kami rancang untuk berbagai industri di BSD City, Tangerang Selatan, dan Jabodetabek.'}
+            </p>
           </div>
-        </div>
+
+          {/* =====================================================
+              2. FILTER BAR (URL-SYNCED ?kategori= & ?industri=)
+              ===================================================== */}
+          <div className="mt-8 pt-6 border-t border-[rgba(91,60,196,0.14)] flex flex-col lg:flex-row lg:items-center justify-between gap-4">
+            {/* Category Chips */}
+            <div
+              role="tablist"
+              aria-label={isEn ? 'Filter project category' : 'Filter kategori proyek'}
+              className="flex flex-wrap items-center gap-2"
+            >
+              {categories.map((cat) => {
+                const isSelected = activeCategory === cat.id;
+                return (
+                  <button
+                    key={cat.id}
+                    type="button"
+                    role="tab"
+                    aria-selected={isSelected}
+                    onClick={() => handleCategoryChange(cat.id)}
+                    className={`min-h-[40px] min-w-fit px-4 py-2 rounded-full text-[13px] md:text-[14px] font-medium transition-all duration-150 cursor-pointer border ${
+                      isSelected
+                        ? 'bg-[#6A3FD0] text-[#FFFFFF] border-[#6A3FD0] shadow-[0_4px_12px_rgba(106,63,208,0.18)]'
+                        : 'bg-[#FFFFFF] text-[#17122B] border-[rgba(91,60,196,0.14)] hover:bg-[#F8F6FE] hover:border-[#7C54E0]'
+                    }`}
+                  >
+                    {cat.label}
+                  </button>
+                );
+              })}
+            </div>
+
+            {/* Industry Dropdown + Result Count */}
+            <div className="flex flex-wrap items-center justify-between lg:justify-end gap-3">
+              <div className="relative flex items-center">
+                <Filter
+                  size={14}
+                  className="text-[#6A3FD0] absolute left-3.5 pointer-events-none"
+                />
+                <label htmlFor="industry-filter" className="sr-only">
+                  {isEn ? 'Filter by industry' : 'Filter berdasarkan industri'}
+                </label>
+                <select
+                  id="industry-filter"
+                  value={activeIndustry}
+                  onChange={(e) => handleIndustryChange(e.target.value)}
+                  className="min-h-[40px] pl-9 pr-8 py-2 rounded-full bg-[#FFFFFF] border border-[rgba(91,60,196,0.14)] text-[13px] md:text-[14px] text-[#17122B] font-medium hover:border-[#7C54E0] focus:outline-2 focus:outline-[#6A3FD0] cursor-pointer"
+                >
+                  {industries.map((ind) => (
+                    <option key={ind} value={ind}>
+                      {ind}
+                    </option>
+                  ))}
+                </select>
+              </div>
+
+              <span
+                aria-live="polite"
+                className="font-mono text-[11px] md:text-[12px] uppercase tracking-[0.08em] text-[#5B5675] px-3 py-1.5 rounded-full bg-[#F8F6FE] border border-[rgba(91,60,196,0.14)]"
+              >
+                {isEn
+                  ? `Showing ${filteredProjects.length} of ${allProjects.length} projects`
+                  : `Menampilkan ${filteredProjects.length} dari ${allProjects.length} proyek`}
+              </span>
+            </div>
+          </div>
+        </Container>
       </section>
 
-      {/* Main Grid Content */}
-      <div className="mx-auto max-w-7xl px-6 grid grid-cols-1 md:grid-cols-12 gap-12">
-        <div className="md:col-span-8 lg:col-span-9 flex flex-col gap-12">
-            
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-8">
-              {filteredProjects.map((project, idx) => (
-                <motion.div 
-                  key={`${project.id}-${idx}`}
-                  layout
-                  initial={{ opacity: 0, y: 30 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, scale: 0.95 }}
+      {/* =====================================================
+          3. PORTFOLIO SHOWCASE GRID (2 COLS DESKTOP, FEATURED SPANS 2)
+          ===================================================== */}
+      <section className="py-16 md:py-24 bg-[#FFFFFF] border-b border-[rgba(91,60,196,0.14)]">
+        <Container>
+          {filteredProjects.length === 0 ? (
+            /* Empty State */
+            <Card
+              variant="soft"
+              padding="lg"
+              className="max-w-xl mx-auto text-center space-y-4 my-8"
+            >
+              <div className="w-12 h-12 rounded-2xl bg-[#EFEAFB] border border-[rgba(91,60,196,0.14)] flex items-center justify-center mx-auto text-[#6A3FD0]">
+                <Layers size={22} />
+              </div>
+              <h2 className="text-[20px] md:text-[22px] text-[#17122B]">
+                {isEn
+                  ? 'No projects match this filter combination yet'
+                  : 'Belum ada proyek untuk kombinasi filter ini'}
+              </h2>
+              <p className="text-[15px] text-[#5B5675] leading-[1.65]">
+                {isEn
+                  ? 'Try selecting another category or industry to see examples of systems we have designed.'
+                  : 'Coba pilih kategori atau industri lain untuk melihat contoh sistem yang sudah kami rancang.'}
+              </p>
+              <div className="pt-2">
+                <Button
+                  type="button"
+                  variant="secondary"
+                  onClick={handleResetFilters}
                 >
-                  <Link
-                    to={`/portfolio/${project.id}`}
-                    className="block shadow-xl shadow-purple-900/5 hover:shadow-2xl hover:shadow-purple-900/10 bg-white/40 backdrop-blur-xl border border-white/60 hover:border-purple-300 hover:bg-white/60 rounded-xl overflow-hidden group transition-all duration-500 flex flex-col relative cursor-pointer aspect-square sm:aspect-auto sm:h-[450px]"
-                  >
-                    {/* Image Block */}
-                    
-                    <div className="flex-1 w-full relative overflow-hidden bg-slate-50">
-                      <LazyImage 
-                         src={project.thumbnail} 
-                         alt={project.title} 
-                         className="w-full h-full object-cover grayscale opacity-80 group-hover:grayscale-0 group-hover:opacity-100 transition-all duration-700 ease-out group-hover:scale-105"
-                        referrerPolicy="no-referrer"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-gray-900/80 via-gray-900/20 to-transparent pointer-events-none transition-opacity duration-500 group-hover:opacity-90" />
-                      
-                      {/* Quick View Button */}
-                      <button 
-                        onClick={(e) => {
-                          e.preventDefault();
-                          setQuickViewData({
-                            id: project.id,
-                            type: 'project',
-                            title: project.title,
-                            subtitle: project.category,
-                            description: project.description || 'Proyek digital dari CHESTAADOTCOM.',
-                            tags: project.techStack || [],
-                            image: project.thumbnail,
-                            link: `/portfolio/${project.id}`
-                          });
-                        }}
-                        className="absolute top-4 right-4 z-30 p-2.5 rounded-full bg-white/10 hover:bg-purple-600 backdrop-blur-md text-white opacity-0 group-hover:opacity-100 transition-all duration-300 translate-y-2 group-hover:translate-y-0"
-                        title="Quick View"
-                      >
-                        <Eye size={18} />
-                      </button>
-                    </div>
-                    
-                    {/* Card Title */}
-                    <div className="absolute inset-x-0 bottom-0 p-8 z-20">
-                      <span className="text-[10px] font-sans font-semibold text-purple-300 tracking-widest uppercase mb-2 block group-hover:text-purple-400 transition-colors">
-                        {project.category}
-                      </span>
-                      <h3 className="text-2xl sm:text-3xl font-display font-medium text-slate-900 tracking-tight leading-snug group-hover:text-slate-900 transition-colors">
-                        {project.title}
-                      </h3>
-                    </div>
-                  </Link>
-                </motion.div>
-              ))}
+                  <RotateCcw size={15} className="text-[#6A3FD0]" />
+                  <span>{isEn ? 'Reset filters' : 'Reset filter'}</span>
+                </Button>
+              </div>
+            </Card>
+          ) : (
+            <Reveal staggerSelector=".portfolio-grid-item">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch">
+                {filteredProjects.map((project, idx) => (
+                  <PortfolioCard
+                    key={project.slug}
+                    project={project}
+                    priority={idx < 2}
+                    locale={locale}
+                    prefixMode={prefixMode}
+                  />
+                ))}
+              </div>
+            </Reveal>
+          )}
+        </Container>
+      </section>
+
+      {/* =====================================================
+          4. "MAU LIHAT CERITA LENGKAPNYA?" STRIP -> /case-studies
+          ===================================================== */}
+      <section className="py-12 md:py-16 bg-[#F8F6FE] border-b border-[rgba(91,60,196,0.14)]">
+        <Container>
+          <Card
+            variant="white"
+            padding="lg"
+            className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6"
+          >
+            <div className="space-y-2 max-w-2xl">
+              <div className="inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.08em] text-[#6A3FD0] font-semibold">
+                <BookOpen size={14} />
+                <span>
+                  {isEn
+                    ? 'DEEP PROBLEM & ARCHITECTURE BREAKDOWN'
+                    : 'BEDAH MASALAH & ARSITEKTUR MENDALAM'}
+                </span>
+              </div>
+              <h2 className="text-[22px] md:text-[26px] text-[#17122B]">
+                {isEn
+                  ? 'Want to read the full story?'
+                  : 'Mau lihat cerita lengkapnya?'}
+              </h2>
+              <p className="text-[15px] text-[#5B5675] leading-[1.65]">
+                {isEn
+                  ? 'This portfolio page focuses on visual interface previews. To read the client’s operational bottlenecks, architecture decisions, and implementation breakdown in full, visit our Case Studies page.'
+                  : 'Halaman portofolio ini fokus pada pratinjau visual antarmuka. Untuk membaca latar belakang kendala operasional klien, keputusan arsitektur, dan rincian implementasi secara menyeluruh, kunjungi halaman Studi Kasus.'}
+              </p>
             </div>
-            
-            {filteredProjects.length === 0 && (
-               <div className="py-24 text-center border border-dashed border-slate-200 rounded-[2rem] bg-slate-50">
-                  <p className="text-slate-600 font-sans tracking-widest uppercase text-xs">Tidak ada project untuk kategori ini.</p>
-               </div>
-            )}
+
+            <div className="shrink-0">
+              <Button
+                to={toLocalizedHref('/case-studies', locale, prefixMode)}
+                variant="secondary"
+              >
+                <span>{isEn ? 'Read Case Studies' : 'Baca Studi Kasus'}</span>
+                <ArrowRight size={15} className="text-[#6A3FD0]" />
+              </Button>
+            </div>
+          </Card>
+        </Container>
+      </section>
+
+      {/* =====================================================
+          5. FINAL CTA BLOCK
+          ===================================================== */}
+      <section className="py-16 md:py-24 bg-gradient-to-b from-[#FFFFFF] to-[#EFEAFB]">
+        <Container className="max-w-[860px]">
+          <CTABlock
+            title={
+              isEn
+                ? 'Have a workflow or system idea you want to build?'
+                : 'Punya alur kerja atau ide sistem yang ingin kamu bangun?'
+            }
+            description={
+              isEn
+                ? 'Tell Chesta & Zeeshan what your business needs. We will break it down together in a free 30-minute audit session via WhatsApp.'
+                : 'Ceritakan kebutuhan bisnismu ke Chesta & Zeeshan. Kita bedah bersama dalam sesi audit gratis 30 menit via WhatsApp.'
+            }
+            buttonLabel={
+              isEn
+                ? 'Free consultation via WhatsApp'
+                : 'Konsultasi gratis via WhatsApp'
+            }
+            whatsappMessage={
+              isEn
+                ? 'Hi Chesta & Zeeshan, I just viewed the Portfolio page on chestaa.com and would like to consult on building a system for my business.'
+                : 'Halo Chesta & Zeeshan, saya baru melihat halaman Portofolio di chestaa.com dan ingin berkonsultasi mengenai pembuatan sistem untuk bisnis saya.'
+            }
+            secondaryAction={
+              <Button
+                to={toLocalizedHref('/#layanan', locale, prefixMode)}
+                variant="secondary"
+              >
+                <span>{isEn ? 'View service list' : 'Lihat daftar layanan'}</span>
+              </Button>
+            }
+          />
+        </Container>
+      </section>
+    </div>
+  );
+}
+
+/* ============================================================================
+ * PORTFOLIO CARD COMPONENT
+ * ========================================================================== */
+function PortfolioCard({
+  project,
+  priority,
+  locale,
+  prefixMode,
+}: {
+  project: PortfolioProject;
+  priority: boolean;
+  locale: 'id' | 'en';
+  prefixMode: 'default' | 'ind' | 'eng';
+}) {
+  const isEn = locale === 'en';
+  const imgAsset =
+    SITE_IMAGES[project.cover as keyof typeof SITE_IMAGES] || SITE_IMAGES.ogDefault;
+  const projectHref = toLocalizedHref(
+    `/portfolio/${project.slug}`,
+    locale,
+    prefixMode
+  );
+
+  if (project.featured) {
+    return (
+      <article className="portfolio-grid-item md:col-span-2">
+        <Link
+          to={projectHref}
+          className="bento-card group block h-full rounded-[24px] bg-[#F8F6FE] border border-[rgba(91,60,196,0.14)] hover:border-[#6A3FD0]/50 shadow-[0_6px_20px_-6px_rgba(106,63,208,0.05)] overflow-hidden transition-colors duration-200"
+        >
+          <div className="grid grid-cols-1 lg:grid-cols-12 items-stretch">
+            {/* Clipped 4:3 Image Frame */}
+            <div className="lg:col-span-7 relative aspect-[4/3] bg-[#EFEAFB] border-b lg:border-b-0 lg:border-r border-[rgba(91,60,196,0.14)] overflow-hidden">
+              <ImageWithFallback
+                src={imgAsset.src}
+                alt={imgAsset.alt}
+                width={imgAsset.width}
+                height={imgAsset.height}
+                priority={priority}
+                viewTransitionName={`portfolio-cover-${project.slug}`}
+                className="w-full h-full object-cover"
+              />
+              <div className="absolute top-4 left-4 flex flex-wrap items-center gap-2">
+                <span className="px-3 py-1 rounded-full bg-[#6A3FD0] text-[#FFFFFF] font-mono text-[11px] uppercase tracking-[0.08em] font-semibold shadow-sm">
+                  {isEn ? 'Featured Project' : 'Proyek Unggulan'}
+                </span>
+                <span className="px-3 py-1 rounded-full bg-[#FFFFFF]/90 backdrop-blur-sm text-[#17122B] border border-[rgba(91,60,196,0.16)] font-mono text-[11px] uppercase tracking-[0.08em] font-semibold">
+                  {project.categoryLabel}
+                </span>
+              </div>
+            </div>
+
+            {/* Content Column */}
+            <div className="lg:col-span-5 p-6 md:p-8 flex flex-col justify-between bg-[#FFFFFF]">
+              <div className="space-y-4">
+                <div className="flex items-center justify-between gap-2 font-mono text-[11px] uppercase tracking-[0.08em] text-[#5B5675]">
+                  <span className="text-[#6A3FD0] font-semibold">{project.industry}</span>
+                  <span>{project.year} · {project.duration}</span>
+                </div>
+
+                <h2 className="text-[20px] md:text-[24px] font-semibold text-[#17122B] group-hover:text-[#6A3FD0] transition-colors leading-snug">
+                  {project.title}
+                </h2>
+
+                <p className="text-[15px] text-[#5B5675] leading-[1.65]">
+                  {project.oneLiner}
+                </p>
+
+                <div className="pt-2 flex flex-wrap gap-1.5">
+                  {project.stack.map((tech) => (
+                    <span
+                      key={tech}
+                      className="px-2.5 py-1 rounded-full bg-[#F8F6FE] border border-[rgba(91,60,196,0.14)] font-mono text-[11px] text-[#5B5675]"
+                    >
+                      {tech}
+                    </span>
+                  ))}
+                </div>
+              </div>
+
+              <div className="mt-6 pt-4 border-t border-[rgba(91,60,196,0.14)] flex items-center justify-between">
+                <span className="font-mono text-[11px] uppercase tracking-[0.08em] text-[#5B5675]">
+                  {project.liveUrl
+                    ? isEn
+                      ? 'Live Demo Available'
+                      : 'Live Demo Tersedia'
+                    : project.liveStatusLabel}
+                </span>
+                <span className="inline-flex items-center gap-1.5 text-[14px] font-semibold text-[#6A3FD0]">
+                  <span>{isEn ? 'View project details' : 'Lihat detail proyek'}</span>
+                  <ArrowUpRight
+                    size={16}
+                    className="icon-slide-hover transition-transform duration-200"
+                  />
+                </span>
+              </div>
+            </div>
+          </div>
+        </Link>
+      </article>
+    );
+  }
+
+  return (
+    <article className="portfolio-grid-item h-full">
+      <Link
+        to={projectHref}
+        className="bento-card group h-full flex flex-col justify-between rounded-[24px] bg-[#FFFFFF] border border-[rgba(91,60,196,0.14)] hover:border-[#6A3FD0]/50 shadow-[0_6px_20px_-6px_rgba(106,63,208,0.05)] overflow-hidden transition-colors duration-200"
+      >
+        <div>
+          {/* Consistent 4:3 Clipped Frame */}
+          <div className="relative aspect-[4/3] bg-[#EFEAFB] border-b border-[rgba(91,60,196,0.14)] overflow-hidden">
+            <ImageWithFallback
+              src={imgAsset.src}
+              alt={imgAsset.alt}
+              width={imgAsset.width}
+              height={imgAsset.height}
+              priority={priority}
+              viewTransitionName={`portfolio-cover-${project.slug}`}
+              className="w-full h-full object-cover"
+            />
+            <div className="absolute top-3.5 left-3.5 flex flex-wrap items-center gap-2">
+              <span className="px-3 py-1 rounded-full bg-[#FFFFFF]/92 backdrop-blur-sm text-[#6A3FD0] border border-[rgba(91,60,196,0.16)] font-mono text-[11px] uppercase tracking-[0.08em] font-semibold">
+                {project.categoryLabel}
+              </span>
+            </div>
+          </div>
+
+          {/* Card Copy */}
+          <div className="p-5 md:p-6 space-y-3">
+            <div className="flex items-center justify-between gap-2 font-mono text-[11px] uppercase tracking-[0.08em] text-[#5B5675]">
+              <span className="text-[#6A3FD0] font-semibold">{project.industry}</span>
+              <span>{project.year}</span>
+            </div>
+
+            <h2 className="text-[18px] md:text-[20px] font-semibold text-[#17122B] group-hover:text-[#6A3FD0] transition-colors leading-snug">
+              {project.title}
+            </h2>
+
+            <p className="text-[14px] md:text-[15px] text-[#5B5675] leading-[1.6] line-clamp-2">
+              {project.oneLiner}
+            </p>
+          </div>
         </div>
 
-        {/* Sticky Conversion Sidebar */}
-        <div className="md:col-span-4 lg:col-span-3">
-           <div className="sticky top-32 p-8 rounded-[2rem] bg-white/40 backdrop-blur-2xl border border-white/60 shadow-xl shadow-purple-900/5 relative overflow-hidden group">
-              <div className="absolute inset-0 bg-purple-50/50 rounded-full blur-[80px] pointer-events-none mix-blend-multiply" />
-              
-              <div className="relative z-10">
-                 <div className="w-12 h-12 rounded-xl bg-purple-50 flex items-center justify-center mb-6">
-                    <CheckCircle2 size={24} className="text-[#6b21a8]" />
-                 </div>
-                 <h4 className="text-2xl font-display font-medium text-slate-900 mb-2 leading-tight">Tertarik dengan kinerja website kami?</h4>
-                 <p className="text-sm font-sans text-slate-500 mb-8 leading-relaxed">Konsultasikan kebutuhan spesifik bisnis Anda dengan tim kami sekarang juga secara gratis.</p>
-                 
-                 <a 
-                   href="https://wa.me/6282125447232?text=Halo%20CHESTAADOTCOM%2C%20saya%20tertarik%20dengan%20portofolio%20website%20dan%20AI%20Anda%20dan%20ingin%20konsultasi." 
-                   target="_blank" 
-                   rel="noopener noreferrer" 
-                   className="flex items-center justify-center gap-2 w-full py-4 bg-purple-600 text-white font-sans font-bold rounded-xl text-sm hover:scale-[1.02] transition-transform duration-300 shadow-md hover:shadow-lg hover:bg-purple-700 cursor-pointer"
-                 >
-                    <MessageCircle size={16} />
-                    <span>Chat with us on WhatsApp</span>
-                 </a>
-              </div>
-           </div>
+        {/* Footer Strip */}
+        <div className="px-5 md:px-6 py-4 bg-[#F8F6FE] border-t border-[rgba(91,60,196,0.14)] flex items-center justify-between gap-3">
+          <div className="flex flex-wrap items-center gap-1.5">
+            {project.stack.slice(0, 3).map((tech) => (
+              <span
+                key={tech}
+                className="px-2 py-0.5 rounded-full bg-[#FFFFFF] border border-[rgba(91,60,196,0.14)] font-mono text-[10px] text-[#5B5675]"
+              >
+                {tech}
+              </span>
+            ))}
+          </div>
+
+          <span className="inline-flex items-center gap-1 text-[13px] font-semibold text-[#6A3FD0] shrink-0">
+            <span>{isEn ? 'Details' : 'Detail'}</span>
+            <ArrowUpRight
+              size={15}
+              className="icon-slide-hover transition-transform duration-200"
+            />
+          </span>
         </div>
-      </div>
-      <ClientTestimonials />
-      <AICaseStudies />
-      <CreativityMarquee />
-    </div>
+      </Link>
+    </article>
   );
 }

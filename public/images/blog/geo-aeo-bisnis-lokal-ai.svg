@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" width="1280" height="720">
+  <defs>
+    <linearGradient id="bg4" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" />
+      <stop offset="65%" stop-color="#F8F6FE" />
+      <stop offset="100%" stop-color="#EFEAFB" />
+    </linearGradient>
+    <radialGradient id="glow4" cx="82%" cy="26%" r="55%">
+      <stop offset="0%" stop-color="#7C54E0" stop-opacity="0.16" />
+      <stop offset="100%" stop-color="#7C54E0" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+  <rect width="1280" height="720" fill="url(#bg4)" />
+  <rect width="1280" height="720" fill="url(#glow4)" />
+  <rect x="56" y="56" width="1168" height="608" rx="28" fill="rgba(255,255,255,0.76)" stroke="rgba(91,60,196,0.14)" stroke-width="1.5" />
+
+  <rect x="100" y="108" width="52" height="4" rx="2" fill="#6A3FD0" />
+  <text x="100" y="150" fill="#6A3FD0" font-family="'JetBrains Mono', monospace" font-size="15" font-weight="600" letter-spacing="2.5">VISIBILITAS PENCARIAN AI · GEO &amp; AEO</text>
+  <text x="100" y="232" fill="#17122B" font-family="'Plus Jakarta Sans', sans-serif" font-size="44" font-weight="700" letter-spacing="-1">GEO dan AEO: Cara Bisnis Lokal</text>
+  <text x="100" y="290" fill="#17122B" font-family="'Plus Jakarta Sans', sans-serif" font-size="44" font-weight="700" letter-spacing="-1">Muncul di ChatGPT, Gemini &amp; Perplexity</text>
+  <text x="100" y="352" fill="#5B5675" font-family="'Plus Jakarta Sans', sans-serif" font-size="20">Struktur Fakta, Schema JSON-LD, dan HTML Prarender agar Mudah Dikutip Mesin AI</text>
+
+  <g transform="translate(100, 410)">
+    <rect width="335" height="140" rx="18" fill="#FFFFFF" stroke="rgba(91,60,196,0.18)" stroke-width="1.5" />
+    <text x="24" y="44" fill="#6A3FD0" font-family="'JetBrains Mono', monospace" font-size="13" font-weight="600">1. RINGKASAN FAKTA JELAS</text>
+    <text x="24" y="80" fill="#17122B" font-family="'Plus Jakarta Sans', sans-serif" font-size="19" font-weight="700">Jawaban di 60 Kata Pertama</text>
+    <text x="24" y="110" fill="#5B5675" font-family="'Plus Jakarta Sans', sans-serif" font-size="14">Layanan, area &amp; patokan harga nyata</text>
+
+    <rect x="365" width="335" height="140" rx="18" fill="#F8F6FE" stroke="#6A3FD0" stroke-width="1.5" />
+    <text x="389" y="44" fill="#6A3FD0" font-family="'JetBrains Mono', monospace" font-size="13" font-weight="600">2. SCHEMA JSON-LD @GRAPH</text>
+    <text x="389" y="80" fill="#17122B" font-family="'Plus Jakarta Sans', sans-serif" font-size="19" font-weight="700">LocalBusiness + FAQPage</text>
+    <text x="389" y="110" fill="#5B5675" font-family="'Plus Jakarta Sans', sans-serif" font-size="14">Konsistensi entitas di web &amp; Maps</text>
+
+    <rect x="730" width="350" height="140" rx="18" fill="#FFFFFF" stroke="rgba(91,60,196,0.18)" stroke-width="1.5" />
+    <text x="754" y="44" fill="#6A3FD0" font-family="'JetBrains Mono', monospace" font-size="13" font-weight="600">3. AKSES CRAWLER AI</text>
+    <text x="754" y="80" fill="#17122B" font-family="'Plus Jakarta Sans', sans-serif" font-size="19" font-weight="700">SSR HTML + /llms.txt</text>
+    <text x="754" y="110" fill="#5B5675" font-family="'Plus Jakarta Sans', sans-serif" font-size="14">Terbaca instan oleh GPTBot &amp; Perplexity</text>
+  </g>
+
+  <text x="100" y="620" fill="#5B5675" font-family="'JetBrains Mono', monospace" font-size="15">CHESTAADOTCOM · BSD City, Alam Sutera, Bintaro &amp; Gading Serpong</text>
+</svg>

@@ -1,6 +1,6 @@
 {
-  "name": "CHESTAADOTCOM - Autonomous Systems",
-  "description": "CHESTAADOTCOM - Arsitektur Digital & Sistem Penjualan Otonom dengan fokus Efisiensi Korporat dan Dominasi Pasar Digital.",
+  "name": "CHESTAADOTCOM - Software & AI Agent",
+  "description": "Partner rekayasa software custom dan AI agent (WhatsApp/CRM, booking, automasi) untuk bisnis di BSD City, Tangerang Selatan & Jabodetabek. Web mulai Rp1.200.000.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

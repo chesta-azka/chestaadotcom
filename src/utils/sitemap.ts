@@ -1,30 +1,40 @@
 import fs from 'fs';
 import path from 'path';
-import { generateSitemapXml, getAllSitemapRoutes } from './sitemapGenerator';
+import { getAllSitemapRoutes, SITE_URL } from './sitemapGenerator';
 import { injectSocialMeta } from '../lib/social-meta';
 
-const sitemap = generateSitemapXml('https://chestaa.com');
 const routes = getAllSitemapRoutes();
 
-// Ensure public directory exists
-const publicDir = path.join(process.cwd(), 'public');
-if (!fs.existsSync(publicDir)) {
-  fs.mkdirSync(publicDir, { recursive: true });
+// Ensure no static sitemap.xml or robots.txt exists in public/ or dist/ so that
+// GET /sitemap.xml and GET /robots.txt are always served dynamically by server.ts
+for (const dir of ['public', 'dist']) {
+  for (const file of ['sitemap.xml', 'robots.txt']) {
+    const target = path.join(process.cwd(), dir, file);
+    if (fs.existsSync(target)) {
+      try {
+        fs.unlinkSync(target);
+      } catch {
+        // ignore
+      }
+    }
+  }
 }
-const outputPath = path.join(publicDir, 'sitemap.xml');
-fs.writeFileSync(outputPath, sitemap, 'utf-8');
 
-// If dist directory exists, sync sitemap and pre-render route entrypoints
+// Pre-render static HTML entrypoints in dist/ so crawlers immediately receive
+// full <head> metadata, JSON-LD structured data, and semantic <body> content.
 const distDir = path.join(process.cwd(), 'dist');
 if (fs.existsSync(distDir)) {
-  fs.writeFileSync(path.join(distDir, 'sitemap.xml'), sitemap, 'utf-8');
-
-  // Pre-render static HTML entrypoints for social sharing and direct deep-link access
   const distIndexHtmlPath = path.join(distDir, 'index.html');
   if (fs.existsSync(distIndexHtmlPath)) {
     const baseHtml = fs.readFileSync(distIndexHtmlPath, 'utf-8');
-    let prerenderedCount = 0;
 
+    // 1. Pre-render Home (/)
+    const homeHtml = injectSocialMeta(baseHtml, '/');
+    fs.writeFileSync(distIndexHtmlPath, homeHtml, 'utf-8');
+
+    let prerenderedCount = 1;
+
+    // 2. Pre-render all sub-routes (/services, /blog, /blog/:slug, /about, /portfolio, /workflow)
     for (const route of routes) {
       if (route.path === '/' || !route.path.startsWith('/')) continue;
 
@@ -38,13 +48,13 @@ if (fs.existsSync(distDir)) {
         const routeHtml = injectSocialMeta(baseHtml, route.path);
         fs.writeFileSync(path.join(targetRouteDir, 'index.html'), routeHtml, 'utf-8');
         prerenderedCount++;
-      } catch (err) {
-        // Continue gracefully if a specific path has an issue
+      } catch {
+        // Continue gracefully
       }
     }
 
-    console.log(`[Pre-render] Successfully generated ${prerenderedCount} static route entrypoints for zero-404 social sharing on Vercel.`);
+    console.log(
+      `[SSR Pre-render] Pre-rendered ${prerenderedCount} routes with full HTML body & JSON-LD for ${SITE_URL}.`
+    );
   }
 }
-
-console.log(`[Sitemap] Successfully generated dynamic sitemap with ${routes.length} URLs for maximum SEO indexing.`);

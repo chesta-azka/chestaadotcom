@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" width="1280" height="720">
+  <defs>
+    <linearGradient id="bg3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" />
+      <stop offset="65%" stop-color="#F8F6FE" />
+      <stop offset="100%" stop-color="#EFEAFB" />
+    </linearGradient>
+    <radialGradient id="glow3" cx="80%" cy="30%" r="55%">
+      <stop offset="0%" stop-color="#7C54E0" stop-opacity="0.15" />
+      <stop offset="100%" stop-color="#7C54E0" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+  <rect width="1280" height="720" fill="url(#bg3)" />
+  <rect width="1280" height="720" fill="url(#glow3)" />
+  <rect x="56" y="56" width="1168" height="608" rx="28" fill="rgba(255,255,255,0.76)" stroke="rgba(91,60,196,0.14)" stroke-width="1.5" />
+
+  <rect x="100" y="108" width="52" height="4" rx="2" fill="#6A3FD0" />
+  <text x="100" y="150" fill="#6A3FD0" font-family="'JetBrains Mono', monospace" font-size="15" font-weight="600" letter-spacing="2.5">REKAYASA SOFTWARE &amp; KEAMANAN SISTEM</text>
+  <text x="100" y="232" fill="#17122B" font-family="'Plus Jakarta Sans', sans-serif" font-size="44" font-weight="700" letter-spacing="-1">Vibe Coding untuk Bisnis:</text>
+  <text x="100" y="290" fill="#17122B" font-family="'Plus Jakarta Sans', sans-serif" font-size="44" font-weight="700" letter-spacing="-1">Kapan Cukup dan Kapan Berbahaya</text>
+  <text x="100" y="352" fill="#5B5675" font-family="'Plus Jakarta Sans', sans-serif" font-size="20">Batas Aman Prototipe AI vs Sistem Produksi yang Mengelola Uang &amp; Data Pelanggan</text>
+
+  <g transform="translate(100, 410)">
+    <rect width="510" height="140" rx="18" fill="#FFFFFF" stroke="rgba(91,60,196,0.18)" stroke-width="1.5" />
+    <text x="26" y="44" fill="#6A3FD0" font-family="'JetBrains Mono', monospace" font-size="13" font-weight="600">AMAN UNTUK VIBE CODING</text>
+    <text x="26" y="80" fill="#17122B" font-family="'Plus Jakarta Sans', sans-serif" font-size="20" font-weight="700">Prototipe UI &amp; Skrip Internal Satu Kali</text>
+    <text x="26" y="110" fill="#5B5675" font-family="'Plus Jakarta Sans', sans-serif" font-size="14">Validasi ide cepat tanpa data rahasia pelanggan</text>
+
+    <rect x="550" width="530" height="140" rx="18" fill="#F8F6FE" stroke="#6A3FD0" stroke-width="2" />
+    <text x="576" y="44" fill="#5230B0" font-family="'JetBrains Mono', monospace" font-size="13" font-weight="600">WAJIB REKAYASA &amp; AUDIT ENGINEER</text>
+    <text x="576" y="80" fill="#17122B" font-family="'Plus Jakarta Sans', sans-serif" font-size="20" font-weight="700">Pembayaran, Hak Akses (RBAC) &amp; Database</text>
+    <text x="576" y="110" fill="#5B5675" font-family="'Plus Jakarta Sans', sans-serif" font-size="14">Validasi input, proteksi API key, backup &amp; audit log</text>
+  </g>
+
+  <text x="100" y="620" fill="#5B5675" font-family="'JetBrains Mono', monospace" font-size="15">CHESTAADOTCOM · Jasa Software Custom &amp; Audit Arsitektur</text>
+</svg>

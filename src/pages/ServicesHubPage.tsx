@@ -1,279 +1,690 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { motion } from 'motion/react';
-import { 
-  Zap, 
-  Bot, 
-  ShoppingBag, 
-  Target, 
-  Server, 
-  ShieldCheck, 
-  ArrowRight, 
-  CheckCircle2, 
+import {
+  ArrowRight,
+  ArrowUpRight,
+  Bot,
+  Code2,
+  Workflow,
+  Zap,
+  Check,
   Sparkles,
-  Cpu,
-  Layers,
-  Search,
-  MessageCircle,
-  Clock,
-  TrendingUp,
-  Award
 } from 'lucide-react';
 import SEOMetadata from '../components/atoms/SEOMetadata';
-import Breadcrumbs from '../components/atoms/Breadcrumbs';
-import FAQSchema from '../components/atoms/FAQSchema';
-import { PORTFOLIO_ITEMS } from '../data/portfolio';
+import {
+  SERVICES_DATA,
+  PROBLEM_SELECTOR_OPTIONS,
+  ServiceSlug,
+  ServiceItem,
+} from '../data/services';
+import {
+  Container,
+  Button,
+  Card,
+  Badge,
+  Tag,
+  SectionHeading,
+  Reveal,
+  CTABlock,
+  Breadcrumb,
+  buildWaUrl,
+} from '../components/ui/DesignSystem';
+
+/**
+ * Small live SVG/CSS micro-visual for each Bento tile on /layanan
+ * Every visual is explicitly labeled "Ilustrasi" per specification.
+ */
+function BentoMicroVisual({ slug }: { slug: ServiceSlug }) {
+  if (slug === 'ai-agent') {
+    return (
+      <div className="mt-5 p-4 rounded-[18px] bg-[#F8F6FE] border border-[rgba(91,60,196,0.14)] relative overflow-hidden">
+        <div className="flex items-center justify-between gap-2 pb-2.5 mb-3 border-b border-[rgba(91,60,196,0.14)] font-mono text-[11px] uppercase tracking-[0.08em] text-[#5B5675]">
+          <span className="flex items-center gap-1.5 text-[#6A3FD0] font-semibold">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#6A3FD0] animate-pulse" />
+            <span>Alur Eksekusi Agent</span>
+          </span>
+          <span>Ilustrasi</span>
+        </div>
+        <div className="grid grid-cols-3 gap-2 items-center text-center font-mono text-[11px]">
+          <div className="p-2.5 rounded-[12px] bg-[#FFFFFF] border border-[rgba(91,60,196,0.14)] text-[#17122B]">
+            <span className="block text-[10px] text-[#5B5675]">INPUT</span>
+            <span className="font-semibold">Chat WA</span>
+          </div>
+          <div className="p-2.5 rounded-[12px] bg-[#EFEAFB] border border-[#6A3FD0]/30 text-[#6A3FD0] font-semibold">
+            <span className="block text-[10px] text-[#5230B0]">TOOL CALL</span>
+            <span>Kalender + DB</span>
+          </div>
+          <div className="p-2.5 rounded-[12px] bg-[#FFFFFF] border border-[rgba(91,60,196,0.14)] text-[#17122B]">
+            <span className="block text-[10px] text-[#5B5675]">OUTPUT</span>
+            <span className="font-semibold">Jadwal Terkunci</span>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (slug === 'pembuatan-website') {
+    return (
+      <div className="mt-5 p-4 rounded-[18px] bg-[#F8F6FE] border border-[rgba(91,60,196,0.14)]">
+        <div className="flex items-center justify-between gap-2 pb-2.5 mb-3 border-b border-[rgba(91,60,196,0.14)] font-mono text-[11px] uppercase tracking-[0.08em] text-[#5B5675]">
+          <span className="text-[#6A3FD0] font-semibold">Performa Halaman</span>
+          <span>Ilustrasi</span>
+        </div>
+        <div className="flex items-center justify-between gap-4">
+          <div className="space-y-1.5 flex-1">
+            <div className="h-2.5 w-3/4 rounded-full bg-[#6A3FD0]/85" />
+            <div className="h-2 w-1/2 rounded-full bg-[#B9A2F2]" />
+            <div className="pt-1 flex gap-1.5">
+              <span className="px-2 py-0.5 rounded-full bg-[#FFFFFF] border border-[rgba(91,60,196,0.14)] font-mono text-[10px] text-[#17122B]">
+                LCP 0.9s
+              </span>
+              <span className="px-2 py-0.5 rounded-full bg-[#EFEAFB] font-mono text-[10px] text-[#6A3FD0] font-semibold">
+                Mobile-First
+              </span>
+            </div>
+          </div>
+          <div className="w-12 h-12 rounded-full bg-[#FFFFFF] border-2 border-[#6A3FD0] flex flex-col items-center justify-center shrink-0">
+            <span className="font-mono text-[12px] font-bold text-[#17122B] leading-none">99</span>
+            <span className="font-mono text-[9px] text-[#5B5675]">SPEED</span>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  if (slug === 'software-custom') {
+    return (
+      <div className="mt-5 p-4 rounded-[18px] bg-[#F8F6FE] border border-[rgba(91,60,196,0.14)]">
+        <div className="flex items-center justify-between gap-2 pb-2.5 mb-3 border-b border-[rgba(91,60,196,0.14)] font-mono text-[11px] uppercase tracking-[0.08em] text-[#5B5675]">
+          <span className="text-[#6A3FD0] font-semibold">Modul Operasional</span>
+          <span>Ilustrasi</span>
+        </div>
+        <div className="grid grid-cols-2 gap-2 font-mono text-[11px]">
+          <div className="p-2.5 rounded-[12px] bg-[#FFFFFF] border border-[rgba(91,60,196,0.14)] flex items-center justify-between">
+            <span className="text-[#17122B] font-medium">Hak Akses Role</span>
+            <span className="w-2 h-2 rounded-full bg-[#6A3FD0]" />
+          </div>
+          <div className="p-2.5 rounded-[12px] bg-[#FFFFFF] border border-[rgba(91,60,196,0.14)] flex items-center justify-between">
+            <span className="text-[#17122B] font-medium">Audit Log</span>
+            <span className="w-2 h-2 rounded-full bg-[#7C54E0]" />
+          </div>
+          <div className="col-span-2 p-2.5 rounded-[12px] bg-[#EFEAFB]/70 border border-[rgba(91,60,196,0.14)] flex items-center justify-between text-[#17122B]">
+            <span>Rekap Komisi &amp; Laporan Otomatis</span>
+            <span className="text-[#6A3FD0] font-semibold">Sinkron</span>
+          </div>
+        </div>
+      </div>
+    );
+  }
+
+  return (
+    <div className="mt-5 p-4 rounded-[18px] bg-[#F8F6FE] border border-[rgba(91,60,196,0.14)]">
+      <div className="flex items-center justify-between gap-2 pb-2.5 mb-3 border-b border-[rgba(91,60,196,0.14)] font-mono text-[11px] uppercase tracking-[0.08em] text-[#5B5675]">
+        <span className="text-[#6A3FD0] font-semibold">Pipa Sinkronisasi</span>
+        <span>Ilustrasi</span>
+      </div>
+      <div className="flex items-center justify-between gap-1.5 font-mono text-[11px] text-[#17122B]">
+        <span className="px-2.5 py-1.5 rounded-[10px] bg-[#FFFFFF] border border-[rgba(91,60,196,0.14)]">
+          Sheets
+        </span>
+        <span className="text-[#6A3FD0] font-bold">→</span>
+        <span className="px-2.5 py-1.5 rounded-[10px] bg-[#EFEAFB] border border-[#6A3FD0]/30 text-[#6A3FD0] font-semibold">
+          Webhook n8n
+        </span>
+        <span className="text-[#6A3FD0] font-bold">→</span>
+        <span className="px-2.5 py-1.5 rounded-[10px] bg-[#FFFFFF] border border-[rgba(91,60,196,0.14)]">
+          Invoice &amp; WA
+        </span>
+      </div>
+    </div>
+  );
+}
+
+function getServiceIcon(slug: ServiceSlug) {
+  switch (slug) {
+    case 'ai-agent':
+      return <Bot size={20} />;
+    case 'pembuatan-website':
+      return <Zap size={20} />;
+    case 'software-custom':
+      return <Code2 size={20} />;
+    case 'otomasi-workflow':
+      return <Workflow size={20} />;
+  }
+}
 
 export default function ServicesHubPage() {
-  const pillars = [
-    {
-      id: 'pillar-1',
-      tag: 'Core Pillar 01',
-      title: 'Headless E-Commerce & B2B Web Architecture',
-      description: 'Bukan sekadar toko online. Kami membangun arsitektur Next.js 15 dengan integrasi Karyawan AI untuk merekomendasikan produk secara otonom dan memproses checkout tanpa latensi.',
-      href: '/services/toko-online-otonom',
-      icon: ShoppingBag,
-      accent: 'purple',
-      features: [
-        'Arsitektur Next.js 15 App Router & Edge Caching',
-        'Rekomendasi Produk Otonom Berbasis LLM',
-        'Checkout Instan Tanpa Latensi',
-        '100% Hak Milik Tanpa Biaya Sewa Bulanan'
-      ],
-      relatedCategory: 'High-Performance Web'
-    },
-    {
-      id: 'pillar-2',
-      tag: 'Core Pillar 02',
-      title: 'Programmatic SEO & Semantic AI Engines',
-      description: 'Tinggalkan metode SEO manual. Kami merakit pangkalan data (Firestore) yang menghasilkan ribuan halaman pSEO terstruktur secara otomatis, mendominasi pencarian lokal di seluruh Tangerang dan Jakarta.',
-      href: '/services/dominasi-pencarian-seo-aeo',
-      icon: Search,
-      accent: 'purple',
-      features: [
-        'Pangkalan data Firestore untuk pSEO berskala ribuan halaman',
-        'Injeksi JSON-LD Schema terstruktur otomatis',
-        'Dominasi Google Maps & SGE (Search Generative Experience)',
-        'Otomatisasi Entity Graph & Keyword Intent'
-      ],
-      relatedCategory: 'AI Automation & Data Pipeline'
-    },
-    {
-      id: 'pillar-3',
-      tag: 'Core Pillar 03',
-      title: 'Autonomous ERP & Karyawan Digital',
-      description: 'Otomatisasi alur kerja tingkat lanjut. Menggantikan proses admin manual dengan sistem AI yang menyinkronkan data klien, HR, dan logistik secara real-time.',
-      href: '/services/karyawan-digital-ai',
-      icon: Bot,
-      accent: 'purple',
-      features: [
-        'Karyawan AI 24/7 untuk kualifikasi prospek B2B',
-        'Sinkronisasi real-time database perusahaan',
-        'Automated Invoice & Billing Engine',
-        'Eliminasi total human-error operasional'
-      ],
-      relatedCategory: 'Business Workflow Automation'
-    }
-  ];
+  const [selectedProblemId, setSelectedProblemId] = useState<string | null>(null);
 
-  const collectionPageJsonLd = {
-    "@context": "https://schema.org",
-    "@type": "CollectionPage",
-    "name": "Chestaa Enterprise IT & AI Services Hub",
-    "description": "Kumpulan solusi arsitektur web modern, Programmatic SEO, dan otomasi Karyawan AI untuk mendominasi pasar B2B enterprise.",
-    "url": "https://chestaa.com/services",
-    "hasPart": pillars.map(p => ({
-      "@type": "Service",
-      "name": p.title,
-      "description": p.description,
-      "url": `https://chestaa.com${p.href}`
-    }))
+  const activeProblem = PROBLEM_SELECTOR_OPTIONS.find((p) => p.id === selectedProblemId) || null;
+  const highlightedSlug: ServiceSlug | null = activeProblem ? activeProblem.recommendedSlug : null;
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    e.currentTarget.style.setProperty('--spot-x', `${x}px`);
+    e.currentTarget.style.setProperty('--spot-y', `${y}px`);
   };
 
-  const serializeJsonLd = (schema: object) => {
-    return JSON.stringify(schema)
-      .replace(/</g, '\\u003c')
-      .replace(/>/g, '\\u003e')
-      .replace(/&/g, '\\u0026');
+  // Order for asymmetrical 12-col bento grid:
+  // Row 1: ai-agent (7 cols) + pembuatan-website (5 cols)
+  // Row 2: otomasi-workflow (5 cols) + software-custom (7 cols)
+  const orderedSlugs: { slug: ServiceSlug; spanClass: string }[] = [
+    { slug: 'ai-agent', spanClass: 'md:col-span-7' },
+    { slug: 'pembuatan-website', spanClass: 'md:col-span-5' },
+    { slug: 'otomasi-workflow', spanClass: 'md:col-span-5' },
+    { slug: 'software-custom', spanClass: 'md:col-span-7' },
+  ];
+
+  const orderedServices = orderedSlugs
+    .map((item) => {
+      const service = SERVICES_DATA.find((s) => s.slug === item.slug);
+      return service ? { service, spanClass: item.spanClass } : null;
+    })
+    .filter((x): x is { service: ServiceItem; spanClass: string } => x !== null);
+
+  const collectionSchema = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'CollectionPage',
+        '@id': 'https://chestaa.com/layanan#collection',
+        url: 'https://chestaa.com/layanan',
+        name: 'Layanan Software Custom, Landing Page & AI Agent | CHESTAADOTCOM',
+        description:
+          'Daftar layanan rekayasa software custom, pembuatan landing page mulai Rp1.200.000, AI agent WhatsApp & CRM, serta otomasi workflow untuk bisnis di BSD City, Tangerang Selatan, dan Jabodetabek.',
+        inLanguage: 'id-ID',
+        isPartOf: { '@id': 'https://chestaa.com/#website' },
+        mainEntity: {
+          '@type': 'ItemList',
+          itemListElement: SERVICES_DATA.map((s, idx) => ({
+            '@type': 'ListItem',
+            position: idx + 1,
+            url: `https://chestaa.com/layanan/${s.slug}`,
+            name: s.title,
+            description: s.summary,
+          })),
+        },
+      },
+      {
+        '@type': 'BreadcrumbList',
+        '@id': 'https://chestaa.com/layanan#breadcrumb',
+        itemListElement: [
+          {
+            '@type': 'ListItem',
+            position: 1,
+            name: 'Beranda',
+            item: 'https://chestaa.com',
+          },
+          {
+            '@type': 'ListItem',
+            position: 2,
+            name: 'Layanan',
+            item: 'https://chestaa.com/layanan',
+          },
+        ],
+      },
+    ],
   };
 
   return (
-    <div className="pt-36 pb-28 min-h-screen font-sans bg-slate-50 bg-[radial-gradient(ellipse_at_top,_var(--tw-gradient-stops))] from-purple-50 via-slate-50 to-white text-slate-900 relative">
-      <SEOMetadata 
-        title="Jasa Pembuatan Website B2B, Chatbot AI & Sistem UMKM Enterprise | CHESTAADOTCOM"
-        description="Jasa pembuatan website Next.js 15, integrasi AI praktis, otomatisasi alur kerja, dan toko online tanpa komisi untuk B2B Enterprise dan UMKM komersial. Konsultasi gratis bersama arsitek chestaadotcom."
-        currentRoute="/services"
+    <div className="bg-[#FFFFFF] text-[#17122B] min-h-screen">
+      <SEOMetadata
+        title="Layanan Software Custom, Web & AI Agent BSD | CHESTAADOTCOM"
+        description="Pilih layanan untuk bisnismu di BSD & Tangsel: Landing Page (mulai Rp1.200.000), AI Agent WhatsApp/CRM, Software Custom, dan Otomasi Workflow."
+        path="/layanan"
+        jsonLd={collectionSchema}
       />
 
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: serializeJsonLd(collectionPageJsonLd) }}
-      />
+      {/* =====================================================
+          1. COMPACT HEADER
+          ===================================================== */}
+      <section className="pt-28 pb-12 md:pt-36 md:pb-16 bg-gradient-to-b from-[#FFFFFF] via-[#F8F6FE] to-[#FFFFFF] border-b border-[rgba(91,60,196,0.14)]">
+        <Container>
+          <Breadcrumb items={[{ label: 'Layanan' }]} />
 
-      <div className="max-w-7xl mx-auto px-6 sm:px-8 space-y-16 relative z-10">
-        <Breadcrumbs items={[{ name: 'Home', item: '/' }, { name: 'Services Hub', item: '/services' }]} />
+          <div className="max-w-3xl space-y-4">
+            <Badge variant="tint">
+              <span className="w-1.5 h-1.5 rounded-full bg-[#6A3FD0]" />
+              <span>LAYANAN &amp; CAKUPAN SISTEM · BSD &amp; JABODETABEK</span>
+            </Badge>
 
-        {/* Hero Header */}
-        <div className="text-center max-w-4xl mx-auto space-y-6">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-purple-50 border border-purple-200 text-purple-700 text-xs font-mono uppercase tracking-widest shadow-xs">
-            <Sparkles size={14} className="text-purple-600" />
-            <span>Hybrid Full-Service &amp; AI Architecture (B2B &amp; UMKM)</span>
+            <h1>Apa yang bisa kami bangun untuk bisnismu</h1>
+
+            <p className="text-[15px] md:text-[16px] text-[#5B5675] leading-[1.65]">
+              Mulai dari landing page cepat untuk menangkap prospek iklan, hingga AI agent dan dashboard internal yang mengambil alih kerja berulang timmu.
+            </p>
           </div>
-          
-          <h1 className="text-4xl sm:text-6xl font-extrabold tracking-tight text-slate-900 leading-[1.1]">
-            Infrastruktur Digital &amp; <span className="bg-clip-text text-transparent bg-gradient-to-r from-purple-600 to-indigo-500">Jasa Integrasi AI Enterprise</span>
-          </h1>
+        </Container>
+      </section>
 
-          <p className="text-lg sm:text-xl text-slate-600 font-normal leading-relaxed max-w-3xl mx-auto">
-            Solusi cerdas bagi korporasi enterprise dan UMKM komersial: kami menggabungkan rekayasa Next.js 15, toko online mandiri tanpa komisi, dan Karyawan AI otonom untuk mengubah bisnis Anda menjadi mesin profit 24/7.
-          </p>
-        </div>
-
-        {/* Bento-Box Style CSS Grid for 3 Pillars */}
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 items-stretch">
-          {pillars.map((pillar, index) => {
-            const IconComponent = pillar.icon;
-            const relatedCases = PORTFOLIO_ITEMS.filter(item => item.category.toLowerCase().includes(pillar.relatedCategory.toLowerCase().split(' ')[0]) || index === 0).slice(0, 2);
-
-            return (
-              <div
-                key={pillar.id}
-                className="rounded-3xl bg-white border border-slate-200 shadow-sm hover:shadow-lg hover:shadow-purple-500/10 hover:border-purple-300 p-8 flex flex-col justify-between relative overflow-hidden group transition-all duration-300"
-              >
-                <div className="absolute top-0 right-0 w-48 h-48 bg-purple-100/40 rounded-bl-full pointer-events-none group-hover:scale-110 transition-transform" />
-
-                <div className="space-y-6 relative z-10">
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs font-mono font-bold uppercase tracking-widest text-purple-700 bg-purple-50 px-3 py-1 rounded-full border border-purple-200">
-                      {pillar.tag}
-                    </span>
-                    <div className="w-12 h-12 rounded-2xl bg-purple-50 border border-purple-200 flex items-center justify-center text-purple-600 shadow-xs">
-                      <IconComponent size={24} />
-                    </div>
-                  </div>
-
-                  <div className="space-y-3">
-                    <h3 className="text-2xl font-bold tracking-tight text-slate-900 group-hover:text-purple-600 transition-colors">
-                      {pillar.title}
-                    </h3>
-                    <p className="text-slate-600 text-sm leading-relaxed">
-                      {pillar.description}
-                    </p>
-                  </div>
-
-                  {/* Features list */}
-                  <div className="space-y-2 pt-2 border-t border-slate-100">
-                    <span className="text-[11px] font-mono uppercase tracking-wider text-slate-400 block">Spesifikasi Arsitektur:</span>
-                    <ul className="space-y-2">
-                      {pillar.features.map((feat, idx) => (
-                        <li key={idx} className="flex items-start gap-2 text-xs text-slate-700 font-sans">
-                          <CheckCircle2 size={14} className="text-purple-600 shrink-0 mt-0.5" />
-                          <span>{feat}</span>
-                        </li>
-                      ))}
-                    </ul>
-                  </div>
-
-                  {/* Related Case Studies Micro-Component */}
-                  <div className="pt-4 border-t border-slate-100 space-y-2">
-                    <span className="text-[10px] font-mono uppercase tracking-widest text-slate-400 block">Studi Kasus Terkait:</span>
-                    <div className="space-y-1.5">
-                      {relatedCases.map((rc) => (
-                        <Link
-                          key={rc.id}
-                          to={`/portfolio/${rc.slug}`}
-                          className="flex items-center justify-between p-2 rounded-xl bg-slate-50 hover:bg-purple-50/60 border border-slate-200/60 text-xs font-medium text-slate-800 transition-colors group/link"
-                        >
-                          <span className="truncate pr-2">{rc.title}</span>
-                          <ArrowRight size={12} className="text-purple-600 group-hover/link:translate-x-1 transition-transform shrink-0" />
-                        </Link>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-
-                <div className="pt-8 mt-8 border-t border-slate-100 relative z-10">
-                  <Link
-                    to={pillar.href}
-                    className="w-full py-3.5 px-5 rounded-xl bg-purple-600 hover:bg-purple-700 text-white font-sans text-xs font-bold uppercase tracking-wider flex items-center justify-center gap-2 transition-all shadow-md shadow-purple-600/20 group/btn cursor-pointer"
-                  >
-                    <span><b>Eksplorasi Arsitektur</b></span>
-                    <ArrowRight size={14} className="group-hover/btn:translate-x-1 transition-transform" />
-                  </Link>
-                </div>
+      {/* =====================================================
+          2. "MANA YANG COCOK BUAT KAMU?" MINI SELECTOR + BENTO GRID
+          ===================================================== */}
+      <section className="py-16 md:py-24 bg-[#FFFFFF] border-b border-[rgba(91,60,196,0.14)]">
+        <Container>
+          {/* Mini Selector Bar */}
+          <div className="mb-12 p-6 md:p-8 rounded-[24px] bg-[#F8F6FE] border border-[rgba(91,60,196,0.14)]">
+            <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-5">
+              <div>
+                <Tag>PANDUAN CEPAT</Tag>
+                <h2 className="mt-1 text-[20px] md:text-[24px]">
+                  Mana yang cocok buat kamu?
+                </h2>
+                <p className="mt-1 text-[14px] md:text-[15px] text-[#5B5675]">
+                  Pilih kendala yang paling terasa di operasional bisnismu saat ini:
+                </p>
               </div>
-            );
-          })}
-        </div>
+              {selectedProblemId && (
+                <button
+                  type="button"
+                  onClick={() => setSelectedProblemId(null)}
+                  className="self-start md:self-auto min-h-[40px] px-4 py-2 rounded-full bg-[#FFFFFF] border border-[rgba(91,60,196,0.14)] font-mono text-[11px] uppercase tracking-[0.08em] text-[#5B5675] hover:text-[#17122B] cursor-pointer"
+                >
+                  Reset pilihan
+                </button>
+              )}
+            </div>
 
-        {/* Enterprise Services FAQ Section */}
-        <div className="pt-16 border-t border-slate-200 max-w-4xl mx-auto space-y-8">
-          <div className="text-center space-y-2">
-            <span className="text-xs font-mono font-bold uppercase tracking-wider text-purple-700 bg-purple-100 px-3 py-1 rounded-md">
-              FAQ Layanan Enterprise
-            </span>
-            <h2 className="text-2xl sm:text-3xl font-display font-bold text-slate-950 tracking-tight">
-              Pertanyaan Umum Seputar Solusi Digital chestaadotcom
-            </h2>
+            <div
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3"
+              role="group"
+              aria-label="Filter kendala operasional bisnis"
+            >
+              {PROBLEM_SELECTOR_OPTIONS.map((opt) => {
+                const isSelected = selectedProblemId === opt.id;
+                return (
+                  <button
+                    key={opt.id}
+                    type="button"
+                    onClick={() =>
+                      setSelectedProblemId((prev) => (prev === opt.id ? null : opt.id))
+                    }
+                    aria-pressed={isSelected}
+                    className={`min-h-[48px] p-4 rounded-[18px] text-left transition-all cursor-pointer flex flex-col justify-between gap-2 ${
+                      isSelected
+                        ? 'bg-[#6A3FD0] text-[#FFFFFF] border border-[#6A3FD0] shadow-[0_10px_24px_-8px_rgba(106,63,208,0.35)]'
+                        : 'bg-[#FFFFFF] text-[#17122B] border border-[rgba(91,60,196,0.14)] hover:border-[#6A3FD0]/50 hover:bg-[#EFEAFB]/40'
+                    }`}
+                  >
+                    <div className="flex items-start justify-between gap-2 w-full">
+                      <span
+                        className={`font-semibold text-[14px] md:text-[15px] leading-snug ${
+                          isSelected ? 'text-[#FFFFFF]' : 'text-[#17122B]'
+                        }`}
+                      >
+                        “{opt.questionChip}”
+                      </span>
+                      <Sparkles
+                        size={15}
+                        className={`shrink-0 mt-0.5 ${
+                          isSelected ? 'text-[#EFEAFB]' : 'text-[#6A3FD0]'
+                        }`}
+                      />
+                    </div>
+                    <span
+                      className={`text-[13px] leading-[1.5] ${
+                        isSelected ? 'text-[#EFEAFB]' : 'text-[#5B5675]'
+                      }`}
+                    >
+                      {opt.situationDetail}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+
+            {activeProblem && (
+              <div className="mt-5 p-4 md:p-5 rounded-[18px] bg-[#EFEAFB] border border-[#6A3FD0]/30 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div className="space-y-1">
+                  <p className="font-mono text-[11px] uppercase tracking-[0.08em] text-[#6A3FD0] font-semibold">
+                    Rekomendasi Utama untuk Bisnismu
+                  </p>
+                  <p className="text-[14px] md:text-[15px] text-[#17122B]">
+                    {activeProblem.recommendationNote}
+                  </p>
+                </div>
+                <Button
+                  to={`/layanan/${activeProblem.recommendedSlug}`}
+                  variant="primary"
+                  className="shrink-0"
+                >
+                  <span>Buka layanan ini</span>
+                  <ArrowRight size={15} />
+                </Button>
+              </div>
+            )}
           </div>
 
-          <div className="space-y-3">
+          {/* Bento Grid of 4 Services */}
+          <Reveal>
+            <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-stretch">
+              {orderedServices.map(({ service, spanClass }) => {
+                const isHighlighted = highlightedSlug === service.slug;
+                const isDimmed = highlightedSlug !== null && !isHighlighted;
+
+                return (
+                  <div
+                    key={service.slug}
+                    onMouseMove={handleMouseMove}
+                    className={`${spanClass} group relative rounded-[24px] p-6 md:p-8 transition-all duration-300 flex flex-col justify-between overflow-hidden hover:-translate-y-0.5 ${
+                      isHighlighted
+                        ? 'bg-[#EFEAFB]/75 border-2 border-[#6A3FD0] shadow-[0_16px_40px_-12px_rgba(106,63,208,0.22)]'
+                        : 'bg-[#FFFFFF] border border-[rgba(91,60,196,0.14)] shadow-[0_8px_28px_-8px_rgba(106,63,208,0.07)] hover:border-[#6A3FD0]/40'
+                    } ${isDimmed ? 'opacity-60' : 'opacity-100'}`}
+                  >
+                    {/* Desktop Cursor Spotlight Overlay */}
+                    <div
+                      aria-hidden="true"
+                      className="pointer-events-none hidden md:block absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+                      style={{
+                        background:
+                          'radial-gradient(380px circle at var(--spot-x, 50%) var(--spot-y, 50%), rgba(124, 84, 224, 0.08), transparent 70%)',
+                      }}
+                    />
+
+                    <div className="relative z-10">
+                      <div className="flex flex-wrap items-center justify-between gap-3 mb-4">
+                        <div className="w-10 h-10 rounded-[14px] bg-[#EFEAFB] text-[#6A3FD0] flex items-center justify-center">
+                          {getServiceIcon(service.slug)}
+                        </div>
+                        <div className="flex items-center gap-2">
+                          {isHighlighted && (
+                            <Badge variant="dark">Cocok untuk kendalamu</Badge>
+                          )}
+                          <Badge variant="tint">{service.pricingNote.label}</Badge>
+                        </div>
+                      </div>
+
+                      <Tag>{service.tagline}</Tag>
+                      <h3 className="mt-1.5 text-[20px] md:text-[22px] font-semibold text-[#17122B]">
+                        <Link
+                          to={`/layanan/${service.slug}`}
+                          className="hover:text-[#6A3FD0] transition-colors"
+                        >
+                          {service.title}
+                        </Link>
+                      </h3>
+
+                      <p className="mt-2 text-[15px] text-[#5B5675] leading-[1.65]">
+                        {service.shortPromise}
+                      </p>
+
+                      {/* Live SVG/CSS Micro-Visual */}
+                      <BentoMicroVisual slug={service.slug} />
+                    </div>
+
+                    <div className="relative z-10 mt-6 pt-4 border-t border-[rgba(91,60,196,0.14)] flex flex-wrap items-center justify-between gap-4">
+                      <span className="font-mono text-[11px] uppercase tracking-[0.08em] text-[#5B5675]">
+                        Estimasi: {service.timeline}
+                      </span>
+
+                      <Link
+                        to={`/layanan/${service.slug}`}
+                        className="inline-flex items-center gap-1.5 min-h-[44px] px-3 -mr-3 rounded-full text-[14px] font-semibold text-[#6A3FD0] hover:bg-[#F8F6FE] transition-colors"
+                      >
+                        <span>Lihat detail</span>
+                        <ArrowRight
+                          size={15}
+                          className="transition-transform group-hover:translate-x-0.5"
+                        />
+                      </Link>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </Reveal>
+        </Container>
+      </section>
+
+      {/* =====================================================
+          3. COMPARISON TABLE (HORIZONTAL SCROLL ON MOBILE)
+          ===================================================== */}
+      <section className="py-16 md:py-24 bg-[#F8F6FE] border-b border-[rgba(91,60,196,0.14)] cv-auto">
+        <Container>
+          <SectionHeading
+            eyebrow="PERBANDINGAN LAYANAN"
+            title="Bandingkan cakupan, waktu pengerjaan, dan biaya"
+            description="Tabel ringkas agar kamu bisa memilih titik awal yang paling masuk akal untuk tim dan anggaranmu."
+          />
+
+          <div className="rounded-[24px] bg-[#FFFFFF] border border-[rgba(91,60,196,0.14)] shadow-[0_8px_28px_-8px_rgba(106,63,208,0.06)] overflow-hidden">
+            <div className="overflow-x-auto">
+              <table className="w-full min-w-[760px] text-left border-collapse">
+                <thead>
+                  <tr className="border-b border-[rgba(91,60,196,0.14)] bg-[#EFEAFB]/55">
+                    <th className="p-4 md:p-5 font-mono text-[11px] uppercase tracking-[0.08em] text-[#5B5675] w-[18%]">
+                      Parameter
+                    </th>
+                    <th className="p-4 md:p-5 font-semibold text-[15px] text-[#17122B] w-[20.5%]">
+                      <Link
+                        to="/layanan/web-landing-page"
+                        className="hover:text-[#6A3FD0] inline-flex items-center gap-1"
+                      >
+                        <span>Landing Page</span>
+                        <ArrowUpRight size={14} className="text-[#6A3FD0]" />
+                      </Link>
+                    </th>
+                    <th className="p-4 md:p-5 font-semibold text-[15px] text-[#17122B] w-[20.5%]">
+                      <Link
+                        to="/layanan/software-custom"
+                        className="hover:text-[#6A3FD0] inline-flex items-center gap-1"
+                      >
+                        <span>Web App Custom</span>
+                        <ArrowUpRight size={14} className="text-[#6A3FD0]" />
+                      </Link>
+                    </th>
+                    <th className="p-4 md:p-5 font-semibold text-[15px] text-[#6A3FD0] bg-[#EFEAFB]/40 w-[20.5%]">
+                      <Link
+                        to="/layanan/ai-agent"
+                        className="hover:underline inline-flex items-center gap-1"
+                      >
+                        <span>AI Agent WA &amp; CRM</span>
+                        <ArrowUpRight size={14} />
+                      </Link>
+                    </th>
+                    <th className="p-4 md:p-5 font-semibold text-[15px] text-[#17122B] w-[20.5%]">
+                      <Link
+                        to="/layanan/otomasi-workflow"
+                        className="hover:text-[#6A3FD0] inline-flex items-center gap-1"
+                      >
+                        <span>Otomasi Workflow</span>
+                        <ArrowUpRight size={14} className="text-[#6A3FD0]" />
+                      </Link>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-[rgba(91,60,196,0.14)] text-[14px] leading-[1.6]">
+                  <tr>
+                    <td className="p-4 md:p-5 font-mono text-[11px] uppercase tracking-[0.08em] text-[#5B5675] font-semibold">
+                      Waktu Pengerjaan
+                    </td>
+                    <td className="p-4 md:p-5 text-[#17122B] font-medium">3–7 hari kerja</td>
+                    <td className="p-4 md:p-5 text-[#17122B] font-medium">2–4 minggu</td>
+                    <td className="p-4 md:p-5 text-[#17122B] font-medium bg-[#F8F6FE]">
+                      2–4 minggu
+                    </td>
+                    <td className="p-4 md:p-5 text-[#17122B] font-medium">1–3 minggu</td>
+                  </tr>
+                  <tr>
+                    <td className="p-4 md:p-5 font-mono text-[11px] uppercase tracking-[0.08em] text-[#5B5675] font-semibold">
+                      Cocok Untuk
+                    </td>
+                    <td className="p-4 md:p-5 text-[#5B5675]">
+                      Bisnis yang butuh halaman penawaran cepat untuk iklan Google/Meta Ads atau profil layanan yang meyakinkan.
+                    </td>
+                    <td className="p-4 md:p-5 text-[#5B5675]">
+                      Tim dengan SOP khusus yang mulai kewalahan memakai spreadsheet terpisah dan butuh hak akses per jabatan.
+                    </td>
+                    <td className="p-4 md:p-5 text-[#17122B] bg-[#F8F6FE]">
+                      Bisnis dengan puluhan chat harian yang butuh respon 24/7, cek jadwal otomatis, dan kualifikasi prospek.
+                    </td>
+                    <td className="p-4 md:p-5 text-[#5B5675]">
+                      Tim yang sudah punya beberapa aplikasi namun stafnya masih menyalin data manual dari satu tempat ke tempat lain.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="p-4 md:p-5 font-mono text-[11px] uppercase tracking-[0.08em] text-[#5B5675] font-semibold">
+                      Mulai Dari
+                    </td>
+                    <td className="p-4 md:p-5">
+                      <span className="inline-block px-3 py-1 rounded-full bg-[#EFEAFB] text-[#6A3FD0] font-semibold text-[13px]">
+                        Mulai Rp1.200.000
+                      </span>
+                    </td>
+                    <td className="p-4 md:p-5 text-[#17122B] font-medium">
+                      Dihitung setelah audit gratis
+                    </td>
+                    <td className="p-4 md:p-5 text-[#17122B] font-medium bg-[#F8F6FE]">
+                      Dihitung setelah audit gratis
+                    </td>
+                    <td className="p-4 md:p-5 text-[#17122B] font-medium">
+                      Dihitung setelah audit gratis
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="p-4 md:p-5 font-mono text-[11px] uppercase tracking-[0.08em] text-[#5B5675] font-semibold">
+                      Output Utama
+                    </td>
+                    <td className="p-4 md:p-5 text-[#5B5675]">
+                      Web mobile-first, CTA WhatsApp terukur, SEO lokal &amp; Schema JSON-LD.
+                    </td>
+                    <td className="p-4 md:p-5 text-[#5B5675]">
+                      Aplikasi web custom, database PostgreSQL, multi-role login, laporan PDF/Excel.
+                    </td>
+                    <td className="p-4 md:p-5 text-[#17122B] bg-[#F8F6FE]">
+                      Agent WA Resmi, koneksi tool kalender/CRM, human handover, audit log.
+                    </td>
+                    <td className="p-4 md:p-5 text-[#5B5675]">
+                      Workflow n8n/Webhook, sinkronisasi dua arah, pengingat otomatis, error alert.
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className="p-4 md:p-5 font-mono text-[11px] uppercase tracking-[0.08em] text-[#5B5675] font-semibold">
+                      Detail Layanan
+                    </td>
+                    <td className="p-4 md:p-5">
+                      <Link
+                        to="/layanan/web-landing-page"
+                        className="inline-flex items-center gap-1 font-semibold text-[#6A3FD0] hover:underline min-h-[44px]"
+                      >
+                        <span>Buka spesifikasi</span>
+                        <ArrowRight size={14} />
+                      </Link>
+                    </td>
+                    <td className="p-4 md:p-5">
+                      <Link
+                        to="/layanan/software-custom"
+                        className="inline-flex items-center gap-1 font-semibold text-[#6A3FD0] hover:underline min-h-[44px]"
+                      >
+                        <span>Buka spesifikasi</span>
+                        <ArrowRight size={14} />
+                      </Link>
+                    </td>
+                    <td className="p-4 md:p-5 bg-[#F8F6FE]">
+                      <Link
+                        to="/layanan/ai-agent"
+                        className="inline-flex items-center gap-1 font-semibold text-[#6A3FD0] hover:underline min-h-[44px]"
+                      >
+                        <span>Buka spesifikasi</span>
+                        <ArrowRight size={14} />
+                      </Link>
+                    </td>
+                    <td className="p-4 md:p-5">
+                      <Link
+                        to="/layanan/otomasi-workflow"
+                        className="inline-flex items-center gap-1 font-semibold text-[#6A3FD0] hover:underline min-h-[44px]"
+                      >
+                        <span>Buka spesifikasi</span>
+                        <ArrowRight size={14} />
+                      </Link>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </Container>
+      </section>
+
+      {/* =====================================================
+          4. PROCESS STRIP (4 STEPS)
+          ===================================================== */}
+      <section className="py-16 md:py-24 bg-[#FFFFFF] border-b border-[rgba(91,60,196,0.14)] cv-auto">
+        <Container>
+          <SectionHeading
+            eyebrow="TAHAPAN PENGERJAAN"
+            title="Empat langkah dari diskusi awal sampai sistem berjalan"
+            description="Tanpa istilah teknis yang membingungkan. Kamu tahu persis apa yang dikerjakan di setiap minggu."
+          />
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 items-stretch">
             {[
               {
-                q: 'Berapa biaya jasa pembuatan website Next.js dan integrasi AI di chestaadotcom?',
-                a: 'Biaya disesuaikan secara transparan berdasarkan lingkup fitur, mulai dari landing page UMKM komersial terjangkau hingga sistem ERP dan Karyawan AI multi-agent skala enterprise, tanpa biaya lisensi bulanan tersembunyi.'
+                num: '01',
+                duration: '30 Menit',
+                title: 'Audit alur gratis',
+                desc: 'Kita bedah titik macet di bisnismu lewat WhatsApp atau Google Meet, lalu tentukan solusi yang paling hemat waktu.',
               },
               {
-                q: 'Apakah solusi ini cocok untuk UMKM komersial selain korporasi enterprise?',
-                a: 'Sangat cocok. Kami merancang arsitektur modular dari toko online tanpa komisi dan chatbot WhatsApp UMKM hingga portal korporat enterprise ribuan halaman dengan tingkat ROI yang terukur.'
+                num: '02',
+                duration: '2–5 Hari',
+                title: 'Cetak biru & harga tetap',
+                desc: 'Kamu menerima rincian fitur, desain alur, jadwal rilis, dan penawaran harga yang terkunci di awal.',
               },
               {
-                q: 'Model arsitektur apa yang digunakan untuk pengembangan layanan?',
-                a: 'Kami mengadopsi stack enterprise modern berbasis Next.js 15, arsitektur headless, database terdistribusi PostgreSQL, serta integrasi LLM dan agen otonom (OpenAI & Anthropic) dengan keamanan data terisolasi.'
+                num: '03',
+                duration: '3 Hari – 3 Minggu',
+                title: 'Bangun & uji skenario',
+                desc: 'Kami merakit sistem dan mengujinya menggunakan contoh percakapan serta data operasional bisnismu.',
               },
               {
-                q: 'Apakah kode sumber dan data sepenuhnya menjadi milik klien?',
-                a: 'Ya, 100% kode sumber, dokumentasi arsitektur, dan hak akses infrastruktur diserahkan sepenuhnya kepada perusahaan Anda tanpa vendor lock-in.'
+                num: '04',
+                duration: 'Garansi 30 Hari',
+                title: 'Rilis & serah terima',
+                desc: 'Sistem aktif melayani pelanggan, lengkap dengan sesi panduan untuk stafmu dan garansi pemeliharaan.',
               },
-              {
-                q: 'Berapa lama estimasi pengerjaan proyek dari inisiasi hingga deployment?',
-                a: 'Fase Proof of Concept (PoC) diselesaikan dalam 7-14 hari kerja, sedangkan implementasi enterprise penuh memakan waktu 3-6 minggu dengan checkpoint mingguan transparan.'
-              }
-            ].map((faq, idx) => (
-              <div key={idx} className="p-5 rounded-2xl bg-white border border-slate-200/90 shadow-2xs space-y-2">
-                <div className="font-semibold text-sm sm:text-base text-slate-900">{faq.q}</div>
-                <div className="text-xs sm:text-sm text-slate-600 leading-relaxed">{faq.a}</div>
-              </div>
+            ].map((step) => (
+              <Card
+                key={step.num}
+                variant="soft"
+                className="h-full flex flex-col justify-between"
+              >
+                <div>
+                  <div className="flex items-center justify-between pb-3 mb-4 border-b border-[rgba(91,60,196,0.14)] font-mono text-[11px] uppercase tracking-[0.08em]">
+                    <span className="text-[#6A3FD0] font-semibold">Langkah {step.num}</span>
+                    <span className="text-[#5B5675]">{step.duration}</span>
+                  </div>
+                  <h3>{step.title}</h3>
+                  <p className="mt-2 text-[14px] md:text-[15px] text-[#5B5675] leading-[1.65]">
+                    {step.desc}
+                  </p>
+                </div>
+                <div className="mt-6 pt-3 border-t border-[rgba(91,60,196,0.14)] flex items-center gap-1.5 font-mono text-[11px] text-[#6A3FD0]">
+                  <Check size={13} />
+                  <span>Milestone terukur</span>
+                </div>
+              </Card>
             ))}
           </div>
+        </Container>
+      </section>
 
-          <FAQSchema 
-            faqs={[
-              {
-                q: 'Berapa biaya jasa pembuatan website Next.js dan integrasi AI di chestaadotcom?',
-                a: 'Biaya disesuaikan secara transparan berdasarkan lingkup fitur, mulai dari landing page UMKM komersial terjangkau hingga sistem ERP dan Karyawan AI multi-agent skala enterprise, tanpa biaya lisensi bulanan tersembunyi.'
-              },
-              {
-                q: 'Apakah solusi ini cocok untuk UMKM komersial selain korporasi enterprise?',
-                a: 'Sangat cocok. Kami merancang arsitektur modular dari toko online tanpa komisi dan chatbot WhatsApp UMKM hingga portal korporat enterprise ribuan halaman dengan tingkat ROI yang terukur.'
-              },
-              {
-                q: 'Model arsitektur apa yang digunakan untuk pengembangan layanan?',
-                a: 'Kami mengadopsi stack enterprise modern berbasis Next.js 15, arsitektur headless, database terdistribusi PostgreSQL, serta integrasi LLM dan agen otonom (OpenAI & Anthropic) dengan keamanan data terisolasi.'
-              },
-              {
-                q: 'Apakah kode sumber dan data sepenuhnya menjadi milik klien?',
-                a: 'Ya, 100% kode sumber, dokumentasi arsitektur, dan hak akses infrastruktur diserahkan sepenuhnya kepada perusahaan Anda tanpa vendor lock-in.'
-              },
-              {
-                q: 'Berapa lama estimasi pengerjaan proyek dari inisiasi hingga deployment?',
-                a: 'Fase Proof of Concept (PoC) diselesaikan dalam 7-14 hari kerja, sedangkan implementasi enterprise penuh memakan waktu 3-6 minggu dengan checkpoint mingguan transparan.'
-              }
-            ]} 
+      {/* =====================================================
+          5. FINAL CTA
+          ===================================================== */}
+      <section className="py-16 md:py-24 bg-gradient-to-b from-[#F8F6FE] to-[#EFEAFB] cv-auto">
+        <Container className="max-w-[860px]">
+          <CTABlock
+            title="Belum yakin layanan mana yang paling pas?"
+            description="Ceritakan alur bisnismu hari ini selama 30 menit bersama Chesta & Zeeshan. Gratis, tanpa komitmen, dan langsung dapat gambaran solusinya."
+            buttonLabel="Konsultasi gratis via WhatsApp"
+            whatsappMessage="Halo Chesta & Zeeshan, saya baru melihat halaman /layanan dan ingin diskusi layanan mana yang paling cocok untuk bisnis saya."
           />
-        </div>
-
-      </div>
+        </Container>
+      </section>
     </div>
   );
 }

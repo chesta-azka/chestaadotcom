@@ -6,6 +6,7 @@ import { CITIES } from '../data/AreasData';
 import { SERVICE_DEFINITIONS } from '../data/ServiceDefinition';
 import SEOMetadata from '../components/atoms/SEOMetadata';
 import { generateCityGeoSchema } from '../lib/seo';
+import { resolveRedirectTarget } from '../config/redirects';
 import TextRevealSmooth from '../components/atoms/TextRevealSmooth';
 import { Skeleton } from '../components/atoms/Skeleton';
 import Breadcrumbs from '../components/atoms/Breadcrumbs';
@@ -23,12 +24,19 @@ export default function AreaDetailPage() {
     return () => clearTimeout(timer);
   }, [cityName]);
 
+  if (cityName) {
+    const consolidatedTarget = resolveRedirectTarget(`/area/${cityName}`);
+    if (consolidatedTarget) {
+      return <Navigate to={consolidatedTarget} replace />;
+    }
+  }
+
   // Validate city name
   const upperCity = cityName?.toUpperCase() || '';
   const isValidCity = CITIES.includes(upperCity);
 
   if (!cityName || !isValidCity) {
-    return <Navigate to="/services" replace />;
+    return <Navigate to="/#layanan" replace />;
   }
 
   // Format name nicely (e.g. RAWA-BUNTU -> Rawa Buntu, CISAUK -> Cisauk, BSD-CITY -> BSD City)
@@ -216,10 +224,11 @@ export default function AreaDetailPage() {
   return (
     <div className="pt-40 md:pt-48 pb-28 min-h-screen relative bg-transparent text-slate-900 overflow-hidden">
       <SEOMetadata 
-        title={`Jasa Pembuatan Website B2B ${formattedCityName} & Web Developer Perusahaan | CHESTAA`} 
-        description={`Lebih dari sekadar jasa website di ${formattedCityName}, Chestaa mengintegrasikan AI untuk mengotomatisasi bisnis B2B Anda. Arsitektur Next.js 15 super cepat, SEO lokal Google Maps, dan Karyawan AI.`}
+        title={`Jasa Pembuatan Website B2B ${formattedCityName} & Web Developer Perusahaan | CHESTAADOTCOM`} 
+        description={`Lebih dari sekadar jasa website di ${formattedCityName}, CHESTAADOTCOM mengintegrasikan AI untuk mengotomatisasi bisnis B2B Anda.`}
         currentRoute={`/area/${cityName.toLowerCase()}`}
         schema={generateCityGeoSchema(formattedCityName)}
+        noindex
       />
 
       {/* Hero Section */}

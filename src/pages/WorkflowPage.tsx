@@ -1,290 +1,207 @@
-import React, { useEffect, useRef } from 'react';
-import { motion } from 'motion/react';
-import { ShieldCheck, ArrowRight, Sparkles, MessageCircle, Clock, CheckCircle2, Code2, Globe2, Bot } from 'lucide-react';
+import React from 'react';
+import { useLocation } from 'react-router-dom';
+import { Check } from 'lucide-react';
 import SEOMetadata from '../components/atoms/SEOMetadata';
-
-const phases = [
-  {
-    id: '01',
-    title: 'Konsultasi 1-on-1 via WhatsApp',
-    badge: 'Direct Comm-Link',
-    icon: <MessageCircle className="w-8 h-8 text-purple-600" strokeWidth={1.75} />,
-    color: 'from-purple-500 to-indigo-600',
-    description: 'Diskusikan ide, referensi desain, target bisnis, atau fitur website Anda secara instan langsung dengan Chesta Azka Sofyan (Principal Engineer). Tanpa formulir rumit atau proses berbelit.',
-    features: ['Respon Cepat Langsung via WhatsApp', 'Konsultasi Gratis & Rekomendasi Solusi', 'Bisa Tanya via Floating Assistant di Web'],
-    actionLabel: 'Chat WhatsApp Sekarang',
-    waText: 'Halo Mas Chesta, saya ingin konsultasi kebutuhan pembuatan website untuk bisnis saya.'
-  },
-  {
-    id: '02',
-    title: 'Penentuan Paket & Kesepakatan',
-    badge: 'Fixed & Transparent',
-    icon: <CheckCircle2 className="w-8 h-8 text-purple-600" strokeWidth={1.75} />,
-    color: 'from-purple-600 to-purple-800',
-    description: 'Kami memberikan penawaran transparan mulai dari Rp650.000 (atau promo spesial UMKM Rp540.000 flat) sudah termasuk domain .com dan server cloud. Tanpa biaya tersembunyi.',
-    features: ['Investasi Jelas Mulai Rp650K (Promo Rp540K)', 'Gratis Domain .com & Cloud Setup', 'Timeline Pasti 1-3 Hari Kerja'],
-    actionLabel: 'Pilih Paket & Konfirmasi',
-    waText: 'Halo Mas Chesta, saya ingin konfirmasi paket website Rp650K / promo Rp540K untuk domain .com saya.'
-  },
-  {
-    id: '03',
-    title: 'Pengerjaan Cepat & Live Staging Review',
-    badge: 'Rapid Engineering',
-    icon: <Code2 className="w-8 h-8 text-purple-600" strokeWidth={1.75} />,
-    color: 'from-indigo-600 to-purple-600',
-    description: 'Website langsung dibangun menggunakan arsitektur modern berkecepatan tinggi. Kami mengirimkan link live staging ke WhatsApp Anda untuk dicek dan direvisi bersama.',
-    features: ['Link Preview Staging Dikirim ke WA', 'Revisi & Feedback Langsung 1-on-1', 'Skor Kecepatan Google PageSpeed 95-100'],
-    actionLabel: 'Cek Standar Kualitas Staging',
-    waText: 'Halo Mas Chesta, boleh info contoh staging preview dan proses development website?'
-  },
-  {
-    id: '04',
-    title: 'Go Live & Serah Terima 100%',
-    badge: '100% Full Ownership',
-    icon: <Globe2 className="w-8 h-8 text-purple-600" strokeWidth={1.75} />,
-    color: 'from-purple-700 to-emerald-600',
-    description: 'Website langsung dipublikasikan ke domain resmi Anda dengan sertifikat SSL aktif. Seluruh akses kepemilikan dan panduan pengelolaan diserahkan penuh kepada Anda.',
-    features: ['Domain .com & SSL HTTPS Aktif', 'Kepemilikan Penuh 100% Tanpa Kunci', 'Garansi Teknis & Dukungan Purna Jual via WA'],
-    actionLabel: 'Mulai Proyek Sekarang',
-    waText: 'Halo Mas Chesta, saya siap memulai pembuatan website. Mohon info data yang perlu disiapkan.'
-  }
-];
+import {
+  Container,
+  Breadcrumb,
+  Card,
+  Badge,
+  Tag,
+  CTABlock,
+} from '../components/ui/DesignSystem';
+import { parseLocalizedPath, toLocalizedHref } from '../lib/i18n';
 
 export default function WorkflowPage() {
-  const containerRef = useRef<HTMLDivElement>(null);
+  const location = useLocation();
+  const { locale, prefixMode } = parseLocalizedPath(location.pathname);
+  const isEn = locale === 'en';
 
-  useEffect(() => {
-    window.scrollTo(0, 0);
-  }, []);
-
-  const openWhatsApp = (text: string) => {
-    const url = `https://wa.me/6282125447232?text=${encodeURIComponent(text)}`;
-    window.open(url, '_blank', 'noopener,noreferrer');
-  };
-
-  const openFloatingAssistant = () => {
-    window.dispatchEvent(new CustomEvent('open-floating-ai'));
-  };
+  const steps = isEn
+    ? [
+        {
+          num: '01',
+          title: 'Free 30-Minute Audit (Online / In-Person in South Tangerang)',
+          duration: 'Day 1',
+          detail:
+            'We dissect the exact workflow bottlenecks in your business. We tell you honestly which parts are worth automating with an AI agent and which should stay with your human team.',
+          outputs: [
+            'Current vs optimized workflow diagram',
+            'Automation vs manual work recommendation',
+            'Zero cost and zero obligation to proceed',
+          ],
+        },
+        {
+          num: '02',
+          title: 'Fixed Scope & System Architecture',
+          duration: 'Days 2–4',
+          detail:
+            'We draft the technical diagram, tool integration choices (WhatsApp Cloud API, PostgreSQL, n8n, Sheets), and a fixed price with no surprise mid-project charges.',
+          outputs: [
+            'Technical specification & tool governance doc',
+            'UI mockup / agent conversation flow',
+            'Release timeline and fixed price quote',
+          ],
+        },
+        {
+          num: '03',
+          title: 'Build & Edge-Case Scenario Testing',
+          duration: 'Weeks 1–3',
+          detail:
+            'You test the system in staging. We stress-test edge cases: typos, customer complaints, non-standard phone number formats, and human admin handovers.',
+          outputs: [
+            'High-speed website / landing page',
+            'WhatsApp AI agent connected to database/calendar',
+            'Human-in-the-loop scenario testing with your team',
+          ],
+        },
+        {
+          num: '04',
+          title: 'Full Handover, SOP & 30-Day Bug-Fix Warranty',
+          duration: 'Release week & onward',
+          detail:
+            'We train your admin staff via live sessions and short video guides. Full code, domain, and database access are handed over to you, backed by a 30-day bug-fix warranty.',
+          outputs: [
+            '100% handover of source code, domain, and admin access',
+            'Operational video guide for admin staff',
+            '30-day free support & bug-fix warranty',
+          ],
+        },
+      ]
+    : [
+        {
+          num: '01',
+          title: 'Audit Gratis 30 Menit (Online / Ketemu di Tangsel)',
+          duration: 'Hari ke-1',
+          detail:
+            'Kita bedah langsung alur kerja yang macet di bisnismu. Kami tentukan secara jujur bagian mana yang layak diotomasi dengan AI agent dan mana yang sebaiknya tetap dikerjakan timmu.',
+          outputs: [
+            'Diagram alur kerja saat ini vs yang dioptimalkan',
+            'Rekomendasi otomatisasi vs pekerjaan manual',
+            'Tanpa biaya dan tanpa kewajiban lanjut',
+          ],
+        },
+        {
+          num: '02',
+          title: 'Scope & Arsitektur Sistem Pasti',
+          duration: 'Hari ke-2–4',
+          detail:
+            'Kami menyusun diagram teknis, pilihan integrasi tool (WhatsApp Cloud API, PostgreSQL, n8n, Sheets), dan harga tetap tanpa biaya tambahan di tengah jalan.',
+          outputs: [
+            'Dokumen spesifikasi teknis & tata kelola tool',
+            'Mockup antarmuka / alur percakapan agent',
+            'Jadwal rilis dan estimasi biaya pasti',
+          ],
+        },
+        {
+          num: '03',
+          title: 'Pembangunan & Uji Skenario Ekstrem',
+          duration: 'Minggu ke-1–3',
+          detail:
+            'Kamu mencoba sistem di staging. Kami menguji berbagai skenario ekstrem: pesan salah ketik, komplain pelanggan, format nomor telepon tak baku, hingga pengalihan ke admin manusia.',
+          outputs: [
+            'Website / landing page berkecepatan tinggi',
+            'AI agent WhatsApp terhubung ke database/kalender',
+            'Uji coba skenario human-in-the-loop bersama timmu',
+          ],
+        },
+        {
+          num: '04',
+          title: 'Handover Penuh, SOP & Garansi Bug-Fix 30 Hari',
+          duration: 'Minggu rilis & seterusnya',
+          detail:
+            'Kami melatih tim adminmu lewat sesi langsung dan video dokumentasi singkat. Seluruh akses kode, domain, dan database diserahkan penuh kepadamu, disertai garansi perbaikan bug 30 hari.',
+          outputs: [
+            'Serah terima source code, domain, dan akses admin 100%',
+            'Video panduan operasional untuk staf admin',
+            'Garansi pendampingan & bug fix gratis 30 hari',
+          ],
+        },
+      ];
 
   return (
-    <main className="min-h-screen bg-[#FAFAFC] text-slate-900 pt-40 md:pt-48 pb-32 overflow-hidden selection:bg-purple-500/20">
-      <SEOMetadata 
-        title="Alur Pemesanan & Konsultasi WhatsApp | CHESTAADOTCOM" 
-        description="Workflow pembuatan website praktis tanpa ribet. Konsultasi langsung 1-on-1 via WhatsApp atau Floating Assistant dengan Chesta Azka Sofyan."
+    <div className="bg-[#FFFFFF] text-[#17122B] min-h-screen pt-28 pb-16 md:pb-24">
+      <SEOMetadata
+        title={
+          isEn
+            ? 'How We Work & Project Delivery Stages | CHESTAADOTCOM'
+            : 'Cara Kerja & Tahapan Pengerjaan Proyek | CHESTAADOTCOM'
+        }
+        description={
+          isEn
+            ? '4 measured steps for custom software and AI agent delivery at CHESTAADOTCOM: Free 30-minute audit, Fixed scope & architecture, Build & edge-case testing, Full handover & SOP with 30-day warranty.'
+            : '4 langkah terukur pengerjaan software custom dan AI agent di CHESTAADOTCOM: Audit gratis 30 menit, Scope & arsitektur, Build & test skenario ekstrem, Handover & SOP dengan garansi 30 hari.'
+        }
+        path={toLocalizedHref('/workflow', locale, prefixMode)}
       />
 
-      {/* Bright Clean Ambient Background */}
-      <div className="fixed inset-0 pointer-events-none overflow-hidden flex justify-center items-center -z-10">
-        <motion.div 
-          animate={{ scale: [1, 1.08, 1], opacity: [0.35, 0.5, 0.35] }}
-          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut" }}
-          className="absolute top-[-10%] right-[-5%] w-[60vw] h-[60vw] rounded-full bg-purple-100/50 blur-[130px]" 
-        />
-        <motion.div 
-          animate={{ scale: [1, 1.15, 1], opacity: [0.25, 0.4, 0.25] }}
-          transition={{ duration: 14, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-          className="absolute bottom-[-10%] left-[-5%] w-[70vw] h-[70vw] rounded-full bg-indigo-50/60 blur-[150px]" 
-        />
-        <div className="absolute inset-0 bg-white/40 backdrop-blur-[90px]" />
-      </div>
+      <Container>
+        <Breadcrumb items={[{ label: isEn ? 'How It Works' : 'Cara Kerja' }]} />
 
-      <div className="max-w-6xl mx-auto px-6 sm:px-8 relative z-10">
-        
-        {/* Header Section */}
-        <div className="text-center max-w-3xl mx-auto mb-24 md:mb-32">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-            className="flex flex-col items-center"
-          >
-            <motion.span 
-              whileHover={{ scale: 1.03 }}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white text-purple-900 text-xs sm:text-sm font-mono font-bold tracking-widest uppercase mb-8 border border-purple-200/80 shadow-sm shadow-purple-900/5"
-            >
-              <Sparkles className="w-4 h-4 text-purple-700" /> ALUR PRAKTIS VIA WHATSAPP
-            </motion.span>
-            
-            <h1 className="text-4xl sm:text-6xl md:text-7xl font-display font-extrabold tracking-tight mb-6 leading-[1.12] text-slate-900">
-              Konsultasi & Order <br/>
-              <span className="text-purple-900">
-                Langsung di WhatsApp.
-              </span>
-            </h1>
-            
-            <p className="font-sans text-base sm:text-lg text-slate-600 leading-relaxed max-w-2xl mx-auto mb-8 antialiased">
-              Tidak perlu mendaftar akun atau mengisi formulir panjang di web. Cukup chat langsung kebutuhan Anda ke WhatsApp atau gunakan Floating Assistant di pojok kanan bawah.
-            </p>
+        <header className="max-w-2xl mb-12">
+          <Tag>{isEn ? 'CHESTAADOTCOM WORKFLOW' : 'PROSES KERJA CHESTAADOTCOM'}</Tag>
+          <h1 className="mt-2">
+            {isEn
+              ? '4 measured steps from initial audit to a cleanly running system'
+              : '4 langkah terukur dari audit awal sampai sistem berjalan rapi'}
+          </h1>
+          <p className="mt-3 text-[15px] md:text-[16px] text-[#5B5675] leading-[1.65]">
+            {isEn
+              ? 'Every project is built directly by Chesta Azka & Zeeshan. You always know what is being built, why each tool was chosen, and when the system is ready for your team.'
+              : 'Setiap proyek dikerjakan langsung oleh Chesta Azka & Zeeshan. Kamu selalu tahu apa yang sedang dibangun, kenapa tool tersebut dipilih, dan kapan sistem siap dipakai timmu.'}
+          </p>
+        </header>
 
-            <div className="flex flex-wrap items-center justify-center gap-4">
-              <button
-                onClick={() => openWhatsApp('Halo Mas Chesta, saya ingin konsultasi langsung pembuatan website untuk bisnis saya.')}
-                className="inline-flex items-center gap-2.5 px-7 py-3.5 bg-purple-900 hover:bg-purple-800 text-white rounded-full font-mono text-xs font-bold uppercase tracking-wider shadow-lg shadow-purple-950/20 transition-all hover:scale-105 active:scale-95 cursor-pointer"
-              >
-                <MessageCircle className="w-4 h-4" />
-                Chat WhatsApp Sekarang
-              </button>
-              <button
-                onClick={openFloatingAssistant}
-                className="inline-flex items-center gap-2.5 px-7 py-3.5 bg-white hover:bg-purple-50 text-purple-900 border border-purple-200 rounded-full font-mono text-xs font-bold uppercase tracking-wider shadow-xs transition-all hover:scale-105 active:scale-95 cursor-pointer"
-              >
-                <Bot className="w-4 h-4 text-purple-700" />
-                Buka Assistant Web
-              </button>
-            </div>
-          </motion.div>
-        </div>
-
-        {/* Timeline Section */}
-        <div className="relative max-w-5xl mx-auto" ref={containerRef}>
-          
-          {/* Timeline Connector Line */}
-          <div className="absolute left-[28px] md:left-1/2 top-4 bottom-4 w-px bg-purple-100 -translate-x-1/2 hidden md:block rounded-full" />
-
-          <div className="space-y-24 md:space-y-36">
-            {phases.map((phase, index) => {
-              const isEven = index % 2 === 0;
-              
-              return (
-                <motion.div 
-                  key={phase.id}
-                  initial={{ opacity: 0, y: 50 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true, margin: "-100px" }}
-                  transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
-                  className={`relative flex flex-col md:flex-row items-center gap-8 md:gap-14 ${isEven ? 'md:flex-row' : 'md:flex-row-reverse'}`}
-                >
-                  
-                  {/* Timeline Node (Mobile Only) */}
-                  <div className="absolute left-7 top-10 w-px h-full bg-purple-100 md:hidden" />
-
-                  {/* Content Container */}
-                  <div className={`flex-1 w-full ${isEven ? 'md:text-right' : 'md:text-left'}`}>
-                    <motion.div 
-                      whileHover={{ x: isEven ? -6 : 6 }}
-                      transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                    >
-                      <div className={`flex items-center gap-2 mb-3 ${isEven ? 'md:justify-end' : 'md:justify-start'}`}>
-                        <span className="px-3 py-1 rounded-full bg-purple-50 text-purple-900 border border-purple-200 font-mono text-[11px] font-bold uppercase tracking-wider">
-                          {phase.badge}
-                        </span>
-                      </div>
-
-                      <h3 className="text-2xl sm:text-3xl md:text-4xl font-display font-bold tracking-tight text-slate-900 mb-4">
-                        {phase.title}
-                      </h3>
-                      
-                      <p className="font-sans text-[16px] text-slate-600 leading-[1.68] tracking-[-0.011em] mb-6 max-w-lg ml-auto mr-auto md:ml-0 md:mr-0 antialiased">
-                        {phase.description}
-                      </p>
-
-                      <ul className={`flex flex-col gap-3 mb-6 ${isEven ? 'md:items-end' : 'md:items-start'}`}>
-                        {phase.features.map((feature, fIndex) => (
-                          <motion.li 
-                            key={fIndex} 
-                            initial={{ opacity: 0, x: isEven ? 15 : -15 }}
-                            whileInView={{ opacity: 1, x: 0 }}
-                            transition={{ delay: 0.15 + (fIndex * 0.08), duration: 0.4 }}
-                            viewport={{ once: true }}
-                            className="flex items-center gap-2.5 text-sm font-sans font-medium text-slate-700"
-                          >
-                            {isEven && <span className="hidden md:block">{feature}</span>}
-                            <div className="w-2 h-2 rounded-full bg-purple-600 shrink-0" />
-                            <span className={isEven ? "md:hidden" : ""}>{feature}</span>
-                          </motion.li>
-                        ))}
-                      </ul>
-
-                      <div className={`flex ${isEven ? 'md:justify-end' : 'md:justify-start'}`}>
-                        <button
-                          onClick={() => openWhatsApp(phase.waText)}
-                          className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-purple-50 hover:bg-purple-900 text-purple-900 hover:text-white border border-purple-200 font-mono text-xs font-bold uppercase tracking-wider transition-all duration-300 shadow-xs cursor-pointer group"
-                        >
-                          <MessageCircle className="w-3.5 h-3.5 text-purple-600 group-hover:text-white transition-colors" />
-                          {phase.actionLabel}
-                          <ArrowRight className="w-3 h-3 group-hover:translate-x-1 transition-transform" />
-                        </button>
-                      </div>
-                    </motion.div>
-                  </div>
-
-                  {/* Center Node (Desktop) / Left Node (Mobile) */}
-                  <div className="relative shrink-0 z-10 flex flex-col items-center pl-4 md:pl-0">
-                    <motion.div 
-                      whileHover={{ scale: 1.08, rotate: 3 }}
-                      whileTap={{ scale: 0.96 }}
-                      className="w-16 h-16 md:w-20 md:h-20 bg-white rounded-xl shadow-xl shadow-purple-950/5 border border-purple-100 flex items-center justify-center relative overflow-hidden group cursor-pointer"
-                    >
-                      <div className="absolute inset-0 opacity-0 group-hover:opacity-10 bg-purple-600 transition-opacity duration-300" />
-                      {phase.icon}
-                    </motion.div>
-                    <div className="mt-4 px-3.5 py-1 rounded-full bg-purple-900 text-white font-mono text-xs font-bold uppercase tracking-widest shadow-xs">
-                      Phase {phase.id}
+        <div className="space-y-6">
+          {steps.map((s) => (
+            <Card key={s.num} variant="soft" padding="lg">
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <h2>
+                  <span className="font-mono text-[#6A3FD0] mr-2">{s.num}.</span>
+                  {s.title}
+                </h2>
+                <Badge variant="outline">{s.duration}</Badge>
+              </div>
+              <p className="mt-3 text-[15px] text-[#5B5675] leading-[1.65]">
+                {s.detail}
+              </p>
+              <div className="mt-6 pt-4 border-t border-[rgba(91,60,196,0.14)]">
+                <Tag className="block text-[#17122B] mb-3">
+                  {isEn ? 'Stage deliverables:' : 'Deliverables tahap ini:'}
+                </Tag>
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-[14px] text-[#5B5675]">
+                  {s.outputs.map((o) => (
+                    <div key={o} className="flex items-start gap-2.5">
+                      <Check size={16} className="text-[#6A3FD0] shrink-0 mt-0.5" />
+                      <span className="leading-[1.65]">{o}</span>
                     </div>
-                  </div>
-
-                  {/* Visual Card (Crisp White + Purple Tint) */}
-                  <div className="flex-1 w-full pl-12 md:pl-0">
-                    <motion.div 
-                      whileHover={{ y: -6 }}
-                      transition={{ type: "spring", stiffness: 300, damping: 20 }}
-                      className="relative group rounded-[2rem] overflow-hidden bg-white border border-purple-100 shadow-xl shadow-purple-950/5 p-8 transition-all hover:shadow-2xl hover:shadow-purple-900/10 hover:border-purple-200"
-                    >
-                      <div className="relative z-10 flex flex-col items-center justify-center min-h-[190px] text-center">
-                        <div className="w-16 h-16 rounded-2xl bg-purple-50 border border-purple-200/80 flex items-center justify-center mb-4 text-purple-700 shadow-xs">
-                          {phase.icon}
-                        </div>
-                        <h4 className="font-display font-bold text-slate-900 text-lg mb-1">{phase.title}</h4>
-                        <p className="font-sans text-xs text-slate-500 max-w-xs">Terhubung langsung ke WhatsApp & Staging Live Preview.</p>
-                      </div>
-                    </motion.div>
-                  </div>
-
-                </motion.div>
-              );
-            })}
-          </div>
+                  ))}
+                </div>
+              </div>
+            </Card>
+          ))}
         </div>
 
-        {/* CTA Card */}
-        <div className="mt-32 text-center pb-12">
-           <motion.div
-            initial={{ opacity: 0, scale: 0.98, y: 30 }}
-            whileInView={{ opacity: 1, scale: 1, y: 0 }}
-            viewport={{ once: true, margin: "-80px" }}
-            transition={{ duration: 0.7, ease: [0.16, 1, 0.3, 1] }}
-            className="inline-flex flex-col items-center bg-white border border-purple-200/80 rounded-2xl p-10 md:p-14 shadow-2xl shadow-purple-950/5 w-full max-w-3xl mx-auto relative overflow-hidden"
-           >
-             <div className="w-14 h-14 rounded-2xl bg-purple-50 text-purple-900 border border-purple-200 flex items-center justify-center mb-6 shadow-xs">
-               <MessageCircle className="w-7 h-7" />
-             </div>
-
-             <h2 className="text-3xl sm:text-4xl md:text-5xl font-display font-extrabold mb-4 tracking-tight relative z-10 text-slate-900">
-               Siap Wujudkan Website Bisnis Anda?
-             </h2>
-             <p className="font-sans text-slate-600 mb-8 text-base max-w-md relative z-10 leading-relaxed">
-               Langsung terhubung dengan Principal Engineer Chesta Azka. Dapatkan konsultasi gratis dan rancangan awal dalam hitungan menit.
-             </p>
-             
-             <div className="flex flex-wrap items-center justify-center gap-4 relative z-10">
-               <button 
-                 onClick={() => openWhatsApp('Halo Mas Chesta, saya ingin memesan website untuk bisnis saya. Bagaimana langkah awalnya?')} 
-                 className="px-8 py-4 bg-purple-900 hover:bg-purple-800 text-white rounded-full font-mono text-xs font-bold tracking-wider uppercase transition-all hover:scale-105 active:scale-95 shadow-xl shadow-purple-950/20 flex items-center gap-2.5 cursor-pointer"
-               >
-                 <MessageCircle className="w-4 h-4" />
-                 Chat Langsung via WhatsApp
-               </button>
-               <button 
-                 onClick={openFloatingAssistant} 
-                 className="px-8 py-4 bg-purple-50 hover:bg-purple-100 text-purple-900 border border-purple-200 rounded-full font-mono text-xs font-bold tracking-wider uppercase transition-all hover:scale-105 active:scale-95 flex items-center gap-2 cursor-pointer"
-               >
-                 <Bot className="w-4 h-4 text-purple-700" />
-                 Gunakan Assistant Web
-               </button>
-             </div>
-           </motion.div>
+        <div className="mt-16">
+          <CTABlock
+            title={
+              isEn
+                ? 'Start with a 30-minute workflow audit'
+                : 'Mulai dari audit alur kerja 30 menit'
+            }
+            description={
+              isEn
+                ? 'No need to prepare a complex deck. Just tell us how your team currently handles orders or chats, and we will map what can be sped up.'
+                : 'Tidak perlu menyiapkan presentasi rumit. Cukup ceritakan bagaimana timmu menangani pesanan atau chat saat ini, dan kami petakan mana yang bisa dipercepat.'
+            }
+            buttonLabel={
+              isEn
+                ? 'Schedule free audit via WhatsApp'
+                : 'Jadwalkan audit gratis via WhatsApp'
+            }
+          />
         </div>
-      </div>
-    </main>
+      </Container>
+    </div>
   );
 }

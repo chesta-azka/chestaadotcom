@@ -17,11 +17,51 @@ if (getApps().length === 0) {
 
 import Groq from "groq-sdk";
 import { injectSocialMeta } from "./src/lib/social-meta";
-import { generateSitemapXml } from "./src/utils/sitemapGenerator";
+import {
+  generateSitemapXml,
+  generateSitemapIndexXml,
+  generateSitemapPagesXml,
+  generateSitemapServicesXml,
+  generateSitemapAreasXml,
+  generateSitemapBlogXml,
+  generateRssXml,
+  generateRobotsTxt,
+  generateLlmsTxt,
+  SITE_URL,
+} from "./src/utils/sitemapGenerator";
 import { z } from "zod";
+import { resolveRedirectTarget } from "./src/config/redirects";
+import { registerIndexNowRoutes } from "./src/server/indexNow";
 
 const app = express();
 app.use(compression());
+app.use(express.json());
+
+// Canonical www -> non-www 301 redirect (canonical domain: https://chestaa.com)
+app.use((req, res, next) => {
+  const host = (req.headers.host || "").toLowerCase();
+  if (host.startsWith("www.")) {
+    const cleanHost = host.replace(/^www\./, "");
+    const proto = req.headers["x-forwarded-proto"] || req.protocol || "https";
+    return res.redirect(301, `${proto}://${cleanHost}${req.originalUrl}`);
+  }
+  next();
+});
+
+// Centralized 301 permanent redirects for legacy /layanan, /services, and /area routes
+app.use((req, res, next) => {
+  if (req.method !== "GET" && req.method !== "HEAD") {
+    return next();
+  }
+  const target = resolveRedirectTarget(req.path || "/");
+  if (target && target !== req.path) {
+    return res.redirect(301, target);
+  }
+  next();
+});
+
+// Register IndexNow key verification & auto-ping service
+registerIndexNowRoutes(app);
 
 
 
@@ -207,10 +247,10 @@ import {
   ServerKnowledgeNode
 } from "./src/server/brainManager";
 
-// Seed core knowledge nodes on server initialization
+// Defer knowledge brain initial seed so it does not compete with Vite dev server startup
 setTimeout(() => {
   seedCoreKnowledgeNodes(genAI).catch((err: any) => console.warn("Knowledge brain initial seed failed:", err?.message || err));
-}, 1500);
+}, 45000);
 
 // Chat Assistant Route with Interconnected Firestore Vector Brain (RAG) & Auto-Learning Loop
 app.post("/api/chat", async (req, res) => {
@@ -1700,73 +1740,236 @@ app.post("/api/calendar/book", async (req, res) => {
   }
 });
 
-// Dynamic XML sitemap route for real-time search engine indexing
+// Dynamic XML sitemap index route + 4 sub-sitemaps (accurate file modification lastmod)
 app.get(["/sitemap.xml", "/sitemap", "/api/sitemap.xml"], (req, res) => {
   try {
-    const sitemapXml = generateSitemapXml("https://chestaa.com");
+    const sitemapIndexXml = generateSitemapIndexXml(SITE_URL);
     res.setHeader("Content-Type", "application/xml; charset=utf-8");
-    res.setHeader("Cache-Control", "public, max-age=3600, s-maxage=86400");
-    res.status(200).send(sitemapXml);
+    res.setHeader("Cache-Control", "public, max-age=3600");
+    res.status(200).send(sitemapIndexXml);
   } catch (error: any) {
-    console.error("Error generating dynamic sitemap:", error);
-    res.status(500).send("Error generating sitemap");
+    console.error("Error generating sitemap index:", error);
+    res.status(500).send("Error generating sitemap index");
   }
 });
 
-// Vite middleware for development / Production Static Fallback
-(async () => {
-  if (process.env.NODE_ENV !== "production") {
-    const vite = await createViteServer({
-      server: { middlewareMode: true },
-      appType: "spa",
-    });
-    // Use vite's connect instance as middleware
-    app.use(vite.middlewares);
-    
-    // In dev, the index.html is mostly served by vite.middlewares automatically, 
-    // but if we want to inject meta, it's a bit complex with vite middlewares.
-    // For social sharing, dev mode doesn't matter much.
-  } else {
-    const distPath = path.join(process.cwd(), 'dist');
-    
-    // Aggressive caching for static assets (JS, CSS, Images in dist/assets)
-    // These are hashed by Vite, so we can cache them for 1 year safely.
-    app.use('/assets', express.static(path.join(distPath, 'assets'), {
-      maxAge: '1y',
-      immutable: true,
-      index: false
-    }));
-
-    // General static file serving (public folder assets like /chesta.png)
-    app.use(express.static(distPath, { index: false, maxAge: '1d' }));
-
-    // Caching headers for Programmatic SEO pages (Area & Solutions) to improve LCP and TTFB
-    app.get(['/area/*', '/solusi/*'], (req, res, next) => {
-      // 1 hour browser cache, 24 hours stale-while-revalidate for CDN
-      res.setHeader('Cache-Control', 'public, s-maxage=3600, stale-while-revalidate=86400');
-      
-      // Early Hints / Preload critical assets via Link header
-      res.setHeader('Link', [
-        '</chesta.png>; rel=preload; as=image',
-        '<https://fonts.googleapis.com>; rel=preconnect',
-      ].join(', '));
-      
-      next();
-    });
-    
-    app.get('*', async (req, res) => {
-      try {
-        let html = await fs.readFile(path.join(distPath, 'index.html'), 'utf-8');
-        html = injectSocialMeta(html, req.originalUrl);
-        res.status(200).set({ 'Content-Type': 'text/html' }).end(html);
-      } catch (err) {
-        console.error("Error rendering HTML:", err);
-        res.status(500).end("Internal Server Error");
-      }
-    });
+app.get("/sitemap-pages.xml", (req, res) => {
+  try {
+    const xml = generateSitemapPagesXml(SITE_URL);
+    res.setHeader("Content-Type", "application/xml; charset=utf-8");
+    res.setHeader("Cache-Control", "public, max-age=3600");
+    res.status(200).send(xml);
+  } catch (error: any) {
+    res.status(500).send("Error generating sitemap-pages.xml");
   }
+});
 
-  app.listen(PORT, "0.0.0.0", () => {
-    console.log(`Server running on http://localhost:${PORT}`);
+app.get("/sitemap-services.xml", (req, res) => {
+  try {
+    const xml = generateSitemapServicesXml(SITE_URL);
+    res.setHeader("Content-Type", "application/xml; charset=utf-8");
+    res.setHeader("Cache-Control", "public, max-age=3600");
+    res.status(200).send(xml);
+  } catch (error: any) {
+    res.status(500).send("Error generating sitemap-services.xml");
+  }
+});
+
+app.get("/sitemap-areas.xml", (req, res) => {
+  try {
+    const xml = generateSitemapAreasXml(SITE_URL);
+    res.setHeader("Content-Type", "application/xml; charset=utf-8");
+    res.setHeader("Cache-Control", "public, max-age=3600");
+    res.status(200).send(xml);
+  } catch (error: any) {
+    res.status(500).send("Error generating sitemap-areas.xml");
+  }
+});
+
+app.get("/sitemap-blog.xml", (req, res) => {
+  try {
+    const xml = generateSitemapBlogXml(SITE_URL);
+    res.setHeader("Content-Type", "application/xml; charset=utf-8");
+    res.setHeader("Cache-Control", "public, max-age=3600");
+    res.status(200).send(xml);
+  } catch (error: any) {
+    res.status(500).send("Error generating sitemap-blog.xml");
+  }
+});
+
+app.get("/sitemap-all.xml", (req, res) => {
+  try {
+    const xml = generateSitemapXml(SITE_URL);
+    res.setHeader("Content-Type", "application/xml; charset=utf-8");
+    res.setHeader("Cache-Control", "public, max-age=3600");
+    res.status(200).send(xml);
+  } catch (error: any) {
+    res.status(500).send("Error generating sitemap-all.xml");
+  }
+});
+
+// Dynamic RSS 2.0 XML feed route for Blog
+app.get(["/rss.xml", "/feed.xml", "/blog/rss.xml"], (req, res) => {
+  try {
+    const rssXml = generateRssXml(SITE_URL);
+    res.setHeader("Content-Type", "application/rss+xml; charset=utf-8");
+    res.setHeader("Cache-Control", "public, max-age=3600");
+    res.status(200).send(rssXml);
+  } catch (error: any) {
+    console.error("Error generating RSS feed:", error);
+    res.status(500).send("Error generating RSS feed");
+  }
+});
+
+// Dynamic server-side robots.txt route
+app.get("/robots.txt", (req, res) => {
+  const robotsTxt = generateRobotsTxt(SITE_URL);
+  res.setHeader("Content-Type", "text/plain; charset=utf-8");
+  res.setHeader("Cache-Control", "public, max-age=3600");
+  res.status(200).send(robotsTxt);
+});
+
+// Dynamic server-side llms.txt route for AI / AEO / GEO crawlers
+app.get(["/llms.txt", "/.well-known/llms.txt"], (req, res) => {
+  const llmsTxt = generateLlmsTxt(SITE_URL);
+  res.setHeader("Content-Type", "text/plain; charset=utf-8");
+  res.setHeader("Cache-Control", "public, max-age=3600");
+  res.status(200).send(llmsTxt);
+});
+
+// Dynamic OpenGraph SVG image generator (1200x630 White + Purple Apple-Minimal)
+app.get("/api/og", (req, res) => {
+  const rawTitle =
+    typeof req.query.title === "string" && req.query.title.trim()
+      ? req.query.title.trim()
+      : "Software Custom, Website & AI Agent untuk Bisnis";
+  const rawCategory =
+    typeof req.query.category === "string" && req.query.category.trim()
+      ? req.query.category.trim()
+      : "CHESTAADOTCOM · BSD, Tangerang Selatan";
+
+  const escapeXmlText = (str: string) =>
+    str
+      .replace(/&/g, "&amp;")
+      .replace(/</g, "&lt;")
+      .replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;")
+      .replace(/'/g, "&apos;");
+
+  // Word-wrap title into up to 3 lines of ~34 chars
+  const words = rawTitle.split(/\s+/);
+  const lines: string[] = [];
+  let currentLine = "";
+  for (const word of words) {
+    if ((currentLine + " " + word).trim().length <= 34) {
+      currentLine = (currentLine + " " + word).trim();
+    } else {
+      if (currentLine) lines.push(currentLine);
+      currentLine = word;
+    }
+  }
+  if (currentLine) lines.push(currentLine);
+  const displayLines = lines.slice(0, 3);
+
+  const svg = `<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1200" height="630" viewBox="0 0 1200 630" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="bgGrad" x1="0" y1="0" x2="1200" y2="630" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#FFFFFF" />
+      <stop offset="60%" stop-color="#F8F6FE" />
+      <stop offset="100%" stop-color="#EFEAFB" />
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="630" fill="url(#bgGrad)" />
+  <rect x="48" y="48" width="1104" height="534" rx="32" fill="#FFFFFF" stroke="#6A3FD0" stroke-opacity="0.18" stroke-width="2" />
+  <rect x="96" y="100" width="420" height="42" rx="21" fill="#EFEAFB" />
+  <circle cx="120" cy="121" r="6" fill="#6A3FD0" />
+  <text x="138" y="127" fill="#6A3FD0" font-family="Inter, system-ui, sans-serif" font-size="16" font-weight="600" letter-spacing="0.04em">${escapeXmlText(
+    rawCategory.slice(0, 42)
+  )}</text>
+  ${displayLines
+    .map(
+      (line, idx) =>
+        `<text x="96" y="${235 + idx * 68}" fill="#17122B" font-family="Inter, system-ui, sans-serif" font-size="52" font-weight="700" letter-spacing="-0.02em">${escapeXmlText(
+          line
+        )}</text>`
+    )
+    .join("\n  ")}
+  <line x1="96" y1="470" x2="1104" y2="470" stroke="#6A3FD0" stroke-opacity="0.16" stroke-width="2" />
+  <circle cx="110" cy="520" r="8" fill="#6A3FD0" />
+  <text x="130" y="527" fill="#17122B" font-family="Inter, system-ui, sans-serif" font-size="22" font-weight="700">CHESTAADOTCOM</text>
+  <text x="1104" y="527" text-anchor="end" fill="#5B5675" font-family="Inter, system-ui, sans-serif" font-size="18" font-weight="500">chestaa.com · BSD, Tangerang Selatan &amp; Jabodetabek</text>
+</svg>`;
+
+  res.setHeader("Content-Type", "image/svg+xml; charset=utf-8");
+  res.setHeader("Cache-Control", "public, max-age=86400");
+  res.status(200).send(svg);
+});
+
+// Vite middleware for development / Production Static + SSR Pre-render Fallback
+if (process.env.NODE_ENV !== "production") {
+  const vitePromise = createViteServer({
+    server: { middlewareMode: true },
+    appType: "custom",
   });
-})();
+
+  app.use(async (req, res, next) => {
+    try {
+      const vite = await vitePromise;
+      vite.middlewares(req, res, next);
+    } catch (err) {
+      next(err);
+    }
+  });
+
+  app.use("*", async (req, res, next) => {
+    if (req.originalUrl.startsWith("/api/")) {
+      return next();
+    }
+    try {
+      const vite = await vitePromise;
+      const url = req.originalUrl;
+      let template = await fs.readFile(
+        path.join(process.cwd(), "index.html"),
+        "utf-8"
+      );
+      template = await vite.transformIndexHtml(url, template);
+      const html = injectSocialMeta(template, url);
+      res.status(200).set({ "Content-Type": "text/html; charset=utf-8" }).end(html);
+    } catch (e: any) {
+      try {
+        const vite = await vitePromise;
+        vite.ssrFixStacktrace(e);
+      } catch {}
+      next(e);
+    }
+  });
+} else {
+  const distPath = path.join(process.cwd(), "dist");
+
+  app.use(
+    "/assets",
+    express.static(path.join(distPath, "assets"), {
+      maxAge: "1y",
+      immutable: true,
+      index: false,
+    })
+  );
+
+  app.use(express.static(distPath, { index: false, maxAge: "1d" }));
+
+  app.get("*", async (req, res) => {
+    try {
+      let html = await fs.readFile(path.join(distPath, "index.html"), "utf-8");
+      html = injectSocialMeta(html, req.originalUrl);
+      res.status(200).set({ "Content-Type": "text/html; charset=utf-8" }).end(html);
+    } catch (err) {
+      console.error("Error rendering HTML:", err);
+      res.status(500).end("Internal Server Error");
+    }
+  });
+}
+
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(`Server running on http://localhost:${PORT}`);
+});

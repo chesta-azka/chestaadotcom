@@ -17,7 +17,7 @@ export default defineConfig(() => {
             'vendor-react': ['react', 'react-dom', 'react-router-dom', 'react-helmet-async'],
             'vendor-motion': ['motion', 'framer-motion'],
             'vendor-ui': ['lucide-react', 'clsx', 'tailwind-merge'],
-            'vendor-utils': ['date-fns', 'zod', 'fuse.js', 'lenis'],
+            'vendor-utils': ['zod', 'fuse.js', 'lenis'],
             'vendor-firebase': ['firebase/app', 'firebase/auth', 'firebase/firestore'],
           },
         },

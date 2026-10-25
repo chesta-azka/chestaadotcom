@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" width="1200" height="900">
+  <defs>
+    <linearGradient id="bgLogistik" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" />
+      <stop offset="60%" stop-color="#F8F6FE" />
+      <stop offset="100%" stop-color="#EFEAFB" />
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="900" fill="url(#bgLogistik)" />
+  <rect x="64" y="64" width="1072" height="772" rx="32" fill="#FFFFFF" stroke="rgba(91,60,196,0.16)" stroke-width="2" />
+
+  <!-- Top Browser Bar -->
+  <rect x="64" y="64" width="1072" height="58" rx="32" fill="#F8F6FE" />
+  <line x1="64" y1="122" x2="1136" y2="122" stroke="rgba(91,60,196,0.14)" stroke-width="1.5" />
+  <circle cx="104" cy="93" r="7" fill="#B9A2F2" />
+  <circle cx="126" cy="93" r="7" fill="#7C54E0" />
+  <circle cx="148" cy="93" r="7" fill="#6A3FD0" />
+  <rect x="340" y="77" width="520" height="32" rx="16" fill="#FFFFFF" stroke="rgba(91,60,196,0.14)" />
+  <text x="600" y="98" text-anchor="middle" fill="#5B5675" font-family="'JetBrains Mono', monospace" font-size="12">ops-dashboard.internal / pengiriman-harian</text>
+
+  <!-- Dashboard Header -->
+  <text x="112" y="182" fill="#6A3FD0" font-family="'JetBrains Mono', monospace" font-size="13" font-weight="600" letter-spacing="1.5">SOFTWARE CUSTOM · LOGISTIK &amp; OPERASIONAL</text>
+  <text x="1088" y="182" text-anchor="end" fill="#5B5675" font-family="'JetBrains Mono', monospace" font-size="13">MOCKUP INTERFACE</text>
+  <text x="112" y="226" fill="#17122B" font-family="'Plus Jakarta Sans', sans-serif" font-size="30" font-weight="700">Dashboard Operasional Armada &amp; Surat Jalan Terpusat</text>
+
+  <!-- 3 Metric Cards -->
+  <g transform="translate(112, 260)">
+    <rect width="308" height="126" rx="20" fill="#F8F6FE" stroke="rgba(91,60,196,0.14)" stroke-width="1.5" />
+    <text x="24" y="38" fill="#5B5675" font-family="'JetBrains Mono', monospace" font-size="12">STATUS PENGIRIMAN HARI INI</text>
+    <text x="24" y="84" fill="#17122B" font-family="'Plus Jakarta Sans', sans-serif" font-size="36" font-weight="700">142 Rute</text>
+    <text x="24" y="108" fill="#6A3FD0" font-family="'JetBrains Mono', monospace" font-size="12">Sinkronisasi real-time PostgreSQL</text>
+  </g>
+
+  <g transform="translate(446, 260)">
+    <rect width="308" height="126" rx="20" fill="#F8F6FE" stroke="rgba(91,60,196,0.14)" stroke-width="1.5" />
+    <text x="24" y="38" fill="#5B5675" font-family="'JetBrains Mono', monospace" font-size="12">REKAP SURAT JALAN</text>
+    <text x="24" y="84" fill="#6A3FD0" font-family="'Plus Jakarta Sans', sans-serif" font-size="36" font-weight="700">Otomatis</text>
+    <text x="24" y="108" fill="#5B5675" font-family="'JetBrains Mono', monospace" font-size="12">Tanpa salin manual antar file Excel</text>
+  </g>
+
+  <g transform="translate(780, 260)">
+    <rect width="308" height="126" rx="20" fill="#EFEAFB" stroke="rgba(91,60,196,0.18)" stroke-width="1.5" />
+    <text x="24" y="38" fill="#6A3FD0" font-family="'JetBrains Mono', monospace" font-size="12" font-weight="600">NOTIFIKASI WHATSAPP</text>
+    <text x="24" y="84" fill="#17122B" font-family="'Plus Jakarta Sans', sans-serif" font-size="36" font-weight="700">Aktif 24/7</text>
+    <text x="24" y="108" fill="#5B5675" font-family="'JetBrains Mono', monospace" font-size="12">Update status tiba ke penerima</text>
+  </g>
+
+  <!-- Table / Dispatch Manifest -->
+  <g transform="translate(112, 416)">
+    <rect width="976" height="336" rx="22" fill="#FFFFFF" stroke="rgba(91,60,196,0.16)" stroke-width="1.5" />
+    <rect width="976" height="54" rx="22" fill="#F8F6FE" />
+    <text x="28" y="33" fill="#17122B" font-family="'JetBrains Mono', monospace" font-size="12" font-weight="600">ID MANIFEST</text>
+    <text x="210" y="33" fill="#17122B" font-family="'JetBrains Mono', monospace" font-size="12" font-weight="600">RUTE GUDANG &amp; TUJUAN</text>
+    <text x="540" y="33" fill="#17122B" font-family="'JetBrains Mono', monospace" font-size="12" font-weight="600">PIC ARMADA</text>
+    <text x="760" y="33" fill="#17122B" font-family="'JetBrains Mono', monospace" font-size="12" font-weight="600">STATUS SURAT JALAN</text>
+
+    <!-- Row 1 -->
+    <line x1="24" y1="120" x2="952" y2="120" stroke="rgba(91,60,196,0.1)" />
+    <text x="28" y="94" fill="#6A3FD0" font-family="'JetBrains Mono', monospace" font-size="14" font-weight="600">#SJ-2025-081</text>
+    <text x="210" y="94" fill="#17122B" font-family="'Plus Jakarta Sans', sans-serif" font-size="15" font-weight="600">Hub Taman Tekno BSD → Gudang Cikarang</text>
+    <text x="540" y="94" fill="#5B5675" font-family="'Plus Jakarta Sans', sans-serif" font-size="14">Armada B-9104-TX</text>
+    <rect x="760" y="74" width="180" height="30" rx="15" fill="#EFEAFB" />
+    <text x="850" y="94" text-anchor="middle" fill="#6A3FD0" font-family="'JetBrains Mono', monospace" font-size="12" font-weight="600">TERVERIFIKASI</text>
+
+    <!-- Row 2 -->
+    <line x1="24" y1="190" x2="952" y2="190" stroke="rgba(91,60,196,0.1)" />
+    <text x="28" y="162" fill="#6A3FD0" font-family="'JetBrains Mono', monospace" font-size="14" font-weight="600">#SJ-2025-082</text>
+    <text x="210" y="162" fill="#17122B" font-family="'Plus Jakarta Sans', sans-serif" font-size="15" font-weight="600">Hub Alam Sutera → Distribusi Jakarta Barat</text>
+    <text x="540" y="162" fill="#5B5675" font-family="'Plus Jakarta Sans', sans-serif" font-size="14">Armada B-9421-TY</text>
+    <rect x="760" y="142" width="180" height="30" rx="15" fill="#F8F6FE" stroke="rgba(91,60,196,0.2)" />
+    <text x="850" y="162" text-anchor="middle" fill="#7C54E0" font-family="'JetBrains Mono', monospace" font-size="12" font-weight="600">DALAM PERJALANAN</text>
+
+    <!-- Row 3 -->
+    <line x1="24" y1="260" x2="952" y2="260" stroke="rgba(91,60,196,0.1)" />
+    <text x="28" y="230" fill="#6A3FD0" font-family="'JetBrains Mono', monospace" font-size="14" font-weight="600">#SJ-2025-083</text>
+    <text x="210" y="230" fill="#17122B" font-family="'Plus Jakarta Sans', sans-serif" font-size="15" font-weight="600">Hub Bintaro → Cabang Gading Serpong</text>
+    <text x="540" y="230" fill="#5B5675" font-family="'Plus Jakarta Sans', sans-serif" font-size="14">Armada B-9018-TU</text>
+    <rect x="760" y="210" width="180" height="30" rx="15" fill="#EFEAFB" />
+    <text x="850" y="230" text-anchor="middle" fill="#6A3FD0" font-family="'JetBrains Mono', monospace" font-size="12" font-weight="600">INVOICE TERBIT</text>
+
+    <text x="28" y="302" fill="#5B5675" font-family="'JetBrains Mono', monospace" font-size="12">React · Node.js · PostgreSQL · WhatsApp Cloud API · Role-Based Access Control</text>
+  </g>
+
+  <text x="112" y="798" fill="#5B5675" font-family="'JetBrains Mono', monospace" font-size="12">CHESTAADOTCOM · CONTOH MOCKUP DASHBOARD OPERASIONAL</text>
+</svg>

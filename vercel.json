@@ -1,6 +1,93 @@
 {
   "cleanUrls": true,
   "trailingSlash": false,
+  "redirects": [
+    {
+      "source": "/layanan",
+      "destination": "/#layanan",
+      "permanent": true
+    },
+    {
+      "source": "/services",
+      "destination": "/#layanan",
+      "permanent": true
+    },
+    {
+      "source": "/layanan/web-landing-page",
+      "destination": "/jasa/pembuatan-website",
+      "permanent": true
+    },
+    {
+      "source": "/layanan/custom-web-development",
+      "destination": "/jasa/pembuatan-website",
+      "permanent": true
+    },
+    {
+      "source": "/layanan/ai-integration",
+      "destination": "/jasa/ai-agent",
+      "permanent": true
+    },
+    {
+      "source": "/layanan/custom-software",
+      "destination": "/jasa/software-custom",
+      "permanent": true
+    },
+    {
+      "source": "/layanan/workflow-automation",
+      "destination": "/jasa/otomasi-workflow",
+      "permanent": true
+    },
+    {
+      "source": "/layanan/:slug",
+      "destination": "/jasa/:slug",
+      "permanent": true
+    },
+    {
+      "source": "/services/:slug",
+      "destination": "/jasa/:slug",
+      "permanent": true
+    },
+    {
+      "source": "/layanan/:serviceSlug/:areaSlug",
+      "destination": "/jasa/:serviceSlug/:areaSlug",
+      "permanent": true
+    },
+    {
+      "source": "/services/:serviceSlug/:areaSlug",
+      "destination": "/jasa/:serviceSlug/:areaSlug",
+      "permanent": true
+    },
+    {
+      "source": "/area/bsd-city",
+      "destination": "/jasa/pembuatan-website/bsd-city",
+      "permanent": true
+    },
+    {
+      "source": "/area/cisauk",
+      "destination": "/jasa/pembuatan-website/bsd-city",
+      "permanent": true
+    },
+    {
+      "source": "/area/alam-sutera",
+      "destination": "/jasa/pembuatan-website/alam-sutera",
+      "permanent": true
+    },
+    {
+      "source": "/area/bintaro",
+      "destination": "/jasa/pembuatan-website/bintaro",
+      "permanent": true
+    },
+    {
+      "source": "/area/gading-serpong",
+      "destination": "/jasa/pembuatan-website/gading-serpong",
+      "permanent": true
+    },
+    {
+      "source": "/area/tangerang-selatan",
+      "destination": "/jasa/pembuatan-website/tangerang-selatan",
+      "permanent": true
+    }
+  ],
   "rewrites": [
     {
       "source": "/(.*)",
@@ -9,15 +96,11 @@
   ],
   "headers": [
     {
-      "source": "/area/(.*)",
+      "source": "/jasa/(.*)",
       "headers": [
         {
           "key": "Cache-Control",
           "value": "public, s-maxage=3600, stale-while-revalidate=86400"
-        },
-        {
-          "key": "X-Edge-Config",
-          "value": "optimized-pseo"
         }
       ]
     }

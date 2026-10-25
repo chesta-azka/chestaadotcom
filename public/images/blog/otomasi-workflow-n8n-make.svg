@@ -1,0 +1,45 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" width="1280" height="720">
+  <defs>
+    <linearGradient id="bg5" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" />
+      <stop offset="65%" stop-color="#F8F6FE" />
+      <stop offset="100%" stop-color="#EFEAFB" />
+    </linearGradient>
+    <radialGradient id="glow5" cx="80%" cy="28%" r="55%">
+      <stop offset="0%" stop-color="#7C54E0" stop-opacity="0.16" />
+      <stop offset="100%" stop-color="#7C54E0" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+  <rect width="1280" height="720" fill="url(#bg5)" />
+  <rect width="1280" height="720" fill="url(#glow5)" />
+  <rect x="56" y="56" width="1168" height="608" rx="28" fill="rgba(255,255,255,0.76)" stroke="rgba(91,60,196,0.14)" stroke-width="1.5" />
+
+  <rect x="100" y="108" width="52" height="4" rx="2" fill="#6A3FD0" />
+  <text x="100" y="150" fill="#6A3FD0" font-family="'JetBrains Mono', monospace" font-size="15" font-weight="600" letter-spacing="2.5">EFISIENSI OPERASIONAL · OTOMASI WORKFLOW</text>
+  <text x="100" y="232" fill="#17122B" font-family="'Plus Jakarta Sans', sans-serif" font-size="44" font-weight="700" letter-spacing="-1">Otomasi Workflow Bisnis (n8n &amp; Make):</text>
+  <text x="100" y="290" fill="#17122B" font-family="'Plus Jakarta Sans', sans-serif" font-size="44" font-weight="700" letter-spacing="-1">5 Pekerjaan Repetitif yang Jalan Sendiri</text>
+  <text x="100" y="352" fill="#5B5675" font-family="'Plus Jakarta Sans', sans-serif" font-size="20">Hubungkan Form, Google Sheets, Invoice PDF, dan WhatsApp Tanpa Salin Manual</text>
+
+  <g transform="translate(100, 410)">
+    <rect width="315" height="140" rx="18" fill="#FFFFFF" stroke="rgba(91,60,196,0.18)" stroke-width="1.5" />
+    <text x="24" y="44" fill="#6A3FD0" font-family="'JetBrains Mono', monospace" font-size="13" font-weight="600">TRIGGER MASUK</text>
+    <text x="24" y="80" fill="#17122B" font-family="'Plus Jakarta Sans', sans-serif" font-size="20" font-weight="700">Form Web / POS / Chat</text>
+    <text x="24" y="110" fill="#5B5675" font-family="'Plus Jakarta Sans', sans-serif" font-size="14">Webhook real-time 24/7</text>
+
+    <path d="M330 70 L395 70" stroke="#6A3FD0" stroke-width="2" stroke-dasharray="4 4" />
+
+    <rect x="410" width="315" height="140" rx="18" fill="#F8F6FE" stroke="#6A3FD0" stroke-width="2" />
+    <text x="434" y="44" fill="#6A3FD0" font-family="'JetBrains Mono', monospace" font-size="13" font-weight="600">ORKESTRASI n8n / NODE.JS</text>
+    <text x="434" y="80" fill="#17122B" font-family="'Plus Jakarta Sans', sans-serif" font-size="20" font-weight="700">Validasi &amp; Format Data</text>
+    <text x="434" y="110" fill="#5B5675" font-family="'Plus Jakarta Sans', sans-serif" font-size="14">Antrean retry &amp; log error otomatis</text>
+
+    <path d="M740 70 L805 70" stroke="#6A3FD0" stroke-width="2" stroke-dasharray="4 4" />
+
+    <rect x="820" width="260" height="140" rx="18" fill="#FFFFFF" stroke="rgba(91,60,196,0.18)" stroke-width="1.5" />
+    <text x="844" y="44" fill="#6A3FD0" font-family="'JetBrains Mono', monospace" font-size="13" font-weight="600">TINDAKAN OTOMATIS</text>
+    <text x="844" y="80" fill="#17122B" font-family="'Plus Jakarta Sans', sans-serif" font-size="20" font-weight="700">Sheets + Invoice + WA</text>
+    <text x="844" y="110" fill="#5B5675" font-family="'Plus Jakarta Sans', sans-serif" font-size="14">Nol salah ketik admin</text>
+  </g>
+
+  <text x="100" y="620" fill="#5B5675" font-family="'JetBrains Mono', monospace" font-size="15">CHESTAADOTCOM · Jasa Otomasi Workflow &amp; Integrasi API</text>
+</svg>

@@ -1,250 +1,327 @@
-import { Link } from 'react-router-dom';
-import { MessageCircle, Mail, MapPin, ArrowRight, Send, CheckCircle2, Camera } from 'lucide-react';
-import { useState } from 'react';
-import toast from 'react-hot-toast';
+import React, { useEffect, useRef } from 'react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { MessageCircle, Mail, MapPin, Camera } from 'lucide-react';
+import { getPublishedBlogPosts } from '../../data/blog-posts';
+import { getServiceAreasByServiceSlug } from '../../data/service-areas';
+import { Container, Button, buildWaUrl } from '../ui/DesignSystem';
+import { staggerElements } from '../../lib/motion';
+import {
+  getLanguageSwitchLinks,
+  getTranslation,
+  parseLocalizedPath,
+  toLocalizedHref,
+} from '../../lib/i18n';
 
-import { motion } from 'motion/react';
-import { useLocation } from 'react-router-dom';
+/**
+ * Shared Footer (FooterSection) component
+ * - Staggers footer link columns once on scroll into view
+ * - Uses .link-underline animated underline on navigation links
+ * - Uses instant <120ms opacity fade when switching between ID and EN
+ */
 export default function FooterSection() {
   const location = useLocation();
-  const [email, setEmail] = useState('');
-  const [isSubscribed, setIsSubscribed] = useState(false);
+  const navigate = useNavigate();
+  const footerGridRef = useRef<HTMLDivElement>(null);
+  const { locale, prefixMode } = parseLocalizedPath(location.pathname);
+  const langLinks = getLanguageSwitchLinks(location.pathname);
 
-  const handleSubscribe = (e: React.FormEvent) => {
+  useEffect(() => {
+    return staggerElements(footerGridRef.current, '.footer-stagger-col', {
+      stagger: 0.06,
+      y: 20,
+    });
+  }, []);
+
+  const handleLangSwitch = (e: React.MouseEvent<HTMLAnchorElement>, targetHref: string) => {
     e.preventDefault();
-    if (!email || !email.includes('@')) {
-      toast.error('Masukkan alamat email yang valid.');
-      return;
+    const doc = document as Document & {
+      startViewTransition?: (cb: () => void) => { finished: Promise<void> };
+    };
+    document.documentElement.setAttribute('data-lang-switching', 'true');
+    if (doc.startViewTransition) {
+      const vt = doc.startViewTransition(() => {
+        navigate(targetHref);
+      });
+      vt.finished.finally(() => {
+        document.documentElement.removeAttribute('data-lang-switching');
+      });
+    } else {
+      navigate(targetHref);
+      window.setTimeout(() => {
+        document.documentElement.removeAttribute('data-lang-switching');
+      }, 140);
     }
-    setIsSubscribed(true);
-    toast.success('Terima kasih! Berhasil berlangganan newsletter kami.');
-    setEmail('');
   };
 
-    return (
-    <motion.footer 
-      initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, amount: 0.05 }}
-      transition={{ duration: 0.6, ease: "easeOut" }}
-      className="pt-24 pb-12 bg-slate-50 text-slate-600 border-t border-slate-200/80 relative overflow-hidden w-full z-20"
-    >
-      {/* Seamless background blending gradients */}
-      <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/[0.008] to-transparent pointer-events-none" />
-      {/* Decorative Glow */}
-      <div className="absolute top-0 right-1/4 w-[500px] h-[500px] bg-[#6b21a8]/5 rounded-full blur-[120px] pointer-events-none" />
+  const whatsappUrl = buildWaUrl(
+    locale === 'en'
+      ? 'Hello Chesta & Zeeshan, I would like a free consultation regarding custom software / AI agents for my business.'
+      : 'Halo Chesta & Zeeshan, saya ingin konsultasi mengenai pembuatan software custom / AI agent untuk bisnis saya.'
+  );
 
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10 w-full">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12 lg:gap-8 mb-24">
-          
-          {/* Column 1: Brand & Newsletter */}
-          <div className="lg:col-span-4 space-y-8 pr-4">
-            <Link to="/" onClick={() => window.scrollTo(0,0)} className="inline-flex items-center gap-3 group">
-              <div className="w-12 h-12 rounded-xl overflow-hidden bg-purple-50 border border-slate-200 flex items-center justify-center group-hover:border-purple-300 transition-colors duration-300 shadow-sm">
-                <img 
-                  src="/chesta.png" 
-                  alt="Chestaa Logo" 
-                  className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300" 
-                  onError={(e) => {
-                    const target = e.currentTarget;
-                    target.src = '/favicon.svg';
-                  }}
-                />
-              </div>
-              <div className="flex flex-col">
-                <span className="font-display text-2xl font-medium tracking-tight leading-none text-slate-900">
-                  CHESTA<span className="text-purple-600">.</span>
-                </span>
-                <span className="text-[10px] font-mono font-bold text-purple-700 uppercase tracking-wider mt-1">
-                  Chesta Azka • Principal Architect
-                </span>
-              </div>
+  const webAreaPages = getServiceAreasByServiceSlug('pembuatan-website', true);
+  const aiAreaPages = getServiceAreasByServiceSlug('ai-agent', true);
+  const footerBlogPosts = getPublishedBlogPosts(locale).slice(0, 5);
+
+  return (
+    <footer className="bg-[#FFFFFF] text-[#5B5675] border-t border-[rgba(91,60,196,0.14)] pt-16 pb-24 md:pb-16">
+      <Container>
+        <div
+          ref={footerGridRef}
+          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-8 pb-12 border-b border-[rgba(91,60,196,0.14)]"
+        >
+          {/* Col 1: Brand & Plain Summary */}
+          <div className="footer-stagger-col lg:col-span-5 space-y-4">
+            <Link
+              to={toLocalizedHref('/', locale, prefixMode)}
+              className="inline-flex items-center gap-2 min-h-[44px]"
+            >
+              <span className="w-2 h-2 rounded-full bg-[#6A3FD0]" />
+              <span className="font-display text-[16px] font-semibold tracking-tight text-[#17122B]">
+                CHESTAADOTCOM
+              </span>
             </Link>
-            <p className="text-base font-sans leading-relaxed text-slate-600 max-w-sm font-normal">
-              Arsitektur digital premium untuk UMKM dan Brand lokal. Transformasi digital yang fokus pada performa, estetika, dan konversi nyata.
+            <p className="text-[15px] text-[#5B5675] leading-[1.65] max-w-md">
+              {getTranslation(locale, 'footer.brandDesc')}
             </p>
-
-            {/* Newsletter Subscription Box */}
-            <div className="bg-slate-50/90 rounded-2xl p-4 border border-slate-200/80 shadow-sm max-w-sm">
-              <p className="text-xs font-mono font-medium text-slate-800 uppercase tracking-wider mb-2">Newsletter Eksklusif</p>
-              {isSubscribed ? (
-                <div className="flex items-center gap-2 text-emerald-600 text-sm font-medium py-2">
-                  <CheckCircle2 size={18} /> Berhasil Berlangganan!
-                </div>
-              ) : (
-                <form onSubmit={handleSubscribe} className="flex gap-2">
-                  <input 
-                    type="email" 
-                    value={email}
-                    onChange={(e) => setEmail(e.target.value)}
-                    placeholder="nama@email.com" 
-                    className="bg-white px-3.5 py-2 text-xs rounded-xl border border-slate-200 focus:outline-none focus:ring-2 focus:ring-purple-600 flex-1 text-slate-800"
-                  />
-                  <button type="submit" className="bg-purple-900 hover:bg-purple-800 text-white px-4 py-2 rounded-xl text-xs font-medium transition-all flex items-center justify-center cursor-pointer shadow-xs border border-purple-800">
-                    <Send size={13} />
-                  </button>
-                </form>
-              )}
-            </div>
-
-            <div className="flex gap-3">
-              <a href="https://instagram.com/chestaadotcom" target="_blank" rel="noopener noreferrer" title="Instagram @chestaadotcom" className="w-10 h-10 rounded-full bg-slate-50 border border-slate-200 flex items-center justify-center hover:bg-purple-600 hover:text-white hover:border-purple-600 transition-all duration-300">
-                <svg className="w-4 h-4 fill-none stroke-current" strokeWidth="2" viewBox="0 0 24 24">
-                  <rect width="20" height="20" x="2" y="2" rx="5" ry="5"/>
-                  <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/>
-                  <line x1="17.5" x2="17.51" y1="6.5" y2="6.5"/>
-                </svg>
-              </a>
-              <a href="https://tiktok.com/@chesta_azka" target="_blank" rel="noopener noreferrer" title="TikTok @chesta_azka" className="w-10 h-10 rounded-full bg-slate-50 border border-slate-200 flex items-center justify-center hover:bg-purple-600 hover:text-white hover:border-purple-600 transition-all duration-300">
-                <svg className="w-4 h-4 fill-current" viewBox="0 0 24 24">
-                  <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64c.298-.002.595.042.88.13V9.4a6.33 6.33 0 0 0-1-.08A6.34 6.34 0 0 0 3 15.66a6.34 6.34 0 0 0 10.86 4.43c1.92-1.92 2.36-4.68 2.28-7.39a8.28 8.28 0 0 0 4.45 1.3v-3.45a4.86 4.86 0 0 1-1-.86z"/>
-                </svg>
-              </a>
-              <a href="https://wa.me/6282125447232?text=Halo%20CHESTAADOTCOM%2C%20saya%20tertarik%20untuk%20konsultasi%20layanan%20website" target="_blank" rel="noopener noreferrer" title="WhatsApp +62 821-2544-7232" className="w-10 h-10 rounded-full bg-slate-50 border border-slate-200 flex items-center justify-center hover:bg-purple-600 hover:text-white hover:border-purple-600 transition-all duration-300">
-                <MessageCircle size={18} strokeWidth={1.5} />
-              </a>
-              <a href="mailto:chestaadotcom@gmail.com" target="_blank" rel="noopener noreferrer" title="Email" className="w-10 h-10 rounded-full bg-slate-50 border border-slate-200 flex items-center justify-center hover:bg-purple-600 hover:text-white hover:border-purple-600 transition-all duration-300">
-                <Mail size={18} strokeWidth={1.5} />
-              </a>
+            <div className="flex flex-wrap items-center gap-3 pt-2">
+              <Button href={whatsappUrl} variant="primary" className="min-h-[40px] px-4 py-2">
+                <MessageCircle size={15} />
+                <span>{getTranslation(locale, 'nav.freeConsultation')}</span>
+              </Button>
+              <Button
+                href="https://instagram.com/chestaadotcom"
+                variant="secondary"
+                className="min-h-[40px] px-4 py-2"
+              >
+                <Camera size={15} className="text-[#6A3FD0]" />
+                <span>@chestaadotcom</span>
+              </Button>
             </div>
           </div>
 
-          {/* Column 2: Navigation */}
-          <div className="lg:col-span-2 lg:col-start-5">
-            <h4 className="text-slate-900 font-sans font-medium tracking-widest uppercase text-[11px] mb-8">Layanan Utama</h4>
-            <ul className="space-y-4 text-sm font-sans text-slate-600 font-normal">
-              <li><Link to="/services" onClick={() => window.scrollTo(0,0)} className="hover:text-purple-600 transition-colors font-medium text-purple-900">Semua Layanan</Link></li>
-              <li><Link to="/services/website-mesin-konversi" onClick={() => window.scrollTo(0,0)} className="hover:text-purple-600 transition-colors">Web Development Next.js</Link></li>
-              <li><Link to="/services/dominasi-pencarian-seo-aeo" onClick={() => window.scrollTo(0,0)} className="hover:text-purple-600 transition-colors">Optimasi SEO &amp; AEO</Link></li>
-              <li><Link to="/services/toko-online-otonom" onClick={() => window.scrollTo(0,0)} className="hover:text-purple-600 transition-colors">E-Commerce Setup</Link></li>
-              <li><Link to="/services/landing-page-konversi" onClick={() => window.scrollTo(0,0)} className="hover:text-purple-600 transition-colors">Landing Page Konversi</Link></li>
-            </ul>
-          </div>
-
-          {/* Column 2b: Local SEO */}
-          <div className="lg:col-span-2">
-            <h4 className="text-slate-900 font-sans font-medium tracking-widest uppercase text-[11px] mb-8">Area Prioritas</h4>
-            <ul className="space-y-3.5 text-sm font-sans text-slate-600 font-normal">
-              <li><Link to="/area/cisauk" onClick={() => window.scrollTo(0,0)} className="hover:text-purple-600 transition-colors font-medium text-slate-900">Web Developer Cisauk</Link></li>
-              <li><Link to="/area/rawa-buntu" onClick={() => window.scrollTo(0,0)} className="hover:text-purple-600 transition-colors font-medium text-slate-900">Web Developer Rawa Buntu</Link></li>
-              <li><Link to="/area/pemalang" onClick={() => window.scrollTo(0,0)} className="hover:text-purple-600 transition-colors font-medium text-slate-900">Jasa Website Pemalang</Link></li>
-              <li><Link to="/area/bsd-city" onClick={() => window.scrollTo(0,0)} className="hover:text-purple-600 transition-colors">Jasa IT BSD City</Link></li>
-              <li><Link to="/area/tangerang-selatan" onClick={() => window.scrollTo(0,0)} className="hover:text-purple-600 transition-colors">Website Tangerang Selatan</Link></li>
-            </ul>
-          </div>
-
-          {/* Column 3: Company */}
-          <div className="lg:col-span-2">
-            <h4 className="text-slate-900 font-sans font-medium tracking-widest uppercase text-[11px] mb-8">Eksplorasi</h4>
-            <ul className="space-y-4 text-sm font-sans text-slate-600 font-normal">
-              <li><Link to="/portfolio" onClick={() => window.scrollTo(0,0)} className="hover:text-purple-600 transition-colors">Showcase Portfolio</Link></li>
-              <li><Link to="/case-studies" onClick={() => window.scrollTo(0,0)} className="hover:text-purple-600 transition-colors">Case Studies</Link></li>
-              <li><Link to="/blog" onClick={() => window.scrollTo(0,0)} className="hover:text-purple-600 transition-colors">Artikel & Insights</Link></li>
-              <li><Link to="/academy" onClick={() => window.scrollTo(0,0)} className="hover:text-purple-600 transition-colors">Academy &amp; Masterclass</Link></li>
-              <li><Link to="/about" onClick={() => window.scrollTo(0,0)} className="hover:text-purple-600 transition-colors">Tentang Kami</Link></li>
-            </ul>
-          </div>
-
-          {/* Column 4: Contact */}
-          <div className="lg:col-span-2">
-            <h4 className="text-slate-900 font-sans font-medium tracking-widest uppercase text-[11px] mb-8">Informasi</h4>
-            <ul className="space-y-5 text-sm font-sans text-slate-600 font-normal">
-              <li className="flex items-start gap-3">
-                <MapPin size={18} className="shrink-0 text-purple-600 mt-0.5" />
-                <span className="leading-relaxed">Jakarta, Indonesia.<br/>Remote Worldwide.</span>
+          {/* Col 2: Layanan / Services */}
+          <div className="footer-stagger-col lg:col-span-3 space-y-3">
+            <h3 className="font-mono text-[11px] uppercase tracking-[0.08em] font-semibold text-[#17122B]">
+              {getTranslation(locale, 'footer.mainServices')}
+            </h3>
+            <ul className="space-y-2 text-[14px]">
+              <li>
+                <Link
+                  to={toLocalizedHref('/jasa/pembuatan-website', locale, prefixMode)}
+                  className="link-underline inline-flex items-center py-1 hover:text-[#6A3FD0] transition-colors"
+                >
+                  {locale === 'en' ? 'Website & landing page' : 'Jasa pembuatan website'}
+                </Link>
               </li>
-              <li className="flex items-center gap-3">
-                <MessageCircle size={18} className="shrink-0 text-purple-600" />
-                <span className="leading-relaxed">+62 821-2544-7232</span>
+              <li>
+                <Link
+                  to={toLocalizedHref('/jasa/ai-agent', locale, prefixMode)}
+                  className="link-underline inline-flex items-center py-1 hover:text-[#6A3FD0] transition-colors"
+                >
+                  {locale === 'en' ? 'AI agent systems' : 'Jasa AI agent'}
+                </Link>
               </li>
-              <li className="flex items-center gap-3">
-                <Mail size={18} className="shrink-0 text-purple-600" />
-                <span className="leading-relaxed">chestaadotcom@gmail.com</span>
+              <li>
+                <Link
+                  to={toLocalizedHref('/jasa/software-custom', locale, prefixMode)}
+                  className="link-underline inline-flex items-center py-1 hover:text-[#6A3FD0] transition-colors"
+                >
+                  {locale === 'en' ? 'Custom software' : 'Jasa software custom'}
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to={toLocalizedHref('/jasa/otomasi-workflow', locale, prefixMode)}
+                  className="link-underline inline-flex items-center py-1 hover:text-[#6A3FD0] transition-colors"
+                >
+                  {locale === 'en' ? 'Workflow automation' : 'Jasa otomasi workflow'}
+                </Link>
               </li>
             </ul>
           </div>
-        </div>
 
-        {/* Internal Link Matrix for Crawlers & Visitors */}
-        <div className="border-t border-slate-200/80 pt-10 pb-6 grid grid-cols-2 md:grid-cols-4 gap-8 text-xs text-slate-600 mb-12">
-          <div>
-            <span className="font-mono uppercase font-bold text-[10px] text-purple-900 block mb-3 tracking-wider">Executive Insights</span>
-            <ul className="space-y-2.5">
-              <li><Link to="/insights/jasa-ai-automation-tangerang-bsd" className="hover:text-purple-600 transition-colors">Jasa AI Tangerang &amp; BSD</Link></li>
-              <li><Link to="/insights/biaya-pembuatan-super-app-b2b-jakarta-selatan" className="hover:text-purple-600 transition-colors">Biaya Super App B2B</Link></li>
-              <li><Link to="/insights/software-house-vs-konsultan-ai-bsd" className="hover:text-purple-600 transition-colors">Konsultan AI vs Software House</Link></li>
-              <li><Link to="/insights/pangkas-gaji-admin-dengan-karyawan-ai" className="hover:text-purple-600 transition-colors">Pangkas Gaji Admin dengan AI</Link></li>
-              <li><Link to="/insights/website-lambat-bunuh-roas-iklan" className="hover:text-purple-600 transition-colors">Website Lambat &amp; ROAS Iklan</Link></li>
-            </ul>
-          </div>
-          <div>
-            <span className="font-mono uppercase font-bold text-[10px] text-purple-900 block mb-3 tracking-wider">Kamus AI &amp; Glosarium</span>
-            <ul className="space-y-2.5">
-              <li><Link to="/kamus-ai-teknologi/nextjs-15" className="hover:text-purple-600 transition-colors">Next.js 15 SSR</Link></li>
-              <li><Link to="/kamus-ai-teknologi/machine-learning" className="hover:text-purple-600 transition-colors">Machine Learning B2B</Link></li>
-              <li><Link to="/kamus-ai-teknologi/roas" className="hover:text-purple-600 transition-colors">ROAS Performance</Link></li>
-              <li><Link to="/kamus-ai-teknologi/seo" className="hover:text-purple-600 transition-colors">Search Engine Optimization</Link></li>
-              <li><Link to="/kamus-ai-teknologi/aeo" className="hover:text-purple-600 transition-colors">Answer Engine Optimization</Link></li>
-            </ul>
-          </div>
-          <div>
-            <span className="font-mono uppercase font-bold text-[10px] text-purple-900 block mb-3 tracking-wider">Layanan Spesialis</span>
-            <ul className="space-y-2.5">
-              <li><Link to="/services/jasa-pembuatan-website-bsd-cisauk" className="hover:text-purple-600 transition-colors">Website BSD City &amp; Cisauk</Link></li>
-              <li><Link to="/services/infrastruktur-cloud-anti-down" className="hover:text-purple-600 transition-colors">Cloud Anti-Down SLA 99.99%</Link></li>
-              <li><Link to="/services/keamanan-data-korporat" className="hover:text-purple-600 transition-colors">Audit Keamanan Data</Link></li>
-              <li><Link to="/services/super-app-korporat-pwa" className="hover:text-purple-600 transition-colors">Super App Korporat PWA</Link></li>
-              <li><Link to="/services/konsultasi-cto-eksekutif" className="hover:text-purple-600 transition-colors">Fractional CTO &amp; Advisory</Link></li>
-            </ul>
-          </div>
-          <div>
-            <span className="font-mono uppercase font-bold text-[10px] text-purple-900 block mb-3 tracking-wider">Area Cakupan Prioritas</span>
-            <ul className="space-y-2.5">
-              <li><Link to="/area/bsd-city" className="hover:text-purple-600 transition-colors">BSD Green Office Park (GOP)</Link></li>
-              <li><Link to="/area/cisauk" className="hover:text-purple-600 transition-colors">Cisauk &amp; Intermoda</Link></li>
-              <li><Link to="/area/gading-serpong" className="hover:text-purple-600 transition-colors">Gading Serpong &amp; SMS</Link></li>
-              <li><Link to="/area/tangerang-selatan" className="hover:text-purple-600 transition-colors">Tangerang Selatan &amp; Bintaro</Link></li>
-              <li><Link to="/area/jakarta" className="hover:text-purple-600 transition-colors">Sudirman &amp; Jakarta Selatan</Link></li>
+          {/* Col 3: Panduan & Artikel Blog */}
+          <div className="footer-stagger-col lg:col-span-4 space-y-3">
+            <h3 className="font-mono text-[11px] uppercase tracking-[0.08em] font-semibold text-[#17122B]">
+              {getTranslation(locale, 'footer.guidesAndBlog')}
+            </h3>
+            <ul className="space-y-2 text-[14px]">
+              {footerBlogPosts.map((post) => (
+                <li key={post.slug}>
+                  <Link
+                    to={toLocalizedHref(`/blog/${post.slug}`, locale, prefixMode)}
+                    className="link-underline inline-block py-1 hover:text-[#6A3FD0] transition-colors line-clamp-1"
+                  >
+                    {post.title}
+                  </Link>
+                </li>
+              ))}
             </ul>
           </div>
         </div>
 
-        {/* Big Text Bottom */}
-        <div className="w-full border-t border-slate-100 pt-12 mt-12 flex flex-col items-center">
-            {/* Massive typography for decorative aesthetic */}
-            <div className="w-full mb-12 flex justify-center overflow-hidden">
-                <h2 className="text-[12vw] font-display font-medium tracking-tighter text-slate-900/[0.03] leading-none select-none pointer-events-none whitespace-nowrap">
-                  CHESTAADOTCOM
-                </h2>
+        {/* Grouped Indexable Area Service Links (10 pages grouped cleanly per service) */}
+        <div className="py-8 border-b border-[rgba(91,60,196,0.14)] grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="space-y-2.5">
+            <h3 className="font-mono text-[11px] uppercase tracking-[0.08em] font-semibold text-[#17122B]">
+              {getTranslation(locale, 'footer.webByArea')}
+            </h3>
+            <div className="flex flex-wrap gap-x-4 gap-y-1.5 text-[13px]">
+              {webAreaPages.map((p) => (
+                <Link
+                  key={`${p.serviceSlug}-${p.areaSlug}`}
+                  to={toLocalizedHref(
+                    `/jasa/${p.serviceSlug}/${p.areaSlug}`,
+                    locale,
+                    prefixMode
+                  )}
+                  className="link-underline py-0.5 hover:text-[#6A3FD0] transition-colors"
+                >
+                  {locale === 'en' ? `Website ${p.areaName}` : `Website ${p.areaName}`}
+                </Link>
+              ))}
             </div>
+          </div>
 
-            <div className="flex flex-col sm:flex-row items-center justify-between w-full gap-6 text-[10px] font-sans tracking-widest uppercase">
-              <div className="flex items-center gap-4">
-                  <span className="text-slate-900/30">© {new Date().getFullYear()} CHESTAADOTCOM. ALL RIGHTS RESERVED.</span>
-              </div>
-              <div className="flex gap-8">
-                 <Link to="/" className="text-slate-900/30 hover:text-slate-900 transition-colors">Privacy Policy</Link>
-                 <Link to="/" className="text-slate-900/30 hover:text-slate-900 transition-colors">Terms of Service</Link>
-              </div>
+          <div className="space-y-2.5">
+            <h3 className="font-mono text-[11px] uppercase tracking-[0.08em] font-semibold text-[#17122B]">
+              {getTranslation(locale, 'footer.aiByArea')}
+            </h3>
+            <div className="flex flex-wrap gap-x-4 gap-y-1.5 text-[13px]">
+              {aiAreaPages.map((p) => (
+                <Link
+                  key={`${p.serviceSlug}-${p.areaSlug}`}
+                  to={toLocalizedHref(
+                    `/jasa/${p.serviceSlug}/${p.areaSlug}`,
+                    locale,
+                    prefixMode
+                  )}
+                  className="link-underline py-0.5 hover:text-[#6A3FD0] transition-colors"
+                >
+                  AI Agent {p.areaName}
+                </Link>
+              ))}
             </div>
+          </div>
         </div>
 
-        {/* SEO Context Snippets (Visually subtle but crawlable) */}
-        <div className="mt-12 pt-8 border-t border-slate-50 grid grid-cols-1 md:grid-cols-2 gap-8 opacity-[0.4] text-[9px] font-sans leading-relaxed tracking-wider">
-          <div>
-            <h5 className="font-medium text-slate-900 uppercase mb-2">Tentang CHESTAADOTCOM</h5>
-            <p>
-              CHESTAADOTCOM adalah studio rekayasa perangkat lunak dan arsitektur digital premium yang berfokus pada transformasi B2B melalui solusi IT berperforma tinggi. Kami mengkhususkan diri dalam pengembangan website berperforma tinggi, sistem Enterprise, dan integrasi Agentic AI otonom untuk meningkatkan efisiensi operasional bisnis modern di Indonesia. Berbasis di BSD City, Tangerang, kami melayani mitra korporasi dari Jakarta hingga mancanegara.
-            </p>
+        {/* Contact & Local Coverage Strip */}
+        <div className="py-8 border-b border-[rgba(91,60,196,0.14)] grid grid-cols-1 md:grid-cols-3 gap-6 text-[13px] text-[#5B5675]">
+          <div className="flex items-start gap-3">
+            <MapPin size={16} className="text-[#6A3FD0] shrink-0 mt-0.5" />
+            <div>
+              <p className="text-[#17122B] font-semibold">
+                {getTranslation(locale, 'footer.baseAndCoverage')}
+              </p>
+              <p className="mt-1">
+                {getTranslation(locale, 'footer.baseAndCoverageDesc')}
+              </p>
+            </div>
           </div>
-          <div>
-            <h5 className="font-medium text-slate-900 uppercase mb-2">Solusi Arsitektur Digital</h5>
-            <p>
-              Layanan kami mencakup Jasa Pembuatan Website Company Profile, E-Commerce Custom, Dashboard Analytics, dan Sistem Manajemen Konten (CMS) tanpa kepala. Kami juga pakar dalam optimasi SEO Teknis, Audit Core Web Vitals, serta pengembangan Agen AI untuk otomasi layanan pelanggan, pemrosesan dokumen otomatis, dan asisten cerdas berbasis Large Language Models (LLMs) seperti Gemini dan Claude.
-            </p>
+          <div className="flex items-start gap-3">
+            <MessageCircle size={16} className="text-[#6A3FD0] shrink-0 mt-0.5" />
+            <div>
+              <p className="text-[#17122B] font-semibold">
+                {getTranslation(locale, 'footer.coFounderWa')}
+              </p>
+              <p className="mt-1">
+                {getTranslation(locale, 'footer.coFounderWaHours')}
+              </p>
+            </div>
+          </div>
+          <div className="flex items-start gap-3">
+            <Mail size={16} className="text-[#6A3FD0] shrink-0 mt-0.5" />
+            <div>
+              <p className="text-[#17122B] font-semibold">
+                {getTranslation(locale, 'footer.emailAndIndex')}
+              </p>
+              <p className="mt-1">
+                chestaadotcom@gmail.com ·{' '}
+                <a href="/sitemap.xml" className="link-underline hover:text-[#6A3FD0]">
+                  Sitemap
+                </a>{' '}
+                ·{' '}
+                <a href="/llms.txt" className="link-underline hover:text-[#6A3FD0]">
+                  llms.txt
+                </a>
+              </p>
+            </div>
           </div>
         </div>
-      </div>
-    </motion.footer>
+
+        {/* Bottom Copyright & Language Switcher */}
+        <div className="pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-[13px] text-[#5B5675]">
+          <div className="flex flex-wrap items-center gap-4">
+            <p>© {new Date().getFullYear()} CHESTAADOTCOM · Chesta Azka &amp; Zeeshan.</p>
+            <div
+              aria-label={getTranslation(locale, 'nav.langSwitchLabel')}
+              className="inline-flex items-center gap-1 font-mono text-[11px] px-2.5 py-0.5 rounded-full bg-[#F8F6FE] border border-[rgba(91,60,196,0.14)]"
+            >
+              <a
+                href={langLinks.idHref}
+                hrefLang="id-ID"
+                onClick={(e) => handleLangSwitch(e, langLinks.idHref)}
+                className={`px-1.5 py-0.5 rounded-full transition-colors ${
+                  locale === 'id'
+                    ? 'bg-[#6A3FD0] text-[#FFFFFF] font-semibold'
+                    : 'text-[#5B5675] hover:text-[#17122B]'
+                }`}
+              >
+                ID
+              </a>
+              <span className="text-[#5B5675]/40" aria-hidden="true">
+                |
+              </span>
+              <a
+                href={langLinks.enHref}
+                hrefLang="en"
+                onClick={(e) => handleLangSwitch(e, langLinks.enHref)}
+                className={`px-1.5 py-0.5 rounded-full transition-colors ${
+                  locale === 'en'
+                    ? 'bg-[#6A3FD0] text-[#FFFFFF] font-semibold'
+                    : 'text-[#5B5675] hover:text-[#17122B]'
+                }`}
+              >
+                EN
+              </a>
+            </div>
+          </div>
+
+          <div className="flex flex-wrap items-center gap-6">
+            <Link
+              to={toLocalizedHref('/portfolio', locale, prefixMode)}
+              className="link-underline py-1 hover:text-[#17122B] transition-colors"
+            >
+              {getTranslation(locale, 'nav.projects')}
+            </Link>
+            <Link
+              to={toLocalizedHref('/case-studies', locale, prefixMode)}
+              className="link-underline py-1 hover:text-[#17122B] transition-colors"
+            >
+              {getTranslation(locale, 'nav.caseStudies')}
+            </Link>
+            <Link
+              to={toLocalizedHref('/blog', locale, prefixMode)}
+              className="link-underline py-1 hover:text-[#17122B] transition-colors"
+            >
+              {getTranslation(locale, 'nav.blog')}
+            </Link>
+            <Link
+              to={toLocalizedHref('/#cara-kerja', locale, prefixMode)}
+              className="link-underline py-1 hover:text-[#17122B] transition-colors"
+            >
+              {getTranslation(locale, 'nav.howItWorks')}
+            </Link>
+            <Link
+              to={toLocalizedHref('/about', locale, prefixMode)}
+              className="link-underline py-1 hover:text-[#17122B] transition-colors"
+            >
+              {getTranslation(locale, 'footer.aboutUs')}
+            </Link>
+          </div>
+        </div>
+      </Container>
+    </footer>
   );
 }

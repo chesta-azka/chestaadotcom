@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="google-site-verification" content="qsI5diUIpk_GpZYdwmC6zaFNWkBiQSkLMnr701rO34w" />
+    <meta name="theme-color" content="#7C54E0" />
     
     <!-- Google tag (gtag.js) -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-L0TSZYYPXL"></script>
@@ -11,8 +12,35 @@
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-
       gtag('config', 'G-L0TSZYYPXL');
+    </script>
+    <script>
+      (function () {
+        var docEl = document.documentElement;
+        docEl.classList.add('js');
+        try {
+          var reduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+          var reducedData = window.matchMedia && window.matchMedia('(prefers-reduced-data: reduce)').matches;
+          var conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+          var saveData = Boolean(conn && conn.saveData);
+          var lowMem = typeof navigator.deviceMemory === 'number' && navigator.deviceMemory <= 4;
+          var lowCpu = typeof navigator.hardwareConcurrency === 'number' && navigator.hardwareConcurrency <= 4;
+          var savedLite = localStorage.getItem('performanceMode') === 'true';
+          if (reduced) {
+            docEl.dataset.motionMode = 'reduced';
+            docEl.classList.add('js-reveal-safe');
+          } else if (reducedData || saveData || lowMem || lowCpu || savedLite) {
+            docEl.dataset.motionMode = 'lite';
+          } else {
+            docEl.dataset.motionMode = 'full';
+          }
+        } catch (e) {
+          docEl.dataset.motionMode = 'full';
+        }
+        window.setTimeout(function () {
+          docEl.classList.add('js-reveal-safe');
+        }, 1500);
+      })();
     </script>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -20,36 +48,38 @@
     <link rel="dns-prefetch" href="https://fonts.googleapis.com">
     <link rel="dns-prefetch" href="https://fonts.gstatic.com">
     
-    <!-- LCP & Critical Asset Preload for Sub-Second Rendering -->
-    <link rel="preload" as="image" href="/chesta.png" type="image/png" fetchpriority="high">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700;800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- Preload Critical Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400..800;1,400..800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     
     <link rel="icon" type="image/png" href="/chesta.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="/chesta.png" />
-    <link rel="mask-icon" href="/favicon.svg" color="#6b21a8" />
+    <link rel="mask-icon" href="/favicon.svg" color="#7C54E0" />
     <link rel="manifest" href="/site.webmanifest" />
     <link rel="canonical" href="https://chestaa.com/" />
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
 
-    <title>CHESTAADOTCOM - Principal Architecture & Autonomous AI Systems</title>
-    <meta name="description" content="CHESTAADOTCOM - Arsitektur Digital Eksekutif & Sistem Penjualan Otonom dipimpin oleh Chesta Azka dengan fokus efisiensi korporat dan dominasi pasar digital." />
+    <title>Jasa Software &amp; AI Agent untuk Bisnis di BSD &amp; Tangsel | CHESTAADOTCOM</title>
+    <meta name="description" content="Partner rekayasa software custom dan AI agent (WhatsApp/CRM, booking, automasi) untuk bisnis di BSD City, Tangerang Selatan &amp; Jabodetabek. Web mulai Rp1.200.000." />
     
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
     <meta property="og:url" content="https://chestaa.com/" />
-    <meta property="og:title" content="CHESTAADOTCOM - Principal Architecture & Autonomous AI Systems" />
-    <meta property="og:description" content="CHESTAADOTCOM - Arsitektur Digital Eksekutif & Sistem Penjualan Otonom dipimpin oleh Chesta Azka dengan fokus efisiensi korporat dan dominasi pasar digital." />
-    <meta property="og:image" content="https://chestaa.com/chesta.png" />
-    <meta property="og:site_name" content="CHESTAA Enterprise" />
+    <meta property="og:title" content="Jasa Software &amp; AI Agent untuk Bisnis di BSD &amp; Tangsel | CHESTAADOTCOM" />
+    <meta property="og:description" content="Partner rekayasa software custom dan AI agent (WhatsApp/CRM, booking, automasi) untuk bisnis di BSD City, Tangerang Selatan &amp; Jabodetabek. Web mulai Rp1.200.000." />
+    <meta property="og:image" content="https://chestaa.com/images/og-default.svg" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:site_name" content="CHESTAADOTCOM" />
     <meta property="og:locale" content="id_ID" />
     
     <!-- Twitter Cards -->
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="CHESTAADOTCOM - Principal Architecture & Autonomous AI Systems" />
-    <meta name="twitter:description" content="CHESTAADOTCOM - Arsitektur Digital Eksekutif & Sistem Penjualan Otonom dipimpin oleh Chesta Azka." />
-    <meta name="twitter:image" content="https://chestaa.com/chesta.png" />
+    <meta name="twitter:site" content="@chestaadotcom" />
+    <meta name="twitter:title" content="Jasa Software &amp; AI Agent untuk Bisnis di BSD &amp; Tangsel | CHESTAADOTCOM" />
+    <meta name="twitter:description" content="Partner rekayasa software custom dan AI agent (WhatsApp/CRM, booking, automasi) untuk bisnis di BSD City, Tangerang Selatan &amp; Jabodetabek. Web mulai Rp1.200.000." />
+    <meta name="twitter:image" content="https://chestaa.com/images/og-default.svg" />
   </head>
-  <body>
+  <body class="bg-[#FFFFFF] text-[#17122B] antialiased">
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>

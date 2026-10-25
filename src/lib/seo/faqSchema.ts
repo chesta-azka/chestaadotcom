@@ -5,12 +5,28 @@ export interface FAQEntry {
   a?: string;
 }
 
-export function generateFaqSchema(faqs: FAQEntry[]): string {
-  if (!faqs || faqs.length === 0) return '';
+export interface FAQPageNode {
+  '@context'?: string;
+  '@type': 'FAQPage';
+  '@id'?: string;
+  mainEntity: {
+    '@type': 'Question';
+    name: string;
+    acceptedAnswer: {
+      '@type': 'Answer';
+      text: string;
+    };
+  }[];
+}
 
-  const validItems = faqs
+export function sanitizeFaqEntries(faqs: FAQEntry[]): { question: string; answer: string }[] {
+  if (!Array.isArray(faqs) || faqs.length === 0) return [];
+
+  return faqs
     .map((item) => {
-      const question = (item.question || item.q || '').trim();
+      const question = (item.question || item.q || '')
+        .replace(/<[^>]*>/g, '')
+        .trim();
       const rawAnswer = (item.answer || item.a || '').trim();
       const answer = rawAnswer
         .replace(/<[^>]*>/g, '')
@@ -20,21 +36,41 @@ export function generateFaqSchema(faqs: FAQEntry[]): string {
       return { question, answer };
     })
     .filter((item) => item.question.length > 0 && item.answer.length > 0);
+}
 
-  if (validItems.length === 0) return '';
+/**
+ * Generates a structured Schema.org FAQPage node (without redundant @context when used inside @graph)
+ */
+export function buildFaqSchemaNode(
+  faqs: FAQEntry[],
+  schemaId?: string,
+  includeContext: boolean = false
+): FAQPageNode | null {
+  const validItems = sanitizeFaqEntries(faqs);
+  if (validItems.length === 0) return null;
 
-  const schemaMarkup = {
-    '@context': 'https://schema.org',
+  const node: FAQPageNode = {
+    ...(includeContext ? { '@context': 'https://schema.org' } : {}),
     '@type': 'FAQPage',
-    'mainEntity': validItems.map((faq) => ({
+    ...(schemaId ? { '@id': schemaId } : {}),
+    mainEntity: validItems.map((faq) => ({
       '@type': 'Question',
-      'name': faq.question,
-      'acceptedAnswer': {
+      name: faq.question,
+      acceptedAnswer: {
         '@type': 'Answer',
-        'text': faq.answer,
+        text: faq.answer,
       },
     })),
   };
 
-  return JSON.stringify(schemaMarkup);
+  return node;
+}
+
+/**
+ * Automatically generates structured JSON-LD FAQ data string for any array of FAQ objects.
+ */
+export function generateFaqSchema(faqs: FAQEntry[], schemaId?: string): string {
+  const node = buildFaqSchemaNode(faqs, schemaId, true);
+  if (!node) return '';
+  return JSON.stringify(node);
 }

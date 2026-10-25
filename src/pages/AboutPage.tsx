@@ -1,155 +1,149 @@
-import SEOMetadata from '../components/atoms/SEOMetadata';
 import React from 'react';
-import { motion } from 'motion/react';
-import { Sparkles, MessageCircle, ArrowRight, ShieldCheck, Zap, Bot, Globe } from 'lucide-react';
-import LocalWeatherWidget from '../components/atoms/LocalWeatherWidget';
-import { Link } from 'react-router-dom';
-import chestaPhoto from '../assets/images/regenerated_image_1787838669318.png';
-import AnimatedCounter from '../components/atoms/AnimatedCounter';
-import AnimatedHeading from '../components/atoms/AnimatedHeading';
+import { useLocation } from 'react-router-dom';
+import { Check, Sparkles } from 'lucide-react';
+import SEOMetadata from '../components/atoms/SEOMetadata';
+import {
+  Container,
+  Breadcrumb,
+  Card,
+  Tag,
+  CTABlock,
+} from '../components/ui/DesignSystem';
+import { parseLocalizedPath, toLocalizedHref } from '../lib/i18n';
 
 export default function AboutPage() {
+  const location = useLocation();
+  const { locale, prefixMode } = parseLocalizedPath(location.pathname);
+  const isEn = locale === 'en';
+
+  const principles = isEn
+    ? [
+        'Talk directly with the builders: You consult directly with Chesta and Zeeshan from day one until the system is live.',
+        'Transparent pricing: Websites and landing pages start at IDR 1,200,000. AI agent and custom systems are priced clearly after a 30-minute workflow audit.',
+        'Your data stays yours: You choose where your data is stored (on-premise or private cloud), and full source code and admin access are handed over.',
+        'No fake claims: No fabricated awards or invented metrics. We show working workflow demos and real production code.',
+        'Flexible operating coverage: In-person discussions in BSD City, Alam Sutera, Bintaro, Gading Serpong, and Greater Jakarta, or online anytime.',
+      ]
+    : [
+        'Bicara langsung dengan pembuatnya: Kamu berkonsultasi langsung dengan Chesta dan Zeeshan dari hari pertama sampai sistem berjalan.',
+        'Transparansi harga: Website dan landing page mulai Rp1.200.000. Sistem AI agent dan custom dihitung jelas setelah audit alur kerja 30 menit.',
+        'Data milikmu sepenuhnya: Penyimpanan data dapat kamu tentukan sendiri (on-premise atau private cloud), source code dan akses admin diserahkan lengkap.',
+        'Bebas klaim fiktif: Tidak ada penghargaan buatan atau metrik karangan. Kami menunjukkan demo alur dan kode nyata.',
+        'Area operasional fleksibel: Diskusi tatap muka di BSD City, Alam Sutera, Bintaro, Gading Serpong, dan Jabodetabek, atau daring kapan saja.',
+      ];
+
   return (
-    <div className="flex flex-col w-full min-h-screen bg-transparent relative overflow-hidden select-none">
-      <SEOMetadata 
-        title="Tentang Kami | Software House BSD City & Cisauk"
-        description="Pelajari visi CHESTAADOTCOM sebagai software house elit di BSD City dan Cisauk yang berfokus pada Web Development dan AI Automation."
+    <div className="bg-[#FFFFFF] text-[#17122B] min-h-screen pt-28 pb-16 md:pb-24">
+      <SEOMetadata
+        title={
+          isEn
+            ? 'About CHESTAADOTCOM — Custom Software & AI Agent Partner in BSD & South Tangerang'
+            : 'Tentang CHESTAADOTCOM — Partner Software & AI Agent di BSD & Tangsel'
+        }
+        description={
+          isEn
+            ? 'Meet Chesta Azka (Architecture, Product & Tech) and Zeeshan (Operations & Client Success), co-founders of CHESTAADOTCOM building custom software and AI agents for businesses in BSD City, South Tangerang, and Greater Jakarta.'
+            : 'Kenali Chesta Azka (Architecture, Product & Tech) dan Zeeshan (Operations & Client Success), co-founder CHESTAADOTCOM yang membangun software custom dan AI agent untuk bisnis di BSD City, Tangerang Selatan, dan Jabodetabek.'
+        }
+        path={toLocalizedHref('/about', locale, prefixMode)}
       />
-      <LocalWeatherWidget />
 
-      <div className="relative z-10 w-full max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 pt-36 md:pt-44 pb-24">
-        
-        {/* Header Title */}
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-          className="text-center mb-12 sm:mb-16"
-        >
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-purple-50 border border-purple-200 mb-6">
-            <Sparkles size={13} className="text-purple-600" />
-            <span className="text-[11px] font-mono font-bold uppercase tracking-widest text-purple-900">
-              TENTANG KAMI
-            </span>
-          </div>
+      <Container>
+        <Breadcrumb items={[{ label: isEn ? 'About Us' : 'Tentang Kami' }]} />
 
-          <AnimatedHeading as="h1" className="text-3xl sm:text-5xl font-display font-extrabold tracking-tight text-slate-900 mb-4">
-            Membangun Standar Baru <br />
-            <span className="text-purple-700">
-              IT Services & Software Engineering.
-            </span>
-          </AnimatedHeading>
-
-          <p className="text-base sm:text-lg text-slate-600 font-sans max-w-2xl mx-auto leading-relaxed">
-            Konsultan IT Solution dan Software House terpercaya di BSD City dan Cisauk. Kami berfokus pada pembuatan website enterprise, optimasi SEO lokal Jabodetabek, dan solusi otomasi Agentic AI berskala korporat.
+        <header className="max-w-3xl mb-12">
+          <Tag>{isEn ? 'ABOUT CHESTAADOTCOM' : 'TENTANG CHESTAADOTCOM'}</Tag>
+          <h1 className="mt-2">
+            {isEn
+              ? 'We build systems that run on their own, so your team can focus on what matters'
+              : 'Kami membangun sistem yang jalan sendiri, supaya tim kamu fokus ke hal penting'}
+          </h1>
+          <p className="mt-4 text-[15px] md:text-[16px] text-[#5B5675] leading-[1.65]">
+            {isEn
+              ? 'CHESTAADOTCOM was co-founded by Chesta Azka and Zeeshan in BSD City, South Tangerang. We help clinics, F&B brands, property teams, professional services, and SMBs across Greater Jakarta solve real operational bottlenecks: piling WhatsApp chats, missed follow-ups, and repetitive data copying across apps.'
+              : 'CHESTAADOTCOM didirikan bersama oleh Chesta Azka dan Zeeshan di BSD City, Tangerang Selatan. Kami membantu klinik, F&B, properti, jasa profesional, dan UKM di Jabodetabek menyelesaikan kendala operasional nyata: chat WhatsApp yang menumpuk, follow-up terlewat, dan salin data berulang antar-aplikasi.'}
           </p>
-        </motion.div>
+        </header>
 
-        {/* Data-Driven Animated Stats Section */}
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-          className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-16"
-        >
-          <div className="bg-white rounded-2xl border border-slate-200 shadow-sm hover:border-purple-300 hover:shadow-md transition-all">
-            <AnimatedCounter value={50} suffix="+" label="Proyek Selesai" />
-          </div>
-          <div className="bg-white rounded-2xl border border-slate-200 shadow-sm hover:border-purple-300 hover:shadow-md transition-all">
-            <AnimatedCounter value={99} suffix="%" label="Uptime Server" />
-          </div>
-          <div className="bg-white rounded-2xl border border-slate-200 shadow-sm hover:border-purple-300 hover:shadow-md transition-all">
-            <AnimatedCounter value={300} suffix="%" label="Peningkatan Konversi" />
-          </div>
-          <div className="bg-white rounded-2xl border border-slate-200 shadow-sm hover:border-purple-300 hover:shadow-md transition-all">
-            <AnimatedCounter value={24} suffix="/7" label="Dukungan Aktif" />
-          </div>
-        </motion.div>
-
-        {/* Simplified Profile & Philosophy Card */}
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-          className="bg-white rounded-xl border border-slate-200 p-6 sm:p-10 shadow-sm mb-12 grid grid-cols-1 md:grid-cols-12 gap-8 items-center"
-        >
-          <div className="md:col-span-4 flex flex-col items-center text-center">
-            <div className="w-32 h-32 sm:w-36 sm:h-36 rounded-2xl bg-gradient-to-tr from-purple-600 to-indigo-900 p-1 shadow-md mb-4 overflow-hidden">
-              <img 
-                src={chestaPhoto} 
-                alt="Chesta - Lead Architect"
-                referrerPolicy="no-referrer"
-                className="w-full h-full object-cover object-top rounded-[14px]"
-              />
+        {/* Co-Founders Section (Equal) */}
+        <section aria-label="Co-Founders" className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12 items-stretch">
+          <Card variant="soft" padding="lg" className="h-full">
+            <div className="flex items-center gap-4">
+              <div className="w-14 h-14 rounded-[16px] overflow-hidden bg-[#FFFFFF] border border-[rgba(91,60,196,0.14)] shrink-0">
+                <img
+                  src="/chesta.png"
+                  alt="Chesta Azka — Co-Founder CHESTAADOTCOM"
+                  width={56}
+                  height={56}
+                  loading="lazy"
+                  className="w-full h-full object-cover object-top"
+                />
+              </div>
+              <div>
+                <h2>Chesta Azka</h2>
+                <Tag className="block mt-0.5">Co-Founder · Architecture, Product, Tech</Tag>
+              </div>
             </div>
-            <h3 className="text-lg font-bold font-display text-slate-900">Chesta</h3>
-            <p className="text-xs font-mono font-bold text-purple-700 uppercase tracking-wider mb-2">
-              Lead Architect &amp; Founder
+            <p className="mt-4 text-[15px] text-[#5B5675] leading-[1.65]">
+              {isEn
+                ? 'Responsible for system architecture, tech stack selection (React, Node.js, Python, PostgreSQL), WhatsApp Cloud API integration, AI safety guardrails, and Core Web Vitals performance across every shipped website.'
+                : 'Bertanggung jawab atas arsitektur sistem, pemilihan tech stack (React, Node.js, Python, PostgreSQL), integrasi WhatsApp Cloud API, guardrails keamanan AI, serta performa Core Web Vitals pada setiap website yang dirilis.'}
             </p>
-            <span className="inline-flex items-center gap-1 text-xs text-slate-500">
-              <Globe size={12} className="text-slate-400" />
-              BSD City, Tangerang
-            </span>
-          </div>
+          </Card>
 
-          <div className="md:col-span-8 space-y-4 text-slate-700 text-sm sm:text-base font-sans leading-relaxed">
-            <p>
-              <strong className="text-slate-900">CHESTAADOTCOM</strong> didirikan oleh <strong className="text-slate-900">Chesta</strong> dengan prinsip sederhana: setiap bisnis berhak mendapatkan infrastruktur digital berkecepatan tinggi dengan desain visual kelas dunia tanpa kompromi.
-            </p>
-            <p>
-              Kami menolak penggunaan template murahan yang lambat dan rentan. Setiap baris kode dirancang secara khusus (*bespoke*) agar memberikan pengalaman terbaik bagi pengguna serta menaikkan konversi bisnis Anda secara signifikan.
-            </p>
-            <div className="pt-4 flex flex-wrap gap-3">
-              <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-700 bg-slate-50 px-3 py-1.5 rounded-full border border-slate-200">
-                <Zap size={13} className="text-amber-500 fill-amber-500" />
-                Sub-Second Speed
-              </span>
-              <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-700 bg-slate-50 px-3 py-1.5 rounded-full border border-slate-200">
-                <ShieldCheck size={13} className="text-purple-700" />
-                Enterprise Security
-              </span>
-              <span className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-700 bg-slate-50 px-3 py-1.5 rounded-full border border-slate-200">
-                <Bot size={13} className="text-indigo-700" />
-                Agentic AI Integration
-              </span>
+          <Card variant="soft" padding="lg" className="h-full">
+            <div className="flex items-center gap-4">
+              <div className="w-14 h-14 rounded-[16px] bg-[#EFEAFB] border border-[rgba(91,60,196,0.14)] flex items-center justify-center font-mono font-semibold text-[18px] text-[#6A3FD0] shrink-0">
+                Z
+              </div>
+              <div>
+                <h2>Zeeshan</h2>
+                <Tag className="block mt-0.5">Co-Founder · Operations, Client Success</Tag>
+              </div>
             </div>
-          </div>
-        </motion.div>
+            <p className="mt-4 text-[15px] text-[#5B5675] leading-[1.65]">
+              {isEn
+                ? 'Responsible for mapping client business workflows, drafting response SOPs, human handover scenarios, release schedules, and hands-on support during and after launch.'
+                : 'Bertanggung jawab atas pemetaan alur kerja bisnis klien, penyusunan SOP respon, skenario pengalihan ke staf manusia (human handover), jadwal rilis, serta pendampingan langsung selama dan setelah sistem aktif.'}
+            </p>
+          </Card>
+        </section>
 
-        {/* Minimalist Call-To-Action Box */}
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.7, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-          className="rounded-xl bg-purple-950 text-white p-8 sm:p-12 text-center shadow-xl flex flex-col items-center"
-        >
-          <AnimatedHeading as="h3" className="text-2xl sm:text-3xl font-display font-bold tracking-tight mb-3">
-            Mari Diskusikan Proyek Anda
-          </AnimatedHeading>
-          <p className="text-slate-300 text-sm sm:text-base max-w-xl mb-8 leading-relaxed">
-            Punya ide atau kebutuhan sistem web korporat? Hubungi kami langsung melalui WhatsApp untuk konsultasi awal gratis.
-          </p>
-          <div className="flex flex-wrap items-center justify-center gap-4">
-            <a
-              href="https://wa.me/6282125447232?text=Halo%20CHESTADOTCOM,%20saya%20tertarik%20untuk%20diskusi%20proyek%20digital."
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center gap-2.5 px-8 py-4 rounded-full bg-white hover:bg-slate-100 text-purple-950 font-sans text-sm font-bold shadow-lg transition-all cursor-pointer"
-            >
-              <MessageCircle size={18} className="text-emerald-600 fill-emerald-600/20" />
-              <span>Konsultasi via WhatsApp</span>
-              <ArrowRight size={16} />
-            </a>
-            <Link
-              to="/portfolio"
-              className="inline-flex items-center gap-2 px-7 py-4 rounded-full bg-purple-900 hover:bg-purple-800 text-white font-sans text-sm font-semibold border border-purple-700 transition-all cursor-pointer"
-            >
-              <span>Lihat Portofolio</span>
-            </Link>
+        {/* Operating Principles */}
+        <Card variant="soft" padding="lg" className="mb-16">
+          <div className="flex items-center gap-2 mb-2">
+            <Sparkles size={16} className="text-[#6A3FD0]" />
+            <Tag>{isEn ? 'HOW WE WORK' : 'CARA KAMI BEKERJA'}</Tag>
           </div>
-        </motion.div>
+          <h2>
+            {isEn
+              ? 'No middlemen, no fake numbers, no vendor lock-in'
+              : 'Tanpa perantara, tanpa angka palsu, tanpa ketergantungan sepihak'}
+          </h2>
 
-      </div>
+          <div className="mt-6 space-y-3 text-[15px] text-[#5B5675]">
+            {principles.map((principle, idx) => (
+              <div key={idx} className="flex items-start gap-3">
+                <Check size={16} className="text-[#6A3FD0] shrink-0 mt-1" />
+                <span className="leading-[1.65]">{principle}</span>
+              </div>
+            ))}
+          </div>
+        </Card>
+
+        <CTABlock
+          title={
+            isEn
+              ? 'Want a casual chat about your business needs?'
+              : 'Mau ngobrol santai tentang kebutuhan bisnismu?'
+          }
+          description={
+            isEn
+              ? 'Send us a WhatsApp message or invite us to meet for a 30-minute workflow audit at no cost and with zero obligation.'
+              : 'Kirimkan pesan via WhatsApp atau ajak kami bertemu untuk audit alur kerja selama 30 menit tanpa biaya dan tanpa komitmen.'
+          }
+        />
+      </Container>
     </div>
   );
 }

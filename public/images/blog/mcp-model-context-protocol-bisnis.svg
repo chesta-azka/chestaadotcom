@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" width="1280" height="720">
+  <defs>
+    <linearGradient id="bg2" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" />
+      <stop offset="65%" stop-color="#F8F6FE" />
+      <stop offset="100%" stop-color="#EFEAFB" />
+    </linearGradient>
+    <radialGradient id="glow2" cx="80%" cy="25%" r="55%">
+      <stop offset="0%" stop-color="#7C54E0" stop-opacity="0.15" />
+      <stop offset="100%" stop-color="#7C54E0" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+  <rect width="1280" height="720" fill="url(#bg2)" />
+  <rect width="1280" height="720" fill="url(#glow2)" />
+  <rect x="56" y="56" width="1168" height="608" rx="28" fill="rgba(255,255,255,0.76)" stroke="rgba(91,60,196,0.14)" stroke-width="1.5" />
+
+  <rect x="100" y="108" width="52" height="4" rx="2" fill="#6A3FD0" />
+  <text x="100" y="150" fill="#6A3FD0" font-family="'JetBrains Mono', monospace" font-size="15" font-weight="600" letter-spacing="2.5">ARSITEKTUR INTEGRASI · MODEL CONTEXT PROTOCOL</text>
+  <text x="100" y="232" fill="#17122B" font-family="'Plus Jakarta Sans', sans-serif" font-size="44" font-weight="700" letter-spacing="-1">MCP untuk Pemilik Bisnis:</text>
+  <text x="100" y="290" fill="#17122B" font-family="'Plus Jakarta Sans', sans-serif" font-size="44" font-weight="700" letter-spacing="-1">Cara AI Agent Terhubung ke Tool Kamu</text>
+  <text x="100" y="352" fill="#5B5675" font-family="'Plus Jakarta Sans', sans-serif" font-size="20">Standar Terbuka Penghubung AI dengan Kalender, Spreadsheet, dan Database</text>
+
+  <!-- MCP Architecture Diagram -->
+  <g transform="translate(100, 410)">
+    <rect width="310" height="140" rx="18" fill="#FFFFFF" stroke="#6A3FD0" stroke-width="2" />
+    <text x="24" y="44" fill="#6A3FD0" font-family="'JetBrains Mono', monospace" font-size="13" font-weight="600">MCP HOST / CLIENT</text>
+    <text x="24" y="80" fill="#17122B" font-family="'Plus Jakarta Sans', sans-serif" font-size="20" font-weight="700">AI Agent Bisnis Kamu</text>
+    <text x="24" y="110" fill="#5B5675" font-family="'Plus Jakarta Sans', sans-serif" font-size="14">Izin Terbatas (Least Privilege)</text>
+
+    <path d="M325 70 L395 70" stroke="#6A3FD0" stroke-width="2" stroke-dasharray="4 4" />
+
+    <rect x="410" width="290" height="140" rx="18" fill="#F8F6FE" stroke="rgba(91,60,196,0.22)" stroke-width="1.5" />
+    <text x="434" y="44" fill="#6A3FD0" font-family="'JetBrains Mono', monospace" font-size="13" font-weight="600">PROTOKOL STANDAR</text>
+    <text x="434" y="80" fill="#17122B" font-family="'Plus Jakarta Sans', sans-serif" font-size="20" font-weight="700">JSON-RPC 2.0 / MCP</text>
+    <text x="434" y="110" fill="#5B5675" font-family="'Plus Jakarta Sans', sans-serif" font-size="14">Tools · Resources · Prompts</text>
+
+    <path d="M715 70 L785 70" stroke="#6A3FD0" stroke-width="2" stroke-dasharray="4 4" />
+
+    <rect x="800" width="280" height="140" rx="18" fill="#FFFFFF" stroke="rgba(91,60,196,0.18)" stroke-width="1.5" />
+    <text x="824" y="44" fill="#5B5675" font-family="'JetBrains Mono', monospace" font-size="13" font-weight="600">MCP SERVERS</text>
+    <text x="824" y="80" fill="#17122B" font-family="'Plus Jakarta Sans', sans-serif" font-size="20" font-weight="700">Calendar, Sheets, CRM</text>
+    <text x="824" y="110" fill="#5B5675" font-family="'Plus Jakarta Sans', sans-serif" font-size="14">Tanpa Kunci Vendor (Zero Lock-In)</text>
+  </g>
+
+  <text x="100" y="620" fill="#5B5675" font-family="'JetBrains Mono', monospace" font-size="15">CHESTAADOTCOM · BSD City &amp; Tangerang Selatan</text>
+</svg>

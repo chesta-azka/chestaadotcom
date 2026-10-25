@@ -1,603 +1,360 @@
-import { useState, useEffect, useRef } from 'react';
-import { motion, AnimatePresence } from 'motion/react';
-import { MessageCircle, Menu, X, Home, Sparkles, Briefcase, GitFork, User, BookOpen, ArrowRight, Search, Mail, Phone, ChevronRight, ChevronDown, MapPin, GraduationCap, CheckSquare, Code2, Bot, ShoppingBag, Target, FolderGit2, LineChart, UserCircle2, Terminal } from 'lucide-react';
-import { Link, useLocation } from 'react-router-dom';
-import MagneticButton from '../atoms/MagneticButton';
+import React, { useState, useEffect, useRef } from 'react';
+import { MessageCircle } from 'lucide-react';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
+import {
+  LazyMotion,
+  domAnimation,
+  m,
+  useReducedMotion,
+} from 'framer-motion';
+import { buildWaUrl } from '../ui/DesignSystem';
+import MenuOverlayPanel from './MenuOverlayPanel';
+import { getActiveLenis } from '../../lib/motion';
+import {
+  getTranslation,
+  parseLocalizedPath,
+  toLocalizedHref,
+} from '../../lib/i18n';
 
-interface NavItem {
-  name: string;
-  href?: string;
-  icon?: any;
-  subtitle?: string;
-  children?: { name: string; href: string; icon: any; subtitle: string }[];
-}
+const EASE_OUT_EXPO: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
-const NAV_ITEMS: NavItem[] = [
-  { name: 'Home', href: '/', icon: Home, subtitle: 'Beranda' },
-  {
-    name: 'Layanan',
-    icon: Code2,
-    children: [
-      { name: 'Semua Layanan', href: '/services', icon: Sparkles, subtitle: 'Lihat Seluruh Solusi Digital' },
-      { name: 'Integrasi AI & Otomasi', href: '/services/ai-integration', icon: Bot, subtitle: 'Otomatisasi Alur Kerja AI 24/7' },
-      { name: 'Web Dev Enterprise', href: '/services/web-development-nextjs', icon: Code2, subtitle: 'Arsitektur Next.js 15 Super Cepat' },
-      { name: 'Mesin Penjualan B2B', href: '/services/website-mesin-konversi', icon: Target, subtitle: 'Sistem Akuisisi Pelanggan Presisi' },
-      { name: 'Karyawan Digital AI', href: '/services/karyawan-digital-ai', icon: Bot, subtitle: 'Asisten Cerdas Tanpa Henti' },
-      { name: 'Toko Online E-Commerce', href: '/services/toko-online-otonom', icon: ShoppingBag, subtitle: 'Headless Storefront & Checkout Kilat' },
-      { name: 'Landing Page Konversi', href: '/services/landing-page-konversi', icon: Sparkles, subtitle: 'Pelipatganda Omset Kampanye Iklan' },
-    ]
-  },
-  {
-    name: 'Area Layanan',
-    icon: MapPin,
-    children: [
-      { name: 'Cisauk (Intermoda & Stasiun)', href: '/area/cisauk', icon: MapPin, subtitle: 'Tatap Muka Langsung di Cisauk & Sekitarnya' },
-      { name: 'Rawa Buntu (Serpong & De Latinos)', href: '/area/rawa-buntu', icon: MapPin, subtitle: 'Dekat Stasiun Rawa Buntu & Pintu Tol BSD' },
-      { name: 'Pemalang (Jawa Tengah)', href: '/area/pemalang', icon: MapPin, subtitle: 'Dukungan UMKM, Konveksi & Grosir Pemalang' },
-      { name: 'BSD City & Tangsel', href: '/area/bsd-city', icon: MapPin, subtitle: 'Digital Hub & Kawasan Bisnis Komersial' },
-    ]
-  },
-  {
-    name: 'Showcase',
-    icon: FolderGit2,
-    children: [
-      { name: 'Portfolio', href: '/portfolio', icon: FolderGit2, subtitle: 'Galeri & Hasil Nyata' },
-      { name: 'Case Studies', href: '/case-studies', icon: LineChart, subtitle: 'Analisis Mendalam' },
-      { name: 'About', href: '/about', icon: UserCircle2, subtitle: 'Profil Founder & Visi' },
-    ]
-  },
-  {
-    name: 'Developers',
-    icon: Terminal,
-    children: [
-      { name: 'Tech Insights', href: '/blog', icon: BookOpen, subtitle: 'Jurnal Vibe Coding' },
-      { name: 'Academy', href: '/academy', icon: GraduationCap, subtitle: 'Tutorial & Dokumentasi' },
-      { name: 'Quiz Evaluasi', href: '/quiz', icon: CheckSquare, subtitle: 'Uji Kompetensi' },
-    ]
-  },
-];
-
+/**
+ * Shared Navbar (Header) component
+ * - Thin 2px purple scroll progress bar at the top (transform: scaleX(var(--scroll-progress)))
+ * - Floating glass pill that shrinks subtly on scroll (scale-[0.985]), hides on scroll down, shows on scroll up
+ * - Desktop quick-nav links with an active link indicator that glides smoothly via transform: translate3d
+ * - Keeps framer-motion strictly for the menu icon & overlay (LazyMotion, domAnimation, m)
+ */
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [hidden, setHidden] = useState(false);
+  const [menuOpen, setMenuOpen] = useState(false);
+  const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
+  const [indicatorStyle, setIndicatorStyle] = useState<{
+    width: number;
+    x: number;
+    opacity: number;
+  }>({ width: 0, x: 0, opacity: 0 });
+
   const lastScrollY = useRef(0);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [expandedMenus, setExpandedMenus] = useState<string[]>([]);
-  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
-  const headerRef = useRef<HTMLElement>(null);
-  const navRef = useRef<HTMLDivElement>(null);
-  const dropdownTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const hamburgerButtonRef = useRef<HTMLButtonElement | null>(null);
+  const navContainerRef = useRef<HTMLDivElement | null>(null);
+  const navItemRefs = useRef<(HTMLAnchorElement | null)[]>([]);
+
   const location = useLocation();
+  const navigate = useNavigate();
+  const prefersReducedMotion = useReducedMotion();
 
-  const toggleMenu = (name: string) => {
-    setExpandedMenus(prev => 
-      prev.includes(name) ? prev.filter(n => n !== name) : [...prev, name]
-    );
-  };
+  const { locale, prefixMode, barePath } = parseLocalizedPath(location.pathname);
+  const homeHref = toLocalizedHref('/', locale, prefixMode);
 
-  const toggleDropdown = (name: string) => {
-    setActiveDropdown(prev => (prev === name ? null : name));
-  };
+  const quickNavItems = [
+    {
+      label: getTranslation(locale, 'nav.servicesGroup'),
+      href: toLocalizedHref('/#layanan', locale, prefixMode),
+      matchPrefix: '/jasa',
+    },
+    {
+      label: getTranslation(locale, 'nav.projects'),
+      href: toLocalizedHref('/portfolio', locale, prefixMode),
+      matchPrefix: '/portfolio',
+    },
+    {
+      label: getTranslation(locale, 'nav.caseStudies'),
+      href: toLocalizedHref('/case-studies', locale, prefixMode),
+      matchPrefix: '/case-studies',
+    },
+    {
+      label: getTranslation(locale, 'nav.blog'),
+      href: toLocalizedHref('/blog', locale, prefixMode),
+      matchPrefix: '/blog',
+    },
+  ];
 
-  const handleMouseEnter = (name: string) => {
-    if (dropdownTimeoutRef.current) {
-      clearTimeout(dropdownTimeoutRef.current);
-      dropdownTimeoutRef.current = null;
-    }
-    setActiveDropdown(name);
-  };
+  const activeNavIndex = quickNavItems.findIndex((item) =>
+    barePath.startsWith(item.matchPrefix)
+  );
+  const currentTargetIndex = hoveredIdx !== null ? hoveredIdx : activeNavIndex;
 
-  const handleMouseLeave = () => {
-    if (dropdownTimeoutRef.current) {
-      clearTimeout(dropdownTimeoutRef.current);
-    }
-    dropdownTimeoutRef.current = setTimeout(() => {
-      setActiveDropdown(null);
-    }, 180);
-  };
-
+  // Gliding active link indicator using transform: translate3d and scale
   useEffect(() => {
-    const handleClickOutside = (e: MouseEvent) => {
-      if (navRef.current && !navRef.current.contains(e.target as Node)) {
-        setActiveDropdown(null);
+    const updateIndicator = () => {
+      if (currentTargetIndex < 0 || !navContainerRef.current) {
+        setIndicatorStyle((prev) => ({ ...prev, opacity: 0 }));
+        return;
       }
-    };
-    document.addEventListener('mousedown', handleClickOutside);
-    return () => document.removeEventListener('mousedown', handleClickOutside);
-  }, []);
+      const targetEl = navItemRefs.current[currentTargetIndex];
+      const containerEl = navContainerRef.current;
+      if (!targetEl || !containerEl) return;
 
+      const containerRect = containerEl.getBoundingClientRect();
+      const targetRect = targetEl.getBoundingClientRect();
+      setIndicatorStyle({
+        width: targetRect.width,
+        x: targetRect.left - containerRect.left,
+        opacity: 1,
+      });
+    };
+
+    updateIndicator();
+    window.addEventListener('resize', updateIndicator, { passive: true });
+    return () => window.removeEventListener('resize', updateIndicator);
+  }, [currentTargetIndex, locale, location.pathname]);
+
+  // Shrink-on-scroll & hide-on-scroll-down (never hide while menu is open)
   useEffect(() => {
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
-      
-      setScrolled(currentScrollY > 15);
-      
-      if (currentScrollY > 100 && currentScrollY > lastScrollY.current) {
+      setScrolled(currentScrollY > 24);
+
+      if (menuOpen) {
+        setHidden(false);
+      } else if (currentScrollY > 120 && currentScrollY > lastScrollY.current + 4) {
         setHidden(true);
-        setActiveDropdown(null);
-      } else if (currentScrollY < lastScrollY.current) {
+      } else if (currentScrollY < lastScrollY.current - 4 || currentScrollY <= 40) {
         setHidden(false);
       }
-      
       lastScrollY.current = currentScrollY;
     };
+
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [menuOpen]);
 
+  // Auto-close on route or hash change
   useEffect(() => {
-    setMobileMenuOpen(false);
-    setActiveDropdown(null);
-    document.body.style.overflow = 'unset';
-  }, [location.pathname]);
+    setMenuOpen(false);
+  }, [location.pathname, location.hash]);
 
+  // Lock page scroll (scrollbar-gutter: stable) and pause unified Lenis when dialog is open
   useEffect(() => {
-    if (mobileMenuOpen) {
-      document.body.style.overflow = 'hidden';
+    const htmlEl = document.documentElement;
+    const bodyEl = document.body;
+    const lenis = getActiveLenis();
+
+    if (menuOpen) {
+      setHidden(false);
+      htmlEl.style.scrollbarGutter = 'stable';
+      bodyEl.style.overflow = 'hidden';
+      lenis?.stop();
     } else {
-      document.body.style.overflow = 'unset';
-    }
-    return () => {
-      document.body.style.overflow = 'unset';
-    };
-  }, [mobileMenuOpen]);
-
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') {
-        setMobileMenuOpen(false);
-        setActiveDropdown(null);
-      }
-    };
-    window.addEventListener('keydown', handleKeyDown);
-    return () => window.removeEventListener('keydown', handleKeyDown);
-  }, []);
-
-  useEffect(() => {
-    return () => {
-      if (dropdownTimeoutRef.current) {
-        clearTimeout(dropdownTimeoutRef.current);
-      }
-    };
-  }, []);
-
-  useEffect(() => {
-    const updateHeaderHeight = () => {
-      if (headerRef.current) {
-        const height = headerRef.current.getBoundingClientRect().height;
-        document.documentElement.style.setProperty('--header-height', `${height}px`);
-      }
-    };
-
-    updateHeaderHeight();
-
-    const resizeObserver = new ResizeObserver(() => {
-      updateHeaderHeight();
-    });
-
-    if (headerRef.current) {
-      resizeObserver.observe(headerRef.current);
+      bodyEl.style.overflow = '';
+      lenis?.start();
     }
 
-    window.addEventListener('resize', updateHeaderHeight);
     return () => {
-      resizeObserver.disconnect();
-      window.removeEventListener('resize', updateHeaderHeight);
+      bodyEl.style.overflow = '';
+      lenis?.start();
     };
-  }, [scrolled]);
+  }, [menuOpen]);
 
-  const whatsappUrl = `https://wa.me/6282125447232?text=${encodeURIComponent('Halo Mas Chesta, saya ingin konsultasi mengenai layanan pembuatan website dan solusi AI di CHESTAADOTCOM.')}`;
+  const whatsappUrl = buildWaUrl(
+    locale === 'en'
+      ? 'Hello Chesta & Zeeshan, I would like a free consultation regarding custom software / AI agents for my business.'
+      : 'Halo Chesta & Zeeshan, saya ingin konsultasi gratis mengenai software custom / AI agent untuk bisnis saya.'
+  );
+
+  const triggerViewTransitionNavigate = (targetUrl: string, isLangSwitch = false) => {
+    const doc = document as Document & {
+      startViewTransition?: (cb: () => void) => { finished: Promise<void> };
+    };
+    if (isLangSwitch) {
+      document.documentElement.setAttribute('data-lang-switching', 'true');
+    }
+    if (doc.startViewTransition && !prefersReducedMotion) {
+      const vt = doc.startViewTransition(() => {
+        navigate(targetUrl);
+      });
+      vt.finished.finally(() => {
+        document.documentElement.removeAttribute('data-lang-switching');
+      });
+    } else {
+      navigate(targetUrl);
+      window.setTimeout(() => {
+        document.documentElement.removeAttribute('data-lang-switching');
+      }, 140);
+    }
+  };
+
+  const handleNavigate = (href: string) => {
+    setMenuOpen(false);
+    const parsedTarget = parseLocalizedPath(href);
+    const isLangSwitch = parsedTarget.locale !== locale;
+
+    if (parsedTarget.barePath.startsWith('/#')) {
+      const id = parsedTarget.barePath.replace('/#', '');
+      if (barePath === '/' && !isLangSwitch) {
+        window.setTimeout(() => {
+          const el = document.getElementById(id);
+          if (el) {
+            el.scrollIntoView({ behavior: 'smooth' });
+          }
+        }, 50);
+      } else {
+        triggerViewTransitionNavigate(
+          toLocalizedHref(parsedTarget.barePath, parsedTarget.locale, parsedTarget.prefixMode),
+          isLangSwitch
+        );
+      }
+    } else {
+      triggerViewTransitionNavigate(
+        toLocalizedHref(parsedTarget.barePath, parsedTarget.locale, parsedTarget.prefixMode),
+        isLangSwitch
+      );
+    }
+  };
+
+  const hamburgerLineTransition = prefersReducedMotion
+    ? { duration: 0.15 }
+    : { duration: 0.25, ease: EASE_OUT_EXPO };
+
+  const buttonLabel = menuOpen
+    ? getTranslation(locale, 'nav.closeMenu')
+    : getTranslation(locale, 'nav.openMenu');
 
   return (
-    <>
-      <header ref={headerRef} className={`fixed top-0 left-0 right-0 z-50 flex flex-col items-center pointer-events-none transition-transform duration-300 ease-in-out translate-y-0`}>
-        {/* Desktop Navbar */}
-        <div className="w-full max-w-7xl mx-auto px-4 md:px-6 pt-3 pointer-events-auto">
-          <motion.div
-            initial={{ y: -20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-            className={`transition-all duration-300 ease-out flex items-center justify-between w-full px-6 md:px-8 bg-white/70 backdrop-blur-md border border-purple-100/60 shadow-xl shadow-purple-950/5 rounded-2xl ${
-              scrolled ? 'py-3 shadow-2xl' : 'py-3.5'
-            }`}
+    <LazyMotion features={domAnimation} strict>
+      {/* Thin 2px Purple Scroll Progress Bar at Top (transform: scaleX only) */}
+      <div className="scroll-progress-bar" aria-hidden="true" />
+
+      <header
+        className={`fixed top-0 inset-x-0 z-50 flex flex-col items-center px-5 md:px-8 transition-transform duration-300 ${
+          menuOpen ? 'pointer-events-auto' : 'pointer-events-none'
+        } ${scrolled ? 'pt-2.5' : 'pt-4'} ${
+          hidden && !menuOpen ? '-translate-y-24' : 'translate-y-0'
+        }`}
+      >
+        {/* Floating Glass Pill Container (shrinks slightly on scroll via transform scale) */}
+        <div
+          className={`relative z-50 w-full max-w-[1120px] transition-transform duration-300 pointer-events-auto rounded-full glass-pill px-4 sm:px-5 md:px-6 py-2 flex items-center justify-between gap-2 ${
+            scrolled && !menuOpen ? 'scale-[0.985]' : 'scale-100'
+          }`}
+        >
+          {/* Left: Wordmark Logo */}
+          <Link
+            to={homeHref}
+            onClick={(e) => {
+              e.preventDefault();
+              handleNavigate(homeHref);
+            }}
+            className="inline-flex items-center gap-2 min-h-[44px] px-1 group shrink-0"
+            aria-label={getTranslation(locale, 'nav.brandAria')}
           >
-            {/* Brand Logo */}
-            <Link to="/" className="flex items-center gap-2.5 group select-none pointer-events-auto">
-              <div className="relative flex items-center justify-center w-9 h-9 rounded-xl overflow-hidden bg-purple-50 border border-purple-200/80 group-hover:border-purple-400 transition-all duration-300 shadow-xs">
-                <img 
-                  src="/chesta.png" 
-                  alt="Chestaa Logo" 
-                  width={36}
-                  height={36}
-                  // @ts-ignore
-                  fetchPriority="high"
-                  className="w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300" 
-                  onError={(e) => {
-                    const target = e.currentTarget;
-                    target.src = '/favicon.svg';
-                  }}
-                />
-              </div>
-              
-              <span className="font-display text-base sm:text-lg font-bold tracking-tight text-slate-900 leading-none">
-                chestaadotcom
-              </span>
-            </Link>
+            <span className="w-2 h-2 rounded-full bg-[#6A3FD0] transition-transform duration-200 group-hover:scale-125" />
+            <span className="font-display text-[14px] md:text-[15px] font-semibold tracking-tight text-[#17122B] whitespace-nowrap">
+              CHESTAADOTCOM
+            </span>
+          </Link>
 
-            {/* Desktop Navigation Links */}
-            <nav className="hidden md:flex items-center gap-2" ref={navRef} aria-label="Main Navigation">
-              <ul className="flex items-center gap-1 list-none p-0 m-0">
-              {NAV_ITEMS.map((item) => {
-                const isActive = item.href 
-                  ? location.pathname === item.href || (item.href !== '/' && location.pathname.startsWith(item.href))
-                  : item.children?.some(child => location.pathname === child.href || location.pathname.startsWith(child.href));
-                const isOpen = activeDropdown === item.name;
-                  
-                return (
-                  <li 
-                    key={item.name} 
-                    className="relative list-none"
-                    onMouseEnter={() => item.children && handleMouseEnter(item.name)}
-                    onMouseLeave={() => item.children && handleMouseLeave()}
-                  >
-                    {item.href ? (
-                      <Link
-                        to={item.href}
-                        aria-current={isActive ? 'page' : undefined}
-                        onClick={() => setActiveDropdown(null)}
-                        className={`text-[12px] font-sans font-medium tracking-wide transition-all duration-200 px-3.5 py-1.5 rounded-lg ${
-                          isActive
-                            ? 'text-purple-900 bg-purple-50 border border-purple-200/60'
-                            : 'text-slate-600 hover:text-purple-700 hover:bg-purple-50/50'
-                        }`}
-                      >
-                        {item.name}
-                      </Link>
-                    ) : (
-                      <button
-                        type="button"
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          toggleDropdown(item.name);
-                        }}
-                        aria-haspopup="true"
-                        aria-expanded={isOpen}
-                        className={`text-[12px] font-sans font-medium tracking-wide transition-all duration-200 px-3.5 py-1.5 rounded-lg flex items-center gap-1.5 cursor-pointer ${
-                          isActive || isOpen
-                            ? 'text-purple-900 bg-purple-50 border border-purple-200/60'
-                            : 'text-slate-600 hover:text-purple-700 hover:bg-purple-50/50'
-                        }`}
-                      >
-                        {item.name}
-                        <ChevronDown size={14} className={`transition-transform duration-200 opacity-70 ${isOpen ? 'rotate-180 text-purple-700' : ''}`} />
-                      </button>
-                    )}
-
-                    {/* Dropdown Menu */}
-                    <AnimatePresence>
-                      {item.children && isOpen && (
-                        <motion.div
-                          initial={{ opacity: 0, y: 6, scale: 0.98 }}
-                          animate={{ opacity: 1, y: 0, scale: 1 }}
-                          exit={{ opacity: 0, y: 6, scale: 0.98 }}
-                          transition={{ duration: 0.15, ease: "easeOut" }}
-                          className="absolute top-full left-0 pt-2 z-50 pointer-events-auto"
-                        >
-                          <div className="w-80 bg-white border border-purple-200 shadow-xl rounded-2xl p-3 flex flex-col gap-2 relative">
-                            {item.name === 'Layanan' && (
-                              <div className="px-3 py-2 bg-purple-50/70 border border-purple-100 rounded-xl mb-1 flex items-center justify-between">
-                                <div className="flex flex-col text-left">
-                                  <span className="text-[11px] font-semibold text-purple-700 uppercase tracking-wider">Core Offering</span>
-                                  <span className="text-xs font-medium text-slate-900">Paket Base UMKM (Domain + Hosting)</span>
-                                </div>
-                                <span className="text-xs font-semibold text-purple-900 bg-white px-2 py-1 rounded-lg border border-purple-200 shadow-2xs">Rp 540K</span>
-                              </div>
-                            )}
-                            <ul className="flex flex-col gap-1 relative list-none m-0 p-0">
-                              {item.children.map(child => {
-                                const Icon = child.icon;
-                                const isChildActive = location.pathname === child.href || location.pathname.startsWith(child.href);
-                                return (
-                                  <li key={child.name} className="list-none">
-                                    <Link
-                                      to={child.href}
-                                      onClick={() => setActiveDropdown(null)}
-                                      aria-current={isChildActive ? 'page' : undefined}
-                                      className={`flex items-center gap-3 p-2.5 rounded-xl transition-all ${
-                                        isChildActive
-                                            ? 'bg-purple-50 text-purple-950 font-bold border border-purple-200/80 shadow-2xs'
-                                            : 'bg-transparent hover:bg-purple-50/50 text-slate-600 hover:text-purple-900'
-                                      }`}
-                                    >
-                                      <div className={`p-2 rounded-xl ${isChildActive ? 'bg-purple-200 text-purple-950' : 'bg-slate-100 text-purple-600'}`}>
-                                        <Icon size={16} />
-                                      </div>
-                                      <div className="flex flex-col text-left flex-1">
-                                        <span className="text-xs font-bold">{child.name}</span>
-                                        <span className="text-[11px] text-slate-400 font-normal leading-tight mt-0.5">{child.subtitle}</span>
-                                      </div>
-                                    </Link>
-                                  </li>
-                                );
-                              })}
-                            </ul>
-                            {item.name === 'Layanan' && (
-                              <div className="pt-2 border-t border-slate-100 px-2 flex items-center justify-between text-[11px] text-slate-500 font-medium">
-                                <span>Add-ons: Static (@250K) • Dynamic (350-400K)</span>
-                              </div>
-                            )}
-                          </div>
-                        </motion.div>
-                      )}
-                    </AnimatePresence>
-                  </li>
-                );
-              })}
-              </ul>
-            </nav>
-            
-            {/* Action Area */}
-            <div className="flex items-center gap-3 pointer-events-auto">
-              <motion.button
-                onClick={() => window.dispatchEvent(new CustomEvent('open-command-palette'))}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="p-2.5 rounded-xl hover:bg-purple-50 text-slate-500 hover:text-purple-700 transition-colors cursor-pointer border border-slate-200/60 shadow-2xs"
-                aria-label="Cari (⌘K)"
-              >
-                <Search size={18} />
-              </motion.button>
-
-              <MagneticButton 
-                href={whatsappUrl}
-                className="hidden md:flex items-center gap-2 text-sm font-bold text-white bg-purple-600 hover:bg-purple-700 px-6 py-2.5 rounded-xl shadow-sm transition-all cursor-pointer"
-                strength={15}
-              >
-                <MessageCircle size={18} />
-                <span>Konsultasi</span>
-              </MagneticButton>
-
-              <motion.button
-                onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-                whileTap={{ scale: 0.9 }}
-                className="md:hidden p-2.5 rounded-xl bg-slate-50 hover:bg-purple-50 text-slate-900 border border-slate-200 cursor-pointer shadow-2xs"
-                aria-label="Menu"
-              >
-                {mobileMenuOpen ? <X size={22} className="text-purple-700" /> : <Menu size={22} className="text-slate-800" />}
-              </motion.button>
-            </div>
-          </motion.div>
-        </div>
-      </header>
-
-      {/* Enhanced Slide-out Mobile Navigation Drawer */}
-      <AnimatePresence>
-        {mobileMenuOpen && (
-          <>
-            {/* Backdrop with smooth blur */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.25, ease: "easeOut" }}
-              onClick={() => setMobileMenuOpen(false)}
-              className="fixed inset-0 z-50 md:hidden bg-slate-950/60 backdrop-blur-xs"
+          {/* Center: Desktop Quick-Nav with Gliding Active Indicator (transform: translate3d) */}
+          <div
+            ref={navContainerRef}
+            onMouseLeave={() => setHoveredIdx(null)}
+            className="hidden lg:flex items-center relative px-1 py-1 rounded-full"
+          >
+            <span
+              aria-hidden="true"
+              style={{
+                width: `${indicatorStyle.width}px`,
+                 opacity: indicatorStyle.opacity,
+                transform: `translate3d(${indicatorStyle.x}px, 0, 0)`,
+                transition:
+                  'transform 260ms cubic-bezier(0.22, 1, 0.36, 1), width 260ms cubic-bezier(0.22, 1, 0.36, 1), opacity 180ms cubic-bezier(0.22, 1, 0.36, 1)',
+              }}
+              className="pointer-events-none absolute left-0 top-1 bottom-1 rounded-full bg-[#EFEAFB]/90 border border-[rgba(91,60,196,0.14)]"
             />
-
-            {/* Slide-out Drawer Menu */}
-            <motion.div
-              initial={{ x: '100%' }}
-              animate={{ x: 0 }}
-              exit={{ x: '100%' }}
-              transition={{ type: 'spring', damping: 28, stiffness: 280 }}
-              className="fixed inset-y-0 right-0 z-50 w-[86vw] max-w-[360px] md:hidden bg-white border-l border-slate-200/90 shadow-2xl flex flex-col justify-between overflow-hidden"
-              style={{ overscrollBehavior: 'contain' }}
-              role="dialog"
-              aria-modal="true"
-              aria-label="Mobile Navigation Drawer"
-            >
-              {/* Drawer Header with Chesta's Brand & Close */}
-              <div className="px-5 py-4 border-b border-slate-100 bg-slate-50/70 flex items-center justify-between shrink-0">
+            {quickNavItems.map((item, idx) => {
+              const isActive = idx === activeNavIndex;
+              return (
                 <Link
-                  to="/"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center gap-2.5 group select-none"
-                >
-                  <div className="flex items-center justify-center w-8 h-8 rounded-xl overflow-hidden bg-purple-50 border border-purple-200/80 shadow-2xs">
-                    <img 
-                      src="/chesta.png" 
-                      alt="Chestaa Logo" 
-                      className="w-full h-full object-cover object-top" 
-                      onError={(e) => {
-                        const target = e.currentTarget;
-                        target.src = '/favicon.svg';
-                      }}
-                    />
-                  </div>
-                  <span className="font-display text-base font-bold tracking-tight text-slate-900">
-                    chestaadotcom
-                  </span>
-                </Link>
-
-                <motion.button
-                  whileTap={{ scale: 0.9 }}
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center justify-center w-9 h-9 rounded-xl bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 transition-colors cursor-pointer shadow-2xs"
-                  aria-label="Tutup navigasi"
-                >
-                  <X size={18} />
-                </motion.button>
-              </div>
-
-              {/* Scrollable Center Content */}
-              <div className="flex-1 overflow-y-auto px-5 py-4 space-y-4">
-                {/* Founder Identity Card with Chesta's Photo */}
-                <div className="p-3.5 rounded-2xl bg-gradient-to-br from-purple-50/60 to-slate-50 border border-purple-100 flex items-center gap-3 shadow-2xs">
-                  <div className="relative shrink-0">
-                    <img 
-                      src="/chesta.png" 
-                      alt="Chesta Azka Sofyan - Founder & Lead Architect" 
-                      className="w-12 h-12 rounded-xl object-cover object-top border border-purple-200 shadow-xs"
-                    />
-                    <span className="absolute -bottom-0.5 -right-0.5 w-3.5 h-3.5 bg-emerald-500 border-2 border-white rounded-full"></span>
-                  </div>
-                  <div className="flex flex-col min-w-0">
-                    <div className="flex items-center gap-1.5">
-                      <span className="font-display text-sm font-semibold text-slate-900 truncate">Chesta Azka Sofyan</span>
-                    </div>
-                    <span className="text-[11px] font-mono text-purple-800 font-medium uppercase tracking-wider">Lead Digital Architect</span>
-                    <span className="text-[10px] text-slate-500 flex items-center gap-1 mt-0.5">
-                      <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
-                      BSD City &bull; Siap Konsultasi
-                    </span>
-                  </div>
-                </div>
-
-                {/* Quick Search Bar */}
-                <button
-                  onClick={() => {
-                    setMobileMenuOpen(false);
-                    window.dispatchEvent(new CustomEvent('open-command-palette'));
+                  key={item.href}
+                  ref={(el) => {
+                    navItemRefs.current[idx] = el;
                   }}
-                  className="w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl bg-slate-50 hover:bg-slate-100 border border-slate-200 text-slate-700 text-xs font-medium cursor-pointer transition-colors"
+                  to={item.href}
+                  onMouseEnter={() => setHoveredIdx(idx)}
+                  onFocus={() => setHoveredIdx(idx)}
+                  onClick={(e) => {
+                    e.preventDefault();
+                    handleNavigate(item.href);
+                  }}
+                  className={`relative z-10 px-3.5 py-1.5 text-[13px] font-medium rounded-full transition-colors duration-150 ${
+                    isActive
+                      ? 'text-[#6A3FD0] font-semibold'
+                      : 'text-[#5B5675] hover:text-[#17122B]'
+                  }`}
                 >
-                  <div className="flex items-center gap-2.5">
-                    <Search size={15} className="text-purple-700 shrink-0" />
-                    <span className="text-slate-600 font-sans">Cari Layanan &amp; Artikel...</span>
-                  </div>
-                  <kbd className="px-1.5 py-0.5 rounded-md bg-white text-[10px] font-mono font-bold text-purple-900 border border-slate-200">
-                    ⌘K
-                  </kbd>
-                </button>
+                  {item.label}
+                </Link>
+              );
+            })}
+          </div>
 
-                {/* Main Nav Links Accordion with Staggered Animation */}
-                <nav className="space-y-1.5 pt-1" aria-label="Mobile Drawer Navigation">
-                  {NAV_ITEMS.map((item, idx) => {
-                    const Icon = item.icon || ChevronRight;
-                    const isActive = item.href 
-                      ? location.pathname === item.href || (item.href !== '/' && location.pathname.startsWith(item.href))
-                      : item.children?.some(child => location.pathname === child.href || location.pathname.startsWith(child.href));
-                    const isExpanded = expandedMenus.includes(item.name);
+          {/* Right: "Konsultasi gratis" / "Free consultation" button + 44x44px 2-line hamburger button */}
+          <div className="flex items-center gap-2 sm:gap-2.5 shrink-0">
+            <a
+              href={whatsappUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              onClick={() => setMenuOpen(false)}
+              className="hidden min-[380px]:inline-flex items-center gap-1.5 min-h-[38px] px-3.5 sm:px-4 py-1.5 rounded-full bg-[#6A3FD0] hover:bg-[#5230B0] text-[#FFFFFF] text-[12.5px] sm:text-[13px] font-semibold whitespace-nowrap shrink-0 transition-colors active:scale-[0.98]"
+            >
+              <MessageCircle size={14} className="shrink-0" />
+              <span>{getTranslation(locale, 'nav.freeConsultation')}</span>
+            </a>
 
-                    return (
-                      <motion.div 
-                        key={item.name} 
-                        initial={{ opacity: 0, x: 20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        transition={{ delay: 0.1 + (idx * 0.05), duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-                        className="flex flex-col"
-                      >
-                        {item.href ? (
-                          <Link
-                            to={item.href}
-                            onClick={() => setMobileMenuOpen(false)}
-                            className={`flex items-center justify-between px-3.5 py-2.5 rounded-xl transition-colors ${
-                              isActive
-                                ? 'bg-purple-50 text-purple-950 font-bold border border-purple-200/80 shadow-2xs'
-                                : 'text-slate-700 hover:bg-slate-50 hover:text-slate-900'
-                            }`}
-                          >
-                            <div className="flex items-center gap-3">
-                              <div className={`p-1.5 rounded-lg ${isActive ? 'bg-purple-100 text-purple-900' : 'bg-slate-100 text-slate-500'}`}>
-                                <Icon size={16} />
-                              </div>
-                              <span className="font-sans text-xs font-semibold tracking-tight uppercase">
-                                {item.name}
-                              </span>
-                            </div>
-                            <ChevronRight size={14} className="text-slate-400" />
-                          </Link>
-                        ) : (
-                          <button
-                            onClick={() => toggleMenu(item.name)}
-                            aria-expanded={isExpanded}
-                            className={`flex items-center justify-between px-3.5 py-2.5 rounded-xl transition-colors w-full cursor-pointer ${
-                              isActive || isExpanded
-                                ? 'bg-purple-50/70 text-purple-950 font-bold border border-purple-200/60'
-                                : 'text-slate-700 hover:bg-slate-50 hover:text-slate-900'
-                            }`}
-                          >
-                            <div className="flex items-center gap-3">
-                              <div className={`p-1.5 rounded-lg ${isActive || isExpanded ? 'bg-purple-100 text-purple-900' : 'bg-slate-100 text-slate-500'}`}>
-                                <Icon size={16} />
-                              </div>
-                              <span className="font-sans text-xs font-semibold tracking-tight uppercase">
-                                {item.name}
-                              </span>
-                            </div>
-                            <ChevronDown size={15} className={`transition-transform duration-200 text-slate-400 ${isExpanded ? 'rotate-180 text-purple-700' : ''}`} />
-                          </button>
-                        )}
+            <button
+              ref={hamburgerButtonRef}
+              type="button"
+              onClick={() => setMenuOpen((prev) => !prev)}
+              className="inline-flex items-center justify-center w-11 h-11 text-[#17122B] hover:text-[#6A3FD0] transition-colors cursor-pointer bg-transparent border-0 p-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#6A3FD0]/40 rounded-full shrink-0"
+              aria-label={buttonLabel}
+              aria-expanded={menuOpen}
+              aria-controls="site-menu-panel"
+            >
+              <span className="sr-only">{buttonLabel}</span>
+              {/* Two 18x1.5px lines that morph into an X via framer-motion m.span (translateY + rotate only) */}
+              <span
+                className="relative w-5 h-5 flex items-center justify-center"
+                aria-hidden="true"
+              >
+                <m.span
+                  initial={false}
+                  animate={
+                    menuOpen
+                      ? { y: 0, rotate: 45 }
+                      : { y: -3.5, rotate: 0 }
+                  }
+                  transition={hamburgerLineTransition}
+                  className="block absolute w-[18px] h-[1.5px] bg-current rounded-full origin-center"
+                />
+                <m.span
+                  initial={false}
+                  animate={
+                    menuOpen
+                      ? { y: 0, rotate: -45 }
+                      : { y: 3.5, rotate: 0 }
+                  }
+                  transition={hamburgerLineTransition}
+                  className="block absolute w-[18px] h-[1.5px] bg-current rounded-full origin-center"
+                />
+              </span>
+            </button>
+          </div>
+        </div>
 
-                        {/* Submenu Dropdown */}
-                        <AnimatePresence>
-                          {item.children && isExpanded && (
-                            <motion.div
-                              initial={{ height: 0, opacity: 0 }}
-                              animate={{ height: 'auto', opacity: 1 }}
-                              exit={{ height: 0, opacity: 0 }}
-                              transition={{ duration: 0.2 }}
-                              className="overflow-hidden"
-                            >
-                              <div className="pl-8 pr-1 py-1.5 space-y-1">
-                                {item.children.map((child) => {
-                                  const ChildIcon = child.icon;
-                                  const isChildActive = location.pathname === child.href || location.pathname.startsWith(child.href);
-                                  return (
-                                    <Link
-                                      key={child.name}
-                                      to={child.href}
-                                      onClick={() => setMobileMenuOpen(false)}
-                                      className={`flex items-center gap-2.5 p-2 rounded-lg transition-colors text-left ${
-                                        isChildActive
-                                          ? 'bg-purple-100 text-purple-950 font-bold'
-                                          : 'text-slate-600 hover:text-slate-900 hover:bg-slate-100/70'
-                                      }`}
-                                    >
-                                      <ChildIcon size={14} className={isChildActive ? 'text-purple-700' : 'text-slate-400'} />
-                                      <div className="flex flex-col min-w-0">
-                                        <span className="font-sans text-xs font-semibold">{child.name}</span>
-                                        <span className="text-[10px] text-slate-400 truncate">{child.subtitle}</span>
-                                      </div>
-                                    </Link>
-                                  );
-                                })}
-                              </div>
-                            </motion.div>
-                          )}
-                        </AnimatePresence>
-                      </motion.div>
-                    );
-                  })}
-                </nav>
-              </div>
-
-              {/* Drawer Footer Actions */}
-              <div className="px-5 py-4 border-t border-slate-200 bg-slate-50/80 space-y-2.5 shrink-0">
-                <a
-                  id="mobile-drawer-whatsapp-btn"
-                  href={whatsappUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  onClick={() => setMobileMenuOpen(false)}
-                  className="flex items-center justify-between w-full py-3 px-4 bg-slate-900 hover:bg-purple-900 active:scale-[0.98] text-white rounded-xl font-mono font-bold text-xs uppercase tracking-wider shadow-sm transition-all cursor-pointer group"
-                >
-                  <div className="flex items-center gap-2.5">
-                    <MessageCircle size={16} className="text-purple-400" />
-                    <span>Chat WhatsApp</span>
-                  </div>
-                  <ArrowRight size={14} className="group-hover:translate-x-1 transition-transform" />
-                </a>
-
-                <div className="flex items-center justify-between text-[11px] text-slate-500 font-mono px-1">
-                  <span>BSD City &bull; Cisauk</span>
-                  <span className="text-purple-700 font-bold">CHESTAADOTCOM</span>
-                </div>
-              </div>
-            </motion.div>
-          </>
-        )}
-      </AnimatePresence>
-    </>
+        {/* Native <dialog> Menu Overlay Panel — always rendered in DOM so crawlers see all links */}
+        <MenuOverlayPanel
+          isOpen={menuOpen}
+          scrolled={scrolled}
+          onClose={() => setMenuOpen(false)}
+          onNavigate={handleNavigate}
+          pathname={location.pathname}
+          hash={location.hash}
+          whatsappUrl={whatsappUrl}
+          hamburgerButtonRef={hamburgerButtonRef}
+        />
+      </header>
+    </LazyMotion>
   );
 }

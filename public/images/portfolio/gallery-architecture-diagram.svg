@@ -1,0 +1,63 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" width="1280" height="720">
+  <defs>
+    <linearGradient id="bgGal1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" />
+      <stop offset="60%" stop-color="#F8F6FE" />
+      <stop offset="100%" stop-color="#EFEAFB" />
+    </linearGradient>
+  </defs>
+  <rect width="1280" height="720" fill="url(#bgGal1)" />
+  <rect x="48" y="48" width="1184" height="624" rx="28" fill="#FFFFFF" stroke="rgba(91,60,196,0.16)" stroke-width="2" />
+
+  <text x="96" y="108" fill="#6A3FD0" font-family="'JetBrains Mono', monospace" font-size="13" font-weight="600" letter-spacing="1.5">ARSITEKTUR ALUR DATA &amp; INTEGRASI SISTEM</text>
+  <text x="1184" y="108" text-anchor="end" fill="#5B5675" font-family="'JetBrains Mono', monospace" font-size="13">DOKUMENTASI SISTEM</text>
+  <text x="96" y="152" fill="#17122B" font-family="'Plus Jakarta Sans', sans-serif" font-size="28" font-weight="700">Skema Komunikasi Antar-Layanan &amp; Guardrail Eksekusi</text>
+
+  <!-- 4 Connected Architecture Blocks -->
+  <g transform="translate(96, 200)">
+    <line x1="220" y1="140" x2="290" y2="140" stroke="#6A3FD0" stroke-width="3" stroke-dasharray="6 6" />
+    <line x1="530" y1="140" x2="600" y2="140" stroke="#6A3FD0" stroke-width="3" stroke-dasharray="6 6" />
+    <line x1="840" y1="140" x2="910" y2="140" stroke="#6A3FD0" stroke-width="3" stroke-dasharray="6 6" />
+
+    <!-- Block 1 -->
+    <rect x="0" y="30" width="230" height="220" rx="22" fill="#F8F6FE" stroke="rgba(91,60,196,0.16)" stroke-width="1.5" />
+    <rect x="24" y="54" width="96" height="28" rx="14" fill="#EFEAFB" />
+    <text x="72" y="73" text-anchor="middle" fill="#6A3FD0" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="600">INPUT KANAL</text>
+    <text x="24" y="114" fill="#17122B" font-family="'Plus Jakarta Sans', sans-serif" font-size="17" font-weight="700">WhatsApp &amp; Web</text>
+    <text x="24" y="144" fill="#5B5675" font-family="'Plus Jakarta Sans', sans-serif" font-size="13">Pesan pelanggan atau</text>
+    <text x="24" y="166" fill="#5B5675" font-family="'Plus Jakarta Sans', sans-serif" font-size="13">input form masuk</text>
+    <text x="24" y="214" fill="#6A3FD0" font-family="'JetBrains Mono', monospace" font-size="11">Webhook Terenkripsi</text>
+
+    <!-- Block 2 -->
+    <rect x="285" y="30" width="245" height="220" rx="22" fill="#FFFFFF" stroke="#6A3FD0" stroke-width="2" />
+    <rect x="309" y="54" width="116" height="28" rx="14" fill="#6A3FD0" />
+    <text x="367" y="73" text-anchor="middle" fill="#FFFFFF" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="600">INTI PEMROSES</text>
+    <text x="309" y="114" fill="#17122B" font-family="'Plus Jakarta Sans', sans-serif" font-size="17" font-weight="700">Validasi &amp; Logic</text>
+    <text x="309" y="144" fill="#5B5675" font-family="'Plus Jakarta Sans', sans-serif" font-size="13">Pengecekan aturan</text>
+    <text x="309" y="166" fill="#5B5675" font-family="'Plus Jakarta Sans', sans-serif" font-size="13">bisnis &amp; batas tindakan</text>
+    <text x="309" y="214" fill="#6A3FD0" font-family="'JetBrains Mono', monospace" font-size="11">Node.js · Python · n8n</text>
+
+    <!-- Block 3 -->
+    <rect x="585" y="30" width="245" height="220" rx="22" fill="#F8F6FE" stroke="rgba(91,60,196,0.16)" stroke-width="1.5" />
+    <rect x="609" y="54" width="124" height="28" rx="14" fill="#EFEAFB" />
+    <text x="671" y="73" text-anchor="middle" fill="#6A3FD0" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="600">PENYIMPANAN</text>
+    <text x="609" y="114" fill="#17122B" font-family="'Plus Jakarta Sans', sans-serif" font-size="17" font-weight="700">PostgreSQL &amp; Log</text>
+    <text x="609" y="144" fill="#5B5675" font-family="'Plus Jakarta Sans', sans-serif" font-size="13">Sinkronisasi transaksi</text>
+    <text x="609" y="166" fill="#5B5675" font-family="'Plus Jakarta Sans', sans-serif" font-size="13">&amp; jejak audit lengkap</text>
+    <text x="609" y="214" fill="#6A3FD0" font-family="'JetBrains Mono', monospace" font-size="11">Infrastruktur Pilihan Klien</text>
+
+    <!-- Block 4 -->
+    <rect x="885" y="30" width="203" height="220" rx="22" fill="#EFEAFB" stroke="rgba(91,60,196,0.2)" stroke-width="1.5" />
+    <rect x="909" y="54" width="110" height="28" rx="14" fill="#FFFFFF" />
+    <text x="964" y="73" text-anchor="middle" fill="#6A3FD0" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="600">TIM MANUSIA</text>
+    <text x="909" y="114" fill="#17122B" font-family="'Plus Jakarta Sans', sans-serif" font-size="17" font-weight="700">Laporan &amp; Aksi</text>
+    <text x="909" y="144" fill="#5B5675" font-family="'Plus Jakarta Sans', sans-serif" font-size="13">Dashboard bersih &amp;</text>
+    <text x="909" y="166" fill="#5B5675" font-family="'Plus Jakarta Sans', sans-serif" font-size="13">handover kontekstual</text>
+    <text x="909" y="214" fill="#17122B" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="600">Kendali Penuh 100%</text>
+
+    <!-- Bottom Summary Bar -->
+    <rect x="0" y="290" width="1088" height="96" rx="20" fill="#F8F6FE" stroke="rgba(91,60,196,0.14)" stroke-width="1.5" />
+    <text x="32" y="332" fill="#17122B" font-family="'Plus Jakarta Sans', sans-serif" font-size="16" font-weight="700">Keamanan &amp; Kepemilikan Data Penuh</text>
+    <text x="32" y="360" fill="#5B5675" font-family="'Plus Jakarta Sans', sans-serif" font-size="14">Seluruh kredensial API, histori percakapan, dan database ditempatkan sesuai kebijakan infrastruktur internal bisnismu.</text>
+  </g>
+</svg>

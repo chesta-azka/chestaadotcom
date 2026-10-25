@@ -36,6 +36,7 @@ export default function ProgrammaticServicePage() {
         title={pseo.title}
         description={pseo.description}
         currentRoute={`/services/${industry}/${city}`}
+        noindex
       />
       <AeoSchema
         serviceName={`Agensi AI & Website B2B untuk ${pseo.industry} di ${pseo.city}`}

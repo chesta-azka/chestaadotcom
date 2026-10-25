@@ -1,7 +1,8 @@
 import React from 'react';
 import { Helmet } from 'react-helmet-async';
 import { useLocation } from 'react-router-dom';
-import { generateFAQSchema, generateLocalBusinessSchema, generateOrganizationSchema, generateWebSiteSchema } from '../../lib/seo';
+import { getMetaTagsForUrl } from '../../lib/social-meta';
+import { parseLocalizedPath } from '../../lib/i18n';
 
 interface SEOMetadataProps {
   title?: string;
@@ -14,17 +15,19 @@ interface SEOMetadataProps {
   type?: string;
   ogType?: string;
   schema?: any;
+  jsonLd?: any;
   schemaString?: string;
   path?: string;
   breadcrumbs?: any[];
   publishedTime?: string;
   author?: string;
+  noindex?: boolean;
 }
 
-export default function SEOMetadata({ 
-  title, 
-  description, 
-  keywords, 
+export default function SEOMetadata({
+  title,
+  description,
+  keywords,
   ogImage,
   image,
   currentRoute,
@@ -32,97 +35,84 @@ export default function SEOMetadata({
   type,
   ogType,
   schema,
+  jsonLd,
   schemaString,
-  path
+  path,
+  noindex,
 }: SEOMetadataProps) {
-  
-  const defaultTitle = "CHESTAA | Studio Arsitektur Web Next.js & Otomasi AI B2B";
-  const defaultDescription = "Jasa pembuatan website performa tinggi, arsitektur Next.js 15 sub-detik, dan otomatisasi AI cerdas untuk bisnis modern di BSD City, Tangerang & Jakarta.";
-  const defaultKeywords = "jasa pembuatan website BSD, web development Next.js, AI automation B2B, software house Tangerang, agen AI otonom, Chestaa";
-  
-  const seoTitle = title ? (title.includes('CHESTAA') || title.includes('Chestaa') ? title : `${title} | CHESTAA`) : defaultTitle;
-  const seoDescription = description || defaultDescription;
-  const seoKeywords = keywords || defaultKeywords;
-  
   const location = useLocation();
-  const routePath = currentRoute || path || (location ? location.pathname : '');
-  const seoUrl = url || (routePath && routePath !== '/' ? `https://chestaa.com${routePath}` : 'https://chestaa.com/');
-  
-  const seoImage = ogImage || image || 'https://chestaa.com/chesta.png';
-  const seoType = type || ogType || 'website';
+  const routePath = location?.pathname || currentRoute || path || '/';
+  const computed = getMetaTagsForUrl(routePath);
+  const { locale, barePath } = parseLocalizedPath(routePath);
+
+  const seoTitle =
+    locale === 'en'
+      ? computed.title
+      : title
+      ? title.includes('CHESTAADOTCOM')
+        ? title
+        : `${title} | CHESTAADOTCOM`
+      : computed.title;
+  const seoDescription =
+    locale === 'en' ? computed.description : description || computed.description;
+  const seoKeywords =
+    keywords ||
+    (locale === 'en'
+      ? 'website development BSD, landing page South Tangerang, WhatsApp AI agent, custom software BSD City, workflow automation, CHESTAADOTCOM'
+      : 'jasa website BSD, jasa landing page Tangerang Selatan, otomasi AI bisnis, otomasi WhatsApp CRM, web developer BSD City, CHESTAADOTCOM');
+  const seoUrl = url || computed.url;
+  const seoImage = ogImage || image || computed.image;
+  const seoType = type || ogType || computed.type || 'website';
+  const htmlLang = locale === 'en' ? 'en' : 'id-ID';
+  const ogLocale = locale === 'en' ? 'en_US' : 'id_ID';
 
   const protectedRoutes = ['/admin', '/portal', '/workspace', '/client'];
-  const isProtected = protectedRoutes.some(prefix => routePath.startsWith(prefix));
+  const isProtected = protectedRoutes.some((prefix) => barePath.startsWith(prefix));
+  const shouldNoindex = Boolean(noindex || computed.noindex || isProtected);
 
   if (isProtected) {
     return (
-      <Helmet>
+      <Helmet htmlAttributes={{ lang: htmlLang }}>
         <title>{seoTitle}</title>
         <meta name="robots" content="noindex, nofollow" />
       </Helmet>
     );
   }
 
-  let finalSchemas: any[] = [];
-
-  const homeFaqs = [
-    {
-      question: "Apa keunggulan arsitektur website Next.js buatan Chestaa?",
-      answer: "Website dibangun kustom dengan arsitektur Next.js 15, Server-Side Rendering (SSR), dan Edge Caching sehingga waktu muat halaman berada di bawah 0.8 detik (Core Web Vitals hijau), memotong bounce rate dan meningkatkan konversi."
-    },
-    {
-      question: "Bagaimana sistem Karyawan Digital AI melayani pelanggan 24/7?",
-      answer: "Karyawan Digital AI mengotomasi respon chat WhatsApp dan web secara instan menggunakan Large Language Model kustom, memproses kualifikasi prospek tanpa biaya gaji admin manual."
-    },
-    {
-      question: "Di mana cakupan area layanan fisik dan tatap muka Chestaa?",
-      answer: "Chestaa berkantor di BSD Green Office Park, Level 3, Cisauk, Tangerang, dan melayani konsultasi langsung untuk area BSD City, Cisauk, Tangerang Selatan, Gading Serpong, Alam Sutera, dan Jakarta."
-    }
-  ];
-
+  let jsonLdPayload: any = computed.jsonLd;
   if (schemaString) {
     try {
-      const parsed = JSON.parse(schemaString);
-      finalSchemas = Array.isArray(parsed) ? parsed : [parsed];
+      jsonLdPayload = JSON.parse(schemaString);
     } catch {
-      finalSchemas = [];
+      jsonLdPayload = computed.jsonLd;
     }
-  } else if (schema) {
-    finalSchemas = Array.isArray(schema) ? schema : [schema];
-  } else if (routePath === '' || routePath === '/') {
-    finalSchemas = [
-      generateOrganizationSchema(),
-      generateLocalBusinessSchema(),
-      generateWebSiteSchema(),
-      generateFAQSchema(homeFaqs)
-    ];
-  } else {
-    finalSchemas = [
-      {
-        "@context": "https://schema.org",
-        "@type": "WebPage",
-        "name": seoTitle,
-        "description": seoDescription,
-        "url": seoUrl,
-        "publisher": {
-          "@type": "Organization",
-          "name": "CHESTAA",
-          "url": "https://chestaa.com",
-          "logo": "https://chestaa.com/chesta.png"
-        }
-      }
-    ];
+  } else if (jsonLd || schema) {
+    jsonLdPayload = jsonLd || schema;
   }
 
   return (
-    <Helmet>
+    <Helmet htmlAttributes={{ lang: htmlLang }}>
       <title>{seoTitle}</title>
       <meta name="description" content={seoDescription} />
       <meta name="keywords" content={seoKeywords} />
-      <meta name="author" content="Chesta Azka" />
+      <meta name="author" content="Chesta Azka & Zeeshan (CHESTAADOTCOM)" />
       <link rel="canonical" href={seoUrl} />
-      <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
-      
+      {computed.alternates && (
+        <>
+          <link rel="alternate" hrefLang="id-ID" href={computed.alternates.idUrl} />
+          <link rel="alternate" hrefLang="en" href={computed.alternates.enUrl} />
+          <link rel="alternate" hrefLang="x-default" href={computed.alternates.xDefaultUrl} />
+        </>
+      )}
+      <meta
+        name="robots"
+        content={
+          shouldNoindex
+            ? 'noindex, nofollow'
+            : 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1'
+        }
+      />
+
       {/* Open Graph Meta Tags */}
       <meta property="og:type" content={seoType} />
       <meta property="og:url" content={seoUrl} />
@@ -133,8 +123,8 @@ export default function SEOMetadata({
       <meta property="og:image:width" content="1200" />
       <meta property="og:image:height" content="630" />
       <meta property="og:image:alt" content={seoTitle} />
-      <meta property="og:site_name" content="CHESTAA" />
-      <meta property="og:locale" content="id_ID" />
+      <meta property="og:site_name" content="CHESTAADOTCOM" />
+      <meta property="og:locale" content={ogLocale} />
 
       {/* Twitter Cards Meta Tags */}
       <meta name="twitter:card" content="summary_large_image" />
@@ -146,10 +136,10 @@ export default function SEOMetadata({
       <meta name="twitter:image:alt" content={seoTitle} />
       <meta name="twitter:domain" content="chestaa.com" />
 
-      {/* JSON-LD Structured Data */}
-      {finalSchemas.length > 0 && (
+      {/* Single Unified JSON-LD @graph Structured Data */}
+      {jsonLdPayload && (
         <script type="application/ld+json" key="seo-ld-json">
-          {JSON.stringify(finalSchemas)}
+          {JSON.stringify(jsonLdPayload)}
         </script>
       )}
     </Helmet>

@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" width="1200" height="900">
+  <defs>
+    <linearGradient id="bgGal3" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" />
+      <stop offset="65%" stop-color="#F8F6FE" />
+      <stop offset="100%" stop-color="#EFEAFB" />
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="900" fill="url(#bgGal3)" />
+  <rect x="64" y="64" width="1072" height="772" rx="32" fill="#FFFFFF" stroke="rgba(91,60,196,0.16)" stroke-width="2" />
+
+  <text x="112" y="130" fill="#6A3FD0" font-family="'JetBrains Mono', monospace" font-size="13" font-weight="600" letter-spacing="1.5">ANTARMUKA MOBILE &amp; NOTIFIKASI TIM</text>
+  <text x="1088" y="130" text-anchor="end" fill="#5B5675" font-family="'JetBrains Mono', monospace" font-size="13">DIAGRAM ARSITEKTUR</text>
+  <text x="112" y="180" fill="#17122B" font-family="'Plus Jakarta Sans', sans-serif" font-size="28" font-weight="700">Tampilan Responsif &amp; Konteks Serah Terima Manusia</text>
+
+  <!-- Two Side-by-Side Mobile Cards -->
+  <g transform="translate(136, 224)">
+    <!-- Phone 1 -->
+    <rect width="420" height="530" rx="28" fill="#F8F6FE" stroke="rgba(91,60,196,0.18)" stroke-width="2" />
+    <text x="32" y="48" fill="#6A3FD0" font-family="'JetBrains Mono', monospace" font-size="12" font-weight="600">LAYAR 1 · RINGKASAN KONTEKS</text>
+    <rect x="28" y="72" width="364" height="130" rx="18" fill="#FFFFFF" stroke="rgba(91,60,196,0.14)" />
+    <text x="48" y="106" fill="#17122B" font-family="'Plus Jakarta Sans', sans-serif" font-size="15" font-weight="700">Ringkasan Otomatis untuk Staf</text>
+    <text x="48" y="134" fill="#5B5675" font-family="'Plus Jakarta Sans', sans-serif" font-size="13">Staf tidak perlu membaca ulang ratusan</text>
+    <text x="48" y="156" fill="#5B5675" font-family="'Plus Jakarta Sans', sans-serif" font-size="13">baris chat sebelum mengambil alih.</text>
+
+    <rect x="28" y="224" width="364" height="140" rx="18" fill="#EFEAFB" />
+    <text x="48" y="258" fill="#6A3FD0" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="600">DATA TERKUMPUL</text>
+    <text x="48" y="286" fill="#17122B" font-family="'Plus Jakarta Sans', sans-serif" font-size="14" font-weight="600">• Nama &amp; Nomor Terverifikasi</text>
+    <text x="48" y="312" fill="#17122B" font-family="'Plus Jakarta Sans', sans-serif" font-size="14" font-weight="600">• Kebutuhan &amp; Jadwal Pilihan</text>
+    <text x="48" y="338" fill="#17122B" font-family="'Plus Jakarta Sans', sans-serif" font-size="14" font-weight="600">• Tautan Langsung ke Rekam Database</text>
+
+    <rect x="28" y="392" width="364" height="52" rx="26" fill="#6A3FD0" />
+    <text x="210" y="423" text-anchor="middle" fill="#FFFFFF" font-family="'Plus Jakarta Sans', sans-serif" font-size="14" font-weight="600">Ambil Alih Percakapan</text>
+
+    <!-- Phone 2 -->
+    <g transform="translate(508, 0)">
+      <rect width="420" height="530" rx="28" fill="#F8F6FE" stroke="rgba(91,60,196,0.18)" stroke-width="2" />
+      <text x="32" y="48" fill="#6A3FD0" font-family="'JetBrains Mono', monospace" font-size="12" font-weight="600">LAYAR 2 · KONTROL AKSES CEPAT</text>
+      <rect x="28" y="72" width="364" height="190" rx="18" fill="#FFFFFF" stroke="rgba(91,60,196,0.14)" />
+      <text x="48" y="108" fill="#17122B" font-family="'Plus Jakarta Sans', sans-serif" font-size="16" font-weight="700">Persetujuan &amp; Status Harian</text>
+      <text x="48" y="138" fill="#5B5675" font-family="'Plus Jakarta Sans', sans-serif" font-size="13">Pemilik bisnis dapat memantau performa</text>
+      <text x="48" y="160" fill="#5B5675" font-family="'Plus Jakarta Sans', sans-serif" font-size="13">harian dari ponsel tanpa membuka laptop.</text>
+      <rect x="48" y="186" width="160" height="44" rx="12" fill="#EFEAFB" />
+      <text x="128" y="213" text-anchor="middle" fill="#6A3FD0" font-family="'JetBrains Mono', monospace" font-size="12" font-weight="600">MOBILE READY</text>
+
+      <rect x="28" y="286" width="364" height="204" rx="18" fill="#FFFFFF" stroke="rgba(91,60,196,0.14)" />
+      <text x="48" y="324" fill="#6A3FD0" font-family="'JetBrains Mono', monospace" font-size="11" font-weight="600">KECEPATAN ANTARMUKA</text>
+      <text x="48" y="358" fill="#17122B" font-family="'Plus Jakarta Sans', sans-serif" font-size="22" font-weight="700">Ringan di Jaringan Seluler</text>
+      <text x="48" y="392" fill="#5B5675" font-family="'Plus Jakarta Sans', sans-serif" font-size="13">Dirancang agar staf lapangan maupun</text>
+      <text x="48" y="414" fill="#5B5675" font-family="'Plus Jakarta Sans', sans-serif" font-size="13">admin cabang dapat bekerja tanpa jeda.</text>
+    </g>
+  </g>
+</svg>
