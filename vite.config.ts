@@ -13,16 +13,38 @@ export default defineConfig(() => {
       cssMinify: true,
       rollupOptions: {
         output: {
-          manualChunks: {
-            'vendor-react': ['react', 'react-dom', 'react-router-dom', 'react-helmet-async'],
-            'vendor-motion': ['motion', 'framer-motion'],
-            'vendor-ui': ['lucide-react', 'clsx', 'tailwind-merge'],
-            'vendor-utils': ['zod', 'fuse.js', 'lenis'],
-            'vendor-firebase': ['firebase/app', 'firebase/auth', 'firebase/firestore'],
+          manualChunks(id) {
+            if (id.includes('node_modules/shiki') || id.includes('node_modules/@shikijs')) {
+              return 'vendor-shiki';
+            }
+            if (id.includes('node_modules/recharts')) {
+              return 'vendor-recharts';
+            }
+            if (id.includes('node_modules/jspdf')) {
+              return 'vendor-jspdf';
+            }
+            if (id.includes('node_modules/firebase')) {
+              return 'vendor-firebase';
+            }
+            if (id.includes('node_modules/motion') || id.includes('node_modules/framer-motion')) {
+              return 'vendor-motion';
+            }
+            if (id.includes('node_modules/lucide-react')) {
+              return 'vendor-lucide';
+            }
+            if (id.includes('node_modules/@google/genai') || id.includes('node_modules/@ai-sdk')) {
+              return 'vendor-ai';
+            }
+            if (id.includes('node_modules/react-syntax-highlighter')) {
+              return 'vendor-syntax';
+            }
+            if (id.includes('node_modules/react') || id.includes('node_modules/react-dom') || id.includes('node_modules/react-router')) {
+              return 'vendor-react';
+            }
           },
         },
       },
-      chunkSizeWarningLimit: 1000,
+      chunkSizeWarningLimit: 1500,
       reportCompressedSize: false,
     },
     define: {

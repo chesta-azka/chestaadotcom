@@ -9,10 +9,13 @@ const getEnv = (key: string): string | undefined => {
   if (typeof process !== 'undefined' && process.env && process.env[key]) {
     return process.env[key];
   }
-  // @ts-ignore
-  if (typeof import.meta !== 'undefined' && import.meta.env && import.meta.env[key]) {
-    // @ts-ignore
-    return import.meta.env[key];
+  try {
+    const importMetaEnv = new Function('return typeof import.meta !== "undefined" ? import.meta.env : undefined')();
+    if (importMetaEnv && importMetaEnv[key]) {
+      return importMetaEnv[key];
+    }
+  } catch {
+    // Fallback if import.meta is unavailable
   }
   return undefined;
 };

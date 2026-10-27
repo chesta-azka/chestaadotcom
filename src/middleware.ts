@@ -26,6 +26,7 @@ export function middleware(request: NextRequest) {
 
 // Ensure the middleware only runs on pSEO routes to minimize overhead
 export const config = {
+  runtime: 'nodejs',
   matcher: [
     '/area/:path*',
     '/solusi/:path*',
