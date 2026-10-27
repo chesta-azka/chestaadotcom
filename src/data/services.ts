@@ -1,13 +1,13 @@
 /**
  * ============================================================================
- * SINGLE SOURCE OF TRUTH: SERVICES DATA — CHESTAADOTCOM
+ * SINGLE SOURCE OF TRUTH: data/services — CHESTAADOTCOM
  * ============================================================================
- * Routes powered by this file:
- * - /jasa/pembuatan-website
- * - /jasa/ai-agent
- * - /jasa/software-custom
- * - /jasa/otomasi-workflow
- * - Dynamic /sitemap.xml & /llms.txt
+ * Bilingual (Indonesian /id and English /en) service dataset.
+ * Routes:
+ * - /id/jasa/pembuatan-website  | /en/services/website-development
+ * - /id/jasa/ai-agent           | /en/services/ai-agents
+ * - /id/jasa/software-custom    | /en/services/custom-software
+ * - /id/jasa/otomasi-workflow   | /en/services/workflow-automation
  */
 
 export type ServiceSlug =
@@ -15,6 +15,26 @@ export type ServiceSlug =
   | 'ai-agent'
   | 'software-custom'
   | 'otomasi-workflow';
+
+export type EnglishServiceSlug =
+  | 'website-development'
+  | 'ai-agents'
+  | 'custom-software'
+  | 'workflow-automation';
+
+export const SERVICE_ID_TO_EN_SLUG: Record<ServiceSlug, EnglishServiceSlug> = {
+  'pembuatan-website': 'website-development',
+  'ai-agent': 'ai-agents',
+  'software-custom': 'custom-software',
+  'otomasi-workflow': 'workflow-automation',
+};
+
+export const SERVICE_EN_TO_ID_SLUG: Record<EnglishServiceSlug, ServiceSlug> = {
+  'website-development': 'pembuatan-website',
+  'ai-agents': 'ai-agent',
+  'custom-software': 'software-custom',
+  'workflow-automation': 'otomasi-workflow',
+};
 
 export interface ServiceDeliverable {
   title: string;
@@ -41,6 +61,25 @@ export interface ServiceFAQItem {
   answer: string;
 }
 
+export interface WebsiteComparisonRow {
+  feature: string;
+  landingPage: string;
+  companyProfile: string;
+  webCustom: string;
+}
+
+export interface ChatbotVsAgentRow {
+  aspect: string;
+  chatbot: string;
+  agent: string;
+}
+
+export interface AgentGuardrailItem {
+  id: 'batas-jelas' | 'serah-manusia' | 'semua-tercatat' | 'data-milikmu';
+  title: string;
+  description: string;
+}
+
 export interface ServiceCaseStudyBlueprint {
   slug: string;
   sector: string;
@@ -53,6 +92,33 @@ export interface ServiceCaseStudyBlueprint {
 
 export interface ServiceItem {
   slug: ServiceSlug;
+  enSlug: EnglishServiceSlug;
+  urlSlug: string;
+  eyebrow: string;
+  h1: string;
+  sub: string;
+  ringkasanSingkat: string;
+  cocokKalau: string[];
+  kapanTidakPerlu: string;
+  yangKamuDapat: ServiceDeliverable[];
+  caraKerja: ServiceProcessStep[];
+  contohPenggunaan: ServiceIndustryUseCase[];
+  comparisonTable?: {
+    headers: [string, string, string, string];
+    rows: WebsiteComparisonRow[];
+  };
+  chatbotVsAgentTable?: {
+    headers: [string, string, string];
+    rows: ChatbotVsAgentRow[];
+  };
+  guardrails?: AgentGuardrailItem[];
+  prinsipTeknis: string;
+  hargaDanScope: string;
+  siapkanSebelumAudit: string[];
+  faq: ServiceFAQItem[];
+  hasAreaPages: boolean;
+  updatedAt: string;
+  // Legacy / shared fields for home bento & SEO helpers
   title: string;
   shortTitle: string;
   tagline: string;
@@ -72,7 +138,6 @@ export interface ServiceItem {
     reason: string;
     scopeNote: string;
   };
-  faq: ServiceFAQItem[];
   relatedCaseSlugs: string[];
   relatedPostSlugs: string[];
   seo: {
@@ -91,777 +156,2294 @@ export interface ProblemSelectorOption {
 }
 
 export const SERVICE_CASE_STUDIES: Record<string, ServiceCaseStudyBlueprint> = {
-  'klinik-triage-bsd': {
-    slug: 'klinik-triage-bsd',
-    sector: 'Klinik Estetika & Gigi · BSD City',
-    title: 'Landing Page Reservasi & AI Agent Triage Pasien WhatsApp',
+  'wa-concierge-klinik': {
+    slug: 'wa-concierge-klinik',
+    sector: 'Proyek Internal · Klinik',
+    title: 'WA Concierge: agen booking WhatsApp untuk klinik',
     problem:
-      'Admin kewalahan membalas chat di jam sibuk lebih dari 45 menit dan jadwal dokter sering bentrok.',
+      'Pertanyaan perawatan berulang setiap hari, pesan malam hari baru terbalas besok pagi, dan pencatatan jadwal ke spreadsheet masih manual.',
     built:
-      'Landing page muat 1,1 detik + WhatsApp Cloud API agent untuk cek jadwal dokter dan sinkronisasi Google Calendar.',
+      'AI agent yang menjawab pertanyaan perawatan, mengecek slot terapis, dan membuat booking dari percakapan WhatsApp.',
     resultPlaceholder:
-      'Waktu respon turun ke <20 detik & 0 jadwal bentrok',
-    imageKey: 'portfolioClinicPlaceholder',
+      'Target desain: pengecekan slot terapis, booking otomatis, dan serah ke staf dengan ringkasan.',
+    imageKey: 'projectWaConciergeKlinik',
   },
-  'fnb-preorder-serpong': {
-    slug: 'fnb-preorder-serpong',
-    sector: 'Restoran, Kafe & Katering · Gading Serpong',
-    title: 'Katalog Menu Digital, Reservasi Meja & Pre-Order Katering',
+  'dashboard-kafe': {
+    slug: 'dashboard-kafe',
+    sector: 'Proyek Internal · F&B',
+    title: 'Dashboard Operasional Kafe',
     problem:
-      'Pelanggan enggan mengunduh menu PDF berukuran 15MB dan pesanan acara kantor tercecer di chat kasir.',
+      'Stok bahan dan penjualan harian beberapa cabang dicatat di spreadsheet terpisah yang makin berat dan sering salah.',
     built:
-      'Katalog menu web interaktif ringan + form pre-order katering otomatis ke WhatsApp sales dan rekap dapur.',
+      'Stok bahan, penjualan harian, dan laporan beberapa cabang dalam satu dashboard.',
     resultPlaceholder:
-      'Jumlah pesanan katering bulanan tercatat rapi tanpa salah input',
-    imageKey: 'portfolioFnbPlaceholder',
+      'Target desain: laporan cabang diperbarui dari data yang sama dengan hak akses per peran.',
+    imageKey: 'projectDashboardKafe',
   },
-  'properti-arsitektur-bintaro': {
-    slug: 'properti-arsitektur-bintaro',
-    sector: 'Studio Arsitektur & Properti · Bintaro & Alam Sutera',
-    title: 'Website Portofolio Korporat & Kualifikasi Prospek Proyek',
+  'lead-properti': {
+    slug: 'lead-properti',
+    sector: 'Proyek Internal · Properti',
+    title: 'Alur Lead Properti',
     problem:
-      'Banyak pesan masuk menanyakan proyek di luar jangkauan anggaran atau lokasi, menyita waktu arsitek utama.',
+      'Data calon pembeli dari formulir iklan dimasukkan manual ke beberapa tempat sehingga tindak lanjut agen terlambat.',
     built:
-      'Website portofolio cepat + kalkulator estimasi awal dan alur kualifikasi parameter ke database CRM.',
+      'Lead dari formulir iklan masuk ke CRM, agen diberi tahu, dan follow-up terjadwal otomatis.',
     resultPlaceholder:
-      'Prospek terkualifikasi langsung masuk ke agenda konsultasi',
-    imageKey: 'portfolioPropertyPlaceholder',
+      'Target desain: pencatatan otomatis ke CRM, notifikasi instan ke agen, dan log eksekusi.',
+    imageKey: 'projectLeadProperti',
+  },
+  'pemroses-dokumen': {
+    slug: 'pemroses-dokumen',
+    sector: 'Proyek Internal · Jasa Profesional',
+    title: 'Pemroses Dokumen AI: ekstraksi data dengan tinjauan manusia',
+    problem:
+      'Tim administrasi mengetik ulang data dari invoice dan formulir ke tabel, yang lambat dan rawan salah.',
+    built:
+      'Sistem yang membaca dokumen, mengekstrak kolom penting ke tabel, menandai data yang tidak yakin, dan meminta tinjauan manusia sebelum data dipakai.',
+    resultPlaceholder:
+      'Target desain: data tidak yakin selalu ditandai, tinjauan manusia sebelum data masuk tabel akhir, dan pencatatan koreksi.',
+    imageKey: 'projectPemrosesDokumen',
   },
 };
 
 export const PROBLEM_SELECTOR_OPTIONS: ProblemSelectorOption[] = [
   {
     id: 'chat-numpuk',
-    questionChip: 'Pertanyaan pelanggan menumpuk di WhatsApp',
+    questionChip: 'Menjawab pertanyaan yang sama berulang kali di WhatsApp',
     situationDetail:
-      'Admin kamu menghabiskan berjam-jam menjawab jam buka, daftar harga, dan cek slot jadwal yang sama berulang kali.',
+      'Pesan masuk malam hari baru terbalas besok pagi, dan staf mencatat data dari chat ke spreadsheet secara manual.',
     recommendedSlug: 'ai-agent',
     recommendationNote:
-      'AI Agent membaca konteks pesan bebas, mengecek kalender/database, dan mengunci reservasi otomatis 24/7.',
+      'AI agent membaca maksud pelanggan, memakai tool seperti kalender dan database, lalu mengerjakan tugasnya sampai selesai.',
   },
   {
     id: 'iklan-boncos',
-    questionChip: 'Iklan jalan tapi sedikit yang lanjut chat',
+    questionChip: 'Sudah memasang iklan tapi pengunjung langsung pergi',
     situationDetail:
-      'Biaya klik iklan Google atau Meta Ads terus keluar, tetapi halaman tujuanmu lambat dibuka di HP atau penawarannya membingungkan.',
+      'Belum punya website, atau websitemu lambat dan susah dibuka di HP saat calon pelanggan mencari jasamu.',
     recommendedSlug: 'pembuatan-website',
     recommendationNote:
-      'Landing page yang muat di bawah 1,2 detik dengan struktur penawaran tajam dan tombol WhatsApp terformat.',
+      'Website yang cepat dibuka, jelas menawarkan apa, dan siap dipasangi iklan mulai Rp1.200.000.',
   },
   {
     id: 'salin-data',
-    questionChip: 'Data dicatat berkali-kali antar-sheet',
+    questionChip: 'Memasukkan data yang sama ke dua atau tiga tempat',
     situationDetail:
-      'Staf harus menyalin pesanan dari chat ke Google Sheets, lalu mengetik ulang ke sistem invoice dan mengirim pengingat manual.',
+      'Menyusun laporan mingguan secara manual dan mengandalkan ingatan staf untuk pengingat atau pengiriman invoice.',
     recommendedSlug: 'otomasi-workflow',
     recommendationNote:
-      'Otomasi workflow menyambungkan aplikasi yang sudah kamu pakai agar data mengalir sendiri begitu transaksi masuk.',
+      'Menyambungkan WhatsApp, Sheets, kalender, dan invoice supaya pekerjaan berulang berjalan otomatis.',
   },
   {
-    id: 'butuh-sistem-internal',
-    questionChip: 'Butuh sistem internal atau dashboard sendiri',
+    id: 'spreadsheet-mentok',
+    questionChip: 'Memakai spreadsheet yang makin berat dan sering salah',
     situationDetail:
-      'Spreadsheet sudah terlalu penuh, hak akses staf bercampur aduk, dan kamu butuh aplikasi web yang mengikuti SOP bisnismu.',
+      'Punya beberapa aplikasi yang tidak saling terhubung atau butuh dashboard laporan dan hak akses per peran.',
     recommendedSlug: 'software-custom',
     recommendationNote:
-      'Aplikasi web & dashboard custom dengan pembagian hak akses staf, laporan real-time, dan kepemilikan kode penuh.',
+      'Aplikasi web, dashboard, dan sistem internal yang mengikuti cara kerjamu, dibangun bertahap dari versi kecil.',
   },
 ];
 
-export const SERVICES_DATA: ServiceItem[] = [
-  {
-    slug: 'ai-agent',
-    title: 'AI Agent untuk WhatsApp & CRM',
-    shortTitle: 'AI Agent (WA & CRM)',
-    tagline: 'AI AGENT & OTOMASI PERCAKAPAN',
-    shortPromise:
-      'Menjawab chat, memeriksa jadwal kosong, membuat booking, dan melapor ke tim kamu secara otomatis 24/7.',
-    summary:
-      'Bukan sekadar bot yang mengulang daftar FAQ. AI agent ini memahami bahasa sehari-hari pelangganmu, memakai tool nyata seperti kalender dan database, lalu menyelesaikan tugas sampai tuntas atau menyerahkannya ke staf manusia beserta ringkasan lengkap.',
-    bentoSpan: 'large',
-    timeline: '2–4 minggu',
-    bestForSummary: 'Klinik, F&B, dan bisnis jasa dengan ratusan chat masuk per minggu',
-    forWho: [
-      'Admin WhatsApp bisnismu sering kewalahan membalas chat di jam sibuk atau malam hari hingga calon pelanggan pindah ke kompetitor.',
-      'Staf resepsionis harus bolak-balik mengecek kalender dokter, terapis, atau jadwal ruangan setiap kali ada yang bertanya slot kosong.',
-      'Kamu pernah mencoba chatbot biasa, tetapi pelanggan justru kesal karena balasan kaku dan disuruh menekan angka 1–5.',
-      'Banyak prospek potensial yang berhenti membalas setelah tanya harga karena tidak ada staf yang sempat mengirim pesan follow-up.',
-    ],
-    deliverables: [
-      {
-        title: 'AI Agent WhatsApp Resmi (Cloud API)',
-        description:
-          'Agent terhubung ke nomor WhatsApp bisnismu untuk merespons pesan masuk dalam hitungan detik sepanjang hari.',
-      },
-      {
-        title: 'Integrasi Tool Kalender & Database',
-        description:
-          'Koneksi langsung ke Google Calendar, Google Sheets, atau PostgreSQL agar agent bisa membaca stok/jadwal dan menulis data baru.',
-      },
-      {
-        title: 'Sistem Serah ke Manusia (Human Handover)',
-        description:
-          'Deteksi otomatis untuk komplain, negosiasi khusus, atau kasus di luar SOP yang langsung meneruskan konteks ke staf adminmu.',
-      },
-      {
-        title: 'Basis Pengetahuan SOP Bisnismu',
-        description:
-          'Penyusunan dokumen aturan harga, syarat layanan, dan gaya bahasa supaya agent menjawab persis seperti staf terlatihmu.',
-      },
-      {
-        title: 'Dashboard Log & Audit Percakapan',
-        description:
-          'Catatan transparan setiap pesan masuk, alasan keputusan agent, dan tool yang dipanggil agar mudah kamu pantau.',
-      },
-      {
-        title: 'Pengujian Skenario Ekstrem & Garansi 30 Hari',
-        description:
-          'Simulasi pesan typo, pertanyaan menjebak, hingga penanganan error sebelum rilis, ditambah garansi perbaikan 30 hari.',
-      },
-    ],
-    process: [
-      {
-        num: '01',
-        duration: '30 Menit',
-        title: 'Audit alur chat & SOP gratis',
-        description:
-          'Kita bedah riwayat chat yang paling sering menyita waktu adminmu dan tentukan batas tugas yang boleh diambil alih agent.',
-      },
-      {
-        num: '02',
-        duration: 'Hari ke-2–5',
-        title: 'Rancang akses tool & aturan batas',
-        description:
-          'Kami petakan skema database/kalender yang akan dibaca agent serta skenario kapan agent wajib mengoper chat ke manusia.',
-      },
-      {
-        num: '03',
-        duration: 'Minggu ke-1–3',
-        title: 'Bangun & uji coba di nomor staging',
-        description:
-          'Kamu dan timmu menguji langsung percakapan dengan agent—mulai dari booking normal hingga pesan komplain rumit.',
-      },
-      {
-        num: '04',
-        duration: 'Rilis & Rawat',
-        title: 'Aktifkan ke pelanggan & pantau log',
-        description:
-          'Agent mulai melayani pelanggan nyata. Kami mendampingi timmu dan menyempurnakan instruksi berdasarkan interaksi minggu pertama.',
-      },
-    ],
-    useCases: [
-      {
-        industryId: 'klinik',
-        industryLabel: 'Klinik',
-        scenarioTitle: 'Reservasi Treatment & Kualifikasi Jadwal Dokter',
-        workflowLines: [
-          'Pasien mengirim chat pukul 21.30: "Besok sore ada slot scaling gigi sama drg. Maya?"',
-          'Agent mengecek Google Calendar klinik, melihat jam 16.00 kosong, lalu menawarkan slot tersebut beserta estimasi biaya.',
-          'Setelah pasien setuju, agent mengunci jadwal di kalender, mencatat data ke database pasien, dan mengirim pengingat H-3 jam.',
-        ],
-        outcome: 'Contoh hasil: 0 chat malam hari terlewat, resepsionis pagi tinggal menerima daftar pasien terkonfirmasi.',
-      },
-      {
-        industryId: 'fnb',
-        industryLabel: 'F&B',
-        scenarioTitle: 'Pemesanan Katering Acara & Reservasi Meja VIP',
-        workflowLines: [
-          'Pelanggan korporat menanyakan paket nasi box untuk 80 orang di hari Jumat.',
-          'Agent menghitung total harga sesuai pilihan menu, mengecek kuota dapur pada tanggal tersebut, dan menerbitkan draf invoice.',
-          'Begitu bukti transfer dikirim, agent meneruskan konfirmasi ke grup WhatsApp dapur dan mencatat pesanan di sheet pengiriman.',
-        ],
-        outcome: 'Contoh hasil: Pesanan grup tercatat seragam tanpa risiko salah hitung porsi atau lupa alamat kirim.',
-      },
-      {
-        industryId: 'properti',
-        industryLabel: 'Properti',
-        scenarioTitle: 'Penyaringan Prospek Pembeli & Jadwal Survei Lokasi',
-        workflowLines: [
-          'Calon pembeli dari iklan Instagram bertanya cicilan dan ketersediaan unit rumah di BSD.',
-          'Agent menggali 3 informasi kunci secara ramah: kisaran anggaran, rencana KPR/tunai, dan waktu luang untuk kunjungan lokasi.',
-          'Agent menjadwalkan sesi survei di kalender sales in-house dan mengirim ringkasan profil pembeli ke WhatsApp tim sales.',
-        ],
-        outcome: 'Contoh hasil: Tim sales fokus menemani prospek yang sudah jelas anggaran dan jadwal kedatangannya.',
-      },
-      {
-        industryId: 'jasa',
-        industryLabel: 'Jasa Profesional',
-        scenarioTitle: 'Konsultasi Awal & Pengumpulan Dokumen Klien',
-        workflowLines: [
-          'Klien menghubungi kantor konsultan pajak/hukum untuk menanyakan pembuatan izin usaha.',
-          'Agent menjelaskan rincian persyaratan dokumen awal, menjawab kisaran durasi proses, dan menawarkan jadwal sesi konsultasi.',
-          'Klien memilih jadwal Zoom, dan agent otomatis membuat tautan kalender serta daftar periksa dokumen di folder internal.',
-        ],
-        outcome: 'Contoh hasil: Sesi konsultasi pertama langsung produktif karena dokumen dasar sudah terkumpul.',
-      },
-    ],
-    stackChips: ['Python', 'Node.js', 'WhatsApp Cloud API', 'PostgreSQL', 'n8n'],
-    pricingNote: {
-      label: 'Dihitung setelah audit gratis',
-      reason:
-        'Biaya AI agent sangat bergantung pada berapa banyak tool (kalender, database, CRM) dan aturan keputusan yang perlu disambungkan, sehingga kami menghitung angka pastinya setelah audit gratis 30 menit agar kamu tidak membayar fitur yang tidak terpakai.',
-      scopeNote: 'Sudah termasuk setup guardrails keamanan, integrasi WhatsApp Cloud API, dan garansi bug-fix 30 hari.',
-    },
-    faq: [
-      {
-        question: 'Apakah balasan AI agent terasa kaku seperti robot?',
-        answer:
-          'Tidak. Kami menyusun instruksi bahasa mengikuti gaya sapaan admin bisnismu sehari-hari (misalnya memakai sapaan "Kak" atau "Bapak/Ibu" yang hangat). Pelanggan tetap bisa bertanya dengan kalimat bebas tanpa harus mengetik kode angka.',
-      },
-      {
-        question: 'Bagaimana kalau pelanggan bertanya hal rumit yang belum ada di SOP?',
-        answer:
-          'Agent tidak akan mengarang jawaban. Jika pertanyaan berada di luar batas wewenang atau pelanggan menyampaikan keluhan, agent langsung menghentikan balasan otomatis dan mengalihkan percakapan ke staf manusiamu beserta ringkasan masalahnya.',
-      },
-      {
-        question: 'Apakah nomor WhatsApp bisnis saya yang lama tetap bisa dipakai?',
-        answer:
-          'Bisa. Kami membantu proses migrasi atau integrasi nomor bisnismu ke WhatsApp Cloud API resmi maupun skema koeksistensi sesuai kebutuhan operasional adminmu.',
-      },
-      {
-        question: 'Berapa biaya bulanan untuk menjalankan AI agent setelah rilis?',
-        answer:
-          'Biaya operasional bulanan hanya berasal dari pemakaian kuota API model AI dan percakapan WhatsApp yang sangat terjangkau sesuai volume chat nyata. Semua rincian estimasi biaya bulanan kami hitung secara terbuka saat sesi audit.',
-      },
-      {
-        question: 'Apakah data percakapan pelanggan saya dipakai untuk melatih AI publik?',
-        answer:
-          'Tidak. Kami menggunakan jalur API enterprise yang tidak memakai data bisnis atau chat pelangganmu untuk melatih model publik, dan database riwayat dapat disimpan di infrastruktur pilihanmu sendiri.',
-      },
-    ],
-    relatedCaseSlugs: ['klinik-triage-bsd', 'fnb-preorder-serpong'],
-    relatedPostSlugs: [
-      'otomasi-whatsapp-ai-klinik-fnb-alur-kerja',
-      'berapa-biaya-bikin-website-bisnis-panduan-harga',
-    ],
-    seo: {
-      title: 'Jasa AI Agent WhatsApp & CRM di BSD & Tangsel | CHESTAADOTCOM',
-      description:
-        'Bangun AI agent WhatsApp & CRM yang membalas chat, mengecek jadwal kalender, dan mencatat database otomatis untuk bisnis di BSD City, Tangsel & Jabodetabek.',
-    },
-    imageKey: 'serviceAiAgent',
-  },
+// ============================================================================
+// INDONESIAN SERVICES DATA (SOURCE OF TRUTH — VERBATIM SECTION 4 COPY)
+// ============================================================================
+export const SERVICES_DATA_ID: ServiceItem[] = [
+  // 1. pembuatan-website
   {
     slug: 'pembuatan-website',
-    title: 'Pembuatan Website & Landing Page',
-    shortTitle: 'Pembuatan Website & Landing Page',
-    tagline: 'WEBSITE & LANDING PAGE CEPAT',
-    shortPromise:
-      'Muat di bawah 1,2 detik, struktur penawaran jelas, dan siap mengubah klik iklan menjadi chat WhatsApp.',
-    summary:
-      'Kami merancang dan menulis kode landing page serta website profil bisnis dari nol tanpa template berat yang membebani layar HP. Dirancang supaya pengunjung langsung paham keunggulan bisnismu dalam 5 detik pertama dan mudah menghubungi timmu.',
-    bentoSpan: 'large',
-    timeline: '3–7 hari kerja',
-    bestForSummary: 'Kampanye iklan Google/Meta Ads, peluncuran layanan baru, dan profil bisnis kredibel',
-    forWho: [
-      'Kamu sedang menjalankan iklan Google Ads, Instagram, atau TikTok Ads, tetapi rasio pengunjung yang mengeklik tombol WhatsApp masih rendah.',
-      'Website lamamu membutuhkan waktu lebih dari 4 detik untuk terbuka di jaringan seluler sehingga pengunjung keburu menutup halaman.',
-      'Calon klien korporat atau pasien sering menanyakan profil dan daftar layananmu, tetapi kamu baru memiliki bio Instagram atau file PDF berat.',
-      'Kamu ingin bisnis lokalmu di BSD, Alam Sutera, Bintaro, atau Gading Serpong mudah ditemukan di pencarian Google dan AI Search.',
+    enSlug: 'website-development',
+    urlSlug: 'pembuatan-website',
+    eyebrow: 'Pembuatan website dan landing page',
+    h1: 'Jasa pembuatan website dan landing page untuk bisnis di Tangerang Selatan',
+    sub: 'Website yang cepat dibuka, jelas menawarkan apa, dan siap dipasangi iklan. Dibuat supaya pengunjung benar-benar menghubungi kamu, bukan sekadar melihat.',
+    ringkasanSingkat:
+      'Pembuatan website di CHESTAADOTCOM mencakup landing page, company profile, dan web custom untuk bisnis di Tangerang Selatan dan Jabodetabek. Setiap halaman dibuat cepat, nyaman dibaca di HP, dan punya satu tujuan jelas, misalnya booking atau pesan WhatsApp. Harga mulai Rp1.200.000, tergantung kompleksitas.',
+    cocokKalau: [
+      'Sudah memasang iklan tapi pengunjung langsung pergi.',
+      'Belum punya website, atau websitemu lambat dan susah dibuka di HP.',
+      'Ingin calon pelanggan bisa booking atau chat tanpa banyak langkah.',
+      'Ingin ditemukan di Google saat orang mencari jasamu di daerahmu.',
     ],
-    deliverables: [
+    kapanTidakPerlu:
+      'Kalau kamu hanya butuh satu halaman untuk link bio dan belum mengiklankan apa pun, template gratis sudah cukup. Kami lebih berguna saat halaman itu harus menghasilkan pesan, booking, atau pembelian.',
+    yangKamuDapat: [
       {
-        title: 'Desain Antarmuka Mobile-First & Bersih',
+        title: 'Struktur halaman dan tulisan',
         description:
-          'Tata letak yang nyaman dibaca di layar ponsel 360px–430px maupun layar desktop lebar, dengan hirarki tombol aksi yang jelas.',
+          'Menjawab pertanyaan calon pelanggan sebelum mereka bertanya.',
       },
       {
-        title: 'Copywriting Bahasa Indonesia yang Konkret',
-        description:
-          'Kami bantu menyusun teks penawaran, keunggulan layanan, dan FAQ yang langsung menjawab keraguan calon pelangganmu.',
+        title: 'Desain responsif',
+        description: 'Rapi di HP, tablet, dan desktop.',
       },
       {
-        title: 'Kecepatan Muat Sub-Detik (Core Web Vitals Hijau)',
+        title: 'Kecepatan',
         description:
-          'Optimasi gambar AVIF/WebP, font lokal, dan kode ringan untuk mengejar skor performa Lighthouse 90+ di perangkat mobile.',
+          'Gambar dioptimasi, skrip seperlunya, diuji di PageSpeed Insights.',
       },
       {
-        title: 'Integrasi Tombol WhatsApp & Pelacakan Iklan',
+        title: 'SEO dasar',
         description:
-          'Pesan pembuka WhatsApp yang sudah terformat per layanan, lengkap dengan pemasangan Meta Pixel, TikTok Pixel, atau Google Tag (GA4).',
+          'Judul dan deskripsi tiap halaman, struktur heading, sitemap, dan data terstruktur.',
       },
       {
-        title: 'Fondasi Teknis SEO, GEO & AEO',
-        description:
-          'Dilengkapi Schema.org JSON-LD (LocalBusiness, Service, FAQPage), OpenGraph card, dan struktur heading semantik.',
+        title: 'Tombol WhatsApp dan formulir',
+        description: 'Langsung menyampaikan pesan ke kamu.',
       },
       {
-        title: 'Kepemilikan Penuh Source Code & Domain',
+        title: 'Pelacakan dasar',
         description:
-          'Seluruh file kode, konfigurasi hosting, dan akses domain diserahkan 100% atas namamu tanpa biaya sewa bulanan yang mengikat.',
+          'Kalau kamu mau, supaya kelihatan dari mana pengunjung datang.',
       },
     ],
-    process: [
+    caraKerja: [
       {
-        num: '01',
-        duration: 'Hari ke-1',
-        title: 'Bedah penawaran & target pelanggan',
+        num: '1',
+        duration: '30 menit',
+        title: 'Audit gratis (30 menit)',
         description:
-          'Kita diskusikan layanan utama yang ingin kamu jual, profil pelanggan ideal, serta pertanyaan yang paling sering mereka ajukan.',
+          'Kami lihat tujuan bisnismu, halaman yang ada, dan pesaing di sekitarmu.',
       },
       {
-        num: '02',
-        duration: 'Hari ke-2–3',
-        title: 'Penyusunan copywriting & kerangka halaman',
+        num: '2',
+        duration: 'Tahap 2',
+        title: 'Rancang dan prototipe',
         description:
-          'Kami menyusun alur argumen dari judul utama, bukti layanan, daftar harga/paket, hingga akordeon FAQ untuk kamu tinjau.',
+          'Kamu melihat struktur dan tampilannya sebelum dibangun penuh.',
       },
       {
-        num: '03',
-        duration: 'Hari ke-4–6',
-        title: 'Pengembangan kode & optimasi kecepatan',
+        num: '3',
+        duration: 'Tahap 3',
+        title: 'Bangun dan uji',
         description:
-          'Halaman dibangun dengan React/Tailwind, diuji di berbagai ukuran layar HP, dan dipasang kode pelacakan konversi iklan.',
+          'Dibangun, lalu diuji di HP dan di PageSpeed Insights.',
       },
       {
-        num: '04',
-        duration: 'Hari ke-7',
-        title: 'Rilis ke domain resmi & indeksasi',
+        num: '4',
+        duration: 'Tahap 4',
+        title: 'Rilis dan rawat',
         description:
-          'Website tayang di domain resmimu lengkap dengan SSL, didaftarkan ke Google Search Console, dan bergaransi perbaikan 30 hari.',
+          'Online, dipantau, dan diperbaiki setelah data pengunjung masuk.',
       },
     ],
-    useCases: [
+    contohPenggunaan: [
       {
         industryId: 'klinik',
         industryLabel: 'Klinik',
-        scenarioTitle: 'Halaman Kampanye Promo Treatment & Profil Dokter',
+        scenarioTitle: 'Contoh penggunaan untuk Klinik',
         workflowLines: [
-          'Calon pasien mengeklik iklan Instagram promo perawatan wajah atau gigi dari ponsel mereka.',
-          'Halaman terbuka instan dalam 0,9 detik, menampilkan rincian prosedur, profil dokter praktik, kisaran biaya transparan, dan lokasi Google Maps.',
-          'Pasien menekan tombol "Booking Jadwal via WhatsApp" yang langsung mengirim pesan terformat berisi nama treatment pilihan.',
+          'Satu halaman per perawatan dengan harga mulai dari, jadwal praktik, dan tombol booking via WhatsApp.',
+          'Calon pasien tahu apa yang ditawarkan dan bisa langsung memesan jadwal.',
         ],
-        outcome: 'Contoh hasil: Penurunan bounce rate pengunjung iklan dan peningkatan chat konsultasi yang siap reservasi.',
+        outcome:
+          'Contoh: Satu halaman per perawatan dengan harga mulai dari, jadwal praktik, dan tombol booking via WhatsApp. Calon pasien tahu apa yang ditawarkan dan bisa langsung memesan jadwal.',
       },
       {
         industryId: 'fnb',
         industryLabel: 'F&B',
-        scenarioTitle: 'Halaman Katalog Menu Interaktif & Paket Katering/Acara',
+        scenarioTitle: 'Contoh penggunaan untuk F&B',
         workflowLines: [
-          'Pelanggan membuka tautan di bio Instagram atau profil Google Maps restoranmu tanpa perlu mengunduh file PDF belasan megabyte.',
-          'Pelanggan melihat foto menu terkompresi tajam, memfilter kategori makanan/paket acara, dan mengecek kapasitas ruang privat.',
-          'Satu ketukan pada tombol reservasi langsung mengirim rincian tanggal, jumlah tamu, dan paket ke WhatsApp admin outlet.',
+          'Menu, jam buka, peta, dan tombol pesan atau reservasi dalam satu halaman ringan.',
+          'Orang yang mencari kafe terdekat langsung dapat jawabannya.',
         ],
-        outcome: 'Contoh hasil: Pelanggan lebih cepat memilih menu dan admin menerima format reservasi yang rapi.',
+        outcome:
+          'Contoh: Menu, jam buka, peta, dan tombol pesan atau reservasi dalam satu halaman ringan. Orang yang mencari kafe terdekat langsung dapat jawabannya.',
       },
       {
         industryId: 'properti',
         industryLabel: 'Properti',
-        scenarioTitle: 'Showcase Proyek Hunian & Studio Arsitektur',
+        scenarioTitle: 'Contoh penggunaan untuk Properti',
         workflowLines: [
-          'Pemilik lahan atau pencari rumah mengunjungi halaman proyek untuk melihat portofolio desain, denah lantai, dan spesifikasi teknis.',
-          'Galeri beresolusi tinggi dimuat secara bertahap (lazy-load) sehingga halaman tetap ringan meski memuat banyak visual.',
-          'Pengunjung mengisi kalkulator singkat luas bangunan dan langsung terhubung ke tim arsitek dengan estimasi awal.',
+          'Halaman per proyek dengan galeri, tipe unit, dan formulir minat.',
+          'Pesan calon pembeli masuk lengkap dengan tipe unit yang diminati.',
         ],
-        outcome: 'Contoh hasil: Kredibilitas studio meningkat di mata klien pemilik proyek bernilai tinggi.',
+        outcome:
+          'Contoh: Halaman per proyek dengan galeri, tipe unit, dan formulir minat. Pesan calon pembeli masuk lengkap dengan tipe unit yang diminati.',
       },
       {
         industryId: 'jasa',
-        industryLabel: 'Jasa Profesional',
-        scenarioTitle: 'Landing Page Layanan Konsultan, Legal & B2B',
+        industryLabel: 'Jasa profesional',
+        scenarioTitle: 'Contoh penggunaan untuk Jasa profesional',
         workflowLines: [
-          'Manajer perusahaan mencari jasa konsultan pajak, hukum, atau pengadaan B2B di area Tangerang Selatan melalui Google.',
-          'Halaman menyajikan cakupan layanan yang lugas, tahapan kerja, daftar dokumen yang diperlukan, dan FAQ teknis.',
-          'Prospek menekan tombol penjadwalan diskusi dengan pesan yang sudah mencantumkan jenis badan usaha dan kebutuhannya.',
+          'Halaman layanan dengan alur kerja yang jelas dan formulir konsultasi.',
+          'Pengunjung paham prosesnya sebelum menghubungi.',
         ],
-        outcome: 'Contoh hasil: Tim konsultan menerima prospek B2B yang sudah memahami alur dan kisaran layanan.',
+        outcome:
+          'Contoh: Halaman layanan dengan alur kerja yang jelas dan formulir konsultasi. Pengunjung paham prosesnya sebelum menghubungi.',
       },
     ],
-    stackChips: ['React', 'Node.js', 'WhatsApp Cloud API'],
+    comparisonTable: {
+      headers: ['Kategori', 'Landing page', 'Company profile', 'Web custom'],
+      rows: [
+        {
+          feature: 'Cocok untuk',
+          landingPage: 'Satu tujuan, misalnya booking atau iklan',
+          companyProfile: 'Bisnis yang butuh tampil lengkap dan terpercaya',
+          webCustom: 'Kebutuhan khusus seperti booking, pembayaran, atau login',
+        },
+        {
+          feature: 'Jumlah halaman',
+          landingPage: 'Satu halaman',
+          companyProfile: 'Beberapa halaman',
+          webCustom: 'Sesuai kebutuhan',
+        },
+        {
+          feature: 'Isi umum',
+          landingPage: 'Penawaran, bukti, tombol aksi',
+          companyProfile: 'Profil, layanan, galeri, kontak',
+          webCustom: 'Fitur khusus dan integrasi',
+        },
+        {
+          feature: 'Harga',
+          landingPage: 'Mulai Rp1.200.000',
+          companyProfile: 'Dihitung sesuai jumlah halaman',
+          webCustom: 'Dihitung setelah audit gratis',
+        },
+      ],
+    },
+    prinsipTeknis:
+      'Halaman dibuat statis supaya cepat. Gambar dikompres dan diberi ukuran yang tepat. Skrip pihak ketiga dipasang hanya kalau memang perlu. Hasilnya diuji di HP, bukan hanya di laptop.',
+    hargaDanScope:
+      'Mulai Rp1.200.000 untuk landing page. Biaya naik kalau jumlah halaman, fitur (misalnya booking atau pembayaran), atau integrasi bertambah. Angka pastinya kami sampaikan setelah audit gratis, sebelum kamu membayar apa pun.',
+    siapkanSebelumAudit: [
+      'Tautan media sosial atau website lama',
+      'Contoh website pesaing yang kamu suka',
+      'Aksi utama yang kamu inginkan dari pengunjung (booking, chat, atau beli)',
+      'Foto dan logo yang sudah ada',
+    ],
+    faq: [
+      {
+        question: 'Berapa harga pembuatan website?',
+        answer:
+          'Landing page mulai Rp1.200.000. Company profile dan website dengan fitur khusus dihitung sesuai jumlah halaman dan fiturnya, setelah audit gratis.',
+      },
+      {
+        question: 'Berapa lama pengerjaannya?',
+        answer:
+          'Landing page sederhana biasanya selesai dalam hitungan hari. Website dengan banyak halaman atau fitur butuh hitungan minggu. Estimasi pastinya kami beri setelah audit.',
+      },
+      {
+        question: 'Apakah website bisa muncul di Google?',
+        answer:
+          'Kami menyiapkan dasar SEO: judul dan deskripsi tiap halaman, struktur heading, sitemap, dan data terstruktur. Peringkat tetap bergantung pada persaingan dan waktu, jadi tidak ada yang bisa menjanjikan posisi tertentu.',
+      },
+      {
+        question: 'Domain dan hosting atas nama siapa?',
+        answer:
+          'Atas namamu. Kamu pemilik domain dan hostingnya, jadi tidak terkunci pada kami.',
+      },
+      {
+        question: 'Setelah rilis, siapa yang merawat?',
+        answer:
+          'Kamu bisa memakai paket rawat bulanan dari kami atau memegangnya sendiri. Kita tentukan di awal.',
+      },
+    ],
+    hasAreaPages: true,
+    updatedAt: '2026-03-20',
+    title: 'Pembuatan website dan landing page',
+    shortTitle: 'Pembuatan Website',
+    tagline: 'Pembuatan website dan landing page',
+    shortPromise:
+      'Website yang cepat dibuka, jelas menawarkan apa, dan siap dipasangi iklan. Mulai Rp1.200.000.',
+    summary:
+      'Pembuatan website di CHESTAADOTCOM mencakup landing page, company profile, dan web custom untuk bisnis di Tangerang Selatan dan Jabodetabek. Setiap halaman dibuat cepat, nyaman dibaca di HP, dan punya satu tujuan jelas, misalnya booking atau pesan WhatsApp. Harga mulai Rp1.200.000, tergantung kompleksitas.',
+    bentoSpan: 'large',
+    timeline: 'Hitungan hari (landing page sederhana)',
+    bestForSummary: 'Landing page iklan, company profile, dan web custom bisnis',
+    forWho: [
+      'Sudah memasang iklan tapi pengunjung langsung pergi.',
+      'Belum punya website, atau websitemu lambat dan susah dibuka di HP.',
+      'Ingin calon pelanggan bisa booking atau chat tanpa banyak langkah.',
+      'Ingin ditemukan di Google saat orang mencari jasamu di daerahmu.',
+    ],
+    deliverables: [
+      {
+        title: 'Struktur halaman dan tulisan',
+        description: 'Menjawab pertanyaan calon pelanggan sebelum mereka bertanya.',
+      },
+      {
+        title: 'Desain responsif',
+        description: 'Rapi di HP, tablet, dan desktop.',
+      },
+      {
+        title: 'Kecepatan',
+        description: 'Gambar dioptimasi, skrip seperlunya, diuji di PageSpeed Insights.',
+      },
+      {
+        title: 'SEO dasar',
+        description: 'Judul dan deskripsi tiap halaman, struktur heading, sitemap, dan data terstruktur.',
+      },
+      {
+        title: 'Tombol WhatsApp dan formulir',
+        description: 'Langsung menyampaikan pesan ke kamu.',
+      },
+      {
+        title: 'Pelacakan dasar',
+        description: 'Kalau kamu mau, supaya kelihatan dari mana pengunjung datang.',
+      },
+    ],
+    process: [
+      {
+        num: '1',
+        duration: '30 menit',
+        title: 'Audit gratis (30 menit)',
+        description: 'Kami lihat tujuan bisnismu, halaman yang ada, dan pesaing di sekitarmu.',
+      },
+      {
+        num: '2',
+        duration: 'Tahap 2',
+        title: 'Rancang dan prototipe',
+        description: 'Kamu melihat struktur dan tampilannya sebelum dibangun penuh.',
+      },
+      {
+        num: '3',
+        duration: 'Tahap 3',
+        title: 'Bangun dan uji',
+        description: 'Dibangun, lalu diuji di HP dan di PageSpeed Insights.',
+      },
+      {
+        num: '4',
+        duration: 'Tahap 4',
+        title: 'Rilis dan rawat',
+        description: 'Online, dipantau, dan diperbaiki setelah data pengunjung masuk.',
+      },
+    ],
+    useCases: [],
+    stackChips: ['Halaman Statis', 'Optimasi Gambar', 'Data Terstruktur', 'PageSpeed Insights'],
     pricingNote: {
       label: 'Mulai Rp1.200.000',
       startingPriceNumeric: 1200000,
       reason:
-        'Harga landing page satu halaman dimulai dari Rp1.200.000. Untuk website multi-halaman dengan fitur katalog atau kalkulator khusus, biaya dihitung transparan di awal sesuai jumlah halaman dan fitur.',
-      scopeNote: 'Sudah termasuk penulisan copywriting, optimasi kecepatan mobile, pemasangan pixel iklan, dan garansi 30 hari.',
+        'Mulai Rp1.200.000 untuk landing page. Biaya naik kalau jumlah halaman, fitur (misalnya booking atau pembayaran), atau integrasi bertambah.',
+      scopeNote:
+        'Angka pastinya kami sampaikan setelah audit gratis, sebelum kamu membayar apa pun.',
     },
-    faq: [
-      {
-        question: 'Apa saja yang sudah termasuk dalam harga mulai Rp1.200.000?',
-        answer:
-          'Harga tersebut sudah mencakup perancangan desain mobile-first, penyusunan copywriting Bahasa Indonesia, optimasi kecepatan muat, integrasi tombol WhatsApp terformat, pengaturan SEO dasar, dan bantuan pemasangan ke domainmu.',
-      },
-      {
-        question: 'Apakah menggunakan template WordPress atau dibangun custom?',
-        answer:
-          'Kami membangun dengan kode modern (React & Tailwind CSS) tanpa tumpukan plugin WordPress yang berat. Hasilnya jauh lebih cepat dibuka di HP, lebih aman dari celah plugin kedaluwarsa, dan tidak membebani server.',
-      },
-      {
-        question: 'Berapa lama waktu pengerjaan sampai website bisa dipakai iklan?',
-        answer:
-          'Untuk landing page standar, waktu pengerjaan adalah 3–7 hari kerja sejak materi dasar (info layanan dan kontak) kita sepakati bersama.',
-      },
-      {
-        question: 'Bagaimana kalau saya belum punya teks atau foto yang rapi?',
-        answer:
-          'Tidak masalah. Kami akan mewawancarai kamu singkat selama 30 menit untuk menyusun seluruh kalimat penawarannya, serta menyiapkan ilustrasi visual bersih yang bisa diganti kapan saja saat foto aslimu siap.',
-      },
-      {
-        question: 'Apakah saya mendapatkan akses penuh ke kode dan domainnya?',
-        answer:
-          'Ya, 100%. Setelah proyek selesai, seluruh kode sumber (source code) dan akses akun hosting/domain adalah milikmu sepenuhnya.',
-      },
-    ],
-    relatedCaseSlugs: ['klinik-triage-bsd', 'properti-arsitektur-bintaro'],
+    relatedCaseSlugs: ['landing-klinik-estetika', 'chestaa-v2'],
     relatedPostSlugs: [
       'kenapa-landing-page-lambat-bikin-iklan-boncos',
-      'checklist-landing-page-konversi-tinggi-bisnis-jasa',
+      'berapa-biaya-bikin-website-bisnis-panduan-harga',
+      'checklist-landing-page-konversi-tinggi-umkm-b2b',
     ],
     seo: {
-      title: 'Jasa Landing Page & Website Cepat di BSD | Mulai Rp1,2 Juta',
+      title: 'Jasa Pembuatan Website Bisnis di Tangsel | CHESTAADOTCOM',
       description:
-        'Jasa pembuatan landing page konversi tinggi dan website bisnis cepat (<1,2 detik) di BSD City, Tangerang Selatan & Jabodetabek. Harga transparan mulai Rp1.200.000.',
+        'Pembuatan website dan landing page untuk bisnis di BSD, Pamulang, dan Tangerang Selatan. Cepat dibuka, rapi di HP, siap iklan. Mulai Rp1.200.000.',
     },
     imageKey: 'serviceWebLandingPage',
   },
+
+  // 2. ai-agent
   {
-    slug: 'software-custom',
-    title: 'Aplikasi Web & Dashboard Custom',
-    shortTitle: 'Software & Dashboard Custom',
-    tagline: 'SISTEM OPERASIONAL & PORTAL INTERNAL',
-    shortPromise:
-      'Aplikasi web, portal klien, dan dashboard internal yang dibangun mengikuti SOP unik bisnismu.',
-    summary:
-      'Ketika Google Sheets sudah terlalu lambat dan software SaaS langganan tidak cocok dengan cara kerja timmu, kami membangun aplikasi web dan dashboard khusus yang memusatkan data operasional, komisi, inventaris, dan laporan dalam satu pintu.',
-    bentoSpan: 'small',
-    timeline: '2–4 minggu',
-    bestForSummary: 'Bisnis berkembang yang butuh sistem internal, portal klien, atau perhitungan komisi/stok khusus',
-    forWho: [
-      'Tim kamu mengelola ratusan baris transaksi di banyak file spreadsheet terpisah yang sering tidak sinkron atau tak sengaja terhapus.',
-      'Kamu butuh pembagian hak akses yang jelas: staf lapangan hanya bisa menginput tugas harian, sementara pemilik bisnis bisa melihat laporan margin.',
-      'Software kasir atau ERP langganan yang ada di pasaran terlalu kaku, terlalu mahal biaya per kursinya, atau tidak mendukung rumus komisi bisnismu.',
-      'Kamu ingin menyediakan portal khusus bagi klien B2B atau pasien untuk memantau status pesanan dan riwayat pembayaran secara mandiri.',
+    slug: 'ai-agent',
+    enSlug: 'ai-agents',
+    urlSlug: 'ai-agent',
+    eyebrow: 'AI agent',
+    h1: 'Jasa AI agent untuk bisnis: balas WhatsApp, booking, dan follow-up berjalan sendiri',
+    sub: 'AI agent membaca maksud pelanggan, memakai tool seperti kalender dan database, lalu mengerjakan tugasnya sampai selesai. Kalau perlu manusia, agent menyerahkannya ke timmu beserta ringkasan.',
+    ringkasanSingkat:
+      'AI agent adalah sistem yang memahami pesan pelanggan, memakai tool seperti kalender, database, atau CRM, lalu menyelesaikan tugas, misalnya membuat booking atau mengirim follow-up. CHESTAADOTCOM membangun AI agent untuk bisnis di Tangerang Selatan dan Jabodetabek, lengkap dengan batas tindakan dan serah ke manusia. Biaya dihitung setelah audit gratis.',
+    cocokKalau: [
+      'Menjawab pertanyaan yang sama berulang kali setiap hari.',
+      'Punya pesan masuk malam hari yang baru terbalas besok pagi.',
+      'Mencatat data dari chat ke spreadsheet secara manual.',
+      'Kehilangan calon pelanggan karena tidak ada yang menindaklanjuti setelah mereka bertanya harga.',
     ],
-    deliverables: [
+    kapanTidakPerlu:
+      'Kalau pesan yang masuk hanya beberapa per hari dan semuanya butuh sentuhan pribadi, agent belum diperlukan. Kami bilang itu terus terang saat audit.',
+    yangKamuDapat: [
       {
-        title: 'Aplikasi Web Responsif Berbasis Peran (RBAC)',
-        description:
-          'Sistem login aman dengan pembagian wewenang bertingkat untuk pemilik bisnis, manajer operasional, admin, dan staf lapangan.',
+        title: 'Agent yang terhubung',
+        description: 'Ke WhatsApp Business dan tool yang sudah kamu pakai.',
       },
       {
-        title: 'Database Relasional Terstruktur (PostgreSQL)',
+        title: 'Aturan tindakan',
         description:
-          'Skema database yang dirancang rapi untuk menjaga keakuratan angka stok, transaksi, jadwal, dan riwayat perubahan data.',
+          'Apa yang boleh dan tidak boleh dilakukan agent, ditulis bersama kamu.',
       },
       {
-        title: 'Dashboard Laporan & Metrik Real-Time',
+        title: 'Serah ke staf',
         description:
-          'Ringkasan angka operasional penting, grafik penjualan, dan fitur ekspor laporan ke CSV/Excel/PDF dalam satu klik.',
+          'Kasus di luar aturan diteruskan lengkap dengan ringkasan percakapan.',
       },
       {
-        title: 'Formulir Input Cepat & Validasi Anti-Salah Ketik',
-        description:
-          'Antarmuka kerja untuk staf admin yang meminimalkan ketikan manual dan mencegah data ganda atau format kosong.',
+        title: 'Log semua tindakan',
+        description: 'Yang bisa kamu periksa.',
       },
       {
-        title: 'Integrasi API ke WhatsApp & Sistem Eksternal',
-        description:
-          'Koneksi langsung dari dashboard untuk mengirim notifikasi status pesanan atau bukti transaksi ke nomor WhatsApp pelanggan.',
+        title: 'Pengujian dengan percakapan nyata',
+        description: 'Dari bisnismu sebelum rilis.',
       },
       {
-        title: 'Dokumentasi Video Tim & Serah Terima Source Code',
-        description:
-          'Panduan pemakaian singkat untuk stafmu, kepemilikan penuh kode sumber, dan garansi pemeliharaan pasca-rilis 30 hari.',
+        title: 'Pendampingan dan penyesuaian',
+        description: 'Setelah timmu memakainya.',
       },
     ],
-    process: [
+    caraKerja: [
       {
-        num: '01',
-        duration: '30 Menit',
-        title: 'Audit spreadsheet & alur kerja saat ini',
+        num: '1',
+        duration: '30 menit',
+        title: 'Audit gratis (30 menit)',
         description:
-          'Kita pelajari file Excel/Sheets yang dipakai timmu sekarang dan temukan titik mana yang paling sering bikin salah rekap.',
+          'Kami petakan percakapan dan tugas berulang, lalu bilang jujur mana yang layak diserahkan ke agent dan mana yang tidak.',
       },
       {
-        num: '02',
-        duration: 'Hari ke-2–5',
-        title: 'Desain struktur database & prototipe layar',
+        num: '2',
+        duration: 'Tahap 2',
+        title: 'Rancang dan prototipe',
         description:
-          'Kamu melihat rancangan layar input, pembagian hak akses pengguna, dan estimasi biaya tetap sebelum penulisan kode dimulai.',
+          'Kamu melihat contoh alur percakapan dan aturan tindakannya sebelum kami bangun penuh.',
       },
       {
-        num: '03',
-        duration: 'Minggu ke-1–3',
-        title: 'Pengembangan modul & uji coba staf',
+        num: '3',
+        duration: 'Tahap 3',
+        title: 'Bangun dan uji',
         description:
-          'Sistem dibangun bertahap. Staf adminmu mencoba langsung menginput data sampel di server staging untuk memastikan kemudahannya.',
+          'Agent diuji dengan percakapan nyata, termasuk pertanyaan sulit dan permintaan yang aneh.',
       },
       {
-        num: '04',
-        duration: 'Minggu ke-4',
-        title: 'Migrasi data awal & peluncuran produksi',
+        num: '4',
+        duration: 'Tahap 4',
+        title: 'Rilis dan rawat',
         description:
-          'Kami bantu memindahkan data master dari sheet lamamu ke sistem baru dan mendampingi timmu selama 30 hari penuh.',
+          'Kami memantau log, memperbaiki jawaban yang meleset, dan menyesuaikan aturan seiring dipakai.',
       },
     ],
-    useCases: [
+    contohPenggunaan: [
       {
         industryId: 'klinik',
         industryLabel: 'Klinik',
-        scenarioTitle: 'Dashboard Antrean, Rekam Kunjungan & Komisi Tindakan Dokter',
+        scenarioTitle: 'Contoh penggunaan untuk Klinik',
         workflowLines: [
-          'Resepsionis mendaftarkan pasien datang dan memilih jenis tindakan medis serta terapis yang bertugas.',
-          'Sistem otomatis menghitung bagi hasil komisi dokter/terapis dan mengurangi stok bahan habis pakai di gudang klinik.',
-          'Pemilik klinik dapat membuka ringkasan pendapatan harian dan rincian komisi bulanan dari ponsel kapan saja.',
+          'Pelanggan menulis "besok jam 4 bisa facial?".',
+          'Agent mengecek kalender terapis, membuat booking, mengirim konfirmasi, mencatatnya di CRM, dan mengingatkan sehari sebelumnya.',
         ],
-        outcome: 'Contoh hasil: Perhitungan komisi akhir bulan selesai instan tanpa lembur rekap manual.',
+        outcome:
+          'Contoh: Pelanggan menulis "besok jam 4 bisa facial?". Agent mengecek kalender terapis, membuat booking, mengirim konfirmasi, mencatatnya di CRM, dan mengingatkan sehari sebelumnya.',
       },
       {
         industryId: 'fnb',
         industryLabel: 'F&B',
-        scenarioTitle: 'Sistem Manajemen Produksi Dapur Sentral & Pengiriman Outlet',
+        scenarioTitle: 'Contoh penggunaan untuk F&B',
         workflowLines: [
-          'Setiap cabang kafe menginput permintaan bahan baku sebelum pukul 17.00 melalui halaman ponsel kepala outlet.',
-          'Dashboard dapur sentral merangkum total kebutuhan produksi besok pagi dan mencetak surat jalan pengiriman per rute.',
-          'Saat barang tiba, cabang melakukan konfirmasi terima barang sehingga selisih stok langsung terdeteksi hari itu juga.',
+          'Agent menjawab menu, jam buka, dan ketersediaan meja, mencatat reservasi rombongan, lalu meneruskan komplain ke staf dengan konteks lengkap.',
         ],
-        outcome: 'Contoh hasil: Kehilangan bahan baku berkurang dan pemesanan antar-cabang tidak lagi tercecer di grup chat.',
+        outcome:
+          'Contoh: Agent menjawab menu, jam buka, dan ketersediaan meja, mencatat reservasi rombongan, lalu meneruskan komplain ke staf dengan konteks lengkap.',
       },
       {
         industryId: 'properti',
         industryLabel: 'Properti',
-        scenarioTitle: 'Portal Progres Pembangunan & Termin Pembayaran Klien',
+        scenarioTitle: 'Contoh penggunaan untuk Properti',
         workflowLines: [
-          'Pengawas lapangan mengunggah foto progres mingguan proyek renovasi atau pembangunan rumah langsung dari HP.',
-          'Klien pemilik rumah masuk ke portal khusus untuk melihat persentase capaian tahap kerja dan jadwal termin tagihan berikutnya.',
-          'Sistem mengirim pengingat jatuh tempo termin secara otomatis beserta lampiran laporan progres terbaru.',
+          'Agent menanyakan budget, lokasi, dan tipe unit, menjadwalkan survei, dan mengirim data calon pembeli ke agen yang tepat.',
         ],
-        outcome: 'Contoh hasil: Kepercayaan klien meningkat dan pencairan pembayaran termin lebih tepat waktu.',
+        outcome:
+          'Contoh: Agent menanyakan budget, lokasi, dan tipe unit, menjadwalkan survei, dan mengirim data calon pembeli ke agen yang tepat.',
       },
       {
         industryId: 'jasa',
-        industryLabel: 'Jasa Profesional',
-        scenarioTitle: 'Sistem Pelacakan Proyek Klien, Dokumen & Penagihan Berulang',
+        industryLabel: 'Jasa profesional',
+        scenarioTitle: 'Contoh penggunaan untuk Jasa profesional',
         workflowLines: [
-          'Tim konsultan memantau status puluhan dokumen perizinan atau laporan pajak klien dalam satu papan kerja terpusat.',
-          'Setiap dokumen yang mendekati masa kedaluwarsa otomatis memunculkan peringatan ke akun staf penanggung jawab.',
-          'Manajer dapat melihat beban kerja per staf dan status tagihan klien yang belum lunas dalam satu layar.',
+          'Agent menerima permintaan konsultasi, mengumpulkan informasi awal, dan menjadwalkan pertemuan di kalender.',
         ],
-        outcome: 'Contoh hasil: Tidak ada tenggat dokumen klien yang terlewat dan arus kas tagihan lebih terkontrol.',
+        outcome:
+          'Contoh: Agent menerima permintaan konsultasi, mengumpulkan informasi awal, dan menjadwalkan pertemuan di kalender.',
       },
     ],
-    stackChips: ['React', 'Node.js', 'PostgreSQL', 'Python', 'WhatsApp Cloud API'],
+    chatbotVsAgentTable: {
+      headers: ['Aspek', 'Chatbot', 'AI agent'],
+      rows: [
+        {
+          aspect: 'Memahami konteks percakapan',
+          chatbot: 'Terbatas pada daftar jawaban',
+          agent: 'Membaca maksud dan riwayat chat',
+        },
+        {
+          aspect: 'Bertindak',
+          chatbot: 'Berhenti di balasan',
+          agent: 'Membuat booking, mencatat data, mengirim follow-up',
+        },
+        {
+          aspect: 'Memakai tool',
+          chatbot: 'Biasanya tidak',
+          agent: 'Kalender, database, CRM, invoice',
+        },
+        {
+          aspect: 'Kasus di luar aturan',
+          chatbot: 'Jawaban buntu',
+          agent: 'Diserahkan ke staf dengan ringkasan',
+        },
+        {
+          aspect: 'Jejak tindakan',
+          chatbot: 'Seadanya',
+          agent: 'Log lengkap',
+        },
+        {
+          aspect: 'Cocok untuk',
+          chatbot: 'Pertanyaan sederhana yang tetap',
+          agent: 'Alur kerja yang butuh beberapa langkah',
+        },
+      ],
+    },
+    guardrails: [
+      {
+        id: 'batas-jelas',
+        title: 'Batas jelas',
+        description:
+          'Agent hanya boleh melakukan tindakan yang kita tentukan bersama.',
+      },
+      {
+        id: 'serah-manusia',
+        title: 'Serah ke manusia',
+        description:
+          'Kasus sensitif, seperti komplain, diteruskan ke stafmu otomatis.',
+      },
+      {
+        id: 'semua-tercatat',
+        title: 'Semua tercatat',
+        description:
+          'Setiap tindakan agent punya log yang bisa kamu periksa.',
+      },
+      {
+        id: 'data-milikmu',
+        title: 'Data tetap milikmu',
+        description:
+          'Data bisnismu tetap milikmu, dan akses diberikan hanya seperlunya.',
+      },
+    ],
+    prinsipTeknis:
+      'Agent diberi akses seminimal mungkin ke tool yang dibutuhkan. Tindakan berisiko meminta persetujuan manusia. Setiap versi diuji dengan percakapan nyata sebelum rilis. Pengalaman kami mencakup sistem chat berbasis AI, API gateway pintar, pemroses dokumen berbasis AI, dan sistem operasional untuk brand minuman, pondok pesantren, dan gudang logistik.',
+    hargaDanScope:
+      'Biaya AI agent dihitung setelah audit gratis, karena bergantung pada jumlah tool yang terhubung, banyaknya aturan bisnis, dan volume pesan. Kamu tahu angkanya sebelum membayar apa pun.',
+    siapkanSebelumAudit: [
+      'Sepuluh pertanyaan yang paling sering masuk dari pelanggan',
+      'Jam operasional dan aturan harga',
+      'Daftar tindakan yang boleh dilakukan agent',
+      'Siapa yang menangani kasus di luar aturan',
+    ],
+    faq: [
+      {
+        question: 'Apa bedanya chatbot dan AI agent?',
+        answer:
+          'Chatbot menjawab dari daftar jawaban yang sudah disiapkan. AI agent memahami konteks, memakai tool seperti kalender atau database, lalu mengerjakan tugasnya sampai selesai.',
+      },
+      {
+        question: 'Berapa biaya membuat AI agent?',
+        answer:
+          'Dihitung setelah audit gratis, karena bergantung pada jumlah tool, aturan, dan volume pesan. Kamu menerima angkanya sebelum membayar apa pun.',
+      },
+      {
+        question: 'Bagaimana kalau agent salah menjawab?',
+        answer:
+          'Agent punya batas tindakan dan aturan serah ke manusia. Kasus sensitif diteruskan ke stafmu, dan semua percakapan tercatat supaya bisa diperiksa dan diperbaiki.',
+      },
+      {
+        question: 'Apakah data pelanggan saya aman?',
+        answer:
+          'Data tetap milikmu. Kami hanya mengakses yang diperlukan untuk membangun dan merawat sistem, dan aksesnya dicabut saat proyek atau kontrak rawat berakhir.',
+      },
+      {
+        question: 'Apakah bisa lewat WhatsApp?',
+        answer:
+          'Bisa. Agent berjalan lewat WhatsApp Business Platform resmi dari Meta, yang punya ketentuan akun dan nomor sendiri. Kami jelaskan opsinya dan membantu pendaftaran saat audit.',
+      },
+    ],
+    hasAreaPages: true,
+    updatedAt: '2026-03-20',
+    title: 'AI agent',
+    shortTitle: 'AI Agent',
+    tagline: 'AI agent',
+    shortPromise:
+      'AI agent membaca maksud pelanggan, memakai tool seperti kalender dan database, lalu mengerjakan tugasnya sampai selesai.',
+    summary:
+      'AI agent adalah sistem yang memahami pesan pelanggan, memakai tool seperti kalender, database, atau CRM, lalu menyelesaikan tugas, misalnya membuat booking atau mengirim follow-up. CHESTAADOTCOM membangun AI agent untuk bisnis di Tangerang Selatan dan Jabodetabek, lengkap dengan batas tindakan dan serah ke manusia. Biaya dihitung setelah audit gratis.',
+    bentoSpan: 'large',
+    timeline: 'Hitungan minggu (estimasi pasti setelah audit)',
+    bestForSummary: 'Balas WhatsApp, booking kalender, pencatatan CRM, dan follow-up',
+    forWho: [
+      'Menjawab pertanyaan yang sama berulang kali setiap hari.',
+      'Punya pesan masuk malam hari yang baru terbalas besok pagi.',
+      'Mencatat data dari chat ke spreadsheet secara manual.',
+      'Kehilangan calon pelanggan karena tidak ada yang menindaklanjuti setelah mereka bertanya harga.',
+    ],
+    deliverables: [
+      {
+        title: 'Agent yang terhubung',
+        description: 'Ke WhatsApp Business dan tool yang sudah kamu pakai.',
+      },
+      {
+        title: 'Aturan tindakan',
+        description: 'Apa yang boleh dan tidak boleh dilakukan agent, ditulis bersama kamu.',
+      },
+      {
+        title: 'Serah ke staf',
+        description: 'Kasus di luar aturan diteruskan lengkap dengan ringkasan percakapan.',
+      },
+      {
+        title: 'Log semua tindakan',
+        description: 'Yang bisa kamu periksa.',
+      },
+      {
+        title: 'Pengujian dengan percakapan nyata',
+        description: 'Dari bisnismu sebelum rilis.',
+      },
+      {
+        title: 'Pendampingan dan penyesuaian',
+        description: 'Setelah timmu memakainya.',
+      },
+    ],
+    process: [
+      {
+        num: '1',
+        duration: '30 menit',
+        title: 'Audit gratis (30 menit)',
+        description:
+          'Kami petakan percakapan dan tugas berulang, lalu bilang jujur mana yang layak diserahkan ke agent dan mana yang tidak.',
+      },
+      {
+        num: '2',
+        duration: 'Tahap 2',
+        title: 'Rancang dan prototipe',
+        description:
+          'Kamu melihat contoh alur percakapan dan aturan tindakannya sebelum kami bangun penuh.',
+      },
+      {
+        num: '3',
+        duration: 'Tahap 3',
+        title: 'Bangun dan uji',
+        description:
+          'Agent diuji dengan percakapan nyata, termasuk pertanyaan sulit dan permintaan yang aneh.',
+      },
+      {
+        num: '4',
+        duration: 'Tahap 4',
+        title: 'Rilis dan rawat',
+        description:
+          'Kami memantau log, memperbaiki jawaban yang meleset, dan menyesuaikan aturan seiring dipakai.',
+      },
+    ],
+    useCases: [],
+    stackChips: ['WhatsApp Business', 'Kalender & CRM', 'Batas Tindakan', 'Log Lengkap'],
     pricingNote: {
       label: 'Dihitung setelah audit gratis',
       reason:
-        'Setiap bisnis memiliki jumlah modul, peran pengguna, dan aturan perhitungan yang berbeda, sehingga kami menyusun harga tetap yang adil setelah membedah kebutuhanmu pada sesi audit gratis 30 menit.',
-      scopeNote: 'Tanpa biaya lisensi per pengguna (per-seat fee). Kode sumber menjadi aset milik perusahaanmu.',
+        'Biaya AI agent dihitung setelah audit gratis, karena bergantung pada jumlah tool yang terhubung, banyaknya aturan bisnis, dan volume pesan.',
+      scopeNote: 'Kamu tahu angkanya sebelum membayar apa pun.',
     },
-    faq: [
-      {
-        question: 'Kenapa bangun software custom daripada berlangganan aplikasi SaaS bulanan?',
-        answer:
-          'Aplikasi SaaS bulanan sering memaksamu mengubah cara kerja mengikuti fitur mereka, dan biayanya terus membengkak seiring bertambahnya jumlah staf. Dengan software custom, fitur dirancang pas sesuai SOP bisnismu dan kamu tidak dikenakan biaya langganan per pengguna.',
-      },
-      {
-        question: 'Apakah staf saya yang kurang paham teknologi akan kesulitan memakainya?',
-        answer:
-          'Justru kami merancang layar aplikasi sesederhana mungkin dengan hanya menampilkan tombol yang relevan bagi tugas staf tersebut. Kami juga menyertakan sesi pelatihan langsung dan video panduan singkat.',
-      },
-      {
-        question: 'Di mana database dan aplikasinya akan disimpan?',
-        answer:
-          'Lokasi penyimpanan bebas kamu tentukan sesuai kebijakan internal bisnismu—bisa di cloud server pilihanmu maupun di server internal perusahaanmu sendiri.',
-      },
-      {
-        question: 'Apakah sistem ini nantinya bisa ditambah fitur baru saat bisnis makin besar?',
-        answer:
-          'Bisa. Kami membangun kode secara modular menggunakan React, Node.js, dan PostgreSQL sehingga penambahan modul baru di kemudian hari tidak perlu membongkar sistem yang sudah jalan.',
-      },
-    ],
-    relatedCaseSlugs: ['properti-arsitektur-bintaro', 'fnb-preorder-serpong'],
+    relatedCaseSlugs: ['wa-concierge-klinik', 'pemroses-dokumen'],
     relatedPostSlugs: [
-      'berapa-biaya-bikin-website-bisnis-panduan-harga',
       'otomasi-whatsapp-ai-klinik-fnb-alur-kerja',
+      'Apa-Bedanya-AI-Agent-dan-Chatbot-Biasa-untuk-Operasional-Bisnis',
+      'Mengenal-Model-Context-Protocol-MCP-Cara-AI-Terkoneksi-ke-Data-Bisnis',
     ],
     seo: {
-      title: 'Jasa Pembuatan Web App & Dashboard Custom BSD | CHESTAADOTCOM',
+      title: 'Jasa AI Agent untuk Bisnis di Tangsel | CHESTAADOTCOM',
       description:
-        'Bangun aplikasi web operasional, sistem internal, dan dashboard custom sesuai SOP bisnismu di BSD City, Tangerang Selatan & Jabodetabek. Audit alur kerja gratis.',
+        'AI agent untuk bisnis di BSD, Pamulang, dan Tangerang Selatan: balas WhatsApp, booking, dan follow-up berjalan sendiri. Biaya dihitung setelah audit gratis.',
+    },
+    imageKey: 'serviceAiAgent',
+  },
+
+  // 3. software-custom
+  {
+    slug: 'software-custom',
+    enSlug: 'custom-software',
+    urlSlug: 'software-custom',
+    eyebrow: 'Software custom',
+    h1: 'Jasa pembuatan software custom: aplikasi web, dashboard, dan sistem internal',
+    sub: 'Sistem yang mengikuti cara kerjamu, bukan sebaliknya. Dari dashboard laporan sampai aplikasi internal untuk timmu.',
+    ringkasanSingkat:
+      'Software custom dari CHESTAADOTCOM mencakup aplikasi web, dashboard, dan sistem internal untuk bisnis di Tangerang Selatan dan Jabodetabek. Dibangun mengikuti alur kerja yang sudah berjalan di timmu, dimulai dari versi kecil yang bisa dipakai cepat lalu dikembangkan bertahap. Biaya dihitung setelah audit gratis.',
+    cocokKalau: [
+      'Memakai spreadsheet yang makin berat dan sering salah.',
+      'Punya beberapa aplikasi yang tidak saling terhubung.',
+      'Menemukan aplikasi jadi yang tidak cocok dengan alur kerjamu.',
+      'Butuh laporan yang diperbarui otomatis, atau portal untuk pelanggan dan mitra.',
+    ],
+    kapanTidakPerlu:
+      'Kalau alurmu standar dan aplikasi jadi sudah memenuhi kebutuhan dengan biaya wajar, pakai itu. Software custom baru masuk akal saat alurmu khas atau data harus tersambung antar sistem.',
+    yangKamuDapat: [
+      {
+        title: 'Alur dan kebutuhan yang ditulis jelas',
+        description: 'Sebelum satu baris kode dibuat.',
+      },
+      {
+        title: 'Aplikasi web responsif',
+        description: 'Yang nyaman dipakai di HP dan desktop.',
+      },
+      {
+        title: 'Login dan hak akses per peran',
+        description: 'Misalnya admin, staf, dan pelanggan.',
+      },
+      {
+        title: 'Dashboard dan laporan',
+        description: 'Yang diperbarui dari data yang sama.',
+      },
+      {
+        title: 'Integrasi dengan tool yang kamu pakai',
+        description: 'Lewat API.',
+      },
+      {
+        title: 'Dokumentasi dan pelatihan singkat',
+        description: 'Untuk timmu.',
+      },
+    ],
+    caraKerja: [
+      {
+        num: '1',
+        duration: '30 menit',
+        title: 'Audit gratis (30 menit)',
+        description:
+          'Kami pelajari alur kerjamu dan bilang jujur apakah software custom memang diperlukan atau aplikasi jadi sudah cukup.',
+      },
+      {
+        num: '2',
+        duration: 'Tahap 2',
+        title: 'Rancang dan prototipe',
+        description:
+          'Kamu mencoba kerangka layar dan alurnya sebelum fitur dibangun.',
+      },
+      {
+        num: '3',
+        duration: 'Tahap 3',
+        title: 'Bangun dan uji',
+        description:
+          'Dibangun bertahap, setiap tahap dicoba oleh orang yang akan memakainya.',
+      },
+      {
+        num: '4',
+        duration: 'Tahap 4',
+        title: 'Rilis dan rawat',
+        description:
+          'Versi pertama dirilis lebih dulu, lalu disempurnakan berdasarkan pemakaian nyata.',
+      },
+    ],
+    contohPenggunaan: [
+      {
+        industryId: 'klinik',
+        industryLabel: 'Klinik',
+        scenarioTitle: 'Contoh penggunaan untuk Klinik',
+        workflowLines: [
+          'Pencatatan pasien dan jadwal dalam satu sistem, dengan laporan harian untuk pemilik.',
+        ],
+        outcome:
+          'Contoh: Pencatatan pasien dan jadwal dalam satu sistem, dengan laporan harian untuk pemilik.',
+      },
+      {
+        industryId: 'fnb',
+        industryLabel: 'F&B',
+        scenarioTitle: 'Contoh penggunaan untuk F&B',
+        workflowLines: [
+          'Stok bahan dan laporan penjualan beberapa cabang di satu dashboard.',
+        ],
+        outcome:
+          'Contoh: Stok bahan dan laporan penjualan beberapa cabang di satu dashboard.',
+      },
+      {
+        industryId: 'properti',
+        industryLabel: 'Properti',
+        scenarioTitle: 'Contoh penggunaan untuk Properti',
+        workflowLines: [
+          'Data calon pembeli dan status unit terpusat, sehingga tim tahu siapa yang perlu ditindaklanjuti.',
+        ],
+        outcome:
+          'Contoh: Data calon pembeli dan status unit terpusat, sehingga tim tahu siapa yang perlu ditindaklanjuti.',
+      },
+      {
+        industryId: 'jasa',
+        industryLabel: 'Jasa profesional',
+        scenarioTitle: 'Contoh penggunaan untuk Jasa profesional',
+        workflowLines: [
+          'Pelacakan proyek, tenggat, dan tagihan di satu tempat.',
+        ],
+        outcome:
+          'Contoh: Pelacakan proyek, tenggat, dan tagihan di satu tempat.',
+      },
+    ],
+    prinsipTeknis:
+      'Kami mulai dari versi terkecil yang sudah berguna, lalu menambah fitur bertahap. Kode ditulis supaya mudah dirawat dan hak kepemilikannya disepakati tertulis di awal. Data dicadangkan dan akses dibatasi per peran.',
+    hargaDanScope:
+      'Dihitung setelah audit gratis. Yang memengaruhi biaya: jumlah peran pengguna, jumlah fitur, integrasi dengan tool lain, dan kebutuhan laporan. Kamu menerima angka dan cakupan kerjanya sebelum membayar apa pun.',
+    siapkanSebelumAudit: [
+      'Alur kerja sekarang dan aplikasi atau spreadsheet yang dipakai',
+      'Siapa saja penggunanya dan perannya',
+      'Laporan yang paling kamu butuhkan',
+      'Contoh data nyata dengan informasi sensitif disamarkan',
+    ],
+    faq: [
+      {
+        question: 'Kapan saya perlu software custom, bukan aplikasi jadi?',
+        answer:
+          'Pilih aplikasi jadi kalau alurmu standar dan kamu nyaman menyesuaikan cara kerja. Pilih custom kalau alurmu khas, datamu perlu terhubung antar sistem, atau biaya langganan per pengguna mulai membengkak.',
+      },
+      {
+        question: 'Berapa biayanya?',
+        answer:
+          'Dihitung setelah audit gratis, sesuai jumlah peran, fitur, dan integrasi. Kamu menerima angkanya sebelum membayar apa pun.',
+      },
+      {
+        question: 'Apakah bisa dibangun bertahap?',
+        answer:
+          'Bisa, dan itu cara yang kami sarankan. Versi pertama berisi fitur yang paling berguna, lalu ditambah setelah dipakai.',
+      },
+      {
+        question: 'Bagaimana dengan kepemilikan kode dan data?',
+        answer:
+          'Data bisnismu tetap milikmu. Kepemilikan kode kita sepakati tertulis di awal proyek.',
+      },
+      {
+        question: 'Siapa yang merawat setelah rilis?',
+        answer:
+          'Kamu bisa memakai paket rawat dari kami atau menyerahkannya ke tim lain, karena kodenya didokumentasikan. Kita tentukan di awal.',
+      },
+    ],
+    hasAreaPages: false,
+    updatedAt: '2026-03-20',
+    title: 'Software custom',
+    shortTitle: 'Software Custom',
+    tagline: 'Software custom',
+    shortPromise:
+      'Sistem yang mengikuti cara kerjamu, bukan sebaliknya. Dari dashboard laporan sampai aplikasi internal untuk timmu.',
+    summary:
+      'Software custom dari CHESTAADOTCOM mencakup aplikasi web, dashboard, dan sistem internal untuk bisnis di Tangerang Selatan dan Jabodetabek. Dibangun mengikuti alur kerja yang sudah berjalan di timmu, dimulai dari versi kecil yang bisa dipakai cepat lalu dikembangkan bertahap. Biaya dihitung setelah audit gratis.',
+    bentoSpan: 'small',
+    timeline: 'Hitungan minggu (estimasi pasti setelah audit)',
+    bestForSummary: 'Aplikasi web, dashboard laporan, dan sistem internal',
+    forWho: [
+      'Memakai spreadsheet yang makin berat dan sering salah.',
+      'Punya beberapa aplikasi yang tidak saling terhubung.',
+      'Menemukan aplikasi jadi yang tidak cocok dengan alur kerjamu.',
+      'Butuh laporan yang diperbarui otomatis, atau portal untuk pelanggan dan mitra.',
+    ],
+    deliverables: [
+      {
+        title: 'Alur dan kebutuhan yang ditulis jelas',
+        description: 'Sebelum satu baris kode dibuat.',
+      },
+      {
+        title: 'Aplikasi web responsif',
+        description: 'Yang nyaman dipakai di HP dan desktop.',
+      },
+      {
+        title: 'Login dan hak akses per peran',
+        description: 'Misalnya admin, staf, dan pelanggan.',
+      },
+      {
+        title: 'Dashboard dan laporan',
+        description: 'Yang diperbarui dari data yang sama.',
+      },
+      {
+        title: 'Integrasi dengan tool yang kamu pakai',
+        description: 'Lewat API.',
+      },
+      {
+        title: 'Dokumentasi dan pelatihan singkat',
+        description: 'Untuk timmu.',
+      },
+    ],
+    process: [
+      {
+        num: '1',
+        duration: '30 menit',
+        title: 'Audit gratis (30 menit)',
+        description:
+          'Kami pelajari alur kerjamu dan bilang jujur apakah software custom memang diperlukan atau aplikasi jadi sudah cukup.',
+      },
+      {
+        num: '2',
+        duration: 'Tahap 2',
+        title: 'Rancang dan prototipe',
+        description: 'Kamu mencoba kerangka layar dan alurnya sebelum fitur dibangun.',
+      },
+      {
+        num: '3',
+        duration: 'Tahap 3',
+        title: 'Bangun dan uji',
+        description: 'Dibangun bertahap, setiap tahap dicoba oleh orang yang akan memakainya.',
+      },
+      {
+        num: '4',
+        duration: 'Tahap 4',
+        title: 'Rilis dan rawat',
+        description: 'Versi pertama dirilis lebih dulu, lalu disempurnakan berdasarkan pemakaian nyata.',
+      },
+    ],
+    useCases: [],
+    stackChips: ['Aplikasi Web', 'Hak Akses Peran', 'Dashboard Laporan', 'Integrasi API'],
+    pricingNote: {
+      label: 'Dihitung setelah audit gratis',
+      reason:
+        'Dihitung setelah audit gratis. Yang memengaruhi biaya: jumlah peran pengguna, jumlah fitur, integrasi dengan tool lain, dan kebutuhan laporan.',
+      scopeNote: 'Kamu menerima angka dan cakupan kerjanya sebelum membayar apa pun.',
+    },
+    relatedCaseSlugs: ['dashboard-kafe', 'pemroses-dokumen'],
+    relatedPostSlugs: [
+      'berapa-biaya-bikin-website-bisnis-panduan-harga',
+      'Vibe-Coding-untuk-Bisnis-Kapan-Pakai-AI-dan-Kapan-Harus-Rekayasa-Software-Asli',
+    ],
+    seo: {
+      title: 'Jasa Software Custom dan Dashboard di Tangsel | CHESTAADOTCOM',
+      description:
+        'Aplikasi web, dashboard, dan sistem internal sesuai alur kerja bisnismu. Melayani Tangerang Selatan, BSD, dan Jabodetabek. Mulai dari audit gratis.',
     },
     imageKey: 'serviceSoftwareCustom',
   },
+
+  // 4. otomasi-workflow
   {
     slug: 'otomasi-workflow',
-    title: 'Otomasi Workflow Antar-Aplikasi',
-    shortTitle: 'Otomasi Workflow',
-    tagline: 'INTEGRASI & OTOMASI PROSES KERJA',
-    shortPromise:
-      'Menyambungkan Google Sheets, form website, invoice, kalender, dan WhatsApp supaya data mengalir sendiri.',
-    summary:
-      'Kamu tidak selalu harus mengganti tool yang sudah biasa dipakai timmu. Kami membangun jembatan otomatis di belakang layar (menggunakan n8n, Node.js, dan Webhook API) agar setiap data yang masuk di satu tempat langsung memperbarui sistem lainnya tanpa salin-tempel manual.',
-    bentoSpan: 'small',
-    timeline: '1–3 minggu',
-    bestForSummary: 'Tim yang sudah memakai Sheets/Notion/Form tetapi lelah menyalin data dan mengirim notifikasi manual',
-    forWho: [
-      'Staf kamu menghabiskan waktu berjam-jam setiap hari hanya untuk menyalin data dari formulir atau chat ke berbagai spreadsheet.',
-      'Sering terjadi salah ketik nominal, nomor telepon, atau jadwal karena data dipindahkan secara manual oleh admin yang sedang terburu-buru.',
-      'Pembuatan kuitansi/invoice, pengiriman email konfirmasi, dan pengingat jatuh tempo masih diketik satu per satu.',
-      'Kamu sebagai pemilik bisnis harus selalu bertanya ke admin di grup chat hanya untuk mengetahui total penjualan atau prospek hari ini.',
+    enSlug: 'workflow-automation',
+    urlSlug: 'otomasi-workflow',
+    eyebrow: 'Otomasi workflow',
+    h1: 'Jasa otomasi workflow bisnis: sambungkan WhatsApp, Sheets, kalender, dan invoice',
+    sub: 'Pekerjaan berulang yang selama ini disalin manual antar aplikasi jadi berjalan otomatis, lengkap dengan notifikasi kalau ada yang gagal.',
+    ringkasanSingkat:
+      'Otomasi workflow adalah menyambungkan aplikasi yang sudah kamu pakai, seperti WhatsApp, Google Sheets, kalender, dan invoice, supaya tugas berulang berjalan sendiri. CHESTAADOTCOM membangun otomasi untuk bisnis di Tangerang Selatan dan Jabodetabek, lengkap dengan log dan notifikasi kegagalan. Biaya dihitung setelah audit gratis.',
+    cocokKalau: [
+      'Memasukkan data yang sama ke dua atau tiga tempat.',
+      'Menyusun laporan mingguan secara manual.',
+      'Mengandalkan ingatan staf untuk pengingat dan notifikasi.',
+      'Sering terlambat mengirim invoice atau tagihan.',
     ],
-    deliverables: [
+    kapanTidakPerlu:
+      'Kalau tugasnya hanya muncul beberapa kali sebulan, mengerjakannya manual lebih murah daripada membangun otomasi. Kami akan bilang begitu kalau memang itu jawabannya.',
+    yangKamuDapat: [
       {
-        title: 'Arsitektur Alur Otomasi (n8n / Node.js Webhook)',
-        description:
-          'Skenario pemicu otomatis (trigger & action) yang menghubungkan aplikasi harianmu secara instan dan stabil.',
+        title: 'Pemetaan alur kerja',
+        description: 'Sebelum otomasi dibuat.',
       },
       {
-        title: 'Sinkronisasi Dua Arah Spreadsheet & Database',
-        description:
-          'Pencatatan dan pembaruan baris otomatis di Google Sheets, Notion, Airtable, atau PostgreSQL saat ada transaksi baru.',
+        title: 'Otomasi antar tool',
+        description: 'Yang kamu pakai.',
       },
       {
-        title: 'Otomasi Pembuatan Invoice & Dokumen PDF',
-        description:
-          'Pembuatan dokumen penawaran, invoice, atau tanda terima otomatis dari data pesanan yang langsung dikirim ke pelanggan.',
+        title: 'Penanganan error dan notifikasi',
+        description: 'Saat ada langkah yang gagal.',
       },
       {
-        title: 'Pengingat Terjadwal & Notifikasi Tim Real-Time',
-        description:
-          'Pengiriman pengingat H-1 ke WhatsApp pelanggan serta laporan ringkasan harian otomatis ke WhatsApp/Slack pemilik bisnis.',
+        title: 'Log eksekusi',
+        description: 'Yang bisa diperiksa.',
       },
       {
-        title: 'Penanganan Error & Peringatan Gagal Kirim',
-        description:
-          'Mekanisme coba-ulang otomatis (auto-retry) jika salah satu koneksi pihak ketiga sedang gangguan, lengkap dengan log pemantauan.',
+        title: 'Dokumentasi alur',
+        description: 'Supaya timmu paham apa yang berjalan.',
       },
       {
-        title: 'Dokumentasi Alur & Garansi Pemeliharaan 30 Hari',
+        title: 'Opsional: AI untuk langkah teks',
         description:
-          'Peta visual alur data yang mudah dipahami timmu beserta garansi perbaikan penuh selama 30 hari pertama.',
+          'Untuk langkah yang perlu memahami teks, misalnya mengelompokkan pesan masuk.',
       },
     ],
-    process: [
+    caraKerja: [
       {
-        num: '01',
-        duration: '30 Menit',
-        title: 'Petakan daftar aplikasi & pekerjaan berulang',
+        num: '1',
+        duration: '30 menit',
+        title: 'Audit gratis (30 menit)',
         description:
-          'Kita urutkan langkah-langkah manual yang dilakukan stafmu dari saat pesanan masuk hingga laporan selesai dibuat.',
+          'Kami catat tugas berulang timmu dan pilih yang paling banyak memakan waktu.',
       },
       {
-        num: '02',
-        duration: 'Hari ke-2–3',
-        title: 'Rancang skema pemicu (trigger) & validasi data',
+        num: '2',
+        duration: 'Tahap 2',
+        title: 'Rancang dan prototipe',
         description:
-          'Kami tentukan aturan bersih: kapan alur otomatis menyala, data apa yang difilter, dan ke mana hasil akhirnya dikirim.',
+          'Kamu melihat diagram alurnya dan memastikan aturannya benar.',
       },
       {
-        num: '03',
-        duration: 'Minggu ke-1–2',
-        title: 'Sambungkan API & uji coba dengan data sampel',
+        num: '3',
+        duration: 'Tahap 3',
+        title: 'Bangun dan uji',
         description:
-          'Kami merakit workflow di n8n/Node.js dan mengujinya dengan puluhan baris data transaksi untuk memastikan akurasi 100%.',
+          'Otomasi dijalankan dengan data contoh, termasuk skenario gagal.',
       },
       {
-        num: '04',
-        duration: 'Rilis & Pantau',
-        title: 'Aktifkan otomatisasi & serah terima ke tim',
+        num: '4',
+        duration: 'Tahap 4',
+        title: 'Rilis dan rawat',
         description:
-          'Alur berjalan otomatis di belakang layar. Stafmu langsung terbebas dari tugas salin-tempel dan fokus melayani pelanggan.',
+          'Kami memantau log dan memperbaiki saat tool pihak ketiga berubah.',
       },
     ],
-    useCases: [
+    contohPenggunaan: [
       {
         industryId: 'klinik',
         industryLabel: 'Klinik',
-        scenarioTitle: 'Otomasi Pengingat Kontrol Pasien & Rekap Kunjungan Harian',
+        scenarioTitle: 'Contoh penggunaan untuk Klinik',
         workflowLines: [
-          'Setiap kali staf menambahkan jadwal pasien di Google Sheets/Calendar, alur otomatis menyiapkan antrean pesan pengingat.',
-          'Pada H-1 dan H-2 jam sebelum jadwal, sistem mengirim pesan konfirmasi kehadiran via WhatsApp ke nomor pasien.',
-          'Setiap pukul 20.00, sistem merangkum total pasien hadir, batal, dan pendapatan harian lalu mengirimkannya ke WhatsApp pemilik klinik.',
+          'Pengingat janji temu terkirim otomatis, dan rekap harian masuk ke pemilik setiap malam.',
         ],
-        outcome: 'Contoh hasil: Angka pasien lupa datang (no-show) turun drastis tanpa admin harus mengirim chat satu per satu.',
+        outcome:
+          'Contoh: Pengingat janji temu terkirim otomatis, dan rekap harian masuk ke pemilik setiap malam.',
       },
       {
         industryId: 'fnb',
         industryLabel: 'F&B',
-        scenarioTitle: 'Rekap Otomatis Pesanan Pre-Order ke Daftar Belanja & Kurir',
+        scenarioTitle: 'Contoh penggunaan untuk F&B',
         workflowLines: [
-          'Pesanan yang masuk dari formulir web otomatis masuk ke baris Google Sheets utama dan dikelompokkan berdasarkan tanggal kirim.',
-          'Sistem otomatis menjumlahkan total porsi per menu untuk tim dapur dan menghasilkan label alamat cetak untuk kurir.',
-          'Begitu status di sheet diubah menjadi "Dikirim", pelanggan otomatis menerima pesan WhatsApp berisi estimasi jam tiba.',
+          'Penjualan harian terekap ke Google Sheets, dan notifikasi muncul saat stok bahan menipis.',
         ],
-        outcome: 'Contoh hasil: Koordinasi antara admin pesanan, dapur, dan kurir berjalan rapi tanpa salah kirim.',
+        outcome:
+          'Contoh: Penjualan harian terekap ke Google Sheets, dan notifikasi muncul saat stok bahan menipis.',
       },
       {
         industryId: 'properti',
         industryLabel: 'Properti',
-        scenarioTitle: 'Distribusi Leads Iklan Instan & Pengingat Follow-Up Sales',
+        scenarioTitle: 'Contoh penggunaan untuk Properti',
         workflowLines: [
-          'Prospek baru yang mengisi formulir iklan Meta/Google langsung tercatat di CRM dan dibagikan bergiliran (round-robin) ke sales yang bertugas.',
-          'Sales langsung menerima notifikasi WhatsApp berisi profil prospek beserta tautan satu-klik untuk menyapa calon pembeli.',
-          'Jika dalam 2 jam status prospek belum diperbarui, sistem mengirim pengingat ke sales dan manajer pemasaran.',
+          'Calon pembeli dari formulir iklan masuk ke CRM dan agen yang bertugas langsung diberi tahu.',
         ],
-        outcome: 'Contoh hasil: Setiap prospek iklan dihubungi saat minatnya masih tinggi, tidak ada lagi data iklan yang mengendap.',
+        outcome:
+          'Contoh: Calon pembeli dari formulir iklan masuk ke CRM dan agen yang bertugas langsung diberi tahu.',
       },
       {
         industryId: 'jasa',
-        industryLabel: 'Jasa Profesional',
-        scenarioTitle: 'Pembuatan Kontrak, Invoice & Pengingat Tagihan Otomatis',
+        industryLabel: 'Jasa profesional',
+        scenarioTitle: 'Contoh penggunaan untuk Jasa profesional',
         workflowLines: [
-          'Saat status prospek di tabel diubah menjadi "Deal", sistem otomatis mengisi template draf kontrak dan invoice PDF sesuai data klien.',
-          'Dokumen dikirim ke klien melalui email dan WhatsApp, sekaligus mencatat tanggal jatuh tempo di kalender keuangan.',
-          'Tiga hari sebelum jatuh tempo, sistem mengirimkan pengingat pembayaran sopan secara otomatis.',
+          'Invoice terkirim otomatis setelah proyek selesai, lalu pengingat pembayaran dikirim sesuai jadwal.',
         ],
-        outcome: 'Contoh hasil: Administrasi kontrak dan penagihan selesai dalam hitungan detik tanpa salah ketik nominal.',
+        outcome:
+          'Contoh: Invoice terkirim otomatis setelah proyek selesai, lalu pengingat pembayaran dikirim sesuai jadwal.',
       },
     ],
-    stackChips: ['n8n', 'Node.js', 'WhatsApp Cloud API', 'PostgreSQL', 'Python'],
+    prinsipTeknis:
+      'Setiap alur punya penanganan kegagalan dan notifikasi, jadi masalah ketahuan sebelum pelanggan yang menemukannya. Akses ke tiap aplikasi dibatasi seperlunya. Alur didokumentasikan supaya tidak bergantung pada satu orang.',
+    hargaDanScope:
+      'Dihitung setelah audit gratis, sesuai jumlah alur, jumlah tool yang dihubungkan, dan volume data. Langganan aplikasi pihak ketiga dibayar langsung oleh kamu sesuai paket penyedianya; biaya bangun dan rawat otomasi dari kami.',
+    siapkanSebelumAudit: [
+      'Daftar tugas berulang dan seberapa sering terjadi',
+      'Aplikasi yang dipakai di tiap langkah',
+      'Aturan pengecualian, misalnya kapan harus ditangani manual',
+      'Siapa yang diberi tahu kalau ada langkah yang gagal',
+    ],
+    faq: [
+      {
+        question: 'Apa bedanya otomasi workflow dan AI agent?',
+        answer:
+          'Otomasi menjalankan langkah yang aturannya tetap, misalnya "jika ada pesanan baru, catat ke Sheets". AI agent dipakai kalau tugasnya butuh memahami pesan dan mengambil keputusan.',
+      },
+      {
+        question: 'Aplikasi apa saja yang bisa dihubungkan?',
+        answer:
+          'Selama aplikasinya punya API atau integrasi resmi. Kami periksa saat audit.',
+      },
+      {
+        question: 'Bagaimana kalau satu langkah gagal?',
+        answer:
+          'Alur dirancang dengan notifikasi kegagalan dan log, jadi masalahnya ketahuan dan prosesnya bisa diulang.',
+      },
+      {
+        question: 'Apakah ada biaya bulanan?',
+        answer:
+          'Langganan aplikasi pihak ketiga dibayar langsung olehmu sesuai paket penyedia. Biaya rawat otomasi dari kami hanya kalau kamu memilih paket rawat.',
+      },
+      {
+        question: 'Berapa lama pengerjaannya?',
+        answer:
+          'Satu alur sederhana biasanya selesai dalam hitungan hari, beberapa alur yang saling terhubung butuh hitungan minggu. Estimasi pastinya kami beri setelah audit.',
+      },
+    ],
+    hasAreaPages: false,
+    updatedAt: '2026-03-20',
+    title: 'Otomasi workflow',
+    shortTitle: 'Otomasi Workflow',
+    tagline: 'Otomasi workflow',
+    shortPromise:
+      'Pekerjaan berulang yang selama ini disalin manual antar aplikasi jadi berjalan otomatis, lengkap dengan notifikasi kalau ada yang gagal.',
+    summary:
+      'Otomasi workflow adalah menyambungkan aplikasi yang sudah kamu pakai, seperti WhatsApp, Google Sheets, kalender, dan invoice, supaya tugas berulang berjalan sendiri. CHESTAADOTCOM membangun otomasi untuk bisnis di Tangerang Selatan dan Jabodetabek, lengkap dengan log dan notifikasi kegagalan. Biaya dihitung setelah audit gratis.',
+    bentoSpan: 'small',
+    timeline: 'Hitungan hari hingga minggu (estimasi setelah audit)',
+    bestForSummary: 'Sambungkan WhatsApp, Sheets, kalender, dan invoice otomatis',
+    forWho: [
+      'Memasukkan data yang sama ke dua atau tiga tempat.',
+      'Menyusun laporan mingguan secara manual.',
+      'Mengandalkan ingatan staf untuk pengingat dan notifikasi.',
+      'Sering terlambat mengirim invoice atau tagihan.',
+    ],
+    deliverables: [
+      {
+        title: 'Pemetaan alur kerja',
+        description: 'Sebelum otomasi dibuat.',
+      },
+      {
+        title: 'Otomasi antar tool',
+        description: 'Yang kamu pakai.',
+      },
+      {
+        title: 'Penanganan error dan notifikasi',
+        description: 'Saat ada langkah yang gagal.',
+      },
+      {
+        title: 'Log eksekusi',
+        description: 'Yang bisa diperiksa.',
+      },
+      {
+        title: 'Dokumentasi alur',
+        description: 'Supaya timmu paham apa yang berjalan.',
+      },
+      {
+        title: 'Opsional: AI untuk langkah teks',
+        description: 'Untuk langkah yang perlu memahami teks, misalnya mengelompokkan pesan masuk.',
+      },
+    ],
+    process: [
+      {
+        num: '1',
+        duration: '30 menit',
+        title: 'Audit gratis (30 menit)',
+        description: 'Kami catat tugas berulang timmu dan pilih yang paling banyak memakan waktu.',
+      },
+      {
+        num: '2',
+        duration: 'Tahap 2',
+        title: 'Rancang dan prototipe',
+        description: 'Kamu melihat diagram alurnya dan memastikan aturannya benar.',
+      },
+      {
+        num: '3',
+        duration: 'Tahap 3',
+        title: 'Bangun dan uji',
+        description: 'Otomasi dijalankan dengan data contoh, termasuk skenario gagal.',
+      },
+      {
+        num: '4',
+        duration: 'Tahap 4',
+        title: 'Rilis dan rawat',
+        description: 'Kami memantau log dan memperbaiki saat tool pihak ketiga berubah.',
+      },
+    ],
+    useCases: [],
+    stackChips: ['WhatsApp', 'Google Sheets', 'Kalender & Invoice', 'Log & Notifikasi'],
     pricingNote: {
       label: 'Dihitung setelah audit gratis',
       reason:
-        'Biaya otomasi dihitung berdasarkan jumlah aplikasi yang disambungkan dan tingkat kerumitan cabang logika datanya, yang kami rincikan secara pasti setelah sesi audit gratis 30 menit.',
-      scopeNote: 'Dapat di-host di server mandiri (self-hosted n8n) sehingga kamu bebas dari biaya langganan per-task yang mahal.',
+        'Dihitung setelah audit gratis, sesuai jumlah alur, jumlah tool yang dihubungkan, dan volume data.',
+      scopeNote:
+        'Langganan aplikasi pihak ketiga dibayar langsung oleh kamu sesuai paket penyedianya; biaya bangun dan rawat otomasi dari kami.',
     },
-    faq: [
-      {
-        question: 'Apakah saya harus berhenti memakai Google Sheets atau aplikasi yang sudah ada?',
-        answer:
-          'Tidak perlu. Keunggulan otomasi workflow justru menyambungkan Google Sheets, kalender, atau sistem yang sudah akrab dipakai stafmu supaya datanya sinkron otomatis tanpa harus belajar software baru dari nol.',
-      },
-      {
-        question: 'Kenapa memakai n8n dan Node.js dibanding langganan Zapier biasa?',
-        answer:
-          'Zapier mengenakan biaya bulanan dalam dolar yang cepat membengkak saat jumlah transaksi bisnismu naik. Dengan n8n dan Node.js yang bisa dipasang di server sendiri, biaya operasionalnya jauh lebih hemat untuk ribuan eksekusi harian.',
-      },
-      {
-        question: 'Bagaimana kalau salah satu aplikasi yang disambungkan sedang error atau down?',
-        answer:
-          'Setiap alur yang kami bangun dilengkapi sistem penyimpanan antrean dan coba-ulang otomatis (auto-retry), serta mengirim peringatan ke admin jika ada koneksi yang membutuhkan perhatian.',
-      },
-      {
-        question: 'Berapa lama waktu pengerjaan satu alur otomasi?',
-        answer:
-          'Untuk alur otomasi standar antar 2–4 aplikasi, pengerjaan memakan waktu sekitar 1–2 minggu termasuk tahap pengujian data nyata.',
-      },
-    ],
-    relatedCaseSlugs: ['fnb-preorder-serpong', 'klinik-triage-bsd'],
+    relatedCaseSlugs: ['lead-properti'],
     relatedPostSlugs: [
+      'Cara-Otomasi-Workflow-Bisnis-Tanpa-Harus-Ganti-Semua-Aplikasi-Lama',
       'otomasi-whatsapp-ai-klinik-fnb-alur-kerja',
-      'seo-lokal-bisnis-bsd-tangerang-selatan-google-maps',
     ],
     seo: {
-      title: 'Jasa Otomasi Workflow Bisnis & n8n di BSD | CHESTAADOTCOM',
+      title: 'Jasa Otomasi Workflow Bisnis di Tangsel | CHESTAADOTCOM',
       description:
-        'Sambungkan Google Sheets, WhatsApp, kalender, dan pembuatan invoice otomatis dengan layanan otomasi workflow (n8n & Node.js) di BSD City, Tangsel & Jabodetabek.',
+        'Sambungkan WhatsApp, Google Sheets, kalender, dan invoice supaya kerja berulang berjalan otomatis. Melayani bisnis di Tangsel dan Jabodetabek. Audit gratis.',
     },
     imageKey: 'serviceOtomasiWorkflow',
   },
 ];
 
-export function getAllServices(): ServiceItem[] {
-  return SERVICES_DATA;
-}
+// ============================================================================
+// ENGLISH SERVICES DATA (1:1 FAITHFUL TRANSLATION OF SECTION 4)
+// ============================================================================
+export const SERVICES_DATA_EN: ServiceItem[] = [
+  // 1. website-development (pembuatan-website)
+  {
+    slug: 'pembuatan-website',
+    enSlug: 'website-development',
+    urlSlug: 'website-development',
+    eyebrow: 'Website and landing page development',
+    h1: 'Website and landing page development for businesses in South Tangerang',
+    sub: 'Websites that open quickly, state clearly what you offer, and are ready for ads. Built so visitors actually contact you, not just browse.',
+    ringkasanSingkat:
+      'Website development at CHESTAADOTCOM covers landing pages, company profiles, and custom websites for businesses in South Tangerang and Greater Jakarta. Every page is built to load fast, read comfortably on mobile phones, and focus on one clear goal, such as a booking or a WhatsApp message. Pricing starts from IDR 1,200,000, depending on complexity.',
+    cocokKalau: [
+      'You are already running ads, but visitors leave right away.',
+      'You do not have a website yet, or your current site is slow and hard to open on mobile phones.',
+      'You want prospective customers to book or chat without taking many steps.',
+      'You want to be found on Google when people search for your service in your area.',
+    ],
+    kapanTidakPerlu:
+      'If you only need a single page for a bio link and are not advertising anything yet, a free template is enough. We are much more useful when that page needs to generate messages, bookings, or purchases.',
+    yangKamuDapat: [
+      {
+        title: 'Page structure and copy',
+        description:
+          'Answers prospective customers’ questions before they have to ask.',
+      },
+      {
+        title: 'Responsive design',
+        description: 'Clean and tidy on mobile phones, tablets, and desktops.',
+      },
+      {
+        title: 'Speed',
+        description:
+          'Optimized images, only necessary scripts, tested on PageSpeed Insights.',
+      },
+      {
+        title: 'Foundational SEO',
+        description:
+          'Titles and descriptions for each page, heading structure, sitemap, and structured data.',
+      },
+      {
+        title: 'WhatsApp buttons and forms',
+        description: 'Deliver messages straight to you.',
+      },
+      {
+        title: 'Basic tracking',
+        description:
+          'If you want it, so you can see where your visitors come from.',
+      },
+    ],
+    caraKerja: [
+      {
+        num: '1',
+        duration: '30 minutes',
+        title: 'Free audit (30 minutes)',
+        description:
+          'We look at your business goals, your existing pages, and competitors around you.',
+      },
+      {
+        num: '2',
+        duration: 'Step 2',
+        title: 'Design and prototype',
+        description:
+          'You review the structure and layout before we build it in full.',
+      },
+      {
+        num: '3',
+        duration: 'Step 3',
+        title: 'Build and test',
+        description:
+          'Built, then tested on mobile phones and on PageSpeed Insights.',
+      },
+      {
+        num: '4',
+        duration: 'Step 4',
+        title: 'Release and maintain',
+        description:
+          'Live online, monitored, and refined after visitor data comes in.',
+      },
+    ],
+    contohPenggunaan: [
+      {
+        industryId: 'klinik',
+        industryLabel: 'Clinic',
+        scenarioTitle: 'Example use case for Clinics',
+        workflowLines: [
+          'One page per treatment with starting prices, practice hours, and a booking button via WhatsApp.',
+          'Prospective patients know what is offered and can book a slot right away.',
+        ],
+        outcome:
+          'Example: One page per treatment with starting prices, practice hours, and a booking button via WhatsApp. Prospective patients know what is offered and can book a slot right away.',
+      },
+      {
+        industryId: 'fnb',
+        industryLabel: 'F&B',
+        scenarioTitle: 'Example use case for F&B',
+        workflowLines: [
+          'Menu, opening hours, map, and an order or reservation button on one lightweight page.',
+          'People searching for a nearby cafe get their answer immediately.',
+        ],
+        outcome:
+          'Example: Menu, opening hours, map, and an order or reservation button on one lightweight page. People searching for a nearby cafe get their answer immediately.',
+      },
+      {
+        industryId: 'properti',
+        industryLabel: 'Property',
+        scenarioTitle: 'Example use case for Property',
+        workflowLines: [
+          'A page per project with a gallery, unit types, and an interest form.',
+          'Prospective buyer messages arrive complete with the unit type they are interested in.',
+        ],
+        outcome:
+          'Example: A page per project with a gallery, unit types, and an interest form. Prospective buyer messages arrive complete with the unit type they are interested in.',
+      },
+      {
+        industryId: 'jasa',
+        industryLabel: 'Professional services',
+        scenarioTitle: 'Example use case for Professional services',
+        workflowLines: [
+          'A service page with a clear workflow and a consultation form.',
+          'Visitors understand the process before reaching out.',
+        ],
+        outcome:
+          'Example: A service page with a clear workflow and a consultation form. Visitors understand the process before reaching out.',
+      },
+    ],
+    comparisonTable: {
+      headers: ['Category', 'Landing page', 'Company profile', 'Custom web'],
+      rows: [
+        {
+          feature: 'Best for',
+          landingPage: 'One goal, such as bookings or ads',
+          companyProfile: 'Businesses that need a complete, credible presence',
+          webCustom: 'Specific needs such as booking, payments, or login',
+        },
+        {
+          feature: 'Number of pages',
+          landingPage: 'One page',
+          companyProfile: 'Multiple pages',
+          webCustom: 'As needed',
+        },
+        {
+          feature: 'Common contents',
+          landingPage: 'Offer, proof, action button',
+          companyProfile: 'Profile, services, gallery, contact',
+          webCustom: 'Custom features and integrations',
+        },
+        {
+          feature: 'Price',
+          landingPage: 'Starting from IDR 1,200,000',
+          companyProfile: 'Calculated by number of pages',
+          webCustom: 'Calculated after free audit',
+        },
+      ],
+    },
+    prinsipTeknis:
+      'Pages are built statically so they stay fast. Images are compressed and sized properly. Third-party scripts are added only when truly needed. Results are tested on mobile phones, not just on laptops.',
+    hargaDanScope:
+      'Starting from IDR 1,200,000 for a landing page. The cost increases as the number of pages, features (such as booking or payments), or integrations grows. We share the exact figure after the free audit, before you pay anything.',
+    siapkanSebelumAudit: [
+      'Links to your social media or old website',
+      'Examples of competitor websites you like',
+      'The main action you want from visitors (book, chat, or buy)',
+      'Existing photos and logo',
+    ],
+    faq: [
+      {
+        question: 'How much does website development cost?',
+        answer:
+          'A landing page starts from IDR 1,200,000. Company profiles and websites with custom features are calculated based on the number of pages and features after the free audit.',
+      },
+      {
+        question: 'How long does it take to build?',
+        answer:
+          'Simple landing pages usually take days. Websites with many pages or features take weeks. We give the exact estimate after the audit.',
+      },
+      {
+        question: 'Can my website appear on Google?',
+        answer:
+          'We prepare the SEO foundation: title and description for each page, heading structure, sitemap, and structured data. Rankings still depend on competition and time, so no one can promise a specific position.',
+      },
+      {
+        question: 'Whose name are the domain and hosting registered under?',
+        answer:
+          'Under your name. You own the domain and hosting, so you are never locked in with us.',
+      },
+      {
+        question: 'After release, who maintains the website?',
+        answer:
+          'You can use our monthly maintenance plan or manage it yourself. We agree on this upfront.',
+      },
+    ],
+    hasAreaPages: true,
+    updatedAt: '2026-03-20',
+    title: 'Website and landing page development',
+    shortTitle: 'Website Development',
+    tagline: 'Website and landing page development',
+    shortPromise:
+      'Websites that open quickly, state clearly what you offer, and are ready for ads. Starting from IDR 1,200,000.',
+    summary:
+      'Website development at CHESTAADOTCOM covers landing pages, company profiles, and custom websites for businesses in South Tangerang and Greater Jakarta. Every page is built to load fast, read comfortably on mobile phones, and focus on one clear goal, such as a booking or a WhatsApp message. Pricing starts from IDR 1,200,000, depending on complexity.',
+    bentoSpan: 'large',
+    timeline: 'Days (simple landing page)',
+    bestForSummary: 'Ad landing pages, company profiles, and custom business websites',
+    forWho: [
+      'You are already running ads, but visitors leave right away.',
+      'You do not have a website yet, or your current site is slow and hard to open on mobile phones.',
+      'You want prospective customers to book or chat without taking many steps.',
+      'You want to be found on Google when people search for your service in your area.',
+    ],
+    deliverables: [
+      {
+        title: 'Page structure and copy',
+        description: 'Answers prospective customers’ questions before they have to ask.',
+      },
+      {
+        title: 'Responsive design',
+        description: 'Clean and tidy on mobile phones, tablets, and desktops.',
+      },
+      {
+        title: 'Speed',
+        description: 'Optimized images, only necessary scripts, tested on PageSpeed Insights.',
+      },
+      {
+        title: 'Foundational SEO',
+        description: 'Titles and descriptions for each page, heading structure, sitemap, and structured data.',
+      },
+      {
+        title: 'WhatsApp buttons and forms',
+        description: 'Deliver messages straight to you.',
+      },
+      {
+        title: 'Basic tracking',
+        description: 'If you want it, so you can see where your visitors come from.',
+      },
+    ],
+    process: [
+      {
+        num: '1',
+        duration: '30 minutes',
+        title: 'Free audit (30 minutes)',
+        description: 'We look at your business goals, your existing pages, and competitors around you.',
+      },
+      {
+        num: '2',
+        duration: 'Step 2',
+        title: 'Design and prototype',
+        description: 'You review the structure and layout before we build it in full.',
+      },
+      {
+        num: '3',
+        duration: 'Step 3',
+        title: 'Build and test',
+        description: 'Built, then tested on mobile phones and on PageSpeed Insights.',
+      },
+      {
+        num: '4',
+        duration: 'Step 4',
+        title: 'Release and maintain',
+        description: 'Live online, monitored, and refined after visitor data comes in.',
+      },
+    ],
+    useCases: [],
+    stackChips: ['Static Pages', 'Image Compression', 'Structured Data', 'PageSpeed Insights'],
+    pricingNote: {
+      label: 'Starting from IDR 1,200,000',
+      startingPriceNumeric: 1200000,
+      reason:
+        'Starting from IDR 1,200,000 for a landing page. The cost increases as the number of pages, features (such as booking or payments), or integrations grows.',
+      scopeNote:
+        'We share the exact figure after the free audit, before you pay anything.',
+    },
+    relatedCaseSlugs: ['landing-klinik-estetika', 'chestaa-v2'],
+    relatedPostSlugs: [
+      'kenapa-landing-page-lambat-bikin-iklan-boncos',
+      'berapa-biaya-bikin-website-bisnis-panduan-harga',
+      'checklist-landing-page-konversi-tinggi-umkm-b2b',
+    ],
+    seo: {
+      title: 'Business Website Development in Tangsel | CHESTAADOTCOM',
+      description:
+        'Website and landing page development for businesses in BSD, Pamulang, and South Tangerang. Fast on mobile and ad-ready. Starting from IDR 1,200,000.',
+    },
+    imageKey: 'serviceWebLandingPage',
+  },
+
+  // 2. ai-agents (ai-agent)
+  {
+    slug: 'ai-agent',
+    enSlug: 'ai-agents',
+    urlSlug: 'ai-agents',
+    eyebrow: 'AI agent',
+    h1: 'AI agent services for business: automated WhatsApp replies, bookings, and follow-ups',
+    sub: 'An AI agent reads customer intent, uses tools like your calendar and database, and completes the task through to the end. When a human is needed, the agent hands it over to your team with a summary.',
+    ringkasanSingkat:
+      'An AI agent is a system that understands customer messages, uses tools like calendars, databases, or CRMs, and completes tasks such as creating a booking or sending a follow-up. CHESTAADOTCOM builds AI agents for businesses in South Tangerang and Greater Jakarta, complete with action boundaries and human handover. Pricing is calculated after a free audit.',
+    cocokKalau: [
+      'You answer the exact same questions repeatedly every day.',
+      'You receive incoming messages at night that only get answered the next morning.',
+      'You copy data from chats into spreadsheets manually.',
+      'You lose prospective customers because no one follows up after they ask for prices.',
+    ],
+    kapanTidakPerlu:
+      'If you only receive a few messages a day and every single one needs a personal touch, an agent is not needed yet. We will tell you that openly during the audit.',
+    yangKamuDapat: [
+      {
+        title: 'A connected agent',
+        description:
+          'Linked to WhatsApp Business and the tools you already use.',
+      },
+      {
+        title: 'Action rules',
+        description:
+          'What the agent may and may not do, written together with you.',
+      },
+      {
+        title: 'Staff handover',
+        description:
+          'Out-of-rule cases are forwarded complete with a conversation summary.',
+      },
+      {
+        title: 'Complete action log',
+        description: 'Every action is recorded so you can inspect it.',
+      },
+      {
+        title: 'Real-conversation testing',
+        description: 'Tested with real conversations from your business before release.',
+      },
+      {
+        title: 'Support and adjustments',
+        description: 'Ongoing tuning after your team starts using it.',
+      },
+    ],
+    caraKerja: [
+      {
+        num: '1',
+        duration: '30 minutes',
+        title: 'Free audit (30 minutes)',
+        description:
+          'We map your recurring conversations and tasks, then tell you honestly which ones should be handled by an agent and which should not.',
+      },
+      {
+        num: '2',
+        duration: 'Step 2',
+        title: 'Design and prototype',
+        description:
+          'You see sample conversation flows and action rules before we build the full system.',
+      },
+      {
+        num: '3',
+        duration: 'Step 3',
+        title: 'Build and test',
+        description:
+          'The agent is tested with real conversations, including tough questions and unusual requests.',
+      },
+      {
+        num: '4',
+        duration: 'Step 4',
+        title: 'Release and maintain',
+        description:
+          'We monitor the logs, fix off-target replies, and adjust the rules as it gets used.',
+      },
+    ],
+    contohPenggunaan: [
+      {
+        industryId: 'klinik',
+        industryLabel: 'Clinic',
+        scenarioTitle: 'Example use case for Clinics',
+        workflowLines: [
+          'A customer writes "can I book a facial tomorrow at 4 PM?".',
+          'The agent checks the therapist calendar, creates the booking, sends a confirmation, records it in the CRM, and sends a reminder the day before.',
+        ],
+        outcome:
+          'Example: A customer writes "can I book a facial tomorrow at 4 PM?". The agent checks the therapist calendar, creates the booking, sends a confirmation, records it in the CRM, and sends a reminder the day before.',
+      },
+      {
+        industryId: 'fnb',
+        industryLabel: 'F&B',
+        scenarioTitle: 'Example use case for F&B',
+        workflowLines: [
+          'The agent answers menu, opening hour, and table availability questions, records group reservations, and forwards complaints to staff with full context.',
+        ],
+        outcome:
+          'Example: The agent answers menu, opening hour, and table availability questions, records group reservations, and forwards complaints to staff with full context.',
+      },
+      {
+        industryId: 'properti',
+        industryLabel: 'Property',
+        scenarioTitle: 'Example use case for Property',
+        workflowLines: [
+          'The agent asks about budget, location, and unit type, schedules a site visit, and sends the prospective buyer’s details to the right agent.',
+        ],
+        outcome:
+          'Example: The agent asks about budget, location, and unit type, schedules a site visit, and sends the prospective buyer’s details to the right agent.',
+      },
+      {
+        industryId: 'jasa',
+        industryLabel: 'Professional services',
+        scenarioTitle: 'Example use case for Professional services',
+        workflowLines: [
+          'The agent receives consultation requests, gathers initial information, and schedules a meeting on the calendar.',
+        ],
+        outcome:
+          'Example: The agent receives consultation requests, gathers initial information, and schedules a meeting on the calendar.',
+      },
+    ],
+    chatbotVsAgentTable: {
+      headers: ['Aspect', 'Chatbot', 'AI agent'],
+      rows: [
+        {
+          aspect: 'Understanding conversation context',
+          chatbot: 'Limited to a preset list of answers',
+          agent: 'Reads intent and chat history',
+        },
+        {
+          aspect: 'Taking action',
+          chatbot: 'Stops at replying',
+          agent: 'Creates bookings, logs data, sends follow-ups',
+        },
+        {
+          aspect: 'Using tools',
+          chatbot: 'Usually no',
+          agent: 'Calendar, database, CRM, invoice',
+        },
+        {
+          aspect: 'Out-of-rule cases',
+          chatbot: 'Dead-end answer',
+          agent: 'Handed over to staff with a summary',
+        },
+        {
+          aspect: 'Action trail',
+          chatbot: 'Minimal',
+          agent: 'Complete log',
+        },
+        {
+          aspect: 'Best for',
+          chatbot: 'Simple, fixed questions',
+          agent: 'Workflows that require multiple steps',
+        },
+      ],
+    },
+    guardrails: [
+      {
+        id: 'batas-jelas',
+        title: 'Clear boundaries',
+        description:
+          'The agent may only perform actions we explicitly agree on together.',
+      },
+      {
+        id: 'serah-manusia',
+        title: 'Human handover',
+        description:
+          'Sensitive cases, such as complaints, are forwarded to your staff automatically.',
+      },
+      {
+        id: 'semua-tercatat',
+        title: 'Everything logged',
+        description:
+          'Every action taken by the agent has a log you can inspect.',
+      },
+      {
+        id: 'data-milikmu',
+        title: 'Your data stays yours',
+        description:
+          'Your business data remains yours, and access is granted only as needed.',
+      },
+    ],
+    prinsipTeknis:
+      'The agent is given the minimum access needed for its tools. High-risk actions ask for human approval. Every version is tested with real conversations before release. Our experience includes AI-based chat systems, smart API gateways, and AI-based document processors.',
+    hargaDanScope:
+      'AI agent pricing is calculated after the free audit, because it depends on the number of connected tools, business rules, and message volume. You know the figure before paying anything.',
+    siapkanSebelumAudit: [
+      'The ten questions customers ask most frequently',
+      'Operating hours and pricing rules',
+      'The list of actions the agent is allowed to take',
+      'Who handles cases that fall outside the rules',
+    ],
+    faq: [
+      {
+        question: 'What is the difference between a chatbot and an AI agent?',
+        answer:
+          'A chatbot replies from a prepared list of answers. An AI agent understands context, uses tools like a calendar or database, and completes the task through to the end.',
+      },
+      {
+        question: 'How much does it cost to build an AI agent?',
+        answer:
+          'Calculated after the free audit, because it depends on the number of tools, rules, and message volume. You receive the exact figure before paying anything.',
+      },
+      {
+        question: 'What if the agent gives a wrong answer?',
+        answer:
+          'The agent has action boundaries and human handover rules. Sensitive cases are forwarded to your staff, and all conversations are logged so they can be inspected and improved.',
+      },
+      {
+        question: 'Is my customer data safe?',
+        answer:
+          'Your data stays yours. We only access what is needed to build and maintain the system, and access is removed when the project or maintenance contract ends.',
+      },
+      {
+        question: 'Can it run on WhatsApp?',
+        answer:
+          'Yes. The agent runs via the official WhatsApp Business Platform from Meta, which has its own account and number requirements. We explain the options and assist with registration during the audit.',
+      },
+    ],
+    hasAreaPages: true,
+    updatedAt: '2026-03-20',
+    title: 'AI agent',
+    shortTitle: 'AI Agent',
+    tagline: 'AI agent',
+    shortPromise:
+      'An AI agent reads customer intent, uses tools like your calendar and database, and completes the task through to the end.',
+    summary:
+      'An AI agent is a system that understands customer messages, uses tools like calendars, databases, or CRMs, and completes tasks such as creating a booking or sending a follow-up. CHESTAADOTCOM builds AI agents for businesses in South Tangerang and Greater Jakarta, complete with action boundaries and human handover. Pricing is calculated after a free audit.',
+    bentoSpan: 'large',
+    timeline: 'Weeks (exact estimate after audit)',
+    bestForSummary: 'WhatsApp replies, calendar bookings, CRM logging, and follow-ups',
+    forWho: [
+      'You answer the exact same questions repeatedly every day.',
+      'You receive incoming messages at night that only get answered the next morning.',
+      'You copy data from chats into spreadsheets manually.',
+      'You lose prospective customers because no one follows up after they ask for prices.',
+    ],
+    deliverables: [
+      {
+        title: 'A connected agent',
+        description: 'Linked to WhatsApp Business and the tools you already use.',
+      },
+      {
+        title: 'Action rules',
+        description: 'What the agent may and may not do, written together with you.',
+      },
+      {
+        title: 'Staff handover',
+        description: 'Out-of-rule cases are forwarded complete with a conversation summary.',
+      },
+      {
+        title: 'Complete action log',
+        description: 'Every action is recorded so you can inspect it.',
+      },
+      {
+        title: 'Real-conversation testing',
+        description: 'Tested with real conversations from your business before release.',
+      },
+      {
+        title: 'Support and adjustments',
+        description: 'Ongoing tuning after your team starts using it.',
+      },
+    ],
+    process: [
+      {
+        num: '1',
+        duration: '30 minutes',
+        title: 'Free audit (30 minutes)',
+        description:
+          'We map your recurring conversations and tasks, then tell you honestly which ones should be handled by an agent and which should not.',
+      },
+      {
+        num: '2',
+        duration: 'Step 2',
+        title: 'Design and prototype',
+        description:
+          'You see sample conversation flows and action rules before we build the full system.',
+      },
+      {
+        num: '3',
+        duration: 'Step 3',
+        title: 'Build and test',
+        description:
+          'The agent is tested with real conversations, including tough questions and unusual requests.',
+      },
+      {
+        num: '4',
+        duration: 'Step 4',
+        title: 'Release and maintain',
+        description:
+          'We monitor the logs, fix off-target replies, and adjust the rules as it gets used.',
+      },
+    ],
+    useCases: [],
+    stackChips: ['WhatsApp Business', 'Calendar & CRM', 'Action Guardrails', 'Complete Log'],
+    pricingNote: {
+      label: 'Calculated after free audit',
+      reason:
+        'AI agent pricing is calculated after the free audit, because it depends on the number of connected tools, business rules, and message volume.',
+      scopeNote: 'You know the figure before paying anything.',
+    },
+    relatedCaseSlugs: ['wa-concierge-klinik', 'pemroses-dokumen'],
+    relatedPostSlugs: [
+      'otomasi-whatsapp-ai-klinik-fnb-alur-kerja',
+      'Apa-Bedanya-AI-Agent-dan-Chatbot-Biasa-untuk-Operasional-Bisnis',
+      'Mengenal-Model-Context-Protocol-MCP-Cara-AI-Terkoneksi-ke-Data-Bisnis',
+    ],
+    seo: {
+      title: 'AI Agent Services for Business in Tangsel | CHESTAADOTCOM',
+      description:
+        'AI agents for businesses in BSD, Pamulang, and South Tangerang: automated WhatsApp replies, booking, and follow-ups. Priced after a free 30-min audit.',
+    },
+    imageKey: 'serviceAiAgent',
+  },
+
+  // 3. custom-software (software-custom)
+  {
+    slug: 'software-custom',
+    enSlug: 'custom-software',
+    urlSlug: 'custom-software',
+    eyebrow: 'Custom software',
+    h1: 'Custom software development: web applications, dashboards, and internal systems',
+    sub: 'Systems that follow the way you work, not the other way around. From reporting dashboards to internal applications for your team.',
+    ringkasanSingkat:
+      'Custom software from CHESTAADOTCOM covers web applications, dashboards, and internal systems for businesses in South Tangerang and Greater Jakarta. Built around the workflows already running in your team, starting from a small version you can use quickly and expanded step by step. Pricing is calculated after a free audit.',
+    cocokKalau: [
+      'You use spreadsheets that are getting heavier and prone to errors.',
+      'You have several applications that do not connect to one another.',
+      'Off-the-shelf software does not fit the way your team works.',
+      'You need reports that update automatically, or a portal for customers and partners.',
+    ],
+    kapanTidakPerlu:
+      'If your workflow is standard and off-the-shelf software already meets your needs at a reasonable cost, use that. Custom software only makes sense when your workflow is specific or data must connect across systems.',
+    yangKamuDapat: [
+      {
+        title: 'Clear workflow and requirements',
+        description: 'Written down clearly before a single line of code is built.',
+      },
+      {
+        title: 'Responsive web application',
+        description: 'Comfortable to use on both mobile phones and desktops.',
+      },
+      {
+        title: 'Role-based login and permissions',
+        description: 'For example admin, staff, and customers.',
+      },
+      {
+        title: 'Dashboards and reports',
+        description: 'Updated from the same underlying data.',
+      },
+      {
+        title: 'Integration with the tools you use',
+        description: 'Connected via API.',
+      },
+      {
+        title: 'Documentation and brief training',
+        description: 'Prepared for your team.',
+      },
+    ],
+    caraKerja: [
+      {
+        num: '1',
+        duration: '30 minutes',
+        title: 'Free audit (30 minutes)',
+        description:
+          'We study your workflow and tell you honestly whether custom software is truly needed or off-the-shelf software is enough.',
+      },
+      {
+        num: '2',
+        duration: 'Step 2',
+        title: 'Design and prototype',
+        description:
+          'You try out the screen layouts and flow before the features are built.',
+      },
+      {
+        num: '3',
+        duration: 'Step 3',
+        title: 'Build and test',
+        description:
+          'Built step by step, with each stage tested by the people who will actually use it.',
+      },
+      {
+        num: '4',
+        duration: 'Step 4',
+        title: 'Release and maintain',
+        description:
+          'The first version is released early, then refined based on real usage.',
+      },
+    ],
+    contohPenggunaan: [
+      {
+        industryId: 'klinik',
+        industryLabel: 'Clinic',
+        scenarioTitle: 'Example use case for Clinics',
+        workflowLines: [
+          'Patient records and schedules in one system, with daily reports for the owner.',
+        ],
+        outcome:
+          'Example: Patient records and schedules in one system, with daily reports for the owner.',
+      },
+      {
+        industryId: 'fnb',
+        industryLabel: 'F&B',
+        scenarioTitle: 'Example use case for F&B',
+        workflowLines: [
+          'Ingredient stock and sales reports across multiple branches in a single dashboard.',
+        ],
+        outcome:
+          'Example: Ingredient stock and sales reports across multiple branches in a single dashboard.',
+      },
+      {
+        industryId: 'properti',
+        industryLabel: 'Property',
+        scenarioTitle: 'Example use case for Property',
+        workflowLines: [
+          'Centralized buyer leads and unit status, so the team knows who needs follow-up.',
+        ],
+        outcome:
+          'Example: Centralized buyer leads and unit status, so the team knows who needs follow-up.',
+      },
+      {
+        industryId: 'jasa',
+        industryLabel: 'Professional services',
+        scenarioTitle: 'Example use case for Professional services',
+        workflowLines: [
+          'Project tracking, deadlines, and billing in one place.',
+        ],
+        outcome:
+          'Example: Project tracking, deadlines, and billing in one place.',
+      },
+    ],
+    prinsipTeknis:
+      'We start from the smallest useful version, then add features step by step. Code is written to be easy to maintain, with code ownership agreed in writing upfront. Data is backed up and access is restricted by role.',
+    hargaDanScope:
+      'Calculated after the free audit. What affects the cost: number of user roles, number of features, integrations with other tools, and reporting needs. You receive the figure and scope of work before paying anything.',
+    siapkanSebelumAudit: [
+      'Your current workflow and the apps or spreadsheets you use',
+      'Who the users are and their roles',
+      'The reports you need most',
+      'Sample real data with sensitive information masked',
+    ],
+    faq: [
+      {
+        question: 'When do I need custom software instead of off-the-shelf apps?',
+        answer:
+          'Choose off-the-shelf software if your workflow is standard and you are comfortable adapting how you work. Choose custom software if your workflow is specific, your data needs to connect across systems, or per-user subscription fees are ballooning.',
+      },
+      {
+        question: 'How much does it cost?',
+        answer:
+          'Calculated after the free audit, based on the number of roles, features, and integrations. You receive the figure before paying anything.',
+      },
+      {
+        question: 'Can it be built in stages?',
+        answer:
+          'Yes, and that is the approach we recommend. The first version includes the most useful features, and more are added after real use.',
+      },
+      {
+        question: 'What about code and data ownership?',
+        answer:
+          'Your business data stays yours. Code ownership is agreed in writing at the start of the project.',
+      },
+      {
+        question: 'Who maintains it after release?',
+        answer:
+          'You can use a maintenance plan from us or hand it over to another team, because the code is documented. We decide this upfront.',
+      },
+    ],
+    hasAreaPages: false,
+    updatedAt: '2026-03-20',
+    title: 'Custom software',
+    shortTitle: 'Custom Software',
+    tagline: 'Custom software',
+    shortPromise:
+      'Systems that follow the way you work, not the other way around. From reporting dashboards to internal applications for your team.',
+    summary:
+      'Custom software from CHESTAADOTCOM covers web applications, dashboards, and internal systems for businesses in South Tangerang and Greater Jakarta. Built around the workflows already running in your team, starting from a small version you can use quickly and expanded step by step. Pricing is calculated after a free audit.',
+    bentoSpan: 'small',
+    timeline: 'Weeks (exact estimate after audit)',
+    bestForSummary: 'Web applications, reporting dashboards, and internal systems',
+    forWho: [
+      'You use spreadsheets that are getting heavier and prone to errors.',
+      'You have several applications that do not connect to one another.',
+      'Off-the-shelf software does not fit the way your team works.',
+      'You need reports that update automatically, or a portal for customers and partners.',
+    ],
+    deliverables: [
+      {
+        title: 'Clear workflow and requirements',
+        description: 'Written down clearly before a single line of code is built.',
+      },
+      {
+        title: 'Responsive web application',
+        description: 'Comfortable to use on both mobile phones and desktops.',
+      },
+      {
+        title: 'Role-based login and permissions',
+        description: 'For example admin, staff, and customers.',
+      },
+      {
+        title: 'Dashboards and reports',
+        description: 'Updated from the same underlying data.',
+      },
+      {
+        title: 'Integration with the tools you use',
+        description: 'Connected via API.',
+      },
+      {
+        title: 'Documentation and brief training',
+        description: 'Prepared for your team.',
+      },
+    ],
+    process: [
+      {
+        num: '1',
+        duration: '30 minutes',
+        title: 'Free audit (30 minutes)',
+        description:
+          'We study your workflow and tell you honestly whether custom software is truly needed or off-the-shelf software is enough.',
+      },
+      {
+        num: '2',
+        duration: 'Step 2',
+        title: 'Design and prototype',
+        description: 'You try out the screen layouts and flow before the features are built.',
+      },
+      {
+        num: '3',
+        duration: 'Step 3',
+        title: 'Build and test',
+        description: 'Built step by step, with each stage tested by the people who will actually use it.',
+      },
+      {
+        num: '4',
+        duration: 'Step 4',
+        title: 'Release and maintain',
+        description: 'The first version is released early, then refined based on real usage.',
+      },
+    ],
+    useCases: [],
+    stackChips: ['Web Application', 'Role Permissions', 'Reporting Dashboard', 'API Integration'],
+    pricingNote: {
+      label: 'Calculated after free audit',
+      reason:
+        'Calculated after the free audit. What affects the cost: number of user roles, number of features, integrations with other tools, and reporting needs.',
+      scopeNote: 'You receive the figure and scope of work before paying anything.',
+    },
+    relatedCaseSlugs: ['dashboard-kafe', 'pemroses-dokumen'],
+    relatedPostSlugs: [
+      'berapa-biaya-bikin-website-bisnis-panduan-harga',
+      'Vibe-Coding-untuk-Bisnis-Kapan-Pakai-AI-dan-Kapan-Harus-Rekayasa-Software-Asli',
+    ],
+    seo: {
+      title: 'Custom Software & Dashboards in Tangsel | CHESTAADOTCOM',
+      description:
+        'Web applications, dashboards, and internal systems built around your team\'s workflow in South Tangerang, BSD, and Greater Jakarta. Free 30-min audit.',
+    },
+    imageKey: 'serviceSoftwareCustom',
+  },
+
+  // 4. workflow-automation (otomasi-workflow)
+  {
+    slug: 'otomasi-workflow',
+    enSlug: 'workflow-automation',
+    urlSlug: 'workflow-automation',
+    eyebrow: 'Workflow automation',
+    h1: 'Business workflow automation: connect WhatsApp, Sheets, calendar, and invoices',
+    sub: 'Repetitive tasks that used to be copied manually between apps now run automatically, complete with notifications if anything fails.',
+    ringkasanSingkat:
+      'Workflow automation connects the applications you already use, such as WhatsApp, Google Sheets, calendars, and invoices, so repetitive tasks run on their own. CHESTAADOTCOM builds automation for businesses in South Tangerang and Greater Jakarta, complete with execution logs and failure notifications. Pricing is calculated after a free audit.',
+    cocokKalau: [
+      'You enter the exact same data into two or three different places.',
+      'You compile weekly reports manually.',
+      'You rely on staff memory for reminders and notifications.',
+      'You frequently send out invoices or billing reminders late.',
+    ],
+    kapanTidakPerlu:
+      'If a task only happens a few times a month, doing it manually is cheaper than building automation. We will tell you so if that is the case.',
+    yangKamuDapat: [
+      {
+        title: 'Workflow mapping',
+        description: 'Mapped clearly before automation is built.',
+      },
+      {
+        title: 'Cross-tool automation',
+        description: 'Connecting the tools you already use.',
+      },
+      {
+        title: 'Error handling and notifications',
+        description: 'Alerts whenever a step fails.',
+      },
+      {
+        title: 'Execution logs',
+        description: 'Recorded so you can inspect every run.',
+      },
+      {
+        title: 'Workflow documentation',
+        description: 'So your team understands what is running.',
+      },
+      {
+        title: 'Optional: AI for text steps',
+        description:
+          'For steps that need to understand text, such as categorizing incoming messages.',
+      },
+    ],
+    caraKerja: [
+      {
+        num: '1',
+        duration: '30 minutes',
+        title: 'Free audit (30 minutes)',
+        description:
+          'We list your team’s repetitive tasks and pick the ones that consume the most time.',
+      },
+      {
+        num: '2',
+        duration: 'Step 2',
+        title: 'Design and prototype',
+        description:
+          'You review the workflow diagram and confirm the rules are right.',
+      },
+      {
+        num: '3',
+        duration: 'Step 3',
+        title: 'Build and test',
+        description:
+          'The automation is tested with sample data, including failure scenarios.',
+      },
+      {
+        num: '4',
+        duration: 'Step 4',
+        title: 'Release and maintain',
+        description:
+          'We monitor the logs and update the flow when third-party tools change.',
+      },
+    ],
+    contohPenggunaan: [
+      {
+        industryId: 'klinik',
+        industryLabel: 'Clinic',
+        scenarioTitle: 'Example use case for Clinics',
+        workflowLines: [
+          'Appointment reminders are sent automatically, and a daily summary arrives for the owner every evening.',
+        ],
+        outcome:
+          'Example: Appointment reminders are sent automatically, and a daily summary arrives for the owner every evening.',
+      },
+      {
+        industryId: 'fnb',
+        industryLabel: 'F&B',
+        scenarioTitle: 'Example use case for F&B',
+        workflowLines: [
+          'Daily sales are recorded to Google Sheets, and a notification appears when ingredient stock runs low.',
+        ],
+        outcome:
+          'Example: Daily sales are recorded to Google Sheets, and a notification appears when ingredient stock runs low.',
+      },
+      {
+        industryId: 'properti',
+        industryLabel: 'Property',
+        scenarioTitle: 'Example use case for Property',
+        workflowLines: [
+          'Prospective buyers from ad forms enter the CRM and the assigned agent is notified immediately.',
+        ],
+        outcome:
+          'Example: Prospective buyers from ad forms enter the CRM and the assigned agent is notified immediately.',
+      },
+      {
+        industryId: 'jasa',
+        industryLabel: 'Professional services',
+        scenarioTitle: 'Example use case for Professional services',
+        workflowLines: [
+          'Invoices are sent automatically after a project finishes, and payment reminders are sent on schedule.',
+        ],
+        outcome:
+          'Example: Invoices are sent automatically after a project finishes, and payment reminders are sent on schedule.',
+      },
+    ],
+    prinsipTeknis:
+      'Every workflow includes failure handling and notifications, so issues are caught before customers notice them. Access to each application is limited strictly to what is needed. Workflows are documented so they never depend on a single person.',
+    hargaDanScope:
+      'Calculated after the free audit, based on the number of workflows, connected tools, and data volume. Third-party app subscriptions are paid directly by you according to the provider’s plan; our fee covers building and maintaining the automation.',
+    siapkanSebelumAudit: [
+      'A list of repetitive tasks and how often they happen',
+      'The applications used at each step',
+      'Exception rules, such as when a case must be handled manually',
+      'Who should be notified if a step fails',
+    ],
+    faq: [
+      {
+        question: 'What is the difference between workflow automation and an AI agent?',
+        answer:
+          'Workflow automation runs steps with fixed rules, such as "when a new order arrives, record it to Sheets". An AI agent is used when the task requires understanding messages and making decisions.',
+      },
+      {
+        question: 'Which applications can be connected?',
+        answer:
+          'Any application that provides an official API or integration. We check this during the audit.',
+      },
+      {
+        question: 'What happens if one step fails?',
+        answer:
+          'The workflow is designed with failure notifications and logs, so the issue is caught and the process can be re-run.',
+      },
+      {
+        question: 'Are there monthly fees?',
+        answer:
+          'Third-party app subscriptions are paid directly by you to the provider. Maintenance fees from us apply only if you choose a maintenance plan.',
+      },
+      {
+        question: 'How long does it take to build?',
+        answer:
+          'A single simple workflow usually takes days; multiple connected workflows take weeks. We provide the exact estimate after the audit.',
+      },
+    ],
+    hasAreaPages: false,
+    updatedAt: '2026-03-20',
+    title: 'Workflow automation',
+    shortTitle: 'Workflow Automation',
+    tagline: 'Workflow automation',
+    shortPromise:
+      'Repetitive tasks that used to be copied manually between apps now run automatically, complete with notifications if anything fails.',
+    summary:
+      'Workflow automation connects the applications you already use, such as WhatsApp, Google Sheets, calendars, and invoices, so repetitive tasks run on their own. CHESTAADOTCOM builds automation for businesses in South Tangerang and Greater Jakarta, complete with execution logs and failure notifications. Pricing is calculated after a free audit.',
+    bentoSpan: 'small',
+    timeline: 'Days to weeks (exact estimate after audit)',
+    bestForSummary: 'Connect WhatsApp, Sheets, calendars, and invoices automatically',
+    forWho: [
+      'You enter the exact same data into two or three different places.',
+      'You compile weekly reports manually.',
+      'You rely on staff memory for reminders and notifications.',
+      'You frequently send out invoices or billing reminders late.',
+    ],
+    deliverables: [
+      {
+        title: 'Workflow mapping',
+        description: 'Mapped clearly before automation is built.',
+      },
+      {
+        title: 'Cross-tool automation',
+        description: 'Connecting the tools you already use.',
+      },
+      {
+        title: 'Error handling and notifications',
+        description: 'Alerts whenever a step fails.',
+      },
+      {
+        title: 'Execution logs',
+        description: 'Recorded so you can inspect every run.',
+      },
+      {
+        title: 'Workflow documentation',
+        description: 'So your team understands what is running.',
+      },
+      {
+        title: 'Optional: AI for text steps',
+        description: 'For steps that need to understand text, such as categorizing incoming messages.',
+      },
+    ],
+    process: [
+      {
+        num: '1',
+        duration: '30 minutes',
+        title: 'Free audit (30 minutes)',
+        description: 'We list your team’s repetitive tasks and pick the ones that consume the most time.',
+      },
+      {
+        num: '2',
+        duration: 'Step 2',
+        title: 'Design and prototype',
+        description: 'You review the workflow diagram and confirm the rules are right.',
+      },
+      {
+        num: '3',
+        duration: 'Step 3',
+        title: 'Build and test',
+        description: 'The automation is tested with sample data, including failure scenarios.',
+      },
+      {
+        num: '4',
+        duration: 'Step 4',
+        title: 'Release and maintain',
+        description: 'We monitor the logs and update the flow when third-party tools change.',
+      },
+    ],
+    useCases: [],
+    stackChips: ['WhatsApp', 'Google Sheets', 'Calendar & Invoice', 'Logs & Alerts'],
+    pricingNote: {
+      label: 'Calculated after free audit',
+      reason:
+        'Calculated after the free audit, based on the number of workflows, connected tools, and data volume.',
+      scopeNote:
+        'Third-party app subscriptions are paid directly by you according to the provider’s plan; our fee covers building and maintaining the automation.',
+    },
+    relatedCaseSlugs: ['lead-properti'],
+    relatedPostSlugs: [
+      'Cara-Otomasi-Workflow-Bisnis-Tanpa-Harus-Ganti-Semua-Aplikasi-Lama',
+      'otomasi-whatsapp-ai-klinik-fnb-alur-kerja',
+    ],
+    seo: {
+      title: 'Business Workflow Automation in Tangsel | CHESTAADOTCOM',
+      description:
+        'Connect WhatsApp, Google Sheets, calendars, and invoices so repetitive work runs automatically for businesses in Tangsel and Greater Jakarta. Free audit.',
+    },
+    imageKey: 'serviceOtomasiWorkflow',
+  },
+];
+
+export const SERVICES_DATA: ServiceItem[] = SERVICES_DATA_ID;
 
 const LEGACY_SERVICE_SLUG_ALIASES: Record<string, ServiceSlug> = {
+  'website-development': 'pembuatan-website',
+  'ai-agents': 'ai-agent',
+  'custom-software': 'software-custom',
+  'workflow-automation': 'otomasi-workflow',
   'web-landing-page': 'pembuatan-website',
   'custom-web-development': 'pembuatan-website',
   'landing-page': 'pembuatan-website',
   'ai-integration': 'ai-agent',
   'whatsapp-ai-agent': 'ai-agent',
-  'custom-software': 'software-custom',
-  'workflow-automation': 'otomasi-workflow',
 };
 
 export function resolveCanonicalServiceSlug(slug?: string): ServiceSlug | undefined {
@@ -878,22 +2460,62 @@ export function resolveCanonicalServiceSlug(slug?: string): ServiceSlug | undefi
   return LEGACY_SERVICE_SLUG_ALIASES[clean];
 }
 
-export function getServiceBySlug(slug?: string): ServiceItem | undefined {
-  const canonical = resolveCanonicalServiceSlug(slug);
-  if (!canonical) return undefined;
-  return SERVICES_DATA.find((item) => item.slug === canonical);
+export function getLocalizedServiceUrlSlug(
+  serviceSlug: ServiceSlug,
+  locale: 'id' | 'en' = 'id'
+): string {
+  return locale === 'en' ? SERVICE_ID_TO_EN_SLUG[serviceSlug] : serviceSlug;
 }
 
-export function getAdjacentServices(slug: ServiceSlug): {
+export function getServicePath(
+  serviceSlug: ServiceSlug,
+  locale: 'id' | 'en' = 'id'
+): string {
+  if (locale === 'en') {
+    return `/en/services/${SERVICE_ID_TO_EN_SLUG[serviceSlug]}`;
+  }
+  return `/id/jasa/${serviceSlug}`;
+}
+
+export function getServiceAreaPath(
+  serviceSlug: ServiceSlug,
+  areaSlug: string,
+  locale: 'id' | 'en' = 'id'
+): string {
+  if (locale === 'en') {
+    return `/en/services/${SERVICE_ID_TO_EN_SLUG[serviceSlug]}/${areaSlug}`;
+  }
+  return `/id/jasa/${serviceSlug}/${areaSlug}`;
+}
+
+export function getAllServices(locale: 'id' | 'en' = 'id'): ServiceItem[] {
+  return locale === 'en' ? SERVICES_DATA_EN : SERVICES_DATA_ID;
+}
+
+export function getServiceBySlug(
+  slug?: string,
+  locale: 'id' | 'en' = 'id'
+): ServiceItem | undefined {
+  const canonical = resolveCanonicalServiceSlug(slug);
+  if (!canonical) return undefined;
+  const list = locale === 'en' ? SERVICES_DATA_EN : SERVICES_DATA_ID;
+  return list.find((item) => item.slug === canonical);
+}
+
+export function getAdjacentServices(
+  slug: ServiceSlug,
+  locale: 'id' | 'en' = 'id'
+): {
   prev: ServiceItem;
   next: ServiceItem;
 } {
-  const index = SERVICES_DATA.findIndex((item) => item.slug === slug);
+  const list = locale === 'en' ? SERVICES_DATA_EN : SERVICES_DATA_ID;
+  const index = list.findIndex((item) => item.slug === slug);
   const currentIdx = index === -1 ? 0 : index;
-  const prevIdx = (currentIdx - 1 + SERVICES_DATA.length) % SERVICES_DATA.length;
-  const nextIdx = (currentIdx + 1) % SERVICES_DATA.length;
+  const prevIdx = (currentIdx - 1 + list.length) % list.length;
+  const nextIdx = (currentIdx + 1) % list.length;
   return {
-    prev: SERVICES_DATA[prevIdx],
-    next: SERVICES_DATA[nextIdx],
+    prev: list[prevIdx],
+    next: list[nextIdx],
   };
 }

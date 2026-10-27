@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" width="1280" height="720">
+  <defs>
+    <linearGradient id="bgFail" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" />
+      <stop offset="65%" stop-color="#F8F6FE" />
+      <stop offset="100%" stop-color="#EFEAFB" />
+    </linearGradient>
+    <radialGradient id="glowFail" cx="80%" cy="25%" r="55%">
+      <stop offset="0%" stop-color="#7C54E0" stop-opacity="0.16" />
+      <stop offset="100%" stop-color="#7C54E0" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+  <rect width="1280" height="720" fill="url(#bgFail)" />
+  <rect width="1280" height="720" fill="url(#glowFail)" />
+  <rect x="56" y="56" width="1168" height="608" rx="28" fill="rgba(255,255,255,0.78)" stroke="rgba(91,60,196,0.14)" stroke-width="1.5" />
+
+  <rect x="100" y="108" width="52" height="4" rx="2" fill="#6A3FD0" />
+  <text x="100" y="150" fill="#6A3FD0" font-family="'JetBrains Mono', monospace" font-size="15" font-weight="600" letter-spacing="2.5">UI/UX &amp; KONVERSI WEB · EVALUASI PRODUK</text>
+  <text x="100" y="232" fill="#17122B" font-family="'Plus Jakarta Sans', sans-serif" font-size="44" font-weight="700" letter-spacing="-1">Chatbot AI di Website Bisnis Gagal:</text>
+  <text x="100" y="290" fill="#17122B" font-family="'Plus Jakarta Sans', sans-serif" font-size="44" font-weight="700" letter-spacing="-1">7 Penyebab Utama &amp; Solusi Praktisnya</text>
+  <text x="100" y="352" fill="#5B5675" font-family="'Plus Jakarta Sans', sans-serif" font-size="20">Mengatasi Pop-Up Intrusif di Layar HP, Pengetahuan Usang, dan Ketiadaan Tindakan Nyata</text>
+
+  <g transform="translate(100, 410)">
+    <rect width="480" height="150" rx="20" fill="#FFFFFF" stroke="rgba(91,60,196,0.18)" stroke-width="1.5" />
+    <text x="28" y="42" fill="#D32F2F" font-family="'JetBrains Mono', monospace" font-size="13" font-weight="600">GEJALA CHATBOT GAGAL</text>
+    <text x="28" y="78" fill="#17122B" font-family="'Plus Jakarta Sans', sans-serif" font-size="20" font-weight="700">Pop-Up Menutupi Tombol Order</text>
+    <text x="28" y="112" fill="#5B5675" font-family="'Plus Jakarta Sans', sans-serif" font-size="15">Halusinasi jawaban, tanpa sinkronisasi stok atau jadwal nyata</text>
+
+    <path d="M505 75 L565 75" stroke="#6A3FD0" stroke-width="2" stroke-dasharray="5 5" />
+
+    <rect x="590" width="490" height="150" rx="20" fill="#F8F6FE" stroke="#6A3FD0" stroke-width="2" />
+    <text x="618" y="42" fill="#6A3FD0" font-family="'JetBrains Mono', monospace" font-size="13" font-weight="600">DESAIN WIDGET BERSIH</text>
+    <text x="618" y="78" fill="#17122B" font-family="'Plus Jakarta Sans', sans-serif" font-size="20" font-weight="700">Respons Cepat &amp; Serah WhatsApp</text>
+    <text x="618" y="112" fill="#5B5675" font-family="'Plus Jakarta Sans', sans-serif" font-size="15">Hanya aktif saat diklik, tersambung ke CRM dan tim manusia</text>
+  </g>
+
+  <text x="100" y="620" fill="#5B5675" font-family="'JetBrains Mono', monospace" font-size="15">CHESTAADOTCOM · Desain UI/UX &amp; Rekayasa AI</text>
+</svg>

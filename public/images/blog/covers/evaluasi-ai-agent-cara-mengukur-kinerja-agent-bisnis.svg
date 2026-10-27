@@ -1,0 +1,90 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900" fill="none" role="img" aria-label="Matriks evaluasi kinerja AI agent bisnis yang memantau akurasi penyelesaian tugas, waktu respons, dan ketepatan eskalasi">
+  <defs>
+    <pattern id="grid64" width="64" height="64" patternUnits="userSpaceOnUse">
+      <path d="M 64 0 L 0 0 0 64" fill="none" stroke="#17122B" stroke-width="1" stroke-opacity="0.04" />
+    </pattern>
+    <radialGradient id="purpleGlow" cx="1240" cy="660" r="620" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#B9A2F2" stop-opacity="0.42" />
+      <stop offset="55%" stop-color="#EFEAFB" stop-opacity="0.18" />
+      <stop offset="100%" stop-color="#F8F6FE" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+  <rect width="1600" height="900" fill="#F8F6FE" />
+  <rect width="1600" height="900" fill="url(#purpleGlow)" />
+  <rect width="1600" height="900" fill="url(#grid64)" />
+  <g key="anchor-0">
+        <rect x="96" y="610" width="260" height="160" rx="14" fill="#17122B" stroke="#DED8F2" stroke-width="1" />
+        <rect x="114" y="630" width="200" height="10" rx="5" fill="#B9A2F2" />
+             <rect x="114" y="650" width="160" height="8" rx="4" fill="#EFEAFB" fill-opacity="0.45" />
+      </g>
+<g key="anchor-1">
+        <rect x="1230" y="134" width="240" height="130" rx="14" fill="#B9A2F2" stroke="#DED8F2" stroke-width="1" />
+        <rect x="1248" y="154" width="180" height="10" rx="5" fill="#5230B0" />
+             <rect x="1248" y="174" width="140" height="8" rx="4" fill="#17122B" fill-opacity="0.25" />
+      </g>
+<g key="anchor-2">
+        <rect x="1388" y="433" width="140" height="210" rx="14" fill="#17122B" stroke="#DED8F2" stroke-width="1" />
+        <rect x="1406" y="453" width="80" height="10" rx="5" fill="#B9A2F2" />
+             <rect x="1406" y="473" width="40" height="8" rx="4" fill="#EFEAFB" fill-opacity="0.45" />
+      </g>
+<line x1="1399" y1="655" x2="560" y2="330" stroke="#C5B8EC" stroke-width="1" stroke-dasharray="4 4" />
+<line x1="278" y1="147" x2="1040" y2="330" stroke="#C5B8EC" stroke-width="1" stroke-dasharray="none" />
+<line x1="1255" y1="131" x2="560" y2="330" stroke="#C5B8EC" stroke-width="1" stroke-dasharray="4 4" />
+<line x1="304" y1="747" x2="1040" y2="570" stroke="#C5B8EC" stroke-width="1" stroke-dasharray="none" />
+<line x1="1307" y1="725" x2="560" y2="570" stroke="#C5B8EC" stroke-width="1" stroke-dasharray="4 4" />
+<line x1="191" y1="247" x2="1040" y2="570" stroke="#C5B8EC" stroke-width="1" stroke-dasharray="none" />
+<g>
+        <circle cx="1399" cy="655" r="14" fill="#FFFFFF" stroke="#C5B8EC" stroke-width="1" />
+        <circle cx="1399" cy="655" r="4" fill="#6A3FD0" />
+      </g>
+<g>
+        <circle cx="278" cy="147" r="20" fill="#6A3FD0" stroke="#17122B" stroke-width="1" />
+        <circle cx="278" cy="147" r="4" fill="#FFFFFF" />
+      </g>
+<g>
+        <circle cx="1255" cy="131" r="14" fill="#FFFFFF" stroke="#C5B8EC" stroke-width="1" />
+        <circle cx="1255" cy="131" r="4" fill="#6A3FD0" />
+      </g>
+<g>
+        <circle cx="304" cy="747" r="14" fill="#FFFFFF" stroke="#C5B8EC" stroke-width="1" />
+        <circle cx="304" cy="747" r="4" fill="#6A3FD0" />
+      </g>
+<g>
+        <circle cx="1307" cy="725" r="14" fill="#FFFFFF" stroke="#C5B8EC" stroke-width="1" />
+        <circle cx="1307" cy="725" r="4" fill="#6A3FD0" />
+      </g>
+<g>
+        <circle cx="191" cy="247" r="14" fill="#FFFFFF" stroke="#C5B8EC" stroke-width="1" />
+        <circle cx="191" cy="247" r="4" fill="#6A3FD0" />
+      </g>
+  <g transform="rotate(3 800 450)">
+    <g>
+        <rect x="280" y="175" width="1040" height="550" rx="24" fill="#17122B" />
+        <rect x="325" y="220" width="950" height="72" rx="14" fill="#2B1763" />
+        <!-- 3x3 Evaluation Cells -->
+        <rect x="325" y="320" width="295" height="165" rx="14" fill="#FFFFFF" />
+        <rect x="652" y="320" width="295" height="165" rx="14" fill="#6A3FD0" />
+        <rect x="980" y="320" width="295" height="165" rx="14" fill="#EFEAFB" />
+
+        <rect x="325" y="510" width="295" height="170" rx="14" fill="#9E7BF0" />
+        <rect x="652" y="510" width="295" height="170" rx="14" fill="#FFFFFF" />
+        <rect x="980" y="510" width="295" height="170" rx="14" fill="#5230B0" />
+
+        <circle cx="472" cy="402" r="34" fill="#17122B" />
+        <circle cx="800" cy="402" r="34" fill="#FFFFFF" />
+        <circle cx="1127" cy="402" r="34" fill="#5230B0" />
+      </g>
+  </g>
+  <g transform="translate(358, 112)">
+    <rect width="90" height="26" rx="6" fill="#FFFFFF" stroke="#C5B8EC" stroke-width="1" />
+    <text x="45" y="17" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="11" font-weight="600" letter-spacing="0.06em" fill="#17122B">ACCURACY</text>
+  </g>
+<g transform="translate(759, 802)">
+    <rect width="81" height="26" rx="6" fill="#FFFFFF" stroke="#C5B8EC" stroke-width="1" />
+    <text x="41" y="17" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="11" font-weight="600" letter-spacing="0.06em" fill="#17122B">LATENCY</text>
+  </g>
+<g transform="translate(1140, 112)">
+    <rect width="114" height="26" rx="6" fill="#2B1763" stroke="#6A3FD0" stroke-width="1" />
+    <text x="57" y="17" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="11" font-weight="600" letter-spacing="0.06em" fill="#FFFFFF">CONTAINMENT</text>
+  </g>
+</svg>

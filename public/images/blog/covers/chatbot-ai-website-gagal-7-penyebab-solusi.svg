@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900" fill="none" role="img" aria-label="Ilustrasi kontras antara widget chatbot website yang buntu dan alur asisten AI terarah yang menghasilkan konversi prospek">
+  <defs>
+    <pattern id="grid64" width="64" height="64" patternUnits="userSpaceOnUse">
+      <path d="M 64 0 L 0 0 0 64" fill="none" stroke="#17122B" stroke-width="1" stroke-opacity="0.04" />
+    </pattern>
+    <radialGradient id="purpleGlow" cx="360" cy="670" r="620" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#B9A2F2" stop-opacity="0.42" />
+      <stop offset="55%" stop-color="#EFEAFB" stop-opacity="0.18" />
+      <stop offset="100%" stop-color="#F8F6FE" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+  <rect width="1600" height="900" fill="#F8F6FE" />
+  <rect width="1600" height="900" fill="url(#purpleGlow)" />
+  <rect width="1600" height="900" fill="url(#grid64)" />
+  <g key="anchor-0">
+        <rect x="1240" y="118" width="250" height="150" rx="14" fill="#17122B" stroke="#DED8F2" stroke-width="1" />
+        <rect x="1258" y="138" width="190" height="10" rx="5" fill="#B9A2F2" />
+             <rect x="1258" y="158" width="150" height="8" rx="4" fill="#EFEAFB" fill-opacity="0.45" />
+      </g>
+<g key="anchor-1">
+        <rect x="124" y="598" width="240" height="150" rx="14" fill="#5230B0" stroke="#DED8F2" stroke-width="1" />
+        <rect x="142" y="618" width="180" height="10" rx="5" fill="#B9A2F2" />
+             <rect x="142" y="638" width="140" height="8" rx="4" fill="#EFEAFB" fill-opacity="0.45" />
+      </g>
+<g key="anchor-2">
+        <rect x="561" y="788" width="360" height="48" rx="14" fill="#17122B" stroke="#DED8F2" stroke-width="1" />
+        <rect x="579" y="808" width="300" height="10" rx="5" fill="#B9A2F2" />
+             <rect x="579" y="828" width="260" height="8" rx="4" fill="#EFEAFB" fill-opacity="0.45" />
+      </g>
+<line x1="1292" y1="143" x2="560" y2="330" stroke="#C5B8EC" stroke-width="1" stroke-dasharray="4 4" />
+<line x1="320" y1="751" x2="1040" y2="330" stroke="#C5B8EC" stroke-width="1" stroke-dasharray="none" />
+<line x1="1323" y1="764" x2="560" y2="330" stroke="#C5B8EC" stroke-width="1" stroke-dasharray="4 4" />
+<line x1="166" y1="262" x2="1040" y2="570" stroke="#C5B8EC" stroke-width="1" stroke-dasharray="none" />
+<g>
+        <circle cx="1292" cy="143" r="14" fill="#FFFFFF" stroke="#C5B8EC" stroke-width="1" />
+        <circle cx="1292" cy="143" r="4" fill="#6A3FD0" />
+      </g>
+<g>
+        <circle cx="320" cy="751" r="14" fill="#FFFFFF" stroke="#C5B8EC" stroke-width="1" />
+        <circle cx="320" cy="751" r="4" fill="#6A3FD0" />
+      </g>
+<g>
+        <circle cx="1323" cy="764" r="20" fill="#6A3FD0" stroke="#17122B" stroke-width="1" />
+        <circle cx="1323" cy="764" r="4" fill="#FFFFFF" />
+      </g>
+<g>
+        <circle cx="166" cy="262" r="14" fill="#FFFFFF" stroke="#C5B8EC" stroke-width="1" />
+        <circle cx="166" cy="262" r="4" fill="#6A3FD0" />
+      </g>
+  <g transform="rotate(-5 800 450)">
+    <g>
+        <rect x="280" y="180" width="480" height="540" rx="22" fill="#F8F6FE" stroke="#C5B8EC" />
+        <rect x="325" y="270" width="180" height="95" rx="12" fill="#B9A2F2" />
+        <rect x="490" y="260" width="210" height="110" rx="12" fill="#17122B" />
+        <rect x="345" y="435" width="220" height="105" rx="12" fill="#5230B0" />
+        <rect x="520" y="545" width="190" height="115" rx="12" fill="#FFFFFF" stroke="#C5B8EC" />
+        <line x1="415" y1="280" x2="595" y2="350" stroke="#17122B" stroke-width="2" />
+        <line x1="595" y1="350" x2="455" y2="485" stroke="#17122B" stroke-width="2" />
+
+        <!-- Right: Structured Grid -->
+        <rect x="840" y="180" width="480" height="540" rx="22" fill="#17122B" />
+        <rect x="885" y="230" width="390" height="110" rx="14" fill="#FFFFFF" />
+        <rect x="885" y="370" width="182" height="145" rx="14" fill="#6A3FD0" />
+        <rect x="1093" y="370" width="182" height="145" rx="14" fill="#9E7BF0" />
+        <rect x="885" y="545" width="390" height="125" rx="14" fill="#2B1763" stroke="#9E7BF0" />
+      </g>
+  </g>
+  <g transform="translate(356, 112)">
+    <rect width="90" height="26" rx="6" fill="#2B1763" stroke="#6A3FD0" stroke-width="1" />
+    <text x="45" y="17" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="11" font-weight="600" letter-spacing="0.06em" fill="#FFFFFF">DEAD END</text>
+  </g>
+<g transform="translate(759, 802)">
+    <rect width="81" height="26" rx="6" fill="#FFFFFF" stroke="#C5B8EC" stroke-width="1" />
+    <text x="41" y="17" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="11" font-weight="600" letter-spacing="0.06em" fill="#17122B">CONTEXT</text>
+  </g>
+<g transform="translate(1158, 112)">
+    <rect width="81" height="26" rx="6" fill="#FFFFFF" stroke="#C5B8EC" stroke-width="1" />
+    <text x="41" y="17" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="11" font-weight="600" letter-spacing="0.06em" fill="#17122B">CONVERT</text>
+  </g>
+</svg>

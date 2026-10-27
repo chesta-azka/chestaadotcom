@@ -5,9 +5,17 @@
   "type": "module",
   "scripts": {
     "dev": "tsx server.ts",
-    "build": "vite build && esbuild server.ts --bundle --platform=node --format=cjs --packages=external --sourcemap --outfile=dist/server.cjs && tsx src/utils/sitemap.ts",
+    "build": "npm run covers:check && vite build && esbuild server.ts --bundle --platform=node --format=cjs --packages=external --sourcemap --outfile=dist/server.cjs && tsx src/utils/sitemap.ts",
     "start": "node dist/server.cjs",
     "lint": "tsc --noEmit",
+    "covers:generate": "tsx scripts/generate-covers.ts",
+    "covers:check": "tsx scripts/check-covers.ts",
+    "pricing:check": "tsx scripts/pricing-check.ts",
+    "content:lint": "tsx scripts/content-lint.ts",
+    "seo:audit": "tsx scripts/seo-audit.ts",
+    "seo:parity": "tsx scripts/parity.mjs",
+    "seo:indexability": "tsx scripts/indexability.mjs",
+    "lint:legacy": "node scripts/check-legacy-strings.mjs",
     "postinstall": "npm dedupe"
   },
   "dependencies": {
@@ -38,6 +46,7 @@
     "framer-motion": "^13.4.0",
     "fuse.js": "^7.5.0",
     "glob": "^13.0.6",
+    "google-gax": "^6.13.0",
     "groq-sdk": "^1.5.0",
     "gsap": "^3.15.0",
     "howler": "^2.2.4",

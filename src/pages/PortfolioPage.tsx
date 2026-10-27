@@ -28,7 +28,8 @@ import {
   Breadcrumb,
   ImageWithFallback,
 } from '../components/ui/DesignSystem';
-import { parseLocalizedPath, toLocalizedHref } from '../lib/i18n';
+import { parseLocalizedPath, toLocalizedHref, PrefixMode } from '../lib/i18n';
+import { getImageMeta } from '../config/images';
 
 export default function PortfolioPage() {
   const location = useLocation();
@@ -96,11 +97,11 @@ export default function PortfolioPage() {
           '@id': `https://chestaa.com${portfolioHref}#collection`,
           url: `https://chestaa.com${portfolioHref}`,
           name: isEn
-            ? 'Projects We Have Built — Custom Software & AI Agent Portfolio | CHESTAADOTCOM'
-            : 'Proyek yang Sudah Kami Bangun — Portofolio Software & AI Agent | CHESTAADOTCOM',
+            ? 'Internal Projects — Custom Software & AI Agent Portfolio | CHESTAADOTCOM'
+            : 'Proyek Internal — Portofolio Software & AI Agent | CHESTAADOTCOM',
           description: isEn
-            ? 'Visual showcase of website, landing page, WhatsApp AI agent, custom software, and workflow automation projects by CHESTAADOTCOM in BSD City & South Tangerang.'
-            : 'Etalase visual proyek website, landing page, AI agent WhatsApp, software custom, dan otomasi workflow oleh CHESTAADOTCOM di BSD City & Tangerang Selatan.',
+            ? 'Internal CHESTAADOTCOM projects: website, landing page, WhatsApp AI agent, custom software, and workflow automation demos built in BSD City & South Tangerang.'
+            : 'Proyek internal CHESTAADOTCOM: website, landing page, AI agent WhatsApp, software custom, dan otomasi workflow di BSD City & Tangerang Selatan.',
           inLanguage: isEn ? 'en' : 'id-ID',
           mainEntity: {
             '@type': 'ItemList',
@@ -141,13 +142,13 @@ export default function PortfolioPage() {
       <SEOMetadata
         title={
           isEn
-            ? 'Projects We Have Built — Custom Software & AI Agent Portfolio | CHESTAADOTCOM'
-            : 'Proyek yang Sudah Kami Bangun — Portofolio Software & AI Agent | CHESTAADOTCOM'
+            ? 'Projects We Have Built — Custom Software & AI Agent Portfolio'
+            : 'Proyek yang Sudah Kami Bangun — Portofolio Software & AI'
         }
         description={
           isEn
-            ? 'Visual showcase of landing page, WhatsApp AI agent, custom software, and workflow automation projects for businesses in BSD City, South Tangerang, and Greater Jakarta.'
-            : 'Etalase visual proyek pembuatan landing page, AI agent WhatsApp, software custom, dan otomasi workflow untuk bisnis di BSD City, Tangerang Selatan, dan Jabodetabek.'
+            ? 'Internal CHESTAADOTCOM projects: landing page, WhatsApp AI agent, custom software, and workflow automation demos for BSD City and South Tangerang.'
+            : 'Proyek internal CHESTAADOTCOM: pembuatan landing page, AI agent WhatsApp, software custom, dan otomasi workflow di BSD City dan Tangerang Selatan.'
         }
         path={portfolioHref}
         jsonLd={jsonLdGraph}
@@ -165,21 +166,21 @@ export default function PortfolioPage() {
               <span className="w-1.5 h-1.5 rounded-full bg-[#6A3FD0]" />
               <span>
                 {isEn
-                  ? 'PORTFOLIO & VISUAL ARCHITECTURE'
-                  : 'PORTOFOLIO & ARSITEKTUR VISUAL'}
+                  ? 'INTERNAL PROJECTS · CHESTAADOTCOM'
+                  : 'PROYEK INTERNAL · CHESTAADOTCOM'}
               </span>
             </Badge>
 
             <WordRevealHeading
               as="h1"
               priority
-              text={isEn ? 'Projects we have built' : 'Proyek yang sudah kami bangun'}
+              text={isEn ? 'Internal projects we have built' : 'Proyek internal yang kami bangun'}
             />
 
             <p className="text-[15px] md:text-[16px] text-[#5B5675] leading-[1.65]">
               {isEn
-                ? 'Screenshots of web interfaces, WhatsApp AI agents, and operational dashboards we designed for industries across BSD City, South Tangerang, and Greater Jakarta.'
-                : 'Tangkapan layar antarmuka web, AI agent WhatsApp, dan dashboard operasional yang kami rancang untuk berbagai industri di BSD City, Tangerang Selatan, dan Jabodetabek.'}
+                ? 'Internal CHESTAADOTCOM demos and prototypes of web interfaces, WhatsApp AI agents, and operational dashboards designed for industries in BSD City, South Tangerang, and Greater Jakarta.'
+                : 'Demo dan prototipe internal CHESTAADOTCOM untuk antarmuka web, AI agent WhatsApp, dan dashboard operasional yang kami rancang bagi industri di BSD City, Tangerang Selatan, dan Jabodetabek.'}
             </p>
           </div>
 
@@ -331,8 +332,8 @@ export default function PortfolioPage() {
               </h2>
               <p className="text-[15px] text-[#5B5675] leading-[1.65]">
                 {isEn
-                  ? 'This portfolio page focuses on visual interface previews. To read the client’s operational bottlenecks, architecture decisions, and implementation breakdown in full, visit our Case Studies page.'
-                  : 'Halaman portofolio ini fokus pada pratinjau visual antarmuka. Untuk membaca latar belakang kendala operasional klien, keputusan arsitektur, dan rincian implementasi secara menyeluruh, kunjungi halaman Studi Kasus.'}
+                  ? 'This portfolio page focuses on visual interface previews of our internal projects. To read the operational problem mapping, architecture trade-offs, and design targets in full, visit our Case Studies page.'
+                  : 'Halaman portofolio ini fokus pada pratinjau visual antarmuka proyek internal kami. Untuk membaca pemetaan masalah operasional, kompromi arsitektur, dan target desain secara menyeluruh, kunjungi halaman Studi Kasus.'}
               </p>
             </div>
 
@@ -391,7 +392,7 @@ export default function PortfolioPage() {
 }
 
 /* ============================================================================
- * PORTFOLIO CARD COMPONENT
+ * PORTFOLIO CARD COMPONENT (Mandatory "Proyek internal" / "Internal project" badge)
  * ========================================================================== */
 function PortfolioCard({
   project,
@@ -402,11 +403,10 @@ function PortfolioCard({
   project: PortfolioProject;
   priority: boolean;
   locale: 'id' | 'en';
-  prefixMode: 'default' | 'ind' | 'eng';
+  prefixMode: PrefixMode;
 }) {
   const isEn = locale === 'en';
-  const imgAsset =
-    SITE_IMAGES[project.cover as keyof typeof SITE_IMAGES] || SITE_IMAGES.ogDefault;
+  const imgAsset = getImageMeta(project.cover, locale);
   const projectHref = toLocalizedHref(
     `/portfolio/${project.slug}`,
     locale,
@@ -434,7 +434,7 @@ function PortfolioCard({
               />
               <div className="absolute top-4 left-4 flex flex-wrap items-center gap-2">
                 <span className="px-3 py-1 rounded-full bg-[#6A3FD0] text-[#FFFFFF] font-mono text-[11px] uppercase tracking-[0.08em] font-semibold shadow-sm">
-                  {isEn ? 'Featured Project' : 'Proyek Unggulan'}
+                  {project.internalBadgeLabel}
                 </span>
                 <span className="px-3 py-1 rounded-full bg-[#FFFFFF]/90 backdrop-blur-sm text-[#17122B] border border-[rgba(91,60,196,0.16)] font-mono text-[11px] uppercase tracking-[0.08em] font-semibold">
                   {project.categoryLabel}
@@ -458,6 +458,13 @@ function PortfolioCard({
                   {project.oneLiner}
                 </p>
 
+                <div className="p-3 rounded-[14px] bg-[#F8F6FE] border border-[rgba(91,60,196,0.14)] font-mono text-[11px] text-[#6A3FD0]">
+                  <strong className="uppercase tracking-[0.06em]">
+                    {isEn ? 'Design target: ' : 'Target desain: '}
+                  </strong>
+                  <span>{project.targetNote}</span>
+                </div>
+
                 <div className="pt-2 flex flex-wrap gap-1.5">
                   {project.stack.map((tech) => (
                     <span
@@ -472,11 +479,7 @@ function PortfolioCard({
 
               <div className="mt-6 pt-4 border-t border-[rgba(91,60,196,0.14)] flex items-center justify-between">
                 <span className="font-mono text-[11px] uppercase tracking-[0.08em] text-[#5B5675]">
-                  {project.liveUrl
-                    ? isEn
-                      ? 'Live Demo Available'
-                      : 'Live Demo Tersedia'
-                    : project.liveStatusLabel}
+                  {project.client}
                 </span>
                 <span className="inline-flex items-center gap-1.5 text-[14px] font-semibold text-[#6A3FD0]">
                   <span>{isEn ? 'View project details' : 'Lihat detail proyek'}</span>
@@ -512,6 +515,9 @@ function PortfolioCard({
               className="w-full h-full object-cover"
             />
             <div className="absolute top-3.5 left-3.5 flex flex-wrap items-center gap-2">
+              <span className="px-3 py-1 rounded-full bg-[#6A3FD0] text-[#FFFFFF] font-mono text-[11px] uppercase tracking-[0.08em] font-semibold">
+                {project.internalBadgeLabel}
+              </span>
               <span className="px-3 py-1 rounded-full bg-[#FFFFFF]/92 backdrop-blur-sm text-[#6A3FD0] border border-[rgba(91,60,196,0.16)] font-mono text-[11px] uppercase tracking-[0.08em] font-semibold">
                 {project.categoryLabel}
               </span>
@@ -532,6 +538,11 @@ function PortfolioCard({
             <p className="text-[14px] md:text-[15px] text-[#5B5675] leading-[1.6] line-clamp-2">
               {project.oneLiner}
             </p>
+
+            <div className="p-2.5 rounded-[12px] bg-[#F8F6FE] border border-[rgba(91,60,196,0.14)] font-mono text-[11px] text-[#6A3FD0]">
+              <strong>{isEn ? 'Design target: ' : 'Target desain: '}</strong>
+              <span>{project.targetNote}</span>
+            </div>
           </div>
         </div>
 

@@ -1,0 +1,93 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900" fill="none" role="img" aria-label="Kerangka wireframe landing page berkonversi tinggi dengan penanda daftar periksa proposisi nilai, bukti, dan tombol CTA">
+  <defs>
+    <pattern id="grid64" width="64" height="64" patternUnits="userSpaceOnUse">
+      <path d="M 64 0 L 0 0 0 64" fill="none" stroke="#17122B" stroke-width="1" stroke-opacity="0.04" />
+    </pattern>
+    <radialGradient id="purpleGlow" cx="1240" cy="660" r="620" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#B9A2F2" stop-opacity="0.42" />
+      <stop offset="55%" stop-color="#EFEAFB" stop-opacity="0.18" />
+      <stop offset="100%" stop-color="#F8F6FE" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+  <rect width="1600" height="900" fill="#F8F6FE" />
+  <rect width="1600" height="900" fill="url(#purpleGlow)" />
+  <rect width="1600" height="900" fill="url(#grid64)" />
+  <g key="anchor-0">
+        <rect x="88" y="144" width="220" height="130" rx="14" fill="#17122B" stroke="#DED8F2" stroke-width="1" />
+        <rect x="106" y="164" width="160" height="10" rx="5" fill="#B9A2F2" />
+             <rect x="106" y="184" width="120" height="8" rx="4" fill="#EFEAFB" fill-opacity="0.45" />
+      </g>
+<g key="anchor-1">
+        <rect x="1270" y="600" width="230" height="140" rx="14" fill="#EFEAFB" stroke="#DED8F2" stroke-width="1" />
+        <rect x="1288" y="620" width="170" height="10" rx="5" fill="#5230B0" />
+             <rect x="1288" y="640" width="130" height="8" rx="4" fill="#17122B" fill-opacity="0.25" />
+      </g>
+<g key="anchor-2">
+        <rect x="541" y="788" width="360" height="48" rx="14" fill="#17122B" stroke="#DED8F2" stroke-width="1" />
+        <rect x="559" y="808" width="300" height="10" rx="5" fill="#B9A2F2" />
+             <rect x="559" y="828" width="260" height="8" rx="4" fill="#EFEAFB" fill-opacity="0.45" />
+      </g>
+<line x1="1434" y1="248" x2="560" y2="330" stroke="#C5B8EC" stroke-width="1" stroke-dasharray="4 4" />
+<line x1="173" y1="618" x2="1040" y2="330" stroke="#C5B8EC" stroke-width="1" stroke-dasharray="none" />
+<line x1="1381" y1="657" x2="560" y2="330" stroke="#C5B8EC" stroke-width="1" stroke-dasharray="4 4" />
+<line x1="280" y1="135" x2="1040" y2="570" stroke="#C5B8EC" stroke-width="1" stroke-dasharray="none" />
+<g>
+        <circle cx="1434" cy="248" r="20" fill="#6A3FD0" stroke="#17122B" stroke-width="1" />
+        <circle cx="1434" cy="248" r="4" fill="#FFFFFF" />
+      </g>
+<g>
+        <circle cx="173" cy="618" r="14" fill="#FFFFFF" stroke="#C5B8EC" stroke-width="1" />
+        <circle cx="173" cy="618" r="4" fill="#6A3FD0" />
+      </g>
+<g>
+        <circle cx="1381" cy="657" r="14" fill="#FFFFFF" stroke="#C5B8EC" stroke-width="1" />
+        <circle cx="1381" cy="657" r="4" fill="#6A3FD0" />
+      </g>
+<g>
+        <circle cx="280" cy="135" r="14" fill="#FFFFFF" stroke="#C5B8EC" stroke-width="1" />
+        <circle cx="280" cy="135" r="4" fill="#6A3FD0" />
+      </g>
+  <g transform="rotate(3 800 450)">
+    <g>
+        <rect x="310" y="165" width="980" height="570" rx="24" fill="#FFFFFF" stroke="#C5B8EC" stroke-width="1" />
+        <rect x="310" y="165" width="980" height="62" rx="24" fill="#2B1763" />
+        <!-- Left Wireframe Hero Preview -->
+        <rect x="355" y="265" width="460" height="425" rx="16" fill="#17122B" />
+        <rect x="390" y="305" width="320" height="36" rx="8" fill="#FFFFFF" />
+        <rect x="390" y="360" width="380" height="22" rx="6" fill="#B9A2F2" />
+        <rect x="390" y="415" width="390" height="150" rx="12" fill="#2B1763" stroke="#7C54E0" />
+        <rect x="390" y="595" width="220" height="56" rx="12" fill="#7C54E0" />
+        <!-- Right Checklist Rows -->
+        <rect x="855" y="265" width="390" height="92" rx="14" fill="#F8F6FE" stroke="#C5B8EC" />
+        <circle cx="905" cy="311" r="22" fill="#6A3FD0" />
+        <path d="M 895 311 L 903 319 L 917 303" fill="none" stroke="#FFFFFF" stroke-width="4" stroke-linecap="round" />
+        <rect x="945" y="298" width="260" height="26" rx="6" fill="#17122B" />
+
+        <rect x="855" y="376" width="390" height="92" rx="14" fill="#F8F6FE" stroke="#C5B8EC" />
+        <circle cx="905" cy="422" r="22" fill="#17122B" />
+        <path d="M 895 422 L 903 430 L 917 414" fill="none" stroke="#B9A2F2" stroke-width="4" stroke-linecap="round" />
+        <rect x="945" y="409" width="240" height="26" rx="6" fill="#5230B0" />
+
+        <rect x="855" y="487" width="390" height="92" rx="14" fill="#2B1763" />
+        <circle cx="905" cy="533" r="22" fill="#FFFFFF" />
+        <path d="M 895 533 L 903 541 L 917 525" fill="none" stroke="#5230B0" stroke-width="4" stroke-linecap="round" />
+        <rect x="945" y="520" width="250" height="26" rx="6" fill="#FFFFFF" />
+
+        <rect x="855" y="598" width="390" height="92" rx="14" fill="#EFEAFB" stroke="#C5B8EC" />
+        <circle cx="905" cy="644" r="22" fill="#6A3FD0" />
+        <rect x="945" y="631" width="220" height="26" rx="6" fill="#17122B" />
+      </g>
+  </g>
+  <g transform="translate(346, 112)">
+    <rect width="90" height="26" rx="6" fill="#FFFFFF" stroke="#C5B8EC" stroke-width="1" />
+    <text x="45" y="17" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="11" font-weight="600" letter-spacing="0.06em" fill="#17122B">HEADLINE</text>
+  </g>
+<g transform="translate(762, 802)">
+    <rect width="76" height="26" rx="6" fill="#FFFFFF" stroke="#C5B8EC" stroke-width="1" />
+    <text x="38" y="17" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="11" font-weight="600" letter-spacing="0.06em" fill="#17122B">TRUST</text>
+  </g>
+<g transform="translate(1171, 112)">
+    <rect width="76" height="26" rx="6" fill="#2B1763" stroke="#6A3FD0" stroke-width="1" />
+    <text x="38" y="17" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="11" font-weight="600" letter-spacing="0.06em" fill="#FFFFFF">WA CTA</text>
+  </g>
+</svg>

@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900" fill="none" role="img" aria-label="Perbandingan kerangka arsitektur aplikasi web Next.js modern melawan tumpukan plugin CMS WordPress untuk bisnis lokal">
+  <defs>
+    <pattern id="grid64" width="64" height="64" patternUnits="userSpaceOnUse">
+      <path d="M 64 0 L 0 0 0 64" fill="none" stroke="#17122B" stroke-width="1" stroke-opacity="0.04" />
+    </pattern>
+    <radialGradient id="purpleGlow" cx="1260" cy="240" r="620" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#B9A2F2" stop-opacity="0.42" />
+      <stop offset="55%" stop-color="#EFEAFB" stop-opacity="0.18" />
+      <stop offset="100%" stop-color="#F8F6FE" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+  <rect width="1600" height="900" fill="#F8F6FE" />
+  <rect width="1600" height="900" fill="url(#purpleGlow)" />
+  <rect width="1600" height="900" fill="url(#grid64)" />
+  <g key="anchor-0">
+        <rect x="88" y="96" width="220" height="130" rx="14" fill="#17122B" stroke="#DED8F2" stroke-width="1" />
+        <rect x="106" y="116" width="160" height="10" rx="5" fill="#B9A2F2" />
+             <rect x="106" y="136" width="120" height="8" rx="4" fill="#EFEAFB" fill-opacity="0.45" />
+      </g>
+<g key="anchor-1">
+        <rect x="1270" y="620" width="230" height="140" rx="14" fill="#EFEAFB" stroke="#DED8F2" stroke-width="1" />
+        <rect x="1288" y="640" width="170" height="10" rx="5" fill="#5230B0" />
+             <rect x="1288" y="660" width="130" height="8" rx="4" fill="#17122B" fill-opacity="0.25" />
+      </g>
+<g key="anchor-2">
+        <rect x="72" y="446" width="140" height="210" rx="14" fill="#5230B0" stroke="#DED8F2" stroke-width="1" />
+        <rect x="90" y="466" width="80" height="10" rx="5" fill="#B9A2F2" />
+             <rect x="90" y="486" width="40" height="8" rx="4" fill="#EFEAFB" fill-opacity="0.45" />
+      </g>
+<line x1="196" y1="631" x2="560" y2="330" stroke="#C5B8EC" stroke-width="1" stroke-dasharray="4 4" />
+<line x1="1415" y1="646" x2="1040" y2="330" stroke="#C5B8EC" stroke-width="1" stroke-dasharray="none" />
+<line x1="318" y1="129" x2="560" y2="330" stroke="#C5B8EC" stroke-width="1" stroke-dasharray="4 4" />
+<line x1="1297" y1="142" x2="1040" y2="570" stroke="#C5B8EC" stroke-width="1" stroke-dasharray="none" />
+<line x1="304" y1="768" x2="560" y2="570" stroke="#C5B8EC" stroke-width="1" stroke-dasharray="4 4" />
+<g>
+        <circle cx="196" cy="631" r="14" fill="#FFFFFF" stroke="#C5B8EC" stroke-width="1" />
+        <circle cx="196" cy="631" r="4" fill="#6A3FD0" />
+      </g>
+<g>
+        <circle cx="1415" cy="646" r="14" fill="#FFFFFF" stroke="#C5B8EC" stroke-width="1" />
+        <circle cx="1415" cy="646" r="4" fill="#6A3FD0" />
+      </g>
+<g>
+        <circle cx="318" cy="129" r="14" fill="#FFFFFF" stroke="#C5B8EC" stroke-width="1" />
+        <circle cx="318" cy="129" r="4" fill="#6A3FD0" />
+      </g>
+<g>
+        <circle cx="1297" cy="142" r="20" fill="#6A3FD0" stroke="#17122B" stroke-width="1" />
+        <circle cx="1297" cy="142" r="4" fill="#FFFFFF" />
+      </g>
+<g>
+        <circle cx="304" cy="768" r="14" fill="#FFFFFF" stroke="#C5B8EC" stroke-width="1" />
+        <circle cx="304" cy="768" r="4" fill="#6A3FD0" />
+      </g>
+  <g transform="translate(1600, 0) scale(-1, 1) rotate(2 800 450)">
+    <g>
+        <!-- Frame 1: Modern Modular Stack -->
+        <rect x="290" y="180" width="490" height="540" rx="22" fill="#17122B" />
+        <rect x="322" y="235" width="426" height="56" rx="10" fill="#6A3FD0" />
+        <rect x="322" y="315" width="200" height="175" rx="14" fill="#FFFFFF" />
+        <rect x="548" y="315" width="200" height="175" rx="14" fill="#9E7BF0" />
+        <rect x="322" y="515" width="426" height="160" rx="14" fill="#2B1763" stroke="#7C54E0" />
+
+        <!-- Frame 2: Monolithic / Multi-layer Frame -->
+        <rect x="820" y="180" width="490" height="540" rx="22" fill="#FFFFFF" stroke="#C5B8EC" stroke-width="1" />
+        <rect x="820" y="180" width="490" height="56" rx="22" fill="#5230B0" />
+        <rect x="856" y="270" width="418" height="82" rx="12" fill="#EFEAFB" />
+        <rect x="856" y="376" width="418" height="82" rx="12" fill="#B9A2F2" />
+        <rect x="856" y="482" width="418" height="82" rx="12" fill="#17122B" />
+        <rect x="856" y="588" width="260" height="82" rx="12" fill="#6A3FD0" />
+      </g>
+  </g>
+  <g transform="translate(395, 112)">
+    <rect width="81" height="26" rx="6" fill="#FFFFFF" stroke="#C5B8EC" stroke-width="1" />
+    <text x="41" y="17" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="11" font-weight="600" letter-spacing="0.06em" fill="#17122B">NEXT.JS</text>
+  </g>
+<g transform="translate(751, 802)">
+    <rect width="98" height="26" rx="6" fill="#FFFFFF" stroke="#C5B8EC" stroke-width="1" />
+    <text x="49" y="17" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="11" font-weight="600" letter-spacing="0.06em" fill="#17122B">WORDPRESS</text>
+  </g>
+<g transform="translate(1126, 112)">
+    <rect width="76" height="26" rx="6" fill="#2B1763" stroke="#6A3FD0" stroke-width="1" />
+    <text x="38" y="17" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="11" font-weight="600" letter-spacing="0.06em" fill="#FFFFFF">TTFB</text>
+  </g>
+</svg>

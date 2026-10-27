@@ -20,9 +20,16 @@ import {
   getLanguageSwitchLinks,
   getTranslation,
   LocaleCode,
+  PrefixMode,
   parseLocalizedPath,
   toLocalizedHref,
 } from '../../lib/i18n';
+import { getServicePath } from '../../data/services';
+import {
+  getWhatsAppCtaLabel,
+  resolveWhatsAppContextFromPathname,
+} from '../../lib/whatsapp';
+import { trackWaClick } from '../../lib/analytics';
 
 export interface MenuServiceItem {
   title: string;
@@ -38,30 +45,30 @@ export interface MenuSecondaryLink {
 
 export function getMenuServices(
   locale: LocaleCode = 'id',
-  prefixMode: 'default' | 'ind' | 'eng' = 'default'
+  _prefixMode: PrefixMode = 'id'
 ): MenuServiceItem[] {
   return [
     {
       title: getTranslation(locale, 'service.web.title'),
-      href: toLocalizedHref('/jasa/pembuatan-website', locale, prefixMode),
+      href: getServicePath('pembuatan-website', locale),
       desc: getTranslation(locale, 'service.web.desc'),
       icon: <Globe size={18} className="text-[#6A3FD0]" />,
     },
     {
       title: getTranslation(locale, 'service.ai.title'),
-      href: toLocalizedHref('/jasa/ai-agent', locale, prefixMode),
+      href: getServicePath('ai-agent', locale),
       desc: getTranslation(locale, 'service.ai.desc'),
       icon: <Bot size={18} className="text-[#6A3FD0]" />,
     },
     {
       title: getTranslation(locale, 'service.software.title'),
-      href: toLocalizedHref('/jasa/software-custom', locale, prefixMode),
+      href: getServicePath('software-custom', locale),
       desc: getTranslation(locale, 'service.software.desc'),
       icon: <Code2 size={18} className="text-[#6A3FD0]" />,
     },
     {
       title: getTranslation(locale, 'service.workflow.title'),
-      href: toLocalizedHref('/jasa/otomasi-workflow', locale, prefixMode),
+      href: getServicePath('otomasi-workflow', locale),
       desc: getTranslation(locale, 'service.workflow.desc'),
       icon: <Workflow size={18} className="text-[#6A3FD0]" />,
     },
@@ -70,9 +77,25 @@ export function getMenuServices(
 
 export function getMenuSecondaryLinks(
   locale: LocaleCode = 'id',
-  prefixMode: 'default' | 'ind' | 'eng' = 'default'
+  prefixMode: PrefixMode = 'id'
 ): MenuSecondaryLink[] {
   return [
+    {
+      label: locale === 'en' ? 'About Us' : 'Tentang',
+      href: toLocalizedHref('/about', locale, prefixMode),
+    },
+    {
+      label: locale === 'en' ? 'How We Work' : 'Cara Kerja',
+      href: toLocalizedHref('/cara-kerja', locale, prefixMode),
+    },
+    {
+      label: locale === 'en' ? 'Pricing' : 'Harga',
+      href: toLocalizedHref('/harga', locale, prefixMode),
+    },
+    {
+      label: 'FAQ',
+      href: toLocalizedHref('/faq', locale, prefixMode),
+    },
     {
       label: getTranslation(locale, 'nav.projects'),
       href: toLocalizedHref('/portfolio', locale, prefixMode),
@@ -85,23 +108,11 @@ export function getMenuSecondaryLinks(
       label: getTranslation(locale, 'nav.blog'),
       href: toLocalizedHref('/blog', locale, prefixMode),
     },
-    {
-      label: getTranslation(locale, 'nav.howItWorks'),
-      href: toLocalizedHref('/#cara-kerja', locale, prefixMode),
-    },
-    {
-      label: getTranslation(locale, 'nav.pricing'),
-      href: toLocalizedHref('/#harga', locale, prefixMode),
-    },
-    {
-      label: getTranslation(locale, 'nav.faq'),
-      href: toLocalizedHref('/#faq', locale, prefixMode),
-    },
   ];
 }
 
-export const MENU_SERVICES: MenuServiceItem[] = getMenuServices('id', 'default');
-export const MENU_SECONDARY_LINKS: MenuSecondaryLink[] = getMenuSecondaryLinks('id', 'default');
+export const MENU_SERVICES: MenuServiceItem[] = getMenuServices('id', 'id');
+export const MENU_SECONDARY_LINKS: MenuSecondaryLink[] = getMenuSecondaryLinks('id', 'id');
 
 let serviceRoutePreloaded = false;
 export function prefetchServiceRoute() {
@@ -142,17 +153,22 @@ export default function MenuOverlayPanel({
   const [isAnimating, setIsAnimating] = useState(false);
 
   const { locale, prefixMode, barePath } = parseLocalizedPath(pathname);
-  const isInServiceRoute = barePath.startsWith('/jasa/');
+  const isInServiceRoute =
+    barePath.startsWith('/jasa/') || barePath.startsWith('/services/');
   const [mobileServicesOpen, setMobileServicesOpen] = useState<boolean>(isInServiceRoute);
 
   useEffect(() => {
-    setMobileServicesOpen(barePath.startsWith('/jasa/'));
+    setMobileServicesOpen(
+      barePath.startsWith('/jasa/') || barePath.startsWith('/services/')
+    );
   }, [barePath, isOpen]);
 
   const servicesList = getMenuServices(locale, prefixMode);
   const exploreLinks = getMenuSecondaryLinks(locale, prefixMode);
   const langLinks = getLanguageSwitchLinks(pathname);
   const homeHref = toLocalizedHref('/', locale, prefixMode);
+  const waContext = resolveWhatsAppContextFromPathname(pathname, locale);
+  const whatsappCtaLabel = getWhatsAppCtaLabel(locale);
 
   const handleDropdownToggleKeyDown = (e: React.KeyboardEvent<HTMLButtonElement>) => {
     if (e.key === 'ArrowDown') {
@@ -377,12 +393,15 @@ export default function MenuOverlayPanel({
               <a
                 href={whatsappUrl}
                 target="_blank"
-                rel="noopener noreferrer"
-                onClick={handleRequestClose}
+                rel="noopener"
+                onClick={() => {
+                  trackWaClick(waContext.type || 'default', 'menu_header_cta', locale);
+                  handleRequestClose();
+                }}
                 className="hidden min-[380px]:inline-flex items-center gap-1.5 min-h-[38px] px-3.5 sm:px-4 py-1.5 rounded-full bg-[#6A3FD0] hover:bg-[#5230B0] text-[#FFFFFF] text-[12.5px] sm:text-[13px] font-semibold whitespace-nowrap shrink-0 transition-colors cursor-pointer"
               >
                 <MessageCircle size={14} className="shrink-0" />
-                <span>{getTranslation(locale, 'nav.freeConsultation')}</span>
+                <span>{whatsappCtaLabel}</span>
               </a>
 
               <button
@@ -605,12 +624,15 @@ export default function MenuOverlayPanel({
                     <a
                       href={whatsappUrl}
                       target="_blank"
-                      rel="noopener noreferrer"
-                      onClick={handleRequestClose}
+                      rel="noopener"
+                      onClick={() => {
+                        trackWaClick(waContext.type || 'default', 'menu_footer_cta', locale);
+                        handleRequestClose();
+                      }}
                       className="inline-flex items-center gap-1.5 font-semibold text-[#6A3FD0] hover:text-[#5230B0] transition-colors whitespace-nowrap cursor-pointer"
                     >
                       <MessageCircle size={15} className="shrink-0" />
-                      <span>WhatsApp</span>
+                      <span>{whatsappCtaLabel}</span>
                     </a>
 
                     <a
@@ -786,12 +808,15 @@ export default function MenuOverlayPanel({
                   <a
                     href={whatsappUrl}
                     target="_blank"
-                    rel="noopener noreferrer"
-                    onClick={handleRequestClose}
+                    rel="noopener"
+                    onClick={() => {
+                      trackWaClick(waContext.type || 'default', 'menu_mobile_cta', locale);
+                      handleRequestClose();
+                    }}
                     className="w-full min-h-[48px] px-5 py-3 rounded-full bg-[#6A3FD0] hover:bg-[#5230B0] text-[#FFFFFF] font-semibold text-[14px] sm:text-[15px] leading-snug text-center flex items-center justify-center gap-2 shadow-[0_10px_24px_-8px_rgba(106,63,208,0.45)] transition-colors cursor-pointer pointer-events-auto"
                   >
                     <MessageCircle size={17} className="shrink-0" />
-                    <span>{getTranslation(locale, 'nav.freeConsultationWa')}</span>
+                    <span>{whatsappCtaLabel}</span>
                   </a>
 
                   <div className="flex flex-wrap items-center justify-between gap-2 text-[12px] text-[#5B5675] px-1 pointer-events-auto">

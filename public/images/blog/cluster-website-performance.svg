@@ -1,0 +1,84 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630">
+  <!-- Background with white/soft purple theme -->
+  <rect width="1200" height="630" fill="#FFFFFF" />
+  <rect width="1200" height="630" fill="#F8F6FE" opacity="0.65" />
+  <circle cx="600" cy="315" r="380" fill="#EFEAFB" opacity="0.5" />
+
+  <!-- Top bar chip -->
+  <g transform="translate(60, 48)">
+    <rect width="130" height="32" rx="16" fill="#EFEAFB" stroke="rgba(91,60,196,0.18)" stroke-width="1" />
+    <circle cx="20" cy="16" r="4" fill="#6A3FD0" />
+    <text x="32" y="21" fill="#6A3FD0" font-family="JetBrains Mono, monospace" font-size="12" font-weight="600">ILUSTRASI</text>
+  </g>
+
+  <!-- Connecting Edges -->
+  <g stroke="rgba(91, 60, 196, 0.22)" stroke-width="2.5" fill="none">
+    <path d="M 240 315 L 490 315" />
+    <path d="M 650 315 L 810 315" />
+    <path d="M 940 315 L 1040 315" />
+  </g>
+
+  <!-- Traveling Dots (parked) -->
+  <circle cx="365" cy="315" r="5" fill="#7C54E0" />
+  <circle cx="730" cy="315" r="5" fill="#7C54E0" />
+  <circle cx="990" cy="315" r="5" fill="#7C54E0" />
+
+  <!-- Node 1: Pengunjung -->
+  <g transform="translate(180, 315)">
+    <!-- Layered shadow -->
+    <rect x="-60" y="-56" width="120" height="120" rx="30" fill="rgba(106, 63, 208, 0.05)" />
+    <rect x="-60" y="-58" width="120" height="120" rx="30" fill="rgba(106, 63, 208, 0.08)" />
+    <rect x="-60" y="-60" width="120" height="120" rx="30" fill="#FFFFFF" stroke="rgba(91,60,196,0.18)" stroke-width="1.5" />
+    <circle cx="0" cy="-10" r="14" fill="none" stroke="#6A3FD0" stroke-width="2.5" />
+    <path d="M -20 22 C -20 10, 20 10, 20 22" fill="none" stroke="#6A3FD0" stroke-width="2.5" />
+    <text x="0" y="86" text-anchor="middle" fill="#17122B" font-family="Plus Jakarta Sans, sans-serif" font-size="16" font-weight="600">Pengunjung</text>
+  </g>
+
+  <!-- Hub Node: Halaman Cepat with Speed Ring -->
+  <g transform="translate(570, 315)">
+    <!-- Layered shadow -->
+    <rect x="-80" y="-76" width="160" height="160" rx="40" fill="rgba(106, 63, 208, 0.05)" />
+    <rect x="-80" y="-78" width="160" height="160" rx="40" fill="rgba(106, 63, 208, 0.08)" />
+    <rect x="-80" y="-80" width="160" height="160" rx="40" fill="#FFFFFF" stroke="#6A3FD0" stroke-width="2" />
+    
+    <!-- Smartphone icon -->
+    <rect x="-18" y="-32" width="36" height="64" rx="8" fill="none" stroke="#6A3FD0" stroke-width="2.5" />
+    <line x1="-6" y1="-24" x2="6" y2="-24" stroke="#6A3FD0" stroke-width="2" />
+    <circle cx="0" cy="22" r="3" fill="#6A3FD0" />
+    
+    <text x="0" y="112" text-anchor="middle" fill="#17122B" font-family="Plus Jakarta Sans, sans-serif" font-size="19" font-weight="700">Halaman cepat</text>
+
+    <!-- Speed Meter ring -->
+    <g transform="translate(0, 165)">
+      <circle cx="0" cy="0" r="24" fill="none" stroke="#EFEAFB" stroke-width="4" />
+      <circle cx="0" cy="0" r="24" fill="none" stroke="#6A3FD0" stroke-width="4" stroke-dasharray="150" stroke-dashoffset="24" stroke-linecap="round" transform="rotate(-90)" />
+      <text x="0" y="5" text-anchor="middle" fill="#6A3FD0" font-family="JetBrains Mono, monospace" font-size="12" font-weight="700">99</text>
+      <text x="0" y="38" text-anchor="middle" fill="#5B5675" font-family="JetBrains Mono, monospace" font-size="11">Ilustrasi kecepatan</text>
+    </g>
+  </g>
+
+  <!-- Node 3: CTA WhatsApp & Formulir -->
+  <g transform="translate(875, 315)">
+    <!-- Layered shadow -->
+    <rect x="-65" y="-56" width="130" height="120" rx="30" fill="rgba(106, 63, 208, 0.05)" />
+    <rect x="-65" y="-58" width="130" height="120" rx="30" fill="rgba(106, 63, 208, 0.08)" />
+    <rect x="-65" y="-60" width="130" height="120" rx="30" fill="#EFEAFB" stroke="#6A3FD0" stroke-width="1.5" />
+    <!-- Chat + Form icon -->
+    <rect x="-18" y="-18" width="36" height="36" rx="8" fill="none" stroke="#6A3FD0" stroke-width="2.5" />
+    <line x1="-10" y1="-8" x2="10" y2="-8" stroke="#6A3FD0" stroke-width="2" />
+    <line x1="-10" y1="0" x2="6" y2="0" stroke="#6A3FD0" stroke-width="2" />
+    <line x1="-10" y1="8" x2="2" y2="8" stroke="#6A3FD0" stroke-width="2" />
+    <text x="0" y="86" text-anchor="middle" fill="#17122B" font-family="Plus Jakarta Sans, sans-serif" font-size="15" font-weight="600">WhatsApp & Form</text>
+  </g>
+
+  <!-- Node 4: Pesan Masuk -->
+  <g transform="translate(1100, 315)">
+    <!-- Layered shadow -->
+    <rect x="-50" y="-46" width="100" height="100" rx="26" fill="rgba(106, 63, 208, 0.05)" />
+    <rect x="-50" y="-48" width="100" height="100" rx="26" fill="rgba(106, 63, 208, 0.08)" />
+    <rect x="-50" y="-50" width="100" height="100" rx="26" fill="#FFFFFF" stroke="rgba(91,60,196,0.18)" stroke-width="1.5" />
+    <circle cx="0" cy="0" r="18" fill="none" stroke="#6A3FD0" stroke-width="2.5" />
+    <polyline points="-8,0 -2,6 8,-4" fill="none" stroke="#6A3FD0" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" />
+    <text x="0" y="76" text-anchor="middle" fill="#17122B" font-family="Plus Jakarta Sans, sans-serif" font-size="15" font-weight="600">Pesan masuk</text>
+  </g>
+</svg>

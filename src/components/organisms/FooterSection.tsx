@@ -3,7 +3,8 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { MessageCircle, Mail, MapPin, Camera } from 'lucide-react';
 import { getPublishedBlogPosts } from '../../data/blog-posts';
 import { getServiceAreasByServiceSlug } from '../../data/service-areas';
-import { Container, Button, buildWaUrl } from '../ui/DesignSystem';
+import { getServicePath, getServiceAreaPath } from '../../data/services';
+import { Container, Button } from '../ui/DesignSystem';
 import { staggerElements } from '../../lib/motion';
 import {
   getLanguageSwitchLinks,
@@ -11,6 +12,12 @@ import {
   parseLocalizedPath,
   toLocalizedHref,
 } from '../../lib/i18n';
+import {
+  buildWhatsAppLink,
+  getWhatsAppCtaLabel,
+  resolveWhatsAppContextFromPathname,
+} from '../../lib/whatsapp';
+import { trackLanguageSwitch, trackWaClick } from '../../lib/analytics';
 
 /**
  * Shared Footer (FooterSection) component
@@ -34,6 +41,10 @@ export default function FooterSection() {
 
   const handleLangSwitch = (e: React.MouseEvent<HTMLAnchorElement>, targetHref: string) => {
     e.preventDefault();
+    const parsedTarget = parseLocalizedPath(targetHref);
+    if (parsedTarget.locale !== locale) {
+      trackLanguageSwitch(locale, parsedTarget.locale, location.pathname);
+    }
     const doc = document as Document & {
       startViewTransition?: (cb: () => void) => { finished: Promise<void> };
     };
@@ -53,15 +64,14 @@ export default function FooterSection() {
     }
   };
 
-  const whatsappUrl = buildWaUrl(
-    locale === 'en'
-      ? 'Hello Chesta & Zeeshan, I would like a free consultation regarding custom software / AI agents for my business.'
-      : 'Halo Chesta & Zeeshan, saya ingin konsultasi mengenai pembuatan software custom / AI agent untuk bisnis saya.'
-  );
+  const waContext = resolveWhatsAppContextFromPathname(location.pathname, locale);
+  const whatsappUrl = buildWhatsAppLink(waContext, locale);
+  const whatsappCtaLabel = getWhatsAppCtaLabel(locale);
 
-  const webAreaPages = getServiceAreasByServiceSlug('pembuatan-website', true);
-  const aiAreaPages = getServiceAreasByServiceSlug('ai-agent', true);
+  const webAreaPages = getServiceAreasByServiceSlug('pembuatan-website', true, locale);
+  const aiAreaPages = getServiceAreasByServiceSlug('ai-agent', true, locale);
   const footerBlogPosts = getPublishedBlogPosts(locale).slice(0, 5);
+  const areasHubHref = locale === 'en' ? '/en/areas' : '/id/area';
 
   return (
     <footer className="bg-[#FFFFFF] text-[#5B5675] border-t border-[rgba(91,60,196,0.14)] pt-16 pb-24 md:pb-16">
@@ -85,9 +95,16 @@ export default function FooterSection() {
               {getTranslation(locale, 'footer.brandDesc')}
             </p>
             <div className="flex flex-wrap items-center gap-3 pt-2">
-              <Button href={whatsappUrl} variant="primary" className="min-h-[40px] px-4 py-2">
+              <Button
+                href={whatsappUrl}
+                onClick={() =>
+                  trackWaClick(waContext.type || 'default', 'footer_cta', locale)
+                }
+                variant="primary"
+                className="min-h-[40px] px-4 py-2"
+              >
                 <MessageCircle size={15} />
-                <span>{getTranslation(locale, 'nav.freeConsultation')}</span>
+                <span>{whatsappCtaLabel}</span>
               </Button>
               <Button
                 href="https://instagram.com/chestaadotcom"
@@ -108,34 +125,42 @@ export default function FooterSection() {
             <ul className="space-y-2 text-[14px]">
               <li>
                 <Link
-                  to={toLocalizedHref('/jasa/pembuatan-website', locale, prefixMode)}
+                  to={getServicePath('pembuatan-website', locale)}
                   className="link-underline inline-flex items-center py-1 hover:text-[#6A3FD0] transition-colors"
                 >
-                  {locale === 'en' ? 'Website & landing page' : 'Jasa pembuatan website'}
+                  {locale === 'en' ? 'Website & landing page development' : 'Jasa pembuatan website'}
                 </Link>
               </li>
               <li>
                 <Link
-                  to={toLocalizedHref('/jasa/ai-agent', locale, prefixMode)}
+                  to={getServicePath('ai-agent', locale)}
                   className="link-underline inline-flex items-center py-1 hover:text-[#6A3FD0] transition-colors"
                 >
-                  {locale === 'en' ? 'AI agent systems' : 'Jasa AI agent'}
+                  {locale === 'en' ? 'AI agent development' : 'Jasa AI agent'}
                 </Link>
               </li>
               <li>
                 <Link
-                  to={toLocalizedHref('/jasa/software-custom', locale, prefixMode)}
+                  to={getServicePath('software-custom', locale)}
                   className="link-underline inline-flex items-center py-1 hover:text-[#6A3FD0] transition-colors"
                 >
-                  {locale === 'en' ? 'Custom software' : 'Jasa software custom'}
+                  {locale === 'en' ? 'Custom software development' : 'Jasa software custom'}
                 </Link>
               </li>
               <li>
                 <Link
-                  to={toLocalizedHref('/jasa/otomasi-workflow', locale, prefixMode)}
+                  to={getServicePath('otomasi-workflow', locale)}
                   className="link-underline inline-flex items-center py-1 hover:text-[#6A3FD0] transition-colors"
                 >
-                  {locale === 'en' ? 'Workflow automation' : 'Jasa otomasi workflow'}
+                  {locale === 'en' ? 'Workflow automation service' : 'Jasa otomasi workflow'}
+                </Link>
+              </li>
+              <li>
+                <Link
+                  to={areasHubHref}
+                  className="link-underline inline-flex items-center py-1 hover:text-[#6A3FD0] transition-colors font-medium text-[#6A3FD0]"
+                >
+                  {locale === 'en' ? 'Areas we serve in Greater Jakarta' : 'Area layanan Tangerang Selatan & sekitar'}
                 </Link>
               </li>
             </ul>
@@ -171,14 +196,12 @@ export default function FooterSection() {
               {webAreaPages.map((p) => (
                 <Link
                   key={`${p.serviceSlug}-${p.areaSlug}`}
-                  to={toLocalizedHref(
-                    `/jasa/${p.serviceSlug}/${p.areaSlug}`,
-                    locale,
-                    prefixMode
-                  )}
+                  to={getServiceAreaPath('pembuatan-website', p.areaSlug, locale)}
                   className="link-underline py-0.5 hover:text-[#6A3FD0] transition-colors"
                 >
-                  {locale === 'en' ? `Website ${p.areaName}` : `Website ${p.areaName}`}
+                  {locale === 'en'
+                    ? `Website development in ${p.areaName}`
+                    : `Jasa pembuatan website ${p.areaName}`}
                 </Link>
               ))}
             </div>
@@ -192,14 +215,12 @@ export default function FooterSection() {
               {aiAreaPages.map((p) => (
                 <Link
                   key={`${p.serviceSlug}-${p.areaSlug}`}
-                  to={toLocalizedHref(
-                    `/jasa/${p.serviceSlug}/${p.areaSlug}`,
-                    locale,
-                    prefixMode
-                  )}
+                  to={getServiceAreaPath('ai-agent', p.areaSlug, locale)}
                   className="link-underline py-0.5 hover:text-[#6A3FD0] transition-colors"
                 >
-                  AI Agent {p.areaName}
+                  {locale === 'en'
+                    ? `AI agent development in ${p.areaName}`
+                    : `Jasa AI agent ${p.areaName}`}
                 </Link>
               ))}
             </div>
@@ -290,6 +311,36 @@ export default function FooterSection() {
 
           <div className="flex flex-wrap items-center gap-6">
             <Link
+              to={toLocalizedHref('/audit-gratis', locale, prefixMode)}
+              className="link-underline py-1 hover:text-[#17122B] transition-colors font-medium text-[#6A3FD0]"
+            >
+              {locale === 'en' ? 'Free 30-Min Audit' : 'Audit Gratis 30 Menit'}
+            </Link>
+            <Link
+              to={toLocalizedHref('/about', locale, prefixMode)}
+              className="link-underline py-1 hover:text-[#17122B] transition-colors"
+            >
+              {locale === 'en' ? 'About Us' : 'Tentang'}
+            </Link>
+            <Link
+              to={toLocalizedHref('/cara-kerja', locale, prefixMode)}
+              className="link-underline py-1 hover:text-[#17122B] transition-colors"
+            >
+              {locale === 'en' ? 'How We Work' : 'Cara Kerja'}
+            </Link>
+            <Link
+              to={toLocalizedHref('/harga', locale, prefixMode)}
+              className="link-underline py-1 hover:text-[#17122B] transition-colors"
+            >
+              {locale === 'en' ? 'Pricing' : 'Harga'}
+            </Link>
+            <Link
+              to={toLocalizedHref('/faq', locale, prefixMode)}
+              className="link-underline py-1 hover:text-[#17122B] transition-colors"
+            >
+              FAQ
+            </Link>
+            <Link
               to={toLocalizedHref('/portfolio', locale, prefixMode)}
               className="link-underline py-1 hover:text-[#17122B] transition-colors"
             >
@@ -308,16 +359,10 @@ export default function FooterSection() {
               {getTranslation(locale, 'nav.blog')}
             </Link>
             <Link
-              to={toLocalizedHref('/#cara-kerja', locale, prefixMode)}
+              to={toLocalizedHref('/privasi', locale, prefixMode)}
               className="link-underline py-1 hover:text-[#17122B] transition-colors"
             >
-              {getTranslation(locale, 'nav.howItWorks')}
-            </Link>
-            <Link
-              to={toLocalizedHref('/about', locale, prefixMode)}
-              className="link-underline py-1 hover:text-[#17122B] transition-colors"
-            >
-              {getTranslation(locale, 'footer.aboutUs')}
+              {locale === 'en' ? 'Privacy Policy' : 'Kebijakan Privasi'}
             </Link>
           </div>
         </div>

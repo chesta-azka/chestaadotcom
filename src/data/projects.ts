@@ -1,17 +1,42 @@
 /**
  * ============================================================================
- * SINGLE SOURCE OF TRUTH: PORTFOLIO PROJECTS (/portfolio & /portfolio/[slug])
+ * SHARED INTERNAL DEMO DATASET: data/projects — CHESTAADOTCOM
  * ============================================================================
- * Voice: "kamu" (hangat, lugas, profesional).
- * Placeholder policy: Seluruh proyek contoh ditandai secara jujur dengan
- * agar mudah diganti dengan data klien ril tanpa klaim palsu.
+ * Internal demo content rule:
+ * - Every project in this site is an INTERNAL CHESTAADOTCOM project.
+ * - Common fields for every entry:
+ *   client: "Proyek internal CHESTAADOTCOM" (EN: "CHESTAADOTCOM internal project")
+ *   year: 2026
+ *   internal: true
+ *   role: "Desain, pengembangan, dan pengujian"
+ *   coverKey: from src/config/images.ts (labeled "Ilustrasi" / "Illustration")
+ * - Targets are labeled "Target desain" ("Design target").
+ * - Never present as client work; never invent client names, testimonials, ratings, or measured results.
+ *
+ * HOW TO REPLACE AN INTERNAL PROJECT WITH A REAL CLIENT PROJECT LATER:
+ * 1. Obtain written permission from the client to publish the project name, scope, and verified results.
+ * 2. In `src/data/projects.ts` and `src/data/projects.en.ts`:
+ *    - Change `internal` from `true` to `false` (update the type `internal: boolean`).
+ *    - Update `internalBadgeLabel` to `"Proyek klien"` (EN: `"Client project"`).
+ *    - Replace `client` with the verified client name (or agreed industry descriptor if under partial NDA).
+ *    - Replace `coverKey` and `gallery` items in `src/config/images.ts` with real screenshots and update captions to remove `"Ilustrasi:"`.
+ *    - Update `features[].metricOrTag` from `"Target desain: ..."` to the verified operational outcome.
+ * 3. If a corresponding case study exists in `src/data/case-studies.ts`, update its `internal` flag, `targets` label, and author/date metadata accordingly.
  */
 
+import { PORTFOLIO_PROJECTS_EN, PORTFOLIO_CATEGORIES_EN } from './projects.en';
+
 export type ProjectCategory = 'web' | 'ai-agent' | 'software' | 'otomasi';
+export type ProjectServiceId =
+  | 'pembuatan-website'
+  | 'ai-agent'
+  | 'software-custom'
+  | 'otomasi-workflow';
 
 export interface ProjectGalleryItem {
   imageKey: string;
   caption: string;
+  label: string;
   layout: 'full' | 'half';
 }
 
@@ -22,33 +47,73 @@ export interface ProjectFeatureItem {
   highlightType: 'architecture' | 'workflow' | 'interface' | 'security';
 }
 
-export interface PortfolioProject {
+export interface PortfolioProjectRaw {
   slug: string;
   title: string;
   oneLiner: string;
   category: ProjectCategory;
   categoryLabel: string;
+  services: ProjectServiceId[];
+  serviceSlug: ProjectServiceId;
   industry: string;
   client: string;
   year: string;
+  yearNumeric: number;
+  internal: boolean;
+  internalBadgeLabel: string;
   role: string;
   duration: string;
   stack: string[];
   cover: string;
+  coverKey: string;
+  alt: string;
   deviceFrame: 'browser' | 'phone';
   gallery: ProjectGalleryItem[];
   summaryParagraphs: [string, string];
   features: ProjectFeatureItem[];
   liveUrl?: string;
   liveStatusLabel?: string;
+  relatedCaseSlug?: string;
   caseStudySlug?: string;
-  serviceSlug: 'pembuatan-website' | 'ai-agent' | 'software-custom' | 'otomasi-workflow';
   featured: boolean;
   draft: boolean;
   updatedAt: string;
   seo: {
     title: string;
     description: string;
+  };
+}
+
+export interface PortfolioProject extends PortfolioProjectRaw {
+  targetNote: string;
+  outcomesLabel: string;
+  outcomes: string[];
+  problem: string;
+  solution: string;
+  howItWorks: string[];
+}
+
+export function enrichPortfolioProject(
+  raw: PortfolioProjectRaw,
+  locale: 'id' | 'en' = 'id'
+): PortfolioProject {
+  const outcomesLabel = locale === 'en' ? 'Design target' : 'Target desain';
+  const outcomes = raw.features.map((f) => `${f.title}: ${f.description}`);
+  const targetNote =
+    raw.features[0]?.metricOrTag ||
+    (locale === 'en'
+      ? `Design target: ${raw.oneLiner}`
+      : `Target desain: ${raw.oneLiner}`);
+  return {
+    ...raw,
+    relatedCaseSlug: raw.relatedCaseSlug || raw.caseStudySlug,
+    caseStudySlug: raw.caseStudySlug || raw.relatedCaseSlug,
+    targetNote,
+    outcomesLabel,
+    outcomes,
+    problem: raw.summaryParagraphs[0],
+    solution: raw.summaryParagraphs[1],
+    howItWorks: raw.features.map((f) => `${f.title} — ${f.description}`),
   };
 }
 
@@ -63,512 +128,584 @@ export const PORTFOLIO_CATEGORIES: Array<{
   { id: 'otomasi', label: 'Otomasi Workflow' },
 ];
 
-export const PORTFOLIO_PROJECTS: PortfolioProject[] = [
-  // 1. FEATURED #1 — AI AGENT (Klinik & Kesehatan)
+const RAW_PORTFOLIO_PROJECTS: PortfolioProjectRaw[] = [
+  // 1. wa-concierge-klinik
   {
-    slug: 'klinik-estetika-bsd-ai-booking',
-    title: 'Asisten Reservasi WhatsApp & Jadwal Dokter Klinik Estetika',
+    slug: 'wa-concierge-klinik',
+    title: 'WA Concierge: agen booking WhatsApp untuk klinik',
     oneLiner:
-      'AI agent WhatsApp 24/7 yang mengecek ketersediaan slot dokter, mengunci jadwal perawatan pasien, dan mengirim pengingat H-1 otomatis.',
+      'Menjawab pertanyaan perawatan, mengecek slot terapis, dan membuat booking dari percakapan WhatsApp.',
     category: 'ai-agent',
     categoryLabel: 'AI Agent',
-    industry: 'Klinik & Kesehatan',
-    client: 'Klinik Estetika & Kesehatan di BSD City',
-    year: '2025',
-    role: 'Arsitektur AI Agent, Integrasi Kalender & Landing Page',
-    duration: '3 Minggu',
-    stack: ['WhatsApp Cloud API', 'Python', 'PostgreSQL', 'React', 'Node.js'],
-    cover: 'portfolioClinicPlaceholder',
+    services: ['ai-agent'],
+    serviceSlug: 'ai-agent',
+    industry: 'Klinik',
+    client: 'Proyek internal CHESTAADOTCOM',
+    year: '2026',
+    yearNumeric: 2026,
+    internal: true,
+    internalBadgeLabel: 'Proyek internal',
+    role: 'Desain, pengembangan, dan pengujian',
+    duration: 'Proyek internal',
+    stack: ['WhatsApp Business Platform', 'Kalender Terapis', 'Database CRM', 'Log Tindakan'],
+    cover: 'projectWaConciergeKlinik',
+    coverKey: 'projectWaConciergeKlinik',
+    alt: 'Ilustrasi proyek internal WA Concierge agen booking WhatsApp untuk klinik dengan pengecekan slot terapis',
     deviceFrame: 'phone',
     gallery: [
       {
         imageKey: 'portfolioGalleryArchitecture',
+        label: 'Ilustrasi',
         caption:
-          'Skema alur kerja dari pesan WhatsApp pasien masuk, pengecekan jadwal dokter di PostgreSQL, hingga pencatatan slot otomatis.',
+          'Ilustrasi: alur pesan dari pertanyaan perawatan, pengecekan kalender terapis, pembuatan booking, hingga pencatatan ke CRM.',
         layout: 'full',
       },
       {
-        imageKey: 'portfolioClinicPlaceholder',
+        imageKey: 'projectWaConciergeKlinik',
+        label: 'Ilustrasi',
         caption:
-          'Simulasi percakapan asisten WhatsApp saat mencocokkan jam praktik dokter dan mengonfirmasi nama pasien.',
+          'Ilustrasi: percakapan WhatsApp saat mengecek jam perawatan yang tersedia dan mengirim konfirmasi jadwal.',
         layout: 'half',
       },
       {
         imageKey: 'portfolioGalleryMobileHandover',
+        label: 'Ilustrasi',
         caption:
-          'Tampilan serah terima ke resepsionis manusia lengkap dengan rangkuman keluhan pasien untuk konsultasi medis khusus.',
+          'Ilustrasi: ringkasan percakapan yang diteruskan ke staf klinik ketika kasus berada di luar aturan agent.',
         layout: 'half',
       },
     ],
     summaryParagraphs: [
-      'Klinik dengan puluhan chat harian sering kehilangan calon pasien karena pesan baru masuk di malam hari saat admin sudah pulang. Proyek ini menghubungkan nomor WhatsApp resmi klinik ke AI agent yang mampu membaca jadwal praktik dokter secara langsung dan membalas pertanyaan prosedur dasar dalam hitungan detik.',
-      'Kamu tetap memegang kendali penuh: ketika pasien menanyakan indikasi medis sensitif atau meminta penjadwalan ulang khusus, agent langsung meneruskan percakapan beserta rangkuman konteksnya ke layar admin resepsionis tanpa membuat pasien mengulang cerita dari awal.',
+      'WA Concierge adalah proyek internal CHESTAADOTCOM yang dirancang untuk menunjukkan cara AI agent membaca maksud calon pasien di WhatsApp, mengecek slot kalender terapis, membuat booking, mencatat data ke CRM, dan mengirim pengingat sehari sebelumnya.',
+      'Sistem ini dilengkapi batas tindakan dan aturan serah ke manusia: pertanyaan di luar aturan atau keluhan khusus diteruskan ke staf klinik beserta ringkasan percakapan, dan setiap tindakan agent punya log yang bisa diperiksa.',
     ],
     features: [
       {
-        title: 'Pengecekan Slot Kalender Dokter Real-Time',
+        title: 'Pemahaman Maksud & Katalog Perawatan',
         description:
-          'Agent memanggil fungsi pencari jadwal di database untuk memastikan jam perawatan yang ditawarkan ke pasien benar-benar kosong dan tidak bentrok.',
-        metricOrTag: 'Tool: check_doctor_slots()',
-        highlightType: 'architecture',
-      },
-      {
-        title: 'Guardrail Medis & Serah Terima Resepsionis',
-        description:
-          'Batas tindakan ketat mencegah agent mengarang saran medis; pertanyaan di luar SOP otomatis dialihkan ke admin manusia beserta ringkasan chat.',
-        metricOrTag: 'Human-in-the-Loop Aktif',
-        highlightType: 'security',
-      },
-      {
-        title: 'Pengingat H-1 & Konfirmasi Kedatangan Otomatis',
-        description:
-          'Sistem mengirim pesan pengingat jadwal sehari sebelum tindakan untuk menekan angka pembatalan mendadak (no-show).',
-        metricOrTag: 'Cron Pengingat H-1',
-        highlightType: 'workflow',
-      },
-      {
-        title: 'Dashboard Rekap Reservasi Harian untuk Admin Cabang',
-        description:
-          'Antarmuka web ringan bagi resepsionis untuk melihat daftar pasien hari ini, status konfirmasi WhatsApp, dan riwayat tindakan.',
-        metricOrTag: 'React + PostgreSQL',
+          'Membaca pertanyaan bahasa sehari-hari dari calon pasien dan mencocokkannya dengan daftar perawatan, durasi sesi, serta kisaran harga yang berlaku.',
+        metricOrTag: 'Target desain: baca maksud chat bebas',
         highlightType: 'interface',
       },
       {
-        title: 'Log Audit Percakapan & Pemanggilan Tool',
+        title: 'Pengecekan Slot Kalender Terapis',
         description:
-          'Setiap respons dan perubahan jadwal tercatat rapi dengan stempel waktu sehingga manajemen klinik dapat mengevaluasi performa layanan.',
-        metricOrTag: '100% Transparansi Log',
+          'Agent memeriksa ketersediaan jadwal terapis di kalender sebelum menawarkan pilihan jam perawatan di chat WhatsApp.',
+        metricOrTag: 'Target desain: jadwal tidak bentrok',
+        highlightType: 'architecture',
+      },
+      {
+        title: 'Batas Tindakan & Serah ke Staf',
+        description:
+          'Mematuhi aturan tindakan yang ditentukan bersama dan meneruskan kasus di luar aturan ke staf lengkap dengan ringkasan percakapan.',
+        metricOrTag: 'Target desain: serah ke manusia + ringkasan',
         highlightType: 'security',
       },
+      {
+        title: 'Konfirmasi Booking & Pengingat H-1',
+        description:
+          'Membuat booking, mencatatnya ke CRM, dan menjadwalkan pesan pengingat sehari sebelum jadwal perawatan.',
+        metricOrTag: 'Target desain: pengingat H-1 otomatis',
+        highlightType: 'workflow',
+      },
+      {
+        title: 'Log Semua Tindakan',
+        description:
+          'Setiap pemanggilan tool dan balasan tercatat dalam log sehingga pemilik maupun admin klinik dapat memeriksanya kapan saja.',
+        metricOrTag: 'Target desain: log tindakan lengkap',
+        highlightType: 'interface',
+      },
     ],
-    liveStatusLabel: 'Sistem Internal / NDA Klien',
-    caseStudySlug: 'otomasi-reservasi-klinik-estetika',
-    serviceSlug: 'ai-agent',
+    liveStatusLabel: 'Proyek internal (Target desain)',
+    relatedCaseSlug: 'wa-concierge-klinik',
+    caseStudySlug: 'wa-concierge-klinik',
     featured: true,
     draft: false,
-    updatedAt: '2025-03-10',
+    updatedAt: '2026-03-20',
     seo: {
-      title: 'Portofolio AI Agent WhatsApp & Booking Klinik BSD | CHESTAADOTCOM',
+      title: 'WA Concierge Agen Booking Klinik — Proyek Internal | CHESTAADOTCOM',
       description:
-        'Visual showcase sistem AI agent WhatsApp untuk kualifikasi pasien dan penjadwalan dokter otomatis pada klinik estetika di BSD City.',
+        'Proyek internal CHESTAADOTCOM: agen booking WhatsApp untuk klinik yang menjawab pertanyaan perawatan, mengecek slot terapis, dan membuat booking.',
     },
   },
 
-  // 2. FEATURED #2 — SOFTWARE CUSTOM (Logistik & Operasional)
+  // 2. dashboard-kafe
   {
-    slug: 'dashboard-operasional-logistik-tangsel',
-    title: 'Dashboard Operasional Armada & Surat Jalan Terpusat',
+    slug: 'dashboard-kafe',
+    title: 'Dashboard Operasional Kafe',
     oneLiner:
-      'Aplikasi web internal untuk memantau rute pengiriman harian, menerbitkan surat jalan digital, dan menggantikan belasan file spreadsheet terpisah.',
+      'Stok bahan, penjualan harian, dan laporan beberapa cabang dalam satu dashboard.',
     category: 'software',
     categoryLabel: 'Software Custom',
-    industry: 'Logistik & Operasional',
-    client: 'Perusahaan Distribusi & Logistik Regional',
-    year: '2025',
-    role: 'Pengembangan Web App Custom & Desain Database',
-    duration: '4 Minggu',
-    stack: ['React', 'Node.js', 'PostgreSQL', 'WhatsApp Cloud API'],
-    cover: 'portfolioLogisticsDashboard',
+    services: ['software-custom'],
+    serviceSlug: 'software-custom',
+    industry: 'F&B',
+    client: 'Proyek internal CHESTAADOTCOM',
+    year: '2026',
+    yearNumeric: 2026,
+    internal: true,
+    internalBadgeLabel: 'Proyek internal',
+    role: 'Desain, pengembangan, dan pengujian',
+    duration: 'Proyek internal',
+    stack: ['Aplikasi Web', 'Hak Akses Per Peran', 'Database Terpusat', 'Dashboard Laporan'],
+    cover: 'projectDashboardKafe',
+    coverKey: 'projectDashboardKafe',
+    alt: 'Ilustrasi proyek internal Dashboard Operasional Kafe untuk memantau stok bahan dan penjualan harian cabang',
     deviceFrame: 'browser',
     gallery: [
       {
-        imageKey: 'portfolioGalleryArchitecture',
+        imageKey: 'projectDashboardKafe',
+        label: 'Ilustrasi',
         caption:
-          'Arsitektur terpusat yang menyatukan input admin gudang, status armada di lapangan, dan pencetakan dokumen penagihan.',
+          'Ilustrasi: ringkasan penjualan harian dan indikator stok bahan di beberapa cabang kafe.',
         layout: 'full',
-      },
-      {
-        imageKey: 'portfolioLogisticsDashboard',
-        caption:
-          'Tampilan tabel manifest pengiriman harian dengan filter status perjalanan dan pencarian cepat nomor surat jalan.',
-        layout: 'half',
       },
       {
         imageKey: 'portfolioGalleryAnalytics',
+        label: 'Ilustrasi',
         caption:
-          'Panel metrik ketepatan waktu pengiriman dan log perubahan status oleh staf operasional.',
+          'Ilustrasi: tampilan perbandingan cabang dan catatan keluar-masuk bahan baku.',
         layout: 'half',
       },
-    ],
-    summaryParagraphs: [
-      'Saat volume pengiriman harian meningkat, pencatatan surat jalan menggunakan file spreadsheet yang dikirim lewat grup chat sering memicu selisih data antara tim gudang, sopir, dan bagian penagihan. Aplikasi web custom ini menyatukan seluruh alur tersebut ke dalam satu layar kerja berbasis peran.',
-      'Staf gudang cukup membuat manifest satu kali, sistem otomatis menghasilkan dokumen surat jalan siap cetak, dan status barang tiba langsung memperbarui antrean draf faktur bagi tim keuangan tanpa salin-tempel manual.',
-    ],
-    features: [
-      {
-        title: 'Manajemen Manifest & Surat Jalan Satu Pintu',
-        description:
-          'Nomor surat jalan diterbitkan berurutan secara otomatis dari database PostgreSQL sehingga tidak ada lagi penomoran ganda antar cabang.',
-        metricOrTag: 'Single Source Database',
-        highlightType: 'architecture',
-      },
-      {
-        title: 'Hak Akses Berjenjang (Admin Gudang, Dispatcher, Finance)',
-        description:
-          'Setiap staf hanya melihat menu dan tombol aksi yang sesuai dengan tanggung jawabnya, lengkap dengan pencatatan siapa yang mengubah status.',
-        metricOrTag: 'Role-Based Access Control',
-        highlightType: 'security',
-      },
-      {
-        title: 'Notifikasi Status Pengiriman via WhatsApp API',
-        description:
-          'Penerima barang maupun koordinator lapangan mendapat pembaruan otomatis saat armada berangkat dan ketika barang terkonfirmasi tiba.',
-        metricOrTag: 'Notifikasi Real-Time',
-        highlightType: 'workflow',
-      },
-      {
-        title: 'Rekap Penagihan & Ekspor Laporan Instan',
-        description:
-          'Tim keuangan dapat menarik daftar pengiriman yang sudah berstatus selesai dalam satu klik untuk mempercepat penerbitan invoice.',
-        metricOrTag: 'Ekspor CSV / PDF Bersih',
-        highlightType: 'interface',
-      },
-    ],
-    liveStatusLabel: 'Sistem Internal / NDA Klien',
-    caseStudySlug: 'sentralisasi-operasional-armada-logistik',
-    serviceSlug: 'software-custom',
-    featured: true,
-    draft: false,
-    updatedAt: '2025-03-08',
-    seo: {
-      title: 'Portofolio Dashboard Operasional & Surat Jalan Logistik | CHESTAADOTCOM',
-      description:
-        'Visual showcase pengembangan aplikasi web dashboard operasional armada, surat jalan digital, dan database PostgreSQL terpusat.',
-    },
-  },
-
-  // 3. WEB & LANDING PAGE (Properti & Arsitektur)
-  {
-    slug: 'landing-page-hunian-bintaro',
-    title: 'Landing Page Klaster Hunian & Kalkulator KPR Bintaro',
-    oneLiner:
-      'Halaman promosi properti dengan waktu muat cepat di jaringan seluler, kalkulator simulasi cicilan interaktif, dan pengarah jadwal show unit.',
-    category: 'web',
-    categoryLabel: 'Web & Landing Page',
-    industry: 'Properti & Arsitektur',
-    client: 'Pengembang Hunian & Studio Arsitektur di Bintaro',
-    year: '2025',
-    role: 'Desain Antarmuka, Optimasi Kecepatan & Integrasi CTA WhatsApp',
-    duration: '5 Hari',
-    stack: ['React', 'Node.js', 'WhatsApp Cloud API'],
-    cover: 'portfolioPropertyPlaceholder',
-    deviceFrame: 'browser',
-    gallery: [
       {
         imageKey: 'portfolioGalleryArchitecture',
+        label: 'Ilustrasi',
         caption:
-          'Alur tangkapan pengunjung dari iklan Meta/Google Ads menuju simulasi unit hingga pengiriman pesan WhatsApp terformat.',
-        layout: 'full',
-      },
-      {
-        imageKey: 'portfolioPropertyPlaceholder',
-        caption:
-          'Komponen kalkulator simulasi DP dan tenor KPR yang bekerja instan di layar ponsel tanpa memuat ulang halaman.',
-        layout: 'half',
-      },
-      {
-        imageKey: 'portfolioGalleryMobileHandover',
-        caption:
-          'Format pesan WhatsApp otomatis yang langsung membawa informasi tipe unit dan jadwal kunjungan pilihan calon pembeli.',
+          'Ilustrasi: pengaturan login dan hak akses per peran antara pemilik, manajer, dan staf cabang.',
         layout: 'half',
       },
     ],
     summaryParagraphs: [
-      'Banyak anggaran iklan properti terbuang karena halaman tujuan memuat foto resolusi besar tanpa kompresi sehingga pengunjung menutup halaman sebelum denah terlihat. Halaman ini dibangun dengan fokus pada kecepatan muat di perangkat seluler dan alur informasi yang langsung menjawab pertanyaan utama calon pembeli rumah.',
-      'Pengunjung dapat membandingkan tipe unit, mencoba simulasi uang muka serta angsuran bulanan secara interaktif, lalu menekan tombol WhatsApp yang otomatis menyertakan tipe unit pilihan mereka ke tim sales in-house kamu.',
+      'Dashboard Operasional Kafe adalah proyek internal CHESTAADOTCOM yang menunjukkan bagaimana aplikasi web custom menggantikan spreadsheet yang makin berat untuk usaha F&B dengan beberapa cabang.',
+      'Staf tiap cabang mencatat stok bahan dan penjualan harian dari HP atau desktop sesuai hak akses perannya, sementara pemilik melihat laporan gabungan yang diperbarui dari data yang sama.',
     ],
     features: [
       {
-        title: 'Optimasi Aset Visual Denah & Fasad (WebP/AVIF)',
+        title: 'Stok Bahan & Penjualan Beberapa Cabang',
         description:
-          'Seluruh galeri arsitektur dimuat secara bertahap dengan ukuran dimensi eksplisit sehingga halaman tampil cepat tanpa pergeseran tata letak.',
-        metricOrTag: 'Target LCP < 1.5 Detik',
-        highlightType: 'architecture',
-      },
-      {
-        title: 'Kalkulator Simulasi KPR & DP Interaktif',
-        description:
-          'Memudahkan calon pembeli menghitung estimasi cicilan bulanan berdasarkan pilihan persentase DP dan tenor langsung di halaman.',
-        metricOrTag: 'Interaksi Tanpa Reload',
+          'Menyatukan catatan stok bahan baku dan rekap penjualan harian dari tiap cabang ke dalam satu dashboard.',
+        metricOrTag: 'Target desain: satu sumber data',
         highlightType: 'interface',
       },
       {
-        title: 'CTA WhatsApp dengan Parameter Unit & Sumber Iklan',
+        title: 'Login & Hak Akses per Peran',
         description:
-          'Tim sales langsung mengetahui unit mana yang sedang dilihat calon pembeli beserta asal kampanye iklannya saat chat pertama masuk.',
-        metricOrTag: 'Pelacakan UTM & Konversi',
+          'Memisahkan hak akses antara pemilik, manajer, dan staf cabang agar tiap pengguna hanya mengakses bagian kerjanya.',
+        metricOrTag: 'Target desain: akses dibatasi per peran',
+        highlightType: 'security',
+      },
+      {
+        title: 'Peringatan Batas Stok Minimum',
+        description:
+          'Menandai bahan baku yang mendekati batas minimum per cabang agar pemesanan ulang tidak terlambat.',
+        metricOrTag: 'Target desain: indikator stok menipis',
         highlightType: 'workflow',
       },
       {
-        title: 'Struktur SEO Lokal & Skema OpenGraph Lengkap',
+        title: 'Responsif di HP dan Desktop',
         description:
-          'Tampilan pratinjau tautan terlihat rapi dan meyakinkan saat dibagikan oleh agen properti melalui WhatsApp kepada calon pembeli.',
-        metricOrTag: 'Schema.org Tervalidasi',
+          'Nyaman dibuka oleh staf dapur atau kasir lewat HP maupun oleh pemilik saat memeriksa laporan di laptop.',
+        metricOrTag: 'Target desain: nyaman di HP & desktop',
+        highlightType: 'architecture',
+      },
+      {
+        title: 'Riwayat Perubahan & Ekspor Laporan',
+        description:
+          'Mencatat siapa yang memperbarui angka stok harian dan menyediakan unduhan rekap bulanan.',
+        metricOrTag: 'Target desain: jejak input tercatat',
         highlightType: 'security',
       },
     ],
-    liveStatusLabel: 'Sistem Internal / NDA Klien',
-    serviceSlug: 'pembuatan-website',
-    featured: false,
+    liveStatusLabel: 'Proyek internal (Target desain)',
+    relatedCaseSlug: 'dashboard-kafe',
+    caseStudySlug: 'dashboard-kafe',
+    featured: true,
     draft: false,
-    updatedAt: '2025-03-05',
+    updatedAt: '2026-03-24',
     seo: {
-      title: 'Portofolio Landing Page Properti & Simulasi KPR Bintaro | CHESTAADOTCOM',
+      title: 'Dashboard Operasional Kafe — Proyek Internal | CHESTAADOTCOM',
       description:
-        'Visual showcase pembuatan landing page klaster hunian di Bintaro dengan galeri cepat, kalkulator KPR interaktif, dan integrasi WhatsApp sales.',
+        'Proyek internal CHESTAADOTCOM: dashboard web untuk memantau stok bahan, penjualan harian, dan laporan beberapa cabang kafe.',
     },
   },
 
-  // 4. OTOMASI WORKFLOW (F&B & Retail)
+  // 3. lead-properti
   {
-    slug: 'otomasi-rekap-pos-fnb-serpong',
-    title: 'Otomasi Rekap POS Multi-Cabang & Laporan WhatsApp F&B',
+    slug: 'lead-properti',
+    title: 'Alur Lead Properti',
     oneLiner:
-      'Alur kerja otomatis yang menarik data transaksi kasir setiap jam tutup toko, mencocokkan stok bahan baku, dan mengirim ringkasan laba ke WhatsApp owner.',
+      'Lead dari formulir iklan masuk ke CRM, agen diberi tahu, dan follow-up terjadwal otomatis.',
     category: 'otomasi',
     categoryLabel: 'Otomasi Workflow',
-    industry: 'F&B & Retail',
-    client: 'Jaringan Restoran & Kafe di Gading Serpong',
-    year: '2024',
-    role: 'Arsitektur Otomasi Workflow n8n & Database Pelaporan',
-    duration: '2 Minggu',
-    stack: ['n8n', 'Python', 'PostgreSQL', 'WhatsApp Cloud API'],
-    cover: 'portfolioFnbPlaceholder',
-    deviceFrame: 'browser',
-    gallery: [
-      {
-        imageKey: 'portfolioGalleryArchitecture',
-        caption:
-          'Alur node otomasi dari penarikan data kasir POS tiga cabang menuju proses rekonsiliasi Python dan pengiriman laporan malam.',
-        layout: 'full',
-      },
-      {
-        imageKey: 'portfolioFnbPlaceholder',
-        caption:
-          'Visualisasi alur kerja n8n yang memisahkan omzet kotor, potongan promosi platform pesan-antar, dan pemakaian bahan baku.',
-        layout: 'half',
-      },
-      {
-        imageKey: 'portfolioGalleryAnalytics',
-        caption:
-          'Tabel riwayat eksekusi workflow beserta mekanisme percobaan ulang otomatis (auto-retry) jika koneksi internet cabang sempat terputus.',
-        layout: 'half',
-      },
-    ],
-    summaryParagraphs: [
-      'Pemilik bisnis F&B dengan beberapa cabang kerap harus menunggu hingga keesokan siang hanya untuk mengetahui total penjualan bersih dan sisa stok bahan baku malam sebelumnya. Otomasi ini menghilangkan rutinitas mengunduh CSV dari aplikasi kasir dan menyalinnya satu per satu ke spreadsheet.',
-      'Setiap pukul 22.00 setelah kasir tutup buku, workflow menarik data transaksi seluruh cabang secara otomatis, menghitung ringkasan performa harian, menyimpannya ke database PostgreSQL, lalu mengirimkan pesan rangkuman rapi langsung ke WhatsApp kamu.',
-    ],
-    features: [
-      {
-        title: 'Penarikan Data Kasir Terjadwal Setiap Tutup Toko',
-        description:
-          'Menghubungkan laporan transaksi harian dari tiap cabang tanpa perlu staf admin mengunduh dan menggabungkan file secara manual.',
-        metricOrTag: 'Trigger Cron 22:00 WIB',
-        highlightType: 'workflow',
-      },
-      {
-        title: 'Deteksi Selisih Stok & Peringatan Reorder Bahan Baku',
-        description:
-          'Skrip Python membandingkan volume menu terjual dengan stok gudang dan memberi tanda jika ada bahan utama yang mendekati batas minimum.',
-        metricOrTag: 'Python + PostgreSQL',
-        highlightType: 'architecture',
-      },
-      {
-        title: 'Laporan Malam Ringkas ke WhatsApp Owner',
-        description:
-          'Format pesan menyajikan omzet per cabang, menu terlaris, dan daftar bahan yang perlu dipesan besok pagi dalam satu layar baca.',
-        metricOrTag: 'WhatsApp Cloud API',
-        highlightType: 'interface',
-      },
-      {
-        title: 'Mekanisme Auto-Retry & Notifikasi Error',
-        description:
-          'Jika salah satu mesin kasir cabang belum sinkron karena kendala sinyal, sistem otomatis mencoba ulang dan memberi catatan status yang jelas.',
-        metricOrTag: 'Reliabilitas Workflow',
-        highlightType: 'security',
-      },
-    ],
-    liveStatusLabel: 'Sistem Internal / NDA Klien',
-    caseStudySlug: 'sinkronisasi-rekap-pos-fnb-multi-cabang',
+    services: ['otomasi-workflow'],
     serviceSlug: 'otomasi-workflow',
-    featured: false,
-    draft: false,
-    updatedAt: '2025-02-26',
-    seo: {
-      title: 'Portofolio Otomasi Rekap POS & Laporan WhatsApp F&B Serpong | CHESTAADOTCOM',
-      description:
-        'Visual showcase integrasi workflow n8n, Python, dan WhatsApp API untuk otomatisasi rekap penjualan kasir multi-cabang F&B di Gading Serpong.',
-    },
-  },
-
-  // 5. SOFTWARE CUSTOM (Logistik & Operasional / Manufaktur)
-  {
-    slug: 'sistem-inventaris-erp-manufaktur',
-    title: 'Sistem Inventaris Gudang & Persetujuan PO Internal',
-    oneLiner:
-      'Modul ERP berbasis web untuk melacak mutasi stok bahan baku, mengatur batas minimum gudang, dan menyetujui Purchase Order dari ponsel.',
-    category: 'software',
-    categoryLabel: 'Software Custom',
-    industry: 'Logistik & Operasional',
-    client: 'Operasional Gudang & Manufaktur Skala Menengah',
-    year: '2024',
-    role: 'Arsitektur Sistem Custom, RBAC & Migrasi Skema Database',
-    duration: '4 Minggu',
-    stack: ['React', 'Node.js', 'PostgreSQL', 'WhatsApp Cloud API'],
-    cover: 'portfolioErpInventory',
+    industry: 'Properti',
+    client: 'Proyek internal CHESTAADOTCOM',
+    year: '2026',
+    yearNumeric: 2026,
+    internal: true,
+    internalBadgeLabel: 'Proyek internal',
+    role: 'Desain, pengembangan, dan pengujian',
+    duration: 'Proyek internal',
+    stack: ['Formulir Iklan', 'CRM & Sheets', 'Notifikasi WhatsApp', 'Log Eksekusi'],
+    cover: 'projectLeadProperti',
+    coverKey: 'projectLeadProperti',
+    alt: 'Ilustrasi proyek internal Alur Lead Properti dari formulir iklan ke CRM dan jadwal follow-up otomatis',
     deviceFrame: 'browser',
     gallery: [
       {
-        imageKey: 'portfolioGalleryArchitecture',
+        imageKey: 'projectLeadProperti',
+        label: 'Ilustrasi',
         caption:
-          'Struktur database relasional dan pemisahan hak akses antara staf pencatat barang masuk, kepala gudang, dan direktur operasional.',
+          'Ilustrasi: alur otomatis dari formulir minat pembeli ke pencatatan CRM dan notifikasi agen yang bertugas.',
         layout: 'full',
       },
       {
-        imageKey: 'portfolioErpInventory',
+        imageKey: 'portfolioGalleryArchitecture',
+        label: 'Ilustrasi',
         caption:
-          'Antarmuka pemantauan kapasitas bahan baku gudang dan antrean persetujuan Purchase Order satu klik.',
+          'Ilustrasi: diagram alur kerja lengkap dengan penanganan error dan notifikasi saat ada langkah yang gagal.',
         layout: 'half',
       },
       {
         imageKey: 'portfolioGalleryAnalytics',
+        label: 'Ilustrasi',
         caption:
-          'Jejak audit lengkap yang merekam waktu, akun pengguna, dan alasan setiap penyesuaian stok (stock opname).',
+          'Ilustrasi: log eksekusi yang mencatat setiap data masuk dan pengiriman pengingat follow-up.',
         layout: 'half',
       },
     ],
     summaryParagraphs: [
-      'Perusahaan yang tumbuh dengan puluhan staf gudang sering terhambat oleh biaya lisensi software SaaS per pengguna yang membengkak atau sistem lama yang lambat diakses saat pergantian shift. Kami merancang modul inventaris dan pengadaan yang fokus tepat pada alur kerja yang dipakai tim di lapangan.',
-      'Seluruh data tersimpan di infrastruktur pilihan kamu tanpa biaya langganan per kursi pengguna. Ketika stok bahan baku menyentuh batas aman, draf Purchase Order otomatis disiapkan dan direktur dapat meninjau serta menyetujuinya langsung melalui tautan aman di ponsel.',
+      'Alur Lead Properti adalah proyek internal CHESTAADOTCOM untuk memperlihatkan otomasi workflow yang menyambungkan formulir iklan properti langsung ke CRM, Google Sheets, dan notifikasi WhatsApp agen.',
+      'Tanpa perlu menyalin data calon pembeli secara manual antar aplikasi, setiap formulir yang masuk tercatat otomatis, agen yang bertugas langsung diberi tahu, jadwal follow-up dibuat, dan kegagalan langkah apa pun memicu notifikasi beserta log eksekusi.',
     ],
     features: [
       {
-        title: 'Bebas Biaya Lisensi Per Pengguna (Zero Per-Seat Tax)',
+        title: 'Formulir Iklan Langsung ke CRM',
         description:
-          'Kamu dapat menambahkan akun staf gudang, admin purchasing, dan supervisor sebanyak yang dibutuhkan tanpa tambahan biaya bulanan per orang.',
-        metricOrTag: 'Kepemilikan Sistem 100%',
-        highlightType: 'architecture',
-      },
-      {
-        title: 'Persetujuan Purchase Order Berjenjang via Mobile',
-        description:
-          'Pengajuan pembelian di atas nominal tertentu otomatis mengirim notifikasi WhatsApp ke manajemen untuk disetujui dalam satu klik.',
-        metricOrTag: 'Alur Approval Cepat',
+          'Mencatat nama, kontak, dan tipe unit yang diminati calon pembeli dari formulir iklan langsung ke CRM tanpa salin manual.',
+        metricOrTag: 'Target desain: 0 langkah pencatatan manual',
         highlightType: 'workflow',
       },
       {
-        title: 'Pencatatan Mutasi Antar-Gudang & Stock Opname',
+        title: 'Pembagian Agen & Notifikasi Instan',
         description:
-          'Mendukung perpindahan barang dari gudang bahan baku ke lini produksi dengan perhitungan saldo stok real-time.',
-        metricOrTag: 'Transaksi ACID PostgreSQL',
-        highlightType: 'interface',
+          'Membagi lead ke agen yang bertugas sesuai giliran dan mengirim notifikasi WhatsApp berisi ringkasan minat pembeli.',
+        metricOrTag: 'Target desain: notifikasi ke agen < 1 menit',
+        highlightType: 'architecture',
       },
       {
-        title: 'Audit Trail Penuh untuk Setiap Perubahan Angka',
+        title: 'Pengingat Follow-Up H+1 dan H+3',
         description:
-          'Tidak ada angka stok yang berubah secara misterius; setiap koreksi menyimpan nilai sebelum, nilai sesudah, dan identitas staf.',
-        metricOrTag: 'Keamanan & Audit Internal',
+          'Menjadwalkan pengingat otomatis pada H+1 dan H+3 apabila status lead di CRM belum diperbarui oleh agen.',
+        metricOrTag: 'Target desain: jadwal follow-up H+1 & H+3',
+        highlightType: 'workflow',
+      },
+      {
+        title: 'Penanganan Kegagalan & Log Eksekusi',
+        description:
+          'Dilengkapi notifikasi kalau ada langkah yang gagal dan log eksekusi yang bisa diperiksa kapan saja.',
+        metricOrTag: 'Target desain: log & notifikasi error',
         highlightType: 'security',
       },
     ],
-    liveStatusLabel: 'Sistem Internal / NDA Klien',
-    caseStudySlug: 'migrasi-erp-pabrik-cikarang',
-    serviceSlug: 'software-custom',
-    featured: false,
+    liveStatusLabel: 'Proyek internal (Target desain)',
+    relatedCaseSlug: 'lead-properti',
+    caseStudySlug: 'lead-properti',
+    featured: true,
     draft: false,
-    updatedAt: '2025-02-18',
+    updatedAt: '2026-03-20',
     seo: {
-      title: 'Portofolio Sistem Inventaris Gudang & Approval PO Custom | CHESTAADOTCOM',
+      title: 'Alur Lead Properti Otomatis — Proyek Internal | CHESTAADOTCOM',
       description:
-        'Visual showcase modul ERP inventaris gudang dan persetujuan Purchase Order berbasis React, Node.js, dan PostgreSQL.',
+        'Proyek internal CHESTAADOTCOM: otomasi workflow yang memasukkan lead dari formulir iklan ke CRM, memberi tahu agen, dan menjadwalkan follow-up.',
     },
   },
 
-  // 6. AI AGENT (Jasa Profesional)
+  // 4. landing-klinik-estetika
   {
-    slug: 'asisten-kualifikasi-klien-konsultan',
-    title: 'Agen Kualifikasi Prospek B2B & Penjadwalan Konsultan',
+    slug: 'landing-klinik-estetika',
+    title: 'Landing Page Klinik Estetika',
     oneLiner:
-      'AI agent WhatsApp yang menyaring kebutuhan calon klien korporat, menyusun ringkasan ke CRM internal, dan menjadwalkan sesi temu awal otomatis.',
-    category: 'ai-agent',
-    categoryLabel: 'AI Agent',
-    industry: 'Jasa Profesional',
-    client: 'Firma Konsultan & Jasa Profesional di Tangerang Selatan',
-    year: '2025',
-    role: 'Pengembangan AI Agent WhatsApp & Integrasi Pipeline CRM',
-    duration: '3 Minggu',
-    stack: ['WhatsApp Cloud API', 'Python', 'Node.js', 'PostgreSQL', 'n8n'],
-    cover: 'portfolioConsultantAgent',
-    deviceFrame: 'phone',
+      'Halaman per perawatan dengan harga mulai dari, jadwal, dan booking via WhatsApp.',
+    category: 'web',
+    categoryLabel: 'Web & Landing Page',
+    services: ['pembuatan-website'],
+    serviceSlug: 'pembuatan-website',
+    industry: 'Klinik',
+    client: 'Proyek internal CHESTAADOTCOM',
+    year: '2026',
+    yearNumeric: 2026,
+    internal: true,
+    internalBadgeLabel: 'Proyek internal',
+    role: 'Desain, pengembangan, dan pengujian',
+    duration: 'Proyek internal',
+    stack: ['Halaman Statis', 'Optimasi Gambar', 'Data Terstruktur', 'Tombol WhatsApp'],
+    cover: 'projectLandingKlinikEstetika',
+    coverKey: 'projectLandingKlinikEstetika',
+    alt: 'Ilustrasi proyek internal Landing Page Klinik Estetika dengan daftar perawatan, harga mulai dari, dan tombol WhatsApp',
+    deviceFrame: 'browser',
     gallery: [
       {
-        imageKey: 'portfolioGalleryArchitecture',
+        imageKey: 'projectLandingKlinikEstetika',
+        label: 'Ilustrasi',
         caption:
-          'Alur penyaringan prospek B2B dari pesan pertama di WhatsApp hingga pembuatan kartu klien di CRM dan undangan kalender.',
+          'Ilustrasi: halaman per perawatan dengan rincian layanan, harga mulai dari, jadwal praktik, dan tombol booking WhatsApp.',
         layout: 'full',
       },
       {
-        imageKey: 'portfolioConsultantAgent',
+        imageKey: 'portfolioGalleryMobileHandover',
+        label: 'Ilustrasi',
         caption:
-          'Tampilan percakapan natural saat agent menanyakan bidang industri, skala perusahaan, dan target waktu pengerjaan.',
+          'Ilustrasi: tampilan responsif di layar HP yang dirancang ringan dan cepat dibuka.',
+        layout: 'half',
+      },
+      {
+        imageKey: 'portfolioGalleryAnalytics',
+        label: 'Ilustrasi',
+        caption:
+          'Ilustrasi: struktur heading, SEO dasar, dan pelacakan asal pengunjung.',
+        layout: 'half',
+      },
+    ],
+    summaryParagraphs: [
+      'Landing Page Klinik Estetika adalah proyek internal CHESTAADOTCOM yang mendemonstrasikan struktur halaman tujuan iklan dan pencarian lokal untuk klinik perawatan.',
+      'Setiap halaman perawatan disusun untuk menjawab pertanyaan calon pasien sebelum mereka bertanya—mulai dari penjelasan tindakan, harga mulai dari, hingga jadwal praktik—lengkap dengan tombol booking via WhatsApp tanpa banyak langkah.',
+    ],
+    features: [
+      {
+        title: 'Halaman Khusus per Perawatan',
+        description:
+          'Menampilkan informasi perawatan, harga mulai dari, dan jadwal praktik dengan satu tujuan jelas.',
+        metricOrTag: 'Target desain: satu tujuan jelas per halaman',
+        highlightType: 'interface',
+      },
+      {
+        title: 'Cepat Dibuka di HP',
+        description:
+          'Halaman dibuat statis, gambar dikompres dengan ukuran tepat, dan skrip dipasang seperlunya.',
+        metricOrTag: 'Target desain: diuji di PageSpeed Insights',
+        highlightType: 'architecture',
+      },
+      {
+        title: 'SEO Dasar & Data Terstruktur',
+        description:
+          'Dilengkapi judul dan deskripsi halaman, struktur heading rapi, sitemap, dan data terstruktur.',
+        metricOrTag: 'Target desain: struktur SEO dasar rapi',
+        highlightType: 'interface',
+      },
+      {
+        title: 'Tombol Booking WhatsApp Terisi Otomatis',
+        description:
+          'Menyertakan pesan awal di tombol WhatsApp sesuai halaman perawatan yang sedang dibuka pengunjung.',
+        metricOrTag: 'Target desain: booking langsung via WhatsApp',
+        highlightType: 'workflow',
+      },
+    ],
+    liveStatusLabel: 'Proyek internal (Target desain)',
+    relatedCaseSlug: 'wa-concierge-klinik',
+    caseStudySlug: 'wa-concierge-klinik',
+    featured: true,
+    draft: false,
+    updatedAt: '2026-03-20',
+    seo: {
+      title: 'Landing Page Klinik Estetika — Proyek Internal | CHESTAADOTCOM',
+      description:
+        'Proyek internal CHESTAADOTCOM: landing page klinik estetika per perawatan dengan harga mulai dari, jadwal praktik, dan booking via WhatsApp.',
+    },
+  },
+
+  // 5. chestaa-v2
+  {
+    slug: 'chestaa-v2',
+    title: 'Membangun ulang chestaa.com',
+    oneLiner:
+      'Situs dua bahasa yang statis dan cepat, dibangun ulang dengan fokus software dan AI agent.',
+    category: 'web',
+    categoryLabel: 'Web & Landing Page',
+    services: ['pembuatan-website'],
+    serviceSlug: 'pembuatan-website',
+    industry: 'Agensi (situs sendiri)',
+    client: 'Proyek internal CHESTAADOTCOM',
+    year: '2026',
+    yearNumeric: 2026,
+    internal: true,
+    internalBadgeLabel: 'Proyek internal',
+    role: 'Desain, pengembangan, dan pengujian',
+    duration: 'Proyek internal',
+    stack: ['Arsitektur Dua Bahasa', 'JSON-LD @graph', 'Sitemap & llms.txt', 'Core Web Vitals'],
+    cover: 'projectChestaaV2',
+    coverKey: 'projectChestaaV2',
+    alt: 'Ilustrasi proyek internal membangun ulang situs dua bahasa chestaa.com yang statis dan cepat',
+    deviceFrame: 'browser',
+    gallery: [
+      {
+        imageKey: 'projectChestaaV2',
+        label: 'Ilustrasi',
+        caption:
+          'Ilustrasi: halaman layanan dan area lokal dua bahasa (/id dan /en) dengan ringkasan singkat di bagian atas.',
+        layout: 'full',
+      },
+      {
+        imageKey: 'portfolioGalleryArchitecture',
+        label: 'Ilustrasi',
+        caption:
+          'Ilustrasi: struktur JSON-LD @graph, hreflang timbal balik, serta pembangkit sitemap.xml dan llms.txt.',
         layout: 'half',
       },
       {
         imageKey: 'portfolioGalleryMobileHandover',
+        label: 'Ilustrasi',
         caption:
-          'Ringkasan prospek terstruktur yang diterima konsultan senior sebelum rapat penemuan dimulai.',
+          'Ilustrasi: tampilan mobile yang bersih dengan tab industri dan akordeon FAQ yang tetap terbaca tanpa JavaScript.',
         layout: 'half',
       },
     ],
     summaryParagraphs: [
-      'Bagi firma konsultan, kantor hukum, maupun agensi B2B, konsultan senior sering menghabiskan banyak waktu hanya untuk menanyakan informasi dasar kepada prospek yang belum tentu sesuai dengan cakupan layanan. Agent ini bertugas melakukan penyaringan awal secara sopan dan terarah begitu pesan masuk.',
-      'Setelah mengetahui bidang industri, kebutuhan utama, dan lini masa calon klien, agent mencatat datanya ke tabel CRM kamu dan langsung menawarkan slot diskusi yang kosong di kalender tim konsultan.',
+      'Membangun ulang chestaa.com adalah proyek internal situs kami sendiri di CHESTAADOTCOM, dirancang sebagai situs dua bahasa (/id dan /en) yang statis, cepat dibuka di HP, dan berfokus pada layanan pembuatan website, AI agent, software custom, serta otomasi workflow.',
+      'Setiap halaman layanan dan area lokal diawali dengan ringkasan singkat yang langsung menjawab pertanyaan pembaca, dilengkapi struktur heading yang rapi, data terstruktur JSON-LD @graph, serta berkas sitemap dan llms.txt.',
     ],
     features: [
       {
-        title: 'Alur Pertanyaan Kualifikasi yang Natural & Ringkas',
+        title: 'Situs Dua Bahasa (/id dan /en)',
         description:
-          'Menggali 3–4 informasi kunci (industri, cakupan kebutuhan, target waktu) melalui percakapan yang ramah layaknya asisten eksekutif.',
-        metricOrTag: 'Kualifikasi B2B 24/7',
-        highlightType: 'interface',
-      },
-      {
-        title: 'Pembuatan Kartu Prospek Otomatis di Database CRM',
-        description:
-          'Hasil tanya-jawab langsung dirangkum ke kolom terstruktur di PostgreSQL sehingga tim tidak perlu mengetik ulang dari chat.',
-        metricOrTag: 'Sinkronisasi CRM Instan',
+          'Seluruh halaman layanan, area lokal, studi kasus, dan proyek internal tersedia dalam bahasa Indonesia dan Inggris secara 1:1.',
+        metricOrTag: 'Target desain: hreflang timbal balik /id & /en',
         highlightType: 'architecture',
       },
       {
-        title: 'Penjadwalan Sesi Konsultasi & Undangan Rapat',
+        title: 'Ringkasan Singkat & Data Terstruktur',
         description:
-          'Menghubungkan prospek yang memenuhi kriteria langsung ke slot kalender konsultan yang tersedia beserta pengingat jadwal.',
-        metricOrTag: 'Integrasi Kalender & n8n',
+          'Menempatkan ringkasan 40–60 kata tepat setelah hero dan menyertakan satu grafik JSON-LD lengkap di setiap halaman.',
+        metricOrTag: 'Target desain: JSON-LD @graph & llms.txt',
+        highlightType: 'interface',
+      },
+      {
+        title: 'Konten Terbaca Tanpa JavaScript',
+        description:
+          'Teks utama, tab contoh penggunaan, dan FAQ tetap utuh di HTML dan diuji untuk kecepatan muat di HP.',
+        metricOrTag: 'Target desain: LCP < 1,8 dtk, CLS < 0,02',
         highlightType: 'workflow',
       },
       {
-        title: 'Eskalasi Instan untuk Klien Prioritas / Korporat',
+        title: 'Sistem Gerak yang Tenang & Hemat Perangkat',
         description:
-          'Jika calon klien membutuhkan diskusi mendesak atau negosiasi khusus, notifikasi prioritas langsung dikirim ke nomor partner konsultan.',
-        metricOrTag: 'Fast-Track Handover',
+          'Animasi dibatasi pada properti ringan, menghormati pengaturan pengurangan gerak pengguna, dan menyesuaikan kemampuan perangkat.',
+        metricOrTag: 'Target desain: animasi tenang & terukur',
         highlightType: 'security',
       },
     ],
-    liveStatusLabel: 'Sistem Internal / NDA Klien',
-    serviceSlug: 'ai-agent',
+    liveUrl: 'https://chestaa.com/id',
+    liveStatusLabel: 'Proyek internal (Aktif di chestaa.com)',
+    relatedCaseSlug: 'chestaa-v2',
+    caseStudySlug: 'chestaa-v2',
     featured: false,
     draft: false,
-    updatedAt: '2025-03-01',
+    updatedAt: '2026-03-20',
     seo: {
-      title: 'Portofolio AI Agent Kualifikasi Klien B2B & CRM | CHESTAADOTCOM',
+      title: 'Membangun Ulang chestaa.com — Proyek Internal | CHESTAADOTCOM',
       description:
-        'Visual showcase asisten AI WhatsApp untuk kualifikasi prospek B2B, pencatatan CRM otomatis, dan penjadwalan rapat bagi bisnis jasa profesional.',
+        'Proyek internal CHESTAADOTCOM: membangun ulang situs dua bahasa chestaa.com yang statis dan cepat dengan fokus software custom dan AI agent.',
+    },
+  },
+
+  // 6. pemroses-dokumen
+  {
+    slug: 'pemroses-dokumen',
+    title: 'Pemroses Dokumen AI',
+    oneLiner:
+      'Mengekstrak data dari dokumen ke tabel, dengan tinjauan manusia sebelum data dipakai.',
+    category: 'ai-agent',
+    categoryLabel: 'AI Agent & Software Custom',
+    services: ['ai-agent', 'software-custom'],
+    serviceSlug: 'ai-agent',
+    industry: 'Jasa profesional',
+    client: 'Proyek internal CHESTAADOTCOM',
+    year: '2026',
+    yearNumeric: 2026,
+    internal: true,
+    internalBadgeLabel: 'Proyek internal',
+    role: 'Desain, pengembangan, dan pengujian',
+    duration: 'Proyek internal',
+    stack: ['Ekstraksi Dokumen AI', 'Tabel Tinjauan Manusia', 'Hak Akses Peran', 'Log Tindakan'],
+    cover: 'projectPemrosesDokumen',
+    coverKey: 'projectPemrosesDokumen',
+    alt: 'Ilustrasi proyek internal Pemroses Dokumen AI yang mengekstrak data dokumen ke tabel dengan tinjauan manusia',
+    deviceFrame: 'browser',
+    gallery: [
+      {
+        imageKey: 'projectPemrosesDokumen',
+        label: 'Ilustrasi',
+        caption:
+          'Ilustrasi: unggah dokumen, ekstraksi kolom ke baris tabel, dan layar tinjauan manusia berdampingan.',
+        layout: 'full',
+      },
+      {
+        imageKey: 'portfolioGalleryAnalytics',
+        label: 'Ilustrasi',
+        caption:
+          'Ilustrasi: daftar antrean tinjauan yang menandai kolom yang perlu diperiksa staf sebelum disimpan.',
+        layout: 'half',
+      },
+      {
+        imageKey: 'portfolioGalleryArchitecture',
+        label: 'Ilustrasi',
+        caption:
+          'Ilustrasi: pemisahan tahap pembacaan AI dan tahap persetujuan manusia sebelum data masuk ke tabel utama.',
+        layout: 'half',
+      },
+    ],
+    summaryParagraphs: [
+      'Pemroses Dokumen AI adalah proyek internal CHESTAADOTCOM yang menggabungkan pemroses dokumen berbasis AI dengan antarmuka tabel web custom untuk tim jasa profesional yang setiap hari menyalin isi dokumen ke tabel.',
+      'Alih-alih langsung memakai hasil bacaan AI tanpa pemeriksaan, sistem menempatkan data hasil ekstraksi ke layar tinjauan supaya staf manusia bisa memeriksa, mengoreksi bila perlu, dan menyetujui baris data sebelum dipakai.',
+    ],
+    features: [
+      {
+        title: 'Ekstraksi Isi Dokumen ke Baris Tabel',
+        description:
+          'Membaca kolom penting dari dokumen yang diunggah dan menyusunnya ke dalam struktur tabel yang seragam.',
+        metricOrTag: 'Target desain: ekstraksi terstruktur ke tabel',
+        highlightType: 'architecture',
+      },
+      {
+        title: 'Tinjauan Manusia Sebelum Data Dipakai',
+        description:
+          'Staf memeriksa hasil bacaan berdampingan dengan dokumen asli dan memberi persetujuan sebelum data disimpan.',
+        metricOrTag: 'Target desain: wajib persetujuan manusia',
+        highlightType: 'security',
+      },
+      {
+        title: 'Penandaan Kolom yang Perlu Diperiksa',
+        description:
+          'Menyorot baris atau kolom yang kurang jelas agar staf langsung fokus memeriksa bagian tersebut.',
+        metricOrTag: 'Target desain: sorot kolom meragukan',
+        highlightType: 'workflow',
+      },
+      {
+        title: 'Catatan Persetujuan & Koreksi',
+        description:
+          'Mencatat siapa yang meninjau, mengoreksi, dan menyetujui setiap dokumen di dalam log aplikasi.',
+        metricOrTag: 'Target desain: jejak tinjauan tercatat',
+        highlightType: 'interface',
+      },
+    ],
+    liveStatusLabel: 'Proyek internal (Target desain)',
+    relatedCaseSlug: 'pemroses-dokumen',
+    caseStudySlug: 'pemroses-dokumen',
+    featured: true,
+    draft: false,
+    updatedAt: '2026-03-24',
+    seo: {
+      title: 'Pemroses Dokumen AI — Proyek Internal | CHESTAADOTCOM',
+      description:
+        'Proyek internal CHESTAADOTCOM: pemroses dokumen AI dan aplikasi tabel web yang mengekstrak data dari dokumen dengan tinjauan manusia.',
     },
   },
 ];
 
-import { PORTFOLIO_PROJECTS_EN, PORTFOLIO_CATEGORIES_EN } from './projects.en';
+export const PORTFOLIO_PROJECTS: PortfolioProject[] = RAW_PORTFOLIO_PROJECTS.map(
+  (p) => enrichPortfolioProject(p, 'id')
+);
 
 export function getPortfolioCategories(locale: 'id' | 'en' = 'id'): Array<{
   id: 'semua' | ProjectCategory;
@@ -589,6 +726,15 @@ export function getProjectBySlug(
   if (!slug) return undefined;
   const clean = slug.trim().toLowerCase();
   return getPublishedProjects(locale).find((p) => p.slug.toLowerCase() === clean);
+}
+
+export function getProjectsByServiceSlug(
+  serviceSlug: ProjectServiceId,
+  locale: 'id' | 'en' = 'id'
+): PortfolioProject[] {
+  return getPublishedProjects(locale).filter((p) =>
+    p.services.includes(serviceSlug)
+  );
 }
 
 export function getAdjacentProjects(
@@ -619,9 +765,7 @@ export function getPortfolioIndustries(locale: 'id' | 'en' = 'id'): string[] {
   return [locale === 'en' ? 'All Industries' : 'Semua Industri', ...industries];
 }
 
-// ============================================================================
 // Backward-compatible export for any legacy consumer importing `PROJECTS`
-// ============================================================================
 export interface Project {
   id: string;
   title: string;
@@ -648,11 +792,10 @@ export const PROJECTS: Project[] = getPublishedProjects('id').map((p) => ({
   description: p.oneLiner,
   techStack: p.stack,
   features: p.features.map((f) => f.title),
-  liveLink: p.liveUrl || `/portfolio/${p.slug}`,
+  liveLink: p.liveUrl || `/id/portfolio/${p.slug}`,
   thumbnail: p.cover,
   overview: p.summaryParagraphs[0],
   challenges: p.summaryParagraphs[0],
   solution: p.summaryParagraphs[1],
   impact: p.oneLiner,
 }));
-

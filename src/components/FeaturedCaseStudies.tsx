@@ -1,89 +1,67 @@
 "use client";
-import React, { useState, useEffect } from 'react';
-import { motion, useMotionValue, useTransform, useSpring, AnimatePresence } from 'framer-motion';
+import React, { useState, useEffect, useRef } from 'react';
 import { ArrowUpRight, Download, ArrowRight } from 'lucide-react';
-import { useInView } from 'react-intersection-observer';
 import jsPDF from 'jspdf';
 import { Link } from 'react-router-dom';
 import { caseStudyDB } from '../lib/caseStudies';
+import { useMotionMode, createSectionTimeline } from '../lib/motion';
 
-function CaseCard({ study }: { study: typeof caseStudyDB[0] }) {
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-
-  const mouseXSpring = useSpring(x, { stiffness: 150, damping: 15 });
-  const mouseYSpring = useSpring(y, { stiffness: 150, damping: 15 });
-
-  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["6deg", "-6deg"]);
-  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-6deg", "6deg"]);
-
-  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const width = rect.width;
-    const height = rect.height;
-    const mouseX = e.clientX - rect.left;
-    const mouseY = e.clientY - rect.top;
-    const xPct = mouseX / width - 0.5;
-    const yPct = mouseY / height - 0.5;
-    x.set(xPct);
-    y.set(yPct);
-  };
-
-  const handleMouseLeave = () => {
-    x.set(0);
-    y.set(0);
-  };
+function CaseCard({ study, index }: { study: typeof caseStudyDB[0]; index: number }) {
+  const motionMode = useMotionMode();
+  const isFull = motionMode === 'full';
 
   const generatePDF = (e: React.MouseEvent) => {
     e.stopPropagation();
     e.preventDefault();
     const doc = new jsPDF();
-    
+
     doc.setFont("helvetica", "bold");
     doc.setFontSize(22);
     doc.text(`Executive Summary: ${study.client}`, 20, 30);
-    
+
     doc.setFont("helvetica", "normal");
     doc.setFontSize(16);
     doc.setTextColor(107, 33, 168); // Purple
     doc.text(study.title, 20, 42);
-    
+
     doc.setTextColor(15, 23, 42);
     doc.setFontSize(12);
     doc.text("Ringkasan Proyek:", 20, 60);
     doc.setFont("helvetica", "italic");
     doc.text(doc.splitTextToSize(study.desc, 170), 20, 68);
-    
+
     doc.setFont("helvetica", "bold");
     doc.text("Dampak Performa:", 20, 100);
     doc.setFont("helvetica", "normal");
     doc.setTextColor(16, 185, 129); // Emerald
     doc.text(study.impact, 65, 100);
-    
+
     doc.setTextColor(15, 23, 42);
     doc.setFont("helvetica", "bold");
     doc.text("Metrik Bisnis:", 20, 115);
     doc.setFont("helvetica", "normal");
     doc.text(doc.splitTextToSize(study.roi, 170), 20, 123);
-    
+
     doc.save(`${study.client.replace(/\s+/g, '_')}_Summary.pdf`);
   };
 
   return (
-    <motion.div
-      initial="rest"
-      whileHover="hover"
-      animate="rest"
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
-      className="relative w-full h-[22rem] rounded-xl overflow-hidden border border-purple-100 bg-white shadow-sm hover:shadow-lg hover:shadow-purple-950/5 transition-all duration-300 font-sans cursor-pointer group"
+    <div
+      data-case-study="true"
+      data-static-metric="true"
+      style={{
+        '--stack-offset': `${index * 12}px`,
+        '--stack-scale': `${1 - index * 0.02}`,
+      } as React.CSSProperties}
+      className={`relative w-full h-[22rem] rounded-2xl overflow-hidden border border-purple-100 bg-white shadow-sm hover:shadow-lg hover:shadow-purple-950/5 transition-all duration-300 font-sans cursor-pointer group ${
+        !isFull ? 'story-stack-card' : ''
+      }`}
     >
       {/* Full card clickable link when not hovering overlay */}
       <Link to={`/case-studies/${study.slug}`} className="absolute inset-0 z-10" aria-label={study.title} />
 
       {/* Base Content */}
-      <div style={{ transform: "translateZ(20px)" }} className="absolute inset-0 p-6 sm:p-7 flex flex-col justify-between z-0">
+      <div className="absolute inset-0 p-6 sm:p-7 flex flex-col justify-between z-0">
         <div>
           <div className="flex justify-between items-start">
             <span className="text-xs font-mono font-medium tracking-wider uppercase text-purple-900 bg-purple-50 px-2.5 py-1 rounded-full border border-purple-100">
@@ -94,29 +72,24 @@ function CaseCard({ study }: { study: typeof caseStudyDB[0] }) {
           <h3 className="text-xl sm:text-2xl font-display font-semibold mt-4 tracking-tight text-slate-900 group-hover:text-purple-900 transition-colors leading-tight">
             {study.title}
           </h3>
-          <p className="text-xs sm:text-sm text-slate-600 mt-2 font-normal leading-relaxed">
+          <p className="text-xs sm:text-sm text-slate-600 mt-2 font-normal leading-relaxed line-clamp-3">
             {study.desc}
           </p>
         </div>
-        
+
         <div className="pt-4 border-t border-purple-100/60 flex items-center justify-between">
           <div>
             <p className="text-[10px] text-slate-400 uppercase tracking-widest font-mono font-medium">Hasil Pengukuran</p>
-            <p className="text-base font-semibold text-slate-900 font-display">{study.impact}</p>
+            {/* Target metric is static badge, never counted up */}
+            <p className="text-base font-semibold text-slate-900 font-display" data-static-metric="true">{study.impact}</p>
           </div>
           <span className="text-xs text-purple-900 font-medium group-hover:translate-x-1 transition-transform">Detail &rarr;</span>
         </div>
       </div>
 
-      {/* Slide-in Overlay */}
-      <motion.div
-        variants={{
-          rest: { y: "100%", opacity: 0 },
-          hover: { y: 0, opacity: 1 }
-        }}
-        transition={{ type: "spring", stiffness: 220, damping: 26 }}
-        style={{ transform: "translateZ(40px)" }}
-        className="absolute inset-0 bg-white/98 p-6 sm:p-7 flex flex-col justify-center text-center backdrop-blur-md z-20 border border-purple-200"
+      {/* Slide-in Overlay (CSS Compositor Only) */}
+      <div
+        className="absolute inset-0 bg-white/98 p-6 sm:p-7 flex flex-col justify-center text-center backdrop-blur-md z-20 border border-purple-200 transition-all duration-300 transform translate-y-full opacity-0 group-hover:translate-y-0 group-hover:opacity-100"
       >
         <div className="flex-1 flex flex-col justify-center items-center">
           <p className="text-[10px] uppercase tracking-wider font-mono font-medium text-slate-400 mb-1">Hasil Terverifikasi</p>
@@ -141,40 +114,30 @@ function CaseCard({ study }: { study: typeof caseStudyDB[0] }) {
             <span>Unduh Ringkasan PDF</span>
           </button>
         </div>
-      </motion.div>
-    </motion.div>
+      </div>
+    </div>
   );
 }
 
 export function FeaturedCaseStudies() {
+  const motionMode = useMotionMode();
+  const containerRef = useRef<HTMLDivElement>(null);
   const [displayed, setDisplayed] = useState<typeof caseStudyDB>([]);
   const [page, setPage] = useState(1);
   const [isLoading, setIsLoading] = useState(true);
   const itemsPerPage = 2;
 
-  const { ref, inView } = useInView({
-    threshold: 0,
-    rootMargin: '100px',
-  });
-
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setDisplayed(caseStudyDB.slice(0, itemsPerPage));
-      setIsLoading(false);
-    }, 1500);
-    return () => clearTimeout(timer);
+    setDisplayed(caseStudyDB.slice(0, itemsPerPage));
+    setIsLoading(false);
   }, []);
 
+  // Desktop Full: pinned story section with ScrollTrigger timeline; Lite/mobile: native CSS sticky stacking
   useEffect(() => {
-    if (inView && !isLoading && displayed.length < caseStudyDB.length) {
-      const timer = setTimeout(() => {
-        const nextItems = caseStudyDB.slice(0, (page + 1) * itemsPerPage);
-        setDisplayed(nextItems);
-        setPage(p => p + 1);
-      }, 600);
-      return () => clearTimeout(timer);
-    }
-  }, [inView, page, displayed.length, isLoading]);
+    if (motionMode !== 'full' || !containerRef.current) return;
+    const { kill } = createSectionTimeline(containerRef.current);
+    return () => kill();
+  }, [motionMode]);
 
   if (isLoading) {
     return (
@@ -206,28 +169,43 @@ export function FeaturedCaseStudies() {
     );
   }
 
+  const isFull = motionMode === 'full';
+
   return (
-    <div className="w-full max-w-5xl mx-auto my-6 px-4" style={{ perspective: 1500 }}>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
-        <AnimatePresence>
-          {displayed.map((study) => (
-            <motion.div
-              key={study.id}
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.1 }}
-            >
-              <CaseCard study={study} />
-            </motion.div>
-          ))}
-        </AnimatePresence>
+    <div
+      ref={containerRef}
+      className={`w-full max-w-5xl mx-auto my-6 px-4 ${
+        !isFull ? 'story-stack-container' : ''
+      }`}
+    >
+      <div className={`grid ${isFull ? 'grid-cols-1 md:grid-cols-2' : 'grid-cols-1'} gap-6 md:gap-8`}>
+        {displayed.map((study, idx) => (
+          <div
+            key={study.id}
+            className="transition-opacity duration-300 opacity-100"
+          >
+            <CaseCard study={study} index={idx} />
+          </div>
+        ))}
       </div>
 
       {displayed.length < caseStudyDB.length && (
-        <div ref={ref} className="w-full flex justify-center mt-8 pb-4">
-          <div className="w-6 h-6 rounded-full border-2 border-purple-200 border-t-purple-700 animate-spin" />
+        <div className="w-full flex justify-center mt-8 pb-4">
+          <button
+            type="button"
+            onClick={() => {
+              const next = caseStudyDB.slice(0, (page + 1) * itemsPerPage);
+              setDisplayed(next);
+              setPage((p) => p + 1);
+            }}
+            className="px-4 py-2 rounded-xl text-xs font-semibold bg-purple-50 text-purple-900 border border-purple-200 hover:bg-purple-100 transition-colors cursor-pointer"
+          >
+            Muat Lebih Banyak
+          </button>
         </div>
       )}
     </div>
   );
 }
+
+export default FeaturedCaseStudies;

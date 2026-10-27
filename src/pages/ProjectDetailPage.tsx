@@ -36,7 +36,9 @@ import {
   Breadcrumb,
   ImageWithFallback,
 } from '../components/ui/DesignSystem';
-import { parseLocalizedPath, toLocalizedHref } from '../lib/i18n';
+import { parseLocalizedPath, toLocalizedHref, PrefixMode } from '../lib/i18n';
+import { getServicePath } from '../data/services';
+import FlowIllustration from '../components/atoms/FlowIllustration';
 
 export default function ProjectDetailPage() {
   const location = useLocation();
@@ -111,8 +113,9 @@ export default function ProjectDetailPage() {
   const { prev, next } = getAdjacentProjects(project.slug, locale);
   const coverAsset =
     SITE_IMAGES[project.cover as keyof typeof SITE_IMAGES] || SITE_IMAGES.ogDefault;
-  const relatedCaseStudy = project.caseStudySlug
-    ? getCaseStudyBySlug(project.caseStudySlug, locale)
+  const targetCaseSlug = project.relatedCaseSlug || project.caseStudySlug;
+  const relatedCaseStudy = targetCaseSlug
+    ? getCaseStudyBySlug(targetCaseSlug, locale)
     : undefined;
 
   const projectPath = toLocalizedHref(
@@ -184,6 +187,7 @@ export default function ProjectDetailPage() {
   const allLightboxItems: ProjectGalleryItem[] = [
     {
       imageKey: project.cover,
+      label: isEn ? 'Illustration' : 'Ilustrasi',
       caption: `${project.title} — ${project.oneLiner}`,
       layout: 'full',
     },
@@ -214,12 +218,12 @@ export default function ProjectDetailPage() {
 
           <div className="max-w-3xl space-y-4">
             <div className="flex flex-wrap items-center gap-2">
+              <Badge variant="dark">{project.internalBadgeLabel}</Badge>
               <Badge variant="tint">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#6A3FD0]" />
                 <span>{project.categoryLabel}</span>
               </Badge>
               <Badge variant="outline">{project.industry}</Badge>
-              <Badge variant="outline">{isEn ? 'PRODUCTION SYSTEM' : 'SISTEM PRODUKSI'}</Badge>
             </div>
 
             <WordRevealHeading as="h1" priority text={project.title} />
@@ -227,6 +231,11 @@ export default function ProjectDetailPage() {
             <p className="text-[16px] md:text-[18px] text-[#5B5675] leading-[1.6]">
               {project.oneLiner}
             </p>
+
+            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#EFEAFB] border border-[rgba(91,60,196,0.16)] font-mono text-[12px] text-[#6A3FD0]">
+              <strong>{isEn ? 'Design target:' : 'Target desain:'}</strong>
+              <span>{project.targetNote}</span>
+            </div>
           </div>
 
           {/* =====================================================
@@ -353,11 +362,7 @@ export default function ProjectDetailPage() {
               </h2>
               <div className="pt-2">
                 <Link
-                  to={toLocalizedHref(
-                    `/jasa/${project.serviceSlug}`,
-                    locale,
-                    prefixMode
-                  )}
+                  to={getServicePath(project.serviceSlug, locale)}
                   className="inline-flex items-center gap-1.5 text-[14px] font-semibold text-[#6A3FD0] hover:underline"
                 >
                   <span>
@@ -380,6 +385,23 @@ export default function ProjectDetailPage() {
                 </p>
               ))}
             </div>
+          </div>
+
+          {/* 4A.5 Alur Sistem Proyek (Data-Driven Architecture Diagram) */}
+          <div className="pt-8 border-t border-[rgba(91,60,196,0.14)]">
+            <FlowIllustration
+              id={
+                project.serviceSlug === 'pembuatan-website'
+                  ? 'website-flow'
+                  : project.serviceSlug === 'ai-agent'
+                  ? 'agent-flow'
+                  : project.serviceSlug === 'software-custom'
+                  ? 'software-flow'
+                  : 'workflow-flow'
+              }
+              locale={locale}
+              className="max-w-4xl mx-auto"
+            />
           </div>
 
           {/* 4B. Fitur Utama (Mixed Layout — Not Identical Cards) */}
@@ -472,7 +494,7 @@ export default function ProjectDetailPage() {
                     <figcaption className="px-5 md:px-6 py-4 bg-[#FFFFFF] border-t border-[rgba(91,60,196,0.14)] flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-[13px] md:text-[14px] text-[#5B5675]">
                       <span>{item.caption}</span>
                       <span className="font-mono text-[11px] uppercase tracking-[0.08em] text-[#6A3FD0] shrink-0">
-                        {isEn ? `Screen 0${idx + 1}` : `Layar 0${idx + 1}`}
+                        {item.label} · {isEn ? `0${idx + 1}` : `0${idx + 1}`}
                       </span>
                     </figcaption>
                   </figure>
@@ -484,9 +506,9 @@ export default function ProjectDetailPage() {
       </section>
 
       {/* =====================================================
-          6. HIGHLIGHTED CASE STUDY CARD (IF caseStudySlug EXISTS)
+          6. HIGHLIGHTED CASE STUDY CARD (IF relatedCaseSlug EXISTS)
           ===================================================== */}
-      {project.caseStudySlug && (
+      {targetCaseSlug && (
         <section className="py-12 md:py-16 bg-[#FFFFFF] border-b border-[rgba(91,60,196,0.14)]">
           <Container>
             <Card
@@ -504,21 +526,25 @@ export default function ProjectDetailPage() {
                   </span>
                 </Badge>
                 <h2 className="text-[22px] md:text-[26px] text-[#17122B]">
-                  {isEn ? 'Read the full story' : 'Baca cerita lengkapnya'}
+                  {relatedCaseStudy
+                    ? relatedCaseStudy.title
+                    : isEn
+                      ? 'Read the full story'
+                      : 'Baca cerita lengkapnya'}
                 </h2>
                 <p className="text-[15px] text-[#5B5675] leading-[1.65]">
                   {relatedCaseStudy
                     ? relatedCaseStudy.oneSentenceSummary
                     : isEn
-                      ? 'Explore the initial operational bottlenecks, system migration steps, and efficiency impact of this implementation on our Case Studies page.'
-                      : 'Pelajari rincian masalah operasional awal, tahapan migrasi sistem, dan dampak efisiensi dari implementasi proyek ini di halaman Studi Kasus.'}
+                      ? 'Explore the initial operational bottlenecks, system migration steps, and design targets of this internal project on our Case Studies page.'
+                      : 'Pelajari rincian masalah operasional awal, rancangan alur sistem, dan target desain dari proyek internal ini di halaman Studi Kasus.'}
                 </p>
               </div>
 
               <div className="shrink-0">
                 <Button
                   to={toLocalizedHref(
-                    `/case-studies/${project.caseStudySlug}`,
+                    `/case-studies/${targetCaseSlug}`,
                     locale,
                     prefixMode
                   )}
@@ -919,7 +945,7 @@ function AdjacentProjectCard({
   project: PortfolioProject;
   direction: 'prev' | 'next';
   locale: 'id' | 'en';
-  prefixMode: 'default' | 'ind' | 'eng';
+  prefixMode: PrefixMode;
 }) {
   const isEn = locale === 'en';
   const thumbAsset =

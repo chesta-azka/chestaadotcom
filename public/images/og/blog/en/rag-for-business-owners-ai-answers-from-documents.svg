@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630" fill="none" role="img" aria-label="Pipeline diagram of Retrieval-Augmented Generation (RAG) extracting internal SOP document chunks for grounded AI answers">
+  <defs>
+    <pattern id="ogGrid64" width="64" height="64" patternUnits="userSpaceOnUse">
+      <path d="M 64 0 L 0 0 0 64" fill="none" stroke="#17122B" stroke-width="1" stroke-opacity="0.04" />
+    </pattern>
+    <radialGradient id="ogGlow" cx="920" cy="315" r="460" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#B9A2F2" stop-opacity="0.38" />
+      <stop offset="100%" stop-color="#F8F6FE" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="630" fill="#F8F6FE" />
+  <rect width="1200" height="630" fill="url(#ogGlow)" />
+  <rect width="1200" height="630" fill="url(#ogGrid64)" />
+  <rect x="24" y="24" width="1152" height="582" rx="28" fill="#FFFFFF" fill-opacity="0.65" stroke="#C5B8EC" stroke-width="1" />
+
+  <!-- Left Editorial Column -->
+  <g transform="translate(64, 76)">
+    <rect width="270" height="34" rx="17" fill="#EFEAFB" stroke="#C5B8EC" stroke-width="1" />
+    <text x="135" y="22" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="12" font-weight="600" letter-spacing="0.08em" fill="#6A3FD0">AI &amp; WORKFLOW AUTOMATION</text>
+
+    <text x="0" y="112" font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="38" font-weight="700" fill="#17122B">
+      <tspan x="0" dy="0">RAG for Business Owners:</tspan><tspan x="0" dy="48">How AI Answers from Your D…</tspan>
+    </text>
+
+    <!-- Labels Row -->
+    <g transform="translate(0, 250)">
+      <g transform="translate(0, 0)">
+            <rect width="120" height="28" rx="6" fill="#17122B" stroke="#C5B8EC" stroke-width="1" />
+            <text x="60" y="18" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="11" font-weight="600" fill="#FFFFFF">CHUNKING</text>
+          </g><g transform="translate(132, 0)">
+            <rect width="120" height="28" rx="6" fill="#F8F6FE" stroke="#C5B8EC" stroke-width="1" />
+            <text x="60" y="18" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="11" font-weight="600" fill="#17122B">RETRIEVE</text>
+          </g><g transform="translate(264, 0)">
+            <rect width="120" height="28" rx="6" fill="#F8F6FE" stroke="#C5B8EC" stroke-width="1" />
+            <text x="60" y="18" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="11" font-weight="600" fill="#17122B">CITED ANS</text>
+          </g>
+    </g>
+
+    <!-- Brand Footer -->
+    <g transform="translate(0, 425)">
+      <rect width="38" height="38" rx="10" fill="#6A3FD0" />
+      <text x="19" y="25" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="14" font-weight="700" fill="#FFFFFF">C</text>
+      <text x="52" y="18" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="13" font-weight="700" letter-spacing="0.08em" fill="#17122B">CHESTAADOTCOM</text>
+      <text x="52" y="34" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="11" fill="#5B5675">chestaa.com · BSD &amp; South Tangerang</text>
+    </g>
+  </g>
+
+  <!-- Right Miniature Hero Scene -->
+  <g transform="translate(650, 95) scale(0.45)">
+    <g>
+        <rect x="275" y="180" width="1050" height="540" rx="24" fill="#FFFFFF" stroke="#C5B8EC" />
+        <!-- Left Document Chunks -->
+        <rect x="320" y="225" width="270" height="125" rx="14" fill="#EFEAFB" stroke="#C5B8EC" />
+        <rect x="320" y="385" width="270" height="125" rx="14" fill="#17122B" />
+        <rect x="320" y="545" width="270" height="125" rx="14" fill="#2B1763" />
+        <!-- Center Vector Retriever Ring -->
+        <circle cx="785" cy="445" r="128" fill="#F8F6FE" stroke="#6A3FD0" stroke-width="14" />
+        <circle cx="785" cy="445" r="64" fill="#17122B" />
+        <line x1="875" y1="535" x2="945" y2="605" stroke="#17122B" stroke-width="18" stroke-linecap="round" />
+        <!-- Right Cited Answer Card -->
+        <rect x="975" y="235" width="305" height="430" rx="18" fill="#6A3FD0" />
+        <rect x="1008" y="280" width="240" height="90" rx="12" fill="#FFFFFF" />
+        <rect x="1008" y="395" width="240" height="120" rx="12" fill="#17122B" />
+        <rect x="1008" y="545" width="180" height="68" rx="12" fill="#D8C8FF" />
+      </g>
+  </g>
+</svg>

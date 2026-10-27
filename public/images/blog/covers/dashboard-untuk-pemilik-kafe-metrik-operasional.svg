@@ -1,0 +1,97 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900" fill="none" role="img" aria-label="Kisi antarmuka dashboard operasional kafe yang menampilkan grafik penjualan per jam, rasio HPP bahan, dan stok kritis">
+  <defs>
+    <pattern id="grid64" width="64" height="64" patternUnits="userSpaceOnUse">
+      <path d="M 64 0 L 0 0 0 64" fill="none" stroke="#17122B" stroke-width="1" stroke-opacity="0.04" />
+    </pattern>
+    <radialGradient id="purpleGlow" cx="800" cy="700" r="620" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#B9A2F2" stop-opacity="0.42" />
+      <stop offset="55%" stop-color="#EFEAFB" stop-opacity="0.18" />
+      <stop offset="100%" stop-color="#F8F6FE" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+  <rect width="1600" height="900" fill="#F8F6FE" />
+  <rect width="1600" height="900" fill="url(#purpleGlow)" />
+  <rect width="1600" height="900" fill="url(#grid64)" />
+  <g key="anchor-0">
+        <rect x="88" y="120" width="220" height="130" rx="14" fill="#2B1763" stroke="#DED8F2" stroke-width="1" />
+        <rect x="106" y="140" width="160" height="10" rx="5" fill="#B9A2F2" />
+             <rect x="106" y="160" width="120" height="8" rx="4" fill="#EFEAFB" fill-opacity="0.45" />
+      </g>
+<g key="anchor-1">
+        <rect x="1240" y="640" width="230" height="140" rx="14" fill="#EFEAFB" stroke="#DED8F2" stroke-width="1" />
+        <rect x="1258" y="660" width="170" height="10" rx="5" fill="#5230B0" />
+             <rect x="1258" y="680" width="130" height="8" rx="4" fill="#17122B" fill-opacity="0.25" />
+      </g>
+<g key="anchor-2">
+        <rect x="72" y="398" width="140" height="210" rx="14" fill="#5230B0" stroke="#DED8F2" stroke-width="1" />
+        <rect x="90" y="418" width="80" height="10" rx="5" fill="#B9A2F2" />
+             <rect x="90" y="438" width="40" height="8" rx="4" fill="#EFEAFB" fill-opacity="0.45" />
+      </g>
+<line x1="273" y1="775" x2="560" y2="330" stroke="#C5B8EC" stroke-width="1" stroke-dasharray="4 4" />
+<line x1="1306" y1="739" x2="1040" y2="330" stroke="#C5B8EC" stroke-width="1" stroke-dasharray="none" />
+<line x1="150" y1="254" x2="560" y2="330" stroke="#C5B8EC" stroke-width="1" stroke-dasharray="4 4" />
+<line x1="1451" y1="248" x2="1040" y2="570" stroke="#C5B8EC" stroke-width="1" stroke-dasharray="none" />
+<line x1="171" y1="620" x2="560" y2="570" stroke="#C5B8EC" stroke-width="1" stroke-dasharray="4 4" />
+<g>
+        <circle cx="273" cy="775" r="14" fill="#FFFFFF" stroke="#C5B8EC" stroke-width="1" />
+        <circle cx="273" cy="775" r="4" fill="#6A3FD0" />
+      </g>
+<g>
+        <circle cx="1306" cy="739" r="14" fill="#FFFFFF" stroke="#C5B8EC" stroke-width="1" />
+        <circle cx="1306" cy="739" r="4" fill="#6A3FD0" />
+      </g>
+<g>
+        <circle cx="150" cy="254" r="14" fill="#FFFFFF" stroke="#C5B8EC" stroke-width="1" />
+        <circle cx="150" cy="254" r="4" fill="#6A3FD0" />
+      </g>
+<g>
+        <circle cx="1451" cy="248" r="14" fill="#FFFFFF" stroke="#C5B8EC" stroke-width="1" />
+        <circle cx="1451" cy="248" r="4" fill="#6A3FD0" />
+      </g>
+<g>
+        <circle cx="171" cy="620" r="20" fill="#6A3FD0" stroke="#17122B" stroke-width="1" />
+        <circle cx="171" cy="620" r="4" fill="#FFFFFF" />
+      </g>
+  <g transform="rotate(3 800 450)">
+    <g>
+        <rect x="275" y="175" width="1050" height="550" rx="24" fill="#17122B" />
+        <!-- Top KPI Row -->
+        <rect x="315" y="215" width="300" height="160" rx="16" fill="#FFFFFF" />
+        <rect x="345" y="245" width="140" height="22" rx="6" fill="#5230B0" />
+        <rect x="345" y="290" width="210" height="52" rx="8" fill="#17122B" />
+
+        <rect x="650" y="215" width="300" height="160" rx="16" fill="#6A3FD0" />
+        <rect x="680" y="245" width="140" height="22" rx="6" fill="#D8C8FF" />
+        <rect x="680" y="290" width="210" height="52" rx="8" fill="#FFFFFF" />
+
+        <rect x="985" y="215" width="300" height="160" rx="16" fill="#2B1763" stroke="#9E7BF0" />
+        <rect x="1015" y="245" width="140" height="22" rx="6" fill="#B9A2F2" />
+        <rect x="1015" y="290" width="210" height="52" rx="8" fill="#9E7BF0" />
+
+        <!-- Bottom Chart & Alert Panels -->
+        <rect x="315" y="405" width="635" height="280" rx="18" fill="#F8F6FE" />
+        <rect x="355" y="555" width="75" height="95" rx="8" fill="#9E7BF0" />
+        <rect x="455" y="505" width="75" height="145" rx="8" fill="#6A3FD0" />
+        <rect x="555" y="460" width="75" height="190" rx="8" fill="#17122B" />
+        <rect x="655" y="520" width="75" height="130" rx="8" fill="#5230B0" />
+        <rect x="755" y="445" width="140" height="205" rx="10" fill="#2B1763" />
+
+        <rect x="985" y="405" width="300" height="280" rx="18" fill="#FFFFFF" />
+        <rect x="1015" y="440" width="240" height="65" rx="10" fill="#17122B" />
+        <rect x="1015" y="525" width="240" height="65" rx="10" fill="#6A3FD0" />
+        <rect x="1015" y="610" width="170" height="45" rx="8" fill="#B9A2F2" />
+      </g>
+  </g>
+  <g transform="translate(355, 112)">
+    <rect width="106" height="26" rx="6" fill="#FFFFFF" stroke="#C5B8EC" stroke-width="1" />
+    <text x="53" y="17" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="11" font-weight="600" letter-spacing="0.06em" fill="#17122B">HOURLY POS</text>
+  </g>
+<g transform="translate(762, 802)">
+    <rect width="76" height="26" rx="6" fill="#2B1763" stroke="#6A3FD0" stroke-width="1" />
+    <text x="38" y="17" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="11" font-weight="600" letter-spacing="0.06em" fill="#FFFFFF">COGS %</text>
+  </g>
+<g transform="translate(1154, 112)">
+    <rect width="76" height="26" rx="6" fill="#FFFFFF" stroke="#C5B8EC" stroke-width="1" />
+    <text x="38" y="17" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="11" font-weight="600" letter-spacing="0.06em" fill="#17122B">STOCK</text>
+  </g>
+</svg>

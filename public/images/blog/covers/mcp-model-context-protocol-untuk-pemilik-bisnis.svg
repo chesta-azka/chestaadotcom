@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900" fill="none" role="img" aria-label="Skema port konektor standar Model Context Protocol (MCP) yang menghubungkan AI agent ke kalender dan database bisnis">
+  <defs>
+    <pattern id="grid64" width="64" height="64" patternUnits="userSpaceOnUse">
+      <path d="M 64 0 L 0 0 0 64" fill="none" stroke="#17122B" stroke-width="1" stroke-opacity="0.04" />
+    </pattern>
+    <radialGradient id="purpleGlow" cx="800" cy="200" r="620" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#B9A2F2" stop-opacity="0.42" />
+      <stop offset="55%" stop-color="#EFEAFB" stop-opacity="0.18" />
+      <stop offset="100%" stop-color="#F8F6FE" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+  <rect width="1600" height="900" fill="#F8F6FE" />
+  <rect width="1600" height="900" fill="url(#purpleGlow)" />
+  <rect width="1600" height="900" fill="url(#grid64)" />
+  <g key="anchor-0">
+        <rect x="1220" y="600" width="260" height="165" rx="14" fill="#17122B" stroke="#DED8F2" stroke-width="1" />
+        <rect x="1238" y="620" width="200" height="10" rx="5" fill="#B9A2F2" />
+             <rect x="1238" y="640" width="160" height="8" rx="4" fill="#EFEAFB" fill-opacity="0.45" />
+      </g>
+<g key="anchor-1">
+        <rect x="104" y="108" width="230" height="145" rx="14" fill="#6A3FD0" stroke="#DED8F2" stroke-width="1" />
+        <rect x="122" y="128" width="170" height="10" rx="5" fill="#5230B0" />
+             <rect x="122" y="148" width="130" height="8" rx="4" fill="#17122B" fill-opacity="0.25" />
+      </g>
+<g key="anchor-2">
+        <rect x="585" y="788" width="360" height="48" rx="14" fill="#17122B" stroke="#DED8F2" stroke-width="1" />
+        <rect x="603" y="808" width="300" height="10" rx="5" fill="#B9A2F2" />
+             <rect x="603" y="828" width="260" height="8" rx="4" fill="#EFEAFB" fill-opacity="0.45" />
+      </g>
+<line x1="1263" y1="177" x2="560" y2="330" stroke="#C5B8EC" stroke-width="1" stroke-dasharray="4 4" />
+<line x1="319" y1="751" x2="1040" y2="330" stroke="#C5B8EC" stroke-width="1" stroke-dasharray="none" />
+<line x1="1294" y1="770" x2="560" y2="330" stroke="#C5B8EC" stroke-width="1" stroke-dasharray="4 4" />
+<line x1="174" y1="251" x2="1040" y2="570" stroke="#C5B8EC" stroke-width="1" stroke-dasharray="none" />
+<g>
+        <circle cx="1263" cy="177" r="14" fill="#FFFFFF" stroke="#C5B8EC" stroke-width="1" />
+        <circle cx="1263" cy="177" r="4" fill="#6A3FD0" />
+      </g>
+<g>
+        <circle cx="319" cy="751" r="20" fill="#6A3FD0" stroke="#17122B" stroke-width="1" />
+        <circle cx="319" cy="751" r="4" fill="#FFFFFF" />
+      </g>
+<g>
+        <circle cx="1294" cy="770" r="14" fill="#FFFFFF" stroke="#C5B8EC" stroke-width="1" />
+        <circle cx="1294" cy="770" r="4" fill="#6A3FD0" />
+      </g>
+<g>
+        <circle cx="174" cy="251" r="14" fill="#FFFFFF" stroke="#C5B8EC" stroke-width="1" />
+        <circle cx="174" cy="251" r="4" fill="#6A3FD0" />
+      </g>
+  <g transform="rotate(3 800 450)">
+    <g>
+        <rect x="280" y="175" width="1040" height="550" rx="24" fill="#FFFFFF" stroke="#C5B8EC" />
+        <!-- Host Bus Bar -->
+        <rect x="340" y="250" width="920" height="150" rx="20" fill="#17122B" />
+        <rect x="385" y="288" width="260" height="74" rx="12" fill="#6A3FD0" />
+        <rect x="680" y="288" width="260" height="74" rx="12" fill="#FFFFFF" />
+        <rect x="975" y="288" width="240" height="74" rx="12" fill="#9E7BF0" />
+        <!-- 3 Standardized Port Modules -->
+        <line x1="515" y1="400" x2="515" y2="510" stroke="#17122B" stroke-width="6" />
+        <line x1="810" y1="400" x2="810" y2="510" stroke="#6A3FD0" stroke-width="6" />
+        <line x1="1095" y1="400" x2="1095" y2="510" stroke="#17122B" stroke-width="6" />
+        <rect x="360" y="510" width="280" height="165" rx="16" fill="#2B1763" />
+        <rect x="665" y="510" width="280" height="165" rx="16" fill="#EFEAFB" stroke="#C5B8EC" />
+        <rect x="970" y="510" width="280" height="165" rx="16" fill="#6A3FD0" />
+      </g>
+  </g>
+  <g transform="translate(390, 112)">
+    <rect width="90" height="26" rx="6" fill="#FFFFFF" stroke="#C5B8EC" stroke-width="1" />
+    <text x="45" y="17" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="11" font-weight="600" letter-spacing="0.06em" fill="#17122B">MCP HOST</text>
+  </g>
+<g transform="translate(751, 802)">
+    <rect width="98" height="26" rx="6" fill="#2B1763" stroke="#6A3FD0" stroke-width="1" />
+    <text x="49" y="17" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="11" font-weight="600" letter-spacing="0.06em" fill="#FFFFFF">CONNECTOR</text>
+  </g>
+<g transform="translate(1116, 112)">
+    <rect width="98" height="26" rx="6" fill="#FFFFFF" stroke="#C5B8EC" stroke-width="1" />
+    <text x="49" y="17" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="11" font-weight="600" letter-spacing="0.06em" fill="#17122B">SCOPED DB</text>
+  </g>
+</svg>

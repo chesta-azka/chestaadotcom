@@ -39,6 +39,8 @@ export const glossaryTerms: GlossaryTerm[] = [
   }
 ];
 
+export const GLOSSARY_TERMS = glossaryTerms;
+
 export function getGlossaryTermBySlug(slug: string): GlossaryTerm | undefined {
   return glossaryTerms.find((t) => t.slug === slug);
 }

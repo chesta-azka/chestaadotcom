@@ -1,0 +1,742 @@
+# CHESTAADOTCOM — Full Documentation Export (llms-full.txt)
+
+> Export lengkap halaman layanan, proyek internal, dan studi kasus internal CHESTAADOTCOM (https://chestaa.com) berdasarkan fakta resmi Section 1.
+
+## 1. Fact Sheet Resmi
+- **Nama**: CHESTAADOTCOM (chestaa.com)
+- **Pendiri**: Chesta Azka, Co-founder (arsitektur, produk, teknologi) dan Zeeshan, Co-founder (operasional dan client success).
+- **Basis**: Berbasis di BSD, Tangerang Selatan, melayani klien di Tangerang Selatan dan Jabodetabek. Kerja sehari-hari dilakukan secara online (WhatsApp, video call); pertemuan tatap muka di area Tangerang Selatan bisa dijadwalkan sesuai kesepakatan.
+- **Kontak**:
+  - WhatsApp: +62 821-2544-7232 (https://wa.me/6282125447232)
+  - Email: chestaadotcom@gmail.com
+  - Instagram: @chestaadotcom (https://instagram.com/chestaadotcom)
+- **Layanan (4)**:
+  1. Pembuatan website dan landing page — mulai dari Rp1.200.000 (IDR 1,200,000), tergantung kompleksitas.
+  2. AI agent untuk bisnis (WhatsApp, operasional, customer support, kualifikasi leads) — harga dihitung setelah audit gratis.
+  3. Pengembangan software custom (aplikasi web internal, portal klien, dashboard) — harga dihitung setelah audit gratis.
+  4. Otomasi workflow bisnis (integrasi antar aplikasi, form ke sheet ke notifikasi, laporan otomatis) — harga dihitung setelah audit gratis.
+- **Proses Kerja (4 Langkah)**:
+  1. Audit gratis (30 menit) — melihat masalah, alur sekarang, dan apa yang masuk akal dibangun.
+  2. Rancang dan prototipe — kamu lihat bentuk dan alurnya dulu sebelum dibangun penuh.
+  3. Bangun dan uji — sistem dibangun, diuji di skenario nyata, dan dirapikan.
+  4. Rilis dan rawat — sistem jalan di operasional kamu, dipantau, dan disesuaikan kalau ada kebutuhan baru.
+- **Kepemilikan Data & Kode**: Data tetap milikmu (Google Sheets, database, atau server milikmu sendiri). Domain dan hosting terdaftar atas namamu.
+- **Catatan Proyek Internal**: Semua proyek dan studi kasus di situs ini adalah proyek internal CHESTAADOTCOM ("Proyek internal" / "Internal project"), bukan proyek klien. Semua metrik adalah "Target desain, bukan hasil klien" / "Design target, not client results".
+
+---
+
+## 2. 4 Halaman Layanan Utama — Bahasa Indonesia (/id/jasa/*)
+
+### Jasa pembuatan website dan landing page untuk bisnis di Tangerang Selatan
+- **URL**: https://chestaa.com/id/jasa/pembuatan-website
+- **Eyebrow**: Pembuatan website dan landing page
+- **Ringkasan / Summary**: Pembuatan website di CHESTAADOTCOM mencakup landing page, company profile, dan web custom untuk bisnis di Tangerang Selatan dan Jabodetabek. Setiap halaman dibuat cepat, nyaman dibaca di HP, dan punya satu tujuan jelas, misalnya booking atau pesan WhatsApp. Harga mulai Rp1.200.000, tergantung kompleksitas.
+- **Cocok Kalau**: Landing page iklan, company profile, dan web custom bisnis
+- **Mulai Dari**: Audit gratis 30 menit via WhatsApp atau video call
+- **Harga**: Mulai Rp1.200.000
+
+#### Yang Kamu Dapat
+- **Struktur halaman dan tulisan**: Menjawab pertanyaan calon pelanggan sebelum mereka bertanya.
+- **Desain responsif**: Rapi di HP, tablet, dan desktop.
+- **Kecepatan**: Gambar dioptimasi, skrip seperlunya, diuji di PageSpeed Insights.
+- **SEO dasar**: Judul dan deskripsi tiap halaman, struktur heading, sitemap, dan data terstruktur.
+- **Tombol WhatsApp dan formulir**: Langsung menyampaikan pesan ke kamu.
+- **Pelacakan dasar**: Kalau kamu mau, supaya kelihatan dari mana pengunjung datang.
+
+#### Contoh Penggunaan di Lapangan
+
+
+#### Prinsip Teknis Kami
+Halaman dibuat statis supaya cepat. Gambar dikompres dan diberi ukuran yang tepat. Skrip pihak ketiga dipasang hanya kalau memang perlu. Hasilnya diuji di HP, bukan hanya di laptop.
+
+#### Harga dan Ruang Lingkup
+Mulai Rp1.200.000 untuk landing page. Biaya naik kalau jumlah halaman, fitur (misalnya booking atau pembayaran), atau integrasi bertambah. Angka pastinya kami sampaikan setelah audit gratis, sebelum kamu membayar apa pun.
+
+#### FAQ
+- **Q: Berapa harga pembuatan website?**
+  A: Landing page mulai Rp1.200.000. Company profile dan website dengan fitur khusus dihitung sesuai jumlah halaman dan fiturnya, setelah audit gratis.
+- **Q: Berapa lama pengerjaannya?**
+  A: Landing page sederhana biasanya selesai dalam hitungan hari. Website dengan banyak halaman atau fitur butuh hitungan minggu. Estimasi pastinya kami beri setelah audit.
+- **Q: Apakah website bisa muncul di Google?**
+  A: Kami menyiapkan dasar SEO: judul dan deskripsi tiap halaman, struktur heading, sitemap, dan data terstruktur. Peringkat tetap bergantung pada persaingan dan waktu, jadi tidak ada yang bisa menjanjikan posisi tertentu.
+- **Q: Domain dan hosting atas nama siapa?**
+  A: Atas namamu. Kamu pemilik domain dan hostingnya, jadi tidak terkunci pada kami.
+- **Q: Setelah rilis, siapa yang merawat?**
+  A: Kamu bisa memakai paket rawat bulanan dari kami atau memegangnya sendiri. Kita tentukan di awal.
+
+### Jasa AI agent untuk bisnis: balas WhatsApp, booking, dan follow-up berjalan sendiri
+- **URL**: https://chestaa.com/id/jasa/ai-agent
+- **Eyebrow**: AI agent
+- **Ringkasan / Summary**: AI agent adalah sistem yang memahami pesan pelanggan, memakai tool seperti kalender, database, atau CRM, lalu menyelesaikan tugas, misalnya membuat booking atau mengirim follow-up. CHESTAADOTCOM membangun AI agent untuk bisnis di Tangerang Selatan dan Jabodetabek, lengkap dengan batas tindakan dan serah ke manusia. Biaya dihitung setelah audit gratis.
+- **Cocok Kalau**: Balas WhatsApp, booking kalender, pencatatan CRM, dan follow-up
+- **Mulai Dari**: Audit gratis 30 menit via WhatsApp atau video call
+- **Harga**: Dihitung setelah audit gratis
+
+#### Yang Kamu Dapat
+- **Agent yang terhubung**: Ke WhatsApp Business dan tool yang sudah kamu pakai.
+- **Aturan tindakan**: Apa yang boleh dan tidak boleh dilakukan agent, ditulis bersama kamu.
+- **Serah ke staf**: Kasus di luar aturan diteruskan lengkap dengan ringkasan percakapan.
+- **Log semua tindakan**: Yang bisa kamu periksa.
+- **Pengujian dengan percakapan nyata**: Dari bisnismu sebelum rilis.
+- **Pendampingan dan penyesuaian**: Setelah timmu memakainya.
+
+#### Contoh Penggunaan di Lapangan
+
+
+#### Prinsip Teknis Kami
+Agent diberi akses seminimal mungkin ke tool yang dibutuhkan. Tindakan berisiko meminta persetujuan manusia. Setiap versi diuji dengan percakapan nyata sebelum rilis. Pengalaman kami mencakup sistem chat berbasis AI, API gateway pintar, dan pemroses dokumen berbasis AI.
+
+#### Harga dan Ruang Lingkup
+Biaya AI agent dihitung setelah audit gratis, karena bergantung pada jumlah tool yang terhubung, banyaknya aturan bisnis, dan volume pesan. Kamu tahu angkanya sebelum membayar apa pun.
+
+#### FAQ
+- **Q: Apa bedanya chatbot dan AI agent?**
+  A: Chatbot menjawab dari daftar jawaban yang sudah disiapkan. AI agent memahami konteks, memakai tool seperti kalender atau database, lalu mengerjakan tugasnya sampai selesai.
+- **Q: Berapa biaya membuat AI agent?**
+  A: Dihitung setelah audit gratis, karena bergantung pada jumlah tool, aturan, dan volume pesan. Kamu menerima angkanya sebelum membayar apa pun.
+- **Q: Bagaimana kalau agent salah menjawab?**
+  A: Agent punya batas tindakan dan aturan serah ke manusia. Kasus sensitif diteruskan ke stafmu, dan semua percakapan tercatat supaya bisa diperiksa dan diperbaiki.
+- **Q: Apakah data pelanggan saya aman?**
+  A: Data tetap milikmu. Kami hanya mengakses yang diperlukan untuk membangun dan merawat sistem, dan aksesnya dicabut saat proyek atau kontrak rawat berakhir.
+- **Q: Apakah bisa lewat WhatsApp?**
+  A: Bisa. Agent berjalan lewat WhatsApp Business Platform resmi dari Meta, yang punya ketentuan akun dan nomor sendiri. Kami jelaskan opsinya dan membantu pendaftaran saat audit.
+
+### Jasa pembuatan software custom: aplikasi web, dashboard, dan sistem internal
+- **URL**: https://chestaa.com/id/jasa/software-custom
+- **Eyebrow**: Software custom
+- **Ringkasan / Summary**: Software custom dari CHESTAADOTCOM mencakup aplikasi web, dashboard, dan sistem internal untuk bisnis di Tangerang Selatan dan Jabodetabek. Dibangun mengikuti alur kerja yang sudah berjalan di timmu, dimulai dari versi kecil yang bisa dipakai cepat lalu dikembangkan bertahap. Biaya dihitung setelah audit gratis.
+- **Cocok Kalau**: Aplikasi web, dashboard laporan, dan sistem internal
+- **Mulai Dari**: Audit gratis 30 menit via WhatsApp atau video call
+- **Harga**: Dihitung setelah audit gratis
+
+#### Yang Kamu Dapat
+- **Alur dan kebutuhan yang ditulis jelas**: Sebelum satu baris kode dibuat.
+- **Aplikasi web responsif**: Yang nyaman dipakai di HP dan desktop.
+- **Login dan hak akses per peran**: Misalnya admin, staf, dan pelanggan.
+- **Dashboard dan laporan**: Yang diperbarui dari data yang sama.
+- **Integrasi dengan tool yang kamu pakai**: Lewat API.
+- **Dokumentasi dan pelatihan singkat**: Untuk timmu.
+
+#### Contoh Penggunaan di Lapangan
+
+
+#### Prinsip Teknis Kami
+Kami mulai dari versi terkecil yang sudah berguna, lalu menambah fitur bertahap. Kode ditulis supaya mudah dirawat dan hak kepemilikannya disepakati tertulis di awal. Data dicadangkan dan akses dibatasi per peran.
+
+#### Harga dan Ruang Lingkup
+Dihitung setelah audit gratis. Yang memengaruhi biaya: jumlah peran pengguna, jumlah fitur, integrasi dengan tool lain, dan kebutuhan laporan. Kamu menerima angka dan cakupan kerjanya sebelum membayar apa pun.
+
+#### FAQ
+- **Q: Kapan saya perlu software custom, bukan aplikasi jadi?**
+  A: Pilih aplikasi jadi kalau alurmu standar dan kamu nyaman menyesuaikan cara kerja. Pilih custom kalau alurmu khas, datamu perlu terhubung antar sistem, atau biaya langganan per pengguna mulai membengkak.
+- **Q: Berapa biayanya?**
+  A: Dihitung setelah audit gratis, sesuai jumlah peran, fitur, dan integrasi. Kamu menerima angkanya sebelum membayar apa pun.
+- **Q: Apakah bisa dibangun bertahap?**
+  A: Bisa, dan itu cara yang kami sarankan. Versi pertama berisi fitur yang paling berguna, lalu ditambah setelah dipakai.
+- **Q: Bagaimana dengan kepemilikan kode dan data?**
+  A: Data bisnismu tetap milikmu. Kepemilikan kode kita sepakati tertulis di awal proyek.
+- **Q: Siapa yang merawat setelah rilis?**
+  A: Kamu bisa memakai paket rawat dari kami atau menyerahkannya ke tim lain, karena kodenya didokumentasikan. Kita tentukan di awal.
+
+### Jasa otomasi workflow bisnis: sambungkan WhatsApp, Sheets, kalender, dan invoice
+- **URL**: https://chestaa.com/id/jasa/otomasi-workflow
+- **Eyebrow**: Otomasi workflow
+- **Ringkasan / Summary**: Otomasi workflow adalah menyambungkan aplikasi yang sudah kamu pakai, seperti WhatsApp, Google Sheets, kalender, dan invoice, supaya tugas berulang berjalan sendiri. CHESTAADOTCOM membangun otomasi untuk bisnis di Tangerang Selatan dan Jabodetabek, lengkap dengan log dan notifikasi kegagalan. Biaya dihitung setelah audit gratis.
+- **Cocok Kalau**: Sambungkan WhatsApp, Sheets, kalender, dan invoice otomatis
+- **Mulai Dari**: Audit gratis 30 menit via WhatsApp atau video call
+- **Harga**: Dihitung setelah audit gratis
+
+#### Yang Kamu Dapat
+- **Pemetaan alur kerja**: Sebelum otomasi dibuat.
+- **Otomasi antar tool**: Yang kamu pakai.
+- **Penanganan error dan notifikasi**: Saat ada langkah yang gagal.
+- **Log eksekusi**: Yang bisa diperiksa.
+- **Dokumentasi alur**: Supaya timmu paham apa yang berjalan.
+- **Opsional: AI untuk langkah teks**: Untuk langkah yang perlu memahami teks, misalnya mengelompokkan pesan masuk.
+
+#### Contoh Penggunaan di Lapangan
+
+
+#### Prinsip Teknis Kami
+Setiap alur punya penanganan kegagalan dan notifikasi, jadi masalah ketahuan sebelum pelanggan yang menemukannya. Akses ke tiap aplikasi dibatasi seperlunya. Alur didokumentasikan supaya tidak bergantung pada satu orang.
+
+#### Harga dan Ruang Lingkup
+Dihitung setelah audit gratis, sesuai jumlah alur, jumlah tool yang dihubungkan, dan volume data. Langganan aplikasi pihak ketiga dibayar langsung oleh kamu sesuai paket penyedianya; biaya bangun dan rawat otomasi dari kami.
+
+#### FAQ
+- **Q: Apa bedanya otomasi workflow dan AI agent?**
+  A: Otomasi menjalankan langkah yang aturannya tetap, misalnya "jika ada pesanan baru, catat ke Sheets". AI agent dipakai kalau tugasnya butuh memahami pesan dan mengambil keputusan.
+- **Q: Aplikasi apa saja yang bisa dihubungkan?**
+  A: Selama aplikasinya punya API atau integrasi resmi. Kami periksa saat audit.
+- **Q: Bagaimana kalau satu langkah gagal?**
+  A: Alur dirancang dengan notifikasi kegagalan dan log, jadi masalahnya ketahuan dan prosesnya bisa diulang.
+- **Q: Apakah ada biaya bulanan?**
+  A: Langganan aplikasi pihak ketiga dibayar langsung olehmu sesuai paket penyedia. Biaya rawat otomasi dari kami hanya kalau kamu memilih paket rawat.
+- **Q: Berapa lama pengerjaannya?**
+  A: Satu alur sederhana biasanya selesai dalam hitungan hari, beberapa alur yang saling terhubung butuh hitungan minggu. Estimasi pastinya kami beri setelah audit.
+
+---
+
+## 3. 4 Core Service Pages — English (/en/services/*)
+
+### Website and landing page development for businesses in South Tangerang
+- **URL**: https://chestaa.com/en/services/website-development
+- **Eyebrow**: Website and landing page development
+- **Ringkasan / Summary**: Website development at CHESTAADOTCOM covers landing pages, company profiles, and custom websites for businesses in South Tangerang and Greater Jakarta. Every page is built to load fast, read comfortably on mobile phones, and focus on one clear goal, such as a booking or a WhatsApp message. Pricing starts from IDR 1,200,000, depending on complexity.
+- **Cocok Kalau**: Ad landing pages, company profiles, and custom business websites
+- **Mulai Dari**: Free 30-minute audit via WhatsApp or video call
+- **Harga**: Starting from IDR 1,200,000
+
+#### What We Build / Deliverables
+- **Page structure and copy**: Answers prospective customers’ questions before they have to ask.
+- **Responsive design**: Clean and tidy on mobile phones, tablets, and desktops.
+- **Speed**: Optimized images, only necessary scripts, tested on PageSpeed Insights.
+- **Foundational SEO**: Titles and descriptions for each page, heading structure, sitemap, and structured data.
+- **WhatsApp buttons and forms**: Deliver messages straight to you.
+- **Basic tracking**: If you want it, so you can see where your visitors come from.
+
+#### Example Scenarios
+
+
+#### Technical Principles
+Pages are built statically so they stay fast. Images are compressed and sized properly. Third-party scripts are added only when truly needed. Results are tested on mobile phones, not just on laptops.
+
+#### Pricing and Scope
+Starting from IDR 1,200,000 for a landing page. The cost increases as the number of pages, features (such as booking or payments), or integrations grows. We share the exact figure after the free audit, before you pay anything.
+
+#### FAQ
+- **Q: How much does website development cost?**
+  A: A landing page starts from IDR 1,200,000. Company profiles and websites with custom features are calculated based on the number of pages and features after the free audit.
+- **Q: How long does it take to build?**
+  A: Simple landing pages usually take days. Websites with many pages or features take weeks. We give the exact estimate after the audit.
+- **Q: Can my website appear on Google?**
+  A: We prepare the SEO foundation: title and description for each page, heading structure, sitemap, and structured data. Rankings still depend on competition and time, so no one can promise a specific position.
+- **Q: Whose name are the domain and hosting registered under?**
+  A: Under your name. You own the domain and hosting, so you are never locked in with us.
+- **Q: After release, who maintains the website?**
+  A: You can use our monthly maintenance plan or manage it yourself. We agree on this upfront.
+
+### AI agent services for business: automated WhatsApp replies, bookings, and follow-ups
+- **URL**: https://chestaa.com/en/services/ai-agents
+- **Eyebrow**: AI agent
+- **Ringkasan / Summary**: An AI agent is a system that understands customer messages, uses tools like calendars, databases, or CRMs, and completes tasks such as creating a booking or sending a follow-up. CHESTAADOTCOM builds AI agents for businesses in South Tangerang and Greater Jakarta, complete with action boundaries and human handover. Pricing is calculated after a free audit.
+- **Cocok Kalau**: WhatsApp replies, calendar bookings, CRM logging, and follow-ups
+- **Mulai Dari**: Free 30-minute audit via WhatsApp or video call
+- **Harga**: Calculated after free audit
+
+#### What We Build / Deliverables
+- **A connected agent**: Linked to WhatsApp Business and the tools you already use.
+- **Action rules**: What the agent may and may not do, written together with you.
+- **Staff handover**: Out-of-rule cases are forwarded complete with a conversation summary.
+- **Complete action log**: Every action is recorded so you can inspect it.
+- **Real-conversation testing**: Tested with real conversations from your business before release.
+- **Support and adjustments**: Ongoing tuning after your team starts using it.
+
+#### Example Scenarios
+
+
+#### Technical Principles
+The agent is given the minimum access needed for its tools. High-risk actions ask for human approval. Every version is tested with real conversations before release. Our experience includes AI-based chat systems, smart API gateways, and AI-based document processors.
+
+#### Pricing and Scope
+AI agent pricing is calculated after the free audit, because it depends on the number of connected tools, business rules, and message volume. You know the figure before paying anything.
+
+#### FAQ
+- **Q: What is the difference between a chatbot and an AI agent?**
+  A: A chatbot replies from a prepared list of answers. An AI agent understands context, uses tools like a calendar or database, and completes the task through to the end.
+- **Q: How much does it cost to build an AI agent?**
+  A: Calculated after the free audit, because it depends on the number of tools, rules, and message volume. You receive the exact figure before paying anything.
+- **Q: What if the agent gives a wrong answer?**
+  A: The agent has action boundaries and human handover rules. Sensitive cases are forwarded to your staff, and all conversations are logged so they can be inspected and improved.
+- **Q: Is my customer data safe?**
+  A: Your data stays yours. We only access what is needed to build and maintain the system, and access is removed when the project or maintenance contract ends.
+- **Q: Can it run on WhatsApp?**
+  A: Yes. The agent runs via the official WhatsApp Business Platform from Meta, which has its own account and number requirements. We explain the options and assist with registration during the audit.
+
+### Custom software development: web applications, dashboards, and internal systems
+- **URL**: https://chestaa.com/en/services/custom-software
+- **Eyebrow**: Custom software
+- **Ringkasan / Summary**: Custom software from CHESTAADOTCOM covers web applications, dashboards, and internal systems for businesses in South Tangerang and Greater Jakarta. Built around the workflows already running in your team, starting from a small version you can use quickly and expanded step by step. Pricing is calculated after a free audit.
+- **Cocok Kalau**: Web applications, reporting dashboards, and internal systems
+- **Mulai Dari**: Free 30-minute audit via WhatsApp or video call
+- **Harga**: Calculated after free audit
+
+#### What We Build / Deliverables
+- **Clear workflow and requirements**: Written down clearly before a single line of code is built.
+- **Responsive web application**: Comfortable to use on both mobile phones and desktops.
+- **Role-based login and permissions**: For example admin, staff, and customers.
+- **Dashboards and reports**: Updated from the same underlying data.
+- **Integration with the tools you use**: Connected via API.
+- **Documentation and brief training**: Prepared for your team.
+
+#### Example Scenarios
+
+
+#### Technical Principles
+We start from the smallest useful version, then add features step by step. Code is written to be easy to maintain, with code ownership agreed in writing upfront. Data is backed up and access is restricted by role.
+
+#### Pricing and Scope
+Calculated after the free audit. What affects the cost: number of user roles, number of features, integrations with other tools, and reporting needs. You receive the figure and scope of work before paying anything.
+
+#### FAQ
+- **Q: When do I need custom software instead of off-the-shelf apps?**
+  A: Choose off-the-shelf software if your workflow is standard and you are comfortable adapting how you work. Choose custom software if your workflow is specific, your data needs to connect across systems, or per-user subscription fees are ballooning.
+- **Q: How much does it cost?**
+  A: Calculated after the free audit, based on the number of roles, features, and integrations. You receive the figure before paying anything.
+- **Q: Can it be built in stages?**
+  A: Yes, and that is the approach we recommend. The first version includes the most useful features, and more are added after real use.
+- **Q: What about code and data ownership?**
+  A: Your business data stays yours. Code ownership is agreed in writing at the start of the project.
+- **Q: Who maintains it after release?**
+  A: You can use a maintenance plan from us or hand it over to another team, because the code is documented. We decide this upfront.
+
+### Business workflow automation: connect WhatsApp, Sheets, calendar, and invoices
+- **URL**: https://chestaa.com/en/services/workflow-automation
+- **Eyebrow**: Workflow automation
+- **Ringkasan / Summary**: Workflow automation connects the applications you already use, such as WhatsApp, Google Sheets, calendars, and invoices, so repetitive tasks run on their own. CHESTAADOTCOM builds automation for businesses in South Tangerang and Greater Jakarta, complete with execution logs and failure notifications. Pricing is calculated after a free audit.
+- **Cocok Kalau**: Connect WhatsApp, Sheets, calendars, and invoices automatically
+- **Mulai Dari**: Free 30-minute audit via WhatsApp or video call
+- **Harga**: Calculated after free audit
+
+#### What We Build / Deliverables
+- **Workflow mapping**: Mapped clearly before automation is built.
+- **Cross-tool automation**: Connecting the tools you already use.
+- **Error handling and notifications**: Alerts whenever a step fails.
+- **Execution logs**: Recorded so you can inspect every run.
+- **Workflow documentation**: So your team understands what is running.
+- **Optional: AI for text steps**: For steps that need to understand text, such as categorizing incoming messages.
+
+#### Example Scenarios
+
+
+#### Technical Principles
+Every workflow includes failure handling and notifications, so issues are caught before customers notice them. Access to each application is limited strictly to what is needed. Workflows are documented so they never depend on a single person.
+
+#### Pricing and Scope
+Calculated after the free audit, based on the number of workflows, connected tools, and data volume. Third-party app subscriptions are paid directly by you according to the provider’s plan; our fee covers building and maintaining the automation.
+
+#### FAQ
+- **Q: What is the difference between workflow automation and an AI agent?**
+  A: Workflow automation runs steps with fixed rules, such as "when a new order arrives, record it to Sheets". An AI agent is used when the task requires understanding messages and making decisions.
+- **Q: Which applications can be connected?**
+  A: Any application that provides an official API or integration. We check this during the audit.
+- **Q: What happens if one step fails?**
+  A: The workflow is designed with failure notifications and logs, so the issue is caught and the process can be re-run.
+- **Q: Are there monthly fees?**
+  A: Third-party app subscriptions are paid directly by you to the provider. Maintenance fees from us apply only if you choose a maintenance plan.
+- **Q: How long does it take to build?**
+  A: A single simple workflow usually takes days; multiple connected workflows take weeks. We provide the exact estimate after the audit.
+
+---
+
+## 4. 6 Proyek Internal CHESTAADOTCOM — Bahasa Indonesia
+
+### WA Concierge: agen booking WhatsApp untuk klinik [Proyek internal]
+- **URL**: https://chestaa.com/id/portfolio/wa-concierge-klinik
+- **Status**: Proyek internal CHESTAADOTCOM (internal: true, year: 2026)
+- **Peran / Role**: Desain, pengembangan, dan pengujian
+- **Kategori / Category**: AI Agent (Klinik)
+- **Ringkasan 1 Kalimat**: Menjawab pertanyaan perawatan, mengecek slot terapis, dan membuat booking dari percakapan WhatsApp.
+- **Masalah**: WA Concierge adalah proyek internal CHESTAADOTCOM yang dirancang untuk menunjukkan cara AI agent membaca maksud calon pasien di WhatsApp, mengecek slot kalender terapis, membuat booking, mencatat data ke CRM, dan mengirim pengingat sehari sebelumnya.
+- **Solusi**: Sistem ini dilengkapi batas tindakan dan aturan serah ke manusia: pertanyaan di luar aturan atau keluhan khusus diteruskan ke staf klinik beserta ringkasan percakapan, dan setiap tindakan agent punya log yang bisa diperiksa.
+- **Alur Kerja**:
+  1. Pemahaman Maksud & Katalog Perawatan — Membaca pertanyaan bahasa sehari-hari dari calon pasien dan mencocokkannya dengan daftar perawatan, durasi sesi, serta kisaran harga yang berlaku.
+  2. Pengecekan Slot Kalender Terapis — Agent memeriksa ketersediaan jadwal terapis di kalender sebelum menawarkan pilihan jam perawatan di chat WhatsApp.
+  3. Batas Tindakan & Serah ke Staf — Mematuhi aturan tindakan yang ditentukan bersama dan meneruskan kasus di luar aturan ke staf lengkap dengan ringkasan percakapan.
+  4. Konfirmasi Booking & Pengingat H-1 — Membuat booking, mencatatnya ke CRM, dan menjadwalkan pesan pengingat sehari sebelum jadwal perawatan.
+  5. Log Semua Tindakan — Setiap pemanggilan tool dan balasan tercatat dalam log sehingga pemilik maupun admin klinik dapat memeriksanya kapan saja.
+- **Target Desain (Target desain)**:
+  - Pemahaman Maksud & Katalog Perawatan: Membaca pertanyaan bahasa sehari-hari dari calon pasien dan mencocokkannya dengan daftar perawatan, durasi sesi, serta kisaran harga yang berlaku.
+  - Pengecekan Slot Kalender Terapis: Agent memeriksa ketersediaan jadwal terapis di kalender sebelum menawarkan pilihan jam perawatan di chat WhatsApp.
+  - Batas Tindakan & Serah ke Staf: Mematuhi aturan tindakan yang ditentukan bersama dan meneruskan kasus di luar aturan ke staf lengkap dengan ringkasan percakapan.
+  - Konfirmasi Booking & Pengingat H-1: Membuat booking, mencatatnya ke CRM, dan menjadwalkan pesan pengingat sehari sebelum jadwal perawatan.
+  - Log Semua Tindakan: Setiap pemanggilan tool dan balasan tercatat dalam log sehingga pemilik maupun admin klinik dapat memeriksanya kapan saja.
+- **Stack**: WhatsApp Business Platform, Kalender Terapis, Database CRM, Log Tindakan
+
+### Dashboard Operasional Kafe [Proyek internal]
+- **URL**: https://chestaa.com/id/portfolio/dashboard-kafe
+- **Status**: Proyek internal CHESTAADOTCOM (internal: true, year: 2026)
+- **Peran / Role**: Desain, pengembangan, dan pengujian
+- **Kategori / Category**: Software Custom (F&B)
+- **Ringkasan 1 Kalimat**: Stok bahan, penjualan harian, dan laporan beberapa cabang dalam satu dashboard.
+- **Masalah**: Dashboard Operasional Kafe adalah proyek internal CHESTAADOTCOM yang menunjukkan bagaimana aplikasi web custom menggantikan spreadsheet yang makin berat untuk usaha F&B dengan beberapa cabang.
+- **Solusi**: Staf tiap cabang mencatat stok bahan dan penjualan harian dari HP atau desktop sesuai hak akses perannya, sementara pemilik melihat laporan gabungan yang diperbarui dari data yang sama.
+- **Alur Kerja**:
+  1. Stok Bahan & Penjualan Beberapa Cabang — Menyatukan catatan stok bahan baku dan rekap penjualan harian dari tiap cabang ke dalam satu dashboard.
+  2. Login & Hak Akses per Peran — Memisahkan hak akses antara pemilik, manajer, dan staf cabang agar tiap pengguna hanya mengakses bagian kerjanya.
+  3. Peringatan Batas Stok Minimum — Menandai bahan baku yang mendekati batas minimum per cabang agar pemesanan ulang tidak terlambat.
+  4. Responsif di HP dan Desktop — Nyaman dibuka oleh staf dapur atau kasir lewat HP maupun oleh pemilik saat memeriksa laporan di laptop.
+  5. Riwayat Perubahan & Ekspor Laporan — Mencatat siapa yang memperbarui angka stok harian dan menyediakan unduhan rekap bulanan.
+- **Target Desain (Target desain)**:
+  - Stok Bahan & Penjualan Beberapa Cabang: Menyatukan catatan stok bahan baku dan rekap penjualan harian dari tiap cabang ke dalam satu dashboard.
+  - Login & Hak Akses per Peran: Memisahkan hak akses antara pemilik, manajer, dan staf cabang agar tiap pengguna hanya mengakses bagian kerjanya.
+  - Peringatan Batas Stok Minimum: Menandai bahan baku yang mendekati batas minimum per cabang agar pemesanan ulang tidak terlambat.
+  - Responsif di HP dan Desktop: Nyaman dibuka oleh staf dapur atau kasir lewat HP maupun oleh pemilik saat memeriksa laporan di laptop.
+  - Riwayat Perubahan & Ekspor Laporan: Mencatat siapa yang memperbarui angka stok harian dan menyediakan unduhan rekap bulanan.
+- **Stack**: Aplikasi Web, Hak Akses Per Peran, Database Terpusat, Dashboard Laporan
+
+### Alur Lead Properti [Proyek internal]
+- **URL**: https://chestaa.com/id/portfolio/lead-properti
+- **Status**: Proyek internal CHESTAADOTCOM (internal: true, year: 2026)
+- **Peran / Role**: Desain, pengembangan, dan pengujian
+- **Kategori / Category**: Otomasi Workflow (Properti)
+- **Ringkasan 1 Kalimat**: Lead dari formulir iklan masuk ke CRM, agen diberi tahu, dan follow-up terjadwal otomatis.
+- **Masalah**: Alur Lead Properti adalah proyek internal CHESTAADOTCOM untuk memperlihatkan otomasi workflow yang menyambungkan formulir iklan properti langsung ke CRM, Google Sheets, dan notifikasi WhatsApp agen.
+- **Solusi**: Tanpa perlu menyalin data calon pembeli secara manual antar aplikasi, setiap formulir yang masuk tercatat otomatis, agen yang bertugas langsung diberi tahu, jadwal follow-up dibuat, dan kegagalan langkah apa pun memicu notifikasi beserta log eksekusi.
+- **Alur Kerja**:
+  1. Formulir Iklan Langsung ke CRM — Mencatat nama, kontak, dan tipe unit yang diminati calon pembeli dari formulir iklan langsung ke CRM tanpa salin manual.
+  2. Pembagian Agen & Notifikasi Instan — Membagi lead ke agen yang bertugas sesuai giliran dan mengirim notifikasi WhatsApp berisi ringkasan minat pembeli.
+  3. Pengingat Follow-Up H+1 dan H+3 — Menjadwalkan pengingat otomatis pada H+1 dan H+3 apabila status lead di CRM belum diperbarui oleh agen.
+  4. Penanganan Kegagalan & Log Eksekusi — Dilengkapi notifikasi kalau ada langkah yang gagal dan log eksekusi yang bisa diperiksa kapan saja.
+- **Target Desain (Target desain)**:
+  - Formulir Iklan Langsung ke CRM: Mencatat nama, kontak, dan tipe unit yang diminati calon pembeli dari formulir iklan langsung ke CRM tanpa salin manual.
+  - Pembagian Agen & Notifikasi Instan: Membagi lead ke agen yang bertugas sesuai giliran dan mengirim notifikasi WhatsApp berisi ringkasan minat pembeli.
+  - Pengingat Follow-Up H+1 dan H+3: Menjadwalkan pengingat otomatis pada H+1 dan H+3 apabila status lead di CRM belum diperbarui oleh agen.
+  - Penanganan Kegagalan & Log Eksekusi: Dilengkapi notifikasi kalau ada langkah yang gagal dan log eksekusi yang bisa diperiksa kapan saja.
+- **Stack**: Formulir Iklan, CRM & Sheets, Notifikasi WhatsApp, Log Eksekusi
+
+### Landing Page Klinik Estetika [Proyek internal]
+- **URL**: https://chestaa.com/id/portfolio/landing-klinik-estetika
+- **Status**: Proyek internal CHESTAADOTCOM (internal: true, year: 2026)
+- **Peran / Role**: Desain, pengembangan, dan pengujian
+- **Kategori / Category**: Web & Landing Page (Klinik)
+- **Ringkasan 1 Kalimat**: Halaman per perawatan dengan harga mulai dari, jadwal, dan booking via WhatsApp.
+- **Masalah**: Landing Page Klinik Estetika adalah proyek internal CHESTAADOTCOM yang mendemonstrasikan struktur halaman tujuan iklan dan pencarian lokal untuk klinik perawatan.
+- **Solusi**: Setiap halaman perawatan disusun untuk menjawab pertanyaan calon pasien sebelum mereka bertanya—mulai dari penjelasan tindakan, harga mulai dari, hingga jadwal praktik—lengkap dengan tombol booking via WhatsApp tanpa banyak langkah.
+- **Alur Kerja**:
+  1. Halaman Khusus per Perawatan — Menampilkan informasi perawatan, harga mulai dari, dan jadwal praktik dengan satu tujuan jelas.
+  2. Cepat Dibuka di HP — Halaman dibuat statis, gambar dikompres dengan ukuran tepat, dan skrip dipasang seperlunya.
+  3. SEO Dasar & Data Terstruktur — Dilengkapi judul dan deskripsi halaman, struktur heading rapi, sitemap, dan data terstruktur.
+  4. Tombol Booking WhatsApp Terisi Otomatis — Menyertakan pesan awal di tombol WhatsApp sesuai halaman perawatan yang sedang dibuka pengunjung.
+- **Target Desain (Target desain)**:
+  - Halaman Khusus per Perawatan: Menampilkan informasi perawatan, harga mulai dari, dan jadwal praktik dengan satu tujuan jelas.
+  - Cepat Dibuka di HP: Halaman dibuat statis, gambar dikompres dengan ukuran tepat, dan skrip dipasang seperlunya.
+  - SEO Dasar & Data Terstruktur: Dilengkapi judul dan deskripsi halaman, struktur heading rapi, sitemap, dan data terstruktur.
+  - Tombol Booking WhatsApp Terisi Otomatis: Menyertakan pesan awal di tombol WhatsApp sesuai halaman perawatan yang sedang dibuka pengunjung.
+- **Stack**: Halaman Statis, Optimasi Gambar, Data Terstruktur, Tombol WhatsApp
+
+### Membangun ulang chestaa.com [Proyek internal]
+- **URL**: https://chestaa.com/id/portfolio/chestaa-v2
+- **Status**: Proyek internal CHESTAADOTCOM (internal: true, year: 2026)
+- **Peran / Role**: Desain, pengembangan, dan pengujian
+- **Kategori / Category**: Web & Landing Page (Agensi (situs sendiri))
+- **Ringkasan 1 Kalimat**: Situs dua bahasa yang statis dan cepat, dibangun ulang dengan fokus software dan AI agent.
+- **Masalah**: Membangun ulang chestaa.com adalah proyek internal situs kami sendiri di CHESTAADOTCOM, dirancang sebagai situs dua bahasa (/id dan /en) yang statis, cepat dibuka di HP, dan berfokus pada layanan pembuatan website, AI agent, software custom, serta otomasi workflow.
+- **Solusi**: Setiap halaman layanan dan area lokal diawali dengan ringkasan singkat yang langsung menjawab pertanyaan pembaca, dilengkapi struktur heading yang rapi, data terstruktur JSON-LD @graph, serta berkas sitemap dan llms.txt.
+- **Alur Kerja**:
+  1. Situs Dua Bahasa (/id dan /en) — Seluruh halaman layanan, area lokal, studi kasus, dan proyek internal tersedia dalam bahasa Indonesia dan Inggris secara 1:1.
+  2. Ringkasan Singkat & Data Terstruktur — Menempatkan ringkasan 40–60 kata tepat setelah hero dan menyertakan satu grafik JSON-LD lengkap di setiap halaman.
+  3. Konten Terbaca Tanpa JavaScript — Teks utama, tab contoh penggunaan, dan FAQ tetap utuh di HTML dan diuji untuk kecepatan muat di HP.
+  4. Sistem Gerak yang Tenang & Hemat Perangkat — Animasi dibatasi pada properti ringan, menghormati pengaturan pengurangan gerak pengguna, dan menyesuaikan kemampuan perangkat.
+- **Target Desain (Target desain)**:
+  - Situs Dua Bahasa (/id dan /en): Seluruh halaman layanan, area lokal, studi kasus, dan proyek internal tersedia dalam bahasa Indonesia dan Inggris secara 1:1.
+  - Ringkasan Singkat & Data Terstruktur: Menempatkan ringkasan 40–60 kata tepat setelah hero dan menyertakan satu grafik JSON-LD lengkap di setiap halaman.
+  - Konten Terbaca Tanpa JavaScript: Teks utama, tab contoh penggunaan, dan FAQ tetap utuh di HTML dan diuji untuk kecepatan muat di HP.
+  - Sistem Gerak yang Tenang & Hemat Perangkat: Animasi dibatasi pada properti ringan, menghormati pengaturan pengurangan gerak pengguna, dan menyesuaikan kemampuan perangkat.
+- **Stack**: Arsitektur Dua Bahasa, JSON-LD @graph, Sitemap & llms.txt, Core Web Vitals
+
+### Pemroses Dokumen AI [Proyek internal]
+- **URL**: https://chestaa.com/id/portfolio/pemroses-dokumen
+- **Status**: Proyek internal CHESTAADOTCOM (internal: true, year: 2026)
+- **Peran / Role**: Desain, pengembangan, dan pengujian
+- **Kategori / Category**: AI Agent & Software Custom (Jasa profesional)
+- **Ringkasan 1 Kalimat**: Mengekstrak data dari dokumen ke tabel, dengan tinjauan manusia sebelum data dipakai.
+- **Masalah**: Pemroses Dokumen AI adalah proyek internal CHESTAADOTCOM yang menggabungkan pemroses dokumen berbasis AI dengan antarmuka tabel web custom untuk tim jasa profesional yang setiap hari menyalin isi dokumen ke tabel.
+- **Solusi**: Alih-alih langsung memakai hasil bacaan AI tanpa pemeriksaan, sistem menempatkan data hasil ekstraksi ke layar tinjauan supaya staf manusia bisa memeriksa, mengoreksi bila perlu, dan menyetujui baris data sebelum dipakai.
+- **Alur Kerja**:
+  1. Ekstraksi Isi Dokumen ke Baris Tabel — Membaca kolom penting dari dokumen yang diunggah dan menyusunnya ke dalam struktur tabel yang seragam.
+  2. Tinjauan Manusia Sebelum Data Dipakai — Staf memeriksa hasil bacaan berdampingan dengan dokumen asli dan memberi persetujuan sebelum data disimpan.
+  3. Penandaan Kolom yang Perlu Diperiksa — Menyorot baris atau kolom yang kurang jelas agar staf langsung fokus memeriksa bagian tersebut.
+  4. Catatan Persetujuan & Koreksi — Mencatat siapa yang meninjau, mengoreksi, dan menyetujui setiap dokumen di dalam log aplikasi.
+- **Target Desain (Target desain)**:
+  - Ekstraksi Isi Dokumen ke Baris Tabel: Membaca kolom penting dari dokumen yang diunggah dan menyusunnya ke dalam struktur tabel yang seragam.
+  - Tinjauan Manusia Sebelum Data Dipakai: Staf memeriksa hasil bacaan berdampingan dengan dokumen asli dan memberi persetujuan sebelum data disimpan.
+  - Penandaan Kolom yang Perlu Diperiksa: Menyorot baris atau kolom yang kurang jelas agar staf langsung fokus memeriksa bagian tersebut.
+  - Catatan Persetujuan & Koreksi: Mencatat siapa yang meninjau, mengoreksi, dan menyetujui setiap dokumen di dalam log aplikasi.
+- **Stack**: Ekstraksi Dokumen AI, Tabel Tinjauan Manusia, Hak Akses Peran, Log Tindakan
+
+---
+
+## 5. 6 Internal CHESTAADOTCOM Projects — English
+
+### WA Concierge: WhatsApp booking agent for clinics [Internal project]
+- **URL**: https://chestaa.com/en/portfolio/wa-concierge-klinik
+- **Status**: CHESTAADOTCOM internal project (internal: true, year: 2026)
+- **Peran / Role**: Design, development, and testing
+- **Kategori / Category**: AI Agent (Clinic)
+- **Ringkasan 1 Kalimat**: Answers treatment questions, checks therapist slots, and creates bookings from WhatsApp conversations.
+- **Masalah**: WA Concierge is a CHESTAADOTCOM internal project built to demonstrate how an AI agent handles incoming treatment inquiries on WhatsApp, checks therapist calendar availability, creates bookings, logs patient details into a CRM, and sends day-before reminders.
+- **Solusi**: The system includes clear action boundaries and human handover: sensitive questions or special requests outside standard rules are forwarded to clinic staff together with a concise conversation summary, and every action is recorded in an inspectable log.
+- **Alur Kerja**:
+  1. Intent Reading & Treatment Catalog Matching — Reads everyday WhatsApp inquiries from prospective patients and matches them against treatment durations, preparation rules, and starting prices.
+  2. Therapist Calendar Slot Check — Checks available therapist time slots before offering schedule options in the WhatsApp chat.
+  3. Action Boundaries & Staff Handover — Follows explicit rules on what the agent may do and hands off sensitive cases to staff with a chat summary.
+  4. Booking Confirmation & Day-Before Reminder — Creates the booking, records it in the CRM, and schedules a day-before reminder message.
+  5. Complete Action Log — Every tool call and message step is logged so clinic owners and admins can inspect what happened at any time.
+- **Target Desain (Design target)**:
+  - Intent Reading & Treatment Catalog Matching: Reads everyday WhatsApp inquiries from prospective patients and matches them against treatment durations, preparation rules, and starting prices.
+  - Therapist Calendar Slot Check: Checks available therapist time slots before offering schedule options in the WhatsApp chat.
+  - Action Boundaries & Staff Handover: Follows explicit rules on what the agent may do and hands off sensitive cases to staff with a chat summary.
+  - Booking Confirmation & Day-Before Reminder: Creates the booking, records it in the CRM, and schedules a day-before reminder message.
+  - Complete Action Log: Every tool call and message step is logged so clinic owners and admins can inspect what happened at any time.
+- **Stack**: WhatsApp Business Platform, Calendar Tool, CRM Database, Action Log
+
+### Cafe Operations Dashboard [Internal project]
+- **URL**: https://chestaa.com/en/portfolio/dashboard-kafe
+- **Status**: CHESTAADOTCOM internal project (internal: true, year: 2026)
+- **Peran / Role**: Design, development, and testing
+- **Kategori / Category**: Custom Software (F&B)
+- **Ringkasan 1 Kalimat**: Ingredient stock, daily sales, and multi-branch reports in a single dashboard.
+- **Masalah**: Cafe Operations Dashboard is a CHESTAADOTCOM internal project showing how custom web software replaces heavy, error-prone spreadsheets for F&B businesses managing multiple branches.
+- **Solusi**: Branch staff record daily stock counts and sales from mobile or desktop screens with role-based permissions, while the owner views consolidated daily reports and low-ingredient alerts from the same data source.
+- **Alur Kerja**:
+  1. Multi-Branch Stock & Sales View — Combines ingredient stock levels and daily sales across branches into one web dashboard.
+  2. Role-Based Login & Permissions — Separates access rights between owners, managers, and branch staff so each user sees only their tasks.
+  3. Minimum Stock Threshold Alerts — Flags raw ingredients approaching minimum levels per branch so restocking happens on time.
+  4. Responsive on Mobile & Desktop — Built so kitchen and cashier staff can input stock counts from a phone while owners review reports on a laptop.
+  5. Input Audit Trail & Report Export — Records who updated daily stock figures and provides downloadable monthly summaries.
+- **Target Desain (Design target)**:
+  - Multi-Branch Stock & Sales View: Combines ingredient stock levels and daily sales across branches into one web dashboard.
+  - Role-Based Login & Permissions: Separates access rights between owners, managers, and branch staff so each user sees only their tasks.
+  - Minimum Stock Threshold Alerts: Flags raw ingredients approaching minimum levels per branch so restocking happens on time.
+  - Responsive on Mobile & Desktop: Built so kitchen and cashier staff can input stock counts from a phone while owners review reports on a laptop.
+  - Input Audit Trail & Report Export: Records who updated daily stock figures and provides downloadable monthly summaries.
+- **Stack**: Web Application, Role-Based Access, Database, Reporting Dashboard
+
+### Property Lead Flow [Internal project]
+- **URL**: https://chestaa.com/en/portfolio/lead-properti
+- **Status**: CHESTAADOTCOM internal project (internal: true, year: 2026)
+- **Peran / Role**: Design, development, and testing
+- **Kategori / Category**: Workflow Automation (Property)
+- **Ringkasan 1 Kalimat**: Leads from ad forms enter the CRM, agents are notified, and follow-ups are scheduled automatically.
+- **Masalah**: Property Lead Flow is a CHESTAADOTCOM internal project built to demonstrate workflow automation connecting property inquiry forms directly to a CRM, Google Sheets, and WhatsApp notifications for sales agents.
+- **Solusi**: Instead of copying buyer data manually between apps, every incoming inquiry is logged, the assigned agent is notified immediately, follow-up reminders are scheduled, and any failed step triggers an alert with an inspectable execution log.
+- **Alur Kerja**:
+  1. Direct Ad Form to CRM Entry — Captures prospective buyer details and unit interest from forms and writes them directly to the CRM.
+  2. Agent Assignment & Instant Alert — Assigns incoming leads to the on-duty agent in rotation and sends a WhatsApp alert with buyer summary.
+  3. Automated H+1 and H+3 Follow-Up Reminders — Schedules automatic reminders on Day+1 and Day+3 if the lead status in the CRM has not been updated.
+  4. Error Handling & Failure Alerts — Includes failure notifications and execution logs so any third-party tool issue is caught early.
+- **Target Desain (Design target)**:
+  - Direct Ad Form to CRM Entry: Captures prospective buyer details and unit interest from forms and writes them directly to the CRM.
+  - Agent Assignment & Instant Alert: Assigns incoming leads to the on-duty agent in rotation and sends a WhatsApp alert with buyer summary.
+  - Automated H+1 and H+3 Follow-Up Reminders: Schedules automatic reminders on Day+1 and Day+3 if the lead status in the CRM has not been updated.
+  - Error Handling & Failure Alerts: Includes failure notifications and execution logs so any third-party tool issue is caught early.
+- **Stack**: Ad Form Webhook, CRM & Sheets, WhatsApp Notification, Execution Log
+
+### Aesthetic Clinic Landing Page [Internal project]
+- **URL**: https://chestaa.com/en/portfolio/landing-klinik-estetika
+- **Status**: CHESTAADOTCOM internal project (internal: true, year: 2026)
+- **Peran / Role**: Design, development, and testing
+- **Kategori / Category**: Web & Landing Page (Clinic)
+- **Ringkasan 1 Kalimat**: Dedicated page per treatment with starting prices, practice hours, and booking via WhatsApp.
+- **Masalah**: Aesthetic Clinic Landing Page is a CHESTAADOTCOM internal project demonstrating a fast, mobile-friendly landing page structure for clinics running ads or local search campaigns.
+- **Solusi**: Each treatment page answers common prospective patient questions upfront—what the treatment is, starting prices, practice hours, and location—paired with a direct WhatsApp booking button so visitors can book without extra steps.
+- **Alur Kerja**:
+  1. Dedicated Page per Treatment — Presents clear treatment details, starting price notes, and practice hours so visitors understand the offer immediately.
+  2. Fast Mobile Loading & Image Compression — Static pages with properly sized images and minimal scripts tested on phones and PageSpeed Insights.
+  3. Foundational SEO & Structured Data — Includes page titles, meta descriptions, heading structure, sitemap, and structured data.
+  4. Pre-Filled WhatsApp Booking Buttons — Attaches a context-specific opening message to each WhatsApp CTA based on the treatment page viewed.
+- **Target Desain (Design target)**:
+  - Dedicated Page per Treatment: Presents clear treatment details, starting price notes, and practice hours so visitors understand the offer immediately.
+  - Fast Mobile Loading & Image Compression: Static pages with properly sized images and minimal scripts tested on phones and PageSpeed Insights.
+  - Foundational SEO & Structured Data: Includes page titles, meta descriptions, heading structure, sitemap, and structured data.
+  - Pre-Filled WhatsApp Booking Buttons: Attaches a context-specific opening message to each WhatsApp CTA based on the treatment page viewed.
+- **Stack**: Static HTML/CSS, Image Optimization, Structured Data, WhatsApp CTA
+
+### Rebuilding chestaa.com [Internal project]
+- **URL**: https://chestaa.com/en/portfolio/chestaa-v2
+- **Status**: CHESTAADOTCOM internal project (internal: true, year: 2026)
+- **Peran / Role**: Design, development, and testing
+- **Kategori / Category**: Web & Landing Page (Agency (own site))
+- **Ringkasan 1 Kalimat**: A fast, static bilingual site rebuilt with a focus on custom software and AI agents.
+- **Masalah**: Rebuilding chestaa.com is our own internal website project at CHESTAADOTCOM, engineered as a fast, static bilingual (/id and /en) site focused on website development, AI agents, custom software, and workflow automation.
+- **Solusi**: Every service and local area page leads with a direct 40–60 word summary, complete structured data (@graph JSON-LD), reciprocal hreflang links, and restrained motion that respects reduced-motion and low-spec devices.
+- **Alur Kerja**:
+  1. Bilingual /id and /en Architecture — 1:1 Indonesian and English pages with reciprocal hreflang tags, localized slugs, and clean sitemap generation.
+  2. Answer-First Structure & Unified JSON-LD — Every service and area page starts with a concise summary and outputs a connected Schema.org @graph.
+  3. Minimal Scripts & High Mobile Speed — Content is visible without JavaScript, images are optimized, and interactive tabs and FAQs stay lightweight.
+  4. Calm & Device-Aware Motion System — Animations are limited to lightweight properties, honor reduced-motion preferences, and adapt to device capability.
+- **Target Desain (Design target)**:
+  - Bilingual /id and /en Architecture: 1:1 Indonesian and English pages with reciprocal hreflang tags, localized slugs, and clean sitemap generation.
+  - Answer-First Structure & Unified JSON-LD: Every service and area page starts with a concise summary and outputs a connected Schema.org @graph.
+  - Minimal Scripts & High Mobile Speed: Content is visible without JavaScript, images are optimized, and interactive tabs and FAQs stay lightweight.
+  - Calm & Device-Aware Motion System: Animations are limited to lightweight properties, honor reduced-motion preferences, and adapt to device capability.
+- **Stack**: Bilingual Static Architecture, JSON-LD @graph, Sitemap & llms.txt, Core Web Vitals
+
+### AI Document Processor [Internal project]
+- **URL**: https://chestaa.com/en/portfolio/pemroses-dokumen
+- **Status**: CHESTAADOTCOM internal project (internal: true, year: 2026)
+- **Peran / Role**: Design, development, and testing
+- **Kategori / Category**: AI Agent & Custom Software (Professional services)
+- **Ringkasan 1 Kalimat**: Extracts data from documents into tables, with human review before the data is used.
+- **Masalah**: AI Document Processor is a CHESTAADOTCOM internal project combining an AI extraction pipeline with a custom web review table for professional service teams that process incoming invoices, forms, or supporting documents.
+- **Solusi**: Instead of writing extracted fields straight into production records, the system places extracted values into a staging table where a staff member reviews, edits if needed, and approves the row before the data is used.
+- **Alur Kerja**:
+  1. Structured Field Extraction to Tables — Reads uploaded documents and maps key fields (names, dates, line items, totals) into structured table rows.
+  2. Mandatory Human Review Before Use — Staff inspect extracted rows side-by-side with the source document and approve before data enters the main system.
+  3. Uncertain Field Highlighting — Flags low-clarity fields so reviewers can focus immediately on items that need verification.
+  4. Revision & Approval Log — Records who reviewed, edited, and approved each document row for clear internal accountability.
+- **Target Desain (Design target)**:
+  - Structured Field Extraction to Tables: Reads uploaded documents and maps key fields (names, dates, line items, totals) into structured table rows.
+  - Mandatory Human Review Before Use: Staff inspect extracted rows side-by-side with the source document and approve before data enters the main system.
+  - Uncertain Field Highlighting: Flags low-clarity fields so reviewers can focus immediately on items that need verification.
+  - Revision & Approval Log: Records who reviewed, edited, and approved each document row for clear internal accountability.
+- **Stack**: AI Document Extraction, Human Review Table, Role Access, Audit Log
+
+---
+
+## 6. 5 Studi Kasus Proyek Internal CHESTAADOTCOM — Bahasa Indonesia (/id/studi-kasus/*)
+
+### WA Concierge: merancang agen booking untuk klinik [Proyek internal]
+- **URL**: https://chestaa.com/id/studi-kasus/wa-concierge-klinik
+- **Status**: Proyek internal CHESTAADOTCOM (internal: true, year: 2026)
+- **Penulis / Author**: Chesta Azka (Co-founder (arsitektur, produk, teknologi))
+- **Industri / Industry**: Klinik (AI Agent)
+- **Masalah / Problem**: Klinik kecil menerima pesan WhatsApp sepanjang hari, termasuk malam, dan satu admin harus menjawab pertanyaan yang sama sambil mengurus jadwal.
+- **Yang Dibangun / What We Built**: Agen yang memahami maksud pesan, mengecek kalender terapis, membuat booking, mengirim konfirmasi dan pengingat, lalu menyerahkan kasus di luar aturan ke staf.
+- **Target desain, bukan hasil klien**:
+  - **Waktu respons awal**: < 10 detik (Target untuk pesan di jam sibuk dan malam)
+  - **Serah ke manusia**: Otomatis dengan ringkasan (Saat pertanyaan di luar aturan)
+  - **Pengingat jadwal**: H-1 via WhatsApp (Mengurangi jadwal terlewat)
+
+### Membangun ulang chestaa.com sebagai situs statis dua bahasa [Proyek internal]
+- **URL**: https://chestaa.com/id/studi-kasus/chestaa-v2
+- **Status**: Proyek internal CHESTAADOTCOM (internal: true, year: 2026)
+- **Penulis / Author**: Chesta Azka (Co-founder (arsitektur, produk, teknologi))
+- **Industri / Industry**: Agensi (situs sendiri) (Web & Landing Page)
+- **Masalah / Problem**: Versi awal situs terlalu berat di animasi dan kurang jelas menjelaskan layanan baru kami di AI agent dan software custom.
+- **Yang Dibangun / What We Built**: Situs statis dua bahasa (/id dan /en) dengan desain putih-ungu yang tenang, halaman layanan dan area lokal yang terstruktur, serta waktu muat cepat di HP.
+- **Target desain, bukan hasil klien**:
+  - **LCP di HP**: < 1,8 detik (Target pada koneksi 4G)
+  - **CLS**: < 0,02 (Tanpa pergeseran layout)
+  - **Bahasa**: 2 (/id dan /en) (Hreflang timbal balik)
+
+### Alur lead properti: dari formulir iklan ke follow-up agen [Proyek internal]
+- **URL**: https://chestaa.com/id/studi-kasus/lead-properti
+- **Status**: Proyek internal CHESTAADOTCOM (internal: true, year: 2026)
+- **Penulis / Author**: Zeeshan (Co-founder (operasional dan client success))
+- **Industri / Industry**: Properti (Otomasi Workflow)
+- **Masalah / Problem**: Lead dari iklan masuk ke spreadsheet lalu disalin manual ke WhatsApp agen; banyak yang terlambat dihubungi.
+- **Yang Dibangun / What We Built**: Alur otomatis yang mencatat lead ke CRM, membagi ke agen yang bertugas, mengirim notifikasi WhatsApp, dan menjadwalkan pengingat follow-up.
+- **Target desain, bukan hasil klien**:
+  - **Notifikasi ke agen**: < 1 menit (Target sejak formulir dikirim)
+  - **Jadwal follow-up**: H+1 dan H+3 (Pengingat otomatis jika belum direspons)
+  - **Pencatatan manual**: 0 langkah (Langsung dari formulir ke CRM)
+
+### Dashboard operasional kafe: dari spreadsheet harian ke satu tampilan [Proyek internal]
+- **URL**: https://chestaa.com/id/studi-kasus/dashboard-kafe
+- **Status**: Proyek internal CHESTAADOTCOM (internal: true, year: 2026)
+- **Penulis / Author**: Chesta Azka (Co-founder (arsitektur, produk, teknologi))
+- **Industri / Industry**: F&B (Software Custom)
+- **Masalah / Problem**: Pemilik kafe dengan beberapa cabang merekap penjualan dan stok dari beberapa spreadsheet, sehingga laporan terlambat dan angkanya sering tidak cocok.
+- **Yang Dibangun / What We Built**: Dashboard web yang menyatukan penjualan harian, stok bahan, dan laporan per cabang, dengan hak akses untuk pemilik, manajer, dan staf.
+- **Target desain, bukan hasil klien**:
+  - **Ketersediaan laporan harian**: Tanpa rekap manual (Terkompilasi otomatis setelah tutup shift kasir)
+  - **Peringatan stok menipis**: Sebelum bahan habis (Memicu peringatan saat stok di bawah batas aman)
+  - **Konsolidasi multi-cabang**: 1 sumber data terpusat (Menghapus konflik versi antar spreadsheet cabang)
+
+### Pemroses Dokumen AI: ekstraksi data dengan tinjauan manusia [Proyek internal]
+- **URL**: https://chestaa.com/id/studi-kasus/pemroses-dokumen
+- **Status**: Proyek internal CHESTAADOTCOM (internal: true, year: 2026)
+- **Penulis / Author**: Chesta Azka (Co-founder (arsitektur, produk, teknologi))
+- **Industri / Industry**: Jasa profesional (AI Agent & Software Custom)
+- **Masalah / Problem**: Firma jasa profesional menerima puluhan format invoice, bukti potong pajak, dan kontrak per minggu, lalu menyalin angka secara manual dengan risiko salah ketik tinggi.
+- **Yang Dibangun / What We Built**: Sistem ekstraksi dokumen berbasis AI dengan antarmuka web layar terbagi, di mana manusia memeriksa dan menyetujui data sebelum masuk ke database.
+- **Target desain, bukan hasil klien**:
+  - **Penandaan data meragukan**: Selalu ditandai (Tingkat keyakinan < 95% otomatis disorot kuning untuk ditinjau)
+  - **Pintu persetujuan manusia**: Wajib persetujuan (0 baris data masuk tabel akhir tanpa klik persetujuan staf)
+  - **Jejak riwayat koreksi**: 100% tercatat (Mencatat identitas staf, nilai awal AI, dan waktu perubahan)
+
+---
+
+## 7. 5 Internal CHESTAADOTCOM Case Studies — English (/en/case-studies/*)
+
+### WA Concierge: designing a booking agent for clinics [Internal project]
+- **URL**: https://chestaa.com/en/case-studies/wa-concierge-klinik
+- **Status**: CHESTAADOTCOM internal project (internal: true, year: 2026)
+- **Penulis / Author**: Chesta Azka (Co-founder (architecture, product, technology))
+- **Industri / Industry**: Clinic (AI Agent)
+- **Masalah / Problem**: Small clinics receive WhatsApp messages all day, including at night, and a single admin has to answer the same questions while managing the schedule.
+- **Yang Dibangun / What We Built**: An agent that understands message intent, checks the therapist calendar, creates bookings, sends confirmations and reminders, and hands off out-of-rule cases to staff.
+- **Design target, not client results**:
+  - **Initial response time**: < 10 seconds (Target for busy hours and evening messages)
+  - **Human handover**: Automatic with summary (When a question falls outside defined rules)
+  - **Schedule reminder**: H-1 via WhatsApp (Reduces missed appointments)
+
+### Rebuilding chestaa.com as a static bilingual site [Internal project]
+- **URL**: https://chestaa.com/en/case-studies/chestaa-v2
+- **Status**: CHESTAADOTCOM internal project (internal: true, year: 2026)
+- **Penulis / Author**: Chesta Azka (Co-founder (architecture, product, technology))
+- **Industri / Industry**: Agency (own site) (Web & Landing Page)
+- **Masalah / Problem**: The early version of our site was too heavy on animations and did not clearly explain our newer services in AI agents and custom software.
+- **Yang Dibangun / What We Built**: A static bilingual site (/id and /en) with a calm purple-on-white design, structured service and local area pages, and fast mobile loading times.
+- **Design target, not client results**:
+  - **Mobile LCP**: < 1.8 seconds (Target on a 4G connection)
+  - **CLS**: < 0.02 (Zero layout shift)
+  - **Languages**: 2 (/id and /en) (Reciprocal hreflang)
+
+### Property lead flow: from ad form to agent follow-up [Internal project]
+- **URL**: https://chestaa.com/en/case-studies/lead-properti
+- **Status**: CHESTAADOTCOM internal project (internal: true, year: 2026)
+- **Penulis / Author**: Zeeshan (Co-founder (operations and client success))
+- **Industri / Industry**: Property (Workflow Automation)
+- **Masalah / Problem**: Leads from ads land in a spreadsheet and are copied manually to agents on WhatsApp; many are contacted too late.
+- **Yang Dibangun / What We Built**: An automated flow that logs leads into the CRM, assigns the on-duty agent, sends a WhatsApp notification, and schedules follow-up reminders.
+- **Design target, not client results**:
+  - **Agent notification**: < 1 minute (Target from form submission)
+  - **Follow-up schedule**: H+1 and H+3 (Automatic reminder if not yet contacted)
+  - **Manual logging**: 0 steps (Directly from form to CRM)
+
+### Cafe operational dashboard: from daily spreadsheets to a single view [Internal project]
+- **URL**: https://chestaa.com/en/case-studies/dashboard-kafe
+- **Status**: CHESTAADOTCOM internal project (internal: true, year: 2026)
+- **Penulis / Author**: Chesta Azka (Co-founder (architecture, product, technology))
+- **Industri / Industry**: F&B (Custom Software)
+- **Masalah / Problem**: A multi-branch cafe owner reconciled sales and stock across multiple spreadsheets, causing delayed reports and frequent figure mismatches.
+- **Yang Dibangun / What We Built**: A web dashboard unifying daily sales, ingredient stock, and branch reports, with role-based access for owners, managers, and staff.
+- **Design target, not client results**:
+  - **Daily report availability**: Without manual reconciliation (Compiled automatically following shift close)
+  - **Low inventory alerts**: Before ingredients run out (Triggers alerts when stock falls below safety buffer)
+  - **Multi-branch consolidation**: 1 centralized data source (Eliminates version conflicts across branch sheets)
+
+### AI Document Processor: data extraction with human review [Internal project]
+- **URL**: https://chestaa.com/en/case-studies/pemroses-dokumen
+- **Status**: CHESTAADOTCOM internal project (internal: true, year: 2026)
+- **Penulis / Author**: Chesta Azka (Co-founder (architecture, product, technology))
+- **Industri / Industry**: Professional services (AI Agent & Custom Software)
+- **Masalah / Problem**: A professional services firm receives dozens of invoice formats, tax withholdings, and contracts weekly, copying figures manually with high typo risks.
+- **Yang Dibangun / What We Built**: An AI-driven document extraction system with a split-screen web interface where humans inspect and approve data before it enters the database.
+- **Design target, not client results**:
+  - **Uncertain data markers**: Always flagged (Confidence scores < 95% highlighted in yellow for review)
+  - **Human approval gate**: Mandatory approval (0 rows committed to final tables without a staff click)
+  - **Audit correction trail**: 100% recorded (Tracks reviewer identity, original AI text, and timestamp)
+
+---
+
+## 8. 5 Area Layanan Indexable (/id/area & /en/areas)
+
+- **Tangerang Selatan (South Tangerang)**: Kota di Provinsi Banten yang berbatasan dengan Jakarta Selatan, Depok, Kota Tangerang, dan Kabupaten Tangerang, terdiri dari tujuh kecamatan dengan campuran kawasan perumahan, kampus, dan pusat komersial.
+  - ID Website: https://chestaa.com/id/jasa/pembuatan-website/tangerang-selatan
+  - ID AI Agent: https://chestaa.com/id/jasa/ai-agent/tangerang-selatan
+  - EN Website: https://chestaa.com/en/services/website-development/tangerang-selatan
+  - EN AI Agent: https://chestaa.com/en/services/ai-agents/tangerang-selatan
+- **BSD City (BSD City)**: Kawasan kota mandiri di Serpong, Tangerang Selatan dengan pusat belanja seperti AEON Mall BSD City dan The Breeze, kawasan perkantoran, serta ICE BSD sebagai pusat pameran.
+  - ID Website: https://chestaa.com/id/jasa/pembuatan-website/bsd-city
+  - ID AI Agent: https://chestaa.com/id/jasa/ai-agent/bsd-city
+  - EN Website: https://chestaa.com/en/services/website-development/bsd-city
+  - EN AI Agent: https://chestaa.com/en/services/ai-agents/bsd-city
+- **Pamulang (Pamulang)**: Kecamatan padat penduduk di Tangerang Selatan tempat Universitas Pamulang berada, dengan banyak usaha kos-kosan, tempat makan, bimbel dan kursus, toko online, bengkel, dan laundry.
+  - ID Website: https://chestaa.com/id/jasa/pembuatan-website/pamulang
+  - ID AI Agent: https://chestaa.com/id/jasa/ai-agent/pamulang
+  - EN Website: https://chestaa.com/en/services/website-development/pamulang
+  - EN AI Agent: https://chestaa.com/en/services/ai-agents/pamulang
+- **Jurang Mangu (Jurang Mangu)**: Kelurahan di Kecamatan Pondok Aren, Tangerang Selatan di sekitar kawasan Bintaro, berupa permukiman padat dengan praktik dokter, kuliner, jasa renovasi, dan kursus.
+  - ID Website: https://chestaa.com/id/jasa/pembuatan-website/jurang-mangu
+  - ID AI Agent: https://chestaa.com/id/jasa/ai-agent/jurang-mangu
+  - EN Website: https://chestaa.com/en/services/website-development/jurang-mangu
+  - EN AI Agent: https://chestaa.com/en/services/ai-agents/jurang-mangu
+- **Lebak Bulus (Lebak Bulus)**: Kelurahan di Kecamatan Cilandak, Jakarta Selatan di sisi barat daya Jakarta dekat perbatasan Tangerang Selatan; lokasi Stasiun MRT Jakarta Lebak Bulus dengan banyak komuter, kafe, jasa profesional, dan bisnis online.
+  - ID Website: https://chestaa.com/id/jasa/pembuatan-website/lebak-bulus
+  - ID AI Agent: https://chestaa.com/id/jasa/ai-agent/lebak-bulus
+  - EN Website: https://chestaa.com/en/services/website-development/lebak-bulus
+  - EN AI Agent: https://chestaa.com/en/services/ai-agents/lebak-bulus

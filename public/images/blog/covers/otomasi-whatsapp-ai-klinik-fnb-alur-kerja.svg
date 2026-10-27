@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900" fill="none" role="img" aria-label="Alur pesan masuk WhatsApp pelanggan klinik dan F&amp;B yang tersinkronisasi otomatis ke kisi slot jadwal kalender reservasi">
+  <defs>
+    <pattern id="grid64" width="64" height="64" patternUnits="userSpaceOnUse">
+      <path d="M 64 0 L 0 0 0 64" fill="none" stroke="#17122B" stroke-width="1" stroke-opacity="0.04" />
+    </pattern>
+    <radialGradient id="purpleGlow" cx="340" cy="230" r="620" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#B9A2F2" stop-opacity="0.42" />
+      <stop offset="55%" stop-color="#EFEAFB" stop-opacity="0.18" />
+      <stop offset="100%" stop-color="#F8F6FE" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+  <rect width="1600" height="900" fill="#F8F6FE" />
+  <rect width="1600" height="900" fill="url(#purpleGlow)" />
+  <rect width="1600" height="900" fill="url(#grid64)" />
+  <g key="anchor-0">
+        <rect x="116" y="96" width="220" height="130" rx="14" fill="#2B1763" stroke="#DED8F2" stroke-width="1" />
+        <rect x="134" y="116" width="160" height="10" rx="5" fill="#B9A2F2" />
+             <rect x="134" y="136" width="120" height="8" rx="4" fill="#EFEAFB" fill-opacity="0.45" />
+      </g>
+<g key="anchor-1">
+        <rect x="1240" y="640" width="230" height="140" rx="14" fill="#EFEAFB" stroke="#DED8F2" stroke-width="1" />
+        <rect x="1258" y="660" width="170" height="10" rx="5" fill="#5230B0" />
+             <rect x="1258" y="680" width="130" height="8" rx="4" fill="#17122B" fill-opacity="0.25" />
+      </g>
+<g key="anchor-2">
+        <rect x="568" y="64" width="340" height="48" rx="14" fill="#2B1763" stroke="#DED8F2" stroke-width="1" />
+        <rect x="586" y="84" width="280" height="10" rx="5" fill="#B9A2F2" />
+             <rect x="586" y="104" width="240" height="8" rx="4" fill="#EFEAFB" fill-opacity="0.45" />
+      </g>
+<line x1="160" y1="285" x2="560" y2="330" stroke="#C5B8EC" stroke-width="1" stroke-dasharray="4 4" />
+<line x1="1421" y1="240" x2="1040" y2="330" stroke="#C5B8EC" stroke-width="1" stroke-dasharray="none" />
+<line x1="155" y1="642" x2="560" y2="330" stroke="#C5B8EC" stroke-width="1" stroke-dasharray="4 4" />
+<g>
+        <circle cx="160" cy="285" r="20" fill="#6A3FD0" stroke="#17122B" stroke-width="1" />
+        <circle cx="160" cy="285" r="4" fill="#FFFFFF" />
+      </g>
+<g>
+        <circle cx="1421" cy="240" r="14" fill="#FFFFFF" stroke="#C5B8EC" stroke-width="1" />
+        <circle cx="1421" cy="240" r="4" fill="#6A3FD0" />
+      </g>
+<g>
+        <circle cx="155" cy="642" r="14" fill="#FFFFFF" stroke="#C5B8EC" stroke-width="1" />
+        <circle cx="155" cy="642" r="4" fill="#6A3FD0" />
+      </g>
+  <g transform="rotate(-3 800 450)">
+    <g>
+        <rect x="270" y="180" width="1060" height="540" rx="24" fill="#FFFFFF" stroke="#C5B8EC" stroke-width="1" />
+        <!-- Left Chat Stream -->
+        <rect x="315" y="230" width="420" height="440" rx="18" fill="#F8F6FE" stroke="#C5B8EC" />
+        <rect x="345" y="265" width="290" height="78" rx="16" fill="#17122B" />
+        <rect x="415" y="368" width="290" height="82" rx="16" fill="#6A3FD0" />
+        <rect x="345" y="475" width="310" height="78" rx="16" fill="#2B1763" />
+        <rect x="345" y="580" width="360" height="52" rx="12" fill="#FFFFFF" stroke="#C5B8EC" />
+        <!-- Flow Arrow Bridge -->
+        <path d="M 735 450 L 815 450" stroke="#6A3FD0" stroke-width="6" />
+        <circle cx="775" cy="450" r="24" fill="#6A3FD0" />
+        <!-- Right Calendar Grid -->
+        <rect x="815" y="230" width="470" height="440" rx="18" fill="#17122B" />
+        <rect x="850" y="275" width="400" height="56" rx="10" fill="#5230B0" />
+        <rect x="850" y="355" width="120" height="90" rx="10" fill="#FFFFFF" />
+        <rect x="990" y="355" width="120" height="90" rx="10" fill="#9E7BF0" />
+        <rect x="1130" y="355" width="120" height="90" rx="10" fill="#EFEAFB" />
+        <rect x="850" y="468" width="120" height="90" rx="10" fill="#6A3FD0" />
+        <rect x="990" y="468" width="260" height="90" rx="10" fill="#FFFFFF" />
+        <rect x="850" y="582" width="400" height="52" rx="10" fill="#2B1763" />
+      </g>
+  </g>
+  <g transform="translate(387, 112)">
+    <rect width="81" height="26" rx="6" fill="#2B1763" stroke="#6A3FD0" stroke-width="1" />
+    <text x="41" y="17" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="11" font-weight="600" letter-spacing="0.06em" fill="#FFFFFF">WA CHAT</text>
+  </g>
+<g transform="translate(755, 802)">
+    <rect width="90" height="26" rx="6" fill="#FFFFFF" stroke="#C5B8EC" stroke-width="1" />
+    <text x="45" y="17" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="11" font-weight="600" letter-spacing="0.06em" fill="#17122B">CALENDAR</text>
+  </g>
+<g transform="translate(1127, 112)">
+    <rect width="90" height="26" rx="6" fill="#FFFFFF" stroke="#C5B8EC" stroke-width="1" />
+    <text x="45" y="17" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="11" font-weight="600" letter-spacing="0.06em" fill="#17122B">REMINDER</text>
+  </g>
+</svg>

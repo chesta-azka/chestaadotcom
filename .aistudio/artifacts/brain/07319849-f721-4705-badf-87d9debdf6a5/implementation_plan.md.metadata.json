@@ -1,6 +1,6 @@
 {
-  "summary":  "Comprehensive implementation plan for the Apple-level motion and interaction system upgrade across the site, preserving locked White + Purple tokens, fonts, layout, and copy while fulfilling all 15 interaction specifications, strict performance guardrails, Lite/Reduced-Motion modes, and audit deliverables.",
-  "updatedAt":  "2026-10-25T07:12:58.716189869Z",
+  "summary":  "Implementation plan for the interactive \"comment thread\" FAQ page (/id/faq and /en/faq) on chestaa.com (CHESTAADOTCOM). Features 21 bilingual threads grouped across 6 categories, client-side search & expand-all controls, native details/summary semantic HTML for zero-JS SEO and screen reader accessibility, CSS-only typing animation indicators, WhatsApp question composer, and JSON-LD FAQPage schema.",
+  "updatedAt":  "2026-10-27T10:21:06.589062745Z",
   "requestFeedback":  true,
   "userFacing":  true
 }

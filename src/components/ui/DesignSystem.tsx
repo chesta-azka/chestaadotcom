@@ -9,9 +9,20 @@ import {
   detectMotionMode,
   MOTION_TOKENS,
 } from '../../lib/motion';
-import { getTranslation, toLocalizedHref } from '../../lib/i18n';
+import {
+  getTranslation,
+  parseLocalizedPath,
+  toLocalizedHref,
+} from '../../lib/i18n';
+import {
+  WHATSAPP_NUMBER,
+  buildWhatsAppLink,
+  getWhatsAppCtaLabel,
+  WhatsAppContext,
+} from '../../lib/whatsapp';
+import { trackWaClick } from '../../lib/analytics';
 
-export const WHATSAPP_NUMBER = '6282125447232';
+export { WHATSAPP_NUMBER };
 
 export function buildWaUrl(message: string): string {
   return `https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(message)}`;
@@ -252,7 +263,7 @@ export function Button({
       <a
         href={href}
         target={isExternal ? '_blank' : undefined}
-        rel={isExternal ? 'noopener noreferrer' : undefined}
+        rel={isExternal ? 'noopener' : undefined}
         onClick={onClick}
         onPointerMove={handlePointerMove}
         onPointerLeave={handlePointerLeave}
@@ -638,6 +649,7 @@ export interface CTABlockProps {
   description: string;
   buttonLabel?: string;
   whatsappMessage?: string;
+  whatsappContext?: WhatsAppContext;
   secondaryAction?: React.ReactNode;
 }
 
@@ -647,13 +659,18 @@ export function CTABlock({
   description,
   buttonLabel,
   whatsappMessage,
+  whatsappContext,
   secondaryAction,
 }: CTABlockProps) {
   const location = useLocation();
+  const { locale } = parseLocalizedPath(location.pathname);
   const resolvedEyebrow = eyebrow || getTranslation(location.pathname, 'cta.defaultEyebrow');
-  const resolvedButtonLabel = buttonLabel || getTranslation(location.pathname, 'cta.defaultButton');
-  const resolvedWhatsappMessage =
-    whatsappMessage || getTranslation(location.pathname, 'cta.defaultWaMessage');
+  const resolvedButtonLabel = buttonLabel || getWhatsAppCtaLabel(locale);
+  const resolvedHref = whatsappContext
+    ? buildWhatsAppLink(whatsappContext, locale)
+    : whatsappMessage
+      ? buildWaUrl(whatsappMessage)
+      : buildWhatsAppLink({ type: 'default' }, locale);
   const footerSubline = getTranslation(location.pathname, 'cta.footerSubline');
 
   return (
@@ -684,7 +701,17 @@ export function CTABlock({
             {description}
           </p>
           <div className="mt-6 flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3">
-            <Button href={buildWaUrl(resolvedWhatsappMessage)} variant="primary">
+            <Button
+              href={resolvedHref}
+              onClick={() =>
+                trackWaClick(
+                  whatsappContext?.type || 'default',
+                  'cta_block',
+                  locale
+                )
+              }
+              variant="primary"
+            >
               <MessageCircle size={16} />
               <span>{resolvedButtonLabel}</span>
               <ArrowUpRight size={15} />
@@ -778,7 +805,84 @@ export function ImageWithFallback({
 }
 
 /* ============================================================================
- * 12. NAVBAR & FOOTER RE-EXPORTS
+ * 12. NAVBAR, FOOTER & EDITORIAL LAYOUT PRIMITIVES
  * ========================================================================== */
-export { default as Navbar } from '../organisms/Header';
-export { default as Footer } from '../organisms/FooterSection';
+import HeaderComponent from '../organisms/Header';
+import FooterComponent from '../organisms/FooterSection';
+
+export { HeaderComponent as Navbar, FooterComponent as Footer };
+
+export function PageShell({ children }: { children: React.ReactNode }) {
+  return (
+    <div className="min-h-screen bg-[#FFFFFF] text-[#17122B] flex flex-col justify-between">
+      <div className="flex-1">{children}</div>
+    </div>
+  );
+}
+
+export function Section({
+  children,
+  className = '',
+  id,
+}: {
+  children: React.ReactNode;
+  className?: string;
+  id?: string;
+}) {
+  return (
+    <section id={id} className={className}>
+      {children}
+    </section>
+  );
+}
+
+export function Eyebrow({
+  children,
+  className = '',
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
+  return (
+    <div
+      className={`font-mono text-[11px] md:text-[12px] uppercase tracking-[0.08em] font-semibold text-[#6A3FD0] ${className}`}
+    >
+      {children}
+    </div>
+  );
+}
+
+export function Headline({
+  children,
+  as: TagName = 'h2',
+  className = '',
+}: {
+  children: React.ReactNode;
+  as?: 'h1' | 'h2' | 'h3';
+  className?: string;
+}) {
+  const defaultSize =
+    TagName === 'h1'
+      ? 'text-[clamp(2.1rem,4.5vw,3.25rem)] leading-[1.12] tracking-[-0.025em] font-semibold'
+      : 'text-[clamp(1.65rem,3.2vw,2.35rem)] leading-[1.18] tracking-[-0.02em] font-semibold';
+  return (
+    <TagName className={`font-display text-[#17122B] ${defaultSize} ${className}`}>
+      {children}
+    </TagName>
+  );
+}
+
+export function Subheadline({
+  children,
+  className = '',
+}: {
+  children: React.ReactNode;
+  className?: string;
+}) {
+  return (
+    <p className={`text-[16px] md:text-[18px] text-[#5B5675] leading-[1.65] ${className}`}>
+      {children}
+    </p>
+  );
+}
+

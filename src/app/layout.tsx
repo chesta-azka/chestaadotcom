@@ -20,14 +20,14 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: 'Chestaa | Solusi Digital Enterprise, AI & ERP Terpercaya Indonesia',
-  description: 'Chestaa menghadirkan arsitektur AI Enterprise, sistem ERP kustom, dan website B2B performa tinggi untuk akselerasi bisnis Anda. Partner transformasi digital terpercaya.',
+  title: 'Jasa Website, AI Agent, dan Software Custom di Tangsel | CHESTAADOTCOM',
+  description: 'Jasa pembuatan website, AI agent WhatsApp, dan software custom di BSD, Tangerang Selatan & Jabodetabek. Performa cepat, harga transparan mulai Rp1.200.000.',
   openGraph: {
-    title: 'Chestaa | Solusi Digital Enterprise, AI & ERP Terpercaya Indonesia',
-    description: 'Chestaa menghadirkan arsitektur AI Enterprise, sistem ERP kustom, dan website B2B performa tinggi untuk akselerasi bisnis Anda.',
+    title: 'Jasa Website, AI Agent, dan Software Custom di Tangsel | CHESTAADOTCOM',
+    description: 'Jasa pembuatan website, AI agent WhatsApp, dan software custom di BSD, Tangerang Selatan & Jabodetabek. Performa cepat, harga transparan mulai Rp1.200.000.',
     type: 'website',
     locale: 'id_ID',
-    siteName: 'Chestaa Enterprise AI',
+    siteName: 'CHESTAADOTCOM',
   }
 };
 
@@ -39,8 +39,8 @@ export default function RootLayout({
   const localBusinessJsonLd = {
     "@context": "https://schema.org",
     "@type": "ProfessionalService",
-    "name": "Chestaa Enterprise AI - Jasa IT & Otomatisasi B2B",
-    "image": "https://chestaa.com/chesta.png",
+    "name": "CHESTAADOTCOM - Jasa Website, AI Agent, dan Software Custom",
+    "image": "https://chestaa.com/favicon.svg",
     "url": "https://chestaa.com",
     "telephone": "+6282125447232",
     "priceRange": "$$$",
@@ -87,22 +87,22 @@ export default function RootLayout({
   const siteNavigationJsonLd = {
     "@context": "https://schema.org",
     "@type": "SiteNavigationElement",
-    "name": "Chestaa Enterprise Navigation Hub",
+    "name": "CHESTAADOTCOM Navigation Hub",
     "hasPart": [
       {
         "@type": "WebPage",
-        "name": "Layanan AI & Arsitektur",
-        "url": "https://chestaa.com/services"
+        "name": "Layanan AI & Website",
+        "url": "https://chestaa.com/id#layanan"
       },
       {
         "@type": "WebPage",
         "name": "Area Jangkauan Regional",
-        "url": "https://chestaa.com/area"
+        "url": "https://chestaa.com/id/area"
       },
       {
         "@type": "WebPage",
         "name": "Jurnal Strategis Blog",
-        "url": "https://chestaa.com/blog"
+        "url": "https://chestaa.com/id/blog"
       }
     ]
   };
@@ -110,14 +110,14 @@ export default function RootLayout({
   const serializeJsonLd = (schema: object) => {
     return JSON.stringify(schema)
       .replace(/</g, '\\u003c')
-      .replace(/>/g, '\\u003e')
+      .replace/>/g, '\\u003e')
       .replace(/&/g, '\\u0026');
   };
 
   return (
     <html lang="id" suppressHydrationWarning>
       <head>
-        <link rel="preload" href="/chesta.png" as="image" />
+        <link rel="preload" href="/favicon.svg" as="image" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: serializeJsonLd(localBusinessJsonLd) }}

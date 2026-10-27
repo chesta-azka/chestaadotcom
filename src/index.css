@@ -669,6 +669,26 @@ html.js:not(.js-reveal-safe) .img-clip-reveal[data-img-state="pending"] {
 }
 
 /* ============================================================================
+ * 8. PINNED SECTION FALLBACK: Native CSS Sticky Stacking Cards (Mobile & Lite)
+ * ========================================================================== */
+.story-stack-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  scroll-snap-type: y proximity;
+}
+
+.story-stack-card {
+  position: sticky;
+  top: calc(5rem + var(--stack-offset, 0px));
+  scroll-snap-align: start;
+  transform-origin: top center;
+  transition: transform var(--dur-ui) var(--ease-out);
+  will-change: transform;
+}
+
+/* ============================================================================
  * LITE MODE & REDUCED MOTION GUARDRAILS
  * ========================================================================== */
 html[data-motion-mode="lite"] .ambient-blob-1,
@@ -688,6 +708,22 @@ html[data-motion-mode="lite"] .bento-card {
 html[data-motion-mode="lite"] .bento-card::before,
 html[data-motion-mode="lite"] .bento-card::after {
   display: none !important;
+}
+
+/* No JS & Safety Timeout Fallback: ensure all elements are visible */
+html:not(.js) .reveal-item,
+html:not(.js) .word-mask-inner,
+html:not(.js) .subtitle-reveal,
+html:not(.js) .img-clip-reveal,
+html.js-reveal-safe .reveal-item,
+html.js-reveal-safe .word-mask-inner,
+html.js-reveal-safe .subtitle-reveal,
+html.js-reveal-safe .img-clip-reveal {
+  opacity: 1 !important;
+  transform: none !important;
+  clip-path: none !important;
+  filter: none !important;
+  visibility: visible !important;
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -716,4 +752,5 @@ html[data-motion-mode="lite"] .bento-card::after {
     opacity: 1 !important;
   }
 }
+
 

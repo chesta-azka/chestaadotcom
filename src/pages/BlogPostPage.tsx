@@ -25,10 +25,12 @@ import {
   getBlogPostBySlug,
   getAuthorProfile,
   getAdjacentBlogPosts,
+  getRelatedClusterBlogPosts,
   BlogContentBlock,
   BlogCalloutVariant,
   BlogFounderNote,
 } from '../data/blog-posts';
+import { getTopicClusterById, getClusterHubPath } from '../data/clusters';
 import {
   Container,
   Breadcrumb,
@@ -40,9 +42,10 @@ import {
   FAQAccordion,
   CTABlock,
   ImageWithFallback,
-  buildWaUrl,
 } from '../components/ui/DesignSystem';
 import FAQSchema from '../components/seo/FAQSchema';
+import { buildWhatsAppLink, getWhatsAppCtaLabel } from '../lib/whatsapp';
+import { trackWaClick } from '../lib/analytics';
 import { parseLocalizedPath, toLocalizedHref } from '../lib/i18n';
 
 interface TocItem {
@@ -480,10 +483,23 @@ export default function BlogPostPage() {
   }
 
   const authorProfile = getAuthorProfile(post.author, effectiveLocale);
-  const relatedPosts = post.relatedSlugs
-    .map((s) => getBlogPostBySlug(s, effectiveLocale))
-    .filter((p): p is NonNullable<typeof p> => Boolean(p))
-    .slice(0, 3);
+  const clusterMeta = getTopicClusterById(post.clusterId);
+  const clusterHubHref = getClusterHubPath(post.clusterId, effectiveLocale);
+  const clusterLabel = clusterMeta
+    ? isEn
+      ? clusterMeta.shortLabelEn
+      : clusterMeta.shortLabelId
+    : post.category;
+  const authorTeamHref = isEn ? '/en/about#team' : '/id/tentang#tim';
+
+  const clusterRelatedPosts = getRelatedClusterBlogPosts(post, 3);
+  const relatedPosts =
+    clusterRelatedPosts.length >= 3
+      ? clusterRelatedPosts
+      : post.relatedSlugs
+          .map((s) => getBlogPostBySlug(s, effectiveLocale))
+          .filter((p): p is NonNullable<typeof p> => Boolean(p))
+          .slice(0, 3);
 
   const { prev: prevPost, next: nextPost } = getAdjacentBlogPosts(
     post.slug,
@@ -492,15 +508,13 @@ export default function BlogPostPage() {
 
   const canonicalPath =
     effectiveLocale === 'en'
-      ? `/eng/blog/${post.slug}`
-      : prefixMode === 'ind'
-        ? `/ind/blog/${post.slug}`
-        : `/blog/${post.slug}`;
+      ? `/en/blog/${post.slug}`
+      : `/id/blog/${post.slug}`;
 
   const canonicalUrl =
     effectiveLocale === 'en'
-      ? `https://chestaa.com/eng/blog/${post.slug}`
-      : `https://chestaa.com/blog/${post.slug}`;
+      ? `https://chestaa.com/en/blog/${post.slug}`
+      : `https://chestaa.com/id/blog/${post.slug}`;
 
   const shareWhatsAppUrl = `https://wa.me/?text=${encodeURIComponent(
     isEn
@@ -508,16 +522,16 @@ export default function BlogPostPage() {
       : `${post.title} — Baca di CHESTAADOTCOM: ${canonicalUrl}`
   )}`;
 
-  const consultWaUrl = buildWaUrl(
-    isEn
-      ? `Hi Chesta & Zeeshan, I read the article "${post.title}" on chestaa.com and would like to consult on applying it to my business.`
-      : `Halo Chesta & Zeeshan, saya membaca artikel "${post.title}" di chestaa.com dan ingin konsultasi penerapannya untuk bisnis saya.`
+  const consultWaUrl = buildWhatsAppLink(
+    { type: 'article', title: post.title, url: canonicalUrl },
+    effectiveLocale
   );
+  const waCtaLabel = getWhatsAppCtaLabel(effectiveLocale);
 
   const alternateLangHref = post.alternateSlug
     ? isEn
-      ? `/blog/${post.alternateSlug}`
-      : `/eng/blog/${post.alternateSlug}`
+      ? `/id/blog/${post.alternateSlug}`
+      : `/en/blog/${post.alternateSlug}`
     : undefined;
 
   const handleCopyArticleLink = async () => {
@@ -535,9 +549,15 @@ export default function BlogPostPage() {
       <SEOMetadata
         title={post.seoTitle}
         description={post.metaDescription}
-        ogImage={`https://chestaa.com${post.cover}`}
+        ogImage={`https://chestaa.com${post.ogImage}`}
+        preloadImage={post.coverImage}
         type="article"
         path={canonicalPath}
+        publishedTime={post.date}
+        modifiedTime={post.updatedAt || post.date}
+        author={authorProfile.name}
+        articleSection={post.category}
+        articleTags={post.tags}
       />
 
       {/* 1. THIN READING PROGRESS BAR (transform: scaleX only, never width) */}
@@ -559,12 +579,8 @@ export default function BlogPostPage() {
           items={[
             { label: 'Blog', to: blogHubHref },
             {
-              label: post.category,
-              to: toLocalizedHref(
-                `/blog/kategori/${post.categorySlug}`,
-                effectiveLocale,
-                prefixMode
-              ),
+              label: clusterLabel,
+              to: clusterHubHref,
             },
             { label: post.title },
           ]}
@@ -574,12 +590,18 @@ export default function BlogPostPage() {
         <header className="max-w-3xl">
           <div className="flex flex-wrap items-center gap-2.5 font-mono text-[11px] md:text-[12px] uppercase tracking-[0.08em] text-[#5B5675] mb-3">
             <Link
+              to={clusterHubHref}
+              className="px-3 py-1 rounded-full bg-[#EFEAFB] text-[#6A3FD0] border border-[rgba(91,60,196,0.16)] font-semibold hover:bg-[#6A3FD0] hover:text-[#FFFFFF] transition-colors"
+            >
+              {isEn ? `Topic: ${clusterLabel}` : `Topik: ${clusterLabel}`}
+            </Link>
+            <Link
               to={toLocalizedHref(
                 `/blog/kategori/${post.categorySlug}`,
                 effectiveLocale,
                 prefixMode
               )}
-              className="px-3 py-1 rounded-full bg-[#EFEAFB] text-[#6A3FD0] border border-[rgba(91,60,196,0.16)] font-semibold hover:bg-[#6A3FD0] hover:text-[#FFFFFF] transition-colors"
+              className="px-3 py-1 rounded-full bg-[#F8F6FE] text-[#5B5675] border border-[rgba(91,60,196,0.14)] font-medium hover:text-[#6A3FD0] transition-colors"
             >
               {post.category}
             </Link>
@@ -592,13 +614,13 @@ export default function BlogPostPage() {
               <Calendar size={13} className="text-[#7C54E0]" />
               {isEn ? `Published ${post.date}` : `Terbit ${post.date}`}
             </span>
-            {post.updatedAt && post.updatedAt !== post.date && (
+            {post.updatedAt && (
               <>
                 <span aria-hidden="true">·</span>
                 <span>
                   {isEn
-                    ? `Updated ${post.updatedAt}`
-                    : `Diperbarui ${post.updatedAt}`}
+                    ? `Last updated ${post.updatedAt}`
+                    : `Terakhir diperbarui ${post.updatedAt}`}
                 </span>
               </>
             )}
@@ -647,7 +669,13 @@ export default function BlogPostPage() {
               )}
               <div>
                 <p className="text-[14px] font-semibold text-[#17122B]">
-                  {authorProfile.name}
+                  <a
+                    href={authorTeamHref}
+                    rel="author"
+                    className="hover:text-[#6A3FD0] transition-colors"
+                  >
+                    {authorProfile.name}
+                  </a>
                 </p>
                 <p className="font-mono text-[11px] text-[#5B5675]">
                   {authorProfile.role}
@@ -692,8 +720,8 @@ export default function BlogPostPage() {
           <ImageWithFallback
             src={post.cover}
             alt={post.coverAlt}
-            width={1280}
-            height={720}
+            width={1600}
+            height={900}
             priority={true}
             viewTransitionName={`blog-cover-${post.slug}`}
             className="w-full h-full object-cover"
@@ -893,6 +921,7 @@ export default function BlogPostPage() {
                                 {block.headers.map((header, hIdx) => (
                                   <th
                                     key={hIdx}
+                                    scope="col"
                                     className="px-4 py-3.5 font-mono text-[11px] uppercase tracking-[0.08em] text-[#6A3FD0] font-semibold"
                                   >
                                     {header}
@@ -979,6 +1008,29 @@ export default function BlogPostPage() {
                 ))}
               </div>
             </section>
+
+            {/* 6B. PEMBARUAN / CHANGELOG BLOCK (ONLY WHEN DATED EDITS EXIST) */}
+            {post.changelog && post.changelog.length > 0 && (
+              <section
+                id="pembaruan"
+                aria-label={isEn ? 'Article Updates' : 'Riwayat Pembaruan Artikel'}
+                className="mt-8 p-5 rounded-[20px] bg-[#F8F6FE] border border-[rgba(91,60,196,0.16)] space-y-2.5"
+              >
+                <p className="font-mono text-[11px] uppercase tracking-[0.08em] text-[#6A3FD0] font-semibold">
+                  {isEn ? 'UPDATES & REVISION LOG' : 'PEMBARUAN ARTIKEL'}
+                </p>
+                <ul className="space-y-2 text-[14px] text-[#3E3954]">
+                  {post.changelog.map((entry, idx) => (
+                    <li key={idx} className="flex flex-col sm:flex-row sm:items-baseline gap-1 sm:gap-2.5">
+                      <span className="font-mono text-[12px] font-semibold text-[#17122B] shrink-0">
+                        {entry.date}:
+                      </span>
+                      <span>{entry.summary}</span>
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            )}
 
             {/* 7. TAGS & SHARE BUTTONS (COPY LINK + WHATSAPP ONLY) */}
             <div className="mt-8 pt-6 border-t border-[rgba(91,60,196,0.14)] flex flex-col sm:flex-row sm:items-center justify-between gap-4">
@@ -1070,7 +1122,13 @@ export default function BlogPostPage() {
               <div className="space-y-1.5">
                 <Tag>{isEn ? 'ABOUT THE AUTHOR' : 'TENTANG PENULIS'}</Tag>
                 <h3 className="text-[18px] font-semibold text-[#17122B]">
-                  {authorProfile.name}
+                  <a
+                    href={authorTeamHref}
+                    rel="author"
+                    className="hover:text-[#6A3FD0] transition-colors"
+                  >
+                    {authorProfile.name}
+                  </a>
                 </h3>
                 <p className="font-mono text-[11px] text-[#6A3FD0]">
                   {authorProfile.role}
@@ -1222,36 +1280,45 @@ export default function BlogPostPage() {
                   ? 'We help businesses in BSD City, Alam Sutera, Bintaro, Gading Serpong, and Greater Jakarta build reliable systems. Websites start at IDR 1,200,000.'
                   : 'Kami bantu bisnis di BSD City, Alam Sutera, Bintaro, Gading Serpong, dan Jabodetabek membangun sistem yang rapi. Web mulai Rp1.200.000.'}
               </p>
-              <Button href={consultWaUrl} variant="primary" fullWidth>
+              <Button
+                href={consultWaUrl}
+                onClick={() => trackWaClick('article', 'blog_sidebar', effectiveLocale)}
+                variant="primary"
+                fullWidth
+              >
                 <MessageCircle size={15} />
-                <span>
-                  {isEn
-                    ? 'Free consultation via WhatsApp'
-                    : 'Konsultasi gratis via WhatsApp'}
-                </span>
+                <span>{waCtaLabel}</span>
               </Button>
             </Card>
           </aside>
         </div>
 
-        {/* 12. 3 RELATED POSTS */}
+        {/* 12. 3 RELATED POSTS IN THIS TOPIC CLUSTER */}
         {relatedPosts.length > 0 && (
           <section
-            aria-label={isEn ? 'Related Articles' : 'Artikel Terkait'}
+            aria-label={isEn ? 'Also in this topic' : 'Baca juga dalam topik ini'}
             className="mt-16 pt-12 border-t border-[rgba(91,60,196,0.14)]"
           >
             <div className="flex flex-wrap items-center justify-between gap-4 mb-8">
               <div>
-                <Tag>{isEn ? 'RELATED READING' : 'BACAAN TERKAIT'}</Tag>
+                <Tag>
+                  {isEn
+                    ? `TOPIC CLUSTER · ${clusterLabel.toUpperCase()}`
+                    : `TOPIK · ${clusterLabel.toUpperCase()}`}
+                </Tag>
                 <h2 className="mt-1">
                   {isEn
-                    ? 'Other practical notes for you'
-                    : 'Catatan lain yang relevan untukmu'}
+                    ? 'Also in this topic'
+                    : 'Baca juga dalam topik ini'}
                 </h2>
               </div>
-              <Button to={blogHubHref} variant="secondary">
+              <Button to={clusterHubHref} variant="secondary">
                 <BookOpen size={14} className="text-[#6A3FD0]" />
-                <span>{isEn ? 'All Articles' : 'Semua Catatan'}</span>
+                <span>
+                  {isEn
+                    ? `All ${clusterLabel} Articles`
+                    : `Semua Artikel ${clusterLabel}`}
+                </span>
               </Button>
             </div>
 
@@ -1278,8 +1345,8 @@ export default function BlogPostPage() {
                         <ImageWithFallback
                           src={rel.cover}
                           alt={rel.coverAlt}
-                          width={1280}
-                          height={720}
+                          width={1600}
+                          height={900}
                           className="w-full h-full object-cover lg:group-hover:scale-[1.02] transition-transform duration-300"
                         />
                       </Link>
@@ -1336,11 +1403,11 @@ export default function BlogPostPage() {
                 ? 'Discuss your landing page, custom software, or AI agent needs directly with Chesta Azka & Zeeshan. Websites start at IDR 1,200,000.'
                 : 'Diskusikan kebutuhan landing page, website custom, atau AI agent bisnismu bersama Chesta Azka & Zeeshan. Web mulai Rp1.200.000.'
             }
-            whatsappMessage={
-              isEn
-                ? `Hi Chesta & Zeeshan, I read the article "${post.title}" and would like to consult on applying it to my business.`
-                : `Halo Chesta & Zeeshan, saya membaca artikel "${post.title}" dan ingin konsultasi penerapannya untuk bisnis saya.`
-            }
+            whatsappContext={{
+              type: 'article',
+              title: post.title,
+              url: canonicalUrl,
+            }}
           />
         </div>
       </Container>

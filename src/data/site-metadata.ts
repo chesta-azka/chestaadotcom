@@ -18,8 +18,8 @@ export const SITE_METADATA: SiteMetadata = {
   siteName: 'CHESTAADOTCOM',
   siteUrl: 'https://chestaa.com',
   author: 'Chesta Azka Sofyan',
-  defaultTitle: 'CHESTAADOTCOM | Jasa Pembuatan Website Premium & AI Automation — Cisauk & BSD City',
-  defaultDescription: 'Studio arsitektur digital & pengembangan software enterprise di Cisauk, BSD City, Tangerang & Jakarta. Website kustom sekelas Apple, performa sub-detik & Agentic AI.',
+  defaultTitle: 'Jasa Website, AI Agent, dan Software Custom di Tangsel | CHESTAADOTCOM',
+  defaultDescription: 'Jasa pembuatan website, AI agent WhatsApp, dan software custom di BSD, Tangerang Selatan & Jabodetabek. Performa cepat, harga transparan mulai Rp1.200.000.',
   ogImage: 'https://chestaa.com/og-image.jpg',
   twitterHandle: '@chestaa_dev',
   socials: {

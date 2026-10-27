@@ -12,14 +12,16 @@ export interface RouteSEO {
 
 export const SITE_METADATA = {
   brandName: 'CHESTAADOTCOM',
-  defaultTitle: 'Jasa Software & AI Agent untuk Bisnis di BSD & Tangsel | CHESTAADOTCOM',
+  defaultTitle: 'Jasa Website, AI Agent, dan Software Custom di Tangsel | CHESTAADOTCOM',
   defaultDescription:
-    'Partner rekayasa software custom dan AI agent (WhatsApp/CRM, booking, automasi) untuk bisnis di BSD City, Tangerang Selatan & Jabodetabek. Web mulai Rp1.200.000.',
+    'Jasa pembuatan website, AI agent WhatsApp, dan software custom di BSD, Tangerang Selatan & Jabodetabek. Performa cepat, harga transparan mulai Rp1.200.000.',
   siteUrl: 'https://chestaa.com',
   instagramUrl: 'https://instagram.com/chestaadotcom',
   whatsappNumber: '6282125447232',
+  whatsappDisplay: '+62 821-2544-7232',
+  email: 'chestaadotcom@gmail.com',
   whatsappUrl:
-    'https://wa.me/6282125447232?text=Halo%20CHESTAADOTCOM,%20saya%20ingin%20konsultasi%20gratis%20mengenai%20software%20custom%20/%20AI%20agent%20untuk%20bisnis%20saya.',
+    'https://wa.me/6282125447232?text=Halo%20Chesta%20%26%20Zeeshan,%20saya%20ingin%20mulai%20dari%20audit%20gratis%2030%20menit%20untuk%20bisnis%20saya.',
   founders: [
     {
       name: 'Chesta Azka',
@@ -31,12 +33,12 @@ export const SITE_METADATA = {
     },
   ],
   areasServed: [
+    'Kota Tangerang Selatan',
     'BSD City',
-    'Alam Sutera',
-    'Bintaro',
-    'Gading Serpong',
-    'Tangerang Selatan',
-    'Jabodetabek',
+    'Pamulang',
+    'Jurang Mangu',
+    'Lebak Bulus',
+    'Jakarta Selatan',
   ],
 };
 
@@ -59,22 +61,22 @@ export const HOME_FAQS = [
   {
     question: 'Berapa lama pengerjaannya?',
     answer:
-      'Landing page standar membutuhkan waktu sekitar 3–7 hari kerja. Untuk AI agent, otomasi workflow, dan aplikasi web custom biasanya membutuhkan 2–4 minggu tergantung pada jumlah integrasi dan alur kerja bisnismu.',
+      'Landing page sederhana selesai dalam hitungan hari. Untuk AI agent, otomasi workflow, dan aplikasi web custom biasanya membutuhkan hitungan minggu tergantung cakupan; estimasi pasti kami berikan setelah audit gratis.',
   },
   {
     question: 'Apakah data pelanggan saya aman?',
     answer:
-      'Sangat aman. Kebijakan penyimpanan data bebas kamu tentukan sesuai preferensi infrastruktur internal bisnismu—baik di server database milikmu sendiri (on-premise/private cloud) maupun cloud terenkripsi. Kami tidak mengunci atau menjual data pelangganmu ke pihak mana pun.',
+      'Data tetap milikmu. Kamu bebas memilih tempat penyimpanannya (Google Sheets, database, atau server milikmu sendiri), dan domain serta hosting terdaftar atas namamu.',
   },
   {
     question: 'Apakah bisa untuk bisnis kecil yang belum punya sistem apa pun?',
     answer:
-      'Bisa sekali. Banyak klien kami yang mulai dari satu alur sederhana terlebih dahulu, misalnya membalas chat WhatsApp dan mencatat jadwal konsultasi ke Google Sheets, kemudian bertahap menambah sistem dashboard saat operasional makin berkembang.',
+      'Bisa sekali. Banyak bisnis mulai dari satu alur sederhana terlebih dahulu, misalnya membalas chat WhatsApp dan mencatat jadwal konsultasi ke Google Sheets, kemudian bertahap menambah dashboard saat operasional berkembang.',
   },
   {
     question: 'Area mana yang dilayani?',
     answer:
-      'Fokus utama kami berada di BSD City, Alam Sutera, Bintaro, Gading Serpong, Tangerang Selatan, dan wilayah Jabodetabek. Namun seluruh proses konsultasi, pengembangan, dan serah terima sistem dapat kami lakukan secara remote untuk bisnis di seluruh Indonesia.',
+      'Kami berbasis di BSD, Tangerang Selatan dan melayani bisnis di Tangerang Selatan, BSD City, Pamulang, Jurang Mangu, Lebak Bulus, serta wilayah Jabodetabek, baik secara online maupun tatap muka sesuai kesepakatan.',
   },
 ];
 
@@ -105,6 +107,7 @@ const PORTFOLIO_ROUTES_SEO: Record<string, RouteSEO> = Object.fromEntries(
         proj.categoryLabel,
         proj.industry,
         'CHESTAADOTCOM',
+        'Proyek internal',
         'BSD City',
         'Tangerang Selatan',
         ...proj.stack,
@@ -124,7 +127,7 @@ const CASE_STUDY_ROUTES_SEO: Record<string, RouteSEO> = Object.fromEntries(
       keywords: [
         cs.industry,
         ...cs.services,
-        'Studi Kasus CHESTAADOTCOM',
+        'Proyek internal CHESTAADOTCOM',
         'BSD City',
         'Tangerang Selatan',
       ],
@@ -134,43 +137,55 @@ const CASE_STUDY_ROUTES_SEO: Record<string, RouteSEO> = Object.fromEntries(
 
 export const ROUTES_SEO_MAP: Record<string, RouteSEO> = {
   '/': {
-    title: 'Jasa Software & AI Agent untuk Bisnis di BSD & Tangsel | CHESTAADOTCOM',
+    title: 'Jasa Website, AI Agent, dan Software Custom di Tangsel | CHESTAADOTCOM',
     description:
-      'Partner rekayasa software custom dan AI agent (WhatsApp/CRM, booking, automasi) untuk bisnis di BSD City, Tangerang Selatan & Jabodetabek. Web mulai Rp1.200.000.',
+      'Jasa pembuatan website, AI agent WhatsApp, dan software custom di BSD, Tangerang Selatan & Jabodetabek. Performa cepat, harga transparan mulai Rp1.200.000.',
     keywords: [
       'software house BSD',
       'AI agent WhatsApp Tangsel',
       'jasa landing page Tangerang Selatan',
-      'otomasi CRM BSD City',
+      'otomasi workflow BSD City',
       'CHESTAADOTCOM',
     ],
   },
-  '/portfolio': {
-    title: 'Proyek yang Sudah Kami Bangun — Portofolio Software & AI Agent | CHESTAADOTCOM',
+  '/area': {
+    title: 'Area Layanan Tangerang Selatan & Jakarta | CHESTAADOTCOM',
     description:
-      'Etalase visual proyek pembuatan landing page, AI agent WhatsApp, software custom, dan otomasi workflow untuk bisnis di BSD City, Tangerang Selatan, dan Jabodetabek.',
+      'CHESTAADOTCOM melayani pembuatan website dan AI agent untuk bisnis di Tangerang Selatan, BSD City, Pamulang, Jurang Mangu, dan Lebak Bulus.',
     keywords: [
-      'portofolio software BSD',
+      'area layanan CHESTAADOTCOM',
+      'jasa website Tangerang Selatan',
+      'jasa AI agent BSD City',
+      'jasa website Pamulang',
+      'jasa website Lebak Bulus',
+    ],
+  },
+  '/portfolio': {
+    title: 'Proyek Internal & Demo Sistem | CHESTAADOTCOM',
+    description:
+      'Daftar proyek internal CHESTAADOTCOM: AI agent WhatsApp klinik, dashboard kafe, asisten properti, dan landing page cepat di BSD, Tangerang Selatan.',
+    keywords: [
+      'proyek internal CHESTAADOTCOM',
       'proyek AI agent WhatsApp',
       'proyek web app Tangsel',
       'CHESTAADOTCOM portofolio',
     ],
   },
   '/case-studies': {
-    title: 'Cerita di Balik Proyeknya — Studi Kasus Software & AI Agent | CHESTAADOTCOM',
+    title: 'Studi Kasus Proyek Internal & Arsitektur | CHESTAADOTCOM',
     description:
-      'Baca cerita mendalam di balik setiap proyek CHESTAADOTCOM: masalah operasional awal, pendekatan teknis, kompromi arsitektur, dan dampak di lapangan.',
+      'Catatan teknis di balik proyek internal CHESTAADOTCOM: masalah operasional, rancangan arsitektur, alur kerja sistem, dan target desain aplikasi.',
     keywords: [
-      'studi kasus software custom BSD',
+      'studi kasus proyek internal',
       'studi kasus AI agent WhatsApp',
       'otomasi operasional bisnis Tangsel',
       'CHESTAADOTCOM case studies',
     ],
   },
   '/blog': {
-    title: 'Catatan dari Kami — Blog Software, AI Agent & Web Bisnis | CHESTAADOTCOM',
+    title: 'Catatan Bisnis & Rekayasa Software | CHESTAADOTCOM',
     description:
-      'Catatan praktis dari Chesta Azka & Zeeshan seputar software custom, AI agent WhatsApp, otomasi alur kerja, dan web untuk bisnis di BSD & Jabodetabek.',
+      'Panduan praktis dari Chesta Azka dan Zeeshan seputar software custom, AI agent WhatsApp, otomasi workflow, dan website cepat di Tangerang Selatan.',
     keywords: [
       'panduan AI agent bisnis',
       'biaya bikin website BSD',
@@ -180,15 +195,27 @@ export const ROUTES_SEO_MAP: Record<string, RouteSEO> = {
     ],
   },
   '/about': {
-    title: 'Tentang CHESTAADOTCOM — Chesta Azka & Zeeshan | BSD Tangsel',
+    title: 'Tentang CHESTAADOTCOM — Studio Web & AI Agent di BSD Tangsel',
     description:
-      'Kenali Chesta Azka (Arsitektur, Produk, Teknologi) dan Zeeshan (Operasional, Client Success), co-founder CHESTAADOTCOM yang membantu bisnis di BSD & Jabodetabek.',
+      'Kenali Chesta Azka dan Zeeshan, co-founder di balik CHESTAADOTCOM. Studio rekayasa website, AI agent, dan otomasi bisnis berbasis di BSD, Tangerang Selatan.',
     keywords: ['Chesta Azka', 'Zeeshan', 'tentang CHESTAADOTCOM', 'partner teknologi BSD'],
   },
-  '/workflow': {
-    title: 'Cara Kerja & Proses Rekayasa Sistem | CHESTAADOTCOM',
+  '/audit-gratis': {
+    title: 'Audit Gratis 30 Menit Alur Kerja & Otomasi | CHESTAADOTCOM',
     description:
-      '4 tahapan kerja terukur di CHESTAADOTCOM: Audit gratis 30 menit, rancang & prototipe, bangun & uji, serta rilis & pemantauan berkala.',
+      'Ceritakan kerjaan berulang yang paling bikin capek di bisnismu. Dapatkan peta alur kerja, rekomendasi jujur, dan perkiraan biaya gratis dalam 30 menit.',
+    keywords: ['audit gratis alur kerja', 'konsultasi AI agent BSD', 'audit otomasi bisnis Tangsel'],
+  },
+  '/privasi': {
+    title: 'Kebijakan Privasi & Pelindungan Data (UU PDP) | CHESTAADOTCOM',
+    description:
+      'Kebijakan privasi CHESTAADOTCOM dalam bahasa lugas sesuai UU PDP No. 27 Tahun 2022. Tanpa cookie iklan, tanpa jual data, dan transparan.',
+    keywords: ['kebijakan privasi CHESTAADOTCOM', 'UU PDP No 27 Tahun 2022', 'privasi data'],
+  },
+  '/workflow': {
+    title: 'Cara Kerja & Proses 4 Langkah | CHESTAADOTCOM',
+    description:
+      'Empat langkah kerja CHESTAADOTCOM: audit gratis 30 menit, rancang dan prototipe, bangun dan uji, serta rilis dan rawat bersama timmu.',
     keywords: ['cara kerja CHESTAADOTCOM', 'proses pembuatan AI agent', 'audit software BSD'],
   },
   ...SERVICE_ROUTES_SEO,

@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630" fill="none" role="img" aria-label="Skema port konektor standar Model Context Protocol (MCP) yang menghubungkan AI agent ke kalender dan database bisnis">
+  <defs>
+    <pattern id="ogGrid64" width="64" height="64" patternUnits="userSpaceOnUse">
+      <path d="M 64 0 L 0 0 0 64" fill="none" stroke="#17122B" stroke-width="1" stroke-opacity="0.04" />
+    </pattern>
+    <radialGradient id="ogGlow" cx="920" cy="315" r="460" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#B9A2F2" stop-opacity="0.38" />
+      <stop offset="100%" stop-color="#F8F6FE" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="630" fill="#F8F6FE" />
+  <rect width="1200" height="630" fill="url(#ogGlow)" />
+  <rect width="1200" height="630" fill="url(#ogGrid64)" />
+  <rect x="24" y="24" width="1152" height="582" rx="28" fill="#FFFFFF" fill-opacity="0.65" stroke="#C5B8EC" stroke-width="1" />
+
+  <!-- Left Editorial Column -->
+  <g transform="translate(64, 76)">
+    <rect width="245" height="34" rx="17" fill="#EFEAFB" stroke="#C5B8EC" stroke-width="1" />
+    <text x="122" y="22" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="12" font-weight="600" letter-spacing="0.08em" fill="#6A3FD0">OTOMASI AI &amp; WORKFLOW</text>
+
+    <text x="0" y="112" font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="38" font-weight="700" fill="#17122B">
+      <tspan x="0" dy="0">MCP (Model Context</tspan><tspan x="0" dy="48">Protocol) untuk Pemilik Bi…</tspan>
+    </text>
+
+    <!-- Labels Row -->
+    <g transform="translate(0, 250)">
+      <g transform="translate(0, 0)">
+            <rect width="120" height="28" rx="6" fill="#17122B" stroke="#C5B8EC" stroke-width="1" />
+            <text x="60" y="18" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="11" font-weight="600" fill="#FFFFFF">MCP HOST</text>
+          </g><g transform="translate(132, 0)">
+            <rect width="120" height="28" rx="6" fill="#F8F6FE" stroke="#C5B8EC" stroke-width="1" />
+            <text x="60" y="18" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="11" font-weight="600" fill="#17122B">CONNECTOR</text>
+          </g><g transform="translate(264, 0)">
+            <rect width="120" height="28" rx="6" fill="#F8F6FE" stroke="#C5B8EC" stroke-width="1" />
+            <text x="60" y="18" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="11" font-weight="600" fill="#17122B">SCOPED DB</text>
+          </g>
+    </g>
+
+    <!-- Brand Footer -->
+    <g transform="translate(0, 425)">
+      <rect width="38" height="38" rx="10" fill="#6A3FD0" />
+      <text x="19" y="25" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="14" font-weight="700" fill="#FFFFFF">C</text>
+      <text x="52" y="18" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="13" font-weight="700" letter-spacing="0.08em" fill="#17122B">CHESTAADOTCOM</text>
+      <text x="52" y="34" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="11" fill="#5B5675">chestaa.com · BSD &amp; Tangerang Selatan</text>
+    </g>
+  </g>
+
+  <!-- Right Miniature Hero Scene -->
+  <g transform="translate(650, 95) scale(0.45)">
+    <g>
+        <rect x="280" y="175" width="1040" height="550" rx="24" fill="#FFFFFF" stroke="#C5B8EC" />
+        <!-- Host Bus Bar -->
+        <rect x="340" y="250" width="920" height="150" rx="20" fill="#17122B" />
+        <rect x="385" y="288" width="260" height="74" rx="12" fill="#6A3FD0" />
+        <rect x="680" y="288" width="260" height="74" rx="12" fill="#FFFFFF" />
+        <rect x="975" y="288" width="240" height="74" rx="12" fill="#9E7BF0" />
+        <!-- 3 Standardized Port Modules -->
+        <line x1="515" y1="400" x2="515" y2="510" stroke="#17122B" stroke-width="6" />
+        <line x1="810" y1="400" x2="810" y2="510" stroke="#6A3FD0" stroke-width="6" />
+        <line x1="1095" y1="400" x2="1095" y2="510" stroke="#17122B" stroke-width="6" />
+        <rect x="360" y="510" width="280" height="165" rx="16" fill="#2B1763" />
+        <rect x="665" y="510" width="280" height="165" rx="16" fill="#EFEAFB" stroke="#C5B8EC" />
+        <rect x="970" y="510" width="280" height="165" rx="16" fill="#6A3FD0" />
+      </g>
+  </g>
+</svg>

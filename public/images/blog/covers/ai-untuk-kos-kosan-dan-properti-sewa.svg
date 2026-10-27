@@ -1,0 +1,95 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900" fill="none" role="img" aria-label="Skema otomatisasi AI agent untuk operasional kos-kosan dan properti sewa dari cek kamar kosong hingga tagihan bulanan">
+  <defs>
+    <pattern id="grid64" width="64" height="64" patternUnits="userSpaceOnUse">
+      <path d="M 64 0 L 0 0 0 64" fill="none" stroke="#17122B" stroke-width="1" stroke-opacity="0.04" />
+    </pattern>
+    <radialGradient id="purpleGlow" cx="360" cy="670" r="620" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#B9A2F2" stop-opacity="0.42" />
+      <stop offset="55%" stop-color="#EFEAFB" stop-opacity="0.18" />
+      <stop offset="100%" stop-color="#F8F6FE" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+  <rect width="1600" height="900" fill="#F8F6FE" />
+  <rect width="1600" height="900" fill="url(#purpleGlow)" />
+  <rect width="1600" height="900" fill="url(#grid64)" />
+  <g key="anchor-0">
+        <rect x="96" y="610" width="260" height="160" rx="14" fill="#17122B" stroke="#DED8F2" stroke-width="1" />
+        <rect x="114" y="630" width="200" height="10" rx="5" fill="#B9A2F2" />
+             <rect x="114" y="650" width="160" height="8" rx="4" fill="#EFEAFB" fill-opacity="0.45" />
+      </g>
+<g key="anchor-1">
+        <rect x="1230" y="110" width="240" height="130" rx="14" fill="#B9A2F2" stroke="#DED8F2" stroke-width="1" />
+        <rect x="1248" y="130" width="180" height="10" rx="5" fill="#5230B0" />
+             <rect x="1248" y="150" width="140" height="8" rx="4" fill="#17122B" fill-opacity="0.25" />
+      </g>
+<g key="anchor-2">
+        <rect x="1388" y="461" width="140" height="210" rx="14" fill="#17122B" stroke="#DED8F2" stroke-width="1" />
+        <rect x="1406" y="481" width="80" height="10" rx="5" fill="#B9A2F2" />
+             <rect x="1406" y="501" width="40" height="8" rx="4" fill="#EFEAFB" fill-opacity="0.45" />
+      </g>
+<line x1="1313" y1="769" x2="560" y2="330" stroke="#C5B8EC" stroke-width="1" stroke-dasharray="4 4" />
+<line x1="177" y1="279" x2="1040" y2="330" stroke="#C5B8EC" stroke-width="1" stroke-dasharray="none" />
+<line x1="1414" y1="278" x2="560" y2="330" stroke="#C5B8EC" stroke-width="1" stroke-dasharray="4 4" />
+<line x1="188" y1="639" x2="1040" y2="570" stroke="#C5B8EC" stroke-width="1" stroke-dasharray="none" />
+<line x1="1411" y1="625" x2="560" y2="570" stroke="#C5B8EC" stroke-width="1" stroke-dasharray="4 4" />
+<line x1="330" y1="144" x2="1040" y2="570" stroke="#C5B8EC" stroke-width="1" stroke-dasharray="none" />
+<g>
+        <circle cx="1313" cy="769" r="14" fill="#FFFFFF" stroke="#C5B8EC" stroke-width="1" />
+        <circle cx="1313" cy="769" r="4" fill="#6A3FD0" />
+      </g>
+<g>
+        <circle cx="177" cy="279" r="20" fill="#6A3FD0" stroke="#17122B" stroke-width="1" />
+        <circle cx="177" cy="279" r="4" fill="#FFFFFF" />
+      </g>
+<g>
+        <circle cx="1414" cy="278" r="14" fill="#FFFFFF" stroke="#C5B8EC" stroke-width="1" />
+        <circle cx="1414" cy="278" r="4" fill="#6A3FD0" />
+      </g>
+<g>
+        <circle cx="188" cy="639" r="14" fill="#FFFFFF" stroke="#C5B8EC" stroke-width="1" />
+        <circle cx="188" cy="639" r="4" fill="#6A3FD0" />
+      </g>
+<g>
+        <circle cx="1411" cy="625" r="14" fill="#FFFFFF" stroke="#C5B8EC" stroke-width="1" />
+        <circle cx="1411" cy="625" r="4" fill="#6A3FD0" />
+      </g>
+<g>
+        <circle cx="330" cy="144" r="14" fill="#FFFFFF" stroke="#C5B8EC" stroke-width="1" />
+        <circle cx="330" cy="144" r="4" fill="#6A3FD0" />
+      </g>
+  <g transform="translate(1600, 0) scale(-1, 1) rotate(2 800 450)">
+    <g>
+        <rect x="280" y="180" width="1040" height="540" rx="24" fill="#FFFFFF" stroke="#C5B8EC" />
+        <!-- Left Spreadsheet Matrix -->
+        <rect x="320" y="230" width="430" height="440" rx="16" fill="#F8F6FE" stroke="#C5B8EC" />
+        <rect x="320" y="230" width="430" height="64" rx="16" fill="#2B1763" />
+        <rect x="350" y="320" width="175" height="68" rx="8" fill="#17122B" />
+        <rect x="545" y="320" width="175" height="68" rx="8" fill="#FFFFFF" stroke="#C5B8EC" />
+        <rect x="350" y="410" width="175" height="68" rx="8" fill="#6A3FD0" />
+        <rect x="545" y="410" width="175" height="68" rx="8" fill="#17122B" />
+        <rect x="350" y="500" width="370" height="130" rx="12" fill="#B9A2F2" />
+        <!-- Right Property Unit Cards -->
+        <rect x="810" y="230" width="470" height="205" rx="18" fill="#17122B" />
+        <rect x="845" y="268" width="160" height="130" rx="12" fill="#7C54E0" />
+        <rect x="1030" y="268" width="215" height="52" rx="8" fill="#FFFFFF" />
+        <rect x="1030" y="340" width="160" height="58" rx="8" fill="#B9A2F2" />
+
+        <rect x="810" y="465" width="470" height="205" rx="18" fill="#6A3FD0" />
+        <rect x="845" y="503" width="160" height="130" rx="12" fill="#FFFFFF" />
+        <rect x="1030" y="503" width="215" height="52" rx="8" fill="#17122B" />
+        <rect x="1030" y="575" width="180" height="58" rx="8" fill="#2B1763" />
+      </g>
+  </g>
+  <g transform="translate(420, 112)">
+    <rect width="81" height="26" rx="6" fill="#2B1763" stroke="#6A3FD0" stroke-width="1" />
+    <text x="41" y="17" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="11" font-weight="600" letter-spacing="0.06em" fill="#FFFFFF">VACANCY</text>
+  </g>
+<g transform="translate(751, 802)">
+    <rect width="98" height="26" rx="6" fill="#FFFFFF" stroke="#C5B8EC" stroke-width="1" />
+    <text x="49" y="17" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="11" font-weight="600" letter-spacing="0.06em" fill="#17122B">SURVEY WA</text>
+  </g>
+<g transform="translate(1098, 112)">
+    <rect width="81" height="26" rx="6" fill="#FFFFFF" stroke="#C5B8EC" stroke-width="1" />
+    <text x="41" y="17" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="11" font-weight="600" letter-spacing="0.06em" fill="#17122B">INVOICE</text>
+  </g>
+</svg>

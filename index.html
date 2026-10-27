@@ -6,14 +6,9 @@
     <meta name="google-site-verification" content="qsI5diUIpk_GpZYdwmC6zaFNWkBiQSkLMnr701rO34w" />
     <meta name="theme-color" content="#7C54E0" />
     
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-L0TSZYYPXL"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      gtag('config', 'G-L0TSZYYPXL');
-    </script>
+    <!-- Privacy-friendly cookieless analytics (Plausible, < 2 KB, deferred, no cookies) -->
+    <script defer data-domain="chestaa.com" src="https://plausible.io/js/script.js"></script>
+    <script>window.plausible = window.plausible || function() { (window.plausible.q = window.plausible.q || []).push(arguments) }</script>
     <script>
       (function () {
         var docEl = document.documentElement;
@@ -25,17 +20,18 @@
           var saveData = Boolean(conn && conn.saveData);
           var lowMem = typeof navigator.deviceMemory === 'number' && navigator.deviceMemory <= 4;
           var lowCpu = typeof navigator.hardwareConcurrency === 'number' && navigator.hardwareConcurrency <= 4;
+          var isTouchMobile = ('ontouchstart' in window) || (navigator.maxTouchPoints > 0) || (window.matchMedia && window.matchMedia('(pointer: coarse)').matches) || (window.matchMedia && window.matchMedia('(hover: none)').matches) || (window.innerWidth < 1024);
           var savedLite = localStorage.getItem('performanceMode') === 'true';
           if (reduced) {
             docEl.dataset.motionMode = 'reduced';
             docEl.classList.add('js-reveal-safe');
-          } else if (reducedData || saveData || lowMem || lowCpu || savedLite) {
+          } else if (reducedData || saveData || lowMem || lowCpu || savedLite || isTouchMobile) {
             docEl.dataset.motionMode = 'lite';
           } else {
             docEl.dataset.motionMode = 'full';
           }
         } catch (e) {
-          docEl.dataset.motionMode = 'full';
+          docEl.dataset.motionMode = 'lite';
         }
         window.setTimeout(function () {
           docEl.classList.add('js-reveal-safe');
@@ -51,21 +47,21 @@
     <!-- Preload Critical Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400..800;1,400..800&family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
     
-    <link rel="icon" type="image/png" href="/chesta.png" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/chesta.png" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/favicon.svg" />
     <link rel="mask-icon" href="/favicon.svg" color="#7C54E0" />
     <link rel="manifest" href="/site.webmanifest" />
-    <link rel="canonical" href="https://chestaa.com/" />
+    <link rel="canonical" href="https://chestaa.com/id" />
     <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
 
-    <title>Jasa Software &amp; AI Agent untuk Bisnis di BSD &amp; Tangsel | CHESTAADOTCOM</title>
-    <meta name="description" content="Partner rekayasa software custom dan AI agent (WhatsApp/CRM, booking, automasi) untuk bisnis di BSD City, Tangerang Selatan &amp; Jabodetabek. Web mulai Rp1.200.000." />
+    <title>Jasa Website, AI Agent, dan Software Custom di Tangsel | CHESTAADOTCOM</title>
+    <meta name="description" content="Jasa pembuatan website, AI agent WhatsApp, dan software custom di BSD, Tangerang Selatan &amp; Jabodetabek. Performa cepat, harga transparan mulai Rp1.200.000." />
     
     <!-- Open Graph -->
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://chestaa.com/" />
-    <meta property="og:title" content="Jasa Software &amp; AI Agent untuk Bisnis di BSD &amp; Tangsel | CHESTAADOTCOM" />
-    <meta property="og:description" content="Partner rekayasa software custom dan AI agent (WhatsApp/CRM, booking, automasi) untuk bisnis di BSD City, Tangerang Selatan &amp; Jabodetabek. Web mulai Rp1.200.000." />
+    <meta property="og:url" content="https://chestaa.com/id" />
+    <meta property="og:title" content="Jasa Website, AI Agent, dan Software Custom di Tangsel | CHESTAADOTCOM" />
+    <meta property="og:description" content="Jasa pembuatan website, AI agent WhatsApp, dan software custom di BSD, Tangerang Selatan &amp; Jabodetabek. Performa cepat, harga transparan mulai Rp1.200.000." />
     <meta property="og:image" content="https://chestaa.com/images/og-default.svg" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
@@ -75,8 +71,8 @@
     <!-- Twitter Cards -->
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:site" content="@chestaadotcom" />
-    <meta name="twitter:title" content="Jasa Software &amp; AI Agent untuk Bisnis di BSD &amp; Tangsel | CHESTAADOTCOM" />
-    <meta name="twitter:description" content="Partner rekayasa software custom dan AI agent (WhatsApp/CRM, booking, automasi) untuk bisnis di BSD City, Tangerang Selatan &amp; Jabodetabek. Web mulai Rp1.200.000." />
+    <meta name="twitter:title" content="Jasa Website, AI Agent, dan Software Custom di Tangsel | CHESTAADOTCOM" />
+    <meta name="twitter:description" content="Jasa pembuatan website, AI agent WhatsApp, dan software custom di BSD, Tangerang Selatan &amp; Jabodetabek. Performa cepat, harga transparan mulai Rp1.200.000." />
     <meta name="twitter:image" content="https://chestaa.com/images/og-default.svg" />
   </head>
   <body class="bg-[#FFFFFF] text-[#17122B] antialiased">

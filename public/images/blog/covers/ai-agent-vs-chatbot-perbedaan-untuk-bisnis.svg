@@ -1,0 +1,91 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900" fill="none" role="img" aria-label="Diagram berdampingan yang membandingkan pohon keputusan chatbot statis dengan jaringan penalaran dan aksi AI agent">
+  <defs>
+    <pattern id="grid64" width="64" height="64" patternUnits="userSpaceOnUse">
+      <path d="M 64 0 L 0 0 0 64" fill="none" stroke="#17122B" stroke-width="1" stroke-opacity="0.04" />
+    </pattern>
+    <radialGradient id="purpleGlow" cx="1240" cy="660" r="620" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#B9A2F2" stop-opacity="0.42" />
+      <stop offset="55%" stop-color="#EFEAFB" stop-opacity="0.18" />
+      <stop offset="100%" stop-color="#F8F6FE" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+  <rect width="1600" height="900" fill="#F8F6FE" />
+  <rect width="1600" height="900" fill="url(#purpleGlow)" />
+  <rect width="1600" height="900" fill="url(#grid64)" />
+  <g key="anchor-0">
+        <rect x="118" y="558" width="260" height="160" rx="14" fill="#17122B" stroke="#DED8F2" stroke-width="1" />
+        <rect x="136" y="578" width="200" height="10" rx="5" fill="#B9A2F2" />
+             <rect x="136" y="598" width="160" height="8" rx="4" fill="#EFEAFB" fill-opacity="0.45" />
+      </g>
+<g key="anchor-1">
+        <rect x="1230" y="134" width="240" height="130" rx="14" fill="#B9A2F2" stroke="#DED8F2" stroke-width="1" />
+        <rect x="1248" y="154" width="180" height="10" rx="5" fill="#5230B0" />
+             <rect x="1248" y="174" width="140" height="8" rx="4" fill="#17122B" fill-opacity="0.25" />
+      </g>
+<g key="anchor-2">
+        <rect x="1388" y="397" width="140" height="210" rx="14" fill="#17122B" stroke="#DED8F2" stroke-width="1" />
+        <rect x="1406" y="417" width="80" height="10" rx="5" fill="#B9A2F2" />
+             <rect x="1406" y="437" width="40" height="8" rx="4" fill="#EFEAFB" fill-opacity="0.45" />
+      </g>
+<line x1="1335" y1="759" x2="560" y2="330" stroke="#C5B8EC" stroke-width="1" stroke-dasharray="4 4" />
+<line x1="210" y1="275" x2="1040" y2="330" stroke="#C5B8EC" stroke-width="1" stroke-dasharray="none" />
+<line x1="1418" y1="278" x2="560" y2="330" stroke="#C5B8EC" stroke-width="1" stroke-dasharray="4 4" />
+<line x1="188" y1="646" x2="1040" y2="570" stroke="#C5B8EC" stroke-width="1" stroke-dasharray="none" />
+<line x1="1404" y1="671" x2="560" y2="570" stroke="#C5B8EC" stroke-width="1" stroke-dasharray="4 4" />
+<line x1="304" y1="155" x2="1040" y2="570" stroke="#C5B8EC" stroke-width="1" stroke-dasharray="none" />
+<g>
+        <circle cx="1335" cy="759" r="14" fill="#FFFFFF" stroke="#C5B8EC" stroke-width="1" />
+        <circle cx="1335" cy="759" r="4" fill="#6A3FD0" />
+      </g>
+<g>
+        <circle cx="210" cy="275" r="14" fill="#FFFFFF" stroke="#C5B8EC" stroke-width="1" />
+        <circle cx="210" cy="275" r="4" fill="#6A3FD0" />
+      </g>
+<g>
+        <circle cx="1418" cy="278" r="20" fill="#6A3FD0" stroke="#17122B" stroke-width="1" />
+        <circle cx="1418" cy="278" r="4" fill="#FFFFFF" />
+      </g>
+<g>
+        <circle cx="188" cy="646" r="14" fill="#FFFFFF" stroke="#C5B8EC" stroke-width="1" />
+        <circle cx="188" cy="646" r="4" fill="#6A3FD0" />
+      </g>
+<g>
+        <circle cx="1404" cy="671" r="14" fill="#FFFFFF" stroke="#C5B8EC" stroke-width="1" />
+        <circle cx="1404" cy="671" r="4" fill="#6A3FD0" />
+      </g>
+<g>
+        <circle cx="304" cy="155" r="14" fill="#FFFFFF" stroke="#C5B8EC" stroke-width="1" />
+        <circle cx="304" cy="155" r="4" fill="#6A3FD0" />
+      </g>
+  <g transform="rotate(2 800 450)">
+    <g>
+        <!-- Panel 1: Simple Bubble / Single Unit -->
+        <rect x="310" y="185" width="455" height="530" rx="24" fill="#F8F6FE" stroke="#C5B8EC" stroke-width="1" />
+        <rect x="365" y="255" width="345" height="120" rx="20" fill="#FFFFFF" stroke="#C5B8EC" />
+        <rect x="400" y="295" width="220" height="24" rx="6" fill="#17122B" />
+        <circle cx="537" cy="515" r="76" fill="#B9A2F2" />
+        <circle cx="537" cy="515" r="32" fill="#17122B" />
+
+        <!-- Panel 2: Connected Agent Graph -->
+        <rect x="835" y="185" width="455" height="530" rx="24" fill="#17122B" />
+        <line x1="1062" y1="330" x2="950" y2="520" stroke="#9E7BF0" stroke-width="3" />
+        <line x1="1062" y1="330" x2="1175" y2="520" stroke="#9E7BF0" stroke-width="3" />
+        <line x1="950" y1="520" x2="1175" y2="520" stroke="#9E7BF0" stroke-width="3" />
+        <circle cx="1062" cy="330" r="64" fill="#6A3FD0" stroke="#FFFFFF" stroke-width="3" />
+        <rect x="890" y="475" width="125" height="95" rx="16" fill="#FFFFFF" />
+        <rect x="1110" y="475" width="125" height="95" rx="16" fill="#9E7BF0" />
+      </g>
+  </g>
+  <g transform="translate(382, 112)">
+    <rect width="90" height="26" rx="6" fill="#FFFFFF" stroke="#C5B8EC" stroke-width="1" />
+    <text x="45" y="17" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="11" font-weight="600" letter-spacing="0.06em" fill="#17122B">FAQ TREE</text>
+  </g>
+<g transform="translate(755, 802)">
+    <rect width="90" height="26" rx="6" fill="#FFFFFF" stroke="#C5B8EC" stroke-width="1" />
+    <text x="45" y="17" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="11" font-weight="600" letter-spacing="0.06em" fill="#17122B">AI AGENT</text>
+  </g>
+<g transform="translate(1132, 112)">
+    <rect width="81" height="26" rx="6" fill="#2B1763" stroke="#6A3FD0" stroke-width="1" />
+    <text x="41" y="17" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="11" font-weight="600" letter-spacing="0.06em" fill="#FFFFFF">ACTIONS</text>
+  </g>
+</svg>

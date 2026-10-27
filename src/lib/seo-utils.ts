@@ -19,7 +19,7 @@ export function generateDynamicCopy(industryParam: string, cityParam: string): D
     title: `Jasa Web & AI Khusus ${industry} di ${city} | Chestaa`,
     description: `Jujurly, kompetisi bisnis ${industry} di ${city} lagi red ocean banget. Kalau lo masih pakai cara manual, operasional lo literally bakal boncos. Waktunya migrasi ke sistem otonom.`,
     hook: `Jujurly, kompetisi bisnis ${industry} di ${city} lagi red ocean banget. Kalau lo masih pakai cara manual, operasional lo literally bakal boncos. Waktunya migrasi ke sistem otonom.`,
-    body: `Chestaa menghadirkan arsitektur digital Next.js berkecepatan sub-detik dan otomatisasi AI khusus untuk mendominasi pasar ${industry} di ${city}. Tidak ada lagi ketergantungan pada agensi lambat atau vendor yang tidak transparan.`,
+    body: `Chestaa menghadirkan arsitektur digital Next.js berkecepatan sub-detik dan otomatisasi AI khusus untuk mengembangkan bisnis ${industry} di ${city}. Tidak ada lagi ketergantungan pada agensi lambat atau vendor yang tidak transparan.`,
     metric: "Hingga 5.2x",
     metricLabel: `Peningkatan efisiensi operasional dan ROAS ${industry} di ${city}`
   };

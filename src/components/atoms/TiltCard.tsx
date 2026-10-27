@@ -1,65 +1,69 @@
-import React, { useRef, useState } from 'react';
-import { motion, useMotionValue, useSpring, useTransform } from 'motion/react';
+import React, { useRef, useState, useEffect } from 'react';
+import { useMotionMode } from '../../lib/motion';
 
 interface TiltCardProps {
   children: React.ReactNode;
   className?: string;
 }
 
+/**
+ * TiltCard (Apple-Restrained 3D Perspective Card)
+ * - Desktop Full mode: Subtle 3D perspective tilt (max 5 deg) using compositor CSS transforms.
+ * - Mobile & Lite mode: Completely inert (zero event listeners, zero tilt).
+ * - Reduced motion: Completely inert.
+ */
 export default function TiltCard({ children, className = '' }: TiltCardProps) {
   const ref = useRef<HTMLDivElement>(null);
+  const motionMode = useMotionMode();
+  const [tilt, setTilt] = useState({ x: 0, y: 0 });
   const [isHovered, setIsHovered] = useState(false);
 
-  const x = useMotionValue(0);
-  const y = useMotionValue(0);
-
-  const mouseXSpring = useSpring(x, { stiffness: 300, damping: 20 });
-  const mouseYSpring = useSpring(y, { stiffness: 300, damping: 20 });
-
-  const rotateX = useTransform(mouseYSpring, [-0.5, 0.5], ["7deg", "-7deg"]);
-  const rotateY = useTransform(mouseXSpring, [-0.5, 0.5], ["-7deg", "7deg"]);
-  const translateX = useTransform(mouseXSpring, [-0.5, 0.5], ["-10px", "10px"]);
-  const translateY = useTransform(mouseYSpring, [-0.5, 0.5], ["-10px", "10px"]);
-  const brightness = useTransform(mouseYSpring, [-0.5, 0.5], [1.1, 0.9]);
+  // In Lite or Reduced mode, do not bind mouse events or compute tilt
+  const isInteractive = motionMode === 'full';
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
-    if (!ref.current) return;
+    if (!isInteractive || !ref.current) return;
     const rect = ref.current.getBoundingClientRect();
-    const width = rect.width;
-    const height = rect.height;
-    const mouseX = e.clientX - rect.left;
-    const mouseY = e.clientY - rect.top;
-    const xPct = mouseX / width - 0.5;
-    const yPct = mouseY / height - 0.5;
-    x.set(xPct);
-    y.set(yPct);
+    const xPct = (e.clientX - rect.left) / rect.width - 0.5;
+    const yPct = (e.clientY - rect.top) / rect.height - 0.5;
+    // Cap tilt angle at max 5 degrees for Apple-grade restraint
+    setTilt({
+      x: -yPct * 6,
+      y: xPct * 6,
+    });
+  };
+
+  const handleMouseEnter = () => {
+    if (isInteractive) setIsHovered(true);
   };
 
   const handleMouseLeave = () => {
-    setIsHovered(false);
-    x.set(0);
-    y.set(0);
+    if (isInteractive) {
+      setIsHovered(false);
+      setTilt({ x: 0, y: 0 });
+    }
   };
 
   return (
-    <motion.div
+    <div
       ref={ref}
-      onMouseMove={handleMouseMove}
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={handleMouseLeave}
+      onMouseMove={isInteractive ? handleMouseMove : undefined}
+      onMouseEnter={isInteractive ? handleMouseEnter : undefined}
+      onMouseLeave={isInteractive ? handleMouseLeave : undefined}
       style={{
-        rotateX,
-        rotateY,
-        x: translateX,
-        y: translateY,
-        filter: isHovered ? `brightness(${brightness.get()})` : 'brightness(1)',
-        transformStyle: "preserve-3d",
+        transform: isInteractive && isHovered
+          ? `perspective(1000px) rotateX(${tilt.x}deg) rotateY(${tilt.y}deg)`
+          : 'perspective(1000px) rotateX(0deg) rotateY(0deg)',
+        transition: 'transform 260ms cubic-bezier(0.16, 1, 0.3, 1)',
+        transformStyle: 'preserve-3d',
       }}
-      className={`${className} transition-shadow duration-300 ${isHovered ? 'shadow-2xl shadow-purple-500/20' : ''}`}
+      className={`${className} transition-shadow duration-300 ${
+        isInteractive && isHovered ? 'shadow-xl shadow-purple-500/10' : ''
+      }`}
     >
-      <div style={{ transform: "translateZ(30px)" }} className="h-full w-full">
+      <div style={{ transform: isInteractive && isHovered ? 'translateZ(16px)' : 'translateZ(0px)' }} className="h-full w-full">
         {children}
       </div>
-    </motion.div>
+    </div>
   );
 }

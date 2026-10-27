@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Catatan &amp; Studi Kasus Proyek Internal — CHESTAADOTCOM</title>
+    <link>https://chestaa.com/id/blog</link>
+    <atom:link href="https://chestaa.com/rss.xml" rel="self" type="application/rss+xml" />
+    <description>Catatan praktis dan studi kasus proyek internal seputar software custom, AI agent WhatsApp, otomasi alur kerja, dan web untuk bisnis di BSD, Tangerang Selatan &amp; Jabodetabek.</description>
+    <language>id</language>
+    <lastBuildDate>Sun, 25 Oct 2026 02:00:00 GMT</lastBuildDate>
+    <item>
+      <title>WA Concierge: merancang agen booking untuk klinik (Proyek internal)</title>
+      <link>https://chestaa.com/id/studi-kasus/wa-concierge-klinik</link>
+      <guid isPermaLink="true">https://chestaa.com/id/studi-kasus/wa-concierge-klinik</guid>
+      <pubDate>Fri, 20 Mar 2026 00:00:00 GMT</pubDate>
+      <dc:creator>Chesta Azka</dc:creator>
+      <category>Studi Kasus · Klinik</category>
+      <description>Studi kasus proyek internal WA Concierge: merancang agen booking WhatsApp untuk klinik dengan cek kalender terapis, pengingat H-1, dan serah ke staf.</description>
+    </item>
+    <item>
+      <title>Membangun ulang chestaa.com sebagai situs statis dua bahasa (Proyek internal)</title>
+      <link>https://chestaa.com/id/studi-kasus/chestaa-v2</link>
+      <guid isPermaLink="true">https://chestaa.com/id/studi-kasus/chestaa-v2</guid>
+      <pubDate>Fri, 20 Mar 2026 00:00:00 GMT</pubDate>
+      <dc:creator>Chesta Azka</dc:creator>
+      <category>Studi Kasus · Agensi (situs sendiri)</category>
+      <description>Studi kasus proyek internal membangun ulang chestaa.com sebagai situs statis dua bahasa (/id dan /en) dengan target LCP &lt; 1,8 detik dan CLS &lt; 0,02.</description>
+    </item>
+    <item>
+      <title>Alur lead properti: dari formulir iklan ke follow-up agen (Proyek internal)</title>
+      <link>https://chestaa.com/id/studi-kasus/lead-properti</link>
+      <guid isPermaLink="true">https://chestaa.com/id/studi-kasus/lead-properti</guid>
+      <pubDate>Fri, 20 Mar 2026 00:00:00 GMT</pubDate>
+      <dc:creator>Zeeshan</dc:creator>
+      <category>Studi Kasus · Properti</category>
+      <description>Studi kasus proyek internal alur lead properti: otomasi dari formulir iklan ke CRM, pembagian agen &lt; 1 menit, dan pengingat follow-up H+1 serta H+3.</description>
+    </item>
+    <item>
+      <title>Dashboard operasional kafe: dari spreadsheet harian ke satu tampilan (Proyek internal)</title>
+      <link>https://chestaa.com/id/studi-kasus/dashboard-kafe</link>
+      <guid isPermaLink="true">https://chestaa.com/id/studi-kasus/dashboard-kafe</guid>
+      <pubDate>Sun, 22 Mar 2026 00:00:00 GMT</pubDate>
+      <dc:creator>Chesta Azka</dc:creator>
+      <category>Studi Kasus · F&amp;B</category>
+      <description>Studi kasus proyek internal Dashboard Operasional Kafe: menyatukan penjualan harian, stok bahan, dan laporan cabang kafe tanpa ganti kasir.</description>
+    </item>
+    <item>
+      <title>Pemroses Dokumen AI: ekstraksi data dengan tinjauan manusia (Proyek internal)</title>
+      <link>https://chestaa.com/id/studi-kasus/pemroses-dokumen</link>
+      <guid isPermaLink="true">https://chestaa.com/id/studi-kasus/pemroses-dokumen</guid>
+      <pubDate>Tue, 24 Mar 2026 00:00:00 GMT</pubDate>
+      <dc:creator>Chesta Azka</dc:creator>
+      <category>Studi Kasus · Jasa profesional</category>
+      <description>Studi kasus proyek internal Pemroses Dokumen AI: ekstraksi dokumen ke tabel web dengan peninjauan manusia, layar terbagi, dan log audit.</description>
+    </item>
+    <item>
+      <title>WhatsApp Business App vs WhatsApp Business API: Mana yang Cocok untuk Bisnismu</title>
+      <link>https://chestaa.com/id/blog/whatsapp-business-app-vs-api-untuk-bisnis</link>
+      <guid isPermaLink="true">https://chestaa.com/id/blog/whatsapp-business-app-vs-api-untuk-bisnis</guid>
+      <pubDate>Sun, 25 Oct 2026 00:00:00 GMT</pubDate>
+      <dc:creator>Zeeshan</dc:creator>
+      <category>Otomasi AI &amp; Workflow</category>
+      <description>Pahami perbedaan WhatsApp Business App biasa vs WhatsApp Business API resmi Meta. Pelajari batas perangkat, biaya percakapan, integrasi sistem, dan momen tepat migrasi.</description>
+    </item>
+    <item>
+      <title>Keamanan AI Agent: Prompt Injection, Izin Akses, dan Data Pelanggan</title>
+      <link>https://chestaa.com/id/blog/keamanan-ai-agent-prompt-injection-data-pelanggan</link>
+      <guid isPermaLink="true">https://chestaa.com/id/blog/keamanan-ai-agent-prompt-injection-data-pelanggan</guid>
+      <pubDate>Sun, 25 Oct 2026 00:00:00 GMT</pubDate>
+      <dc:creator>Chesta Azka</dc:creator>
+      <category>Otomasi AI &amp; Workflow</category>
+      <description>Pelajari cara mengamankan AI agent bisnismu dari serangan prompt injection, kebocoran data pelanggan, dan eksekusi tool berbahaya berdasarkan panduan keamanan OWASP LLM.</description>
+    </item>
+    <item>
+      <title>UU PDP untuk Bisnis yang Pakai WhatsApp dan AI: Yang Perlu Kamu Perhatikan</title>
+      <link>https://chestaa.com/id/blog/uu-pdp-bisnis-whatsapp-ai-panduan-praktis</link>
+      <guid isPermaLink="true">https://chestaa.com/id/blog/uu-pdp-bisnis-whatsapp-ai-panduan-praktis</guid>
+      <pubDate>Sun, 25 Oct 2026 00:00:00 GMT</pubDate>
+      <dc:creator>Zeeshan</dc:creator>
+      <category>Otomasi AI &amp; Workflow</category>
+      <description>Pahami kewajiban bisnis berdasarkan UU PDP No. 27/2022 saat memproses data pelanggan via WhatsApp dan AI. Pelajari persetujuan sah, retensi data, dan hak subjek data.</description>
+    </item>
+    <item>
+      <title>n8n, Make, Zapier, atau Kode Custom: Cara Memilih Alat Otomasi</title>
+      <link>https://chestaa.com/id/blog/n8n-make-zapier-kode-custom-pilih-otomasi</link>
+      <guid isPermaLink="true">https://chestaa.com/id/blog/n8n-make-zapier-kode-custom-pilih-otomasi</guid>
+      <pubDate>Sun, 25 Oct 2026 00:00:00 GMT</pubDate>
+      <dc:creator>Chesta Azka</dc:creator>
+      <category>Otomasi AI &amp; Workflow</category>
+      <description>Bingung memilih antara n8n, Make, Zapier, atau kode custom Node.js? Pelajari perbandingan biaya eksekusi, kontrol data, fleksibilitas, dan panduan memilih alat otomasi bisnismu.</description>
+    </item>
+    <item>
+      <title>Chatbot AI di Website Bisnis yang Gagal: 7 Penyebab dan Cara Memperbaikinya</title>
+      <link>https://chestaa.com/id/blog/chatbot-ai-website-gagal-7-penyebab-solusi</link>
+      <guid isPermaLink="true">https://chestaa.com/id/blog/chatbot-ai-website-gagal-7-penyebab-solusi</guid>
+      <pubDate>Sun, 25 Oct 2026 00:00:00 GMT</pubDate>
+      <dc:creator>Chesta Azka</dc:creator>
+      <category>Konversi &amp; UI/UX</category>
+      <description>Pelajari 7 penyebab fatal chatbot AI website bisnis gagal dan ditinggalkan pengunjung. Temukan solusi tata letak mobile, integrasi CRM, dan serah terima ke WhatsApp.</description>
+    </item>
+    <item>
+      <title>AI Agent vs Chatbot: Apa Bedanya dan Mana yang Dibutuhkan Bisnismu</title>
+      <link>https://chestaa.com/id/blog/ai-agent-vs-chatbot-perbedaan-untuk-bisnis</link>
+      <guid isPermaLink="true">https://chestaa.com/id/blog/ai-agent-vs-chatbot-perbedaan-untuk-bisnis</guid>
+      <pubDate>Sat, 24 Oct 2026 00:00:00 GMT</pubDate>
+      <dc:creator>Chesta Azka</dc:creator>
+      <category>Otomasi AI &amp; Workflow</category>
+      <description>Pahami perbedaan teknis dan operasional antara AI agent vs chatbot biasa untuk WhatsApp bisnis, lengkap dengan tabel perbandingan, guardrail keamanan, dan cara mulai.</description>
+    </item>
+    <item>
+      <title>MCP (Model Context Protocol) untuk Pemilik Bisnis: Cara AI Agent Terhubung ke Tool Kamu</title>
+      <link>https://chestaa.com/id/blog/mcp-model-context-protocol-untuk-pemilik-bisnis</link>
+      <guid isPermaLink="true">https://chestaa.com/id/blog/mcp-model-context-protocol-untuk-pemilik-bisnis</guid>
+      <pubDate>Sat, 24 Oct 2026 00:00:00 GMT</pubDate>
+      <dc:creator>Chesta Azka</dc:creator>
+      <category>Otomasi AI &amp; Workflow</category>
+      <description>Penjelasan praktis Model Context Protocol (MCP) untuk pemilik bisnis: cara kerja arsitektur Host-Client-Server, contoh koneksi kalender &amp; spreadsheet, serta aturan keamanan.</description>
+    </item>
+    <item>
+      <title>Vibe Coding untuk Bisnis: Kapan Kode Buatan AI Cukup dan Kapan Berbahaya</title>
+      <link>https://chestaa.com/id/blog/vibe-coding-untuk-bisnis-kapan-cukup-kapan-berbahaya</link>
+      <guid isPermaLink="true">https://chestaa.com/id/blog/vibe-coding-untuk-bisnis-kapan-cukup-kapan-berbahaya</guid>
+      <pubDate>Sat, 24 Oct 2026 00:00:00 GMT</pubDate>
+      <dc:creator>Chesta Azka</dc:creator>
+      <category>Strategi &amp; Investasi Web</category>
+      <description>Panduan jujur vibe coding untuk pemilik bisnis: kapan kode buatan AI sudah cukup untuk prototipe, kapan berbahaya untuk pembayaran &amp; data pelanggan, serta checklist auditnya.</description>
+    </item>
+    <item>
+      <title>GEO dan AEO: Cara Bisnis Lokal Muncul di Jawaban ChatGPT, Gemini, dan Perplexity</title>
+      <link>https://chestaa.com/id/blog/geo-dan-aeo-cara-bisnis-lokal-muncul-di-ai</link>
+      <guid isPermaLink="true">https://chestaa.com/id/blog/geo-dan-aeo-cara-bisnis-lokal-muncul-di-ai</guid>
+      <pubDate>Sat, 24 Oct 2026 00:00:00 GMT</pubDate>
+      <dc:creator>Chesta Azka</dc:creator>
+      <category>SEO Lokal &amp; Pertumbuhan</category>
+      <description>Panduan praktis GEO (Generative Engine Optimization) dan AEO (Answer Engine Optimization) agar bisnis lokal di BSD, Tangsel, dan Jakarta dirujuk oleh ChatGPT, Gemini, dan Perplexity.</description>
+    </item>
+    <item>
+      <title>Otomasi Workflow Bisnis (n8n, Make, Zapier): 5 Pekerjaan Repetitif yang Bisa Jalan Sendiri</title>
+      <link>https://chestaa.com/id/blog/otomasi-workflow-bisnis-n8n-make-pekerjaan-repetitif</link>
+      <guid isPermaLink="true">https://chestaa.com/id/blog/otomasi-workflow-bisnis-n8n-make-pekerjaan-repetitif</guid>
+      <pubDate>Sat, 24 Oct 2026 00:00:00 GMT</pubDate>
+      <dc:creator>Zeeshan</dc:creator>
+      <category>Otomasi AI &amp; Workflow</category>
+      <description>5 pekerjaan repetitif di bisnis yang bisa diotomasi menggunakan n8n, Make, atau webhook Node.js, lengkap dengan tabel perbandingan biaya dan cara memilih tool yang tepat.</description>
+    </item>
+    <item>
+      <title>Kenapa Landing Page Lambat Bisa Bikin Iklan Boncos (dan Cara Memperbaikinya)</title>
+      <link>https://chestaa.com/id/blog/kenapa-landing-page-lambat-bikin-iklan-boncos</link>
+      <guid isPermaLink="true">https://chestaa.com/id/blog/kenapa-landing-page-lambat-bikin-iklan-boncos</guid>
+      <pubDate>Fri, 23 Oct 2026 00:00:00 GMT</pubDate>
+      <dc:creator>Chesta Azka</dc:creator>
+      <category>Performa Web &amp; Konversi</category>
+      <description>Pelajari mengapa landing page lambat memangkas rasio klik ke tayangan halaman di Meta &amp; Google Ads, cara membaca Core Web Vitals, dan langkah perbaikannya.</description>
+    </item>
+    <item>
+      <title>Berapa Biaya Bikin Website untuk Bisnis? Panduan Harga Jujur</title>
+      <link>https://chestaa.com/id/blog/berapa-biaya-bikin-website-bisnis-panduan-harga</link>
+      <guid isPermaLink="true">https://chestaa.com/id/blog/berapa-biaya-bikin-website-bisnis-panduan-harga</guid>
+      <pubDate>Fri, 23 Oct 2026 00:00:00 GMT</pubDate>
+      <dc:creator>Zeeshan</dc:creator>
+      <category>Strategi &amp; Investasi Web</category>
+      <description>Panduan jujur rincian biaya bikin website bisnis di Indonesia: beda spesifikasi landing page mulai Rp1.200.000, company profile, hingga aplikasi web custom.</description>
+    </item>
+    <item>
+      <title>Otomasi WhatsApp &amp; AI untuk Klinik dan F&amp;B: Contoh Alur Kerja Nyata</title>
+      <link>https://chestaa.com/id/blog/otomasi-whatsapp-ai-klinik-fnb-alur-kerja</link>
+      <guid isPermaLink="true">https://chestaa.com/id/blog/otomasi-whatsapp-ai-klinik-fnb-alur-kerja</guid>
+      <pubDate>Fri, 23 Oct 2026 00:00:00 GMT</pubDate>
+      <dc:creator>Zeeshan</dc:creator>
+      <category>Otomasi AI &amp; Workflow</category>
+      <description>Contoh nyata alur kerja otomasi WhatsApp &amp; AI agent untuk klinik kecantikan, gigi, dan bisnis F&amp;B: balasan instan, cek jadwal dokter, reminder H-1, dan rekap POS.</description>
+    </item>
+    <item>
+      <title>Checklist Landing Page Konversi Tinggi untuk Bisnis Jasa</title>
+      <link>https://chestaa.com/id/blog/checklist-landing-page-konversi-tinggi-bisnis-jasa</link>
+      <guid isPermaLink="true">https://chestaa.com/id/blog/checklist-landing-page-konversi-tinggi-bisnis-jasa</guid>
+      <pubDate>Fri, 23 Oct 2026 00:00:00 GMT</pubDate>
+      <dc:creator>Chesta Azka</dc:creator>
+      <category>Konversi &amp; UI/UX</category>
+      <description>Checklist praktis merancang landing page konversi tinggi untuk bisnis jasa di BSD &amp; Jabodetabek: struktur layar pertama, transparansi harga, bukti kerja, dan CTA.</description>
+    </item>
+    <item>
+      <title>SEO Lokal untuk Bisnis di BSD &amp; Tangerang Selatan: Cara Muncul di Google Maps dan Pencarian</title>
+      <link>https://chestaa.com/id/blog/seo-lokal-bisnis-bsd-tangerang-selatan-google-maps</link>
+      <guid isPermaLink="true">https://chestaa.com/id/blog/seo-lokal-bisnis-bsd-tangerang-selatan-google-maps</guid>
+      <pubDate>Fri, 23 Oct 2026 00:00:00 GMT</pubDate>
+      <dc:creator>Chesta Azka</dc:creator>
+      <category>SEO Lokal &amp; Pertumbuhan</category>
+      <description>Panduan praktis SEO lokal untuk bisnis di BSD City, Alam Sutera, Bintaro &amp; Tangerang Selatan: optimasi Google Business Profile, schema JSON-LD, dan ulasan.</description>
+    </item>
+  </channel>
+</rss>

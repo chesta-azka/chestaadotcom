@@ -314,7 +314,7 @@ export default async function BlogPostPage({ params }: Props) {
         'logo': {
           '@type': 'ImageObject',
           '@id': 'https://chestaa.com/#logo',
-          'url': 'https://chestaa.com/chesta.png',
+          'url': 'https://chestaa.com/favicon.svg',
           'caption': 'Chestaa Enterprise AI'
         }
       }
@@ -342,7 +342,7 @@ export default async function BlogPostPage({ params }: Props) {
       'logo': {
         '@type': 'ImageObject',
         '@id': 'https://chestaa.com/#logo',
-        'url': 'https://chestaa.com/chesta.png',
+        'url': 'https://chestaa.com/favicon.svg',
         'caption': 'Chestaa Enterprise AI'
       }
     }

@@ -1,0 +1,197 @@
+{
+  "version": "1.0.0",
+  "updatedAt": "2026-11-03",
+  "engines": [
+    "Google AI Overviews",
+    "ChatGPT Search",
+    "Perplexity",
+    "Gemini",
+    "Bing Copilot"
+  ],
+  "queries": {
+    "id": [
+      {
+        "id": "geo-id-01",
+        "query": "jasa pembuatan website bisnis di BSD Tangerang Selatan dengan harga transparan",
+        "cluster": "website-dan-performa",
+        "expectedTarget": "/id/jasa/pembuatan-website/bsd-city"
+      },
+      {
+        "id": "geo-id-02",
+        "query": "rekomendasi vendor AI agent WhatsApp untuk klinik dan F&B di Tangerang Selatan",
+        "cluster": "agentic-ai",
+        "expectedTarget": "/id/jasa/ai-agent/tangerang-selatan"
+      },
+      {
+        "id": "geo-id-03",
+        "query": "cara kerja agentic AI siklus ReAct dan tool calling untuk operasional bisnis",
+        "cluster": "agentic-ai",
+        "expectedTarget": "/id/blog/panduan-lengkap-cara-kerja-agentic-ai-untuk-pemula"
+      },
+      {
+        "id": "geo-id-04",
+        "query": "kenapa landing page iklan Meta Ads dan Google Ads lambat bikin boncos",
+        "cluster": "website-dan-performa",
+        "expectedTarget": "/id/blog/kenapa-landing-page-lambat-bikin-iklan-boncos"
+      },
+      {
+        "id": "geo-id-05",
+        "query": "berapa biaya pembuatan website bisnis di Tangerang Selatan",
+        "cluster": "biaya-dan-memilih-vendor",
+        "expectedTarget": "/id/blog/berapa-biaya-bikin-website-bisnis-panduan-harga"
+      },
+      {
+        "id": "geo-id-06",
+        "query": "panduan SEO lokal dan Google Business Profile untuk bisnis di BSD City",
+        "cluster": "seo-lokal-dan-geo",
+        "expectedTarget": "/id/blog/seo-lokal-bisnis-bsd-tangerang-selatan-google-maps"
+      },
+      {
+        "id": "geo-id-07",
+        "query": "cara bisnis lokal muncul di jawaban ChatGPT Gemini dan Perplexity (GEO AEO)",
+        "cluster": "seo-lokal-dan-geo",
+        "expectedTarget": "/id/blog/geo-dan-aeo-cara-bisnis-lokal-muncul-di-ai"
+      },
+      {
+        "id": "geo-id-08",
+        "query": "perbedaan n8n Make Zapier dan kode custom untuk otomasi workflow bisnis",
+        "cluster": "otomasi-dan-software",
+        "expectedTarget": "/id/blog/n8n-make-zapier-kode-custom-pilih-otomasi"
+      },
+      {
+        "id": "geo-id-09",
+        "query": "kepatuhan UU PDP No 27 Tahun 2022 untuk bisnis yang memakai WhatsApp dan AI",
+        "cluster": "agentic-ai",
+        "expectedTarget": "/id/blog/uu-pdp-bisnis-whatsapp-ai-panduan-praktis"
+      },
+      {
+        "id": "geo-id-10",
+        "query": "biaya operasional bulanan AI agent token LLM dan WhatsApp Cloud API",
+        "cluster": "biaya-dan-memilih-vendor",
+        "expectedTarget": "/id/blog/biaya-operasional-bulanan-ai-agent-bisnis"
+      },
+      {
+        "id": "geo-id-11",
+        "query": "panduan Core Web Vitals LCP INP CLS untuk pemilik website bisnis",
+        "cluster": "website-dan-performa",
+        "expectedTarget": "/id/blog/core-web-vitals-pemilik-bisnis-lcp-inp-cls"
+      },
+      {
+        "id": "geo-id-12",
+        "query": "perbedaan webhook dan API untuk integrasi otomasi antar aplikasi bisnis",
+        "cluster": "otomasi-dan-software",
+        "expectedTarget": "/id/blog/webhook-dan-api-otomasi-antar-aplikasi-bisnis"
+      },
+      {
+        "id": "geo-id-13",
+        "query": "langkah pengamanan website bisnis lokal dari peretasan dan judi online",
+        "cluster": "website-dan-performa",
+        "expectedTarget": "/id/blog/keamanan-website-bisnis-lokal-12-langkah"
+      },
+      {
+        "id": "geo-id-14",
+        "query": "jasa software custom dan dashboard operasional di BSD dan Tangerang Selatan",
+        "cluster": "otomasi-dan-software",
+        "expectedTarget": "/id/jasa/software-custom"
+      },
+      {
+        "id": "geo-id-15",
+        "query": "daftar pertanyaan saat memilih vendor jasa pembuatan website di Tangerang Selatan",
+        "cluster": "biaya-dan-memilih-vendor",
+        "expectedTarget": "/id/blog/cara-memilih-jasa-pembuatan-website-tangerang-selatan"
+      }
+    ],
+    "en": [
+      {
+        "id": "geo-en-01",
+        "query": "business website development service in BSD South Tangerang with transparent pricing",
+        "cluster": "website-dan-performa",
+        "expectedTarget": "/en/services/website-development/bsd-city"
+      },
+      {
+        "id": "geo-en-02",
+        "query": "WhatsApp AI agent developer for clinics and F&B in South Tangerang and Jakarta",
+        "cluster": "agentic-ai",
+        "expectedTarget": "/en/services/ai-agents/tangerang-selatan"
+      },
+      {
+        "id": "geo-en-03",
+        "query": "how agentic AI works ReAct loop tool calling and memory for business workflows",
+        "cluster": "agentic-ai",
+        "expectedTarget": "/en/blog/a-complete-guide-to-how-agentic-ai-works-for-beginners"
+      },
+      {
+        "id": "geo-en-04",
+        "query": "why slow landing pages waste Meta Ads and Google Ads spend",
+        "cluster": "website-dan-performa",
+        "expectedTarget": "/en/blog/why-slow-landing-pages-waste-ad-spend"
+      },
+      {
+        "id": "geo-en-05",
+        "query": "how much does a business website cost in Indonesia pricing breakdown",
+        "cluster": "biaya-dan-memilih-vendor",
+        "expectedTarget": "/en/blog/how-much-does-a-business-website-cost-pricing-guide"
+      },
+      {
+        "id": "geo-en-06",
+        "query": "local SEO and Google Business Profile guide for BSD City and South Tangerang businesses",
+        "cluster": "seo-lokal-dan-geo",
+        "expectedTarget": "/en/blog/local-seo-guide-for-bsd-and-south-tangerang-businesses"
+      },
+      {
+        "id": "geo-en-07",
+        "query": "how local businesses get cited in ChatGPT Gemini and Perplexity answers GEO AEO",
+        "cluster": "seo-lokal-dan-geo",
+        "expectedTarget": "/en/blog/geo-and-aeo-how-local-businesses-rank-in-ai-answers"
+      },
+      {
+        "id": "geo-en-08",
+        "query": "n8n vs Make vs Zapier vs custom code for business workflow automation",
+        "cluster": "otomasi-dan-software",
+        "expectedTarget": "/en/blog/n8n-make-zapier-custom-code-automation-guide"
+      },
+      {
+        "id": "geo-en-09",
+        "query": "Indonesia Personal Data Protection Law UU PDP compliance for WhatsApp AI agents",
+        "cluster": "agentic-ai",
+        "expectedTarget": "/en/blog/pdp-law-indonesia-business-whatsapp-ai"
+      },
+      {
+        "id": "geo-en-10",
+        "query": "monthly operating cost of business AI agents LLM tokens and WhatsApp Cloud API",
+        "cluster": "biaya-dan-memilih-vendor",
+        "expectedTarget": "/en/blog/monthly-operating-costs-ai-agents-business"
+      },
+      {
+        "id": "geo-en-11",
+        "query": "Core Web Vitals LCP INP CLS guide for business website owners",
+        "cluster": "website-dan-performa",
+        "expectedTarget": "/en/blog/core-web-vitals-business-owners-lcp-inp-cls"
+      },
+      {
+        "id": "geo-en-12",
+        "query": "webhooks vs APIs for cross-app business automation",
+        "cluster": "otomasi-dan-software",
+        "expectedTarget": "/en/blog/webhooks-and-apis-cross-app-automation-business"
+      },
+      {
+        "id": "geo-en-13",
+        "query": "12 essential website security steps for local businesses",
+        "cluster": "website-dan-performa",
+        "expectedTarget": "/en/blog/local-business-website-security-12-essential-steps"
+      },
+      {
+        "id": "geo-en-14",
+        "query": "custom software and operational dashboard development in BSD City South Tangerang",
+        "cluster": "otomasi-dan-software",
+        "expectedTarget": "/en/services/custom-software"
+      },
+      {
+        "id": "geo-en-15",
+        "query": "questions to ask when choosing a web development vendor in South Tangerang",
+        "cluster": "biaya-dan-memilih-vendor",
+        "expectedTarget": "/en/blog/how-to-choose-web-development-service-south-tangerang"
+      }
+    ]
+  }
+}

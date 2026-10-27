@@ -1,0 +1,144 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1280 720" width="1280" height="720" fill="none">
+  <defs>
+    <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFFFFF" />
+      <stop offset="60%" stop-color="#F8F6FE" />
+      <stop offset="100%" stop-color="#EFEAFB" />
+    </linearGradient>
+    <linearGradient id="primaryGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#6A3FD0" />
+      <stop offset="100%" stop-color="#5230B0" />
+    </linearGradient>
+    <filter id="softShadow" x="-8%" y="-8%" width="116%" height="120%" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="12" stdDeviation="20" flood-color="#17122B" flood-opacity="0.06" />
+    </filter>
+  </defs>
+
+  <!-- Background -->
+  <rect width="1280" height="720" fill="url(#bgGrad)" />
+
+  <!-- Subtle Blueprint Grid Lines -->
+  <g stroke="#6A3FD0" stroke-opacity="0.08" stroke-width="1" stroke-dasharray="4 6">
+    <line x1="80" y1="80" x2="1200" y2="80" />
+    <line x1="80" y1="200" x2="1200" y2="200" />
+    <line x1="80" y1="360" x2="1200" y2="360" />
+    <line x1="80" y1="520" x2="1200" y2="520" />
+    <line x1="80" y1="640" x2="1200" y2="640" />
+    <line x1="200" y1="80" x2="200" y2="640" />
+    <line x1="640" y1="80" x2="640" y2="640" />
+    <line x1="1080" y1="80" x2="1080" y2="640" />
+  </g>
+
+  <!-- Header Badge & Title -->
+  <rect x="80" y="52" width="230" height="32" rx="16" fill="#EFEAFB" stroke="#6A3FD0" stroke-opacity="0.25" stroke-width="1.2" />
+  <circle cx="98" cy="68" r="4.5" fill="#6A3FD0" />
+  <text x="114" y="73" fill="#6A3FD0" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="700" letter-spacing="0.08em">AGENTIC AI · ARCHITECTURE</text>
+
+  <!-- UI Window Container -->
+  <rect x="80" y="104" width="1120" height="536" rx="20" fill="#FFFFFF" stroke="#6A3FD0" stroke-opacity="0.18" stroke-width="1.5" filter="url(#softShadow)" />
+
+  <!-- Window Header Bar -->
+  <path d="M 80 124 Q 80 104 100 104 L 1180 104 Q 1200 104 1200 124 L 1200 152 L 80 152 Z" fill="#F8F6FE" />
+  <line x1="80" y1="152" x2="1200" y2="152" stroke="#6A3FD0" stroke-opacity="0.12" stroke-width="1" />
+  <circle cx="106" cy="128" r="5" fill="#EF4444" fill-opacity="0.75" />
+  <circle cx="124" cy="128" r="5" fill="#F59E0B" fill-opacity="0.75" />
+  <circle cx="142" cy="128" r="5" fill="#10B981" fill-opacity="0.75" />
+  <text x="170" y="132" fill="#5B5675" font-family="JetBrains Mono, monospace" font-size="12">react-loop-pipeline · ReAct Engine (Reasoning + Action + Observation)</text>
+
+  <!-- Node 1: User Intent Ingestion -->
+  <rect x="120" y="200" width="200" height="380" rx="14" fill="#F8F6FE" stroke="#6A3FD0" stroke-opacity="0.2" stroke-width="1.2" />
+  <rect x="136" y="218" width="168" height="28" rx="6" fill="#EFEAFB" />
+  <text x="146" y="237" fill="#6A3FD0" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="700">1. INPUT CONTEXT</text>
+
+  <rect x="136" y="260" width="168" height="74" rx="8" fill="#FFFFFF" stroke="#6A3FD0" stroke-opacity="0.15" stroke-width="1" />
+  <text x="148" y="280" fill="#17122B" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="600">WhatsApp / Webhook</text>
+  <text x="148" y="298" fill="#5B5675" font-family="Inter, system-ui, sans-serif" font-size="10">"Mau booking konsultasi</text>
+  <text x="148" y="314" fill="#5B5675" font-family="Inter, system-ui, sans-serif" font-size="10">Sabtu sore jam 4..."</text>
+
+  <rect x="136" y="348" width="168" height="74" rx="8" fill="#FFFFFF" stroke="#6A3FD0" stroke-opacity="0.15" stroke-width="1" />
+  <text x="148" y="368" fill="#17122B" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="600">Memory &amp; Session</text>
+  <text x="148" y="386" fill="#5B5675" font-family="Inter, system-ui, sans-serif" font-size="10">User ID, customer history,</text>
+  <text x="148" y="402" fill="#5B5675" font-family="Inter, system-ui, sans-serif" font-size="10">context window tokens</text>
+
+  <rect x="136" y="436" width="168" height="120" rx="8" fill="#EFEAFB" stroke="#6A3FD0" stroke-opacity="0.25" stroke-width="1" />
+  <text x="148" y="458" fill="#6A3FD0" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="700">Safety Guardrails</text>
+  <text x="148" y="478" fill="#3E3954" font-family="Inter, system-ui, sans-serif" font-size="10">✓ Prompt injection filter</text>
+  <text x="148" y="498" fill="#3E3954" font-family="Inter, system-ui, sans-serif" font-size="10">✓ Scope boundaries</text>
+  <text x="148" y="518" fill="#3E3954" font-family="Inter, system-ui, sans-serif" font-size="10">✓ Rate limiting checks</text>
+  <text x="148" y="538" fill="#3E3954" font-family="Inter, system-ui, sans-serif" font-size="10">✓ Privacy PII redact</text>
+
+  <!-- Arrow 1 to 2 -->
+  <path d="M 320 390 L 370 390" stroke="#6A3FD0" stroke-width="2.5" stroke-linecap="round" />
+  <polygon points="370,385 380,390 370,395" fill="#6A3FD0" />
+
+  <!-- Node 2: Reasoning Engine (ReAct Cycle) -->
+  <rect x="380" y="180" width="360" height="420" rx="16" fill="#FFFFFF" stroke="#6A3FD0" stroke-width="2" filter="url(#softShadow)" />
+  <rect x="400" y="200" width="320" height="34" rx="8" fill="url(#primaryGrad)" />
+  <text x="414" y="222" fill="#FFFFFF" font-family="Inter, system-ui, sans-serif" font-size="13" font-weight="700">2. AGENTIC REASONING LOOP (LLM)</text>
+
+  <!-- ReAct Step A: Thought -->
+  <rect x="400" y="250" width="320" height="70" rx="8" fill="#F8F6FE" stroke="#6A3FD0" stroke-opacity="0.2" stroke-width="1" />
+  <text x="416" y="272" fill="#6A3FD0" font-family="JetBrains Mono, monospace" font-size="11" font-weight="700">THOUGHT:</text>
+  <text x="416" y="292" fill="#17122B" font-family="Inter, system-ui, sans-serif" font-size="11">"Customer wants Saturday 16:00 appointment.</text>
+  <text x="416" y="308" fill="#5B5675" font-family="Inter, system-ui, sans-serif" font-size="10">Must query calendar tool to verify slot availability."</text>
+
+  <!-- ReAct Step B: Action Decision -->
+  <rect x="400" y="332" width="320" height="70" rx="8" fill="#EFEAFB" stroke="#6A3FD0" stroke-opacity="0.3" stroke-width="1" />
+  <text x="416" y="354" fill="#6A3FD0" font-family="JetBrains Mono, monospace" font-size="11" font-weight="700">ACTION (TOOL CALL):</text>
+  <text x="416" y="374" fill="#17122B" font-family="JetBrains Mono, monospace" font-size="10">check_calendar_slot({ date: "2026-10-31",</text>
+  <text x="416" y="390" fill="#17122B" font-family="JetBrains Mono, monospace" font-size="10">  time: "16:00", therapist: "drg_rina" })</text>
+
+  <!-- ReAct Step C: Observation Feedback Loop -->
+  <rect x="400" y="414" width="320" height="70" rx="8" fill="#F8F6FE" stroke="#6A3FD0" stroke-opacity="0.2" stroke-width="1" />
+  <text x="416" y="436" fill="#10B981" font-family="JetBrains Mono, monospace" font-size="11" font-weight="700">OBSERVATION:</text>
+  <text x="416" y="456" fill="#17122B" font-family="JetBrains Mono, monospace" font-size="10">{ available: true, buffer_mins: 15,</text>
+  <text x="416" y="472" fill="#17122B" font-family="JetBrains Mono, monospace" font-size="10">  clinic_location: "BSD City Ruko Tol" }</text>
+
+  <!-- ReAct Step D: Final Synthesis -->
+  <rect x="400" y="496" width="320" height="84" rx="8" fill="#FFFFFF" stroke="#6A3FD0" stroke-opacity="0.2" stroke-width="1" />
+  <text x="416" y="518" fill="#6A3FD0" font-family="JetBrains Mono, monospace" font-size="11" font-weight="700">NEXT THOUGHT &amp; FINAL SYNTHESIS:</text>
+  <text x="416" y="538" fill="#17122B" font-family="Inter, system-ui, sans-serif" font-size="11">"Slot is confirmed open. Draft confirmation,</text>
+  <text x="416" y="554" fill="#5B5675" font-family="Inter, system-ui, sans-serif" font-size="10">create pending reservation record, and reply politely."</text>
+
+  <!-- Arrow 2 to 3 -->
+  <path d="M 740 390 L 790 390" stroke="#6A3FD0" stroke-width="2.5" stroke-linecap="round" />
+  <polygon points="790,385 800,390 790,395" fill="#6A3FD0" />
+
+  <!-- Node 3: Tools & External Executions -->
+  <rect x="800" y="200" width="360" height="380" rx="14" fill="#F8F6FE" stroke="#6A3FD0" stroke-opacity="0.2" stroke-width="1.2" />
+  <rect x="816" y="218" width="328" height="28" rx="6" fill="#EFEAFB" />
+  <text x="828" y="237" fill="#6A3FD0" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="700">3. TOOLS &amp; INTEGRATION EXECUTION</text>
+
+  <!-- Tool 1: MCP / REST APIs -->
+  <rect x="816" y="258" width="328" height="66" rx="8" fill="#FFFFFF" stroke="#6A3FD0" stroke-opacity="0.15" stroke-width="1" />
+  <circle cx="836" cy="282" r="8" fill="#6A3FD0" fill-opacity="0.15" />
+  <text x="852" y="280" fill="#17122B" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="600">Calendar &amp; Booking API</text>
+  <text x="852" y="296" fill="#5B5675" font-family="Inter, system-ui, sans-serif" font-size="10">Google Calendar / Cal.com MCP tool execution</text>
+  <text x="852" y="312" fill="#10B981" font-family="JetBrains Mono, monospace" font-size="9">HTTP 200 OK · Slot Locked</text>
+
+  <!-- Tool 2: Database & CRM -->
+  <rect x="816" y="334" width="328" height="66" rx="8" fill="#FFFFFF" stroke="#6A3FD0" stroke-opacity="0.15" stroke-width="1" />
+  <circle cx="836" cy="358" r="8" fill="#6A3FD0" fill-opacity="0.15" />
+  <text x="852" y="356" fill="#17122B" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="600">Database &amp; CRM Storage</text>
+  <text x="852" y="372" fill="#5B5675" font-family="Inter, system-ui, sans-serif" font-size="10">PostgreSQL / Supabase / Google Sheets sync</text>
+  <text x="852" y="388" fill="#10B981" font-family="JetBrains Mono, monospace" font-size="9">INSERT INTO appointments RETURNING id</text>
+
+  <!-- Tool 3: Human Handover Escort -->
+  <rect x="816" y="410" width="328" height="66" rx="8" fill="#FFFFFF" stroke="#6A3FD0" stroke-opacity="0.15" stroke-width="1" />
+  <circle cx="836" cy="434" r="8" fill="#F59E0B" fill-opacity="0.2" />
+  <text x="852" y="432" fill="#17122B" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="600">Human-in-the-Loop Handover</text>
+  <text x="852" y="448" fill="#5B5675" font-family="Inter, system-ui, sans-serif" font-size="10">Escalates out-of-scope complaints to human staff</text>
+  <text x="852" y="464" fill="#6A3FD0" font-family="Inter, system-ui, sans-serif" font-size="9">Context Summary Packet attached</text>
+
+  <!-- Tool 4: WhatsApp Sender -->
+  <rect x="816" y="486" width="328" height="74" rx="8" fill="#EFEAFB" stroke="#6A3FD0" stroke-opacity="0.3" stroke-width="1" />
+  <circle cx="836" cy="514" r="8" fill="#10B981" />
+  <text x="852" y="508" fill="#17122B" font-family="Inter, system-ui, sans-serif" font-size="11" font-weight="700">Verified WhatsApp Response</text>
+  <text x="852" y="524" fill="#3E3954" font-family="Inter, system-ui, sans-serif" font-size="10">"Jadwal Sabtu 31 Okt pukul 16.00 bersama drg. Rina</text>
+  <text x="852" y="538" fill="#3E3954" font-family="Inter, system-ui, sans-serif" font-size="10">telah kami siapkan. Kami kirimkan pengingat H-1 ya!"</text>
+  <text x="852" y="552" fill="#6A3FD0" font-family="JetBrains Mono, monospace" font-size="9">SENT · LATENCY: 2.1s · AUDIT LOG SAVED</text>
+
+  <!-- Bottom Brand Tag -->
+  <text x="80" y="668" fill="#5B5675" font-family="Inter, system-ui, sans-serif" font-size="12" font-weight="500">CHESTAADOTCOM · Rekayasa Software Custom &amp; AI Agent · BSD City, Tangerang Selatan</text>
+  <text x="1200" y="668" text-anchor="end" fill="#6A3FD0" font-family="JetBrains Mono, monospace" font-size="11">chestaa.com/jasa/ai-agent</text>
+</svg>

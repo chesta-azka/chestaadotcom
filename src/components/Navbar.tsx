@@ -67,7 +67,7 @@ export function Navbar() {
         >
           <div className="w-8 h-8 relative rounded-xl overflow-hidden border border-purple-100 bg-white">
             <Image
-              src="/chesta.png"
+              src="/favicon.svg"
               alt="Chestaa Logo"
               fill
               className="object-contain p-1"

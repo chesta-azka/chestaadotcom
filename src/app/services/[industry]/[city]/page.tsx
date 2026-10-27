@@ -45,7 +45,7 @@ export default async function ProgrammaticSEOPage({ params }: PageProps) {
   const programmaticFaqs: ProgrammaticFaqItem[] = [
     {
       question: `Mengapa bisnis ${copy.industry} di ${copy.city} membutuhkan arsitektur digital dan otomatisasi AI?`,
-      answer: copy.hook || `Kompetisi bisnis ${copy.industry} di ${copy.city} membutuhkan sistem otonom berkecepatan tinggi untuk menekan biaya operasional manual dan mendominasi pasar lokal.`,
+      answer: copy.hook || `Kompetisi bisnis ${copy.industry} di ${copy.city} membutuhkan sistem otonom berkecepatan tinggi untuk menekan biaya operasional manual dan mengembangkan bisnis lokal.`,
     },
     {
       question: `Bagaimana pendekatan solusi Chestaa untuk sektor ${copy.industry} di wilayah ${copy.city}?`,
@@ -99,7 +99,7 @@ export default async function ProgrammaticSEOPage({ params }: PageProps) {
       url: 'https://chestaa.com',
       logo: {
         '@type': 'ImageObject',
-        url: 'https://chestaa.com/chesta.png',
+        url: 'https://chestaa.com/favicon.svg',
       },
     },
     areaServed: [

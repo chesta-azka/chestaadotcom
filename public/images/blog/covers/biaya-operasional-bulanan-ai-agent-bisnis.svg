@@ -1,0 +1,85 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900" fill="none" role="img" aria-label="Meteran pemakaian bulanan operasional AI agent yang merinci kuota token model bahasa, biaya percakapan WA, dan cloud">
+  <defs>
+    <pattern id="grid64" width="64" height="64" patternUnits="userSpaceOnUse">
+      <path d="M 64 0 L 0 0 0 64" fill="none" stroke="#17122B" stroke-width="1" stroke-opacity="0.04" />
+    </pattern>
+    <radialGradient id="purpleGlow" cx="800" cy="200" r="620" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#B9A2F2" stop-opacity="0.42" />
+      <stop offset="55%" stop-color="#EFEAFB" stop-opacity="0.18" />
+      <stop offset="100%" stop-color="#F8F6FE" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+  <rect width="1600" height="900" fill="#F8F6FE" />
+  <rect width="1600" height="900" fill="url(#purpleGlow)" />
+  <rect width="1600" height="900" fill="url(#grid64)" />
+  <g key="anchor-0">
+        <rect x="118" y="558" width="260" height="160" rx="14" fill="#17122B" stroke="#DED8F2" stroke-width="1" />
+        <rect x="136" y="578" width="200" height="10" rx="5" fill="#B9A2F2" />
+             <rect x="136" y="598" width="160" height="8" rx="4" fill="#EFEAFB" fill-opacity="0.45" />
+      </g>
+<g key="anchor-1">
+        <rect x="1230" y="110" width="240" height="130" rx="14" fill="#B9A2F2" stroke="#DED8F2" stroke-width="1" />
+        <rect x="1248" y="130" width="180" height="10" rx="5" fill="#5230B0" />
+             <rect x="1248" y="150" width="140" height="8" rx="4" fill="#17122B" fill-opacity="0.25" />
+      </g>
+<g key="anchor-2">
+        <rect x="677" y="788" width="360" height="48" rx="14" fill="#17122B" stroke="#DED8F2" stroke-width="1" />
+        <rect x="695" y="808" width="300" height="10" rx="5" fill="#B9A2F2" />
+             <rect x="695" y="828" width="260" height="8" rx="4" fill="#EFEAFB" fill-opacity="0.45" />
+      </g>
+<line x1="1394" y1="244" x2="560" y2="330" stroke="#C5B8EC" stroke-width="1" stroke-dasharray="4 4" />
+<line x1="175" y1="639" x2="1040" y2="330" stroke="#C5B8EC" stroke-width="1" stroke-dasharray="none" />
+<line x1="1392" y1="623" x2="560" y2="330" stroke="#C5B8EC" stroke-width="1" stroke-dasharray="4 4" />
+<line x1="311" y1="140" x2="1040" y2="570" stroke="#C5B8EC" stroke-width="1" stroke-dasharray="none" />
+<g>
+        <circle cx="1394" cy="244" r="14" fill="#FFFFFF" stroke="#C5B8EC" stroke-width="1" />
+        <circle cx="1394" cy="244" r="4" fill="#6A3FD0" />
+      </g>
+<g>
+        <circle cx="175" cy="639" r="20" fill="#6A3FD0" stroke="#17122B" stroke-width="1" />
+        <circle cx="175" cy="639" r="4" fill="#FFFFFF" />
+      </g>
+<g>
+        <circle cx="1392" cy="623" r="14" fill="#FFFFFF" stroke="#C5B8EC" stroke-width="1" />
+        <circle cx="1392" cy="623" r="4" fill="#6A3FD0" />
+      </g>
+<g>
+        <circle cx="311" cy="140" r="14" fill="#FFFFFF" stroke="#C5B8EC" stroke-width="1" />
+        <circle cx="311" cy="140" r="4" fill="#6A3FD0" />
+      </g>
+  <g transform="translate(1600, 0) scale(-1, 1) rotate(2 800 450)">
+    <g>
+        <rect x="290" y="185" width="1020" height="530" rx="24" fill="#17122B" stroke="#C5B8EC" stroke-width="1" />
+        <rect x="345" y="245" width="910" height="190" rx="18" fill="#FFFFFF" />
+        <!-- Monthly tick bars -->
+        <rect x="385" y="310" width="54" height="90" rx="6" fill="#EFEAFB" />
+        <rect x="465" y="295" width="54" height="105" rx="6" fill="#B9A2F2" />
+        <rect x="545" y="275" width="54" height="125" rx="6" fill="#7C54E0" />
+        <rect x="625" y="265" width="54" height="135" rx="6" fill="#5230B0" />
+        <rect x="705" y="285" width="54" height="115" rx="6" fill="#17122B" />
+        <rect x="785" y="260" width="54" height="140" rx="6" fill="#6A3FD0" />
+        <rect x="865" y="300" width="54" height="100" rx="6" fill="#9E7BF0" />
+        <!-- Right summary dial -->
+        <circle cx="1095" cy="340" r="68" fill="#17122B" />
+        <circle cx="1095" cy="340" r="32" fill="#9E7BF0" />
+        <!-- Bottom quota track -->
+        <rect x="345" y="475" width="910" height="180" rx="18" fill="#2B1763" stroke="#6A3FD0" stroke-width="1" />
+        <rect x="385" y="515" width="830" height="36" rx="18" fill="#FFFFFF" />
+        <rect x="385" y="515" width="560" height="36" rx="18" fill="#6A3FD0" />
+        <rect x="385" y="580" width="380" height="34" rx="8" fill="#9E7BF0" />
+        <rect x="815" y="580" width="400" height="34" rx="8" fill="#EFEAFB" />
+      </g>
+  </g>
+  <g transform="translate(364, 112)">
+    <rect width="106" height="26" rx="6" fill="#FFFFFF" stroke="#C5B8EC" stroke-width="1" />
+    <text x="53" y="17" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="11" font-weight="600" letter-spacing="0.06em" fill="#17122B">LLM TOKENS</text>
+  </g>
+<g transform="translate(747, 802)">
+    <rect width="106" height="26" rx="6" fill="#2B1763" stroke="#6A3FD0" stroke-width="1" />
+    <text x="53" y="17" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="11" font-weight="600" letter-spacing="0.06em" fill="#FFFFFF">WA SESSION</text>
+  </g>
+<g transform="translate(1145, 112)">
+    <rect width="76" height="26" rx="6" fill="#FFFFFF" stroke="#C5B8EC" stroke-width="1" />
+    <text x="38" y="17" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="11" font-weight="600" letter-spacing="0.06em" fill="#17122B">SERVER</text>
+  </g>
+</svg>

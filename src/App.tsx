@@ -30,23 +30,24 @@ import FooterSection from './components/organisms/FooterSection.tsx';
 import StickyMobileWhatsApp from './components/atoms/StickyMobileWhatsApp.tsx';
 import CommLinkAdmin from './components/CommLinkAdmin.tsx';
 import KeyboardShortcutsModal from './components/organisms/KeyboardShortcutsModal.tsx';
-import ServerAnalyticsTracker from './components/atoms/ServerAnalyticsTracker.tsx';
 import SEOMetadata from './components/atoms/SEOMetadata';
-import DevMotionOverlay from './components/atoms/DevMotionOverlay';
 
-import { useVisitorTracker } from './hooks/useVisitorTracker.ts';
-import { useClickTracker } from './hooks/useClickTracker.ts';
 import { ErrorBoundary } from './components/ErrorBoundary.tsx';
 
 // Code-splitting for pages
 const HomePage = React.lazy(() => import('./pages/HomePage.tsx'));
 const BlogHubPage = React.lazy(() => import('./pages/BlogHubPage.tsx'));
+const BlogTopicClusterPage = React.lazy(() => import('./pages/BlogTopicClusterPage.tsx'));
 const BlogPostPage = React.lazy(() => import('./pages/BlogPostPage.tsx'));
 const PortfolioPage = React.lazy(() => import('./pages/PortfolioPage.tsx'));
 const ProjectDetailPage = React.lazy(() => import('./pages/ProjectDetailPage.tsx'));
 const AboutPage = React.lazy(() => import('./pages/AboutPage.tsx'));
+const PricingPage = React.lazy(() => import('./pages/PricingPage.tsx'));
+const HowItWorksPage = React.lazy(() => import('./pages/HowItWorksPage.tsx'));
+const FAQPage = React.lazy(() => import('./pages/FAQPage.tsx'));
 const WorkflowPage = React.lazy(() => import('./pages/WorkflowPage.tsx'));
 const AreaDetailPage = React.lazy(() => import('./pages/AreaDetailPage.tsx'));
+const AreasHubPage = React.lazy(() => import('./pages/AreasHubPage.tsx'));
 const ServiceDetailPage = React.lazy(() => import('./pages/ServiceDetailPage.tsx'));
 const ServiceAreaPage = React.lazy(() => import('./pages/ServiceAreaPage.tsx'));
 const ProgrammaticServicePage = React.lazy(() => import('./pages/ProgrammaticServicePage.tsx'));
@@ -54,6 +55,8 @@ const GlossaryTermPage = React.lazy(() => import('./pages/GlossaryTermPage.tsx')
 const InsightDetailPage = React.lazy(() => import('./pages/InsightDetailPage.tsx'));
 const CaseStudiesPage = React.lazy(() => import('./pages/CaseStudiesPage.tsx'));
 const CaseStudyDetailPage = React.lazy(() => import('./pages/CaseStudyDetailPage.tsx'));
+const FreeAuditPage = React.lazy(() => import('./pages/FreeAuditPage.tsx'));
+const PrivacyPage = React.lazy(() => import('./pages/PrivacyPage.tsx'));
 const NotFoundPage = React.lazy(() => import('./pages/NotFoundPage.tsx'));
 const TrustCenterPage = React.lazy(() => import('./app/trust/page.tsx'));
 const AcademyPage = React.lazy(() => import('./pages/AcademyPage.tsx'));
@@ -64,6 +67,7 @@ const AcademyQuizPage = React.lazy(() => import('./pages/AcademyQuizPage.tsx'));
 const OmniAdminDashboard = React.lazy(() => import('./app/admin/page.tsx'));
 const AiAuditAdminPage = React.lazy(() => import('./app/admin/ai-audit/page.tsx'));
 const ClientPortalPage = React.lazy(() => import('./pages/ClientPortalPage.tsx'));
+const DevCoversPage = React.lazy(() => import('./pages/DevCoversPage.tsx'));
 
 function ScrollToTop() {
   const { pathname, hash } = useLocation();
@@ -95,7 +99,7 @@ function ScrollToTop() {
 /**
  * Intercepts internal link clicks to wrap SPA route changes in document.startViewTransition
  * when supported, enabling shared-element transitions (view-transition-name) for portfolio/blog
- * cards and instant (<120ms) opacity fade when switching between /ind and /eng.
+ * cards and instant (<120ms) opacity fade when switching between /id and /en.
  */
 function ViewTransitionLinkInterceptor() {
   const navigate = useNavigate();
@@ -166,12 +170,10 @@ function ViewTransitionLinkInterceptor() {
   return null;
 }
 
-const ROUTE_PREFIXES = ['', '/ind', '/eng'] as const;
+const ROUTE_PREFIXES = ['/id', '/en', '', '/ind', '/eng'] as const;
 
 function AppContent() {
   const location = useLocation();
-  useVisitorTracker();
-  useClickTracker();
 
   const redirectTarget = resolveRedirectTarget(location.pathname);
   if (redirectTarget && redirectTarget !== location.pathname) {
@@ -183,7 +185,6 @@ function AppContent() {
 
   return (
     <div className="relative w-full flex flex-col overflow-x-hidden min-h-screen bg-[#FFFFFF] text-[#17122B]">
-      <ServerAnalyticsTracker />
       <ViewTransitionLinkInterceptor />
 
       <div className="relative z-10 flex flex-col flex-1 bg-[#FFFFFF]">
@@ -195,33 +196,52 @@ function AppContent() {
               <React.Fragment key={prefix || 'default'}>
                 <Route path={prefix || '/'} element={<PageWrapper><HomePage /></PageWrapper>} />
                 <Route path={`${prefix}/blog`} element={<PageWrapper><BlogHubPage /></PageWrapper>} />
+                <Route path={`${prefix}/blog/halaman/:page`} element={<PageWrapper><BlogHubPage /></PageWrapper>} />
+                <Route path={`${prefix}/blog/page/:page`} element={<PageWrapper><BlogHubPage /></PageWrapper>} />
+                <Route path={`${prefix}/blog/topik/:cluster`} element={<PageWrapper><BlogTopicClusterPage /></PageWrapper>} />
+                <Route path={`${prefix}/blog/topic/:cluster`} element={<PageWrapper><BlogTopicClusterPage /></PageWrapper>} />
                 <Route path={`${prefix}/blog/kategori/:category`} element={<PageWrapper><BlogHubPage /></PageWrapper>} />
                 <Route path={`${prefix}/blog/:slug`} element={<PageWrapper><BlogPostPage /></PageWrapper>} />
                 <Route path={`${prefix}/portfolio`} element={<PageWrapper><PortfolioPage /></PageWrapper>} />
                 <Route path={`${prefix}/portfolio/:slug`} element={<PageWrapper><ProjectDetailPage /></PageWrapper>} />
                 <Route path={`${prefix}/about`} element={<PageWrapper><AboutPage /></PageWrapper>} />
+                <Route path={`${prefix}/tentang`} element={<PageWrapper><AboutPage /></PageWrapper>} />
+                <Route path={`${prefix}/harga`} element={<PageWrapper><PricingPage /></PageWrapper>} />
+                <Route path={`${prefix}/pricing`} element={<PageWrapper><PricingPage /></PageWrapper>} />
+                <Route path={`${prefix}/cara-kerja`} element={<PageWrapper><HowItWorksPage /></PageWrapper>} />
+                <Route path={`${prefix}/how-it-works`} element={<PageWrapper><HowItWorksPage /></PageWrapper>} />
+                <Route path={`${prefix}/faq`} element={<PageWrapper><FAQPage /></PageWrapper>} />
+                <Route path={`${prefix}/audit-gratis`} element={<PageWrapper><FreeAuditPage /></PageWrapper>} />
+                <Route path={`${prefix}/free-audit`} element={<PageWrapper><FreeAuditPage /></PageWrapper>} />
+                <Route path={`${prefix}/privasi`} element={<PageWrapper><PrivacyPage /></PageWrapper>} />
+                <Route path={`${prefix}/privacy`} element={<PageWrapper><PrivacyPage /></PageWrapper>} />
                 <Route path={`${prefix}/workflow`} element={<PageWrapper><WorkflowPage /></PageWrapper>} />
                 <Route path={`${prefix}/academy`} element={<PageWrapper><AcademyPage /></PageWrapper>} />
                 <Route path={`${prefix}/academy/resources`} element={<PageWrapper><AcademyResourcesPage /></PageWrapper>} />
                 <Route path={`${prefix}/academy/:slug`} element={<PageWrapper><AcademyMasterclassPage /></PageWrapper>} />
                 <Route path={`${prefix}/quiz`} element={<PageWrapper><QuizIndexPage /></PageWrapper>} />
                 <Route path={`${prefix}/quiz/:moduleId`} element={<PageWrapper><AcademyQuizPage /></PageWrapper>} />
+                <Route path={`${prefix}/area`} element={<PageWrapper><AreasHubPage /></PageWrapper>} />
+                <Route path={`${prefix}/areas`} element={<PageWrapper><AreasHubPage /></PageWrapper>} />
                 <Route path={`${prefix}/area/:cityName`} element={<PageWrapper><AreaDetailPage /></PageWrapper>} />
                 <Route path={`${prefix}/case-studies`} element={<PageWrapper><CaseStudiesPage /></PageWrapper>} />
                 <Route path={`${prefix}/case-studies/:slug`} element={<PageWrapper><CaseStudyDetailPage /></PageWrapper>} />
+                <Route path={`${prefix}/studi-kasus`} element={<PageWrapper><CaseStudiesPage /></PageWrapper>} />
+                <Route path={`${prefix}/studi-kasus/:slug`} element={<PageWrapper><CaseStudyDetailPage /></PageWrapper>} />
                 <Route path={`${prefix}/trust`} element={<PageWrapper><TrustCenterPage /></PageWrapper>} />
-                <Route path={`${prefix}/services`} element={<Navigate to={`${prefix}/#layanan`} replace />} />
-                <Route path={`${prefix}/layanan`} element={<Navigate to={`${prefix}/#layanan`} replace />} />
-                <Route path={`${prefix}/services/:industry/:city`} element={<PageWrapper><ProgrammaticServicePage /></PageWrapper>} />
-                <Route path={`${prefix}/industri/:industry`} element={<PageWrapper><ProgrammaticServicePage /></PageWrapper>} />
-                <Route path={`${prefix}/industri/:industry/:city`} element={<PageWrapper><ProgrammaticServicePage /></PageWrapper>} />
-                <Route path={`${prefix}/kamus-ai-teknologi/:term`} element={<PageWrapper><GlossaryTermPage /></PageWrapper>} />
-                <Route path={`${prefix}/insights/:slug`} element={<PageWrapper><InsightDetailPage /></PageWrapper>} />
+                <Route path={`${prefix}/services`} element={<Navigate to={`${prefix || '/id'}/#layanan`} replace />} />
+                <Route path={`${prefix}/layanan`} element={<Navigate to={`${prefix || '/id'}/#layanan`} replace />} />
+                <Route path={`${prefix}/jasa`} element={<Navigate to={`${prefix || '/id'}/#layanan`} replace />} />
                 <Route path={`${prefix}/jasa/:serviceSlug/:areaSlug`} element={<PageWrapper><ServiceAreaPage /></PageWrapper>} />
+                <Route path={`${prefix}/services/:serviceSlug/:areaSlug`} element={<PageWrapper><ServiceAreaPage /></PageWrapper>} />
                 <Route path={`${prefix}/layanan/:serviceSlug/:areaSlug`} element={<PageWrapper><ServiceAreaPage /></PageWrapper>} />
                 <Route path={`${prefix}/jasa/:slug`} element={<PageWrapper><ServiceDetailPage /></PageWrapper>} />
                 <Route path={`${prefix}/services/:slug`} element={<PageWrapper><ServiceDetailPage /></PageWrapper>} />
                 <Route path={`${prefix}/layanan/:slug`} element={<PageWrapper><ServiceDetailPage /></PageWrapper>} />
+                <Route path={`${prefix}/industri/:industry`} element={<PageWrapper><ProgrammaticServicePage /></PageWrapper>} />
+                <Route path={`${prefix}/industri/:industry/:city`} element={<PageWrapper><ProgrammaticServicePage /></PageWrapper>} />
+                <Route path={`${prefix}/kamus-ai-teknologi/:term`} element={<PageWrapper><GlossaryTermPage /></PageWrapper>} />
+                <Route path={`${prefix}/insights/:slug`} element={<PageWrapper><InsightDetailPage /></PageWrapper>} />
               </React.Fragment>
             ))}
 
@@ -230,6 +250,7 @@ function AppContent() {
             <Route path="/portal" element={<PageWrapper><ClientPortalPage /></PageWrapper>} />
             <Route path="/workspace/:slug" element={<PageWrapper><ClientPortalPage /></PageWrapper>} />
             <Route path="/client/:slug" element={<PageWrapper><ClientPortalPage /></PageWrapper>} />
+            <Route path="/dev/covers" element={<PageWrapper><DevCoversPage /></PageWrapper>} />
             <Route path="*" element={<PageWrapper><NotFoundPage /></PageWrapper>} />
           </Routes>
 
@@ -238,7 +259,6 @@ function AppContent() {
       </div>
 
       <StickyMobileWhatsApp />
-      <DevMotionOverlay />
     </div>
   );
 }

@@ -7,7 +7,12 @@ import {
   m,
   useReducedMotion,
 } from 'framer-motion';
-import { buildWaUrl } from '../ui/DesignSystem';
+import {
+  buildWhatsAppLink,
+  getWhatsAppCtaLabel,
+  resolveWhatsAppContextFromPathname,
+} from '../../lib/whatsapp';
+import { trackLanguageSwitch, trackWaClick } from '../../lib/analytics';
 import MenuOverlayPanel from './MenuOverlayPanel';
 import { getActiveLenis } from '../../lib/motion';
 import {
@@ -52,27 +57,32 @@ export default function Header() {
     {
       label: getTranslation(locale, 'nav.servicesGroup'),
       href: toLocalizedHref('/#layanan', locale, prefixMode),
-      matchPrefix: '/jasa',
+      matchPrefixes: ['/jasa', '/services', '/area', '/areas'],
     },
     {
       label: getTranslation(locale, 'nav.projects'),
       href: toLocalizedHref('/portfolio', locale, prefixMode),
-      matchPrefix: '/portfolio',
+      matchPrefixes: ['/portfolio'],
     },
     {
       label: getTranslation(locale, 'nav.caseStudies'),
       href: toLocalizedHref('/case-studies', locale, prefixMode),
-      matchPrefix: '/case-studies',
+      matchPrefixes: ['/case-studies'],
     },
     {
       label: getTranslation(locale, 'nav.blog'),
       href: toLocalizedHref('/blog', locale, prefixMode),
-      matchPrefix: '/blog',
+      matchPrefixes: ['/blog'],
+    },
+    {
+      label: locale === 'en' ? 'Free Audit' : 'Audit Gratis',
+      href: toLocalizedHref('/audit-gratis', locale, prefixMode),
+      matchPrefixes: ['/audit-gratis', '/free-audit'],
     },
   ];
 
   const activeNavIndex = quickNavItems.findIndex((item) =>
-    barePath.startsWith(item.matchPrefix)
+    item.matchPrefixes.some((p) => barePath.startsWith(p))
   );
   const currentTargetIndex = hoveredIdx !== null ? hoveredIdx : activeNavIndex;
 
@@ -148,11 +158,9 @@ export default function Header() {
     };
   }, [menuOpen]);
 
-  const whatsappUrl = buildWaUrl(
-    locale === 'en'
-      ? 'Hello Chesta & Zeeshan, I would like a free consultation regarding custom software / AI agents for my business.'
-      : 'Halo Chesta & Zeeshan, saya ingin konsultasi gratis mengenai software custom / AI agent untuk bisnis saya.'
-  );
+  const waContext = resolveWhatsAppContextFromPathname(location.pathname, locale);
+  const whatsappUrl = buildWhatsAppLink(waContext, locale);
+  const whatsappCtaLabel = getWhatsAppCtaLabel(locale);
 
   const triggerViewTransitionNavigate = (targetUrl: string, isLangSwitch = false) => {
     const doc = document as Document & {
@@ -180,6 +188,9 @@ export default function Header() {
     setMenuOpen(false);
     const parsedTarget = parseLocalizedPath(href);
     const isLangSwitch = parsedTarget.locale !== locale;
+    if (isLangSwitch) {
+      trackLanguageSwitch(locale, parsedTarget.locale, location.pathname);
+    }
 
     if (parsedTarget.barePath.startsWith('/#')) {
       const id = parsedTarget.barePath.replace('/#', '');
@@ -295,12 +306,15 @@ export default function Header() {
             <a
               href={whatsappUrl}
               target="_blank"
-              rel="noopener noreferrer"
-              onClick={() => setMenuOpen(false)}
-              className="hidden min-[380px]:inline-flex items-center gap-1.5 min-h-[38px] px-3.5 sm:px-4 py-1.5 rounded-full bg-[#6A3FD0] hover:bg-[#5230B0] text-[#FFFFFF] text-[12.5px] sm:text-[13px] font-semibold whitespace-nowrap shrink-0 transition-colors active:scale-[0.98]"
+              rel="noopener"
+              onClick={() => {
+                trackWaClick(waContext.type || 'default', 'header_cta', locale);
+                setMenuOpen(false);
+              }}
+              className="hidden md:inline-flex items-center gap-1.5 min-h-[38px] px-3.5 sm:px-4 py-1.5 rounded-full bg-[#6A3FD0] hover:bg-[#5230B0] text-[#FFFFFF] text-[12.5px] sm:text-[13px] font-semibold whitespace-nowrap shrink-0 transition-colors active:scale-[0.98]"
             >
               <MessageCircle size={14} className="shrink-0" />
-              <span>{getTranslation(locale, 'nav.freeConsultation')}</span>
+              <span>{whatsappCtaLabel}</span>
             </a>
 
             <button

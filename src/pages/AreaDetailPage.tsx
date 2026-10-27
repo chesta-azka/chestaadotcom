@@ -12,6 +12,7 @@ import { Skeleton } from '../components/atoms/Skeleton';
 import Breadcrumbs from '../components/atoms/Breadcrumbs';
 import FAQSchema from '../components/atoms/FAQSchema';
 import OptimizedImage from '../components/atoms/OptimizedImage';
+import FlowIllustration from '../components/atoms/FlowIllustration';
 
 export default function AreaDetailPage() {
   const { cityName } = useParams<{ cityName: string }>();
@@ -235,69 +236,81 @@ export default function AreaDetailPage() {
       <section className="relative pb-12 mb-12">
         <div className="absolute top-0 inset-x-0 h-[400px] bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-[#6b21a8]/4 via-transparent to-transparent -z-10 pointer-events-none" />
 
-        <div className="max-w-5xl mx-auto px-6">
-          <motion.div
-            initial={{ opacity: 0, y: 15 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6 }}
-            className="space-y-6 text-center md:text-left"
-          >
-            <span className="text-purple-700 font-mono text-[9px] font-bold uppercase tracking-[0.2em] inline-flex items-center gap-2 bg-white px-3.5 py-1.5 rounded-full border border-purple-200">
-              <Globe size={9} className="text-purple-600 animate-pulse" />
-              Layanan Digital & Konsultasi Lokal: {upperCity}
-            </span>
-            
-            <h1 className="text-3xl sm:text-5xl md:text-6xl font-display font-medium tracking-tight leading-[1.08] text-slate-900">
-              <TextRevealSmooth 
-                text={`Website Premium untuk UMKM di ${formattedCityName} yang Ingin Terlihat Lebih Serius.`} 
-                highlightWords={[formattedCityName, "Serius."]}
-                highlightClass="text-purple-700 font-serif italic pl-1"
-              />
-            </h1>
+        <div className="max-w-6xl mx-auto px-6">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-center">
+            <motion.div
+              initial={{ opacity: 0, y: 15 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6 }}
+              className="lg:col-span-7 space-y-6 text-center md:text-left"
+            >
+              <span className="text-purple-700 font-mono text-[9px] font-bold uppercase tracking-[0.2em] inline-flex items-center gap-2 bg-white px-3.5 py-1.5 rounded-full border border-purple-200">
+                <Globe size={9} className="text-purple-600 animate-pulse" />
+                Layanan Digital & Konsultasi Lokal: {upperCity}
+              </span>
+              
+              <h1 className="text-3xl sm:text-4xl md:text-5xl font-display font-medium tracking-tight leading-[1.08] text-slate-900">
+                <TextRevealSmooth 
+                  text={`Website Premium untuk UMKM di ${formattedCityName} yang Ingin Terlihat Lebih Serius.`} 
+                  highlightWords={[formattedCityName, "Serius."]}
+                  highlightClass="text-purple-700 font-serif italic pl-1"
+                />
+              </h1>
 
-            <p className="text-xs sm:text-sm md:text-base text-slate-600 font-sans max-w-2xl leading-relaxed mt-4">
-              Konversi instan trafik lokal menjadi klien premium. Kami membangun website kustom yang super cepat, 100% mobile-optimized, dan terindeks instan di Google Penelusuran wilayah <strong>{formattedCityName}</strong>.
-            </p>
+              <p className="text-xs sm:text-sm md:text-base text-slate-600 font-sans max-w-2xl leading-relaxed mt-4">
+                Konversi instan trafik lokal menjadi klien premium. Kami membangun website kustom yang super cepat, 100% mobile-optimized, dan terindeks instan di Google Penelusuran wilayah <strong>{formattedCityName}</strong>.
+              </p>
 
-            {/* Local Landmark & Meeting Point Badges */}
-            {currentStats.landmarks && currentStats.landmarks.length > 0 && (
-              <div className="pt-2">
-                <span className="text-[10px] font-mono font-bold text-purple-700 uppercase tracking-widest block mb-2.5 text-center md:text-left">
-                  📍 Titik Temu & Jangkauan Offline {formattedCityName}:
-                </span>
-                <div className="flex flex-wrap gap-2 justify-center md:justify-start">
-                  {currentStats.landmarks.map((landmark) => (
-                    <span 
-                      key={landmark}
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-purple-50/90 border border-purple-200/90 text-purple-900 text-xs font-mono font-semibold shadow-2xs hover:bg-purple-100 transition-colors"
-                    >
-                      <MapPin size={11} className="text-purple-600" />
-                      <span>{landmark}</span>
-                    </span>
-                  ))}
+              {/* Local Landmark & Meeting Point Badges */}
+              {currentStats.landmarks && currentStats.landmarks.length > 0 && (
+                <div className="pt-2">
+                  <span className="text-[10px] font-mono font-bold text-purple-700 uppercase tracking-widest block mb-2.5 text-center md:text-left">
+                    📍 Titik Temu & Jangkauan Offline {formattedCityName}:
+                  </span>
+                  <div className="flex flex-wrap gap-2 justify-center md:justify-start">
+                    {currentStats.landmarks.map((landmark) => (
+                      <span 
+                        key={landmark}
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-purple-50/90 border border-purple-200/90 text-purple-900 text-xs font-mono font-semibold shadow-2xs hover:bg-purple-100 transition-colors"
+                      >
+                        <MapPin size={11} className="text-purple-600" />
+                        <span>{landmark}</span>
+                      </span>
+                    ))}
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
 
-            <div className="pt-2 flex flex-col sm:flex-row gap-3 justify-center md:justify-start">
-              <a
-                href={`https://wa.me/6282125447232?text=${encodeURIComponent(currentStats.waIntro || `Halo Mas Chesta, saya ingin konsultasi pembuatan website untuk bisnis saya di wilayah ${formattedCityName}.`)}`}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center justify-center gap-2 rounded-full bg-purple-600 text-white px-6 py-3.5 font-mono text-[10px] font-bold uppercase tracking-wider hover:bg-purple-700 active:scale-95 transition-all cursor-pointer shadow-lg shadow-purple-600/10"
-              >
-                <MessageCircle size={14} />
-                <span>Konsultasi WhatsApp Langsung</span>
-              </a>
-              <Link
-                to="/services"
-                className="flex items-center justify-center gap-2 rounded-full bg-white border border-purple-200 text-slate-900 px-6 py-3.5 font-mono text-[10px] font-bold uppercase tracking-wider hover:bg-purple-50 transition-all shadow-2xs"
-              >
-                <span>Semua Layanan</span>
-                <ArrowUpRight size={12} />
-              </Link>
+              <div className="pt-2 flex flex-col sm:flex-row gap-3 justify-center md:justify-start">
+                <a
+                  href={`https://wa.me/6282125447232?text=${encodeURIComponent(currentStats.waIntro || `Halo Mas Chesta, saya ingin konsultasi pembuatan website untuk bisnis saya di wilayah ${formattedCityName}.`)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center justify-center gap-2 rounded-full bg-purple-600 text-white px-6 py-3.5 font-mono text-[10px] font-bold uppercase tracking-wider hover:bg-purple-700 active:scale-95 transition-all cursor-pointer shadow-lg shadow-purple-600/10"
+                >
+                  <MessageCircle size={14} />
+                  <span>Konsultasi WhatsApp Langsung</span>
+                </a>
+                <Link
+                  to="/services"
+                  className="flex items-center justify-center gap-2 rounded-full bg-white border border-purple-200 text-slate-900 px-6 py-3.5 font-mono text-[10px] font-bold uppercase tracking-wider hover:bg-purple-50 transition-all shadow-2xs"
+                >
+                  <span>Semua Layanan</span>
+                  <ArrowUpRight size={12} />
+                </Link>
+              </div>
+            </motion.div>
+
+            {/* Schematic Service Coverage Illustration */}
+            <div className="lg:col-span-5">
+              <FlowIllustration
+                id="area-flow"
+                locale="id"
+                activeAreaId={cityName?.toLowerCase()}
+                className="max-w-[480px] mx-auto"
+              />
             </div>
-          </motion.div>
+          </div>
         </div>
       </section>
 

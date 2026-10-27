@@ -18,7 +18,7 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
     const canonicalUrl = `https://chestaa.com/services/${slug}`;
     const ogImageUrl = `https://chestaa.com/api/og?title=${encodeURIComponent(coreService.title)}&category=Services`;
     return {
-      title: `${coreService.title} | CHESTAA Enterprise`,
+      title: `${coreService.title} | CHESTAADOTCOM`,
       description: coreService.heroDescription,
       alternates: { canonical: canonicalUrl },
       openGraph: {

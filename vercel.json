@@ -3,88 +3,213 @@
   "trailingSlash": false,
   "redirects": [
     {
+      "source": "/blog/panduan-lengkap-cara-kerja-agentic-ai-untuk-pemula",
+      "destination": "/id/blog/panduan-lengkap-cara-kerja-agentic-ai-untuk-pemula",
+      "permanent": true
+    },
+    {
+      "source": "/blog",
+      "destination": "/id/blog",
+      "permanent": true
+    },
+    {
+      "source": "/blog/:slug",
+      "destination": "/id/blog/:slug",
+      "permanent": true
+    },
+    {
+      "source": "/portfolio",
+      "destination": "/id/portfolio",
+      "permanent": true
+    },
+    {
+      "source": "/portfolio/wa-concierge",
+      "destination": "/id/portfolio/wa-concierge-klinik",
+      "permanent": true
+    },
+    {
+      "source": "/id/portfolio/wa-concierge",
+      "destination": "/id/portfolio/wa-concierge-klinik",
+      "permanent": true
+    },
+    {
+      "source": "/en/portfolio/wa-concierge",
+      "destination": "/en/portfolio/wa-concierge-klinik",
+      "permanent": true
+    },
+    {
+      "source": "/portfolio/:slug",
+      "destination": "/id/portfolio/:slug",
+      "permanent": true
+    },
+    {
+      "source": "/studi-kasus",
+      "destination": "/id/studi-kasus",
+      "permanent": true
+    },
+    {
+      "source": "/studi-kasus/:slug",
+      "destination": "/id/studi-kasus/:slug",
+      "permanent": true
+    },
+    {
+      "source": "/case-studies",
+      "destination": "/en/case-studies",
+      "permanent": true
+    },
+    {
+      "source": "/case-studies/:slug",
+      "destination": "/en/case-studies/:slug",
+      "permanent": true
+    },
+    {
       "source": "/layanan",
-      "destination": "/#layanan",
+      "destination": "/id#layanan",
       "permanent": true
     },
     {
       "source": "/services",
-      "destination": "/#layanan",
+      "destination": "/en#layanan",
+      "permanent": true
+    },
+    {
+      "source": "/id/layanan",
+      "destination": "/id#layanan",
+      "permanent": true
+    },
+    {
+      "source": "/en/services",
+      "destination": "/en#layanan",
       "permanent": true
     },
     {
       "source": "/layanan/web-landing-page",
-      "destination": "/jasa/pembuatan-website",
+      "destination": "/id/jasa/pembuatan-website",
       "permanent": true
     },
     {
       "source": "/layanan/custom-web-development",
-      "destination": "/jasa/pembuatan-website",
+      "destination": "/id/jasa/pembuatan-website",
       "permanent": true
     },
     {
       "source": "/layanan/ai-integration",
-      "destination": "/jasa/ai-agent",
+      "destination": "/id/jasa/ai-agent",
       "permanent": true
     },
     {
       "source": "/layanan/custom-software",
-      "destination": "/jasa/software-custom",
+      "destination": "/id/jasa/software-custom",
       "permanent": true
     },
     {
       "source": "/layanan/workflow-automation",
-      "destination": "/jasa/otomasi-workflow",
+      "destination": "/id/jasa/otomasi-workflow",
+      "permanent": true
+    },
+    {
+      "source": "/jasa/:slug",
+      "destination": "/id/jasa/:slug",
       "permanent": true
     },
     {
       "source": "/layanan/:slug",
-      "destination": "/jasa/:slug",
+      "destination": "/id/jasa/:slug",
       "permanent": true
     },
     {
       "source": "/services/:slug",
-      "destination": "/jasa/:slug",
+      "destination": "/en/services/:slug",
       "permanent": true
     },
     {
       "source": "/layanan/:serviceSlug/:areaSlug",
-      "destination": "/jasa/:serviceSlug/:areaSlug",
+      "destination": "/id/jasa/:serviceSlug/:areaSlug",
       "permanent": true
     },
     {
       "source": "/services/:serviceSlug/:areaSlug",
-      "destination": "/jasa/:serviceSlug/:areaSlug",
+      "destination": "/en/services/:serviceSlug/:areaSlug",
+      "permanent": true
+    },
+    {
+      "source": "/area",
+      "destination": "/id/area",
+      "permanent": true
+    },
+    {
+      "source": "/areas",
+      "destination": "/en/areas",
       "permanent": true
     },
     {
       "source": "/area/bsd-city",
-      "destination": "/jasa/pembuatan-website/bsd-city",
+      "destination": "/id/jasa/pembuatan-website/bsd-city",
       "permanent": true
     },
     {
       "source": "/area/cisauk",
-      "destination": "/jasa/pembuatan-website/bsd-city",
+      "destination": "/id/jasa/pembuatan-website/bsd-city",
       "permanent": true
     },
     {
       "source": "/area/alam-sutera",
-      "destination": "/jasa/pembuatan-website/alam-sutera",
+      "destination": "/id/jasa/pembuatan-website/alam-sutera",
       "permanent": true
     },
     {
       "source": "/area/bintaro",
-      "destination": "/jasa/pembuatan-website/bintaro",
+      "destination": "/id/jasa/pembuatan-website/bintaro",
       "permanent": true
     },
     {
       "source": "/area/gading-serpong",
-      "destination": "/jasa/pembuatan-website/gading-serpong",
+      "destination": "/id/jasa/pembuatan-website/gading-serpong",
       "permanent": true
     },
     {
       "source": "/area/tangerang-selatan",
-      "destination": "/jasa/pembuatan-website/tangerang-selatan",
+      "destination": "/id/jasa/pembuatan-website/tangerang-selatan",
+      "permanent": true
+    },
+    {
+      "source": "/area/:cityName",
+      "destination": "/id/jasa/pembuatan-website/:cityName",
+      "permanent": true
+    },
+    {
+      "source": "/ind",
+      "destination": "/id",
+      "permanent": true
+    },
+    {
+      "source": "/ind/:path*",
+      "destination": "/id/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/eng",
+      "destination": "/en",
+      "permanent": true
+    },
+    {
+      "source": "/eng/:path*",
+      "destination": "/en/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/about",
+      "destination": "/id/tentang",
+      "permanent": true
+    },
+    {
+      "source": "/id/about",
+      "destination": "/id/tentang",
+      "permanent": true
+    },
+    {
+      "source": "/workflow",
+      "destination": "/id/workflow",
       "permanent": true
     }
   ],
@@ -96,11 +221,29 @@
   ],
   "headers": [
     {
-      "source": "/jasa/(.*)",
+      "source": "/assets/(.*)",
       "headers": [
         {
           "key": "Cache-Control",
-          "value": "public, s-maxage=3600, stale-while-revalidate=86400"
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/images/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=86400, stale-while-revalidate=604800"
+        }
+      ]
+    },
+    {
+      "source": "/(sitemap.*\\.xml|robots\\.txt|llms.*\\.txt)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=3600, stale-while-revalidate=86400"
         }
       ]
     }

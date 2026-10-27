@@ -177,7 +177,7 @@ export default function ProgrammaticServicePage() {
               </div>
             </div>
             <p className="text-base text-slate-700 leading-relaxed italic">
-              "Kami merancang arsitektur khusus untuk industri {pseo.industry} di {pseo.city} agar bisnis Anda mendominasi pencarian organik secara instan."
+              "Kami merancang arsitektur khusus untuk industri {pseo.industry} di {pseo.city} agar bisnis Anda memperkuat keterlihatan organik secara nyata."
             </p>
             <div className="pt-2 flex items-center gap-2 text-xs text-slate-500 font-mono font-bold">
               <span className="w-2 h-2 rounded-full bg-purple-600 animate-ping" />
@@ -194,7 +194,7 @@ export default function ProgrammaticServicePage() {
               Simulasi Ekspansi {pseo.industry} di {pseo.city}
             </h3>
             <p className="text-sm text-slate-600 leading-relaxed">
-              Mendominasi pasar {pseo.city} untuk sektor {pseo.industry} membutuhkan arsitektur terukur. Mau saya bantu simulasikan strategi digitalnya sekarang?
+              Memperkuat jangkauan pasar {pseo.city} untuk sektor {pseo.industry} membutuhkan arsitektur terukur. Mau saya bantu simulasikan strategi digitalnya sekarang?
             </p>
             <Link
               to="/"

@@ -201,7 +201,7 @@ export const ARCHITECTURAL_TEARDOWNS: ArchitecturalTeardown[] = [
         <li><b>Akurasi Rekonsiliasi Tutup Buku Sempurna:</b> Proses tutup buku otomatis selesai dalam waktu kurang dari 5 detik tanpa selisih kas dan tanpa insiden korupsi data.</li>
         <li><b>Kemandirian Teknologi Korporat:</b> Manajemen pusat kini memegang kendali penuh atas evolusi fitur perangkat lunak kasir sesuai kebutuhan ekspansi bisnis masa depan.</li>
       </ul>
-      <p>Dengan fondasi sistem yang tangguh dan otonom, jaringan franchise kini melangkah pasti menuju dominasi pasar nasional tanpa rasa cemas akan ancaman kegagalan infrastruktur digital.</p>
+      <p>Dengan fondasi sistem yang tangguh dan otonom, jaringan franchise kini melangkah pasti menuju mengembangkan bisnis nasional tanpa rasa cemas akan ancaman kegagalan infrastruktur digital.</p>
       <!-- Word Count: 330 words -->
     `
   },

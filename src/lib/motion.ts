@@ -55,20 +55,31 @@ export function prefersReducedMotion(): boolean {
 
 /**
  * Detects whether the device/network should run in 'full', 'lite', or 'reduced' motion mode.
+ * Hard Rule: All touch devices, mobile screens (<1024px), low hardware, or save-data users
+ * strictly route to 'lite' mode (zero Lenis, zero parallax/tilt, pure compositor CSS transitions).
  */
 export function detectMotionMode(): MotionMode {
-  if (typeof window === 'undefined') return 'full';
+  if (typeof window === 'undefined') return 'lite';
   if (prefersReducedMotion()) return 'reduced';
 
   const docMode = document.documentElement.getAttribute('data-motion-mode') as MotionMode | null;
   if (docMode === 'lite' || docMode === 'reduced') return docMode;
+
+  const isTouchOrMobile =
+    'ontouchstart' in window ||
+    Boolean(navigator.maxTouchPoints && navigator.maxTouchPoints > 0) ||
+    Boolean(window.matchMedia?.('(pointer: coarse)').matches) ||
+    Boolean(window.matchMedia?.('(hover: none)').matches) ||
+    window.innerWidth < 1024;
+
+  if (isTouchOrMobile) return 'lite';
 
   const nav = navigator as Navigator & {
     deviceMemory?: number;
     connection?: { saveData?: boolean };
   };
   const reducedData =
-    window.matchMedia?.('(prefers-reduced-data: reduce)').matches ||
+    Boolean(window.matchMedia?.('(prefers-reduced-data: reduce)').matches) ||
     Boolean(nav.connection?.saveData);
   const lowHardware =
     (typeof nav.deviceMemory === 'number' && nav.deviceMemory <= 4) ||
@@ -448,7 +459,8 @@ export function lineDrawElement(
 
 /**
  * Count-up helper for real numeric metric values (runs once on view).
- * Parses prefix, numeric value, decimals, and suffix (e.g., "+42%", "3.2x", "24/7").
+ * Target metrics on case studies and portfolio are static badges, never counted up.
+ * Parses prefix, numeric value, decimals, and suffix (e.g., "+42%", "3.2x").
  */
 export function animateCountUp(
   element: HTMLElement | null,
@@ -457,7 +469,16 @@ export function animateCountUp(
 ): () => void {
   if (!element) return () => {};
   const mode = detectMotionMode();
-  if (mode === 'reduced') {
+  
+  // Static badge enforcement: never animate case studies, portfolio targets, or when in reduced/lite mode
+  const isStaticMetric =
+    element.getAttribute('data-static-metric') === 'true' ||
+    Boolean(element.closest('[data-static-metric="true"]')) ||
+    Boolean(element.closest('[data-case-study]')) ||
+    mode === 'reduced' ||
+    mode === 'lite';
+
+  if (isStaticMetric) {
     element.textContent = rawText;
     return () => {};
   }
@@ -490,7 +511,7 @@ export function animateCountUp(
           const state = { val: 0 };
           gsap.to(state, {
             val: normalizedNum,
-            duration: mode === 'lite' ? 0.5 : duration,
+            duration: Math.min(0.65, duration),
             ease: MOTION_TOKENS.easings.gsapOut,
             onUpdate: () => {
               const formatted = state.val.toFixed(decimals);
@@ -511,4 +532,72 @@ export function animateCountUp(
 
   observer.observe(element);
   return () => observer.disconnect();
+}
+
+/**
+ * Creates a GSAP timeline scoped to a section element with guaranteed cleanup.
+ * Enforces one timeline per section, killed when the section leaves view or unmounts.
+ */
+export function createSectionTimeline(
+  scopeElement?: HTMLElement | null,
+  vars?: gsap.TimelineVars
+): {
+  tl: gsap.core.Timeline;
+  kill: () => void;
+} {
+  const tl = gsap.timeline(vars);
+  const kill = () => {
+    tl.kill();
+    if (typeof ScrollTrigger !== 'undefined') {
+      ScrollTrigger.getAll().forEach((st) => {
+        if (
+          scopeElement &&
+          (st.trigger === scopeElement || (st.trigger instanceof Node && scopeElement.contains(st.trigger)))
+        ) {
+          st.kill();
+        }
+      });
+    }
+  };
+  return { tl, kill };
+}
+
+/**
+ * Registers one or more ScrollTrigger instances for cleanup.
+ */
+export function registerScrollTriggerCleanup(
+  ...triggers: Array<ScrollTrigger | null | undefined>
+): () => void {
+  return () => {
+    triggers.forEach((st) => {
+      if (st && typeof st.kill === 'function') {
+        st.kill();
+      }
+    });
+  };
+}
+
+/**
+ * Calls ScrollTrigger.refresh() once document fonts and images settle.
+ * Debounced and guarded against repetitive layout shifts.
+ */
+let refreshTimer: number | null = null;
+export function refreshScrollTrigger(): void {
+  if (typeof window === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+  if (refreshTimer !== null) {
+    window.clearTimeout(refreshTimer);
+  }
+
+  const runRefresh = () => {
+    ScrollTrigger.refresh();
+    refreshTimer = null;
+  };
+
+  if (document.fonts && document.fonts.ready) {
+    document.fonts.ready.then(() => {
+      refreshTimer = window.setTimeout(runRefresh, 120);
+    });
+  } else {
+    refreshTimer = window.setTimeout(runRefresh, 200);
+  }
 }

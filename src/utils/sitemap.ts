@@ -53,8 +53,12 @@ if (fs.existsSync(distDir)) {
       }
     }
 
+    // 3. Pre-render 404 page (dist/404.html) for static host platforms like Vercel
+    const notFoundHtml = injectSocialMeta(baseHtml, '/404');
+    fs.writeFileSync(path.join(distDir, '404.html'), notFoundHtml, 'utf-8');
+
     console.log(
-      `[SSR Pre-render] Pre-rendered ${prerenderedCount} routes with full HTML body & JSON-LD for ${SITE_URL}.`
+      `[SSR Pre-render] Pre-rendered ${prerenderedCount} routes and dist/404.html with full HTML body & JSON-LD for ${SITE_URL}.`
     );
   }
 }

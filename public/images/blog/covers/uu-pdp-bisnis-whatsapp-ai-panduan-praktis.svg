@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900" fill="none" role="img" aria-label="Diagram alur persetujuan pelanggan, minimisasi data, dan kepatuhan UU PDP No. 27 Tahun 2022 pada sistem WhatsApp AI">
+  <defs>
+    <pattern id="grid64" width="64" height="64" patternUnits="userSpaceOnUse">
+      <path d="M 64 0 L 0 0 0 64" fill="none" stroke="#17122B" stroke-width="1" stroke-opacity="0.04" />
+    </pattern>
+    <radialGradient id="purpleGlow" cx="1260" cy="240" r="620" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#B9A2F2" stop-opacity="0.42" />
+      <stop offset="55%" stop-color="#EFEAFB" stop-opacity="0.18" />
+      <stop offset="100%" stop-color="#F8F6FE" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+  <rect width="1600" height="900" fill="#F8F6FE" />
+  <rect width="1600" height="900" fill="url(#purpleGlow)" />
+  <rect width="1600" height="900" fill="url(#grid64)" />
+  <g key="anchor-0">
+        <rect x="1240" y="118" width="250" height="150" rx="14" fill="#2B1763" stroke="#DED8F2" stroke-width="1" />
+        <rect x="1258" y="138" width="190" height="10" rx="5" fill="#B9A2F2" />
+             <rect x="1258" y="158" width="150" height="8" rx="4" fill="#EFEAFB" fill-opacity="0.45" />
+      </g>
+<g key="anchor-1">
+        <rect x="92" y="598" width="240" height="150" rx="14" fill="#5230B0" stroke="#DED8F2" stroke-width="1" />
+        <rect x="110" y="618" width="180" height="10" rx="5" fill="#B9A2F2" />
+             <rect x="110" y="638" width="140" height="8" rx="4" fill="#EFEAFB" fill-opacity="0.45" />
+      </g>
+<g key="anchor-2">
+        <rect x="72" y="434" width="140" height="210" rx="14" fill="#5230B0" stroke="#DED8F2" stroke-width="1" />
+        <rect x="90" y="454" width="80" height="10" rx="5" fill="#B9A2F2" />
+             <rect x="90" y="474" width="40" height="8" rx="4" fill="#EFEAFB" fill-opacity="0.45" />
+      </g>
+<line x1="224" y1="650" x2="560" y2="330" stroke="#C5B8EC" stroke-width="1" stroke-dasharray="4 4" />
+<line x1="1423" y1="638" x2="1040" y2="330" stroke="#C5B8EC" stroke-width="1" stroke-dasharray="none" />
+<line x1="279" y1="128" x2="560" y2="330" stroke="#C5B8EC" stroke-width="1" stroke-dasharray="4 4" />
+<line x1="1300" y1="152" x2="1040" y2="570" stroke="#C5B8EC" stroke-width="1" stroke-dasharray="none" />
+<line x1="279" y1="755" x2="560" y2="570" stroke="#C5B8EC" stroke-width="1" stroke-dasharray="4 4" />
+<g>
+        <circle cx="224" cy="650" r="14" fill="#FFFFFF" stroke="#C5B8EC" stroke-width="1" />
+        <circle cx="224" cy="650" r="4" fill="#6A3FD0" />
+      </g>
+<g>
+        <circle cx="1423" cy="638" r="14" fill="#FFFFFF" stroke="#C5B8EC" stroke-width="1" />
+        <circle cx="1423" cy="638" r="4" fill="#6A3FD0" />
+      </g>
+<g>
+        <circle cx="279" cy="128" r="14" fill="#FFFFFF" stroke="#C5B8EC" stroke-width="1" />
+        <circle cx="279" cy="128" r="4" fill="#6A3FD0" />
+      </g>
+<g>
+        <circle cx="1300" cy="152" r="14" fill="#FFFFFF" stroke="#C5B8EC" stroke-width="1" />
+        <circle cx="1300" cy="152" r="4" fill="#6A3FD0" />
+      </g>
+<g>
+        <circle cx="279" cy="755" r="20" fill="#6A3FD0" stroke="#17122B" stroke-width="1" />
+        <circle cx="279" cy="755" r="4" fill="#FFFFFF" />
+      </g>
+  <g transform="translate(1600, 0) scale(-1, 1) rotate(3 800 450)">
+    <g>
+        <rect x="280" y="180" width="1040" height="540" rx="24" fill="#F8F6FE" stroke="#C5B8EC" />
+        <!-- Stage 1: Consent Card -->
+        <rect x="320" y="240" width="290" height="420" rx="18" fill="#FFFFFF" stroke="#C5B8EC" />
+        <rect x="355" y="285" width="220" height="90" rx="12" fill="#17122B" />
+        <circle cx="465" cy="485" r="54" fill="#6A3FD0" />
+        <path d="M 445 485 L 460 500 L 490 468" fill="none" stroke="#FFFFFF" stroke-width="6" stroke-linecap="round" />
+        <!-- Stage 2: Redaction / Minimization Filter -->
+        <rect x="655" y="240" width="290" height="420" rx="18" fill="#2B1763" />
+        <rect x="690" y="300" width="220" height="42" rx="8" fill="#FFFFFF" />
+        <rect x="690" y="370" width="220" height="42" rx="8" fill="#7C54E0" />
+        <rect x="690" y="440" width="220" height="160" rx="12" fill="#17122B" />
+        <!-- Stage 3: Retention Vault -->
+        <rect x="990" y="240" width="290" height="420" rx="18" fill="#17122B" />
+        <circle cx="1135" cy="410" r="82" fill="#9E7BF0" />
+        <circle cx="1135" cy="410" r="34" fill="#17122B" />
+        <rect x="1030" y="535" width="210" height="75" rx="12" fill="#FFFFFF" />
+      </g>
+  </g>
+  <g transform="translate(383, 112)">
+    <rect width="81" height="26" rx="6" fill="#FFFFFF" stroke="#C5B8EC" stroke-width="1" />
+    <text x="41" y="17" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="11" font-weight="600" letter-spacing="0.06em" fill="#17122B">CONSENT</text>
+  </g>
+<g transform="translate(751, 802)">
+    <rect width="98" height="26" rx="6" fill="#FFFFFF" stroke="#C5B8EC" stroke-width="1" />
+    <text x="49" y="17" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="11" font-weight="600" letter-spacing="0.06em" fill="#17122B">RETENTION</text>
+  </g>
+<g transform="translate(1138, 112)">
+    <rect width="76" height="26" rx="6" fill="#2B1763" stroke="#6A3FD0" stroke-width="1" />
+    <text x="38" y="17" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="11" font-weight="600" letter-spacing="0.06em" fill="#FFFFFF">UU PDP</text>
+  </g>
+</svg>

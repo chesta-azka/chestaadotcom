@@ -16,8 +16,8 @@ export default function Page() {
     '@context': 'https://schema.org',
     '@type': 'LocalBusiness',
     name: 'CHESTAA',
-    image: 'https://chestaa.com/chesta.png',
-    description: 'Solusi Digital Enterprise, AI, dan ERP terpercaya di Indonesia. Membantu korporasi di BSD, SCBD, dan seluruh Indonesia mendominasi pasar digital.',
+    image: 'https://chestaa.com/favicon.svg',
+    description: 'Solusi Digital Enterprise, AI, dan ERP terpercaya di Indonesia. Membantu korporasi di BSD, SCBD, dan seluruh Indonesia mengembangkan bisnis digital.',
     address: {
       '@type': 'PostalAddress',
       addressLocality: 'BSD City',

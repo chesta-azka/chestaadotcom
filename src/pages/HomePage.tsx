@@ -18,8 +18,14 @@ import {
   Zap,
 } from 'lucide-react';
 import HeroAgentGraph from '../components/organisms/HeroAgentGraph';
-import { SITE_IMAGES } from '../config/images';
+import AgentSimulationSection from '../components/organisms/AgentSimulationSection';
+import TrustStrip from '../components/atoms/TrustStrip';
+import { PRICING_PACKAGES, formatCurrency } from '../data/pricing';
+import { PROCESS_PHASES } from '../data/process';
+import { SITE_IMAGES, getImageMeta } from '../config/images';
 import { getPublishedBlogPosts } from '../data/blog-posts';
+import { getServicePath } from '../data/services';
+import { getPublishedProjects } from '../data/projects';
 import { parseLocalizedPath, toLocalizedHref } from '../lib/i18n';
 import { ENGLISH_HOME_FAQS } from '../lib/i18n-content';
 import { useMotionMode } from '../lib/motion';
@@ -37,6 +43,8 @@ import {
   ImageWithFallback,
   buildWaUrl,
 } from '../components/ui/DesignSystem';
+import { buildWhatsAppLink, getWhatsAppCtaLabel } from '../lib/whatsapp';
+import { trackServiceCardClick, trackWaClick } from '../lib/analytics';
 
 if (typeof window !== 'undefined') {
   gsap.registerPlugin(ScrollTrigger);
@@ -48,7 +56,6 @@ export default function HomePage() {
   const isEn = locale === 'en';
   const motionMode = useMotionMode();
 
-  const [pinnedStep, setPinnedStep] = useState(0);
   const [activeProcessStep, setActiveProcessStep] = useState(0);
   const [heroSubRevealed, setHeroSubRevealed] = useState(false);
   const [marqueeOffscreen, setMarqueeOffscreen] = useState(false);
@@ -59,11 +66,6 @@ export default function HomePage() {
   const heroChipRef = useRef<HTMLDivElement | null>(null);
   const heroGraphWrapRef = useRef<HTMLDivElement | null>(null);
   const marqueeSectionRef = useRef<HTMLElement | null>(null);
-
-  const pinnedSectionRef = useRef<HTMLElement | null>(null);
-  const pinnedRailFillRef = useRef<HTMLDivElement | null>(null);
-  const mockupSlotFillRef = useRef<HTMLDivElement | null>(null);
-  const stepRefs = useRef<(HTMLButtonElement | null)[]>([]);
 
   const processSectionRef = useRef<HTMLElement | null>(null);
   const processLineFillRef = useRef<HTMLDivElement | null>(null);
@@ -158,11 +160,11 @@ export default function HomePage() {
     };
   }, [servicesDropdownOpen]);
 
-  const primaryWaUrl = buildWaUrl(
-    isEn
-      ? 'Hello Chesta & Zeeshan, I would like a free consultation regarding custom software / AI agent development for my business.'
-      : 'Halo Chesta & Zeeshan, saya ingin konsultasi gratis mengenai pembuatan software custom / AI agent untuk bisnis saya.'
+  const primaryWaUrl = buildWhatsAppLink(
+    { type: 'default', url: location.pathname },
+    locale
   );
+  const waCtaLabel = getWhatsAppCtaLabel(locale);
 
   const latestPosts = getPublishedBlogPosts(locale).slice(0, 3);
 
@@ -188,213 +190,7 @@ export default function HomePage() {
         'Small startups Jabodetabek',
       ];
 
-  const pinnedSteps = isEn
-    ? [
-        {
-          num: '01',
-          title: 'Incoming message',
-          body: 'A patient messages the clinic WhatsApp: "Can I book an acne facial tomorrow at 4 PM?"',
-          mockupHeader: 'Incoming WhatsApp · 2:12 PM',
-          mockupContent: {
-            sender: 'Customer (+62 812-xxxx-xxxx)',
-            text: 'Hi, can I book an acne facial tomorrow at 4 PM?',
-            agentThought: 'Intent: acne facial booking, time: tomorrow 16:00 WIB.',
-            action: 'Opening clinic calendar...',
-            slotFill: 0.2,
-          },
-        },
-        {
-          num: '02',
-          title: 'Agent understands context',
-          body: 'The agent parses the intent: booking a facial service tomorrow at 16:00, rather than matching rigid keywords.',
-          mockupHeader: 'Natural Language Understanding',
-          mockupContent: {
-            sender: 'AI Parser',
-            text: 'Service: Facial Acne Treatment\nSchedule: Tomorrow, 16:00 WIB\nTherapist: Any available',
-            agentThought: 'Parameters complete. Preparing slot availability query.',
-            action: 'Checking treatment room & therapist schedule.',
-            slotFill: 0.45,
-          },
-        },
-        {
-          num: '03',
-          title: 'Checks and calls tools',
-          body: 'The agent opens the calendar, checks therapist slots, and retrieves the latest price list from the database.',
-          mockupHeader: 'Tool Calling: Calendar & Database',
-          mockupContent: {
-            sender: 'Tool: ClinicCalendarAPI',
-            text: '16:00 Slot: Available (Therapist: Nurse Nisa)\nAcne Package Price: IDR 350,000',
-            agentThought: 'Open slot verified. Zero schedule conflicts.',
-            action: 'Locking slot & preparing confirmation.',
-            slotFill: 0.72,
-          },
-        },
-        {
-          num: '04',
-          title: 'Executes to completion',
-          body: 'The agent locks the slot on the calendar, sends confirmation to the customer, and logs the lead in the CRM.',
-          mockupHeader: 'Automated Execution',
-          mockupContent: {
-            sender: 'WhatsApp Agent → Customer',
-            text: 'Your 4:00 PM slot for tomorrow is confirmed under Rina. See you tomorrow at the clinic!',
-            agentThought: 'Booking logged in patient database & team calendar.',
-            action: 'Internal dashboard sync completed.',
-            slotFill: 0.92,
-          },
-        },
-        {
-          num: '05',
-          title: 'Reports or hands over to a human',
-          body: 'A summary appears on the dashboard. If an out-of-policy question or complaint arises, the agent hands the chat to your staff with full context.',
-          mockupHeader: 'Human Handover & Log Dashboard',
-          mockupContent: {
-            sender: 'Admin Team Notification',
-            text: 'Patient registered: Rina (Facial Acne, Tomorrow 16:00).\nStatus: Automatically confirmed.\nEscalation rule: Auto-forward complaints to Admin WhatsApp.',
-            agentThought: 'Workflow completed without manual staff intervention.',
-            action: 'Ready for the next incoming message.',
-            slotFill: 1,
-          },
-        },
-      ]
-    : [
-        {
-          num: '01',
-          title: 'Pesan masuk',
-          body: 'Pelanggan kirim ke WhatsApp klinik: "Besok jam 4 bisa facial?"',
-          mockupHeader: 'WhatsApp Masuk · 14.12 WIB',
-          mockupContent: {
-            sender: 'Pelanggan (+62 812-xxxx-xxxx)',
-            text: 'Halo, besok jam 4 sore bisa booking facial acne ya?',
-            agentThought: 'Intent: reservasi facial acne, waktu: besok 16.00 WIB.',
-            action: 'Membuka kalender klinik...',
-            slotFill: 0.2,
-          },
-        },
-        {
-          num: '02',
-          title: 'Agent memahami konteks',
-          body: 'Agent membaca maksud pesan: booking layanan facial besok pukul 16.00, bukan sekadar mencocokkan kata kunci kaku.',
-          mockupHeader: 'Natural Language Understanding',
-          mockupContent: {
-            sender: 'AI Parser',
-            text: 'Layanan: Facial Acne Treatment\nJadwal: Besok, 16.00 WIB\nTerapis: Preferensi bebas',
-            agentThought: 'Parameter lengkap. Menyiapkan query ketersediaan slot.',
-            action: 'Memeriksa ruangan & jadwal terapis.',
-            slotFill: 0.45,
-          },
-        },
-        {
-          num: '03',
-          title: 'Cek dan pakai tool',
-          body: 'Agent membuka kalender, memeriksa slot terapis, dan mengambil daftar harga terbaru dari database.',
-          mockupHeader: 'Tool Calling: Calendar & Database',
-          mockupContent: {
-            sender: 'Tool: ClinicCalendarAPI',
-            text: 'Slot 16.00: Tersedia (Terapis: Suster Nisa)\nHarga Paket Acne: Rp350.000',
-            agentThought: 'Slot kosong terverifikasi. Tidak ada jadwal bentrok.',
-            action: 'Mengunci slot & menyiapkan konfirmasi.',
-            slotFill: 0.72,
-          },
-        },
-        {
-          num: '04',
-          title: 'Bertindak sampai tuntas',
-          body: 'Agent mengunci jadwal di kalender, mengirim konfirmasi ke pelanggan, dan mencatat prospek ke CRM.',
-          mockupHeader: 'Eksekusi Otomatis',
-          mockupContent: {
-            sender: 'Agent WhatsApp → Pelanggan',
-            text: 'Slot besok jam 16.00 sudah kami amankan ya Kak atas nama Kak Rina. Sampai bertemu besok di klinik!',
-            agentThought: 'Booking tercatat di database pasien & kalender tim.',
-            action: 'Sinkronisasi ke dashboard internal selesai.',
-            slotFill: 0.92,
-          },
-        },
-        {
-          num: '05',
-          title: 'Lapor atau serahkan ke manusia',
-          body: 'Ringkasan masuk ke dashboard. Jika muncul pertanyaan di luar aturan atau komplain, agent menyerahkan chat ke staf beserta konteks lengkap.',
-          mockupHeader: 'Human Handover & Log Dashboard',
-          mockupContent: {
-            sender: 'Notifikasi Tim Admin',
-            text: 'Pasien terdaftar: Rina (Facial Acne, Besok 16.00).\nStatus: Terkonfirmasi otomatis.\nAturan eskalasi: Auto-forward keluhan ke WhatsApp Admin.',
-            agentThought: 'Alur selesai tanpa intervensi manual staf.',
-            action: 'Siap menerima pesan berikutnya.',
-            slotFill: 1,
-          },
-        },
-      ];
-
-  // Item 5: Pinned storytelling section — scrubbed ScrollTrigger (scrub: 0.6, snap off) on desktop full mode,
-  // with stacked sticky cards + IntersectionObserver fallback on mobile / lite / reduced mode.
-  useEffect(() => {
-    const section = pinnedSectionRef.current;
-    if (!section) return;
-
-    if (motionMode === 'full') {
-      const mm = gsap.matchMedia();
-      mm.add('(min-width: 1024px) and (hover: hover) and (pointer: fine)', () => {
-        const st = ScrollTrigger.create({
-          trigger: section,
-          start: 'top 25%',
-          end: 'bottom 75%',
-          scrub: 0.6,
-          onUpdate: (self) => {
-            const p = self.progress;
-            if (pinnedRailFillRef.current) {
-              pinnedRailFillRef.current.style.transform = `scaleY(${Math.max(0.08, p).toFixed(3)})`;
-            }
-            const nextStep = Math.min(4, Math.floor(p * 5));
-            setPinnedStep((prev) => (prev !== nextStep ? nextStep : prev));
-          },
-        });
-        return () => st.kill();
-      });
-
-      // Mobile fallback inside full mode
-      mm.add('(max-width: 1023px), (hover: none)', () => {
-        const observers: IntersectionObserver[] = [];
-        stepRefs.current.forEach((el, index) => {
-          if (!el) return;
-          const obs = new IntersectionObserver(
-            ([entry]) => {
-              if (entry.isIntersecting) {
-                setPinnedStep(index);
-                if (pinnedRailFillRef.current) {
-                  pinnedRailFillRef.current.style.transform = `scaleY(${(index + 1) / 5})`;
-                }
-              }
-            },
-            { rootMargin: '-30% 0px -45% 0px', threshold: 0.2 }
-          );
-          obs.observe(el);
-          observers.push(obs);
-        });
-        return () => observers.forEach((o) => o.disconnect());
-      });
-
-      return () => mm.revert();
-    }
-
-    // Lite & Reduced mode fallback: IntersectionObserver on step cards
-    const observers: IntersectionObserver[] = [];
-    stepRefs.current.forEach((el, index) => {
-      if (!el) return;
-      const obs = new IntersectionObserver(
-        ([entry]) => {
-          if (entry.isIntersecting) {
-            setPinnedStep(index);
-            if (pinnedRailFillRef.current) {
-              pinnedRailFillRef.current.style.transform = `scaleY(${(index + 1) / 5})`;
-            }
-          }
-        },
-        { rootMargin: '-30% 0px -45% 0px', threshold: 0.2 }
-      );
-      obs.observe(el);
-      observers.push(obs);
-    });
-    return () => observers.forEach((o) => o.disconnect());
-  }, [motionMode]);
+  // Item 8: Process line (#cara-kerja) scrubs with scroll and steps light up in turn
 
   // Item 8: Process line (#cara-kerja) scrubs with scroll and steps light up in turn
   useEffect(() => {
@@ -453,11 +249,12 @@ export default function HomePage() {
     {
       question: 'Area mana yang dilayani?',
       answer:
-        'Fokus utama kami di BSD City, Alam Sutera, Bintaro, Gading Serpong, Tangerang Selatan, dan Jabodetabek. Konsultasi dan pengembangan juga tersedia secara remote untuk seluruh Indonesia.',
+        'Kami berbasis di sekitar BSD, Tangerang Selatan, dan melayani bisnis di Tangerang Selatan, BSD City, Pamulang, Jurang Mangu, Lebak Bulus, Alam Sutera, Bintaro, Gading Serpong, Serpong, Ciputat, serta seluruh Indonesia secara remote.',
     },
   ];
 
   const faqs = isEn ? ENGLISH_HOME_FAQS : idFaqs;
+  const featuredInternalProjects = getPublishedProjects(locale).slice(0, 3);
 
   const scrollToPinnedSection = (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
@@ -466,8 +263,6 @@ export default function HomePage() {
       el.scrollIntoView({ behavior: 'smooth' });
     }
   };
-
-  const currentMockup = pinnedSteps[pinnedStep];
 
   return (
     <div className="bg-[#FFFFFF] text-[#17122B] w-full">
@@ -518,13 +313,13 @@ export default function HomePage() {
               </p>
 
               <div className="pt-2 flex flex-col sm:flex-row items-stretch sm:items-center gap-3">
-                <Button href={primaryWaUrl} variant="primary">
+                <Button
+                  href={primaryWaUrl}
+                  onClick={() => trackWaClick('default', 'home_hero', locale)}
+                  variant="primary"
+                >
                   <MessageCircle size={16} />
-                  <span>
-                    {isEn
-                      ? 'Free consultation via WhatsApp'
-                      : 'Konsultasi gratis via WhatsApp'}
-                  </span>
+                  <span>{waCtaLabel}</span>
                   <ArrowUpRight size={15} />
                 </Button>
 
@@ -555,6 +350,9 @@ export default function HomePage() {
           </div>
         </Container>
       </section>
+
+      {/* Trust Strip */}
+      <TrustStrip locale={locale} />
 
       {/* =====================================================
           3. INDUSTRY STRIP (VELOCITY-REACTIVE CSS MARQUEE, PAUSES OFFSCREEN/HOVER)
@@ -688,215 +486,10 @@ export default function HomePage() {
       </section>
 
       {/* =====================================================
-          5. PINNED / SCRUBBED STORYTELLING SECTION
-          (THE ONE DEEP PURPLE SECTION: --purple-900 / #2B1763)
-          - Scrubbed ScrollTrigger (scrub: 0.6, snap off) on desktop fine-pointer
-          - Side progress rail fills with transform: scaleY
-          - Mockup swaps states with crossfade + internal message slide, chip tick, slot fill
-          - Falls back to stacked sticky cards on mobile / Lite / Reduced mode
+          5. SIMULASI KINERJA AGENT (AGENT EXECUTION SIMULATION)
           ===================================================== */}
-      <section
-        id="alur-agent"
-        ref={pinnedSectionRef}
-        className="py-16 md:py-24 bg-[#2B1763] text-[#FFFFFF] relative overflow-hidden"
-      >
-        {/* Opacity cross-fade ambient glow layer (never animating background-color) */}
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute inset-0 opacity-60 transition-opacity duration-700"
-          style={{
-            background:
-              'radial-gradient(circle at 80% 25%, rgba(124, 84, 224, 0.28), transparent 55%)',
-          }}
-        />
+      <AgentSimulationSection />
 
-        <Container className="relative z-10">
-          <SectionHeading
-            eyebrow={isEn ? 'AGENT EXECUTION SIMULATION' : 'SIMULASI KINERJA AGENT'}
-            title={
-              isEn
-                ? 'One incoming message, five steps to completion'
-                : 'Satu pesan masuk, lima langkah sampai selesai'
-            }
-            description={
-              isEn
-                ? 'See how an AI agent reads context, invokes tools, and syncs schedules without waiting for staff to open a laptop.'
-                : 'Lihat cara AI agent membaca konteks, memanggil tool, dan menyinkronkan jadwal tanpa menunggu staf membuka laptop.'
-            }
-            dark
-          />
-
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-start">
-            {/* Left Column: Side Progress Rail (scaleY) + 5 Interactive Steps */}
-            <div className="lg:col-span-5 relative flex gap-4">
-              {/* Side Progress Rail (fills with transform: scaleY) */}
-              <div
-                aria-hidden="true"
-                className="hidden sm:block relative w-1 rounded-full bg-[#FFFFFF]/12 overflow-hidden shrink-0 my-3"
-              >
-                <div
-                  ref={pinnedRailFillRef}
-                  style={{
-                    transform: `scaleY(${(pinnedStep + 1) / 5})`,
-                    transformOrigin: 'top',
-                    transition: 'transform 280ms cubic-bezier(0.22, 1, 0.36, 1)',
-                  }}
-                  className="w-full h-full bg-[#B9A2F2] rounded-full"
-                />
-              </div>
-
-              <div className="flex-1 space-y-3">
-                {pinnedSteps.map((s, idx) => {
-                  const isActive = pinnedStep === idx;
-                  return (
-                    <button
-                      key={s.num}
-                      ref={(el) => {
-                        stepRefs.current[idx] = el;
-                      }}
-                      type="button"
-                      onClick={() => {
-                        setPinnedStep(idx);
-                        if (pinnedRailFillRef.current) {
-                          pinnedRailFillRef.current.style.transform = `scaleY(${
-                            (idx + 1) / 5
-                          })`;
-                        }
-                      }}
-                      style={{
-                        transform: isActive ? 'translate3d(0, -2px, 0)' : 'translate3d(0, 0, 0)',
-                        transition:
-                          'transform 280ms cubic-bezier(0.22, 1, 0.36, 1), background-color 240ms cubic-bezier(0.22, 1, 0.36, 1), border-color 240ms cubic-bezier(0.22, 1, 0.36, 1)',
-                      }}
-                      className={`w-full text-left p-5 md:p-6 rounded-[24px] cursor-pointer min-h-[44px] ${
-                        isActive
-                          ? 'bg-[#FFFFFF]/14 border border-[#B9A2F2]/60'
-                          : 'bg-[#FFFFFF]/5 border border-[#B9A2F2]/20 hover:bg-[#FFFFFF]/10'
-                      }`}
-                    >
-                      <div className="flex items-center justify-between gap-2">
-                        <span className="font-mono text-[11px] uppercase tracking-[0.08em] font-semibold text-[#B9A2F2]">
-                          {isEn ? `Step ${s.num}` : `Langkah ${s.num}`}
-                        </span>
-                        {isActive && (
-                          <Badge variant="dark" className="py-0.5 px-2.5">
-                            {isEn ? 'Active' : 'Aktif'}
-                          </Badge>
-                        )}
-                      </div>
-                      <h3 className="mt-2 text-[#FFFFFF]">{s.title}</h3>
-                      <p className="mt-1.5 text-[14px] md:text-[15px] text-[#EFEAFB] leading-[1.65]">
-                        {s.body}
-                      </p>
-                    </button>
-                  );
-                })}
-              </div>
-            </div>
-
-            {/* Right Column: Sticky Live Preview Card with Internal State Crossfade + Micro-Motion */}
-            <div className="lg:col-span-7 lg:sticky lg:top-24">
-              <Card variant="dark" padding="lg" interactive={false}>
-                <div className="flex flex-wrap items-center justify-between gap-2 pb-4 border-b border-[#B9A2F2]/25 font-mono text-[11px] uppercase tracking-[0.08em] text-[#B9A2F2]">
-                  <div className="flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-[#B9A2F2]" />
-                    <span>{currentMockup.mockupHeader}</span>
-                  </div>
-                  <span className="text-[#EFEAFB]">
-                    {isEn ? 'Clinic workflow illustration' : 'Ilustrasi alur klinik'}
-                  </span>
-                </div>
-
-                {/* Keyed container triggers smooth crossfade + internal slide/tick/fill on step change */}
-                <div
-                  key={currentMockup.num}
-                  className="mt-6 space-y-4 animate-[vt-fade-in_260ms_cubic-bezier(0.22,1,0.36,1)_both]"
-                >
-                  {/* 1. Incoming Message / Payload Bubble sliding in */}
-                  <div className="p-4 rounded-[20px] bg-[#FFFFFF]/10 border border-[#B9A2F2]/20">
-                    <p className="font-mono text-[11px] uppercase tracking-[0.08em] text-[#B9A2F2] mb-1">
-                      {currentMockup.mockupContent.sender}
-                    </p>
-                    <p className="text-[15px] text-[#FFFFFF] font-medium whitespace-pre-line leading-[1.65]">
-                      {currentMockup.mockupContent.text}
-                    </p>
-                  </div>
-
-                  {/* 2. Agent Context Analysis + Calendar Slot Fill Bar */}
-                  <div className="p-4 rounded-[20px] bg-[#6A3FD0]/40 border border-[#B9A2F2]/30 space-y-3">
-                    <div>
-                      <p className="font-mono text-[11px] uppercase tracking-[0.08em] text-[#B9A2F2] mb-1 flex items-center gap-1.5">
-                        <Bot size={14} />
-                        <span>
-                          {isEn ? 'Agent Context Analysis' : 'Analisis Konteks Agent'}
-                        </span>
-                      </p>
-                      <p className="text-[14px] text-[#EFEAFB] leading-[1.65]">
-                        {currentMockup.mockupContent.agentThought}
-                      </p>
-                    </div>
-
-                    {/* Calendar / Execution Slot Fill Indicator (transform: scaleX) */}
-                    <div className="pt-2 border-t border-[#B9A2F2]/20">
-                      <div className="flex items-center justify-between font-mono text-[10px] uppercase tracking-[0.08em] text-[#EFEAFB]/80 mb-1.5">
-                        <span>
-                          {isEn ? 'Calendar & CRM Pipeline' : 'Pipeline Kalender & CRM'}
-                        </span>
-                        <span>{Math.round(currentMockup.mockupContent.slotFill * 100)}%</span>
-                      </div>
-                      <div className="w-full h-1.5 rounded-full bg-[#FFFFFF]/15 overflow-hidden">
-                        <div
-                          ref={mockupSlotFillRef}
-                          style={{
-                            transform: `scaleX(${currentMockup.mockupContent.slotFill})`,
-                            transformOrigin: 'left',
-                            transition: 'transform 420ms cubic-bezier(0.22, 1, 0.36, 1)',
-                          }}
-                          className="w-full h-full bg-[#B9A2F2] rounded-full"
-                        />
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* 3. Tool-Call Chip Ticking */}
-                  <div className="p-4 rounded-[20px] bg-[#FFFFFF]/5 border border-[#B9A2F2]/20 flex flex-wrap items-center justify-between gap-2 font-mono text-[11px] uppercase tracking-[0.08em] text-[#B9A2F2]">
-                    <span className="flex items-center gap-2">
-                      <span className="w-5 h-5 rounded-full bg-[#B9A2F2]/20 flex items-center justify-center">
-                        <Check size={12} className="text-[#B9A2F2]" />
-                      </span>
-                      <span>{currentMockup.mockupContent.action}</span>
-                    </span>
-                    <span className="text-[#EFEAFB]">
-                      {isEn ? 'Status: Completed' : 'Status: Selesai'}
-                    </span>
-                  </div>
-                </div>
-
-                <div className="mt-6 pt-4 border-t border-[#B9A2F2]/25 flex items-center justify-between font-mono text-[11px] uppercase tracking-[0.08em] text-[#EFEAFB]">
-                  <span>
-                    {isEn
-                      ? `Stage ${pinnedStep + 1} of 5`
-                      : `Tahap ${pinnedStep + 1} dari 5`}
-                  </span>
-                  <div className="flex gap-1.5">
-                    {pinnedSteps.map((_, i) => (
-                      <button
-                        key={i}
-                        type="button"
-                        aria-label={isEn ? `Select step ${i + 1}` : `Pilih langkah ${i + 1}`}
-                        onClick={() => setPinnedStep(i)}
-                        className={`w-6 h-1.5 rounded-full transition-colors cursor-pointer ${
-                          i <= pinnedStep ? 'bg-[#B9A2F2]' : 'bg-[#FFFFFF]/25'
-                        }`}
-                      />
-                    ))}
-                  </div>
-                </div>
-              </Card>
-            </div>
-          </div>
-        </Container>
-      </section>
 
       {/* =====================================================
           6. CHATBOT VS AGENT (SPLIT COMPARISON)
@@ -1060,35 +653,23 @@ export default function HomePage() {
                           isEn
                             ? 'Website & Landing Page'
                             : 'Pembuatan Website & Landing Page',
-                        href: toLocalizedHref(
-                          '/jasa/pembuatan-website',
-                          locale,
-                          prefixMode
-                        ),
+                        href: getServicePath('pembuatan-website', locale),
                       },
                       {
                         label: 'AI Agent',
-                        href: toLocalizedHref('/jasa/ai-agent', locale, prefixMode),
+                        href: getServicePath('ai-agent', locale),
                       },
                       {
                         label:
                           isEn ? 'Custom Software' : 'Software Custom',
-                        href: toLocalizedHref(
-                          '/jasa/software-custom',
-                          locale,
-                          prefixMode
-                        ),
+                        href: getServicePath('software-custom', locale),
                       },
                       {
                         label:
                           isEn
                             ? 'Workflow Automation'
                             : 'Otomasi Workflow',
-                        href: toLocalizedHref(
-                          '/jasa/otomasi-workflow',
-                          locale,
-                          prefixMode
-                        ),
+                        href: getServicePath('otomasi-workflow', locale),
                       },
                     ].map((srv) => (
                       <Link
@@ -1124,7 +705,8 @@ export default function HomePage() {
                   </div>
                   <h3>
                     <Link
-                      to={toLocalizedHref('/jasa/ai-agent', locale, prefixMode)}
+                      to={getServicePath('ai-agent', locale)}
+                      onClick={() => trackServiceCardClick('ai-agent', locale)}
                       className="hover:text-[#6A3FD0] transition-colors"
                     >
                       {isEn
@@ -1157,10 +739,11 @@ export default function HomePage() {
                       : 'Dihitung setelah audit gratis'}
                   </span>
                   <Link
-                    to={toLocalizedHref('/jasa/ai-agent', locale, prefixMode)}
+                    to={getServicePath('ai-agent', locale)}
+                    onClick={() => trackServiceCardClick('ai-agent', locale)}
                     className="link-underline inline-flex items-center gap-1.5 min-h-[44px] text-[14px] font-semibold text-[#6A3FD0] whitespace-nowrap"
                   >
-                    <span>{isEn ? 'AI agent service' : 'Jasa AI agent'}</span>
+                    <span>{isEn ? 'AI agent development' : 'Jasa AI agent'}</span>
                     <ArrowRight size={14} className="icon-slide-hover" />
                   </Link>
                 </div>
@@ -1177,7 +760,8 @@ export default function HomePage() {
                   </div>
                   <h3>
                     <Link
-                      to={toLocalizedHref('/jasa/software-custom', locale, prefixMode)}
+                      to={getServicePath('software-custom', locale)}
+                      onClick={() => trackServiceCardClick('software-custom', locale)}
                       className="hover:text-[#6A3FD0] transition-colors"
                     >
                       {isEn
@@ -1206,11 +790,12 @@ export default function HomePage() {
                     {isEn ? 'Scoped to requirements' : 'Sesuai scope'}
                   </span>
                   <Link
-                    to={toLocalizedHref('/jasa/software-custom', locale, prefixMode)}
+                    to={getServicePath('software-custom', locale)}
+                    onClick={() => trackServiceCardClick('software-custom', locale)}
                     className="link-underline inline-flex items-center gap-1 min-h-[44px] text-[14px] font-semibold text-[#6A3FD0] whitespace-nowrap"
                   >
                     <span>
-                      {isEn ? 'Custom software service' : 'Jasa software custom'}
+                      {isEn ? 'Custom software development' : 'Jasa software custom'}
                     </span>
                     <ArrowRight size={14} className="icon-slide-hover" />
                   </Link>
@@ -1228,7 +813,8 @@ export default function HomePage() {
                   </div>
                   <h3>
                     <Link
-                      to={toLocalizedHref('/jasa/otomasi-workflow', locale, prefixMode)}
+                      to={getServicePath('otomasi-workflow', locale)}
+                      onClick={() => trackServiceCardClick('otomasi-workflow', locale)}
                       className="hover:text-[#6A3FD0] transition-colors"
                     >
                       {isEn ? 'Workflow automation' : 'Otomasi workflow'}
@@ -1254,7 +840,8 @@ export default function HomePage() {
                     n8n &amp; Webhook
                   </span>
                   <Link
-                    to={toLocalizedHref('/jasa/otomasi-workflow', locale, prefixMode)}
+                    to={getServicePath('otomasi-workflow', locale)}
+                    onClick={() => trackServiceCardClick('otomasi-workflow', locale)}
                     className="link-underline inline-flex items-center gap-1 min-h-[44px] text-[14px] font-semibold text-[#6A3FD0] whitespace-nowrap"
                   >
                     <span>
@@ -1284,7 +871,8 @@ export default function HomePage() {
 
                   <h3>
                     <Link
-                      to={toLocalizedHref('/jasa/pembuatan-website', locale, prefixMode)}
+                      to={getServicePath('pembuatan-website', locale)}
+                      onClick={() => trackServiceCardClick('pembuatan-website', locale)}
                       className="hover:text-[#6A3FD0] transition-colors"
                     >
                       {isEn
@@ -1316,7 +904,8 @@ export default function HomePage() {
                     {isEn ? 'Delivered in 3–7 business days' : 'Selesai 3–7 hari kerja'}
                   </span>
                   <Link
-                    to={toLocalizedHref('/jasa/pembuatan-website', locale, prefixMode)}
+                    to={getServicePath('pembuatan-website', locale)}
+                    onClick={() => trackServiceCardClick('pembuatan-website', locale)}
                     className="link-underline inline-flex items-center gap-1.5 min-h-[44px] text-[14px] font-semibold text-[#6A3FD0] whitespace-nowrap"
                   >
                     <span>
@@ -1510,23 +1099,23 @@ export default function HomePage() {
       >
         <Container>
           <SectionHeading
-            eyebrow={isEn ? 'COLLABORATION STEPS' : 'LANGKAH KERJA SAMA'}
+            eyebrow={isEn ? '6-PHASE ENGINEERING' : 'ALUR 6 TAHAP'}
             title={
               isEn
-                ? 'How we work with you'
-                : 'Cara kami bekerja bersamamu'
+                ? 'How we work without guesswork'
+                : 'Cara kerja dengan kepastian tertulis'
             }
             description={
               isEn
-                ? 'Four measured stages from bottleneck mapping to a self-running system.'
-                : 'Empat tahapan terukur dari pemetaan kendala hingga sistem berjalan mandiri.'
+                ? 'A disciplined six-phase process from 30-minute free audit to final release and handover.'
+                : 'Enam tahap terstruktur dari audit gratis 30 menit hingga peluncuran dan serah terima.'
             }
             action={
               <Button
-                to={toLocalizedHref('/workflow', locale, prefixMode)}
+                to={toLocalizedHref('/cara-kerja', locale, prefixMode)}
                 variant="secondary"
               >
-                <span>{isEn ? 'Process Details' : 'Detail Proses'}</span>
+                <span>{isEn ? 'View all 6 phases' : 'Lihat 6 tahap lengkap'}</span>
                 <ArrowRight size={15} className="text-[#6A3FD0]" />
               </Button>
             }
@@ -1548,65 +1137,12 @@ export default function HomePage() {
             />
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6 items-stretch">
-            {(isEn
-              ? [
-                  {
-                    num: '01',
-                    time: '30 Minutes',
-                    title: 'Free audit',
-                    desc: 'We dissect your workflow and tell you honestly which parts are worth automating.',
-                  },
-                  {
-                    num: '02',
-                    time: '3–5 Days',
-                    title: 'Scope & prototype',
-                    desc: 'You see the workflow blueprint, tool choices, and fixed price before code is written.',
-                  },
-                  {
-                    num: '03',
-                    time: '1–3 Weeks',
-                    title: 'Build & test',
-                    desc: 'Tested against real data and conversation edge cases from your business until solid.',
-                  },
-                  {
-                    num: '04',
-                    time: '30-Day Warranty',
-                    title: 'Release & support',
-                    desc: 'Full handover with team SOP guides and post-release support.',
-                  },
-                ]
-              : [
-                  {
-                    num: '01',
-                    time: '30 Menit',
-                    title: 'Audit gratis',
-                    desc: 'Kita bedah alur kerjamu dan tentukan jujur bagian mana yang layak diotomasi.',
-                  },
-                  {
-                    num: '02',
-                    time: '3–5 Hari',
-                    title: 'Rancang & prototipe',
-                    desc: 'Kamu melihat cetak biru alur, pilihan tool, dan harga pasti sebelum kode dibangun.',
-                  },
-                  {
-                    num: '03',
-                    time: '1–3 Minggu',
-                    title: 'Bangun & uji',
-                    desc: 'Diuji dengan data dan skenario percakapan nyata dari bisnismu sampai bebas celah.',
-                  },
-                  {
-                    num: '04',
-                    time: 'Garansi 30 Hari',
-                    title: 'Rilis & rawat',
-                    desc: 'Serah terima penuh beserta panduan tim dan pendampingan pasca-rilis.',
-                  },
-                ]
-            ).map((step, idx) => {
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
+            {PROCESS_PHASES.map((phase, idx) => {
               const isLit = idx <= activeProcessStep;
               return (
                 <Card
-                  key={step.num}
+                  key={phase.number}
                   variant={isLit ? 'white' : 'soft'}
                   className={`h-full flex flex-col justify-between transition-colors duration-300 ${
                     isLit ? 'border-[#6A3FD0]/40' : ''
@@ -1620,13 +1156,12 @@ export default function HomePage() {
                             isLit ? 'bg-[#6A3FD0] scale-110' : 'bg-[#B9A2F2]/60 scale-100'
                           }`}
                         />
-                        <span>{isEn ? `Step ${step.num}` : `Langkah ${step.num}`}</span>
+                        <span>{isEn ? `Phase ${phase.number}` : `Tahap ${phase.number}`}</span>
                       </span>
-                      <span className="text-[#5B5675]">{step.time}</span>
                     </div>
-                    <h3>{step.title}</h3>
-                    <p className="mt-2 text-[14px] md:text-[15px] text-[#5B5675] leading-[1.65]">
-                      {step.desc}
+                    <h3>{isEn ? phase.titleEn : phase.titleId}</h3>
+                    <p className="mt-2 text-[14px] text-[#5B5675] leading-[1.65]">
+                      {isEn ? phase.descEn : phase.descId}
                     </p>
                   </div>
                 </Card>
@@ -1637,7 +1172,7 @@ export default function HomePage() {
       </section>
 
       {/* =====================================================
-          11. PROYEK (CASE STUDY PLACEHOLDERS)
+          11. PROYEK INTERNAL (SHARED INTERNAL DEMO DATASET)
           ===================================================== */}
       <section
         id="proyek"
@@ -1645,23 +1180,23 @@ export default function HomePage() {
       >
         <Container>
           <SectionHeading
-            eyebrow={isEn ? 'CASE STUDIES & BLUEPRINTS' : 'STUDI KASUS & CETAK BIRU'}
+            eyebrow={isEn ? 'INTERNAL PROJECTS' : 'PROYEK INTERNAL'}
             title={
               isEn
-                ? 'Solution architecture by industry'
-                : 'Arsitektur solusi per industri'
+                ? 'Internal projects we have built'
+                : 'Proyek internal yang kami bangun'
             }
             description={
               isEn
-                ? 'Implementation blueprints ready to be adapted to your business SOP.'
-                : 'Cetak biru implementasi yang siap disesuaikan dengan SOP bisnismu.'
+                ? 'Internal CHESTAADOTCOM demos and prototypes built to validate workflows across different industries.'
+                : 'Demo dan prototipe internal CHESTAADOTCOM yang kami bangun untuk menguji alur kerja di berbagai industri.'
             }
             action={
               <Button
                 to={toLocalizedHref('/portfolio', locale, prefixMode)}
                 variant="secondary"
               >
-                <span>{isEn ? 'All Projects' : 'Semua Proyek'}</span>
+                <span>{isEn ? 'View all projects' : 'Lihat semua proyek'}</span>
                 <ArrowRight size={15} className="text-[#6A3FD0]" />
               </Button>
             }
@@ -1669,139 +1204,74 @@ export default function HomePage() {
 
           <Reveal staggerSelector=".project-blueprint-card">
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-stretch">
-              {(isEn
-                ? [
-                    {
-                      title: 'Aesthetic & Healthcare Clinic',
-                      location: 'BSD City',
-                      image: SITE_IMAGES.portfolioClinicPlaceholder,
-                      problem:
-                        'Admins overwhelmed replying to peak-hour chats & doctor schedules frequently clashing.',
-                      built:
-                        'Reservation landing page + WhatsApp AI agent for doctor schedule qualification.',
-                      result:
-                        'Response time cut to <30s and zero double-booking occurrences',
-                    },
-                    {
-                      title: 'Restaurant, Cafe & Catering',
-                      location: 'Gading Serpong',
-                      image: SITE_IMAGES.portfolioFnbPlaceholder,
-                      problem:
-                        'Corporate catering orders scattered in chats without automated recaps.',
-                      built:
-                        'Lightweight web menu catalog + pre-order form connected to WhatsApp.',
-                      result:
-                        'Clean order recaps & instant order confirmation',
-                    },
-                    {
-                      title: 'Architecture & Property Studio',
-                      location: 'Bintaro',
-                      image: SITE_IMAGES.portfolioPropertyPlaceholder,
-                      problem:
-                        'Many incoming leads had budgets outside the studio’s project scope.',
-                      built:
-                        'Fast portfolio website + initial budget estimator before scheduling a meeting.',
-                      result:
-                        'Prospects pre-qualified before entering architect calendar',
-                    },
-                  ]
-                : [
-                    {
-                      title: 'Klinik Estetika & Kesehatan',
-                      location: 'BSD City',
-                      image: SITE_IMAGES.portfolioClinicPlaceholder,
-                      problem:
-                        'Admin kewalahan membalas chat jam sibuk & jadwal sering bentrok.',
-                      built:
-                        'Landing page reservasi + AI agent WhatsApp kualifikasi jadwal dokter.',
-                      result:
-                        'Waktu respon turun ke <30 detik & nol kasus jadwal ganda',
-                    },
-                    {
-                      title: 'Restoran, Kafe & Katering',
-                      location: 'Gading Serpong',
-                      image: SITE_IMAGES.portfolioFnbPlaceholder,
-                      problem:
-                        'Pesanan katering korporat tercecer di chat tanpa rekap otomatis.',
-                      built:
-                        'Katalog menu web ringan + form pre-order terhubung ke WhatsApp.',
-                      result:
-                        'Rekapan pesanan rapi & konfirmasi otomatis instan',
-                    },
-                    {
-                      title: 'Studio Arsitektur & Properti',
-                      location: 'Bintaro',
-                      image: SITE_IMAGES.portfolioPropertyPlaceholder,
-                      problem:
-                        'Banyak prospek masuk tetapi anggaran tidak sesuai cakupan studio.',
-                      built:
-                        'Website portofolio cepat + form estimasi awal sebelum jadwal meeting.',
-                      result:
-                        'Prospek tersaring sebelum masuk agenda konsultasi arsitek',
-                    },
-                  ]
-              ).map((item) => (
-                <Card
-                  key={item.title}
-                  as="article"
-                  variant="white"
-                  padding="none"
-                  className="project-blueprint-card h-full flex flex-col justify-between overflow-hidden"
-                >
-                  <div>
-                    <div className="aspect-video bg-[#F8F6FE] border-b border-[rgba(91,60,196,0.14)] overflow-hidden">
-                      <ImageWithFallback
-                        src={item.image.src}
-                        alt={item.image.alt}
-                        width={item.image.width}
-                        height={item.image.height}
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
-                    <div className="p-5 md:p-6 space-y-4">
-                      <div>
-                        <Tag>{item.location}</Tag>
-                        <h3 className="mt-1">{item.title}</h3>
-                      </div>
+              {featuredInternalProjects.map((project) => {
+                const imgAsset = getImageMeta(project.cover, locale);
+                const projectHref = toLocalizedHref(
+                  `/portfolio/${project.slug}`,
+                  locale,
+                  prefixMode
+                );
+                return (
+                  <Card
+                    key={project.slug}
+                    as="article"
+                    variant="white"
+                    padding="none"
+                    className="project-blueprint-card h-full flex flex-col justify-between overflow-hidden"
+                  >
+                    <div>
+                      <Link
+                        to={projectHref}
+                        className="relative block aspect-video bg-[#F8F6FE] border-b border-[rgba(91,60,196,0.14)] overflow-hidden"
+                      >
+                        <ImageWithFallback
+                          src={imgAsset.src}
+                          alt={imgAsset.alt}
+                          width={imgAsset.width}
+                          height={imgAsset.height}
+                          className="w-full h-full object-cover"
+                        />
+                        <div className="absolute top-3 left-3 flex flex-wrap items-center gap-2">
+                          <Badge variant="tint">{project.internalBadgeLabel}</Badge>
+                          <Badge variant="outline" className="bg-[#FFFFFF]/90">
+                            {project.categoryLabel}
+                          </Badge>
+                        </div>
+                      </Link>
+                      <div className="p-5 md:p-6 space-y-4">
+                        <div>
+                          <Tag>{project.industry}</Tag>
+                          <h3 className="mt-1">
+                            <Link
+                              to={projectHref}
+                              className="hover:text-[#6A3FD0] transition-colors"
+                            >
+                              {project.title}
+                            </Link>
+                          </h3>
+                        </div>
 
-                      <div className="space-y-2 text-[14px] text-[#5B5675]">
-                        <p>
-                          <strong className="text-[#17122B] font-semibold">
-                            {isEn ? 'Problem:' : 'Masalah:'}
-                          </strong>{' '}
-                          {item.problem}
+                        <p className="text-[14px] text-[#5B5675] leading-[1.6]">
+                          {project.oneLiner}
                         </p>
-                        <p>
-                          <strong className="text-[#17122B] font-semibold">
-                            {isEn ? 'Solution:' : 'Solusi:'}
-                          </strong>{' '}
-                          {item.built}
-                        </p>
+
                         <p className="p-3 rounded-[14px] bg-[#F8F6FE] border border-[rgba(91,60,196,0.14)] text-[#6A3FD0] font-mono text-[11px]">
-                          {isEn ? 'Outcome:' : 'Hasil:'} {item.result}
+                          {isEn ? 'Design target:' : 'Target desain:'} {project.targetNote}
                         </p>
                       </div>
                     </div>
-                  </div>
 
-                  <div className="p-5 md:p-6 pt-0">
-                    <Button
-                      href={buildWaUrl(
-                        isEn
-                          ? `Hello Chesta & Zeeshan, I would like to discuss a similar solution for ${item.title}.`
-                          : `Halo Chesta & Zeeshan, saya ingin diskusi solusi serupa untuk ${item.title}.`
-                      )}
-                      variant="tint"
-                      fullWidth
-                    >
-                      <span>
-                        {isEn ? 'Discuss This Case' : 'Diskusikan Kasus Ini'}
-                      </span>
-                      <ArrowUpRight size={14} />
-                    </Button>
-                  </div>
-                </Card>
-              ))}
+                    <div className="p-5 md:p-6 pt-0">
+                      <Button to={projectHref} variant="tint" fullWidth>
+                        <span>
+                          {isEn ? 'View project details' : 'Lihat detail proyek'}
+                        </span>
+                        <ArrowUpRight size={14} />
+                      </Button>
+                    </div>
+                  </Card>
+                );
+              })}
             </div>
           </Reveal>
         </Container>
@@ -1826,6 +1296,15 @@ export default function HomePage() {
               isEn
                 ? 'Zero hidden fees. You know the exact system scope before development begins.'
                 : 'Tanpa biaya tersembunyi. Kamu tahu persis cakupan sistem sebelum pengerjaan dimulai.'
+            }
+            action={
+              <Button
+                to={toLocalizedHref('/harga', locale, prefixMode)}
+                variant="secondary"
+              >
+                <span>{isEn ? 'View full pricing & packages' : 'Lihat rincian harga & paket lengkap'}</span>
+                <ArrowRight size={15} className="text-[#6A3FD0]" />
+              </Button>
             }
           />
 
@@ -2042,7 +1521,7 @@ export default function HomePage() {
             <Card variant="white" className="h-full flex items-start gap-4">
               <div className="w-14 h-14 rounded-[16px] overflow-hidden bg-[#F8F6FE] border border-[rgba(91,60,196,0.14)] shrink-0">
                 <img
-                  src="/chesta.png"
+                  src="/favicon.svg"
                   alt="Chesta Azka"
                   width={56}
                   height={56}
@@ -2217,11 +1696,7 @@ export default function HomePage() {
                 ? 'We will tell you honestly whether it is worth automating and what it will cost.'
                 : 'Kami bilang jujur apakah layak diotomasi, dan berapa estimasi biayanya.'
             }
-            buttonLabel={
-              isEn
-                ? 'Free consultation via WhatsApp'
-                : 'Konsultasi gratis via WhatsApp'
-            }
+            whatsappContext={{ type: 'default', url: location.pathname }}
           />
         </Container>
       </section>

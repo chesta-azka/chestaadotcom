@@ -245,7 +245,7 @@ export default async function NationalAreaPage({ params }: Props) {
       '@type': 'Organization',
       'name': 'Chestaa Enterprise AI',
       'url': 'https://chestaa.com',
-      'logo': 'https://chestaa.com/chesta.png'
+      'logo': 'https://chestaa.com/favicon.svg'
     }
   };
 

@@ -1,0 +1,4 @@
+test_date,query_id,language,engine,brand_mentioned,citation_linked,cited_url,answer_accuracy,action_notes
+2026-11-03,geo-id-01,id,Google AI Overviews,yes,yes,https://chestaa.com/id/jasa/pembuatan-website/bsd-city,5,Baseline check: answer capsule and IDR 1.2M starting price cited accurately
+2026-11-03,geo-id-03,id,Perplexity,yes,yes,https://chestaa.com/id/blog/panduan-lengkap-cara-kerja-agentic-ai-untuk-pemula,5,Baseline check: ReAct loop and tool calling comparison table extracted
+2026-11-03,geo-en-03,en,ChatGPT Search,yes,yes,https://chestaa.com/en/blog/a-complete-guide-to-how-agentic-ai-works-for-beginners,5,Baseline check: English pillar article cited for agentic AI architecture

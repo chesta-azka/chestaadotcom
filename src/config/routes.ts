@@ -1,50 +1,67 @@
 export const ROUTES = {
   CORE: {
-    HOME: '/',
-    ABOUT: '/about',
-    WORKFLOW: '/workflow',
-    TRUST: '/trust'
+    HOME: '/id',
+    HOME_EN: '/en',
+    ABOUT: '/id/about',
+    ABOUT_EN: '/en/about',
+    WORKFLOW: '/id/workflow',
+    WORKFLOW_EN: '/en/workflow',
+    TRUST: '/id/trust',
   },
   SERVICES: {
-    HUB: '/services',
-    LAYANAN: '/layanan',
-    WEB_BSD: '/services/jasa-pembuatan-website-bsd-cisauk',
-    CONVERSION_MACHINE: '/services/website-mesin-konversi',
-    AI_EMPLOYEE: '/services/karyawan-digital-ai',
-    AUTONOMOUS_ECOMMERCE: '/services/toko-online-otonom',
-    LANDING_PAGE: '/services/landing-page-konversi',
-    ENTERPRISE_INFRA: '/services/infrastruktur-digital-enterprise',
-    CLOUD_ANTI_DOWN: '/services/infrastruktur-cloud-anti-down',
-    CYBERSECURITY: '/services/keamanan-data-korporat',
-    SEO_AEO: '/services/dominasi-pencarian-seo-aeo',
-    PERFORMANCE_MARKETING: '/services/mesin-pelipatganda-roas',
-    ASSET_PROTECTION: '/services/proteksi-aset-digital-sla',
-    SUPER_APP: '/services/pengembangan-super-app-custom',
-    FRACTIONAL_CTO: '/services/konsultasi-cto-eksekutif',
-    PROGRAMMATIC_SEO: '/services/programmatic-seo-skala-besar'
+    HUB: '/id#layanan',
+    LAYANAN: '/id#layanan',
+    PEMBUATAN_WEBSITE: '/id/jasa/pembuatan-website',
+    AI_AGENT: '/id/jasa/ai-agent',
+    SOFTWARE_CUSTOM: '/id/jasa/software-custom',
+    OTOMASI_WORKFLOW: '/id/jasa/otomasi-workflow',
+    WEBSITE_DEVELOPMENT_EN: '/en/services/website-development',
+    AI_AGENTS_EN: '/en/services/ai-agents',
+    CUSTOM_SOFTWARE_EN: '/en/services/custom-software',
+    WORKFLOW_AUTOMATION_EN: '/en/services/workflow-automation',
+    // Legacy aliases retained for compatibility
+    WEB_BSD: '/id/jasa/pembuatan-website/bsd-city',
+    CONVERSION_MACHINE: '/id/jasa/pembuatan-website',
+    AI_EMPLOYEE: '/id/jasa/ai-agent',
+    AUTONOMOUS_ECOMMERCE: '/id/jasa/pembuatan-website',
+    LANDING_PAGE: '/id/jasa/pembuatan-website',
+    ENTERPRISE_INFRA: '/id/jasa/software-custom',
+    CLOUD_ANTI_DOWN: '/id/jasa/software-custom',
+    CYBERSECURITY: '/id/jasa/software-custom',
+    SEO_AEO: '/id/jasa/pembuatan-website',
+    PERFORMANCE_MARKETING: '/id/jasa/pembuatan-website',
+    ASSET_PROTECTION: '/id/jasa/software-custom',
+    SUPER_APP: '/id/jasa/software-custom',
+    FRACTIONAL_CTO: '/id/jasa/software-custom',
+    PROGRAMMATIC_SEO: '/id/jasa/pembuatan-website',
   },
   PORTFOLIO: {
-    HUB: '/portfolio',
-    CASE_STUDIES: '/case-studies'
+    HUB: '/id/portfolio',
+    HUB_EN: '/en/portfolio',
+    CASE_STUDIES: '/id/case-studies',
+    CASE_STUDIES_EN: '/en/case-studies',
   },
   KNOWLEDGE: {
-    BLOG: '/blog',
-    INSIGHTS: '/insights',
-    GLOSSARY: '/kamus-ai-teknologi'
+    BLOG: '/id/blog',
+    BLOG_EN: '/en/blog',
+    INSIGHTS: '/id/blog',
+    GLOSSARY: '/id/kamus-ai-teknologi',
   },
   ACADEMY: {
-    HUB: '/academy',
-    RESOURCES: '/academy/resources',
-    QUIZ: '/quiz'
+    HUB: '/id/academy',
+    RESOURCES: '/id/academy/resources',
+    QUIZ: '/id/quiz',
   },
   AREA: {
-    BASE: '/area'
+    BASE: '/id/area',
+    BASE_EN: '/en/areas',
   },
   MANAGEMENT: {
     ADMIN: '/admin',
     AI_AUDIT: '/admin/ai-audit',
-    PORTAL: '/portal'
-  }
+    PORTAL: '/portal',
+  },
 } as const;
 
-export type AppRoute = typeof ROUTES[keyof typeof ROUTES][keyof typeof ROUTES[keyof typeof ROUTES]];
+export type AppRoute =
+  (typeof ROUTES)[keyof typeof ROUTES][keyof (typeof ROUTES)[keyof typeof ROUTES]];

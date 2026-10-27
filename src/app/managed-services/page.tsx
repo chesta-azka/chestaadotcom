@@ -49,7 +49,7 @@ export default function ManagedServicesPage() {
     '@context': 'https://schema.org',
     '@type': 'ProfessionalService',
     'name': 'chestaadotcom Managed Services IT',
-    'image': 'https://chestaa.com/chesta.png',
+    'image': 'https://chestaa.com/favicon.svg',
     'url': 'https://chestaa.com/managed-services',
     'telephone': '+6282125447232',
     'priceRange': '$$$',

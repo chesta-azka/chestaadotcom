@@ -81,7 +81,7 @@ export const SERVICE_DEFINITIONS = [
   {
     slug: 'jasa-pembuatan-website-bsd-cisauk',
     title: 'Jasa Pembuatan Website BSD & IT Cisauk',
-    description: 'Solusi IT Cisauk & Jasa Web BSD yang fokus mendominasi pasar lokal dengan SEO dan High-Performance Web.',
+    description: 'Solusi IT Cisauk & Jasa Web BSD yang fokus mengembangkan bisnis lokal dengan SEO dan High-Performance Web.',
     benefits: ['Local SEO Geo-Targeting', 'Kecepatan Muat < 0.8s', 'Lead Generation +45%'],
     icon: Search
   }

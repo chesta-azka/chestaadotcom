@@ -1,0 +1,87 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900" fill="none" role="img" aria-label="Ilustrasi roda gigi pemeliharaan teknis di samping kalender jadwal pembaruan keamanan, backup, dan perpanjangan server">
+  <defs>
+    <pattern id="grid64" width="64" height="64" patternUnits="userSpaceOnUse">
+      <path d="M 64 0 L 0 0 0 64" fill="none" stroke="#17122B" stroke-width="1" stroke-opacity="0.04" />
+    </pattern>
+    <radialGradient id="purpleGlow" cx="1260" cy="240" r="620" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#B9A2F2" stop-opacity="0.42" />
+      <stop offset="55%" stop-color="#EFEAFB" stop-opacity="0.18" />
+      <stop offset="100%" stop-color="#F8F6FE" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+  <rect width="1600" height="900" fill="#F8F6FE" />
+  <rect width="1600" height="900" fill="url(#purpleGlow)" />
+  <rect width="1600" height="900" fill="url(#grid64)" />
+  <g key="anchor-0">
+        <rect x="1220" y="544" width="260" height="165" rx="14" fill="#17122B" stroke="#DED8F2" stroke-width="1" />
+        <rect x="1238" y="564" width="200" height="10" rx="5" fill="#B9A2F2" />
+             <rect x="1238" y="584" width="160" height="8" rx="4" fill="#EFEAFB" fill-opacity="0.45" />
+      </g>
+<g key="anchor-1">
+        <rect x="104" y="152" width="230" height="145" rx="14" fill="#6A3FD0" stroke="#DED8F2" stroke-width="1" />
+        <rect x="122" y="172" width="170" height="10" rx="5" fill="#5230B0" />
+             <rect x="122" y="192" width="130" height="8" rx="4" fill="#17122B" fill-opacity="0.25" />
+      </g>
+<g key="anchor-2">
+        <rect x="72" y="462" width="140" height="210" rx="14" fill="#5230B0" stroke="#DED8F2" stroke-width="1" />
+        <rect x="90" y="482" width="80" height="10" rx="5" fill="#B9A2F2" />
+             <rect x="90" y="502" width="40" height="8" rx="4" fill="#EFEAFB" fill-opacity="0.45" />
+      </g>
+<line x1="220" y1="620" x2="560" y2="330" stroke="#C5B8EC" stroke-width="1" stroke-dasharray="4 4" />
+<line x1="1378" y1="647" x2="1040" y2="330" stroke="#C5B8EC" stroke-width="1" stroke-dasharray="none" />
+<line x1="303" y1="172" x2="560" y2="330" stroke="#C5B8EC" stroke-width="1" stroke-dasharray="4 4" />
+<line x1="1280" y1="143" x2="1040" y2="570" stroke="#C5B8EC" stroke-width="1" stroke-dasharray="none" />
+<line x1="309" y1="755" x2="560" y2="570" stroke="#C5B8EC" stroke-width="1" stroke-dasharray="4 4" />
+<g>
+        <circle cx="220" cy="620" r="20" fill="#6A3FD0" stroke="#17122B" stroke-width="1" />
+        <circle cx="220" cy="620" r="4" fill="#FFFFFF" />
+      </g>
+<g>
+        <circle cx="1378" cy="647" r="14" fill="#FFFFFF" stroke="#C5B8EC" stroke-width="1" />
+        <circle cx="1378" cy="647" r="4" fill="#6A3FD0" />
+      </g>
+<g>
+        <circle cx="303" cy="172" r="14" fill="#FFFFFF" stroke="#C5B8EC" stroke-width="1" />
+        <circle cx="303" cy="172" r="4" fill="#6A3FD0" />
+      </g>
+<g>
+        <circle cx="1280" cy="143" r="14" fill="#FFFFFF" stroke="#C5B8EC" stroke-width="1" />
+        <circle cx="1280" cy="143" r="4" fill="#6A3FD0" />
+      </g>
+<g>
+        <circle cx="309" cy="755" r="14" fill="#FFFFFF" stroke="#C5B8EC" stroke-width="1" />
+        <circle cx="309" cy="755" r="4" fill="#6A3FD0" />
+      </g>
+  <g transform="translate(1600, 0) scale(-1, 1) rotate(-3 800 450)">
+    <g>
+        <rect x="280" y="180" width="1040" height="540" rx="24" fill="#FFFFFF" stroke="#C5B8EC" stroke-width="1" />
+        <!-- Left Gear Assembly -->
+        <rect x="325" y="225" width="390" height="450" rx="20" fill="#2B1763" />
+        <circle cx="520" cy="450" r="118" fill="#6A3FD0" stroke="#FFFFFF" stroke-width="12" stroke-dasharray="28 18" />
+        <circle cx="520" cy="450" r="62" fill="#17122B" stroke="#B9A2F2" stroke-width="4" />
+        <circle cx="520" cy="450" r="22" fill="#FFFFFF" />
+        <!-- Right Calendar Grid -->
+        <rect x="755" y="225" width="520" height="450" rx="20" fill="#F8F6FE" stroke="#C5B8EC" stroke-width="1" />
+        <rect x="755" y="225" width="520" height="74" rx="20" fill="#17122B" />
+        <rect x="795" y="335" width="120" height="85" rx="10" fill="#FFFFFF" stroke="#C5B8EC" />
+        <rect x="945" y="335" width="120" height="85" rx="10" fill="#6A3FD0" />
+        <rect x="1095" y="335" width="135" height="85" rx="10" fill="#FFFFFF" stroke="#C5B8EC" />
+        <rect x="795" y="445" width="120" height="85" rx="10" fill="#17122B" />
+        <rect x="945" y="445" width="120" height="85" rx="10" fill="#FFFFFF" stroke="#C5B8EC" />
+        <rect x="1095" y="445" width="135" height="85" rx="10" fill="#5230B0" />
+        <rect x="795" y="555" width="435" height="75" rx="12" fill="#EFEAFB" />
+      </g>
+  </g>
+  <g transform="translate(389, 112)">
+    <rect width="106" height="26" rx="6" fill="#FFFFFF" stroke="#C5B8EC" stroke-width="1" />
+    <text x="53" y="17" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="11" font-weight="600" letter-spacing="0.06em" fill="#17122B">DOMAIN SSL</text>
+  </g>
+<g transform="translate(751, 802)">
+    <rect width="98" height="26" rx="6" fill="#FFFFFF" stroke="#C5B8EC" stroke-width="1" />
+    <text x="49" y="17" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="11" font-weight="600" letter-spacing="0.06em" fill="#17122B">CLOUD VPS</text>
+  </g>
+<g transform="translate(1109, 112)">
+    <rect width="98" height="26" rx="6" fill="#2B1763" stroke="#6A3FD0" stroke-width="1" />
+    <text x="49" y="17" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="11" font-weight="600" letter-spacing="0.06em" fill="#FFFFFF">PATCH SLA</text>
+  </g>
+</svg>

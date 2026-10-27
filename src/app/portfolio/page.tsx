@@ -192,7 +192,7 @@ export default function EnterprisePortfolioPage() {
             </h2>
 
             <p className="text-slate-300 text-base sm:text-lg leading-relaxed max-w-2xl mx-auto">
-              Tinggalkan template lambat dan biarkan Karyawan AI serta arsitektur Next.js 15 mendominasi pasar digital Anda hari ini.
+              Tinggalkan template lambat dan biarkan Karyawan AI serta arsitektur Next.js 15 mengembangkan bisnis digital Anda hari ini.
             </p>
 
             <div className="pt-4">

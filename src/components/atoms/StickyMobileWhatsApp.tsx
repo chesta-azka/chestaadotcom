@@ -1,8 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { MessageCircle, ArrowUpRight } from 'lucide-react';
-import { buildWaUrl } from '../ui/DesignSystem';
 import { parseLocalizedPath } from '../../lib/i18n';
+import {
+  buildWhatsAppLink,
+  getWhatsAppCtaLabel,
+  resolveWhatsAppContextFromPathname,
+} from '../../lib/whatsapp';
+import { trackWaClick } from '../../lib/analytics';
 
 export default function StickyMobileWhatsApp() {
   const [visible, setVisible] = useState(false);
@@ -27,25 +32,24 @@ export default function StickyMobileWhatsApp() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const whatsappUrl = buildWaUrl(
-    isEn
-      ? 'Hello Chesta & Zeeshan, I would like a free consultation regarding custom software / AI agent development for my business.'
-      : 'Halo Chesta & Zeeshan, saya ingin konsultasi gratis mengenai pembuatan software custom / AI agent untuk bisnis saya.'
-  );
+  const waContext = resolveWhatsAppContextFromPathname(location.pathname, locale);
+  const whatsappUrl = buildWhatsAppLink(waContext, locale);
+  const ctaLabel = getWhatsAppCtaLabel(locale);
 
   if (!visible) return null;
 
   return (
     <aside
-      aria-label={
-        isEn ? 'Quick consultation via WhatsApp' : 'Konsultasi cepat via WhatsApp'
-      }
+      aria-label={ctaLabel}
       className="fixed bottom-4 inset-x-4 sm:inset-x-5 z-40 md:hidden flex justify-center pointer-events-none"
     >
       <a
         href={whatsappUrl}
         target="_blank"
-        rel="noopener noreferrer"
+        rel="noopener"
+        onClick={() =>
+          trackWaClick(waContext.type || 'default', 'sticky_mobile_wa', locale)
+        }
         className="pointer-events-auto max-w-[400px] w-full min-h-[48px] py-2 px-3.5 sm:px-4 rounded-full glass-pill flex items-center justify-between gap-2.5 text-[#17122B] active:scale-[0.99] transition-transform"
       >
         <div className="flex items-center gap-2.5 min-w-0">
@@ -57,9 +61,7 @@ export default function StickyMobileWhatsApp() {
               {isEn ? 'Web IDR 1.2M · Free AI Audit' : 'Web Rp1,2jt · Audit AI Gratis'}
             </p>
             <p className="text-[12.5px] sm:text-[13px] font-semibold text-[#17122B] truncate leading-tight">
-              {isEn
-                ? 'Free consultation via WhatsApp'
-                : 'Konsultasi gratis via WhatsApp'}
+              {ctaLabel}
             </p>
           </div>
         </div>

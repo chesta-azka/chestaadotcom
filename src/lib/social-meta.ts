@@ -3,13 +3,26 @@ import {
   getPublishedBlogPosts,
   getBlogCategoryBySlug,
   getBlogPostsByCategorySlug,
+  getBlogPostsByCluster,
+  getBlogPaginationSlice,
   getAuthorProfile,
   renderBlogPostHtml,
 } from '../data/blog-posts';
-import { getAllServices, getServiceBySlug } from '../data/services';
+import {
+  getTopicClusterById,
+  getClusterHubPath,
+  TOPIC_CLUSTERS,
+} from '../data/clusters';
+import {
+  getAllServices,
+  getServiceBySlug,
+  getServicePath,
+  getServiceAreaPath,
+} from '../data/services';
 import {
   getServiceAreaPage,
   getServiceAreasByServiceSlug,
+  getIndexableAreas,
 } from '../data/service-areas';
 import { getProjectBySlug, getPublishedProjects } from '../data/projects';
 import { getCaseStudyBySlug, getPublishedCaseStudies } from '../data/case-studies';
@@ -26,6 +39,7 @@ import {
 import {
   ENGLISH_HOME_FAQS,
   ENGLISH_ROUTES_SEO,
+  INDONESIAN_ROUTES_SEO,
   getLocalizedService,
   getLocalizedServiceAreaPage,
 } from './i18n-content';
@@ -34,19 +48,51 @@ export interface RouteMeta {
   title: string;
   description: string;
   image: string;
+  imageAlt: string;
   url: string;
   type: 'website' | 'article';
   locale?: LocaleCode;
   publishedTime?: string;
   modifiedTime?: string;
   authorName?: string;
+  authorUrl?: string;
+  articleSection?: string;
+  articleTags?: string[];
+  preloadImage?: string;
+  prevUrl?: string;
+  nextUrl?: string;
   noindex?: boolean;
+  robotsContent?: string;
   alternates?: {
     idUrl: string;
     enUrl: string;
     xDefaultUrl: string;
   };
   jsonLd: object;
+}
+
+/**
+ * Validates that service and area page titles are 50–62 characters
+ * and meta descriptions are 140–160 characters. Throws if out of range.
+ */
+export function validatePageMetaLengths(
+  title: string,
+  description: string,
+  routeLabel: string
+): { titleLength: number; descriptionLength: number } {
+  const titleLen = title.length;
+  const descLen = description.length;
+  if (titleLen < 50 || titleLen > 62) {
+    throw new Error(
+      `[SEO Meta Validation Error] Title for "${routeLabel}" is ${titleLen} chars (must be 50–62): "${title}"`
+    );
+  }
+  if (descLen < 140 || descLen > 160) {
+    throw new Error(
+      `[SEO Meta Validation Error] Description for "${routeLabel}" is ${descLen} chars (must be 140–160): "${description}"`
+    );
+  }
+  return { titleLength: titleLen, descriptionLength: descLen };
 }
 
 function escapeHtmlAttr(str: string): string {
@@ -58,69 +104,23 @@ function escapeHtmlAttr(str: string): string {
 }
 
 function normalizePathname(rawUrl: string): string {
-  let pathname = rawUrl || '/';
+  let pathname = rawUrl || '/id';
   try {
     const parsed = new URL(
       SITE_URL + (rawUrl.startsWith('/') ? rawUrl : '/' + rawUrl)
     );
     pathname = parsed.pathname;
   } catch {
-    pathname = rawUrl.split('?')[0] || '/';
+    pathname = rawUrl.split('?')[0] || '/id';
   }
   if (pathname.length > 1 && pathname.endsWith('/')) {
     pathname = pathname.slice(0, -1);
   }
-  return pathname || '/';
+  return pathname || '/id';
 }
 
 function toCanonicalUrl(rawPathname: string): string {
-  const { locale, barePath } = parseLocalizedPath(rawPathname);
-  const langPrefix = locale === 'en' ? '/eng' : '';
-
-  if (
-    !barePath ||
-    barePath === '/' ||
-    barePath === '/services' ||
-    barePath === '/layanan'
-  ) {
-    return `${SITE_URL}${langPrefix}`;
-  }
-
-  const areaMatch = barePath.match(/^\/(jasa|layanan|services)\/([^/]+)\/([^/]+)$/i);
-  if (areaMatch) {
-    const rawService = areaMatch[2];
-    const rawArea = areaMatch[3].toLowerCase();
-    const service = getServiceBySlug(rawService);
-    if (service) {
-      const areaPage = getServiceAreaPage(service.slug, rawArea);
-      if (areaPage) {
-        return `${SITE_URL}${langPrefix}/jasa/${areaPage.serviceSlug}/${areaPage.areaSlug}`;
-      }
-    }
-  }
-
-  if (
-    barePath.startsWith('/jasa/') ||
-    barePath.startsWith('/layanan/') ||
-    barePath.startsWith('/services/')
-  ) {
-    const slug = barePath.replace(/^\/(jasa|layanan|services)\//, '').trim();
-    const service = getServiceBySlug(slug);
-    if (service) {
-      return `${SITE_URL}${langPrefix}/jasa/${service.slug}`;
-    }
-  }
-
-  if (barePath.startsWith('/blog/') && !barePath.startsWith('/blog/kategori/')) {
-    const rawSlug = barePath.replace('/blog/', '').trim();
-    const post = getBlogPostBySlug(rawSlug, locale);
-    if (post) {
-      const postPrefix = post.locale === 'en' ? '/eng' : '';
-      return `${SITE_URL}${postPrefix}/blog/${post.slug}`;
-    }
-  }
-
-  return `${SITE_URL}${langPrefix}${barePath.startsWith('/') ? barePath : '/' + barePath}`;
+  return getHreflangAlternates(rawPathname, SITE_URL).canonicalUrl;
 }
 
 function toAbsoluteImageUrl(imgPath: string): string {
@@ -133,182 +133,176 @@ function toAbsoluteImageUrl(imgPath: string): string {
   return `${SITE_URL}${imgPath.startsWith('/') ? imgPath : '/' + imgPath}`;
 }
 
+const ORG_AREA_SERVED_NODES = [
+  { '@type': 'AdministrativeArea', name: 'Kota Tangerang Selatan' },
+  { '@type': 'Place', name: 'BSD City' },
+  { '@type': 'AdministrativeArea', name: 'Pamulang' },
+  { '@type': 'AdministrativeArea', name: 'Jurang Mangu' },
+  { '@type': 'AdministrativeArea', name: 'Lebak Bulus' },
+  { '@type': 'AdministrativeArea', name: 'Jakarta Selatan' },
+];
+
 export function buildStructuredDataGraph(rawPathname: string): object {
   const { locale, barePath } = parseLocalizedPath(rawPathname);
   const pathname = barePath;
-  const inLang = locale === 'en' ? 'en' : 'id-ID';
+  const inLang = locale === 'en' ? 'en' : 'id';
   const canonicalUrl = toCanonicalUrl(rawPathname);
-  const ogDefaultUrl = toAbsoluteImageUrl(SITE_IMAGES.ogDefault.src);
-  const allServices = getAllServices();
-  const allProjects = getPublishedProjects();
-  const allCaseStudies = getPublishedCaseStudies();
+  const allProjects = getPublishedProjects(locale);
+  const allCaseStudies = getPublishedCaseStudies(locale);
 
-  const organizationNode = {
-    '@type': 'Organization',
-    '@id': `${SITE_URL}/#organization`,
+  // 1. Organization + ProfessionalService (#org) — NO street address, NO geo
+  const orgNode = {
+    '@type': ['Organization', 'ProfessionalService'],
+    '@id': `${SITE_URL}/#org`,
     name: 'CHESTAADOTCOM',
     url: SITE_URL,
     logo: {
       '@type': 'ImageObject',
-      url: `${SITE_URL}/chesta.png`,
+      url: `${SITE_URL}/favicon.svg`,
     },
-    sameAs: [SITE_METADATA.instagramUrl],
+    email: 'chestaadotcom@gmail.com',
+    telephone: '+62-821-2544-7232',
+    sameAs: ['https://instagram.com/chestaadotcom'],
     founder: [
-      { '@id': `${SITE_URL}/#founder-chesta-azka` },
-      { '@id': `${SITE_URL}/#founder-zeeshan` },
+      {
+        '@type': 'Person',
+        '@id': `${SITE_URL}/#founder-chesta-azka`,
+        name: 'Chesta Azka',
+        jobTitle:
+          locale === 'en'
+            ? 'Co-founder (architecture, product, technology)'
+            : 'Co-founder (arsitektur, produk, teknologi)',
+        description:
+          locale === 'en'
+            ? 'Co-founder of CHESTAADOTCOM (architecture, product, technology). Writing code since 2021 with experience building real operational systems.'
+            : 'Co-founder CHESTAADOTCOM (arsitektur, produk, teknologi). Menulis kode sejak 2021 dan berpengalaman membangun sistem operasional nyata.',
+      },
+      {
+        '@type': 'Person',
+        '@id': `${SITE_URL}/#founder-zeeshan`,
+        name: 'Zeeshan',
+        jobTitle:
+          locale === 'en'
+            ? 'Co-founder (operations and client success)'
+            : 'Co-founder (operasional dan client success)',
+        description:
+          locale === 'en'
+            ? 'Co-founder of CHESTAADOTCOM (operations and client success). Leading communication, workflow planning, and client success.'
+            : 'Co-founder CHESTAADOTCOM (operasional dan client success). Memimpin komunikasi, alur kerja, dan kepuasan klien.',
+      },
     ],
+    areaServed: ORG_AREA_SERVED_NODES,
   };
 
-  const localBusinessNode = {
-    '@type': ['ProfessionalService', 'LocalBusiness'],
-    '@id': `${SITE_URL}/#localbusiness`,
-    name: 'CHESTAADOTCOM',
-    url: SITE_URL,
-    image: ogDefaultUrl,
-    telephone: '+6282125447232',
-    priceRange:
-      locale === 'en' ? 'Starting from IDR 1,200,000' : 'Mulai dari Rp1.200.000',
-    description:
-      locale === 'en'
-        ? ENGLISH_ROUTES_SEO['/'].description
-        : SITE_METADATA.defaultDescription,
-    address: {
-      '@type': 'PostalAddress',
-      streetAddress: 'BSD City, Tangerang Selatan',
-      addressLocality: 'BSD, Tangerang Selatan',
-      addressRegion: 'Banten',
-      addressCountry: 'ID',
-    },
-    geo: {
-      '@type': 'GeoCoordinates',
-      latitude: -6.3239,
-      longitude: 106.6416,
-    },
-    areaServed: SITE_METADATA.areasServed.map((area) => ({
-      '@type': 'AdministrativeArea',
-      name: area,
-    })),
-    sameAs: [SITE_METADATA.instagramUrl],
-  };
-
+  // 2. WebSite (#website)
   const websiteNode = {
     '@type': 'WebSite',
     '@id': `${SITE_URL}/#website`,
     url: SITE_URL,
     name: 'CHESTAADOTCOM',
-    publisher: { '@id': `${SITE_URL}/#organization` },
-    inLanguage: inLang,
+    publisher: { '@id': `${SITE_URL}/#org` },
+    inLanguage: ['id', 'en'],
   };
 
-  const foundersNodes = [
-    {
-      '@type': 'Person',
-      '@id': `${SITE_URL}/#founder-chesta-azka`,
-      name: 'Chesta Azka',
-      jobTitle:
-        locale === 'en'
-          ? 'Co-Founder — Architecture, Product, and Technology'
-          : 'Co-Founder — Arsitektur, Produk, dan Teknologi',
-      worksFor: { '@id': `${SITE_URL}/#organization` },
-      url: `${SITE_URL}/about`,
-    },
-    {
-      '@type': 'Person',
-      '@id': `${SITE_URL}/#founder-zeeshan`,
-      name: 'Zeeshan',
-      jobTitle:
-        locale === 'en'
-          ? 'Co-Founder — Operations and Client Success'
-          : 'Co-Founder — Operasional dan Client Success',
-      worksFor: { '@id': `${SITE_URL}/#organization` },
-      url: `${SITE_URL}/about`,
-    },
-  ];
+  let pageName =
+    locale === 'en'
+      ? ENGLISH_ROUTES_SEO[pathname]?.title || ENGLISH_ROUTES_SEO['/'].title
+      : INDONESIAN_ROUTES_SEO[pathname]?.title || SITE_METADATA.defaultTitle;
+  let pageDesc =
+    locale === 'en'
+      ? ENGLISH_ROUTES_SEO[pathname]?.description || ENGLISH_ROUTES_SEO['/'].description
+      : INDONESIAN_ROUTES_SEO[pathname]?.description || SITE_METADATA.defaultDescription;
+  let pageModified = '2026-03-20';
+  let hasServiceTarget = false;
+  let primaryImageNode: Record<string, any> | undefined;
 
-  const servicesNodes = allServices.map((rawService) => {
-    const s = getLocalizedService(rawService.slug, locale) || rawService;
-    const srvUrl =
-      locale === 'en'
-        ? `${SITE_URL}/eng/jasa/${s.slug}`
-        : `${SITE_URL}/jasa/${s.slug}`;
-    return {
-      '@type': 'Service',
-      '@id': `${SITE_URL}/jasa/${s.slug}#service`,
-      name: s.title,
-      url: srvUrl,
-      provider: { '@id': `${SITE_URL}/#organization` },
-      areaServed: SITE_METADATA.areasServed.map((area) => ({
-        '@type': 'AdministrativeArea',
-        name: area,
-      })),
-      description: s.summary,
-      offers:
-        s.pricingNote.startingPriceNumeric !== undefined
-          ? {
-              '@type': 'Offer',
-              price: String(s.pricingNote.startingPriceNumeric),
-              priceCurrency: 'IDR',
-              description: s.pricingNote.label,
-              url: srvUrl,
-            }
-          : {
-              '@type': 'Offer',
-              description: `${s.pricingNote.label} — ${s.pricingNote.reason}`,
-              url: srvUrl,
-            },
-    };
-  });
+  const extraNodes: any[] = [];
 
-  const graph: any[] = [
-    organizationNode,
-    localBusinessNode,
-    websiteNode,
-    ...foundersNodes,
-    ...servicesNodes,
-  ];
+  // Breadcrumb base
+  const homeLabel = locale === 'en' ? 'Home' : 'Beranda';
+  const homeItemUrl = locale === 'en' ? `${SITE_URL}/en` : `${SITE_URL}/id`;
+  const servicesLabel = locale === 'en' ? 'Services' : 'Layanan';
+  const servicesItemUrl = locale === 'en' ? `${SITE_URL}/en#layanan` : `${SITE_URL}/id#layanan`;
 
-  // Specific Graph Nodes for /jasa/:serviceSlug/:areaSlug or /jasa/:slug
+  const breadcrumbItems: Array<{
+    '@type': 'ListItem';
+    position: number;
+    name: string;
+    item: string;
+  }> = [{ '@type': 'ListItem', position: 1, name: homeLabel, item: homeItemUrl }];
+
+  // Route-specific nodes
   const areaMatch = pathname.match(/^\/(jasa|layanan|services)\/([^/]+)\/([^/]+)$/i);
   if (areaMatch) {
     const service = getLocalizedService(areaMatch[2], locale);
     const areaPage = service
       ? getLocalizedServiceAreaPage(service.slug, areaMatch[3].toLowerCase(), locale)
       : undefined;
+
     if (service && areaPage) {
-      graph.push({
+      pageName = areaPage.metaTitle;
+      pageDesc = areaPage.metaDescription;
+      pageModified = areaPage.updatedAt || '2026-03-20';
+      hasServiceTarget = true;
+
+      const parentServiceUrl = `${SITE_URL}${getServicePath(service.slug, locale)}`;
+      breadcrumbItems.push({
+        '@type': 'ListItem',
+        position: 2,
+        name: servicesLabel,
+        item: servicesItemUrl,
+      });
+      breadcrumbItems.push({
+        '@type': 'ListItem',
+        position: 3,
+        name: service.title,
+        item: parentServiceUrl,
+      });
+      breadcrumbItems.push({
+        '@type': 'ListItem',
+        position: 4,
+        name: areaPage.areaName,
+        item: canonicalUrl,
+      });
+
+      const isWebsiteService = service.slug === 'pembuatan-website';
+      const serviceNode: Record<string, any> = {
         '@type': 'Service',
         '@id': `${canonicalUrl}#service`,
-        name:
-          locale === 'en'
-            ? `${areaPage.serviceName} in ${areaPage.areaName}`
-            : `${areaPage.serviceName} di ${areaPage.areaName}`,
+        name: areaPage.h1,
+        serviceType: service.shortTitle,
         description: areaPage.quickSummary,
         url: canonicalUrl,
-        provider: { '@id': `${SITE_URL}/#organization` },
-        isRelatedTo: { '@id': `${SITE_URL}/jasa/${service.slug}#service` },
+        provider: { '@id': `${SITE_URL}/#org` },
         areaServed: {
-          '@type': 'AdministrativeArea',
+          '@type': areaPage.areaSlug === 'bsd-city' ? 'Place' : 'AdministrativeArea',
           name: areaPage.areaName,
         },
-        offers:
-          service.pricingNote.startingPriceNumeric !== undefined
-            ? {
-                '@type': 'Offer',
-                price: String(service.pricingNote.startingPriceNumeric),
-                priceCurrency: 'IDR',
-                description: areaPage.priceNote.startingPrice,
-                url: canonicalUrl,
-              }
-            : {
-                '@type': 'Offer',
-                description: `${areaPage.priceNote.startingPrice} — ${areaPage.priceNote.note}`,
-                url: canonicalUrl,
-              },
-      });
+      };
+
+      if (isWebsiteService) {
+        serviceNode.offers = {
+          '@type': 'Offer',
+          priceCurrency: 'IDR',
+          price: '1200000',
+          url: canonicalUrl,
+          priceSpecification: {
+            '@type': 'PriceSpecification',
+            priceCurrency: 'IDR',
+            minPrice: '1200000',
+            description:
+              locale === 'en'
+                ? 'Starting from IDR 1,200,000 for a landing page, depending on complexity.'
+                : 'Mulai Rp1.200.000 untuk landing page, tergantung kompleksitas.',
+          },
+        };
+      }
+
+      extraNodes.push(serviceNode);
 
       const faqNode = buildFaqSchemaNode(areaPage.faqs, `${canonicalUrl}#faq`);
       if (faqNode) {
-        graph.push(faqNode);
+        extraNodes.push(faqNode);
       }
     }
   } else if (
@@ -319,25 +313,81 @@ export function buildStructuredDataGraph(rawPathname: string): object {
     const slug = pathname.replace(/^\/(jasa|layanan|services)\//, '').trim();
     const service = getLocalizedService(slug, locale);
     if (service) {
+      pageName = service.seo.title;
+      pageDesc = service.seo.description;
+      pageModified = '2026-03-20';
+      hasServiceTarget = true;
+
+      breadcrumbItems.push({
+        '@type': 'ListItem',
+        position: 2,
+        name: servicesLabel,
+        item: servicesItemUrl,
+      });
+      breadcrumbItems.push({
+        '@type': 'ListItem',
+        position: 3,
+        name: service.title,
+        item: canonicalUrl,
+      });
+
+      const isWebsiteService = service.slug === 'pembuatan-website';
+      const serviceNode: Record<string, any> = {
+        '@type': 'Service',
+        '@id': `${canonicalUrl}#service`,
+        name: service.title,
+        serviceType: service.shortTitle,
+        description: service.summary,
+        url: canonicalUrl,
+        provider: { '@id': `${SITE_URL}/#org` },
+        areaServed: ORG_AREA_SERVED_NODES,
+      };
+
+      if (isWebsiteService) {
+        serviceNode.offers = {
+          '@type': 'Offer',
+          priceCurrency: 'IDR',
+          price: '1200000',
+          url: canonicalUrl,
+          priceSpecification: {
+            '@type': 'PriceSpecification',
+            priceCurrency: 'IDR',
+            minPrice: '1200000',
+            description:
+              locale === 'en'
+                ? 'Starting from IDR 1,200,000 for a landing page, depending on complexity.'
+                : 'Mulai Rp1.200.000 untuk landing page, tergantung kompleksitas.',
+          },
+        };
+      }
+
+      extraNodes.push(serviceNode);
+
       const faqNode = buildFaqSchemaNode(service.faq, `${canonicalUrl}#faq`);
       if (faqNode) {
-        graph.push(faqNode);
+        extraNodes.push(faqNode);
       }
     }
-  }
-
-  // Specific Graph Nodes for /portfolio Hub
-  if (pathname === '/portfolio') {
-    const seoRoute =
-      locale === 'en'
-        ? ENGLISH_ROUTES_SEO['/portfolio']
-        : ROUTES_SEO_MAP['/portfolio'];
-    graph.push({
+  } else if (pathname === '/area') {
+    breadcrumbItems.push({
+      '@type': 'ListItem',
+      position: 2,
+      name: locale === 'en' ? 'Areas' : 'Area',
+      item: canonicalUrl,
+    });
+  } else if (pathname === '/portfolio') {
+    breadcrumbItems.push({
+      '@type': 'ListItem',
+      position: 2,
+      name: locale === 'en' ? 'Internal Projects' : 'Proyek Internal',
+      item: canonicalUrl,
+    });
+    extraNodes.push({
       '@type': 'CollectionPage',
       '@id': `${canonicalUrl}#collection`,
       url: canonicalUrl,
-      name: seoRoute.title,
-      description: seoRoute.description,
+      name: pageName,
+      description: pageDesc,
       inLanguage: inLang,
       isPartOf: { '@id': `${SITE_URL}/#website` },
       mainEntity: {
@@ -345,28 +395,37 @@ export function buildStructuredDataGraph(rawPathname: string): object {
         itemListElement: allProjects.map((proj, idx) => ({
           '@type': 'ListItem',
           position: idx + 1,
-          url: `${SITE_URL}/portfolio/${proj.slug}`,
-          name: proj.title,
+          url: `${SITE_URL}/${locale}/portfolio/${proj.slug}`,
+          name: `${proj.title} (${proj.internalBadgeLabel})`,
           description: proj.oneLiner,
         })),
       },
     });
-  }
-
-  // Specific Graph Nodes for /portfolio/:slug Detail
-  if (pathname.startsWith('/portfolio/')) {
+  } else if (pathname.startsWith('/portfolio/')) {
     const slug = pathname.replace('/portfolio/', '').trim();
-    const project = getProjectBySlug(slug);
+    const project = getProjectBySlug(slug, locale);
+    breadcrumbItems.push({
+      '@type': 'ListItem',
+      position: 2,
+      name: locale === 'en' ? 'Internal Projects' : 'Proyek Internal',
+      item: `${SITE_URL}/${locale}/portfolio`,
+    });
     if (project) {
+      pageName = project.seo.title;
+      pageDesc = project.seo.description;
+      pageModified = project.updatedAt;
+      breadcrumbItems.push({
+        '@type': 'ListItem',
+        position: 3,
+        name: project.title,
+        item: canonicalUrl,
+      });
       const coverAsset =
         SITE_IMAGES[project.cover as keyof typeof SITE_IMAGES] || SITE_IMAGES.ogDefault;
-      const isSoftwareApp =
-        project.category === 'software' || project.category === 'ai-agent';
-
-      graph.push({
-        '@type': isSoftwareApp ? ['CreativeWork', 'SoftwareApplication'] : 'CreativeWork',
+      extraNodes.push({
+        '@type': 'CreativeWork',
         '@id': `${canonicalUrl}#work`,
-        name: project.title,
+        name: `${project.title} (${project.internalBadgeLabel})`,
         headline: project.title,
         description: project.oneLiner,
         url: canonicalUrl,
@@ -375,245 +434,7 @@ export function buildStructuredDataGraph(rawPathname: string): object {
         dateModified: project.updatedAt,
         inLanguage: inLang,
         genre: project.categoryLabel,
-        keywords: [...project.stack, project.industry, project.categoryLabel].join(', '),
-        creator: { '@id': `${SITE_URL}/#organization` },
-        ...(isSoftwareApp
-          ? {
-              applicationCategory: 'BusinessApplication',
-              operatingSystem: 'Web, WhatsApp Cloud API',
-            }
-          : {}),
-      });
-    }
-  }
-
-  // Specific Graph Nodes for /case-studies Hub
-  if (pathname === '/case-studies') {
-    const seoRoute =
-      locale === 'en'
-        ? ENGLISH_ROUTES_SEO['/case-studies']
-        : ROUTES_SEO_MAP['/case-studies'];
-    graph.push({
-      '@type': 'CollectionPage',
-      '@id': `${canonicalUrl}#collection`,
-      url: canonicalUrl,
-      name: seoRoute.title,
-      description: seoRoute.description,
-      inLanguage: inLang,
-      isPartOf: { '@id': `${SITE_URL}/#website` },
-      mainEntity: {
-        '@type': 'ItemList',
-        itemListElement: allCaseStudies.map((cs, idx) => ({
-          '@type': 'ListItem',
-          position: idx + 1,
-          url: `${SITE_URL}/case-studies/${cs.slug}`,
-          name: cs.title,
-          description: `${cs.summary.problem} ${cs.summary.result}`,
-        })),
-      },
-    });
-  }
-
-  // Specific Graph Nodes for /case-studies/:slug Detail
-  if (pathname.startsWith('/case-studies/')) {
-    const slug = pathname.replace('/case-studies/', '').trim();
-    const study = getCaseStudyBySlug(slug);
-    if (study) {
-      const coverAsset =
-        SITE_IMAGES[study.cover as keyof typeof SITE_IMAGES] || SITE_IMAGES.ogDefault;
-      graph.push({
-        '@type': 'Article',
-        '@id': `${canonicalUrl}#article`,
-        headline: study.title,
-        description:
-          study.seo.description ||
-          `Masalah: ${study.summary.problem} Solusi: ${study.summary.solution} Hasil: ${study.summary.result}`,
-        url: canonicalUrl,
-        image: toAbsoluteImageUrl(coverAsset.src),
-        datePublished: study.publishedAt,
-        dateModified: study.updatedAt,
-        inLanguage: inLang,
-        mainEntityOfPage: {
-          '@type': 'WebPage',
-          '@id': canonicalUrl,
-        },
-        author: [
-          { '@id': `${SITE_URL}/#founder-chesta-azka` },
-          { '@id': `${SITE_URL}/#founder-zeeshan` },
-        ],
-        publisher: { '@id': `${SITE_URL}/#organization` },
-        about: [
-          { '@type': 'Thing', name: study.industry },
-          ...study.services.map((sName) => ({ '@type': 'Thing', name: sName })),
-        ],
-      });
-    }
-  }
-
-  // Specific Graph Nodes for Blog Index (/blog) & Category (/blog/kategori/:category)
-  if (pathname === '/blog' || pathname.startsWith('/blog/kategori/')) {
-    const allPosts = getPublishedBlogPosts(locale);
-    const catSlug = pathname.startsWith('/blog/kategori/')
-      ? pathname.replace('/blog/kategori/', '').trim()
-      : '';
-    const catMeta = catSlug ? getBlogCategoryBySlug(catSlug, locale) : undefined;
-    const listPosts = catMeta
-      ? getBlogPostsByCategorySlug(catMeta.slug, locale)
-      : allPosts;
-
-    graph.push({
-      '@type': 'Blog',
-      '@id': `${canonicalUrl}#blog`,
-      url: canonicalUrl,
-      name: catMeta
-        ? locale === 'en'
-          ? `${catMeta.shortLabel} Notes — CHESTAADOTCOM Blog`
-          : `Catatan ${catMeta.shortLabel} — Blog CHESTAADOTCOM`
-        : locale === 'en'
-          ? 'Notes from Our Team — CHESTAADOTCOM Blog'
-          : 'Catatan dari Kami — Blog CHESTAADOTCOM',
-      description: catMeta
-        ? catMeta.description
-        : locale === 'en'
-          ? ENGLISH_ROUTES_SEO['/blog'].description
-          : ROUTES_SEO_MAP['/blog'].description,
-      inLanguage: inLang,
-      isPartOf: { '@id': `${SITE_URL}/#website` },
-      publisher: { '@id': `${SITE_URL}/#organization` },
-      blogPost: listPosts.map((p) => {
-        const postPrefix = p.locale === 'en' ? '/eng' : '';
-        const postUrl = `${SITE_URL}${postPrefix}/blog/${p.slug}`;
-        return {
-          '@type': 'BlogPosting',
-          '@id': `${postUrl}#article`,
-          headline: p.title,
-          url: postUrl,
-          datePublished: p.date,
-          dateModified: p.updatedAt || p.date,
-          author: {
-            '@type': 'Person',
-            name: getAuthorProfile(p.author, p.locale || locale).name,
-          },
-        };
-      }),
-    });
-  }
-
-  // Specific Graph Nodes for Blog Post (/blog/:slug)
-  if (pathname.startsWith('/blog/') && !pathname.startsWith('/blog/kategori/')) {
-    const slug = pathname.replace('/blog/', '').trim();
-    const post = getBlogPostBySlug(slug, locale);
-
-    if (post) {
-      const postLocale = post.locale || locale;
-      const authorProfile = getAuthorProfile(post.author, postLocale);
-      const blogPostingNode: any = {
-        '@type': 'BlogPosting',
-        '@id': `${canonicalUrl}#article`,
-        headline: post.title,
-        description: post.metaDescription,
-        url: canonicalUrl,
-        inLanguage: postLocale === 'en' ? 'en' : 'id-ID',
-        wordCount: post.wordCount,
-        mainEntityOfPage: {
-          '@type': 'WebPage',
-          '@id': canonicalUrl,
-        },
-        image: toAbsoluteImageUrl(post.cover),
-        author: {
-          '@type': 'Person',
-          name: authorProfile.name,
-          jobTitle: authorProfile.role,
-          url: postLocale === 'en' ? `${SITE_URL}/eng/about` : `${SITE_URL}/about`,
-        },
-        publisher: { '@id': `${SITE_URL}/#organization` },
-        datePublished: post.date,
-        dateModified: post.updatedAt || post.date,
-        articleSection: post.category,
-        keywords: post.tags ? post.tags.join(', ') : undefined,
-      };
-      graph.push(blogPostingNode);
-
-      const faqNode = buildFaqSchemaNode(post.faq, `${canonicalUrl}#faq`);
-      if (faqNode) {
-        graph.push(faqNode);
-      }
-    }
-  } else if (pathname === '/' || pathname === '') {
-    const faqs = locale === 'en' ? ENGLISH_HOME_FAQS : HOME_FAQS;
-    const homeFaqNode = buildFaqSchemaNode(faqs, `${canonicalUrl}#faq`);
-    if (homeFaqNode) {
-      graph.push(homeFaqNode);
-    }
-  }
-
-  // Breadcrumbs (never include inLanguage on BreadcrumbList)
-  const homeLabel = locale === 'en' ? 'Home' : 'Beranda';
-  const homeItemUrl = locale === 'en' ? `${SITE_URL}/eng` : SITE_URL;
-  const breadcrumbItems = [
-    { '@type': 'ListItem', position: 1, name: homeLabel, item: homeItemUrl },
-  ];
-
-  if (areaMatch) {
-    const service = getLocalizedService(areaMatch[2], locale);
-    const areaPage = service
-      ? getLocalizedServiceAreaPage(service.slug, areaMatch[3].toLowerCase(), locale)
-      : undefined;
-    if (service && areaPage) {
-      const serviceItemUrl =
-        locale === 'en'
-          ? `${SITE_URL}/eng/jasa/${service.slug}`
-          : `${SITE_URL}/jasa/${service.slug}`;
-      breadcrumbItems.push({
-        '@type': 'ListItem',
-        position: 2,
-        name: service.title,
-        item: serviceItemUrl,
-      });
-      breadcrumbItems.push({
-        '@type': 'ListItem',
-        position: 3,
-        name: areaPage.areaName,
-        item: canonicalUrl,
-      });
-    }
-  } else if (
-    pathname.startsWith('/jasa/') ||
-    pathname.startsWith('/layanan/') ||
-    pathname.startsWith('/services/')
-  ) {
-    const slug = pathname.replace(/^\/(jasa|layanan|services)\//, '').trim();
-    const service = getLocalizedService(slug, locale);
-    if (service) {
-      breadcrumbItems.push({
-        '@type': 'ListItem',
-        position: 2,
-        name: service.title,
-        item: canonicalUrl,
-      });
-    }
-  } else if (pathname === '/portfolio') {
-    breadcrumbItems.push({
-      '@type': 'ListItem',
-      position: 2,
-      name: locale === 'en' ? 'Portfolio' : 'Portofolio',
-      item: canonicalUrl,
-    });
-  } else if (pathname.startsWith('/portfolio/')) {
-    const slug = pathname.replace('/portfolio/', '').trim();
-    const project = getProjectBySlug(slug);
-    breadcrumbItems.push({
-      '@type': 'ListItem',
-      position: 2,
-      name: locale === 'en' ? 'Portfolio' : 'Portofolio',
-      item: locale === 'en' ? `${SITE_URL}/eng/portfolio` : `${SITE_URL}/portfolio`,
-    });
-    if (project) {
-      breadcrumbItems.push({
-        '@type': 'ListItem',
-        position: 3,
-        name: project.title,
-        item: canonicalUrl,
+        creator: { '@id': `${SITE_URL}/#org` },
       });
     }
   } else if (pathname === '/case-studies') {
@@ -623,68 +444,231 @@ export function buildStructuredDataGraph(rawPathname: string): object {
       name: locale === 'en' ? 'Case Studies' : 'Studi Kasus',
       item: canonicalUrl,
     });
+    extraNodes.push({
+      '@type': 'CollectionPage',
+      '@id': `${canonicalUrl}#collection`,
+      url: canonicalUrl,
+      name: pageName,
+      description: pageDesc,
+      inLanguage: inLang,
+      isPartOf: { '@id': `${SITE_URL}/#website` },
+      mainEntity: {
+        '@type': 'ItemList',
+        itemListElement: allCaseStudies.map((cs, idx) => ({
+          '@type': 'ListItem',
+          position: idx + 1,
+          url: `${SITE_URL}${locale === 'en' ? `/en/case-studies/${cs.slug}` : `/id/studi-kasus/${cs.slug}`}`,
+          name: cs.title,
+          description: `${cs.summary.problem} ${cs.summary.built}`,
+        })),
+      },
+    });
   } else if (pathname.startsWith('/case-studies/')) {
     const slug = pathname.replace('/case-studies/', '').trim();
-    const study = getCaseStudyBySlug(slug);
+    const study = getCaseStudyBySlug(slug, locale);
     breadcrumbItems.push({
       '@type': 'ListItem',
       position: 2,
       name: locale === 'en' ? 'Case Studies' : 'Studi Kasus',
-      item:
-        locale === 'en' ? `${SITE_URL}/eng/case-studies` : `${SITE_URL}/case-studies`,
+      item: `${SITE_URL}${locale === 'en' ? '/en/case-studies' : '/id/studi-kasus'}`,
     });
     if (study) {
+      pageName = study.seo.title;
+      pageDesc = study.seo.description;
+      pageModified = study.updatedAt;
       breadcrumbItems.push({
         '@type': 'ListItem',
         position: 3,
         name: study.title,
         item: canonicalUrl,
       });
+      const coverAsset =
+        SITE_IMAGES[study.cover as keyof typeof SITE_IMAGES] || SITE_IMAGES.ogDefault;
+      extraNodes.push({
+        '@type': 'Article',
+        '@id': `${canonicalUrl}#article`,
+        headline: study.title,
+        description: study.seo.description,
+        url: canonicalUrl,
+        image: toAbsoluteImageUrl(coverAsset.src),
+        datePublished: study.publishedAt,
+        dateModified: study.updatedAt,
+        inLanguage: inLang,
+        mainEntityOfPage: { '@id': `${canonicalUrl}#webpage` },
+        author: {
+          '@type': 'Person',
+          '@id':
+            study.author === 'Zeeshan'
+              ? `${SITE_URL}/#founder-zeeshan`
+              : `${SITE_URL}/#founder-chesta-azka`,
+          name: study.author,
+          jobTitle: study.authorRole,
+        },
+        publisher: { '@id': `${SITE_URL}/#org` },
+      });
     }
-  } else if (pathname === '/blog') {
+  } else if (
+    pathname === '/blog' ||
+    pathname.startsWith('/blog/halaman/') ||
+    pathname.startsWith('/blog/kategori/')
+  ) {
     breadcrumbItems.push({
       '@type': 'ListItem',
       position: 2,
       name: 'Blog',
-      item: canonicalUrl,
+      item: `${SITE_URL}/${locale}/blog`,
     });
-  } else if (pathname.startsWith('/blog/kategori/')) {
-    const catSlug = pathname.replace('/blog/kategori/', '').trim();
-    const catMeta = getBlogCategoryBySlug(catSlug, locale);
-    const blogItemUrl = locale === 'en' ? `${SITE_URL}/eng/blog` : `${SITE_URL}/blog`;
+
+    if (pathname.startsWith('/blog/kategori/')) {
+      const catSlug = pathname.replace('/blog/kategori/', '').trim();
+      const catMeta = catSlug ? getBlogCategoryBySlug(catSlug, locale) : undefined;
+      if (catMeta) {
+        breadcrumbItems.push({
+          '@type': 'ListItem',
+          position: 3,
+          name: catMeta.shortLabel,
+          item: canonicalUrl,
+        });
+      }
+    } else {
+      const rawPage = pathname.startsWith('/blog/halaman/')
+        ? parseInt(pathname.slice('/blog/halaman/'.length).trim(), 10) || 1
+        : 1;
+      const slice = getBlogPaginationSlice(locale, rawPage);
+      pageModified = slice.pagePosts.reduce(
+        (max, p) => (p.updatedAt > max ? p.updatedAt : max),
+        '2026-10-25'
+      );
+
+      if (slice.currentPage > 1) {
+        pageName =
+          locale === 'en'
+            ? `Blog — Page ${slice.currentPage} | CHESTAADOTCOM`
+            : `Blog — Halaman ${slice.currentPage} | CHESTAADOTCOM`;
+        breadcrumbItems.push({
+          '@type': 'ListItem',
+          position: 3,
+          name:
+            locale === 'en'
+              ? `Page ${slice.currentPage}`
+              : `Halaman ${slice.currentPage}`,
+          item: canonicalUrl,
+        });
+      } else {
+        pageName =
+          locale === 'en'
+            ? 'Blog — Notes on AI Agents, Websites & Automation | CHESTAADOTCOM'
+            : 'Blog — Catatan AI Agent, Website & Otomasi Bisnis | CHESTAADOTCOM';
+        pageDesc =
+          locale === 'en'
+            ? 'Notes on AI agents, websites, and automation for businesses in South Tangerang and Greater Jakarta by Chesta Azka and Zeeshan.'
+            : 'Catatan tentang AI agent, website, dan otomasi untuk bisnis di Tangerang Selatan dan Jabodetabek dari Chesta Azka dan Zeeshan.';
+      }
+
+      extraNodes.push({
+        '@type': 'CollectionPage',
+        '@id': `${canonicalUrl}#collection`,
+        name: pageName,
+        description: pageDesc,
+        url: canonicalUrl,
+        inLanguage: inLang,
+        isPartOf: { '@id': `${SITE_URL}/#website` },
+        mainEntity: { '@id': `${canonicalUrl}#itemlist` },
+      });
+      extraNodes.push({
+        '@type': 'ItemList',
+        '@id': `${canonicalUrl}#itemlist`,
+        name: pageName,
+        numberOfItems: slice.pagePosts.length,
+        itemListElement: slice.pagePosts.map((post, idx) => ({
+          '@type': 'ListItem',
+          position: idx + 1,
+          name: post.title,
+          url: `${SITE_URL}/${locale}/blog/${post.slug}`,
+        })),
+      });
+    }
+  } else if (pathname.startsWith('/blog/topik/') || pathname.startsWith('/blog/topic/')) {
+    const clusterSlug = pathname
+      .replace(/^\/blog\/(topik|topic)\//, '')
+      .trim();
+    const cluster = getTopicClusterById(clusterSlug);
     breadcrumbItems.push({
       '@type': 'ListItem',
       position: 2,
       name: 'Blog',
-      item: blogItemUrl,
+      item: `${SITE_URL}/${locale}/blog`,
     });
-    if (catMeta) {
+    if (cluster) {
+      const clusterTitle = locale === 'en' ? cluster.titleEn : cluster.titleId;
+      const clusterShort = locale === 'en' ? cluster.shortLabelEn : cluster.shortLabelId;
+      const clusterPosts = getBlogPostsByCluster(cluster.id, locale);
+      pageName = locale === 'en' ? cluster.seoTitleEn : cluster.seoTitleId;
+      pageDesc = locale === 'en' ? cluster.metaDescriptionEn : cluster.metaDescriptionId;
+      pageModified = clusterPosts.reduce(
+        (max, p) => (p.updatedAt > max ? p.updatedAt : max),
+        '2026-10-23'
+      );
       breadcrumbItems.push({
         '@type': 'ListItem',
         position: 3,
-        name: catMeta.shortLabel,
+        name: clusterShort,
         item: canonicalUrl,
+      });
+      extraNodes.push({
+        '@type': 'CollectionPage',
+        '@id': `${canonicalUrl}#collection`,
+        name: clusterTitle,
+        description: locale === 'en' ? cluster.introEn : cluster.introId,
+        url: canonicalUrl,
+        inLanguage: inLang,
+        isPartOf: { '@id': `${SITE_URL}/#website` },
+        mainEntity: { '@id': `${canonicalUrl}#itemlist` },
+      });
+      extraNodes.push({
+        '@type': 'ItemList',
+        '@id': `${canonicalUrl}#itemlist`,
+        name: clusterTitle,
+        numberOfItems: clusterPosts.length,
+        itemListElement: clusterPosts.map((post, idx) => ({
+          '@type': 'ListItem',
+          position: idx + 1,
+          name: post.title,
+          url: `${SITE_URL}/${locale}/blog/${post.slug}`,
+        })),
       });
     }
   } else if (pathname.startsWith('/blog/')) {
     const slug = pathname.replace('/blog/', '').trim();
     const post = getBlogPostBySlug(slug, locale);
-    const postLocale = post?.locale || locale;
-    const blogItemUrl =
-      postLocale === 'en' ? `${SITE_URL}/eng/blog` : `${SITE_URL}/blog`;
-    const catPrefix = postLocale === 'en' ? '/eng' : '';
     breadcrumbItems.push({
       '@type': 'ListItem',
       position: 2,
       name: 'Blog',
-      item: blogItemUrl,
+      item: `${SITE_URL}/${locale}/blog`,
     });
     if (post) {
+      const postLocale = post.locale || locale;
+      const authorProfile = getAuthorProfile(post.author, postLocale);
+      const cluster = getTopicClusterById(post.clusterId);
+      const clusterShort = cluster
+        ? postLocale === 'en'
+          ? cluster.shortLabelEn
+          : cluster.shortLabelId
+        : post.category;
+      const clusterUrl = `${SITE_URL}${getClusterHubPath(post.clusterId, postLocale)}`;
+      const teamUrl =
+        postLocale === 'en'
+          ? `${SITE_URL}/en/about#team`
+          : `${SITE_URL}/id/tentang#tim`;
+      pageName = post.seoTitle || post.title;
+      pageDesc = post.metaDescription || post.excerpt;
+      pageModified = post.updatedAt || post.date;
       breadcrumbItems.push({
         '@type': 'ListItem',
         position: 3,
-        name: post.category,
-        item: `${SITE_URL}${catPrefix}/blog/kategori/${post.categorySlug}`,
+        name: clusterShort,
+        item: clusterUrl,
       });
       breadcrumbItems.push({
         '@type': 'ListItem',
@@ -692,8 +676,123 @@ export function buildStructuredDataGraph(rawPathname: string): object {
         name: post.title,
         item: canonicalUrl,
       });
+      primaryImageNode = {
+        '@type': 'ImageObject',
+        '@id': `${canonicalUrl}#primaryimage`,
+        url: toAbsoluteImageUrl(post.coverImage),
+        width: 1600,
+        height: 900,
+        caption: post.coverAlt,
+      };
+      extraNodes.push({
+        '@type': 'BlogPosting',
+        '@id': `${canonicalUrl}#article`,
+        headline: post.title,
+        description: post.metaDescription,
+        url: canonicalUrl,
+        inLanguage: postLocale === 'en' ? 'en' : 'id',
+        wordCount: post.wordCount,
+        mainEntityOfPage: { '@id': `${canonicalUrl}#webpage` },
+        image: [
+          {
+            '@type': 'ImageObject',
+            url: toAbsoluteImageUrl(post.coverImage),
+            width: 1600,
+            height: 900,
+            caption: post.coverAlt,
+          },
+          {
+            '@type': 'ImageObject',
+            url: toAbsoluteImageUrl(post.ogImage),
+            width: 1200,
+            height: 630,
+            caption: post.coverAlt,
+          },
+        ],
+        author: {
+          '@type': 'Person',
+          name: authorProfile.name,
+          jobTitle: authorProfile.role,
+          url: teamUrl,
+        },
+        publisher: { '@id': `${SITE_URL}/#org` },
+        datePublished: post.date,
+        dateModified: post.updatedAt || post.date,
+        articleSection: post.category,
+        keywords: post.tags.join(', '),
+      });
+      const faqNode = buildFaqSchemaNode(post.faq, `${canonicalUrl}#faq`);
+      if (faqNode) {
+        extraNodes.push(faqNode);
+      }
     }
-  } else if (pathname !== '/' && pathname !== '') {
+  } else if (pathname === '/' || pathname === '') {
+    const faqs = locale === 'en' ? ENGLISH_HOME_FAQS : HOME_FAQS;
+    const homeFaqNode = buildFaqSchemaNode(faqs, `${canonicalUrl}#faq`);
+    if (homeFaqNode) {
+      extraNodes.push(homeFaqNode);
+    }
+  } else if (pathname === '/audit-gratis') {
+    breadcrumbItems.push({
+      '@type': 'ListItem',
+      position: 2,
+      name: locale === 'en' ? 'Free 30-Minute Audit' : 'Audit Gratis 30 Menit',
+      item: canonicalUrl,
+    });
+    const auditFaqs =
+      locale === 'en'
+        ? [
+            {
+              question: 'Is this 30-minute audit really free with no hidden commitment?',
+              answer:
+                'Yes, 100% free. We use this 30-minute session to understand your operational bottleneck and give you an honest assessment. You are under no obligation to hire us afterward.',
+            },
+            {
+              question: 'Who will I be speaking with during the audit session?',
+              answer:
+                'You speak directly with our co-founders and engineers, Chesta Azka or Zeeshan—not a sales representative reading from a script.',
+            },
+          ]
+        : [
+            {
+              question: 'Apakah audit 30 menit ini benar-benar gratis tanpa ikatan?',
+              answer:
+                'Ya, 100% gratis. Sesi 30 menit ini kami gunakan untuk membedah alur kerjamu secara jujur. Kamu tidak punya kewajiban apa pun untuk lanjut membayar proyek setelah sesi selesai.',
+            },
+            {
+              question: 'Siapa yang akan berdiskusi langsung dengan saya?',
+              answer:
+                'Kamu akan langsung berdiskusi dengan co-founder sekaligus engineer kami, Chesta Azka atau Zeeshan—bukan tim sales yang hanya membaca skrip penawaran.',
+            },
+          ];
+    const auditFaqNode = buildFaqSchemaNode(auditFaqs, `${canonicalUrl}#faq`);
+    if (auditFaqNode) {
+      extraNodes.push(auditFaqNode);
+    }
+  } else if (pathname === '/about') {
+    breadcrumbItems.push({
+      '@type': 'ListItem',
+      position: 2,
+      name: locale === 'en' ? 'About Us' : 'Tentang Kami',
+      item: canonicalUrl,
+    });
+    extraNodes.push({
+      '@type': 'AboutPage',
+      '@id': `${canonicalUrl}#about`,
+      name: pageName,
+      description: pageDesc,
+      url: canonicalUrl,
+      inLanguage: inLang,
+      mainEntity: { '@id': `${SITE_URL}/#org` },
+    });
+  } else if (pathname === '/privasi') {
+    breadcrumbItems.push({
+      '@type': 'ListItem',
+      position: 2,
+      name: locale === 'en' ? 'Privacy Policy' : 'Kebijakan Privasi',
+      item: canonicalUrl,
+    });
+  } else {
     const segName = pathname.slice(1).replace(/-/g, ' ');
     const formatted = segName.charAt(0).toUpperCase() + segName.slice(1);
     breadcrumbItems.push({
@@ -704,11 +803,35 @@ export function buildStructuredDataGraph(rawPathname: string): object {
     });
   }
 
-  graph.push({
+  // 3. WebPage (#webpage)
+  const webPageNode: Record<string, any> = {
+    '@type': 'WebPage',
+    '@id': `${canonicalUrl}#webpage`,
+    url: canonicalUrl,
+    name: pageName,
+    description: pageDesc,
+    inLanguage: inLang,
+    isPartOf: { '@id': `${SITE_URL}/#website` },
+    ...(hasServiceTarget ? { about: { '@id': `${canonicalUrl}#service` } } : {}),
+    ...(primaryImageNode ? { primaryImageOfPage: primaryImageNode } : {}),
+    breadcrumb: { '@id': `${canonicalUrl}#breadcrumb` },
+    dateModified: pageModified,
+  };
+
+  // 4. BreadcrumbList (#breadcrumb)
+  const breadcrumbNode = {
     '@type': 'BreadcrumbList',
     '@id': `${canonicalUrl}#breadcrumb`,
     itemListElement: breadcrumbItems,
-  });
+  };
+
+  const graph: any[] = [
+    orgNode,
+    websiteNode,
+    webPageNode,
+    breadcrumbNode,
+    ...extraNodes,
+  ];
 
   return {
     '@context': 'https://schema.org',
@@ -724,34 +847,38 @@ export function getMetaTagsForUrl(rawUrl: string): RouteMeta {
   const structuredData = buildStructuredDataGraph(normalizedRaw);
   const alternates = getHreflangAlternates(normalizedRaw, SITE_URL);
 
-  // Mark legacy doorway/programmatic routes as noindex if accessed directly
-  const isLegacyProgrammatic =
-    pathname.startsWith('/area/') ||
-    pathname.startsWith('/industri/') ||
-    /^\/services\/[^/]+\/[^/]+$/i.test(pathname);
-
   // 1A. Service Area Detail (/jasa/:serviceSlug/:areaSlug)
   const areaMatch = pathname.match(/^\/(jasa|layanan|services)\/([^/]+)\/([^/]+)$/i);
-  if (areaMatch && !isLegacyProgrammatic) {
+  if (areaMatch) {
     const service = getLocalizedService(areaMatch[2], locale);
     const areaPage = service
       ? getLocalizedServiceAreaPage(service.slug, areaMatch[3].toLowerCase(), locale)
       : undefined;
     if (service && areaPage) {
-      const ogImg = `${SITE_URL}/api/og?title=${encodeURIComponent(
-        areaPage.h1
-      )}&category=${encodeURIComponent(
-        `${areaPage.serviceName} · ${areaPage.areaName}`
-      )}`;
+      if (areaPage.indexable) {
+        validatePageMetaLengths(
+          areaPage.metaTitle,
+          areaPage.metaDescription,
+          `${locale}:${areaPage.serviceSlug}/${areaPage.areaSlug}`
+        );
+      }
+      const imgAsset =
+        SITE_IMAGES[areaPage.ogImageKey as keyof typeof SITE_IMAGES] ||
+        SITE_IMAGES[service.imageKey as keyof typeof SITE_IMAGES] ||
+        SITE_IMAGES.ogDefault;
+      const imageAlt =
+        locale === 'en' && imgAsset.altEn ? imgAsset.altEn : imgAsset.alt;
       return {
         title: areaPage.metaTitle,
         description: areaPage.metaDescription,
-        image: ogImg,
+        image: toAbsoluteImageUrl(imgAsset.src),
+        imageAlt,
         url: canonicalUrl,
         type: 'website',
         locale,
         modifiedTime: areaPage.updatedAt,
         noindex: !areaPage.indexable,
+        robotsContent: areaPage.indexable ? 'index,follow' : 'noindex,follow',
         alternates,
         jsonLd: structuredData,
       };
@@ -760,23 +887,31 @@ export function getMetaTagsForUrl(rawUrl: string): RouteMeta {
 
   // 1B. Service Detail (/jasa/:slug)
   if (
-    (pathname.startsWith('/jasa/') ||
-      pathname.startsWith('/layanan/') ||
-      pathname.startsWith('/services/')) &&
-    !isLegacyProgrammatic
+    pathname.startsWith('/jasa/') ||
+    pathname.startsWith('/layanan/') ||
+    pathname.startsWith('/services/')
   ) {
     const slug = pathname.replace(/^\/(jasa|layanan|services)\//, '').trim();
     const service = getLocalizedService(slug, locale);
     if (service) {
+      validatePageMetaLengths(
+        service.seo.title,
+        service.seo.description,
+        `${locale}:service/${service.slug}`
+      );
       const imgAsset =
         SITE_IMAGES[service.imageKey as keyof typeof SITE_IMAGES] || SITE_IMAGES.ogDefault;
+      const imageAlt =
+        locale === 'en' && imgAsset.altEn ? imgAsset.altEn : imgAsset.alt;
       return {
         title: service.seo.title,
         description: service.seo.description,
         image: toAbsoluteImageUrl(imgAsset.src),
+        imageAlt,
         url: canonicalUrl,
         type: 'website',
         locale,
+        robotsContent: 'index,follow',
         alternates,
         jsonLd: structuredData,
       };
@@ -786,18 +921,22 @@ export function getMetaTagsForUrl(rawUrl: string): RouteMeta {
   // 2. Portfolio Project Detail (/portfolio/:slug)
   if (pathname.startsWith('/portfolio/')) {
     const slug = pathname.replace('/portfolio/', '').trim();
-    const project = getProjectBySlug(slug);
+    const project = getProjectBySlug(slug, locale);
     if (project) {
       const imgAsset =
         SITE_IMAGES[project.cover as keyof typeof SITE_IMAGES] || SITE_IMAGES.ogDefault;
+      const imageAlt =
+        locale === 'en' && imgAsset.altEn ? imgAsset.altEn : imgAsset.alt;
       return {
         title: project.seo.title,
         description: project.seo.description,
         image: toAbsoluteImageUrl(imgAsset.src),
+        imageAlt,
         url: canonicalUrl,
         type: 'website',
         locale,
         modifiedTime: project.updatedAt,
+        robotsContent: 'index,follow',
         alternates,
         jsonLd: structuredData,
       };
@@ -807,23 +946,29 @@ export function getMetaTagsForUrl(rawUrl: string): RouteMeta {
   // 2B. Case Study Detail (/case-studies/:slug)
   if (pathname.startsWith('/case-studies/')) {
     const slug = pathname.replace('/case-studies/', '').trim();
-    const study = getCaseStudyBySlug(slug);
+    const study = getCaseStudyBySlug(slug, locale);
     if (study) {
+      validatePageMetaLengths(
+        study.seo.title,
+        study.seo.description,
+        `${locale}:case-study/${study.slug}`
+      );
       const imgAsset =
         SITE_IMAGES[study.cover as keyof typeof SITE_IMAGES] || SITE_IMAGES.ogDefault;
-      const tldrDesc =
-        study.seo.description ||
-        `Masalah: ${study.summary.problem} Solusi: ${study.summary.solution} Hasil: ${study.summary.result}`;
+      const imageAlt =
+        locale === 'en' && imgAsset.altEn ? imgAsset.altEn : imgAsset.alt;
       return {
         title: study.seo.title,
-        description: tldrDesc,
+        description: study.seo.description,
         image: toAbsoluteImageUrl(imgAsset.src),
+        imageAlt,
         url: canonicalUrl,
         type: 'article',
         locale,
         publishedTime: study.publishedAt,
         modifiedTime: study.updatedAt,
-        authorName: 'Chesta Azka & Zeeshan',
+        authorName: study.author,
+        robotsContent: 'index,follow',
         alternates,
         jsonLd: structuredData,
       };
@@ -838,17 +983,94 @@ export function getMetaTagsForUrl(rawUrl: string): RouteMeta {
       return {
         title:
           locale === 'en'
-            ? `${catMeta.shortLabel} Articles — Notes from Our Team | CHESTAADOTCOM`
-            : `Artikel ${catMeta.shortLabel} — Catatan dari Kami | CHESTAADOTCOM`,
+            ? `${catMeta.shortLabel} Articles — Notes | CHESTAADOTCOM`
+            : `Artikel ${catMeta.shortLabel} — Catatan | CHESTAADOTCOM`,
         description: catMeta.description,
         image: toAbsoluteImageUrl(SITE_IMAGES.ogDefault.src),
+        imageAlt:
+          locale === 'en' && SITE_IMAGES.ogDefault.altEn
+            ? SITE_IMAGES.ogDefault.altEn
+            : SITE_IMAGES.ogDefault.alt,
         url: canonicalUrl,
         type: 'website',
         locale,
+        robotsContent: 'index,follow',
         alternates,
         jsonLd: structuredData,
       };
     }
+  }
+
+  // 3A-Cluster. Blog Topic Cluster (/blog/topik/:cluster or /blog/topic/:cluster)
+  if (pathname.startsWith('/blog/topik/') || pathname.startsWith('/blog/topic/')) {
+    const clusterSlug = pathname
+      .replace(/^\/blog\/(topik|topic)\//, '')
+      .trim();
+    const cluster = getTopicClusterById(clusterSlug);
+    if (cluster) {
+      const imgAsset =
+        SITE_IMAGES[cluster.coverImageKey as keyof typeof SITE_IMAGES] ||
+        SITE_IMAGES.ogDefault;
+      const imageAlt =
+        locale === 'en' && imgAsset.altEn ? imgAsset.altEn : imgAsset.alt;
+      return {
+        title: locale === 'en' ? cluster.seoTitleEn : cluster.seoTitleId,
+        description:
+          locale === 'en' ? cluster.metaDescriptionEn : cluster.metaDescriptionId,
+        image: toAbsoluteImageUrl(imgAsset.src),
+        imageAlt,
+        url: canonicalUrl,
+        type: 'website',
+        locale,
+        robotsContent: 'index,follow',
+        alternates,
+        jsonLd: structuredData,
+      };
+    }
+  }
+
+  // 3A-Index. Blog Index & Paginated Index (/blog, /blog/halaman/:n, /blog/page/:n)
+  if (pathname === '/blog' || pathname.startsWith('/blog/halaman/')) {
+    const rawPage = pathname.startsWith('/blog/halaman/')
+      ? parseInt(pathname.slice('/blog/halaman/'.length).trim(), 10) || 1
+      : 1;
+    const slice = getBlogPaginationSlice(locale, rawPage);
+    const title =
+      slice.currentPage > 1
+        ? locale === 'en'
+          ? `Blog — Page ${slice.currentPage} | CHESTAADOTCOM`
+          : `Blog — Halaman ${slice.currentPage} | CHESTAADOTCOM`
+        : locale === 'en'
+          ? 'Blog — Notes on AI Agents, Websites & Automation | CHESTAADOTCOM'
+          : 'Blog — Catatan AI Agent, Website & Otomasi Bisnis | CHESTAADOTCOM';
+    const description =
+      locale === 'en'
+        ? 'Notes on AI agents, websites, and automation for businesses in South Tangerang and Greater Jakarta by Chesta Azka and Zeeshan.'
+        : 'Catatan tentang AI agent, website, dan otomasi untuk bisnis di Tangerang Selatan dan Jabodetabek dari Chesta Azka dan Zeeshan.';
+    const latestMod = slice.pagePosts.reduce(
+      (max, p) => (p.updatedAt > max ? p.updatedAt : max),
+      '2026-10-25'
+    );
+
+    return {
+      title,
+      description,
+      image: toAbsoluteImageUrl(SITE_IMAGES.ogDefault.src),
+      imageAlt:
+        locale === 'en' && SITE_IMAGES.ogDefault.altEn
+          ? SITE_IMAGES.ogDefault.altEn
+          : SITE_IMAGES.ogDefault.alt,
+      preloadImage: slice.featuredPost?.coverImage,
+      prevUrl: slice.prevPath ? `${SITE_URL}${slice.prevPath}` : undefined,
+      nextUrl: slice.nextPath ? `${SITE_URL}${slice.nextPath}` : undefined,
+      url: `${SITE_URL}${slice.canonicalPath}`,
+      type: 'website',
+      locale,
+      modifiedTime: latestMod,
+      robotsContent: 'index,follow',
+      alternates,
+      jsonLd: structuredData,
+    };
   }
 
   // 3B. Blog Post (/blog/:slug)
@@ -859,16 +1081,26 @@ export function getMetaTagsForUrl(rawUrl: string): RouteMeta {
     if (post) {
       const postLocale = post.locale || locale;
       const authorProfile = getAuthorProfile(post.author, postLocale);
+      const teamUrl =
+        postLocale === 'en'
+          ? `${SITE_URL}/en/about#team`
+          : `${SITE_URL}/id/tentang#tim`;
       return {
         title: post.seoTitle || `${post.title} | CHESTAADOTCOM`,
         description: post.metaDescription || post.excerpt,
-        image: toAbsoluteImageUrl(post.cover),
+        image: toAbsoluteImageUrl(post.ogImage),
+        imageAlt: post.coverAlt,
+        preloadImage: post.coverImage,
         url: canonicalUrl,
         type: 'article',
         locale: postLocale,
         publishedTime: post.date,
         modifiedTime: post.updatedAt || post.date,
         authorName: authorProfile.name,
+        authorUrl: teamUrl,
+        articleSection: post.category,
+        articleTags: post.tags,
+        robotsContent: 'index,follow',
         alternates,
         jsonLd: structuredData,
       };
@@ -879,16 +1111,20 @@ export function getMetaTagsForUrl(rawUrl: string): RouteMeta {
   const routeSeo =
     locale === 'en'
       ? ENGLISH_ROUTES_SEO[pathname] || ROUTES_SEO_MAP[pathname]
-      : ROUTES_SEO_MAP[pathname];
+      : INDONESIAN_ROUTES_SEO[pathname] || ROUTES_SEO_MAP[pathname];
   if (routeSeo) {
     return {
       title: routeSeo.title,
       description: routeSeo.description,
       image: toAbsoluteImageUrl(SITE_IMAGES.ogDefault.src),
+      imageAlt:
+        locale === 'en' && SITE_IMAGES.ogDefault.altEn
+          ? SITE_IMAGES.ogDefault.altEn
+          : SITE_IMAGES.ogDefault.alt,
       url: canonicalUrl,
       type: 'website',
       locale,
-      noindex: isLegacyProgrammatic,
+      robotsContent: 'index,follow',
       alternates,
       jsonLd: structuredData,
     };
@@ -906,10 +1142,14 @@ export function getMetaTagsForUrl(rawUrl: string): RouteMeta {
     title: fallbackSeo.title,
     description: fallbackSeo.description,
     image: toAbsoluteImageUrl(SITE_IMAGES.ogDefault.src),
+    imageAlt:
+      locale === 'en' && SITE_IMAGES.ogDefault.altEn
+        ? SITE_IMAGES.ogDefault.altEn
+        : SITE_IMAGES.ogDefault.alt,
     url: canonicalUrl,
     type: 'website',
     locale,
-    noindex: isLegacyProgrammatic,
+    robotsContent: 'index,follow',
     alternates,
     jsonLd: structuredData,
   };
@@ -919,9 +1159,55 @@ export function getPrerenderedBodyHtml(rawUrl: string): string {
   const normalizedRaw = normalizePathname(rawUrl);
   const { locale, prefixMode, barePath } = parseLocalizedPath(normalizedRaw);
   const pathname = barePath;
-  const posts = getPublishedBlogPosts();
-  const projects = getPublishedProjects();
+  const projects = getPublishedProjects(locale);
   const homeHref = toLocalizedHref('/', locale, prefixMode);
+
+  // Areas Hub (/id/area or /en/areas)
+  if (pathname === '/area') {
+    const indexableAreas = getIndexableAreas();
+    const areaBlocksHtml = indexableAreas
+      .map((area) => {
+        const displayName = locale === 'en' ? area.nameEn : area.name;
+        const summary = locale === 'en' ? area.factsSummaryEn : area.factsSummaryId;
+        const webHref = getServiceAreaPath('pembuatan-website', area.slug, locale);
+        const aiHref = getServiceAreaPath('ai-agent', area.slug, locale);
+        const webLabel =
+          locale === 'en'
+            ? `Website development in ${displayName}`
+            : `Jasa pembuatan website di ${displayName}`;
+        const aiLabel =
+          locale === 'en'
+            ? `AI agent services in ${displayName}`
+            : `Jasa AI agent di ${displayName}`;
+        return `<article class="mb-6 p-6 rounded-2xl bg-[#F8F6FE] border border-[rgba(91,60,196,0.14)]">
+          <h2 class="text-xl font-bold text-[#17122B]">${escapeHtmlAttr(displayName)}</h2>
+          <p class="text-sm text-[#5B5675] mt-2">${escapeHtmlAttr(summary)}</p>
+          <ul class="mt-3 space-y-1 text-sm text-[#6A3FD0]">
+            <li><a href="${escapeHtmlAttr(webHref)}">${escapeHtmlAttr(webLabel)}</a></li>
+            <li><a href="${escapeHtmlAttr(aiHref)}">${escapeHtmlAttr(aiLabel)}</a></li>
+          </ul>
+        </article>`;
+      })
+      .join('\n');
+
+    return `
+      <main class="bg-[#FFFFFF] text-[#17122B] min-h-screen">
+        <section class="max-w-4xl mx-auto px-6 py-16">
+          <h1 class="text-3xl sm:text-5xl font-bold">${
+            locale === 'en'
+              ? 'Service areas in South Tangerang and South Jakarta'
+              : 'Area layanan di Tangerang Selatan dan Jakarta Selatan'
+          }</h1>
+          <p class="text-base text-[#5B5675] mt-4">${
+            locale === 'en'
+              ? 'CHESTAADOTCOM is based in BSD, South Tangerang and serves businesses across South Tangerang and Greater Jakarta online via WhatsApp and video call or in person by agreement.'
+              : 'CHESTAADOTCOM berbasis di BSD, Tangerang Selatan dan melayani bisnis di Tangerang Selatan serta Jabodetabek secara online lewat WhatsApp dan video call maupun tatap muka sesuai kesepakatan.'
+          }</p>
+          <div class="mt-8">${areaBlocksHtml}</div>
+        </section>
+      </main>
+    `;
+  }
 
   // Service Area Detail (/jasa/:serviceSlug/:areaSlug)
   const areaMatch = pathname.match(/^\/(jasa|layanan|services)\/([^/]+)\/([^/]+)$/i);
@@ -943,10 +1229,11 @@ export function getPrerenderedBodyHtml(rawUrl: string): string {
         .map(
           (sc) =>
             `<div class="mb-6 p-5 rounded-2xl bg-[#F8F6FE] border border-[rgba(91,60,196,0.14)]">
-              <h3 class="text-lg font-bold text-[#17122B]">${escapeHtmlAttr(sc.title)}</h3>
-              <p class="text-sm text-[#5B5675] mt-2"><strong>${locale === 'en' ? 'Challenge:' : 'Masalah:'}</strong> ${escapeHtmlAttr(sc.challenge)}</p>
-              <p class="text-sm text-[#5B5675] mt-1"><strong>${locale === 'en' ? 'Solution:' : 'Solusi:'}</strong> ${escapeHtmlAttr(sc.solution)}</p>
-              <p class="text-sm text-[#6A3FD0] mt-1"><strong>${locale === 'en' ? 'Impact:' : 'Dampak:'}</strong> ${escapeHtmlAttr(sc.expectedOutcome)}</p>
+              <span class="text-xs font-mono uppercase text-[#6A3FD0]">${escapeHtmlAttr(sc.label)}</span>
+              <h3 class="text-lg font-bold text-[#17122B] mt-1">${escapeHtmlAttr(sc.title)}</h3>
+              <p class="text-sm text-[#5B5675] mt-2">${escapeHtmlAttr(sc.challenge)}</p>
+              <p class="text-sm text-[#5B5675] mt-2">${escapeHtmlAttr(sc.solution)}</p>
+              <p class="text-sm text-[#6A3FD0] mt-2">${escapeHtmlAttr(sc.expectedOutcome)}</p>
             </div>`
         )
         .join('\n');
@@ -955,8 +1242,11 @@ export function getPrerenderedBodyHtml(rawUrl: string): string {
         .map((p) => `<p class="text-base text-[#5B5675] mb-3">${escapeHtmlAttr(p)}</p>`)
         .join('\n');
 
-      const deliverablesHtml = areaPage.deliverablesSummary
-        .map((d) => `<li class="mb-2">${escapeHtmlAttr(d)}</li>`)
+      const processHtml = areaPage.processSteps
+        .map(
+          (step) =>
+            `<li class="mb-2"><strong>${escapeHtmlAttr(step.stepNumber)}. ${escapeHtmlAttr(step.title)}:</strong> ${escapeHtmlAttr(step.sentence)}</li>`
+        )
         .join('\n');
 
       const faqHtml = areaPage.faqs
@@ -969,14 +1259,10 @@ export function getPrerenderedBodyHtml(rawUrl: string): string {
         )
         .join('\n');
 
-      const siblingAreaLinks = getServiceAreasByServiceSlug(areaPage.serviceSlug, true)
+      const siblingAreaLinks = getServiceAreasByServiceSlug(areaPage.serviceSlug, true, locale)
         .filter((p) => p.areaSlug !== areaPage.areaSlug)
         .map((p) => {
-          const href = toLocalizedHref(
-            `/jasa/${p.serviceSlug}/${p.areaSlug}`,
-            locale,
-            prefixMode
-          );
+          const href = getServiceAreaPath(p.serviceSlug, p.areaSlug, locale);
           const label =
             locale === 'en'
               ? `${service.shortTitle} in ${p.areaName}`
@@ -985,23 +1271,20 @@ export function getPrerenderedBodyHtml(rawUrl: string): string {
         })
         .join('\n');
 
-      const parentServiceHref = toLocalizedHref(
-        `/jasa/${service.slug}`,
-        locale,
-        prefixMode
-      );
+      const parentServiceHref = getServicePath(service.slug, locale);
 
       return `
         <main class="bg-[#FFFFFF] text-[#17122B] min-h-screen">
           <nav aria-label="Breadcrumb" class="max-w-4xl mx-auto px-6 pt-10 text-xs font-mono text-[#5B5675]">
             <a href="${escapeHtmlAttr(homeHref)}">${locale === 'en' ? 'Home' : 'Beranda'}</a> / <a href="${escapeHtmlAttr(parentServiceHref)}">${escapeHtmlAttr(
-        service.shortTitle
+        service.title
       )}</a> / <span>${escapeHtmlAttr(areaPage.areaName)}</span>
           </nav>
           <article class="max-w-4xl mx-auto px-6 py-8">
+            <span class="text-xs font-mono text-[#6A3FD0]">${escapeHtmlAttr(areaPage.eyebrow)}</span>
             <h1 class="text-3xl sm:text-5xl font-bold mt-2">${escapeHtmlAttr(areaPage.h1)}</h1>
             <div class="mt-4 p-5 rounded-2xl bg-[#F8F6FE] border border-[rgba(91,60,196,0.14)]">
-              <p class="text-xs font-mono uppercase text-[#6A3FD0] mb-1">${locale === 'en' ? 'Quick Summary' : 'Ringkasan Singkat'}</p>
+              <p class="text-xs font-mono uppercase text-[#6A3FD0] mb-1">${locale === 'en' ? 'Quick summary' : 'Ringkasan singkat'}</p>
               <p class="text-base text-[#17122B] font-medium">${escapeHtmlAttr(
                 areaPage.quickSummary
               )}</p>
@@ -1011,19 +1294,9 @@ export function getPrerenderedBodyHtml(rawUrl: string): string {
                 areaPage.localContextHeading
               )}</h2>
               ${contextHtml}
-              <h3 class="text-lg font-bold mt-6 mb-3">${
-                locale === 'en'
-                  ? `Businesses in ${escapeHtmlAttr(areaPage.areaName)} that most frequently need this service`
-                  : `Jenis bisnis di ${escapeHtmlAttr(areaPage.areaName)} yang paling sering membutuhkan layanan ini`
-              }</h3>
               <ul class="list-disc pl-5 text-sm text-[#5B5675]">${mixHtml}</ul>
             </section>
             <section class="mt-8">
-              <h2 class="text-2xl font-bold mb-4">${
-                locale === 'en'
-                  ? `Implementation Scenarios in ${escapeHtmlAttr(areaPage.areaName)}`
-                  : `Skenario Implementasi di ${escapeHtmlAttr(areaPage.areaName)}`
-              }</h2>
               ${scenariosHtml}
             </section>
             <section class="mt-8">
@@ -1031,35 +1304,19 @@ export function getPrerenderedBodyHtml(rawUrl: string): string {
                 areaPage.collaborationHeading
               )}</h2>
               ${collabHtml}
+              <ol class="list-decimal pl-5 text-sm text-[#5B5675] mt-4">${processHtml}</ol>
             </section>
             <section class="mt-8">
-              <h2 class="text-2xl font-bold mb-3">${
-                locale === 'en'
-                  ? 'Deliverables Scope & Pricing'
-                  : 'Cakupan Deliverables &amp; Harga'
-              }</h2>
-              <ul class="list-disc pl-5 text-sm text-[#5B5675] mb-4">${deliverablesHtml}</ul>
-              <p class="text-lg font-bold text-[#6A3FD0]">${escapeHtmlAttr(
-                areaPage.priceNote.startingPrice
-              )} (${escapeHtmlAttr(areaPage.priceNote.timeline)})</p>
-              <p class="text-sm text-[#5B5675] mt-1">${escapeHtmlAttr(areaPage.priceNote.note)}</p>
-              <p class="text-sm mt-3"><a href="${escapeHtmlAttr(
-                parentServiceHref
-              )}" class="text-[#6A3FD0] underline">${
-        locale === 'en'
-          ? `Back to main ${escapeHtmlAttr(service.title)} page`
-          : `Kembali ke halaman induk ${escapeHtmlAttr(service.title)}`
-      }</a></p>
+              <h2 class="text-2xl font-bold mb-3">${escapeHtmlAttr(areaPage.priceHeading)}</h2>
+              <p class="text-base text-[#5B5675]">${escapeHtmlAttr(areaPage.priceCopy)}</p>
             </section>
             <section class="mt-8">
-              <h2 class="text-2xl font-bold mb-4">FAQ ${escapeHtmlAttr(
-                service.shortTitle
-              )} ${locale === 'en' ? 'in' : 'di'} ${escapeHtmlAttr(areaPage.areaName)}</h2>
+              <h2 class="text-2xl font-bold mb-4">FAQ</h2>
               ${faqHtml}
             </section>
             <section class="mt-8">
               <h2 class="text-xl font-bold mb-3">${
-                locale === 'en' ? 'Nearby Areas' : 'Area Terdekat'
+                locale === 'en' ? 'Nearby areas' : 'Area terdekat'
               }</h2>
               <ul class="list-disc pl-5 text-sm text-[#6A3FD0]">${siblingAreaLinks}</ul>
             </section>
@@ -1097,13 +1354,9 @@ export function getPrerenderedBodyHtml(rawUrl: string): string {
         )
         .join('\n');
 
-      const indexableAreasHtml = getServiceAreasByServiceSlug(service.slug, true)
+      const indexableAreasHtml = getServiceAreasByServiceSlug(service.slug, true, locale)
         .map((a) => {
-          const href = toLocalizedHref(
-            `/jasa/${a.serviceSlug}/${a.areaSlug}`,
-            locale,
-            prefixMode
-          );
+          const href = getServiceAreaPath(a.serviceSlug, a.areaSlug, locale);
           const label =
             locale === 'en'
               ? `${service.shortTitle} in ${a.areaName}`
@@ -1118,40 +1371,30 @@ export function getPrerenderedBodyHtml(rawUrl: string): string {
             <a href="${escapeHtmlAttr(homeHref)}">${locale === 'en' ? 'Home' : 'Beranda'}</a> / <span>${escapeHtmlAttr(service.title)}</span>
           </nav>
           <article class="max-w-4xl mx-auto px-6 py-8">
-            <span class="text-xs font-mono text-[#6A3FD0]">${escapeHtmlAttr(
-              service.tagline
-            )} · ${escapeHtmlAttr(service.pricingNote.label)}</span>
-            <h1 class="text-3xl sm:text-5xl font-bold mt-2">${escapeHtmlAttr(service.title)}</h1>
-            <p class="text-lg text-[#17122B] mt-3">${escapeHtmlAttr(service.shortPromise)}</p>
-            <p class="text-base text-[#5B5675] mt-3">${escapeHtmlAttr(service.summary)}</p>
+            <span class="text-xs font-mono text-[#6A3FD0]">${escapeHtmlAttr(service.eyebrow)}</span>
+            <h1 class="text-3xl sm:text-5xl font-bold mt-2">${escapeHtmlAttr(service.h1)}</h1>
+            <p class="text-base text-[#17122B] mt-3">${escapeHtmlAttr(service.ringkasanSingkat)}</p>
             <section class="mt-8">
               <h2 class="text-2xl font-bold mb-4">${
-                locale === 'en' ? 'What You Receive' : 'Yang Kamu Dapat'
+                locale === 'en' ? 'What you get' : 'Yang kamu dapat'
               }</h2>
               <ul class="list-disc pl-5 text-sm text-[#5B5675]">${deliverablesHtml}</ul>
             </section>
             <section class="mt-8">
               <h2 class="text-2xl font-bold mb-2">${
-                locale === 'en' ? 'Pricing & Scope' : 'Harga &amp; Scope'
+                locale === 'en' ? 'Pricing and scope' : 'Harga dan cakupan'
               }</h2>
-              <p class="text-base font-semibold text-[#6A3FD0]">${escapeHtmlAttr(
-                service.pricingNote.label
-              )}</p>
-              <p class="text-sm text-[#5B5675] mt-1">${escapeHtmlAttr(
-                service.pricingNote.reason
-              )}</p>
+              <p class="text-sm text-[#5B5675] mt-1">${escapeHtmlAttr(service.hargaDanScope)}</p>
             </section>
             <section class="mt-8">
-              <h2 class="text-2xl font-bold mb-4">FAQ ${escapeHtmlAttr(service.shortTitle)}</h2>
+              <h2 class="text-2xl font-bold mb-4">FAQ</h2>
               ${faqHtml}
             </section>
             ${
               indexableAreasHtml
                 ? `<section class="mt-8"><h2 class="text-xl font-bold mb-3">${
-                    locale === 'en' ? 'Service Areas for' : 'Area Layanan'
-                  } ${escapeHtmlAttr(
-                    service.shortTitle
-                  )}</h2><ul class="list-disc pl-5 text-sm text-[#6A3FD0]">${indexableAreasHtml}</ul></section>`
+                    locale === 'en' ? 'Service areas' : 'Area layanan'
+                  }</h2><ul class="list-disc pl-5 text-sm text-[#6A3FD0]">${indexableAreasHtml}</ul></section>`
                 : ''
             }
           </article>
@@ -1163,7 +1406,7 @@ export function getPrerenderedBodyHtml(rawUrl: string): string {
   // Portfolio Detail (/portfolio/:slug)
   if (pathname.startsWith('/portfolio/')) {
     const slug = pathname.replace('/portfolio/', '').trim();
-    const project = getProjectBySlug(slug);
+    const project = getProjectBySlug(slug, locale);
     if (project) {
       const featuresHtml = project.features
         .map(
@@ -1176,28 +1419,13 @@ export function getPrerenderedBodyHtml(rawUrl: string): string {
 
       return `
         <main class="bg-[#FFFFFF] text-[#17122B] min-h-screen">
-          <nav aria-label="Breadcrumb" class="max-w-4xl mx-auto px-6 pt-10 text-xs font-mono text-[#5B5675]">
-            <a href="/">Beranda</a> / <a href="/portfolio">Portofolio</a> / <span>${escapeHtmlAttr(
-              project.title
-            )}</span>
-          </nav>
           <article class="max-w-4xl mx-auto px-6 py-8">
             <span class="text-xs font-mono text-[#6A3FD0]">${escapeHtmlAttr(
-              project.categoryLabel
-            )} · ${escapeHtmlAttr(project.industry)}</span>
+              project.internalBadgeLabel
+            )} · ${escapeHtmlAttr(project.categoryLabel)}</span>
             <h1 class="text-3xl sm:text-5xl font-bold mt-2">${escapeHtmlAttr(project.title)}</h1>
             <p class="text-lg text-[#5B5675] mt-3">${escapeHtmlAttr(project.oneLiner)}</p>
             <section class="mt-8">
-              <h2 class="text-2xl font-bold mb-3">Ringkasan Proyek</h2>
-              <p class="text-base text-[#5B5675] mb-3">${escapeHtmlAttr(
-                project.summaryParagraphs[0]
-              )}</p>
-              <p class="text-base text-[#5B5675]">${escapeHtmlAttr(
-                project.summaryParagraphs[1]
-              )}</p>
-            </section>
-            <section class="mt-8">
-              <h2 class="text-2xl font-bold mb-4">Fitur Utama</h2>
               <ul class="list-disc pl-5 text-sm text-[#5B5675]">${featuresHtml}</ul>
             </section>
           </article>
@@ -1213,9 +1441,9 @@ export function getPrerenderedBodyHtml(rawUrl: string): string {
         (proj) =>
           `<article class="mb-6 p-6 rounded-2xl bg-[#F8F6FE] border border-[rgba(91,60,196,0.14)]">
             <span class="text-xs font-mono text-[#6A3FD0]">${escapeHtmlAttr(
-              proj.categoryLabel
-            )} · ${escapeHtmlAttr(proj.industry)} · ${escapeHtmlAttr(proj.year)}</span>
-            <h2 class="text-xl font-bold mt-1"><a href="/portfolio/${escapeHtmlAttr(
+              proj.internalBadgeLabel
+            )} · ${escapeHtmlAttr(proj.categoryLabel)} · ${escapeHtmlAttr(proj.year)}</span>
+            <h2 class="text-xl font-bold mt-1"><a href="/${locale}/portfolio/${escapeHtmlAttr(
               proj.slug
             )}">${escapeHtmlAttr(proj.title)}</a></h2>
             <p class="text-sm text-[#5B5675] mt-2">${escapeHtmlAttr(proj.oneLiner)}</p>
@@ -1226,8 +1454,9 @@ export function getPrerenderedBodyHtml(rawUrl: string): string {
     return `
       <main class="bg-[#FFFFFF] text-[#17122B] min-h-screen">
         <section class="max-w-5xl mx-auto px-6 py-16">
-          <h1 class="text-3xl sm:text-5xl font-bold">Proyek yang sudah kami bangun</h1>
-          <p class="text-base text-[#5B5675] mt-4">Tangkapan layar antarmuka web, AI agent WhatsApp, dan dashboard operasional yang kami rancang untuk berbagai industri di BSD City, Tangerang Selatan, dan Jabodetabek.</p>
+          <h1 class="text-3xl sm:text-5xl font-bold">${
+            locale === 'en' ? 'Internal projects' : 'Proyek internal'
+          }</h1>
           <div class="mt-10">${projectsListHtml}</div>
         </section>
       </main>
@@ -1237,31 +1466,68 @@ export function getPrerenderedBodyHtml(rawUrl: string): string {
   // Case Study Detail (/case-studies/:slug)
   if (pathname.startsWith('/case-studies/')) {
     const slug = pathname.replace('/case-studies/', '').trim();
-    const study = getCaseStudyBySlug(slug);
+    const study = getCaseStudyBySlug(slug, locale);
     if (study) {
+      const indexHref = locale === 'en' ? '/en/case-studies' : '/id/studi-kasus';
+      const sectionsHtml = study.sections
+        .map((sec) => {
+          const blocksHtml = sec.blocks
+            .map((b) => {
+              if (b.type === 'text') {
+                return b.paragraphs
+                  .map((p) => `<p class="text-base text-[#17122B] mb-4">${escapeHtmlAttr(p)}</p>`)
+                  .join('\n');
+              }
+              if (b.type === 'callout') {
+                return `<aside class="my-5 p-5 rounded-2xl bg-[#F8F6FE] border border-[rgba(91,60,196,0.16)]">
+                  <span class="text-xs font-mono uppercase text-[#6A3FD0]">${escapeHtmlAttr(b.callout.label)}</span>
+                  <h3 class="text-lg font-bold text-[#17122B] mt-1">${escapeHtmlAttr(b.callout.title)}</h3>
+                  <p class="text-sm text-[#5B5675] mt-2">${escapeHtmlAttr(b.callout.body)}</p>
+                </aside>`;
+              }
+              if (b.type === 'targets') {
+                const targetsItems = b.targets
+                  .map(
+                    (t) =>
+                      `<li><strong>${escapeHtmlAttr(t.label)}:</strong> ${escapeHtmlAttr(t.value)} (${escapeHtmlAttr(t.note)})</li>`
+                  )
+                  .join('\n');
+                return `<div class="my-5 p-5 rounded-2xl bg-[#F8F6FE] border border-[rgba(91,60,196,0.16)]">
+                  <span class="text-xs font-mono uppercase text-[#6A3FD0]">${escapeHtmlAttr(b.badgeLabel)}</span>
+                  <ul class="list-disc pl-5 mt-3 text-sm text-[#17122B]">${targetsItems}</ul>
+                </div>`;
+              }
+              return '';
+            })
+            .join('\n');
+
+          return `<section id="${escapeHtmlAttr(sec.id)}" class="mt-8">
+            <h2 class="text-2xl font-bold text-[#17122B] mb-3">${escapeHtmlAttr(sec.number)}. ${escapeHtmlAttr(sec.title)}</h2>
+            ${blocksHtml}
+          </section>`;
+        })
+        .join('\n');
+
       return `
         <main class="bg-[#FFFFFF] text-[#17122B] min-h-screen">
           <nav aria-label="Breadcrumb" class="max-w-4xl mx-auto px-6 pt-10 text-xs font-mono text-[#5B5675]">
-            <a href="/">Beranda</a> / <a href="/case-studies">Studi Kasus</a> / <span>${escapeHtmlAttr(
-              study.title
-            )}</span>
+            <a href="${escapeHtmlAttr(homeHref)}">${locale === 'en' ? 'Home' : 'Beranda'}</a> / <a href="${escapeHtmlAttr(indexHref)}">${locale === 'en' ? 'Case Studies' : 'Studi Kasus'}</a> / <span>${escapeHtmlAttr(study.title)}</span>
           </nav>
           <article class="max-w-4xl mx-auto px-6 py-8">
-            <span class="text-xs font-mono text-[#6A3FD0]">${escapeHtmlAttr(
-              study.industry
-            )} · ${escapeHtmlAttr(study.services.join(', '))}</span>
+            <span class="text-xs font-mono text-[#6A3FD0]">${escapeHtmlAttr(study.internalBadgeLabel)} · ${escapeHtmlAttr(study.industry)} · ${escapeHtmlAttr(study.readingTime)}</span>
             <h1 class="text-3xl sm:text-5xl font-bold mt-2">${escapeHtmlAttr(study.title)}</h1>
-            <p class="text-lg text-[#5B5675] mt-3">${escapeHtmlAttr(
-              study.oneSentenceSummary
-            )}</p>
-            <section class="mt-6 p-6 rounded-2xl bg-[#F8F6FE] border border-[rgba(91,60,196,0.14)]">
-              <h2 class="text-xl font-bold mb-3">Ringkasan Eksekutif (TL;DR)</h2>
-              <p class="mb-2"><strong>Masalah:</strong> ${escapeHtmlAttr(study.summary.problem)}</p>
-              <p class="mb-2"><strong>Yang dibangun:</strong> ${escapeHtmlAttr(
-                study.summary.solution
-              )}</p>
-              <p><strong>Hasil:</strong> ${escapeHtmlAttr(study.summary.result)}</p>
-            </section>
+            <p class="text-lg text-[#5B5675] mt-3">${escapeHtmlAttr(study.oneSentenceSummary)}</p>
+            <div class="mt-6 grid grid-cols-1 md:grid-cols-2 gap-4 p-5 rounded-2xl bg-[#F8F6FE] border border-[rgba(91,60,196,0.14)]">
+              <div>
+                <h2 class="text-xs font-mono uppercase text-[#6A3FD0]">${locale === 'en' ? 'Problem' : 'Masalah'}</h2>
+                <p class="text-sm text-[#17122B] mt-1">${escapeHtmlAttr(study.summary.problem)}</p>
+              </div>
+              <div>
+                <h2 class="text-xs font-mono uppercase text-[#6A3FD0]">${locale === 'en' ? 'What we built' : 'Yang dibangun'}</h2>
+                <p class="text-sm text-[#17122B] mt-1">${escapeHtmlAttr(study.summary.built)}</p>
+              </div>
+            </div>
+            ${sectionsHtml}
           </article>
         </main>
       `;
@@ -1270,37 +1536,253 @@ export function getPrerenderedBodyHtml(rawUrl: string): string {
 
   // Case Studies Hub (/case-studies)
   if (pathname === '/case-studies') {
-    const caseStudies = getPublishedCaseStudies();
-    const studiesListHtml = caseStudies
-      .map(
-        (cs) =>
-          `<article class="mb-6 p-6 rounded-2xl bg-[#F8F6FE] border border-[rgba(91,60,196,0.14)]">
-            <span class="text-xs font-mono text-[#6A3FD0]">${escapeHtmlAttr(
-              cs.industry
-            )} · ${escapeHtmlAttr(cs.year)}</span>
-            <h2 class="text-xl font-bold mt-1"><a href="/case-studies/${escapeHtmlAttr(
-              cs.slug
-            )}">${escapeHtmlAttr(cs.title)}</a></h2>
-            <p class="text-sm text-[#5B5675] mt-2"><strong>Masalah:</strong> ${escapeHtmlAttr(
-              cs.summary.problem
-            )} → <strong>Hasil:</strong> ${escapeHtmlAttr(cs.summary.result)}</p>
-          </article>`
-      )
+    const studies = getPublishedCaseStudies(locale);
+    const studiesListHtml = studies
+      .map((cs) => {
+        const href =
+          locale === 'en' ? `/en/case-studies/${cs.slug}` : `/id/studi-kasus/${cs.slug}`;
+        return `<article class="mb-6 p-6 rounded-2xl bg-[#F8F6FE] border border-[rgba(91,60,196,0.14)]">
+          <span class="text-xs font-mono text-[#6A3FD0]">${escapeHtmlAttr(cs.internalBadgeLabel)} · ${escapeHtmlAttr(cs.industry)} · ${escapeHtmlAttr(cs.readingTime)}</span>
+          <h2 class="text-xl font-bold mt-1"><a href="${escapeHtmlAttr(href)}">${escapeHtmlAttr(cs.title)}</a></h2>
+          <p class="text-sm text-[#5B5675] mt-2"><strong>${locale === 'en' ? 'Problem' : 'Masalah'}:</strong> ${escapeHtmlAttr(cs.summary.problem)}</p>
+          <p class="text-sm text-[#5B5675] mt-1"><strong>${locale === 'en' ? 'What we built' : 'Yang dibangun'}:</strong> ${escapeHtmlAttr(cs.summary.built)}</p>
+        </article>`;
+      })
       .join('\n');
 
     return `
       <main class="bg-[#FFFFFF] text-[#17122B] min-h-screen">
         <section class="max-w-5xl mx-auto px-6 py-16">
-          <h1 class="text-3xl sm:text-5xl font-bold">Cerita di balik proyeknya</h1>
-          <p class="text-base text-[#5B5675] mt-4">Bukan sekadar tangkapan layar, melainkan catatan jujur bagaimana kami membedah masalah operasional, memilih kompromi teknis, dan menguji hasilnya di lapangan.</p>
+          <h1 class="text-3xl sm:text-5xl font-bold">${
+            locale === 'en' ? 'How we solve a problem' : 'Cara kami menyelesaikan sebuah masalah'
+          }</h1>
+          <p class="text-base text-[#5B5675] mt-3">${
+            locale === 'en'
+              ? 'Notes behind our internal projects: the problem we wanted to solve, the approach we chose, and the technical decisions along the way.'
+              : 'Catatan di balik proyek internal kami: masalah yang ingin diselesaikan, pendekatan yang dipilih, dan keputusan teknis di sepanjang jalan.'
+          }</p>
+          <div class="mt-5 p-4 rounded-2xl bg-[#F8F6FE] border border-[rgba(91,60,196,0.18)] text-sm text-[#17122B]">
+            ${
+              locale === 'en'
+                ? 'All case studies on this page are CHESTAADOTCOM internal projects, not client projects. We built them in-house to test the workflows before they are used by clients.'
+                : 'Semua studi kasus di halaman ini adalah proyek internal CHESTAADOTCOM, bukan proyek klien. Kami membangunnya sendiri untuk menguji alurnya sebelum dipakai klien.'
+            }
+          </div>
           <div class="mt-10">${studiesListHtml}</div>
         </section>
       </main>
     `;
   }
 
+  // Blog Topic Cluster Hub (/blog/topik/:cluster or /blog/topic/:cluster)
+  if (pathname.startsWith('/blog/topik/') || pathname.startsWith('/blog/topic/')) {
+    const clusterSlug = pathname
+      .replace(/^\/blog\/(topik|topic)\//, '')
+      .trim();
+    const cluster = getTopicClusterById(clusterSlug);
+    if (cluster) {
+      const clusterTitle = locale === 'en' ? cluster.titleEn : cluster.titleId;
+      const clusterIntro = locale === 'en' ? cluster.introEn : cluster.introId;
+      const pillarSlug = locale === 'en' ? cluster.pillarSlugEn : cluster.pillarSlugId;
+      const pillarTitle = locale === 'en' ? cluster.pillarTitleEn : cluster.pillarTitleId;
+      const clusterPosts = getBlogPostsByCluster(cluster.id, locale);
+      const postsHtml = clusterPosts
+        .map(
+          (p) =>
+            `<li class="mb-3"><a href="/${locale}/blog/${escapeHtmlAttr(
+              p.slug
+            )}" class="font-semibold text-[#6A3FD0] underline">${escapeHtmlAttr(
+              p.title
+            )}</a> — <span class="text-sm text-[#5B5675]">${escapeHtmlAttr(
+              p.excerpt
+            )}</span></li>`
+        )
+        .join('\n');
+
+      const serviceLinksHtml = cluster.relatedServiceSlugs
+        .map((s) => {
+          const href = getServicePath(s, locale);
+          return `<li><a href="${escapeHtmlAttr(href)}" class="text-[#6A3FD0] underline">${escapeHtmlAttr(
+            href
+          )}</a></li>`;
+        })
+        .join('\n');
+
+      const areaLinksHtml = cluster.relatedAreaSlugs
+        .map((a) => {
+          const href = getServiceAreaPath('pembuatan-website', a, locale);
+          return `<li><a href="${escapeHtmlAttr(href)}" class="text-[#6A3FD0] underline">${escapeHtmlAttr(
+            a
+          )}</a></li>`;
+        })
+        .join('\n');
+
+      return `
+        <main class="bg-[#FFFFFF] text-[#17122B] min-h-screen">
+          <nav aria-label="Breadcrumb" class="max-w-4xl mx-auto px-6 pt-10 text-xs font-mono text-[#5B5675]">
+            <a href="${escapeHtmlAttr(homeHref)}">${locale === 'en' ? 'Home' : 'Beranda'}</a> / <a href="/${locale}/blog">Blog</a> / <span>${escapeHtmlAttr(
+        clusterTitle
+      )}</span>
+          </nav>
+          <article class="max-w-4xl mx-auto px-6 py-8">
+            <h1 class="text-3xl sm:text-5xl font-bold">${escapeHtmlAttr(clusterTitle)}</h1>
+            <p class="text-base text-[#17122B] mt-4 leading-relaxed">${escapeHtmlAttr(
+              clusterIntro
+            )}</p>
+            <section class="mt-8 p-5 rounded-2xl bg-[#F8F6FE] border border-[rgba(91,60,196,0.16)]">
+              <h2 class="text-xl font-bold">${
+                locale === 'en' ? 'Featured Pillar Guide' : 'Panduan Utama (Pillar)'
+              }</h2>
+              <p class="mt-2"><a href="/${locale}/blog/${escapeHtmlAttr(
+                pillarSlug
+              )}" class="text-[#6A3FD0] font-semibold underline">${escapeHtmlAttr(
+        pillarTitle
+      )}</a></p>
+            </section>
+            <section class="mt-8">
+              <h2 class="text-2xl font-bold mb-4">${
+                locale === 'en'
+                  ? 'All Articles in This Cluster'
+                  : 'Semua Artikel dalam Klaster Ini'
+              }</h2>
+              <ul class="list-disc pl-5">${postsHtml}</ul>
+            </section>
+            <section class="mt-8">
+              <h2 class="text-xl font-bold mb-2">${
+                locale === 'en' ? 'Related Services & Areas' : 'Layanan & Area Terkait'
+              }</h2>
+              <ul class="list-disc pl-5">${serviceLinksHtml}${areaLinksHtml}</ul>
+            </section>
+          </article>
+        </main>
+      `;
+    }
+  }
+
+  // Blog Index & Paginated Index (/blog, /blog/halaman/:n, /blog/page/:n)
+  if (pathname === '/blog' || pathname.startsWith('/blog/halaman/')) {
+    const rawPage = pathname.startsWith('/blog/halaman/')
+      ? parseInt(pathname.slice('/blog/halaman/'.length).trim(), 10) || 1
+      : 1;
+    const slice = getBlogPaginationSlice(locale, rawPage);
+    const isEnLocale = locale === 'en';
+    const subheadline = isEnLocale
+      ? 'Notes on AI agents, websites, and automation for businesses in South Tangerang.'
+      : 'Catatan tentang AI agent, website, dan otomasi untuk bisnis di Tangerang Selatan.';
+
+    const topicLinksHtml = [
+      `<li><a href="${isEnLocale ? '/en/blog' : '/id/blog'}" aria-current="page">${
+        isEnLocale ? 'All' : 'Semua'
+      }</a></li>`,
+      ...TOPIC_CLUSTERS.map((c) => {
+        const href = getClusterHubPath(c.id, locale);
+        const label = isEnLocale ? c.shortLabelEn : c.shortLabelId;
+        return `<li><a href="${escapeHtmlAttr(href)}">${escapeHtmlAttr(label)}</a></li>`;
+      }),
+    ].join('\n');
+
+    const featuredHtml = slice.featuredPost
+      ? `<section aria-label="${isEnLocale ? 'Featured article' : 'Artikel terbaru'}" class="mt-12 mb-16">
+          <article>
+            <a href="/${locale}/blog/${escapeHtmlAttr(slice.featuredPost.slug)}">
+              <img src="${escapeHtmlAttr(slice.featuredPost.coverImage)}" alt="${escapeHtmlAttr(
+                slice.featuredPost.coverAlt
+              )}" width="1600" height="900" loading="eager" />
+            </a>
+            <p>${escapeHtmlAttr(slice.featuredPost.category)} · ${escapeHtmlAttr(
+              slice.featuredPost.date
+            )} · ${escapeHtmlAttr(slice.featuredPost.readTime)}</p>
+            <h2><a href="/${locale}/blog/${escapeHtmlAttr(
+              slice.featuredPost.slug
+            )}">${escapeHtmlAttr(slice.featuredPost.title)}</a></h2>
+            <p>${escapeHtmlAttr(slice.featuredPost.excerpt)}</p>
+            <p><a href="/${locale}/blog/${escapeHtmlAttr(slice.featuredPost.slug)}">${
+              isEnLocale ? 'Read article →' : 'Baca artikel →'
+            }</a></p>
+          </article>
+        </section>`
+      : '';
+
+    const gridCardsHtml = slice.gridPosts
+      .map(
+        (post) => `<article>
+          <a href="/${locale}/blog/${escapeHtmlAttr(post.slug)}">
+            <img src="${escapeHtmlAttr(post.coverImage)}" alt="${escapeHtmlAttr(
+              post.coverAlt
+            )}" width="640" height="360" loading="lazy" />
+            <p>${escapeHtmlAttr(post.category)} · ${escapeHtmlAttr(post.date)} · ${escapeHtmlAttr(
+              post.readTime
+            )}</p>
+            <h2>${escapeHtmlAttr(post.title)}</h2>
+          </a>
+        </article>`
+      )
+      .join('\n');
+
+    const paginationNumbersHtml = Array.from(
+      { length: slice.totalPages },
+      (_, idx) => idx + 1
+    )
+      .map((p) => {
+        const href =
+          p === 1
+            ? isEnLocale
+              ? '/en/blog'
+              : '/id/blog'
+            : isEnLocale
+              ? `/en/blog/page/${p}`
+              : `/id/blog/halaman/${p}`;
+        return `<a href="${escapeHtmlAttr(href)}"${
+          p === slice.currentPage ? ' aria-current="page"' : ''
+        }>${p}</a>`;
+      })
+      .join(' ');
+
+    return `
+      <main class="bg-[#FFFFFF] text-[#17122B] min-h-screen">
+        <div class="max-w-[1120px] mx-auto px-5 md:px-8 pt-24 md:pt-30 pb-16">
+          <header>
+            <h1>Blog</h1>
+            <p>${escapeHtmlAttr(subheadline)}</p>
+          </header>
+          <nav aria-label="${isEnLocale ? 'Blog topics' : 'Topik blog'}">
+            <ul>${topicLinksHtml}</ul>
+          </nav>
+          ${featuredHtml}
+          <section aria-label="${isEnLocale ? 'Articles' : 'Daftar artikel'}">
+            ${gridCardsHtml}
+          </section>
+          <nav aria-label="${isEnLocale ? 'Pagination' : 'Navigasi halaman'}">
+            ${
+              slice.prevPath
+                ? `<a href="${escapeHtmlAttr(slice.prevPath)}">${
+                    isEnLocale ? 'Previous' : 'Sebelumnya'
+                  }</a>`
+                : ''
+            }
+            ${paginationNumbersHtml}
+            ${
+              slice.nextPath
+                ? `<a href="${escapeHtmlAttr(slice.nextPath)}">${
+                    isEnLocale ? 'Next' : 'Berikutnya'
+                  }</a>`
+                : ''
+            }
+          </nav>
+        </div>
+      </main>
+    `;
+  }
+
   // Blog Post (/blog/:slug)
-  if (pathname.startsWith('/blog/') && !pathname.startsWith('/blog/kategori/')) {
+  if (
+    pathname.startsWith('/blog/') &&
+    !pathname.startsWith('/blog/kategori/') &&
+    !pathname.startsWith('/blog/topik/') &&
+    !pathname.startsWith('/blog/topic/') &&
+    !pathname.startsWith('/blog/halaman/') &&
+    !pathname.startsWith('/blog/page/')
+  ) {
     const slug = pathname.replace('/blog/', '').trim();
     const post = getBlogPostBySlug(slug, locale);
 
@@ -1308,51 +1790,57 @@ export function getPrerenderedBodyHtml(rawUrl: string): string {
       const postLocale = post.locale || locale;
       const isEnPost = postLocale === 'en';
       const authorProfile = getAuthorProfile(post.author, postLocale);
+      const cluster = getTopicClusterById(post.clusterId);
+      const clusterHref = getClusterHubPath(post.clusterId, postLocale);
+      const clusterLabel = cluster
+        ? isEnPost
+          ? cluster.shortLabelEn
+          : cluster.shortLabelId
+        : post.category;
+      const teamHref = isEnPost ? '/en/about#team' : '/id/tentang#tim';
       const renderedArticleHtml = renderBlogPostHtml(post);
-      const blogHubUrl = toLocalizedHref('/blog', postLocale, prefixMode);
-      const catUrl = toLocalizedHref(
-        `/blog/kategori/${post.categorySlug}`,
-        postLocale,
-        prefixMode
-      );
+      const changelogHtml =
+        post.changelog && post.changelog.length > 0
+          ? `<section id="pembaruan" class="mt-8 p-5 rounded-xl bg-[#F8F6FE] border border-[rgba(91,60,196,0.16)]"><h2 class="text-lg font-bold mb-2">${
+              isEnPost ? 'Updates' : 'Pembaruan'
+            }</h2><ul class="list-disc pl-5 text-sm">${post.changelog
+              .map(
+                (c) =>
+                  `<li><strong>${escapeHtmlAttr(c.date)}:</strong> ${escapeHtmlAttr(
+                    c.summary
+                  )}</li>`
+              )
+              .join('')}</ul></section>`
+          : '';
       return `
         <main class="bg-[#FFFFFF] text-[#17122B] min-h-screen">
-          <nav aria-label="Breadcrumb" class="max-w-4xl mx-auto px-6 pt-10 text-xs font-mono text-[#5B5675]">
-            <a href="${escapeHtmlAttr(homeHref)}">${isEnPost ? 'Home' : 'Beranda'}</a> / <a href="${escapeHtmlAttr(blogHubUrl)}">Blog</a> / <a href="${escapeHtmlAttr(
-        catUrl
-      )}">${escapeHtmlAttr(post.category)}</a> / <span>${escapeHtmlAttr(post.title)}</span>
-          </nav>
           <article class="max-w-4xl mx-auto px-6 py-8">
             <header class="mb-8">
-              <span class="text-xs font-mono text-[#6A3FD0]">${escapeHtmlAttr(post.category)} · ${escapeHtmlAttr(post.readTime)}</span>
+              <span class="text-xs font-mono text-[#6A3FD0]"><a href="${escapeHtmlAttr(
+                clusterHref
+              )}">${escapeHtmlAttr(clusterLabel)}</a> · ${escapeHtmlAttr(
+        post.category
+      )} · ${escapeHtmlAttr(post.readTime)}</span>
               <h1 class="text-3xl sm:text-5xl font-bold mt-3">${escapeHtmlAttr(post.title)}</h1>
-              <div class="mt-4 p-5 rounded-2xl bg-[#F8F6FE] border border-[rgba(91,60,196,0.14)]">
-                <p class="text-xs font-mono uppercase text-[#6A3FD0] mb-1">${
-                  isEnPost ? 'Quick Summary' : 'Ringkasan Singkat'
-                }</p>
-                <p class="text-base text-[#17122B] font-medium">${escapeHtmlAttr(
-                  post.excerpt
-                )}</p>
-              </div>
+              <p class="text-base text-[#17122B] mt-3">${escapeHtmlAttr(post.excerpt)}</p>
               <div class="mt-4 pt-4 border-t border-[rgba(91,60,196,0.1)] text-xs text-[#5B5675]">
-                <span>${isEnPost ? 'By' : 'Oleh'} ${escapeHtmlAttr(authorProfile.name)} (${escapeHtmlAttr(
-        authorProfile.role
-      )})</span> · <span>${isEnPost ? 'Updated' : 'Diperbarui'} ${escapeHtmlAttr(post.updatedAt || post.date)}</span>
+                <span>${isEnPost ? 'By' : 'Oleh'} <a href="${escapeHtmlAttr(
+        teamHref
+      )}" rel="author" class="text-[#6A3FD0] underline">${escapeHtmlAttr(
+        authorProfile.name
+      )}</a> (${escapeHtmlAttr(authorProfile.role)}) · ${
+        isEnPost ? 'Updated' : 'Diperbarui'
+      } ${escapeHtmlAttr(post.updatedAt)}</span>
               </div>
+              <figure class="mt-6 rounded-2xl overflow-hidden border border-[rgba(91,60,196,0.14)] bg-[#F8F6FE]">
+                <img src="${escapeHtmlAttr(post.coverImage)}" alt="${escapeHtmlAttr(
+        post.coverAlt
+      )}" width="1600" height="900" loading="eager" fetchpriority="high" />
+              </figure>
             </header>
             <div class="prose max-w-none text-[#17122B] leading-relaxed">
               ${renderedArticleHtml}
-            </div>
-            <div class="mt-12 p-8 rounded-3xl bg-[#F8F6FE] border border-[rgba(91,60,196,0.14)] text-center">
-              <h2 class="text-2xl font-bold">${escapeHtmlAttr(post.serviceLink.title)}</h2>
-              <p class="text-sm text-[#5B5675] mt-2">${escapeHtmlAttr(
-                post.serviceLink.description
-              )}</p>
-              <p class="mt-4"><a href="${escapeHtmlAttr(
-                post.serviceLink.href
-              )}" class="inline-block px-6 py-3 rounded-full bg-[#6A3FD0] text-white font-bold text-sm">${escapeHtmlAttr(
-        post.serviceLink.label
-      )}</a></p>
+              ${changelogHtml}
             </div>
           </article>
         </main>
@@ -1360,50 +1848,71 @@ export function getPrerenderedBodyHtml(rawUrl: string): string {
     }
   }
 
-  // Blog Hub (/blog & /blog/kategori/:category)
-  if (pathname === '/blog' || pathname.startsWith('/blog/kategori/')) {
-    const catSlug = pathname.startsWith('/blog/kategori/')
-      ? pathname.replace('/blog/kategori/', '').trim()
-      : '';
-    const catMeta = catSlug ? getBlogCategoryBySlug(catSlug, locale) : undefined;
-    const localizedPosts = getPublishedBlogPosts(locale);
-    const listPosts = catMeta
-      ? getBlogPostsByCategorySlug(catMeta.slug, locale)
-      : localizedPosts;
-
-    const postListHtml = listPosts
-      .map((p) => {
-        const postHref = toLocalizedHref(`/blog/${p.slug}`, locale, prefixMode);
-        return `<article class="mb-8 p-6 rounded-2xl bg-[#F8F6FE] border border-[rgba(91,60,196,0.12)]">
-            <span class="text-xs font-mono text-[#6A3FD0]">${escapeHtmlAttr(p.category)} · ${escapeHtmlAttr(p.readTime)}</span>
-            <h2 class="text-xl font-bold mt-2"><a href="${escapeHtmlAttr(postHref)}" class="text-[#17122B] hover:text-[#6A3FD0]">${escapeHtmlAttr(
-          p.title
-        )}</a></h2>
-            <p class="text-sm text-[#5B5675] mt-2">${escapeHtmlAttr(p.excerpt)}</p>
-          </article>`;
-      })
-      .join('\n');
-
+  if (pathname === '/audit-gratis') {
+    const isEn = locale === 'en';
+    const waHref = isEn
+      ? 'https://wa.me/6282125447232?text=Hello%20CHESTAADOTCOM%2C%20I%20would%20like%20a%20free%20consultation.'
+      : 'https://wa.me/6282125447232?text=Halo%20CHESTAADOTCOM%2C%20saya%20ingin%20konsultasi%20gratis.';
     return `
       <main class="bg-[#FFFFFF] text-[#17122B] min-h-screen">
-        <section class="max-w-6xl mx-auto px-6 py-16">
+        <section class="max-w-4xl mx-auto px-6 py-16">
           <h1 class="text-3xl sm:text-5xl font-bold">${
-            locale === 'en' ? 'Notes from our team' : 'Catatan dari kami'
+            isEn
+              ? 'Free 30-minute audit for your business workflow'
+              : 'Audit gratis 30 menit untuk alur kerja bisnismu'
           }</h1>
-          <p class="text-base text-[#5B5675] mt-4">${escapeHtmlAttr(
-            catMeta
-              ? catMeta.description
-              : locale === 'en'
-                ? 'Practical breakdowns on custom software engineering, WhatsApp AI agents, Model Context Protocol (MCP), operational automation, and high-speed business websites.'
-                : 'Bahasan praktis seputar rekayasa software custom, AI agent WhatsApp, otomasi operasional, dan pembuatan web untuk bisnis.'
-          )}</p>
-          <div class="mt-10">${postListHtml}</div>
+          <p class="text-base text-[#5B5675] mt-4">${
+            isEn
+              ? "Tell us the work that tires your team the most. We'll tell you honestly whether it can be built or automated, and roughly what it will cost."
+              : 'Ceritakan kerjaan yang paling bikin capek. Kami bilang jujur apakah bisa dikerjakan, dan berapa kira-kira biayanya.'
+          }</p>
+          <p class="mt-6"><a href="${waHref}" target="_blank" rel="noopener">${
+      isEn ? 'Free consultation on WhatsApp' : 'Konsultasi gratis via WhatsApp'
+    }</a></p>
         </section>
       </main>
     `;
   }
 
-  // Default Homepage (/)
+  if (pathname === '/about') {
+    const isEn = locale === 'en';
+    return `
+      <main class="bg-[#FFFFFF] text-[#17122B] min-h-screen">
+        <section class="max-w-4xl mx-auto px-6 py-16">
+          <h1 class="text-3xl sm:text-5xl font-bold">${
+            isEn
+              ? 'A digital product & AI agent engineering studio built hands-on by its founders'
+              : 'Studio rekayasa produk digital & AI agent yang dibangun langsung oleh para pendirinya'
+          }</h1>
+          <p class="text-base text-[#5B5675] mt-4">${
+            isEn
+              ? 'CHESTAADOTCOM was founded by Chesta Azka and Zeeshan in BSD, South Tangerang.'
+              : 'CHESTAADOTCOM didirikan oleh Chesta Azka dan Zeeshan di BSD, Tangerang Selatan.'
+          }</p>
+        </section>
+      </main>
+    `;
+  }
+
+  if (pathname === '/privasi') {
+    const isEn = locale === 'en';
+    return `
+      <main class="bg-[#FFFFFF] text-[#17122B] min-h-screen">
+        <section class="max-w-4xl mx-auto px-6 py-16">
+          <h1 class="text-3xl sm:text-5xl font-bold">${
+            isEn ? 'Privacy Policy' : 'Kebijakan Privasi'
+          }</h1>
+          <p class="text-base text-[#5B5675] mt-4">${
+            isEn
+              ? 'Plain-language privacy policy of CHESTAADOTCOM aligned with Indonesian Data Protection Law (UU PDP No. 27/2022).'
+              : 'Kebijakan privasi CHESTAADOTCOM dalam bahasa lugas sesuai UU PDP No. 27 Tahun 2022.'
+          }</p>
+        </section>
+      </main>
+    `;
+  }
+
+  // Default Homepage (/id or /en)
   const faqsForHome = locale === 'en' ? ENGLISH_HOME_FAQS : HOME_FAQS;
   const homeFaqHtml = faqsForHome
     .map(
@@ -1421,35 +1930,23 @@ export function getPrerenderedBodyHtml(rawUrl: string): string {
     return `
       <main class="bg-[#FFFFFF] text-[#17122B] min-h-screen">
         <header class="max-w-6xl mx-auto px-6 py-6 flex justify-between items-center">
-          <a href="/eng" class="font-bold text-lg text-[#17122B]">CHESTAADOTCOM</a>
+          <a href="/en" class="font-bold text-lg text-[#17122B]">CHESTAADOTCOM</a>
           <nav aria-label="Main Navigation" class="flex flex-wrap gap-4 text-sm text-[#5B5675]">
-            <a href="/eng/jasa/pembuatan-website">Website &amp; Landing Page</a>
-            <a href="/eng/jasa/ai-agent">AI Agent</a>
-            <a href="/eng/jasa/software-custom">Custom Software</a>
-            <a href="/eng/jasa/otomasi-workflow">Workflow Automation</a>
-            <a href="/eng/portfolio">Projects</a>
-            <a href="/eng/case-studies">Case Studies</a>
-            <a href="/eng/blog">Blog</a>
-            <a href="/eng/#cara-kerja">How It Works</a>
-            <a href="/eng/#harga">Pricing</a>
-            <a href="/eng/#faq">FAQ</a>
-            <a href="${escapeHtmlAttr(langSwitchLinks.idUrl)}" hreflang="id-ID">ID</a>
+            <a href="/en/services/website-development">Website &amp; Landing Page</a>
+            <a href="/en/services/ai-agents">AI Agents</a>
+            <a href="/en/services/custom-software">Custom Software</a>
+            <a href="/en/services/workflow-automation">Workflow Automation</a>
+            <a href="/en/areas">Service Areas</a>
+            <a href="/en/portfolio">Internal Projects</a>
+            <a href="/en/blog">Blog</a>
+            <a href="${escapeHtmlAttr(langSwitchLinks.idUrl)}" hreflang="id">ID</a>
             <a href="${escapeHtmlAttr(langSwitchLinks.enUrl)}" hreflang="en">EN</a>
           </nav>
         </header>
         <section class="max-w-6xl mx-auto px-6 py-16">
           <h1 class="text-4xl sm:text-6xl font-bold leading-tight">Custom software and AI agents that take over repetitive work in your business.</h1>
           <p class="text-lg text-[#5B5675] mt-5 max-w-2xl">WhatsApp chats answered manually, data copied between spreadsheets, follow-ups forgotten. We build the system so it runs on its own, letting your team focus on work that truly requires a human.</p>
-          <p class="mt-6"><a href="${SITE_METADATA.whatsappUrl}" class="inline-block px-6 py-3 rounded-full bg-[#6A3FD0] text-white font-bold text-sm">Free consultation via WhatsApp</a></p>
-        </section>
-        <section id="layanan" class="max-w-6xl mx-auto px-6 py-12">
-          <h2 class="text-3xl font-bold mb-6">What we build for your business</h2>
-          <ul class="space-y-3 text-base text-[#17122B]">
-            <li><a href="/eng/jasa/pembuatan-website">Website &amp; Landing Page</a> — Under 1.2s load time, starting at IDR 1,200,000</li>
-            <li><a href="/eng/jasa/ai-agent">AI Agent</a> — 24/7 WhatsApp &amp; CRM AI agent</li>
-            <li><a href="/eng/jasa/software-custom">Custom Software</a> — Internal web apps, client portals &amp; operational dashboards</li>
-            <li><a href="/eng/jasa/otomasi-workflow">Workflow Automation</a> — Connect Sheets, forms, invoices &amp; WhatsApp automatically</li>
-          </ul>
+          <p class="mt-6"><a href="${SITE_METADATA.whatsappUrl}" class="inline-block px-6 py-3 rounded-full bg-[#6A3FD0] text-white font-bold text-sm">Start with a free 30-minute audit</a></p>
         </section>
         <section id="faq" class="max-w-4xl mx-auto px-6 py-16">
           <h2 class="text-3xl font-bold mb-8">Frequently Asked Questions</h2>
@@ -1462,35 +1959,23 @@ export function getPrerenderedBodyHtml(rawUrl: string): string {
   return `
     <main class="bg-[#FFFFFF] text-[#17122B] min-h-screen">
       <header class="max-w-6xl mx-auto px-6 py-6 flex justify-between items-center">
-        <a href="${escapeHtmlAttr(homeHref)}" class="font-bold text-lg text-[#17122B]">CHESTAADOTCOM</a>
+        <a href="/id" class="font-bold text-lg text-[#17122B]">CHESTAADOTCOM</a>
         <nav aria-label="Navigasi Utama" class="flex flex-wrap gap-4 text-sm text-[#5B5675]">
-          <a href="${escapeHtmlAttr(toLocalizedHref('/jasa/pembuatan-website', locale, prefixMode))}">Jasa pembuatan website</a>
-          <a href="${escapeHtmlAttr(toLocalizedHref('/jasa/ai-agent', locale, prefixMode))}">Jasa AI agent</a>
-          <a href="${escapeHtmlAttr(toLocalizedHref('/jasa/software-custom', locale, prefixMode))}">Jasa software custom</a>
-          <a href="${escapeHtmlAttr(toLocalizedHref('/jasa/otomasi-workflow', locale, prefixMode))}">Jasa otomasi workflow</a>
-          <a href="${escapeHtmlAttr(toLocalizedHref('/portfolio', locale, prefixMode))}">Proyek</a>
-          <a href="${escapeHtmlAttr(toLocalizedHref('/case-studies', locale, prefixMode))}">Case Study</a>
-          <a href="${escapeHtmlAttr(toLocalizedHref('/blog', locale, prefixMode))}">Blog</a>
-          <a href="${escapeHtmlAttr(toLocalizedHref('/#cara-kerja', locale, prefixMode))}">Cara Kerja</a>
-          <a href="${escapeHtmlAttr(toLocalizedHref('/#harga', locale, prefixMode))}">Harga</a>
-          <a href="${escapeHtmlAttr(toLocalizedHref('/#faq', locale, prefixMode))}">FAQ</a>
-          <a href="${escapeHtmlAttr(langSwitchLinks.idUrl)}" hreflang="id-ID">ID</a>
+          <a href="/id/jasa/pembuatan-website">Jasa pembuatan website</a>
+          <a href="/id/jasa/ai-agent">Jasa AI agent</a>
+          <a href="/id/jasa/software-custom">Jasa software custom</a>
+          <a href="/id/jasa/otomasi-workflow">Jasa otomasi workflow</a>
+          <a href="/id/area">Area Layanan</a>
+          <a href="/id/portfolio">Proyek Internal</a>
+          <a href="/id/blog">Blog</a>
+          <a href="${escapeHtmlAttr(langSwitchLinks.idUrl)}" hreflang="id">ID</a>
           <a href="${escapeHtmlAttr(langSwitchLinks.enUrl)}" hreflang="en">EN</a>
         </nav>
       </header>
       <section class="max-w-6xl mx-auto px-6 py-16">
         <h1 class="text-4xl sm:text-6xl font-bold leading-tight">Software custom dan AI agent yang mengambil alih kerja berulang di bisnismu.</h1>
         <p class="text-lg text-[#5B5675] mt-5 max-w-2xl">Chat WhatsApp yang dibalas manual, data yang disalin dari sheet ke sheet, follow-up yang lupa dikirim. Kami bangun sistemnya supaya jalan sendiri, dan tim kamu fokus ke hal yang memang butuh manusia.</p>
-        <p class="mt-6"><a href="${SITE_METADATA.whatsappUrl}" class="inline-block px-6 py-3 rounded-full bg-[#6A3FD0] text-white font-bold text-sm">Konsultasi gratis via WhatsApp</a></p>
-      </section>
-      <section id="layanan" class="max-w-6xl mx-auto px-6 py-12">
-        <h2 class="text-3xl font-bold mb-6">Empat hal yang paling sering kami bangun</h2>
-        <ul class="space-y-3 text-base text-[#17122B]">
-          <li><a href="${escapeHtmlAttr(toLocalizedHref('/jasa/pembuatan-website', locale, prefixMode))}">Jasa pembuatan website</a> — Pembuatan Website &amp; Landing Page mulai Rp1.200.000</li>
-          <li><a href="${escapeHtmlAttr(toLocalizedHref('/jasa/ai-agent', locale, prefixMode))}">Jasa AI agent</a> — AI Agent WhatsApp &amp; CRM 24/7</li>
-          <li><a href="${escapeHtmlAttr(toLocalizedHref('/jasa/software-custom', locale, prefixMode))}">Jasa software custom</a> — Aplikasi Web &amp; Dashboard Operasional Internal</li>
-          <li><a href="${escapeHtmlAttr(toLocalizedHref('/jasa/otomasi-workflow', locale, prefixMode))}">Jasa otomasi workflow</a> — Integrasi n8n, Spreadsheet, POS &amp; Notifikasi</li>
-        </ul>
+        <p class="mt-6"><a href="${SITE_METADATA.whatsappUrl}" class="inline-block px-6 py-3 rounded-full bg-[#6A3FD0] text-white font-bold text-sm">Mulai dari audit gratis 30 menit</a></p>
       </section>
       <section id="faq" class="max-w-4xl mx-auto px-6 py-16">
         <h2 class="text-3xl font-bold mb-8">Pertanyaan yang Sering Diajukan</h2>
@@ -1506,8 +1991,11 @@ export function injectSocialMeta(html: string, url: string): string {
   const safeDesc = escapeHtmlAttr(meta.description);
   const safeUrl = escapeHtmlAttr(meta.url);
   const safeImg = escapeHtmlAttr(meta.image);
-  const htmlLang = meta.locale === 'en' ? 'en' : 'id-ID';
+  const safeImgAlt = escapeHtmlAttr(meta.imageAlt || meta.title);
+  const htmlLang = meta.locale === 'en' ? 'en' : 'id';
   const ogLocale = meta.locale === 'en' ? 'en_US' : 'id_ID';
+  const ogLocaleAlt = meta.locale === 'en' ? 'id_ID' : 'en_US';
+  const robotsValue = meta.robotsContent || (meta.noindex ? 'noindex,follow' : 'index,follow');
 
   let updatedHtml = html;
 
@@ -1523,11 +2011,11 @@ export function injectSocialMeta(html: string, url: string): string {
     `<title>${safeTitle}</title>`
   );
 
-  // Replace <link rel="canonical"> and inject bidirectional hreflang links
+  // Replace <link rel="canonical"> and inject reciprocal hreflang links (id, en, x-default)
   const hreflangTags = meta.alternates
     ? [
         `<link rel="canonical" href="${safeUrl}" />`,
-        `<link rel="alternate" hreflang="id-ID" href="${escapeHtmlAttr(meta.alternates.idUrl)}" />`,
+        `<link rel="alternate" hreflang="id" href="${escapeHtmlAttr(meta.alternates.idUrl)}" />`,
         `<link rel="alternate" hreflang="en" href="${escapeHtmlAttr(meta.alternates.enUrl)}" />`,
         `<link rel="alternate" hreflang="x-default" href="${escapeHtmlAttr(meta.alternates.xDefaultUrl)}" />`,
       ].join('\n    ')
@@ -1548,19 +2036,17 @@ export function injectSocialMeta(html: string, url: string): string {
     );
   }
 
-  // Replace Meta Robots if meta.noindex is true
-  if (meta.noindex) {
-    if (/<meta\s+name=["']robots["'][^>]*>/i.test(updatedHtml)) {
-      updatedHtml = updatedHtml.replace(
-        /<meta\s+name=["']robots["'][^>]*>/i,
-        `<meta name="robots" content="noindex, nofollow" />`
-      );
-    } else if (/<\/head>/i.test(updatedHtml)) {
-      updatedHtml = updatedHtml.replace(
-        /<\/head>/i,
-        `  <meta name="robots" content="noindex, nofollow" />\n  </head>`
-      );
-    }
+  // Replace Meta Robots
+  if (/<meta\s+name=["']robots["'][^>]*>/i.test(updatedHtml)) {
+    updatedHtml = updatedHtml.replace(
+      /<meta\s+name=["']robots["'][^>]*>/i,
+      `<meta name="robots" content="${robotsValue}" />`
+    );
+  } else if (/<\/head>/i.test(updatedHtml)) {
+    updatedHtml = updatedHtml.replace(
+      /<\/head>/i,
+      `  <meta name="robots" content="${robotsValue}" />\n  </head>`
+    );
   }
 
   // Open Graph
@@ -1578,11 +2064,11 @@ export function injectSocialMeta(html: string, url: string): string {
   );
   updatedHtml = updatedHtml.replace(
     /<meta\s+property=["']og:image["'][^>]*>/i,
-    `<meta property="og:image" content="${safeImg}" />`
+    `<meta property="og:image" content="${safeImg}" />\n    <meta property="og:image:width" content="1200" />\n    <meta property="og:image:height" content="630" />\n    <meta property="og:image:alt" content="${safeImgAlt}" />`
   );
   updatedHtml = updatedHtml.replace(
     /<meta\s+property=["']og:locale["'][^>]*>/i,
-    `<meta property="og:locale" content="${ogLocale}" />`
+    `<meta property="og:locale" content="${ogLocale}" />\n    <meta property="og:locale:alternate" content="${ogLocaleAlt}" />`
   );
 
   // Twitter Cards
@@ -1596,11 +2082,72 @@ export function injectSocialMeta(html: string, url: string): string {
   );
   updatedHtml = updatedHtml.replace(
     /<meta\s+name=["']twitter:image["'][^>]*>/i,
-    `<meta name="twitter:image" content="${safeImg}" />`
+    `<meta name="twitter:image" content="${safeImg}" />\n    <meta name="twitter:image:alt" content="${safeImgAlt}" />`
   );
 
-  // Inject JSON-LD
-  const jsonLdScript = `\n    <script type="application/ld+json">${JSON.stringify(
+  // Inject Article Freshness & Taxonomy Meta Tags + Preload + Pagination rel=prev/next + JSON-LD
+  const articleMetaLines: string[] = [];
+  if (meta.preloadImage) {
+    articleMetaLines.push(
+      `<link rel="preload" as="image" href="${escapeHtmlAttr(
+        meta.preloadImage
+      )}" fetchpriority="high" />`
+    );
+  }
+  if (meta.prevUrl) {
+    articleMetaLines.push(
+      `<link rel="prev" href="${escapeHtmlAttr(meta.prevUrl)}" />`
+    );
+  }
+  if (meta.nextUrl) {
+    articleMetaLines.push(
+      `<link rel="next" href="${escapeHtmlAttr(meta.nextUrl)}" />`
+    );
+  }
+  if (meta.type === 'article') {
+    const authorHref =
+      meta.authorUrl ||
+      (meta.locale === 'en'
+        ? `${SITE_URL}/en/about#team`
+        : `${SITE_URL}/id/tentang#tim`);
+    articleMetaLines.push(`<link rel="author" href="${escapeHtmlAttr(authorHref)}" />`);
+    if (meta.publishedTime) {
+      articleMetaLines.push(
+        `<meta property="article:published_time" content="${escapeHtmlAttr(
+          meta.publishedTime
+        )}" />`
+      );
+    }
+    if (meta.modifiedTime) {
+      articleMetaLines.push(
+        `<meta property="article:modified_time" content="${escapeHtmlAttr(
+          meta.modifiedTime
+        )}" />`
+      );
+    }
+    articleMetaLines.push(
+      `<meta property="article:author" content="${escapeHtmlAttr(authorHref)}" />`
+    );
+    if (meta.articleSection) {
+      articleMetaLines.push(
+        `<meta property="article:section" content="${escapeHtmlAttr(
+          meta.articleSection
+        )}" />`
+      );
+    }
+    if (meta.articleTags && meta.articleTags.length > 0) {
+      for (const tag of meta.articleTags) {
+        articleMetaLines.push(
+          `<meta property="article:tag" content="${escapeHtmlAttr(tag)}" />`
+        );
+      }
+    }
+  }
+
+  const extraHeadBlock =
+    articleMetaLines.length > 0 ? `\n    ${articleMetaLines.join('\n    ')}` : '';
+
+  const jsonLdScript = `${extraHeadBlock}\n    <script type="application/ld+json">${JSON.stringify(
     meta.jsonLd
   )}</script>\n  `;
 
@@ -1619,4 +2166,3 @@ export function injectSocialMeta(html: string, url: string): string {
 
   return updatedHtml;
 }
-

@@ -27,7 +27,9 @@ import {
   generateRssXml,
   generateRobotsTxt,
   generateLlmsTxt,
+  generateLlmsFullTxt,
   SITE_URL,
+  isKnownRoute,
 } from "./src/utils/sitemapGenerator";
 import { z } from "zod";
 import { resolveRedirectTarget } from "./src/config/redirects";
@@ -836,7 +838,7 @@ app.get("/api/admin/seo-performance", async (req, res) => {
     const landingDoc = await adminDb.collection('seo_settings').doc('home').get();
     const landingSeo = landingDoc.exists ? landingDoc.data() : {
       title: "Dominasi Pasar Digital. Amankan Profit Maksimal. | CHESTAADOTCOM",
-      description: "Sistem otonom berkecepatan tinggi yang melayani pelanggan 24/7. Pangkas biaya operasional admin dan dominasi pasar dengan arsitektur digital kelas enterprise.",
+      description: "Sistem otonom berkecepatan tinggi yang melayani pelanggan 24/7. Pangkas biaya operasional admin dan mengembangkan bisnis dengan arsitektur digital kelas enterprise.",
       ogImage: "https://chestaadotcom.com/og.png"
     };
 
@@ -880,7 +882,7 @@ app.get("/api/admin/seo-performance", async (req, res) => {
     const metrics = {
       landingUrl: "/",
       landingTitle: landingSeo?.title || "Dominasi Pasar Digital. Amankan Profit Maksimal. | CHESTAADOTCOM",
-      landingDescription: landingSeo?.description || "Sistem otonom berkecepatan tinggi yang melayani pelanggan 24/7. Pangkas biaya operasional admin dan dominasi pasar dengan arsitektur digital kelas enterprise.",
+      landingDescription: landingSeo?.description || "Sistem otonom berkecepatan tinggi yang melayani pelanggan 24/7. Pangkas biaya operasional admin dan mengembangkan bisnis dengan arsitektur digital kelas enterprise.",
       overallScore: 92,
       searchImpressions,
       searchClicks,
@@ -1184,7 +1186,7 @@ app.get("/api/admin/load-profile-metrics", async (req, res) => {
     // Evaluate Next.js and static asset references
     const assetScan = [
       {
-        assetPath: "/chesta.png",
+        assetPath: "/favicon.svg",
         type: "image",
         sizeKb: 345,
         priority: "CRITICAL_LCP",
@@ -1274,7 +1276,7 @@ PROFIL RUNTIME SAAT INI:
 - Target Latensi: ${profile?.targetColdStartLatency || '< 80ms'}
 - Ketergantungan Berat Terdeteksi: ${(profile?.heavyDependencies || []).map((d: any) => `${d.name} (${d.impact})`).join(', ')}
 - Aset LCP Kritis yang Dipindai:
-  * /chesta.png (345KB PNG) - Hero / Identity Logo
+  * /favicon.svg (345KB PNG) - Hero / Identity Logo
   * Google Fonts (Poppins, Inter, Montserrat, JetBrains Mono)
   * Dynamic Article Cover Images (next/image di /insights/[slug] dan /blog/[slug])
 
@@ -1740,16 +1742,27 @@ app.post("/api/calendar/book", async (req, res) => {
   }
 });
 
-// Dynamic XML sitemap index route + 4 sub-sitemaps (accurate file modification lastmod)
+// Dynamic XML sitemap route with xhtml:link hreflang alternates + sub-sitemaps
 app.get(["/sitemap.xml", "/sitemap", "/api/sitemap.xml"], (req, res) => {
+  try {
+    const sitemapXml = generateSitemapXml(SITE_URL);
+    res.setHeader("Content-Type", "application/xml; charset=utf-8");
+    res.setHeader("Cache-Control", "public, max-age=3600");
+    res.status(200).send(sitemapXml);
+  } catch (error: any) {
+    console.error("Error generating sitemap.xml:", error);
+    res.status(500).send("Error generating sitemap.xml");
+  }
+});
+
+app.get("/sitemap-index.xml", (req, res) => {
   try {
     const sitemapIndexXml = generateSitemapIndexXml(SITE_URL);
     res.setHeader("Content-Type", "application/xml; charset=utf-8");
     res.setHeader("Cache-Control", "public, max-age=3600");
     res.status(200).send(sitemapIndexXml);
   } catch (error: any) {
-    console.error("Error generating sitemap index:", error);
-    res.status(500).send("Error generating sitemap index");
+    res.status(500).send("Error generating sitemap-index.xml");
   }
 });
 
@@ -1829,12 +1842,19 @@ app.get("/robots.txt", (req, res) => {
   res.status(200).send(robotsTxt);
 });
 
-// Dynamic server-side llms.txt route for AI / AEO / GEO crawlers
+// Dynamic server-side llms.txt & llms-full.txt routes for AI / AEO / GEO crawlers
 app.get(["/llms.txt", "/.well-known/llms.txt"], (req, res) => {
   const llmsTxt = generateLlmsTxt(SITE_URL);
   res.setHeader("Content-Type", "text/plain; charset=utf-8");
   res.setHeader("Cache-Control", "public, max-age=3600");
   res.status(200).send(llmsTxt);
+});
+
+app.get(["/llms-full.txt", "/.well-known/llms-full.txt"], (req, res) => {
+  const llmsFullTxt = generateLlmsFullTxt(SITE_URL);
+  res.setHeader("Content-Type", "text/plain; charset=utf-8");
+  res.setHeader("Cache-Control", "public, max-age=3600");
+  res.status(200).send(llmsFullTxt);
 });
 
 // Dynamic OpenGraph SVG image generator (1200x630 White + Purple Apple-Minimal)
@@ -1935,7 +1955,8 @@ if (process.env.NODE_ENV !== "production") {
       );
       template = await vite.transformIndexHtml(url, template);
       const html = injectSocialMeta(template, url);
-      res.status(200).set({ "Content-Type": "text/html; charset=utf-8" }).end(html);
+      const statusCode = isKnownRoute(url) ? 200 : 404;
+      res.status(statusCode).set({ "Content-Type": "text/html; charset=utf-8" }).end(html);
     } catch (e: any) {
       try {
         const vite = await vitePromise;
@@ -1962,7 +1983,8 @@ if (process.env.NODE_ENV !== "production") {
     try {
       let html = await fs.readFile(path.join(distPath, "index.html"), "utf-8");
       html = injectSocialMeta(html, req.originalUrl);
-      res.status(200).set({ "Content-Type": "text/html; charset=utf-8" }).end(html);
+      const statusCode = isKnownRoute(req.originalUrl) ? 200 : 404;
+      res.status(statusCode).set({ "Content-Type": "text/html; charset=utf-8" }).end(html);
     } catch (err) {
       console.error("Error rendering HTML:", err);
       res.status(500).end("Internal Server Error");

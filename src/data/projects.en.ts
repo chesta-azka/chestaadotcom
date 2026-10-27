@@ -1,4 +1,8 @@
-import type { PortfolioProject, ProjectCategory } from './projects';
+import type {
+  PortfolioProject,
+  PortfolioProjectRaw,
+  ProjectCategory,
+} from './projects';
 
 export const PORTFOLIO_CATEGORIES_EN: Array<{
   id: 'semua' | ProjectCategory;
@@ -11,511 +15,591 @@ export const PORTFOLIO_CATEGORIES_EN: Array<{
   { id: 'otomasi', label: 'Workflow Automation' },
 ];
 
-/**
- * 1:1 faithful English translation of PORTFOLIO_PROJECTS in /src/data/projects.ts.
- * Same facts, sections, order, structure, gallery items, features, and placeholders.
- */
-export const PORTFOLIO_PROJECTS_EN: PortfolioProject[] = [
-  // 1. FEATURED #1 — AI AGENT (Clinic & Healthcare)
+const RAW_PORTFOLIO_PROJECTS_EN: PortfolioProjectRaw[] = [
+  // 1. wa-concierge-klinik
   {
-    slug: 'klinik-estetika-bsd-ai-booking',
-    title: 'WhatsApp Reservation Assistant & Doctor Schedule for Aesthetic Clinic',
+    slug: 'wa-concierge-klinik',
+    title: 'WA Concierge: WhatsApp booking agent for clinics',
     oneLiner:
-      '24/7 WhatsApp AI agent that checks live doctor slot availability, locks patient treatment bookings, and sends automated H-1 reminders.',
+      'Answers treatment questions, checks therapist slots, and creates bookings from WhatsApp conversations.',
     category: 'ai-agent',
     categoryLabel: 'AI Agent',
-    industry: 'Clinic & Healthcare',
-    client: 'Aesthetic & Healthcare Clinic in BSD City',
-    year: '2025',
-    role: 'AI Agent Architecture, Calendar Integration & Landing Page',
-    duration: '3 Weeks',
-    stack: ['WhatsApp Cloud API', 'Python', 'PostgreSQL', 'React', 'Node.js'],
-    cover: 'portfolioClinicPlaceholder',
+    services: ['ai-agent'],
+    serviceSlug: 'ai-agent',
+    industry: 'Clinic',
+    client: 'CHESTAADOTCOM internal project',
+    year: '2026',
+    yearNumeric: 2026,
+    internal: true,
+    internalBadgeLabel: 'Internal project',
+    role: 'Design, development, and testing',
+    duration: 'Internal build',
+    stack: ['WhatsApp Business Platform', 'Calendar Tool', 'CRM Database', 'Action Log'],
+    cover: 'projectWaConciergeKlinik',
+    coverKey: 'projectWaConciergeKlinik',
+    alt: 'Illustration of internal project WA Concierge WhatsApp booking agent for clinics with therapist slot checking',
     deviceFrame: 'phone',
     gallery: [
       {
         imageKey: 'portfolioGalleryArchitecture',
+        label: 'Illustration',
         caption:
-          'Workflow schema from incoming patient WhatsApp message, PostgreSQL doctor schedule lookup, to automated slot locking.',
+          'Illustration: message flow from customer inquiry, therapist calendar check, and booking creation to CRM entry.',
         layout: 'full',
       },
       {
-        imageKey: 'portfolioClinicPlaceholder',
+        imageKey: 'projectWaConciergeKlinik',
+        label: 'Illustration',
         caption:
-          'Conversation simulation of the WhatsApp assistant matching doctor practice hours and confirming patient details.',
+          'Illustration: WhatsApp conversation checking available treatment hours and confirming booking details.',
         layout: 'half',
       },
       {
         imageKey: 'portfolioGalleryMobileHandover',
+        label: 'Illustration',
         caption:
-          'Human receptionist handover view complete with patient symptom summary for specialized medical consultations.',
+          'Illustration: handover summary passed to clinic staff when a conversation requires human attention.',
         layout: 'half',
       },
     ],
     summaryParagraphs: [
-      'Clinics receiving dozens of daily chats often lose prospective patients because inquiries arrive late at night after admin staff have gone home. This project connects the clinic’s official WhatsApp number to an AI agent capable of reading live doctor practice schedules and answering foundational procedure questions in seconds.',
-      'You remain in full control: whenever a patient asks about sensitive medical indications or requests special rescheduling, the agent immediately forwards the conversation alongside a concise context summary to your receptionist’s screen without forcing the patient to repeat their story.',
+      'WA Concierge is a CHESTAADOTCOM internal project built to demonstrate how an AI agent handles incoming treatment inquiries on WhatsApp, checks therapist calendar availability, creates bookings, logs patient details into a CRM, and sends day-before reminders.',
+      'The system includes clear action boundaries and human handover: sensitive questions or special requests outside standard rules are forwarded to clinic staff together with a concise conversation summary, and every action is recorded in an inspectable log.',
     ],
     features: [
       {
-        title: 'Real-Time Doctor Calendar Slot Lookup',
+        title: 'Intent Reading & Treatment Catalog Matching',
         description:
-          'The agent calls a database schedule lookup function to verify that treatment hours offered to patients are genuinely open and conflict-free.',
-        metricOrTag: 'Tool: check_doctor_slots()',
-        highlightType: 'architecture',
-      },
-      {
-        title: 'Medical Guardrails & Receptionist Handover',
-        description:
-          'Strict action boundaries prevent the agent from inventing medical advice; questions outside SOP are automatically routed to human admins with a chat summary.',
-        metricOrTag: 'Active Human-in-the-Loop',
-        highlightType: 'security',
-      },
-      {
-        title: 'Automated H-1 Reminders & Attendance Confirmation',
-        description:
-          'The system sends scheduled reminder messages one day before treatment to reduce last-minute cancellations (no-shows).',
-        metricOrTag: 'H-1 Reminder Cron',
-        highlightType: 'workflow',
-      },
-      {
-        title: 'Daily Reservation Recap Dashboard for Branch Admins',
-        description:
-          'A lightweight web interface for receptionists to view today’s patient list, WhatsApp confirmation status, and treatment history.',
-        metricOrTag: 'React + PostgreSQL',
+          'Reads everyday WhatsApp inquiries from prospective patients and matches them against treatment durations, preparation rules, and starting prices.',
+        metricOrTag: 'Design target: free-text intent reading',
         highlightType: 'interface',
       },
       {
-        title: 'Conversation & Tool Execution Audit Logs',
+        title: 'Therapist Calendar Slot Check',
         description:
-          'Every response and schedule update is recorded with a timestamp so clinic management can audit service performance transparently.',
-        metricOrTag: '100% Log Transparency',
+          'Checks available therapist time slots before offering schedule options in the WhatsApp chat.',
+        metricOrTag: 'Design target: zero schedule overlap',
+        highlightType: 'architecture',
+      },
+      {
+        title: 'Action Boundaries & Staff Handover',
+        description:
+          'Follows explicit rules on what the agent may do and hands off sensitive cases to staff with a chat summary.',
+        metricOrTag: 'Design target: human handover with summary',
         highlightType: 'security',
       },
+      {
+        title: 'Booking Confirmation & Day-Before Reminder',
+        description:
+          'Creates the booking, records it in the CRM, and schedules a day-before reminder message.',
+        metricOrTag: 'Design target: automated H-1 reminder',
+        highlightType: 'workflow',
+      },
+      {
+        title: 'Complete Action Log',
+        description:
+          'Every tool call and message step is logged so clinic owners and admins can inspect what happened at any time.',
+        metricOrTag: 'Design target: inspectable action log',
+        highlightType: 'interface',
+      },
     ],
-    liveStatusLabel: 'Internal System / Client NDA',
-    caseStudySlug: 'otomasi-reservasi-klinik-estetika',
-    serviceSlug: 'ai-agent',
+    liveStatusLabel: 'Internal project (Design target)',
+    relatedCaseSlug: 'wa-concierge-klinik',
+    caseStudySlug: 'wa-concierge-klinik',
     featured: true,
     draft: false,
-    updatedAt: '2025-03-10',
+    updatedAt: '2026-03-20',
     seo: {
-      title: 'WhatsApp AI Agent & BSD Clinic Booking Portfolio | CHESTAADOTCOM',
+      title: 'WA Concierge Clinic Booking Agent — Internal Project | CHESTAADOTCOM',
       description:
-        'Visual showcase of a WhatsApp AI agent system for patient qualification and automated doctor scheduling at an aesthetic clinic in BSD City.',
+        'CHESTAADOTCOM internal project: WhatsApp booking AI agent for clinics that answers treatment questions, checks therapist slots, and creates bookings.',
     },
   },
 
-  // 2. FEATURED #2 — CUSTOM SOFTWARE (Logistics & Operations)
+  // 2. dashboard-kafe
   {
-    slug: 'dashboard-operasional-logistik-tangsel',
-    title: 'Centralized Fleet Operations & Delivery Note Dashboard',
+    slug: 'dashboard-kafe',
+    title: 'Cafe Operations Dashboard',
     oneLiner:
-      'Internal web application to monitor daily delivery routes, issue digital delivery notes, and replace a dozen disconnected spreadsheets.',
+      'Ingredient stock, daily sales, and multi-branch reports in a single dashboard.',
     category: 'software',
     categoryLabel: 'Custom Software',
-    industry: 'Logistics & Operations',
-    client: 'Regional Distribution & Logistics Company',
-    year: '2025',
-    role: 'Custom Web App Development & Database Design',
-    duration: '4 Weeks',
-    stack: ['React', 'Node.js', 'PostgreSQL', 'WhatsApp Cloud API'],
-    cover: 'portfolioLogisticsDashboard',
+    services: ['software-custom'],
+    serviceSlug: 'software-custom',
+    industry: 'F&B',
+    client: 'CHESTAADOTCOM internal project',
+    year: '2026',
+    yearNumeric: 2026,
+    internal: true,
+    internalBadgeLabel: 'Internal project',
+    role: 'Design, development, and testing',
+    duration: 'Internal build',
+    stack: ['Web Application', 'Role-Based Access', 'Database', 'Reporting Dashboard'],
+    cover: 'projectDashboardKafe',
+    coverKey: 'projectDashboardKafe',
+    alt: 'Illustration of internal project Cafe Operations Dashboard for monitoring ingredient stock and daily branch sales',
     deviceFrame: 'browser',
     gallery: [
       {
-        imageKey: 'portfolioGalleryArchitecture',
+        imageKey: 'projectDashboardKafe',
+        label: 'Illustration',
         caption:
-          'Centralized architecture uniting warehouse admin input, field fleet status, and billing document generation.',
+          'Illustration: daily sales summary and low-stock indicators across cafe branches.',
         layout: 'full',
-      },
-      {
-        imageKey: 'portfolioLogisticsDashboard',
-        caption:
-          'Daily shipment manifest table view with trip status filters and instant delivery note number search.',
-        layout: 'half',
       },
       {
         imageKey: 'portfolioGalleryAnalytics',
+        label: 'Illustration',
         caption:
-          'On-time delivery metrics panel and status change audit logs by operations staff.',
+          'Illustration: branch comparison view and ingredient movement log.',
         layout: 'half',
       },
-    ],
-    summaryParagraphs: [
-      'As daily delivery volume grows, tracking delivery notes via spreadsheet files shared in chat groups frequently causes data discrepancies between warehouse staff, drivers, and billing teams. This custom web application unites the entire workflow into a single role-based workspace.',
-      'Warehouse staff simply create a manifest once, the system automatically generates print-ready delivery notes, and confirmed arrival statuses immediately update the draft invoice queue for finance without manual copy-pasting.',
-    ],
-    features: [
-      {
-        title: 'Single-Door Manifest & Delivery Note Management',
-        description:
-          'Delivery note numbers are issued sequentially and automatically from PostgreSQL so duplicate numbering across branches never happens again.',
-        metricOrTag: 'Single Source Database',
-        highlightType: 'architecture',
-      },
-      {
-        title: 'Tiered Role Permissions (Warehouse Admin, Dispatcher, Finance)',
-        description:
-          'Each staff member only sees the menus and action buttons relevant to their responsibility, complete with user attribution on every status change.',
-        metricOrTag: 'Role-Based Access Control',
-        highlightType: 'security',
-      },
-      {
-        title: 'Delivery Status Notifications via WhatsApp API',
-        description:
-          'Recipients and field coordinators receive automated updates when a truck departs and when goods are confirmed delivered.',
-        metricOrTag: 'Real-Time Notifications',
-        highlightType: 'workflow',
-      },
-      {
-        title: 'Billing Recap & Instant Report Export',
-        description:
-          'The finance team can pull all completed deliveries in a single click to speed up invoice issuance.',
-        metricOrTag: 'Clean CSV / PDF Export',
-        highlightType: 'interface',
-      },
-    ],
-    liveStatusLabel: 'Internal System / Client NDA',
-    caseStudySlug: 'sentralisasi-operasional-armada-logistik',
-    serviceSlug: 'software-custom',
-    featured: true,
-    draft: false,
-    updatedAt: '2025-03-08',
-    seo: {
-      title: 'Logistics Operations & Delivery Note Dashboard Portfolio | CHESTAADOTCOM',
-      description:
-        'Visual showcase of a custom web application for fleet operations, digital delivery notes, and centralized PostgreSQL database management.',
-    },
-  },
-
-  // 3. WEB & LANDING PAGE (Property & Architecture)
-  {
-    slug: 'landing-page-hunian-bintaro',
-    title: 'Residential Cluster Landing Page & Mortgage Calculator in Bintaro',
-    oneLiner:
-      'Fast-loading mobile property promotion page featuring an interactive installment simulator and show-unit visit scheduler.',
-    category: 'web',
-    categoryLabel: 'Web & Landing Page',
-    industry: 'Property & Architecture',
-    client: 'Residential Developer & Architecture Studio in Bintaro',
-    year: '2025',
-    role: 'UI Design, Speed Optimization & WhatsApp CTA Integration',
-    duration: '5 Days',
-    stack: ['React', 'Node.js', 'WhatsApp Cloud API'],
-    cover: 'portfolioPropertyPlaceholder',
-    deviceFrame: 'browser',
-    gallery: [
       {
         imageKey: 'portfolioGalleryArchitecture',
+        label: 'Illustration',
         caption:
-          'Visitor capture flow from Meta/Google Ads clicks to unit simulation and pre-formatted WhatsApp message dispatch.',
-        layout: 'full',
-      },
-      {
-        imageKey: 'portfolioPropertyPlaceholder',
-        caption:
-          'Interactive down-payment and mortgage tenure calculator component running instantaneously on mobile screens without page reloads.',
-        layout: 'half',
-      },
-      {
-        imageKey: 'portfolioGalleryMobileHandover',
-        caption:
-          'Automated WhatsApp message format carrying the buyer’s selected unit type and preferred show-unit visit schedule.',
+          'Illustration: role-based access structure separating owner reports and branch staff inputs.',
         layout: 'half',
       },
     ],
     summaryParagraphs: [
-      'Significant property ad spend goes to waste because destination pages load huge uncompressed photos, causing visitors to close the tab before floor plans ever appear. This page was engineered around mobile load speed and an information hierarchy that immediately answers homebuyers’ primary questions.',
-      'Visitors can compare unit types, test down-payment and monthly installment simulations interactively, and tap a WhatsApp button that automatically sends their chosen unit type to your in-house sales team.',
+      'Cafe Operations Dashboard is a CHESTAADOTCOM internal project showing how custom web software replaces heavy, error-prone spreadsheets for F&B businesses managing multiple branches.',
+      'Branch staff record daily stock counts and sales from mobile or desktop screens with role-based permissions, while the owner views consolidated daily reports and low-ingredient alerts from the same data source.',
     ],
     features: [
       {
-        title: 'Floor Plan & Facade Visual Asset Optimization (WebP/AVIF)',
+        title: 'Multi-Branch Stock & Sales View',
         description:
-          'All architectural galleries load progressively with explicit dimensions so the page renders rapidly with zero layout shift.',
-        metricOrTag: 'Target LCP < 1.5 Seconds',
-        highlightType: 'architecture',
-      },
-      {
-        title: 'Interactive Mortgage & Down-Payment Simulator',
-        description:
-          'Lets prospective buyers calculate estimated monthly installments based on down-payment percentage and loan tenure right on the page.',
-        metricOrTag: 'Zero-Reload Interaction',
+          'Combines ingredient stock levels and daily sales across branches into one web dashboard.',
+        metricOrTag: 'Design target: single data source',
         highlightType: 'interface',
       },
       {
-        title: 'WhatsApp CTA Carrying Unit & Ad Source Parameters',
+        title: 'Role-Based Login & Permissions',
         description:
-          'Your sales team immediately knows which unit the buyer viewed alongside the originating ad campaign from the very first chat.',
-        metricOrTag: 'UTM & Conversion Tracking',
+          'Separates access rights between owners, managers, and branch staff so each user sees only their tasks.',
+        metricOrTag: 'Design target: per-role access control',
+        highlightType: 'security',
+      },
+      {
+        title: 'Minimum Stock Threshold Alerts',
+        description:
+          'Flags raw ingredients approaching minimum levels per branch so restocking happens on time.',
+        metricOrTag: 'Design target: low-stock indicators',
         highlightType: 'workflow',
       },
       {
-        title: 'Complete Local SEO Structure & OpenGraph Schema',
+        title: 'Responsive on Mobile & Desktop',
         description:
-          'Link previews look crisp and trustworthy whenever property agents share the page URL with prospective buyers on WhatsApp.',
-        metricOrTag: 'Validated Schema.org',
+          'Built so kitchen and cashier staff can input stock counts from a phone while owners review reports on a laptop.',
+        metricOrTag: 'Design target: mobile & desktop ready',
+        highlightType: 'architecture',
+      },
+      {
+        title: 'Input Audit Trail & Report Export',
+        description:
+          'Records who updated daily stock figures and provides downloadable monthly summaries.',
+        metricOrTag: 'Design target: logged input history',
         highlightType: 'security',
       },
     ],
-    liveStatusLabel: 'Internal System / Client NDA',
-    serviceSlug: 'pembuatan-website',
-    featured: false,
+    liveStatusLabel: 'Internal project (Design target)',
+    relatedCaseSlug: 'dashboard-kafe',
+    caseStudySlug: 'dashboard-kafe',
+    featured: true,
     draft: false,
-    updatedAt: '2025-03-05',
+    updatedAt: '2026-03-24',
     seo: {
-      title: 'Bintaro Property Landing Page & Mortgage Simulator Portfolio | CHESTAADOTCOM',
+      title: 'Cafe Operations Dashboard — Internal Project | CHESTAADOTCOM',
       description:
-        'Visual showcase of a residential cluster landing page in Bintaro featuring a fast gallery, interactive mortgage calculator, and sales WhatsApp integration.',
+        'CHESTAADOTCOM internal project: custom web dashboard for F&B businesses combining ingredient stock, daily sales, and multi-branch reports.',
     },
   },
 
-  // 4. WORKFLOW AUTOMATION (F&B & Retail)
+  // 3. lead-properti
   {
-    slug: 'otomasi-rekap-pos-fnb-serpong',
-    title: 'Multi-Branch POS Recap & WhatsApp Reporting Automation for F&B',
+    slug: 'lead-properti',
+    title: 'Property Lead Flow',
     oneLiner:
-      'Automated workflow that pulls cashier transaction data at store closing time, reconciles ingredient stock, and sends a net revenue summary to the owner’s WhatsApp.',
+      'Leads from ad forms enter the CRM, agents are notified, and follow-ups are scheduled automatically.',
     category: 'otomasi',
     categoryLabel: 'Workflow Automation',
-    industry: 'F&B & Retail',
-    client: 'Restaurant & Cafe Chain in Gading Serpong',
-    year: '2024',
-    role: 'n8n Workflow Automation Architecture & Reporting Database',
-    duration: '2 Weeks',
-    stack: ['n8n', 'Python', 'PostgreSQL', 'WhatsApp Cloud API'],
-    cover: 'portfolioFnbPlaceholder',
-    deviceFrame: 'browser',
-    gallery: [
-      {
-        imageKey: 'portfolioGalleryArchitecture',
-        caption:
-          'Automation node pipeline from pulling 3-branch POS cashier data to Python reconciliation and nightly WhatsApp report dispatch.',
-        layout: 'full',
-      },
-      {
-        imageKey: 'portfolioFnbPlaceholder',
-        caption:
-          'n8n workflow visualization separating gross revenue, delivery app promotional deductions, and raw ingredient usage.',
-        layout: 'half',
-      },
-      {
-        imageKey: 'portfolioGalleryAnalytics',
-        caption:
-          'Workflow execution history table complete with automated retry queues if a branch internet connection briefly drops.',
-        layout: 'half',
-      },
-    ],
-    summaryParagraphs: [
-      'Multi-branch F&B owners often have to wait until the next afternoon just to see total net sales and remaining ingredient stock from the night before. This automation eliminates the daily routine of downloading CSV files from cashier apps and copying them one by one into spreadsheets.',
-      'Every night at 10:00 PM after cashiers close out, the workflow automatically pulls transaction data across all branches, calculates daily performance metrics, archives them in PostgreSQL, and sends a clean digest straight to your WhatsApp.',
-    ],
-    features: [
-      {
-        title: 'Scheduled Cashier Data Pull at Store Closing',
-        description:
-          'Connects daily transaction reports from every branch without admin staff manually downloading and merging CSV files.',
-        metricOrTag: '22:00 WIB Cron Trigger',
-        highlightType: 'workflow',
-      },
-      {
-        title: 'Stock Variance Detection & Ingredient Reorder Alerts',
-        description:
-          'Python scripts compare menu items sold against warehouse inventory and flag core ingredients approaching minimum thresholds.',
-        metricOrTag: 'Python + PostgreSQL',
-        highlightType: 'architecture',
-      },
-      {
-        title: 'Concise Nightly Digest to the Owner’s WhatsApp',
-        description:
-          'Presents revenue per branch, top-selling items, and ingredients to reorder tomorrow morning in a single mobile-friendly message.',
-        metricOrTag: 'WhatsApp Cloud API',
-        highlightType: 'interface',
-      },
-      {
-        title: 'Auto-Retry Mechanism & Error Notifications',
-        description:
-          'If a branch cashier tablet has not synced due to spotty Wi-Fi, the system automatically retries and logs a transparent status note.',
-        metricOrTag: 'Workflow Reliability',
-        highlightType: 'security',
-      },
-    ],
-    liveStatusLabel: 'Internal System / Client NDA',
-    caseStudySlug: 'sinkronisasi-rekap-pos-fnb-multi-cabang',
+    services: ['otomasi-workflow'],
     serviceSlug: 'otomasi-workflow',
-    featured: false,
-    draft: false,
-    updatedAt: '2025-02-26',
-    seo: {
-      title: 'Multi-Branch F&B POS Recap & WhatsApp Automation Portfolio | CHESTAADOTCOM',
-      description:
-        'Visual showcase of n8n, Python, and WhatsApp API workflow integration for multi-branch F&B cashier sales reconciliation in Gading Serpong.',
-    },
-  },
-
-  // 5. CUSTOM SOFTWARE (Logistics & Operations / Manufacturing)
-  {
-    slug: 'sistem-inventaris-erp-manufaktur',
-    title: 'Warehouse Inventory & Internal PO Approval System',
-    oneLiner:
-      'Web-based ERP module to track raw material stock movements, enforce minimum warehouse thresholds, and approve Purchase Orders from a smartphone.',
-    category: 'software',
-    categoryLabel: 'Custom Software',
-    industry: 'Logistics & Operations',
-    client: 'Mid-Sized Warehouse & Manufacturing Operations',
-    year: '2024',
-    role: 'Custom System Architecture, RBAC & Database Schema Migration',
-    duration: '4 Weeks',
-    stack: ['React', 'Node.js', 'PostgreSQL', 'WhatsApp Cloud API'],
-    cover: 'portfolioErpInventory',
+    industry: 'Property',
+    client: 'CHESTAADOTCOM internal project',
+    year: '2026',
+    yearNumeric: 2026,
+    internal: true,
+    internalBadgeLabel: 'Internal project',
+    role: 'Design, development, and testing',
+    duration: 'Internal build',
+    stack: ['Ad Form Webhook', 'CRM & Sheets', 'WhatsApp Notification', 'Execution Log'],
+    cover: 'projectLeadProperti',
+    coverKey: 'projectLeadProperti',
+    alt: 'Illustration of internal project Property Lead Flow from ad forms to CRM and automated follow-up schedules',
     deviceFrame: 'browser',
     gallery: [
       {
-        imageKey: 'portfolioGalleryArchitecture',
+        imageKey: 'projectLeadProperti',
+        label: 'Illustration',
         caption:
-          'Relational database structure and role separation between receiving clerks, warehouse heads, and operations directors.',
+          'Illustration: automated pipeline routing incoming property inquiries to CRM records and assigned agent alerts.',
         layout: 'full',
       },
       {
-        imageKey: 'portfolioErpInventory',
+        imageKey: 'portfolioGalleryArchitecture',
+        label: 'Illustration',
         caption:
-          'Warehouse raw material capacity monitoring interface and one-click Purchase Order approval queue.',
+          'Illustration: workflow diagram with error handling and failure notifications.',
         layout: 'half',
       },
       {
         imageKey: 'portfolioGalleryAnalytics',
+        label: 'Illustration',
         caption:
-          'Complete audit trail recording timestamp, user account, and reason for every stock opname adjustment.',
+          'Illustration: execution log tracking every form submission and notification step.',
         layout: 'half',
       },
     ],
     summaryParagraphs: [
-      'Growing companies with dozens of warehouse staff are often held back by ballooning per-user SaaS license fees or slow legacy systems during shift handovers. We engineered an inventory and procurement module focused squarely on the exact workflow used by field teams.',
-      'All records live on your chosen infrastructure with zero per-seat subscription fees. Whenever raw material stock hits a safety threshold, a draft Purchase Order is prepared automatically and directors can review and approve it directly via a secure link on their phone.',
+      'Property Lead Flow is a CHESTAADOTCOM internal project built to demonstrate workflow automation connecting property inquiry forms directly to a CRM, Google Sheets, and WhatsApp notifications for sales agents.',
+      'Instead of copying buyer data manually between apps, every incoming inquiry is logged, the assigned agent is notified immediately, follow-up reminders are scheduled, and any failed step triggers an alert with an inspectable execution log.',
     ],
     features: [
       {
-        title: 'Zero Per-User License Fees (Zero Per-Seat Tax)',
+        title: 'Direct Ad Form to CRM Entry',
         description:
-          'Add as many warehouse staff, purchasing admin, and supervisor accounts as you need without extra monthly fees per person.',
-        metricOrTag: '100% System Ownership',
-        highlightType: 'architecture',
-      },
-      {
-        title: 'Tiered Mobile Purchase Order Approval',
-        description:
-          'Purchase requests above a defined amount automatically send a WhatsApp alert to management for one-click approval.',
-        metricOrTag: 'Fast Approval Flow',
+          'Captures prospective buyer details and unit interest from forms and writes them directly to the CRM.',
+        metricOrTag: 'Design target: 0 manual steps',
         highlightType: 'workflow',
       },
       {
-        title: 'Inter-Warehouse Stock Transfer & Stock Opname',
+        title: 'Agent Assignment & Instant Alert',
         description:
-          'Supports moving materials from raw storage to production lines with real-time stock balance calculations.',
-        metricOrTag: 'PostgreSQL ACID Transactions',
-        highlightType: 'interface',
+          'Assigns incoming leads to the on-duty agent in rotation and sends a WhatsApp alert with buyer summary.',
+        metricOrTag: 'Design target: agent alert < 1 minute',
+        highlightType: 'architecture',
       },
       {
-        title: 'Full Audit Trail for Every Figure Adjustment',
+        title: 'Automated H+1 and H+3 Follow-Up Reminders',
         description:
-          'No stock count ever changes mysteriously; every correction stores the previous value, new value, and staff identity.',
-        metricOrTag: 'Security & Internal Audit',
+          'Schedules automatic reminders on Day+1 and Day+3 if the lead status in the CRM has not been updated.',
+        metricOrTag: 'Design target: H+1 & H+3 follow-up schedule',
+        highlightType: 'workflow',
+      },
+      {
+        title: 'Error Handling & Failure Alerts',
+        description:
+          'Includes failure notifications and execution logs so any third-party tool issue is caught early.',
+        metricOrTag: 'Design target: logged execution & alerts',
         highlightType: 'security',
       },
     ],
-    liveStatusLabel: 'Internal System / Client NDA',
-    caseStudySlug: 'migrasi-erp-pabrik-cikarang',
-    serviceSlug: 'software-custom',
-    featured: false,
+    liveStatusLabel: 'Internal project (Design target)',
+    relatedCaseSlug: 'lead-properti',
+    caseStudySlug: 'lead-properti',
+    featured: true,
     draft: false,
-    updatedAt: '2025-02-18',
+    updatedAt: '2026-03-20',
     seo: {
-      title: 'Custom Warehouse Inventory & PO Approval System Portfolio | CHESTAADOTCOM',
+      title: 'Property Lead Flow Automation — Internal Project | CHESTAADOTCOM',
       description:
-        'Visual showcase of a custom ERP warehouse inventory and Purchase Order approval module built with React, Node.js, and PostgreSQL.',
+        'CHESTAADOTCOM internal project: workflow automation routing property ad form leads into CRM, notifying agents, and scheduling follow-ups.',
     },
   },
 
-  // 6. AI AGENT (Professional Services)
+  // 4. landing-klinik-estetika
   {
-    slug: 'asisten-kualifikasi-klien-konsultan',
-    title: 'B2B Lead Qualification & Consultant Scheduling Agent',
+    slug: 'landing-klinik-estetika',
+    title: 'Aesthetic Clinic Landing Page',
     oneLiner:
-      'WhatsApp AI agent that screens corporate prospect needs, logs structured summaries into internal CRM, and schedules discovery calls automatically.',
-    category: 'ai-agent',
-    categoryLabel: 'AI Agent',
-    industry: 'Professional Services',
-    client: 'Consulting & Professional Services Firm in South Tangerang',
-    year: '2025',
-    role: 'WhatsApp AI Agent Development & CRM Pipeline Integration',
-    duration: '3 Weeks',
-    stack: ['WhatsApp Cloud API', 'Python', 'Node.js', 'PostgreSQL', 'n8n'],
-    cover: 'portfolioConsultantAgent',
-    deviceFrame: 'phone',
+      'Dedicated page per treatment with starting prices, practice hours, and booking via WhatsApp.',
+    category: 'web',
+    categoryLabel: 'Web & Landing Page',
+    services: ['pembuatan-website'],
+    serviceSlug: 'pembuatan-website',
+    industry: 'Clinic',
+    client: 'CHESTAADOTCOM internal project',
+    year: '2026',
+    yearNumeric: 2026,
+    internal: true,
+    internalBadgeLabel: 'Internal project',
+    role: 'Design, development, and testing',
+    duration: 'Internal build',
+    stack: ['Static HTML/CSS', 'Image Optimization', 'Structured Data', 'WhatsApp CTA'],
+    cover: 'projectLandingKlinikEstetika',
+    coverKey: 'projectLandingKlinikEstetika',
+    alt: 'Illustration of internal project Aesthetic Clinic Landing Page with treatment list, starting prices, and WhatsApp button',
+    deviceFrame: 'browser',
     gallery: [
       {
-        imageKey: 'portfolioGalleryArchitecture',
+        imageKey: 'projectLandingKlinikEstetika',
+        label: 'Illustration',
         caption:
-          'B2B lead screening flow from the first WhatsApp message to CRM client card creation and calendar invite dispatch.',
+          'Illustration: treatment page layout showing starting prices, schedule, and direct WhatsApp booking button.',
         layout: 'full',
       },
       {
-        imageKey: 'portfolioConsultantAgent',
+        imageKey: 'portfolioGalleryMobileHandover',
+        label: 'Illustration',
         caption:
-          'Natural conversation view as the agent asks about industry sector, company size, and target timeline.',
+          'Illustration: responsive mobile layout designed for fast loading on phones.',
+        layout: 'half',
+      },
+      {
+        imageKey: 'portfolioGalleryAnalytics',
+        label: 'Illustration',
+        caption:
+          'Illustration: basic visitor source tracking and structured heading hierarchy.',
+        layout: 'half',
+      },
+    ],
+    summaryParagraphs: [
+      'Aesthetic Clinic Landing Page is a CHESTAADOTCOM internal project demonstrating a fast, mobile-friendly landing page structure for clinics running ads or local search campaigns.',
+      'Each treatment page answers common prospective patient questions upfront—what the treatment is, starting prices, practice hours, and location—paired with a direct WhatsApp booking button so visitors can book without extra steps.',
+    ],
+    features: [
+      {
+        title: 'Dedicated Page per Treatment',
+        description:
+          'Presents clear treatment details, starting price notes, and practice hours so visitors understand the offer immediately.',
+        metricOrTag: 'Design target: clear single goal per page',
+        highlightType: 'interface',
+      },
+      {
+        title: 'Fast Mobile Loading & Image Compression',
+        description:
+          'Static pages with properly sized images and minimal scripts tested on phones and PageSpeed Insights.',
+        metricOrTag: 'Design target: PageSpeed tested on mobile',
+        highlightType: 'architecture',
+      },
+      {
+        title: 'Foundational SEO & Structured Data',
+        description:
+          'Includes page titles, meta descriptions, heading structure, sitemap, and structured data.',
+        metricOrTag: 'Design target: clean SEO foundation',
+        highlightType: 'interface',
+      },
+      {
+        title: 'Pre-Filled WhatsApp Booking Buttons',
+        description:
+          'Attaches a context-specific opening message to each WhatsApp CTA based on the treatment page viewed.',
+        metricOrTag: 'Design target: direct WhatsApp booking',
+        highlightType: 'workflow',
+      },
+    ],
+    liveStatusLabel: 'Internal project (Design target)',
+    relatedCaseSlug: 'wa-concierge-klinik',
+    caseStudySlug: 'wa-concierge-klinik',
+    featured: true,
+    draft: false,
+    updatedAt: '2026-03-20',
+    seo: {
+      title: 'Aesthetic Clinic Landing Page — Internal Project | CHESTAADOTCOM',
+      description:
+        'CHESTAADOTCOM internal project: fast clinic landing page per treatment with starting prices, practice schedule, and WhatsApp booking.',
+    },
+  },
+
+  // 5. chestaa-v2
+  {
+    slug: 'chestaa-v2',
+    title: 'Rebuilding chestaa.com',
+    oneLiner:
+      'A fast, static bilingual site rebuilt with a focus on custom software and AI agents.',
+    category: 'web',
+    categoryLabel: 'Web & Landing Page',
+    services: ['pembuatan-website'],
+    serviceSlug: 'pembuatan-website',
+    industry: 'Agency (own site)',
+    client: 'CHESTAADOTCOM internal project',
+    year: '2026',
+    yearNumeric: 2026,
+    internal: true,
+    internalBadgeLabel: 'Internal project',
+    role: 'Design, development, and testing',
+    duration: 'Internal build',
+    stack: ['Bilingual Static Architecture', 'JSON-LD @graph', 'Sitemap & llms.txt', 'Core Web Vitals'],
+    cover: 'projectChestaaV2',
+    coverKey: 'projectChestaaV2',
+    alt: 'Illustration of internal project rebuilding the fast static bilingual chestaa.com website',
+    deviceFrame: 'browser',
+    gallery: [
+      {
+        imageKey: 'projectChestaaV2',
+        label: 'Illustration',
+        caption:
+          'Illustration: bilingual /id and /en architecture with answer-first summaries and restrained purple-on-white typography.',
+        layout: 'full',
+      },
+      {
+        imageKey: 'portfolioGalleryArchitecture',
+        label: 'Illustration',
+        caption:
+          'Illustration: unified Schema.org @graph JSON-LD, reciprocal hreflang, and dynamic llms.txt generation.',
         layout: 'half',
       },
       {
         imageKey: 'portfolioGalleryMobileHandover',
+        label: 'Illustration',
         caption:
-          'Structured prospect brief received by senior consultants before the discovery meeting begins.',
+          'Illustration: mobile layout and accessible keyboard-navigable tabs and FAQ accordions.',
         layout: 'half',
       },
     ],
     summaryParagraphs: [
-      'For consulting firms, law offices, and B2B agencies, senior partners often spend too much time asking basic screening questions to leads that may not fit their service scope. This agent handles initial qualification politely and systematically the moment a message arrives.',
-      'Once it captures the prospect’s industry, core objective, and timeline, the agent logs the structured record into your CRM table and immediately offers open discussion slots from the consulting team’s calendar.',
+      'Rebuilding chestaa.com is our own internal website project at CHESTAADOTCOM, engineered as a fast, static bilingual (/id and /en) site focused on website development, AI agents, custom software, and workflow automation.',
+      'Every service and local area page leads with a direct 40–60 word summary, complete structured data (@graph JSON-LD), reciprocal hreflang links, and restrained motion that respects reduced-motion and low-spec devices.',
     ],
     features: [
       {
-        title: 'Natural & Concise Qualification Question Flow',
+        title: 'Bilingual /id and /en Architecture',
         description:
-          'Gathers 3–4 key facts (industry, project scope, target timeline) through a polite executive-assistant conversation style.',
-        metricOrTag: '24/7 B2B Qualification',
-        highlightType: 'interface',
-      },
-      {
-        title: 'Automated Lead Card Creation in CRM Database',
-        description:
-          'Q&A results are summarized directly into structured PostgreSQL columns so your team never re-types from chat logs.',
-        metricOrTag: 'Instant CRM Sync',
+          '1:1 Indonesian and English pages with reciprocal hreflang tags, localized slugs, and clean sitemap generation.',
+        metricOrTag: 'Design target: 1:1 /id & /en parity',
         highlightType: 'architecture',
       },
       {
-        title: 'Discovery Session Scheduling & Meeting Invites',
+        title: 'Answer-First Structure & Unified JSON-LD',
         description:
-          'Connects qualified prospects straight to open consultant calendar slots complete with automated meeting reminders.',
-        metricOrTag: 'Calendar & n8n Integration',
+          'Every service and area page starts with a concise summary and outputs a connected Schema.org @graph.',
+        metricOrTag: 'Design target: valid @graph & llms.txt',
+        highlightType: 'interface',
+      },
+      {
+        title: 'Minimal Scripts & High Mobile Speed',
+        description:
+          'Content is visible without JavaScript, images are optimized, and interactive tabs and FAQs stay lightweight.',
+        metricOrTag: 'Design target: LCP < 1.8s, CLS < 0.02',
         highlightType: 'workflow',
       },
       {
-        title: 'Instant Escalation for Priority / Enterprise Clients',
+        title: 'Calm & Device-Aware Motion System',
         description:
-          'When a corporate prospect requires urgent discussion or custom contract terms, a priority alert is sent straight to the partner’s phone.',
-        metricOrTag: 'Fast-Track Handover',
+          'Animations are limited to lightweight properties, honor reduced-motion preferences, and adapt to device capability.',
+        metricOrTag: 'Design target: calm, measured motion',
         highlightType: 'security',
       },
     ],
-    liveStatusLabel: 'Internal System / Client NDA',
-    serviceSlug: 'ai-agent',
+    liveUrl: 'https://chestaa.com/id',
+    liveStatusLabel: 'Internal project (Live on chestaa.com)',
+    relatedCaseSlug: 'chestaa-v2',
+    caseStudySlug: 'chestaa-v2',
     featured: false,
     draft: false,
-    updatedAt: '2025-03-01',
+    updatedAt: '2026-03-20',
     seo: {
-      title: 'B2B Lead Qualification & CRM AI Agent Portfolio | CHESTAADOTCOM',
+      title: 'Rebuilding chestaa.com — Internal Project | CHESTAADOTCOM',
       description:
-        'Visual showcase of a WhatsApp AI assistant for B2B lead qualification, automated CRM logging, and meeting scheduling for professional service firms.',
+        'CHESTAADOTCOM internal project: rebuilding chestaa.com as a fast, static bilingual website focused on custom software and AI agents.',
+    },
+  },
+
+  // 6. pemroses-dokumen
+  {
+    slug: 'pemroses-dokumen',
+    title: 'AI Document Processor',
+    oneLiner:
+      'Extracts data from documents into tables, with human review before the data is used.',
+    category: 'ai-agent',
+    categoryLabel: 'AI Agent & Custom Software',
+    services: ['ai-agent', 'software-custom'],
+    serviceSlug: 'ai-agent',
+    industry: 'Professional services',
+    client: 'CHESTAADOTCOM internal project',
+    year: '2026',
+    yearNumeric: 2026,
+    internal: true,
+    internalBadgeLabel: 'Internal project',
+    role: 'Design, development, and testing',
+    duration: 'Internal build',
+    stack: ['AI Document Extraction', 'Human Review Table', 'Role Access', 'Audit Log'],
+    cover: 'projectPemrosesDokumen',
+    coverKey: 'projectPemrosesDokumen',
+    alt: 'Illustration of internal project AI Document Processor extracting document data into tables with human review',
+    deviceFrame: 'browser',
+    gallery: [
+      {
+        imageKey: 'projectPemrosesDokumen',
+        label: 'Illustration',
+        caption:
+          'Illustration: document upload, field extraction into structured rows, and side-by-side human review screen.',
+        layout: 'full',
+      },
+      {
+        imageKey: 'portfolioGalleryAnalytics',
+        label: 'Illustration',
+        caption:
+          'Illustration: review queue highlighting fields that require staff confirmation before export.',
+        layout: 'half',
+      },
+      {
+        imageKey: 'portfolioGalleryArchitecture',
+        label: 'Illustration',
+        caption:
+          'Illustration: pipeline separating AI extraction from final database commit until approved by a human.',
+        layout: 'half',
+      },
+    ],
+    summaryParagraphs: [
+      'AI Document Processor is a CHESTAADOTCOM internal project combining an AI extraction pipeline with a custom web review table for professional service teams that process incoming invoices, forms, or supporting documents.',
+      'Instead of writing extracted fields straight into production records, the system places extracted values into a staging table where a staff member reviews, edits if needed, and approves the row before the data is used.',
+    ],
+    features: [
+      {
+        title: 'Structured Field Extraction to Tables',
+        description:
+          'Reads uploaded documents and maps key fields (names, dates, line items, totals) into structured table rows.',
+        metricOrTag: 'Design target: structured table output',
+        highlightType: 'architecture',
+      },
+      {
+        title: 'Mandatory Human Review Before Use',
+        description:
+          'Staff inspect extracted rows side-by-side with the source document and approve before data enters the main system.',
+        metricOrTag: 'Design target: human approval gate',
+        highlightType: 'security',
+      },
+      {
+        title: 'Uncertain Field Highlighting',
+        description:
+          'Flags low-clarity fields so reviewers can focus immediately on items that need verification.',
+        metricOrTag: 'Design target: uncertain field markers',
+        highlightType: 'workflow',
+      },
+      {
+        title: 'Revision & Approval Log',
+        description:
+          'Records who reviewed, edited, and approved each document row for clear internal accountability.',
+        metricOrTag: 'Design target: full approval trace',
+        highlightType: 'interface',
+      },
+    ],
+    liveStatusLabel: 'Internal project (Design target)',
+    relatedCaseSlug: 'pemroses-dokumen',
+    caseStudySlug: 'pemroses-dokumen',
+    featured: true,
+    draft: false,
+    updatedAt: '2026-03-24',
+    seo: {
+      title: 'AI Document Processor — Internal Project | CHESTAADOTCOM',
+      description:
+        'CHESTAADOTCOM internal project: AI document processor and custom web interface that extracts document data into tables with human review.',
     },
   },
 ];
+
+export const PORTFOLIO_PROJECTS_EN: PortfolioProject[] =
+  RAW_PORTFOLIO_PROJECTS_EN.map((raw) => ({
+    ...raw,
+    relatedCaseSlug: raw.relatedCaseSlug || raw.caseStudySlug,
+    caseStudySlug: raw.caseStudySlug || raw.relatedCaseSlug,
+    targetNote:
+      raw.features[0]?.metricOrTag || `Design target: ${raw.oneLiner}`,
+    outcomesLabel: 'Design target',
+    outcomes: raw.features.map((f) => `${f.title}: ${f.description}`),
+    problem: raw.summaryParagraphs[0],
+    solution: raw.summaryParagraphs[1],
+    howItWorks: raw.features.map((f) => `${f.title} — ${f.description}`),
+  }));

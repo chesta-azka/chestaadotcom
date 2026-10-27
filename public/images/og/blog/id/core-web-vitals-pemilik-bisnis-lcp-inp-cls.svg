@@ -1,0 +1,72 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630" fill="none" role="img" aria-label="Tiga cincin pengukur metrik Core Web Vitals meliputi Largest Contentful Paint, Interaction to Next Paint, dan stabilitas">
+  <defs>
+    <pattern id="ogGrid64" width="64" height="64" patternUnits="userSpaceOnUse">
+      <path d="M 64 0 L 0 0 0 64" fill="none" stroke="#17122B" stroke-width="1" stroke-opacity="0.04" />
+    </pattern>
+    <radialGradient id="ogGlow" cx="920" cy="315" r="460" gradientUnits="userSpaceOnUse">
+      <stop offset="0%" stop-color="#B9A2F2" stop-opacity="0.38" />
+      <stop offset="100%" stop-color="#F8F6FE" stop-opacity="0" />
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="630" fill="#F8F6FE" />
+  <rect width="1200" height="630" fill="url(#ogGlow)" />
+  <rect width="1200" height="630" fill="url(#ogGrid64)" />
+  <rect x="24" y="24" width="1152" height="582" rx="28" fill="#FFFFFF" fill-opacity="0.65" stroke="#C5B8EC" stroke-width="1" />
+
+  <!-- Left Editorial Column -->
+  <g transform="translate(64, 76)">
+    <rect width="262" height="34" rx="17" fill="#EFEAFB" stroke="#C5B8EC" stroke-width="1" />
+    <text x="131" y="22" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="12" font-weight="600" letter-spacing="0.08em" fill="#6A3FD0">PERFORMA WEB &amp; KONVERSI</text>
+
+    <text x="0" y="112" font-family="system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif" font-size="38" font-weight="700" fill="#17122B">
+      <tspan x="0" dy="0">Core Web Vitals untuk</tspan><tspan x="0" dy="48">Pemilik Bisnis: Arti LCP,…</tspan>
+    </text>
+
+    <!-- Labels Row -->
+    <g transform="translate(0, 250)">
+      <g transform="translate(0, 0)">
+            <rect width="120" height="28" rx="6" fill="#17122B" stroke="#C5B8EC" stroke-width="1" />
+            <text x="60" y="18" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="11" font-weight="600" fill="#FFFFFF">LCP</text>
+          </g><g transform="translate(132, 0)">
+            <rect width="120" height="28" rx="6" fill="#F8F6FE" stroke="#C5B8EC" stroke-width="1" />
+            <text x="60" y="18" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="11" font-weight="600" fill="#17122B">INP</text>
+          </g><g transform="translate(264, 0)">
+            <rect width="120" height="28" rx="6" fill="#F8F6FE" stroke="#C5B8EC" stroke-width="1" />
+            <text x="60" y="18" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="11" font-weight="600" fill="#17122B">CLS</text>
+          </g>
+    </g>
+
+    <!-- Brand Footer -->
+    <g transform="translate(0, 425)">
+      <rect width="38" height="38" rx="10" fill="#6A3FD0" />
+      <text x="19" y="25" text-anchor="middle" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="14" font-weight="700" fill="#FFFFFF">C</text>
+      <text x="52" y="18" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="13" font-weight="700" letter-spacing="0.08em" fill="#17122B">CHESTAADOTCOM</text>
+      <text x="52" y="34" font-family="ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace" font-size="11" fill="#5B5675">chestaa.com · BSD &amp; Tangerang Selatan</text>
+    </g>
+  </g>
+
+  <!-- Right Miniature Hero Scene -->
+  <g transform="translate(650, 95) scale(0.45)">
+    <g>
+        <rect x="270" y="185" width="1060" height="530" rx="24" fill="#FFFFFF" stroke="#C5B8EC" stroke-width="1" />
+        <!-- Card 1: LCP -->
+        <rect x="310" y="250" width="300" height="430" rx="18" fill="#17122B" />
+        <circle cx="460" cy="405" r="96" fill="none" stroke="#2B1763" stroke-width="18" />
+        <path d="M 380 455 A 96 96 0 1 1 545 365" fill="none" stroke="#9E7BF0" stroke-width="18" stroke-linecap="round" />
+        <circle cx="460" cy="405" r="36" fill="#FFFFFF" />
+        <rect x="355" y="555" width="210" height="32" rx="8" fill="#6A3FD0" />
+        <!-- Card 2: INP -->
+        <rect x="650" y="210" width="300" height="430" rx="18" fill="#F8F6FE" stroke="#C5B8EC" stroke-width="1" />
+        <circle cx="800" cy="365" r="96" fill="none" stroke="#DED8F2" stroke-width="18" />
+        <path d="M 715 405 A 96 96 0 1 1 885 335" fill="none" stroke="#6A3FD0" stroke-width="18" stroke-linecap="round" />
+        <circle cx="800" cy="365" r="38" fill="#17122B" />
+        <rect x="695" y="515" width="210" height="32" rx="8" fill="#17122B" />
+        <!-- Card 3: CLS -->
+        <rect x="990" y="250" width="300" height="430" rx="18" fill="#2B1763" />
+        <circle cx="1140" cy="405" r="96" fill="none" stroke="#5230B0" stroke-width="18" />
+        <path d="M 1055 435 A 96 96 0 1 1 1225 385" fill="none" stroke="#FFFFFF" stroke-width="18" stroke-linecap="round" />
+        <circle cx="1140" cy="405" r="36" fill="#9E7BF0" />
+        <rect x="1035" y="555" width="210" height="32" rx="8" fill="#EFEAFB" />
+      </g>
+  </g>
+</svg>

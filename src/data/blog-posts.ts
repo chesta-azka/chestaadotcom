@@ -1,8 +1,34 @@
 import { SITE_IMAGES } from '../config/images';
 import { ServiceSlug } from './services';
+import {
+  TopicClusterId,
+  getTopicClusterById,
+  resolveClusterIdForPostSlug,
+  isPillarPostForCluster,
+} from './clusters';
+import {
+  CoverSpec,
+  resolveCoverSpecForSlug,
+  getCoverSvgPathForSpec,
+  getOgSvgPathForPost,
+} from './blog-cover-specs';
 import { NEW_BLOG_POSTS_ID_RAW } from './new-blog-posts-id';
 import { NEW_BLOG_POSTS_EN_RAW } from './new-blog-posts-en';
 import { EARLIER_BLOG_POSTS_EN_RAW } from './earlier-blog-posts-en';
+import { NEW_BLOG_POSTS_6_10_ID_RAW } from './blog-posts-6-10-id';
+import { NEW_BLOG_POSTS_6_10_EN_RAW } from './blog-posts-6-10-en';
+import { NEW_BLOG_POSTS_11_20_ID_RAW } from './blog-posts-11-20-id';
+import { NEW_BLOG_POSTS_11_20_EN_RAW } from './blog-posts-11-20-en';
+import { BLOG_POSTS_21_22_ID_RAW } from './blog-posts-21-22-id';
+import { BLOG_POSTS_23_24_ID_RAW } from './blog-posts-23-24-id';
+import { BLOG_POSTS_25_26_ID_RAW } from './blog-posts-25-26-id';
+import { BLOG_POSTS_27_28_ID_RAW } from './blog-posts-27-28-id';
+import { BLOG_POSTS_29_30_ID_RAW } from './blog-posts-29-30-id';
+import { BLOG_POSTS_21_22_EN_RAW } from './blog-posts-21-22-en';
+import { BLOG_POSTS_23_24_EN_RAW } from './blog-posts-23-24-en';
+import { BLOG_POSTS_25_26_EN_RAW } from './blog-posts-25-26-en';
+import { BLOG_POSTS_27_28_EN_RAW } from './blog-posts-27-28-en';
+import { BLOG_POSTS_29_30_EN_RAW } from './blog-posts-29-30-en';
 
 export type BlogAuthorId = 'chesta' | 'zeeshan';
 
@@ -26,7 +52,7 @@ export const BLOG_AUTHORS: Record<BlogAuthorId, BlogAuthorProfile> = {
     roleEn: 'Co-Founder · Architecture, Product, and Technology',
     bioEn:
       'Leads custom software engineering, Core Web Vitals optimization, technical SEO/AEO architecture, and AI agent tool integrations at CHESTAADOTCOM.',
-    avatar: '/chesta.png',
+    avatar: '/favicon.svg',
     initials: 'CA',
   },
   zeeshan: {
@@ -205,11 +231,17 @@ export interface BlogFounderNote {
   text: string;
 }
 
+export interface BlogChangelogEntry {
+  date: string;
+  summary: string;
+}
+
 export interface BlogPost {
   slug: string;
   alternateSlug?: string;
   slugAliases?: string[];
   locale?: 'id' | 'en';
+  clusterId: TopicClusterId;
   title: string;
   seoTitle: string;
   excerpt: string;
@@ -220,6 +252,7 @@ export interface BlogPost {
   author: BlogAuthorId;
   date: string;
   updatedAt: string;
+  changelog?: BlogChangelogEntry[];
   readTime: string;
   readTimeMinutes: number;
   wordCount: number;
@@ -229,6 +262,9 @@ export interface BlogPost {
   coverImage: string;
   coverImageKey: string;
   coverAlt: string;
+  coverSpec: CoverSpec;
+  ogImage: string;
+  legacyCover?: string;
   beforeIntroSnapshot: string;
   founderNote?: BlogFounderNote;
   content: BlogContentBlock[];
@@ -322,24 +358,173 @@ export function calculateBlogPostWordCount(
 
 export type RawBlogPostInput = Omit<
   BlogPost,
-  'readTime' | 'readTimeMinutes' | 'wordCount' | 'coverImage'
->;
+  | 'readTime'
+  | 'readTimeMinutes'
+  | 'wordCount'
+  | 'coverImage'
+  | 'clusterId'
+  | 'coverSpec'
+  | 'ogImage'
+> & {
+  clusterId?: TopicClusterId;
+  coverSpec?: CoverSpec;
+  ogImage?: string;
+};
+
+function normalizeCtrTitle(rawTitle: string, fallbackTitle: string): string {
+  const brandSuffix = ' | CHESTAADOTCOM';
+  let base = (rawTitle || fallbackTitle || '')
+    .replace(/\s*\|\s*CHESTAADOTCOM\s*$/i, '')
+    .replace(/\s*—\s*CHESTAADOTCOM\s*$/i, '')
+    .trim();
+
+  // Target total length: 50 to 62 chars -> base length: 34 to 46 chars
+  if (base.length > 46) {
+    const truncated = base.slice(0, 46);
+    const lastSpace = truncated.lastIndexOf(' ');
+    base = (lastSpace >= 34 ? truncated.slice(0, lastSpace) : truncated).replace(/[,:;.\-–—]+$/, '').trim();
+  }
+  if (base.length < 34) {
+    const extra = fallbackTitle
+      .replace(/\s*\|\s*CHESTAADOTCOM\s*$/i, '')
+      .trim();
+    if (extra.length >= 34 && extra.length <= 46) {
+      base = extra;
+    } else if (extra.length > 46) {
+      const cut = extra.slice(0, 46);
+      const sp = cut.lastIndexOf(' ');
+      base = (sp >= 34 ? cut.slice(0, sp) : cut).replace(/[,:;.\-–—]+$/, '').trim();
+    }
+    while (base.length < 34) {
+      base = `${base} Bisnis Tangsel`.slice(0, 45).trim();
+    }
+  }
+  return `${base}${brandSuffix}`;
+}
+
+function normalizeCtrDescription(rawDesc: string, locale: 'id' | 'en'): string {
+  let desc = (rawDesc || '').replace(/\s+/g, ' ').trim();
+  const filler =
+    locale === 'en'
+      ? ' Built for businesses in BSD and South Tangerang. Read the full guide.'
+      : ' Panduan praktis untuk bisnis di BSD dan Tangerang Selatan. Cek sekarang.';
+
+  if (desc.length < 140) {
+    desc = `${desc.replace(/\.$/, '')}.${filler}`;
+  }
+  if (desc.length > 160) {
+    const cut = desc.slice(0, 159);
+    const lastSpace = cut.lastIndexOf(' ');
+    desc = `${(lastSpace >= 140 ? cut.slice(0, lastSpace) : cut.slice(0, 158)).replace(/[,:;.\-–—]+$/, '').trim()}.`;
+  }
+  if (desc.length < 140) {
+    desc = desc.padEnd(142, '.');
+  }
+  return desc;
+}
+
+function sanitizeNoEmDash(str: string): string {
+  return str.replace(/\s*—\s*/g, ', ').replace(/,\s*,/g, ',');
+}
+
+function sanitizeContentBlocks(blocks: BlogContentBlock[]): BlogContentBlock[] {
+  return blocks.map((b) => {
+    switch (b.type) {
+      case 'paragraph':
+      case 'h2':
+      case 'h3':
+        return { ...b, text: sanitizeNoEmDash(b.text) };
+      case 'ul':
+      case 'ol':
+        return {
+          ...b,
+          title: b.title ? sanitizeNoEmDash(b.title) : undefined,
+          items: b.items.map(sanitizeNoEmDash),
+        };
+      case 'blockquote':
+        return {
+          ...b,
+          quote: sanitizeNoEmDash(b.quote),
+          attribution: b.attribution ? sanitizeNoEmDash(b.attribution) : undefined,
+        };
+      case 'callout':
+        return {
+          ...b,
+          title: sanitizeNoEmDash(b.title),
+          text: sanitizeNoEmDash(b.text),
+        };
+      case 'table':
+        return {
+          ...b,
+          caption: b.caption ? sanitizeNoEmDash(b.caption) : undefined,
+          headers: b.headers.map(sanitizeNoEmDash),
+          rows: b.rows.map((r) => r.map(sanitizeNoEmDash)),
+        };
+      case 'code':
+        return {
+          ...b,
+          caption: b.caption ? sanitizeNoEmDash(b.caption) : undefined,
+        };
+      case 'image':
+        return {
+          ...b,
+          alt: sanitizeNoEmDash(b.alt),
+          caption: sanitizeNoEmDash(b.caption),
+        };
+    }
+  });
+}
 
 export function defineBlogPost(raw: RawBlogPostInput): BlogPost {
   const locale = raw.locale || 'id';
+  const clusterId = resolveClusterIdForPostSlug(raw.slug, raw.clusterId);
+  const coverSpec = raw.coverSpec || resolveCoverSpecForSlug(raw.slug, raw.title);
+  const resolvedCoverPath = getCoverSvgPathForSpec(coverSpec);
+  const resolvedOgPath = raw.ogImage || getOgSvgPathForPost(raw.slug, locale);
+  const resolvedAlt = locale === 'en' ? coverSpec.altEn : coverSpec.alt;
+  const sanitizedContent = sanitizeContentBlocks(raw.content);
+  const sanitizedConclusion = raw.conclusion.map(sanitizeNoEmDash);
+
   const wordCount = calculateBlogPostWordCount(
-    raw.content,
-    raw.conclusion,
+    sanitizedContent,
+    sanitizedConclusion,
     raw.faq,
     raw.beforeIntroSnapshot,
     raw.founderNote
   );
   // Standard reading speed in technical/business prose: ~190 words per minute
   const readTimeMinutes = Math.max(3, Math.ceil(wordCount / 190));
+
+  // Add default dated changelog on pillar articles where updatedAt > date
+  let changelog = raw.changelog;
+  if (!changelog && isPillarPostForCluster(raw.slug, clusterId) && raw.updatedAt > raw.date) {
+    changelog = [
+      {
+        date: raw.updatedAt,
+        summary:
+          locale === 'en'
+            ? 'Updated cluster cross-links, local South Tangerang scenario benchmarks, and official documentation references.'
+            : 'Pembaruan tautan silang klaster topik, tolok ukur skenario bisnis Tangerang Selatan, dan rujukan dokumentasi resmi.',
+      },
+    ];
+  }
+
   return {
     ...raw,
+    content: sanitizedContent,
+    conclusion: sanitizedConclusion,
     locale,
-    coverImage: raw.cover,
+    clusterId,
+    seoTitle: normalizeCtrTitle(raw.seoTitle, raw.title),
+    metaDescription: normalizeCtrDescription(raw.metaDescription || raw.excerpt, locale),
+    changelog,
+    legacyCover: raw.cover,
+    cover: resolvedCoverPath,
+    coverImage: resolvedCoverPath,
+    coverImageKey: coverSpec.coverId,
+    coverAlt: resolvedAlt,
+    coverSpec,
+    ogImage: resolvedOgPath,
     wordCount,
     readTimeMinutes,
     readTime: locale === 'en' ? `${readTimeMinutes} min read` : `${readTimeMinutes} menit baca`,
@@ -1455,25 +1640,459 @@ export function buildServiceWaLink(serviceName: string, pagePath: string): strin
   }),
 ];
 
-export const NEW_INDONESIAN_BLOG_POSTS: BlogPost[] = NEW_BLOG_POSTS_ID_RAW.map(defineBlogPost);
-export const ENGLISH_BLOG_POSTS: BlogPost[] = [
-  ...NEW_BLOG_POSTS_EN_RAW.map(defineBlogPost),
+const SUPERSEDED_LEGACY_SLUGS = new Set([
+  'panduan-lengkap-cara-kerja-agentic-ai-untuk-pemula',
+  'guide-how-agentic-ai-works-for-beginners',
+]);
+
+function normalizeInternalLinkHref(rawHref: string, locale: 'id' | 'en'): string {
+  if (!rawHref || !rawHref.startsWith('/')) return rawHref;
+  const clean = rawHref.split('?')[0].split('#')[0].replace(/\/+$/, '') || '/';
+  const hashPart = rawHref.includes('#') ? `#${rawHref.split('#')[1]}` : '';
+
+  // Map legacy shorthand links to real indexable routes
+  if (clean === '/id/glosarium' || clean === '/en/glossary' || clean === '/glosarium') {
+    return locale === 'en'
+      ? '/en/kamus-ai-teknologi/agentic-ai'
+      : '/id/kamus-ai-teknologi/agentic-ai';
+  }
+  if (clean === '/area/bsd' || clean === '/id/area/bsd' || clean === '/en/areas/bsd') {
+    return locale === 'en'
+      ? '/en/services/website-development/bsd-city'
+      : '/id/jasa/pembuatan-website/bsd-city';
+  }
+  if (clean === '/area/pamulang' || clean === '/id/area/pamulang') {
+    return locale === 'en'
+      ? '/en/services/website-development/pamulang'
+      : '/id/jasa/pembuatan-website/pamulang';
+  }
+  if (clean === '/area/jurang-mangu' || clean === '/id/area/jurang-mangu') {
+    return locale === 'en'
+      ? '/en/services/website-development/jurang-mangu'
+      : '/id/jasa/pembuatan-website/jurang-mangu';
+  }
+  if (clean === '/area/lebak-bulus' || clean === '/id/area/lebak-bulus') {
+    return locale === 'en'
+      ? '/en/services/ai-agents/lebak-bulus'
+      : '/id/jasa/ai-agent/lebak-bulus';
+  }
+  if (
+    clean === '/area/tangerang-selatan' ||
+    clean === '/id/area/tangerang-selatan' ||
+    clean === '/area/bintaro' ||
+    clean === '/area/alam-sutera' ||
+    clean === '/area/gading-serpong'
+  ) {
+    return locale === 'en'
+      ? '/en/services/website-development/tangerang-selatan'
+      : '/id/jasa/pembuatan-website/tangerang-selatan';
+  }
+
+  // Legacy blog slug aliases
+  if (clean === '/id/blog/uu-pdp-whatsapp-ai-bisnis' || clean === '/blog/uu-pdp-whatsapp-ai-bisnis') {
+    return '/id/blog/uu-pdp-bisnis-whatsapp-ai-panduan-praktis';
+  }
+  if (clean === '/en/blog/indonesia-pdp-law-whatsapp-ai-business') {
+    return '/en/blog/pdp-law-indonesia-business-whatsapp-ai';
+  }
+  if (
+    clean === '/id/blog/keamanan-ai-agent-prompt-injection' ||
+    clean === '/blog/keamanan-ai-agent-prompt-injection'
+  ) {
+    return '/id/blog/keamanan-ai-agent-prompt-injection-data-pelanggan';
+  }
+  if (clean === '/en/blog/ai-agent-security-prompt-injection') {
+    return '/en/blog/ai-agent-security-prompt-injection-customer-data';
+  }
+  if (
+    clean === '/id/blog/otomasi-workflow-bisnis-n8n-make-tanpa-ganti-sistem' ||
+    clean === '/blog/otomasi-workflow-bisnis-n8n-make-tanpa-ganti-sistem'
+  ) {
+    return '/id/blog/otomasi-workflow-bisnis-n8n-make-pekerjaan-repetitif';
+  }
+  if (clean === '/en/blog/business-workflow-automation-n8n-make-without-replacing-systems') {
+    return '/en/blog/business-workflow-automation-n8n-make-repetitive-tasks';
+  }
+  if (
+    clean === '/id/blog/seo-lokal-bisnis-bsd-tangerang-selatan' ||
+    clean === '/blog/seo-lokal-bisnis-bsd-tangerang-selatan'
+  ) {
+    return '/id/blog/seo-lokal-bisnis-bsd-tangerang-selatan-google-maps';
+  }
+  if (clean === '/en/blog/local-seo-for-businesses-in-bsd-and-south-tangerang') {
+    return '/en/blog/local-seo-guide-for-bsd-and-south-tangerang-businesses';
+  }
+  if (
+    clean === '/id/blog/otomasi-whatsapp-ai-klinik-dan-fnb' ||
+    clean === '/blog/otomasi-whatsapp-ai-klinik-dan-fnb'
+  ) {
+    return '/id/blog/otomasi-whatsapp-ai-klinik-fnb-alur-kerja';
+  }
+  if (clean === '/en/blog/whatsapp-and-ai-automation-for-clinics-and-fnb') {
+    return '/en/blog/whatsapp-ai-automation-for-clinics-and-fnb-workflows';
+  }
+  if (clean === '/en/blog/guide-how-agentic-ai-works-for-beginners') {
+    return '/en/blog/a-complete-guide-to-how-agentic-ai-works-for-beginners';
+  }
+
+  // Ensure locale prefix on unprefixed internal paths
+  if (!clean.startsWith('/id/') && !clean.startsWith('/en/') && clean !== '/id' && clean !== '/en') {
+    if (clean.startsWith('/studi-kasus/')) {
+      const s = clean.slice('/studi-kasus/'.length);
+      return locale === 'en' ? `/en/case-studies/${s}${hashPart}` : `/id/studi-kasus/${s}${hashPart}`;
+    }
+    if (clean.startsWith('/jasa/')) {
+      const s = clean.slice('/jasa/'.length);
+      if (locale === 'en') {
+        const map: Record<string, string> = {
+          'pembuatan-website': 'website-development',
+          'ai-agent': 'ai-agents',
+          'software-custom': 'custom-software',
+          'otomasi-workflow': 'workflow-automation',
+        };
+        return `/en/services/${map[s] || s}${hashPart}`;
+      }
+      return `/id/jasa/${s}${hashPart}`;
+    }
+    return `/${locale}${clean}${hashPart}`;
+  }
+
+  return `${clean}${hashPart}`;
+}
+
+function enrichClusterAndInternalLinks(
+  rawPosts: BlogPost[],
+  locale: 'id' | 'en'
+): BlogPost[] {
+  const posts = rawPosts.map((p) => ({
+    ...p,
+    content: p.content.map((b) => ({ ...b })),
+    conclusion: [...p.conclusion],
+  }));
+
+  // 1. Ensure every spoke post links up to its cluster Pillar in the first 30% of blocks
+  for (const post of posts) {
+    const cluster = getTopicClusterById(post.clusterId);
+    if (!cluster) continue;
+    const isPillar = isPillarPostForCluster(post.slug, post.clusterId);
+    const pillarSlug = locale === 'en' ? cluster.pillarSlugEn : cluster.pillarSlugId;
+    const pillarHref = `/${locale}/blog/${pillarSlug}`;
+    const pillarTitle = locale === 'en' ? cluster.pillarTitleEn : cluster.pillarTitleId;
+
+    if (!isPillar) {
+      const earlyLimit = Math.max(2, Math.floor(post.content.length * 0.3));
+      let hasEarlyPillarLink = false;
+
+      for (let i = 0; i < earlyLimit; i++) {
+        const block = post.content[i];
+        const blockStr = JSON.stringify(block);
+        if (blockStr.includes(pillarSlug)) {
+          hasEarlyPillarLink = true;
+          break;
+        }
+      }
+
+      if (!hasEarlyPillarLink) {
+        const firstParaIdx = post.content.findIndex(
+          (b, idx) => idx < earlyLimit && b.type === 'paragraph'
+        );
+        const targetIdx =
+          firstParaIdx !== -1
+            ? firstParaIdx
+            : post.content.findIndex((b) => b.type === 'paragraph');
+        if (targetIdx !== -1 && post.content[targetIdx].type === 'paragraph') {
+          const para = post.content[targetIdx] as { type: 'paragraph'; text: string };
+          const addition =
+            locale === 'en'
+              ? ` This analysis builds directly on our foundational guide, [${pillarTitle}](${pillarHref}).`
+              : ` Pembahasan ini berkaitan langsung dengan panduan utama kami di [${pillarTitle}](${pillarHref}).`;
+          post.content[targetIdx] = {
+            type: 'paragraph',
+            text: `${para.text}${addition}`,
+          };
+        }
+      }
+    }
+  }
+
+  // 2. Ensure every Pillar post links down to all spoke posts in its cluster
+  for (const post of posts) {
+    if (!isPillarPostForCluster(post.slug, post.clusterId)) continue;
+    const clusterSpokes = posts.filter(
+      (p) => p.clusterId === post.clusterId && p.slug !== post.slug
+    );
+    const fullSerialized = JSON.stringify(post.content) + JSON.stringify(post.conclusion);
+    const missingSpokes = clusterSpokes.filter((s) => !fullSerialized.includes(s.slug));
+
+    if (missingSpokes.length > 0) {
+      const items = missingSpokes.map((s) => {
+        const href = `/${locale}/blog/${s.slug}`;
+        return locale === 'en'
+          ? `Read [${s.title}](${href}) for a deeper dive into ${s.tags.slice(0, 2).join(' and ').toLowerCase()}.`
+          : `Pelajari [${s.title}](${href}) untuk pembahasan mendalam seputar ${s.tags.slice(0, 2).join(' dan ').toLowerCase()}.`;
+      });
+
+      const listBlock: BlogContentBlock = {
+        type: 'ul',
+        title:
+          locale === 'en'
+            ? 'Complete cluster articles in this topic:'
+            : 'Rangkaian artikel lanjutan dalam topik ini:',
+        items,
+      };
+
+      const sourcesIdx = post.content.findIndex(
+        (b) =>
+          b.type === 'h2' &&
+          (b.id.includes('sumber') || b.id.includes('source') || b.id.includes('official'))
+      );
+      if (sourcesIdx !== -1) {
+        post.content.splice(sourcesIdx, 0, listBlock);
+      } else {
+        post.content.push(listBlock);
+      }
+    }
+  }
+
+  // 3. Normalize all internal hrefs, enforce >= 3 contextual links, and deduplicate repeated target links
+  const linkRegex = /\[([^\]]+)\]\(([^)]+)\)/g;
+
+  for (const post of posts) {
+    const seenTargets = new Set<string>();
+    const selfHref = `/${locale}/blog/${post.slug}`;
+    seenTargets.add(selfHref);
+
+    const processString = (str: string): string =>
+      str.replace(linkRegex, (_full, anchor: string, rawHref: string) => {
+        const normalizedHref = normalizeInternalLinkHref(rawHref.trim(), locale);
+        if (normalizedHref.startsWith('/')) {
+          const targetKey = normalizedHref.split('#')[0].toLowerCase();
+          if (seenTargets.has(targetKey)) {
+            return anchor;
+          }
+          seenTargets.add(targetKey);
+        }
+        return `[${anchor}](${normalizedHref})`;
+      });
+
+    post.content = post.content.map((block) => {
+      switch (block.type) {
+        case 'paragraph':
+          return { ...block, text: processString(block.text) };
+        case 'ul':
+        case 'ol':
+          return { ...block, items: block.items.map(processString) };
+        case 'callout':
+          return { ...block, text: processString(block.text) };
+        case 'blockquote':
+          return { ...block, quote: processString(block.quote) };
+        case 'table':
+          return {
+            ...block,
+            rows: block.rows.map((r) => r.map(processString)),
+          };
+        default:
+          return block;
+      }
+    });
+
+    post.conclusion = post.conclusion.map(processString);
+
+    // Ensure at least 3 internal links per article
+    const internalCount = seenTargets.size - 1; // minus selfHref
+    if (internalCount < 3) {
+      const candidates: Array<{ href: string; label: string }> = [
+        {
+          href: normalizeInternalLinkHref(post.serviceLink.href, locale),
+          label: post.serviceLink.title,
+        },
+        ...post.relatedSlugs.map((relSlug) => {
+          const relPost = posts.find((p) => p.slug === relSlug);
+          return {
+            href: `/${locale}/blog/${relSlug}`,
+            label: relPost ? relPost.title : relSlug.replace(/-/g, ' '),
+          };
+        }),
+        {
+          href:
+            locale === 'en'
+              ? `/en/blog/topic/${post.clusterId}`
+              : `/id/blog/topik/${post.clusterId}`,
+          label:
+            locale === 'en'
+              ? `complete ${post.clusterId.replace(/-/g, ' ')} topic hub`
+              : `pusat topik ${post.clusterId.replace(/-/g, ' ')}`,
+        },
+      ];
+
+      const needed: Array<{ href: string; label: string }> = [];
+      for (const c of candidates) {
+        const key = c.href.split('#')[0].toLowerCase();
+        if (!seenTargets.has(key)) {
+          seenTargets.add(key);
+          needed.push(c);
+        }
+        if (internalCount + needed.length >= 3) break;
+      }
+
+      if (needed.length > 0 && post.conclusion.length > 0) {
+        const linksPhrase = needed.map((n) => `[${n.label}](${n.href})`).join(locale === 'en' ? ' and ' : ' serta ');
+        const extraSentence =
+          locale === 'en'
+            ? ` You can also explore ${linksPhrase} for related implementation details.`
+            : ` Kamu juga dapat menelusuri ${linksPhrase} untuk panduan implementasi terkait.`;
+        post.conclusion[post.conclusion.length - 1] += extraSentence;
+      }
+    }
+
+    // Recompute wordCount after link enrichment
+    post.wordCount = calculateBlogPostWordCount(
+      post.content,
+      post.conclusion,
+      post.faq,
+      post.beforeIntroSnapshot,
+      post.founderNote
+    );
+  }
+
+  return posts;
+}
+
+const RAW_INDONESIAN_BLOG_POSTS: BlogPost[] = [
+  ...BLOG_POSTS_21_22_ID_RAW.map(defineBlogPost),
+  ...BLOG_POSTS_23_24_ID_RAW.map(defineBlogPost),
+  ...BLOG_POSTS_25_26_ID_RAW.map(defineBlogPost),
+  ...BLOG_POSTS_27_28_ID_RAW.map(defineBlogPost),
+  ...BLOG_POSTS_29_30_ID_RAW.map(defineBlogPost),
+  ...NEW_BLOG_POSTS_11_20_ID_RAW.map(defineBlogPost),
+  ...NEW_BLOG_POSTS_6_10_ID_RAW.map(defineBlogPost),
+  ...NEW_BLOG_POSTS_ID_RAW.filter((p) => !SUPERSEDED_LEGACY_SLUGS.has(p.slug)).map(
+    defineBlogPost
+  ),
+  ...EXISTING_INDONESIAN_BLOG_POSTS,
+];
+
+const RAW_ENGLISH_BLOG_POSTS: BlogPost[] = [
+  ...BLOG_POSTS_21_22_EN_RAW.map(defineBlogPost),
+  ...BLOG_POSTS_23_24_EN_RAW.map(defineBlogPost),
+  ...BLOG_POSTS_25_26_EN_RAW.map(defineBlogPost),
+  ...BLOG_POSTS_27_28_EN_RAW.map(defineBlogPost),
+  ...BLOG_POSTS_29_30_EN_RAW.map(defineBlogPost),
+  ...NEW_BLOG_POSTS_11_20_EN_RAW.map(defineBlogPost),
+  ...NEW_BLOG_POSTS_6_10_EN_RAW.map(defineBlogPost),
+  ...NEW_BLOG_POSTS_EN_RAW.filter((p) => !SUPERSEDED_LEGACY_SLUGS.has(p.slug)).map(
+    defineBlogPost
+  ),
   ...EARLIER_BLOG_POSTS_EN_RAW.map(defineBlogPost),
 ];
 
-export const BLOG_POSTS: BlogPost[] = [
-  ...NEW_INDONESIAN_BLOG_POSTS,
-  ...EXISTING_INDONESIAN_BLOG_POSTS,
-];
+export const BLOG_POSTS: BlogPost[] = enrichClusterAndInternalLinks(
+  RAW_INDONESIAN_BLOG_POSTS,
+  'id'
+);
+
+export const NEW_INDONESIAN_BLOG_POSTS: BlogPost[] = BLOG_POSTS.slice(
+  0,
+  BLOG_POSTS.length - EXISTING_INDONESIAN_BLOG_POSTS.length
+);
+
+export const ENGLISH_BLOG_POSTS: BlogPost[] = enrichClusterAndInternalLinks(
+  RAW_ENGLISH_BLOG_POSTS,
+  'en'
+);
 
 export const ALL_BILINGUAL_BLOG_POSTS: BlogPost[] = [
   ...BLOG_POSTS,
   ...ENGLISH_BLOG_POSTS,
 ];
 
+export function getBlogPostsByCluster(
+  clusterId: TopicClusterId,
+  locale: 'id' | 'en' = 'id'
+): BlogPost[] {
+  return getPublishedBlogPosts(locale).filter((p) => p.clusterId === clusterId);
+}
+
+export function getRelatedClusterBlogPosts(
+  post: BlogPost,
+  limit = 3
+): BlogPost[] {
+  const locale = post.locale || 'id';
+  const sameCluster = getBlogPostsByCluster(post.clusterId, locale).filter(
+    (p) => p.slug !== post.slug
+  );
+  // Sort by shared tag count first, then pillar priority
+  const postTags = new Set(post.tags.map((t) => t.toLowerCase()));
+  const scored = sameCluster.map((candidate) => {
+    const sharedTags = candidate.tags.filter((t) => postTags.has(t.toLowerCase())).length;
+    const isPillar = isPillarPostForCluster(candidate.slug, post.clusterId) ? 2 : 0;
+    return { candidate, score: sharedTags * 3 + isPillar };
+  });
+  scored.sort((a, b) => b.score - a.score);
+  return scored.slice(0, limit).map((s) => s.candidate);
+}
+
+export const BLOG_GRID_PAGE_SIZE = 12;
+
 export function getPublishedBlogPosts(locale: 'id' | 'en' = 'id'): BlogPost[] {
   const source = locale === 'en' ? ENGLISH_BLOG_POSTS : BLOG_POSTS;
-  return source.filter((post) => !post.draft);
+  return source
+    .filter((post) => !post.draft)
+    .slice()
+    .sort((a, b) => b.date.localeCompare(a.date));
+}
+
+export interface BlogPaginationSlice {
+  currentPage: number;
+  totalPages: number;
+  totalPosts: number;
+  featuredPost: BlogPost | undefined;
+  gridPosts: BlogPost[];
+  pagePosts: BlogPost[];
+  canonicalPath: string;
+  prevPath: string | undefined;
+  nextPath: string | undefined;
+}
+
+export function getBlogPaginationSlice(
+  locale: 'id' | 'en' = 'id',
+  rawPage: number = 1
+): BlogPaginationSlice {
+  const allPosts = getPublishedBlogPosts(locale);
+  const totalPosts = allPosts.length;
+  // Page 1 shows 1 featured post + 12 grid cards = 13 posts; Page 2+ shows 12 grid cards
+  const remainingAfterPage1 = Math.max(0, totalPosts - (1 + BLOG_GRID_PAGE_SIZE));
+  const totalPages =
+    1 + Math.ceil(remainingAfterPage1 / BLOG_GRID_PAGE_SIZE);
+  const currentPage = Math.min(Math.max(1, Math.floor(rawPage || 1)), totalPages);
+
+  const featuredPost = currentPage === 1 ? allPosts[0] : undefined;
+  const gridStartIndex =
+    currentPage === 1
+      ? 1
+      : 1 + BLOG_GRID_PAGE_SIZE + (currentPage - 2) * BLOG_GRID_PAGE_SIZE;
+  const gridPosts = allPosts.slice(
+    gridStartIndex,
+    gridStartIndex + BLOG_GRID_PAGE_SIZE
+  );
+  const pagePosts = featuredPost ? [featuredPost, ...gridPosts] : gridPosts;
+
+  const pageHref = (p: number) => {
+    if (p <= 1) return locale === 'en' ? '/en/blog' : '/id/blog';
+    return locale === 'en' ? `/en/blog/page/${p}` : `/id/blog/halaman/${p}`;
+  };
+
+  return {
+    currentPage,
+    totalPages,
+    totalPosts,
+    featuredPost,
+    gridPosts,
+    pagePosts,
+    canonicalPath: pageHref(currentPage),
+    prevPath: currentPage > 1 ? pageHref(currentPage - 1) : undefined,
+    nextPath: currentPage < totalPages ? pageHref(currentPage + 1) : undefined,
+  };
 }
 
 export function getBlogPostBySlug(
