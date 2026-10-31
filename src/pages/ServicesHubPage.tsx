@@ -253,7 +253,7 @@ export default function ServicesHubPage() {
             <h1>Apa yang bisa kami bangun untuk bisnismu</h1>
 
             <p className="text-[15px] md:text-[16px] text-[#5B5675] leading-[1.65]">
-              Mulai dari landing page cepat untuk menangkap prospek iklan, hingga AI agent dan dashboard internal yang mengambil alih kerja berulang timmu.
+              Mulai dari landing page cepat untuk menangkap prospek iklan, hingga AI agent dan dashboard operasional yang mengambil alih kerja berulang timmu.
             </p>
           </div>
         </Container>

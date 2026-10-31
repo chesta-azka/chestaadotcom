@@ -24,87 +24,127 @@ import { LocaleCode, parseLocalizedPath } from './i18n';
 
 export const ENGLISH_ROUTES_SEO: Record<string, { title: string; description: string }> = {
   '/': {
-    title: 'Website, AI Agent, and Custom Software in Tangsel | CHESTAADOTCOM',
+    title: 'Websites, AI Agents & Software in Tangsel | CHESTAADOTCOM',
     description:
-      'Custom website development, WhatsApp AI agents, and custom software in BSD, South Tangerang & Jabodetabek. Fast performance, clear pricing from IDR 1,200,000.',
+      'Custom software development, WhatsApp AI agents, workflow automation, and websites in BSD, South Tangerang, and Greater Jakarta. Starting IDR 1,200,000.',
   },
   '/portfolio': {
-    title: 'Internal Projects & Software Demos | CHESTAADOTCOM',
+    title: 'Real & Sample Projects — Software & AI | CHESTAADOTCOM',
     description:
-      'Internal projects built by CHESTAADOTCOM: WhatsApp AI agents, cafe dashboards, property lead bots, and fast landing pages in BSD, South Tangerang.',
+      'Real projects (client kept confidential) and sample projects by CHESTAADOTCOM: beverage recording systems, boarding school systems, and WhatsApp AI agents.',
   },
   '/case-studies': {
-    title: 'Internal Project Case Studies & Architecture | CHESTAADOTCOM',
+    title: 'Sample Case Studies & System Architecture | CHESTAADOTCOM',
     description:
-      'Read the technical breakdown behind CHESTAADOTCOM internal projects: operational bottlenecks, system architecture, workflows, and design targets.',
+      'Sample case studies that show how CHESTAADOTCOM analyzes problems, makes decisions, and weighs trade-offs across WhatsApp AI agents, dashboards, and web.',
   },
   '/blog': {
-    title: 'Business & Software Engineering Notes | CHESTAADOTCOM',
+    title: 'Blog on AI Agents, Websites & Automation | CHESTAADOTCOM',
     description:
-      'Practical guides by Chesta Azka and Zeeshan on custom software, WhatsApp AI agents, workflow automation, and fast websites in South Tangerang.',
+      'Practical engineering notes on AI agents, fast websites, and workflow automation for businesses in South Tangerang and Greater Jakarta by our co-founders.',
   },
   '/about': {
-    title: 'About CHESTAADOTCOM — Web & AI Agent Studio in South Tangerang',
+    title: 'About CHESTAADOTCOM — Web & AI Studio in BSD South Tangerang',
     description:
-      'Meet Chesta Azka and Zeeshan, co-founders of CHESTAADOTCOM. A web engineering, AI agent, and workflow automation studio based in BSD, South Tangerang.',
+      'Meet Chesta Azka and Zeeshan, co-founders of CHESTAADOTCOM: a custom software engineering, WhatsApp AI agent, and web studio based in BSD, South Tangerang.',
   },
   '/audit-gratis': {
     title: 'Free 30-Minute Business Workflow & AI Audit | CHESTAADOTCOM',
     description:
-      'Tell us the repetitive work tiring your team. Get a workflow map, honest recommendation, and transparent cost estimate in a free 30-minute audit.',
+      'Tell us the repetitive work tiring your team. Get a clear workflow map, honest technical recommendation, and transparent cost estimate in a free 30m audit.',
+  },
+  '/harga': {
+    title: 'Transparent Pricing for Websites & AI Agents | CHESTAADOTCOM',
+    description:
+      'Transparent pricing for websites starting from IDR 1,200,000 and custom scope estimates for WhatsApp AI agents, custom software, and workflow automation.',
+  },
+  '/cara-kerja': {
+    title: 'How We Work — Our 4-Step Delivery Process | CHESTAADOTCOM',
+    description:
+      'Explore our 4-step delivery process at CHESTAADOTCOM in BSD: 30-minute free workflow audit, design and prototype, build and test, and release and maintain.',
+  },
+  '/faq': {
+    title: 'Frequently Asked Questions — Web & AI Agents | CHESTAADOTCOM',
+    description:
+      'Answers to 21 common questions on website pricing, WhatsApp AI agent guardrails, custom software ownership, delivery timelines, and support in Tangsel.',
   },
   '/privasi': {
     title: 'Privacy Policy & Data Protection (UU PDP) | CHESTAADOTCOM',
     description:
-      'Plain-language privacy policy of CHESTAADOTCOM aligned with Indonesian Data Protection Law (UU PDP No. 27/2022). Cookieless analytics and zero data selling.',
+      'Plain-language privacy policy of CHESTAADOTCOM aligned with Indonesian Data Protection Law (UU PDP No. 27/2022): cookieless analytics and zero data selling.',
   },
   '/workflow': {
-    title: 'How We Work & 4-Step Process | CHESTAADOTCOM',
+    title: 'How We Work & 4-Step Engineering Process | CHESTAADOTCOM',
     description:
-      'Our 4-step work process at CHESTAADOTCOM: 30-minute free audit, design and prototype, build and test, and release and maintain.',
+      'Our 4-step engineering process at CHESTAADOTCOM in BSD, South Tangerang: 30-minute free audit, design and prototype, build and test, and release and maintain.',
   },
   '/area': {
     title: 'Service Areas in South Tangerang & Jakarta | CHESTAADOTCOM',
     description:
-      'CHESTAADOTCOM serves businesses in South Tangerang, BSD City, Pamulang, Jurang Mangu, and Lebak Bulus for website development and AI agents.',
+      'CHESTAADOTCOM serves businesses in South Tangerang, BSD City, Pamulang, Jurang Mangu, and Lebak Bulus for website development, software, and AI agents.',
   },
 };
 
 export const INDONESIAN_ROUTES_SEO: Record<string, { title: string; description: string }> = {
   '/': {
-    title: 'Jasa Software Custom & AI Agent di BSD | CHESTAADOTCOM',
+    title: 'Jasa Website, AI Agent & Software di Tangsel | CHESTAADOTCOM',
     description:
-      'Pengembangan software custom, AI agent, otomasi workflow, dan pembuatan website di BSD, Tangerang Selatan & Jabodetabek. Mulai Rp1.200.000.',
+      'Pengembangan software custom, AI agent WhatsApp, otomasi workflow, dan pembuatan website di BSD, Tangerang Selatan dan Jabodetabek. Mulai Rp1.200.000.',
   },
   '/portfolio': {
-    title: 'Proyek Internal & Demo Sistem | CHESTAADOTCOM',
+    title: 'Proyek Nyata & Contoh Proyek Sistem | CHESTAADOTCOM',
     description:
-      'Daftar proyek internal CHESTAADOTCOM: AI agent WhatsApp klinik, dashboard kafe, asisten properti, dan landing page cepat di BSD, Tangerang Selatan.',
+      'Daftar proyek nyata (klien dirahasiakan) dan contoh proyek CHESTAADOTCOM: sistem brand minuman, pondok pesantren, gudang logistik, dan AI agent di Tangsel.',
   },
   '/case-studies': {
-    title: 'Studi Kasus Proyek Internal & Arsitektur | CHESTAADOTCOM',
+    title: 'Studi Kasus Contoh & Arsitektur Sistem | CHESTAADOTCOM',
     description:
-      'Catatan teknis di balik proyek internal CHESTAADOTCOM: masalah operasional, rancangan arsitektur, alur kerja sistem, dan target desain aplikasi.',
+      'Contoh studi kasus yang memperlihatkan cara CHESTAADOTCOM menganalisis masalah, mengambil keputusan, dan menimbang kompromi teknis di Tangerang Selatan.',
   },
   '/blog': {
-    title: 'Catatan Bisnis & Rekayasa Software | CHESTAADOTCOM',
+    title: 'Blog AI Agent, Website & Otomasi Bisnis | CHESTAADOTCOM',
     description:
-      'Panduan praktis dari Chesta Azka dan Zeeshan seputar software custom, AI agent WhatsApp, otomasi workflow, dan website cepat di Tangerang Selatan.',
+      'Panduan praktis dari Chesta Azka dan Zeeshan seputar software custom, AI agent WhatsApp, otomasi workflow, dan pembuatan website cepat di Tangerang Selatan.',
   },
   '/about': {
     title: 'Tentang CHESTAADOTCOM — Chesta Azka & Zeeshan | BSD',
     description:
-      'Kenali Chesta Azka (Arsitektur, Produk, Teknologi) dan Zeeshan (Operasional, Client Success), co-founder CHESTAADOTCOM di BSD, Tangerang Selatan.',
+      'Kenali Chesta Azka (Arsitektur, Produk, Teknologi) dan Zeeshan (Operasional, Client Success), co-founder studio rekayasa CHESTAADOTCOM di BSD, Tangsel.',
+  },
+  '/audit-gratis': {
+    title: 'Audit Gratis 30 Menit Alur Kerja & Otomasi | CHESTAADOTCOM',
+    description:
+      'Ceritakan kerjaan berulang yang paling bikin capek di bisnismu. Dapatkan peta alur kerja, rekomendasi jujur, dan perkiraan biaya gratis dalam sesi 30 menit.',
+  },
+  '/harga': {
+    title: 'Harga Pembuatan Website, AI Agent & Software | CHESTAADOTCOM',
+    description:
+      'Rincian biaya pembuatan website dan landing page mulai Rp1.200.000 serta estimasi cakupan AI agent WhatsApp, software custom, dan otomasi setelah audit.',
+  },
+  '/cara-kerja': {
+    title: 'Cara Kerja & Proses Pengerjaan 4 Langkah | CHESTAADOTCOM',
+    description:
+      'Pelajari empat langkah kerja CHESTAADOTCOM di BSD, Tangerang Selatan: audit gratis 30 menit, rancang dan prototipe, bangun dan uji, serta rilis dan rawat.',
+  },
+  '/faq': {
+    title: 'Pertanyaan Umum (FAQ) Website & AI Agent | CHESTAADOTCOM',
+    description:
+      'Jawaban jujur untuk 21 pertanyaan seputar harga pembuatan website, batas keamanan AI agent WhatsApp, kepemilikan kode, dan garansi di Tangerang Selatan.',
+  },
+  '/privasi': {
+    title: 'Kebijakan Privasi & Pelindungan Data (UU PDP) | CHESTAADOTCOM',
+    description:
+      'Kebijakan privasi CHESTAADOTCOM dalam bahasa lugas sesuai UU PDP No. 27 Tahun 2022: analitik tanpa cookie, tidak ada cookie dari situs, dan tanpa jual data.',
   },
   '/workflow': {
-    title: 'Cara Kerja & Proses 4 Langkah | CHESTAADOTCOM',
+    title: 'Alur Kerja Teknis & Tahap Implementasi | CHESTAADOTCOM',
     description:
-      'Empat langkah kerja CHESTAADOTCOM: audit gratis 30 menit, rancang dan prototipe, bangun dan uji, serta rilis dan rawat bersama timmu.',
+      'Empat langkah kerja teknis CHESTAADOTCOM di BSD, Tangsel: audit gratis 30 menit, rancang dan prototipe, bangun dan uji, serta rilis dan rawat bersama timmu.',
   },
   '/area': {
     title: 'Area Layanan Tangerang Selatan & Jakarta | CHESTAADOTCOM',
     description:
-      'CHESTAADOTCOM melayani pembuatan website dan AI agent untuk bisnis di Tangerang Selatan, BSD City, Pamulang, Jurang Mangu, dan Lebak Bulus.',
+      'CHESTAADOTCOM melayani jasa pembuatan website, software custom, dan AI agent di Tangerang Selatan, BSD City, Pamulang, Jurang Mangu, dan Lebak Bulus.',
   },
 };
 
@@ -137,7 +177,7 @@ export const ENGLISH_HOME_FAQS = [
   {
     question: 'Can small businesses without existing software start with a simple setup?',
     answer:
-      'Yes. Many businesses start with a single high-impact workflow—such as answering WhatsApp inquiries and logging bookings to Google Sheets—and add an internal dashboard later as operations grow.',
+      'Yes. Many businesses start with a single high-impact workflow—such as answering WhatsApp inquiries and logging bookings to Google Sheets—and add an operational dashboard later as operations grow.',
   },
   {
     question: 'Which areas do you serve?',
@@ -173,7 +213,7 @@ const ENGLISH_PROBLEM_SELECTOR_OVERRIDES: Record<string, Partial<ProblemSelector
     situationDetail:
       'Your business has grown to multiple staff or branches, requiring role permissions, approval workflows, and a custom dashboard.',
     recommendationNote:
-      'Custom software and web applications engineered around your exact internal SOPs and database structure.',
+      'Custom software and web applications engineered around your exact operational SOPs and database structure.',
   },
 };
 
@@ -194,8 +234,8 @@ export function getLocalizedProblemSelectorOptions(
 
 const ENGLISH_SERVICE_CASE_STUDIES_OVERRIDES: Record<string, Partial<ServiceCaseStudyBlueprint>> = {
   'wa-concierge-klinik': {
-    sector: 'Internal project · Healthcare & Dental Clinic',
-    title: 'WhatsApp Clinic Concierge (Internal Project)',
+    sector: 'Sample project · Healthcare & Dental Clinic',
+    title: 'WhatsApp Clinic Concierge (Sample Project)',
     problem:
       'Patients message in the evening asking about practice hours, scaling prices, and doctor slots while the clinic admin is off duty.',
     built:
@@ -204,8 +244,8 @@ const ENGLISH_SERVICE_CASE_STUDIES_OVERRIDES: Record<string, Partial<ServiceCase
       'Design target: initial reply under 10 seconds, zero double-booking on the same slot.',
   },
   'dashboard-kafe': {
-    sector: 'Internal project · Cafe & Multi-Channel F&B',
-    title: 'Cafe Order & Inventory Dashboard (Internal Project)',
+    sector: 'Sample project · Cafe & Multi-Channel F&B',
+    title: 'Cafe Order & Inventory Dashboard (Sample Project)',
     problem:
       'Orders from dine-in, WhatsApp, and delivery apps are recorded separately, causing daily revenue recaps and raw stock checks to fall behind.',
     built:
@@ -214,8 +254,8 @@ const ENGLISH_SERVICE_CASE_STUDIES_OVERRIDES: Record<string, Partial<ServiceCase
       'Design target: closing recap finished in under 5 minutes without manual re-typing.',
   },
   'lead-properti': {
-    sector: 'Internal project · Property Agency',
-    title: 'Property Lead Assistant (Internal Project)',
+    sector: 'Sample project · Property Agency',
+    title: 'Property Lead Assistant (Sample Project)',
     problem:
       'Evening ad leads go cold before morning follow-up, and agents spend hours filtering casual browsers from serious buyers.',
     built:
@@ -224,7 +264,7 @@ const ENGLISH_SERVICE_CASE_STUDIES_OVERRIDES: Record<string, Partial<ServiceCase
       'Design target: initial reply under 15 seconds and every lead logged with a complete summary.',
   },
   'pemroses-dokumen': {
-    sector: 'Internal project · Professional Services',
+    sector: 'Sample project · Professional Services',
     title: 'AI Document Processor: data extraction with human review',
     problem:
       'Admin teams manually re-type data from invoices and forms into spreadsheets, which is slow and prone to errors.',

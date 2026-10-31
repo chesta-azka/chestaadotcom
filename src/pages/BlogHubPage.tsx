@@ -172,9 +172,26 @@ export default function BlogHubPage() {
     (_, idx) => idx + 1
   );
 
+  const seoTitle =
+    slice.currentPage > 1
+      ? isEn
+        ? `Blog on AI Agents & Web — Page ${slice.currentPage} | CHESTAADOTCOM`
+        : `Blog AI Agent & Otomasi — Halaman ${slice.currentPage} | CHESTAADOTCOM`
+      : isEn
+        ? 'Blog on AI Agents, Websites & Automation | CHESTAADOTCOM'
+        : 'Blog AI Agent, Website & Otomasi Bisnis | CHESTAADOTCOM';
+
+  const seoDescription = isEn
+    ? 'Practical engineering notes on AI agents, fast websites, and workflow automation for businesses in South Tangerang and Greater Jakarta by our co-founders.'
+    : 'Panduan praktis dari Chesta Azka dan Zeeshan seputar software custom, AI agent WhatsApp, otomasi workflow, dan pembuatan website cepat di Tangerang Selatan.';
+
   return (
     <div className="bg-[var(--bg)] text-[var(--ink)] min-h-screen">
-      <SEOMetadata path={slice.canonicalPath} />
+      <SEOMetadata
+        title={seoTitle}
+        description={seoDescription}
+        path={slice.canonicalPath}
+      />
 
       <div className="max-w-[1120px] mx-auto px-[20px] md:px-[32px] pt-[96px] md:pt-[120px] pb-[64px] md:pb-[96px]">
         {/* 1. HEADER */}
@@ -450,12 +467,17 @@ export default function BlogHubPage() {
             >
               Chat via WhatsApp
             </a>
-            <a
-              href="mailto:chestaadotcom@gmail.com"
-              className="text-[14px] text-[var(--ink-muted)] hover:text-[var(--ink)] transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--purple-600)] rounded-sm"
+            <button
+              type="button"
+              onClick={(e) => {
+                const user = ['chestaa', 'dotcom'].join('');
+                const domain = ['gmail', 'com'].join('.');
+                e.currentTarget.textContent = `${user}\u0040${domain}`;
+              }}
+              className="text-[14px] text-[var(--ink-muted)] hover:text-[var(--ink)] transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--purple-600)] rounded-sm cursor-pointer"
             >
-              {isEn ? 'or send an email →' : 'atau kirim email →'}
-            </a>
+              {isEn ? 'or show email address →' : 'atau tampilkan email →'}
+            </button>
           </div>
         </section>
       </div>

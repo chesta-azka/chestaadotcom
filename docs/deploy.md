@@ -1,71 +1,101 @@
-# Production Deployment & Promotion Guide — CHESTAADOTCOM
+# Deployment & Canonical Host Guide (`https://chestaa.com`)
 
-This guide details the procedure for promoting the latest build deployment to Production on Vercel, confirming domain routing, and verifying live parity.
-
----
-
-## 1. Domain & Apex Configuration
-
-1. **Apex Domain**: `https://chestaa.com` (Primary Canonical Target)
-2. **WWW Subdomain**: `www.chestaa.com`
-   - Configured in Vercel to 301/308 redirect to `https://chestaa.com`
-   - Single-hop redirect enforced in both Vercel DNS and `server.ts` middleware.
-3. **HTTP to HTTPS**:
-   - All HTTP requests automatically 301 redirect to HTTPS.
-4. **Root Route (`/`)**:
-   - `https://chestaa.com/` returns a permanent 301 redirect to `https://chestaa.com/id` without language/cookie sniffing.
+## 1. Canonical Host Decision
+- **Canonical Host (Apex):** `https://chestaa.com`
+- **Single Source of Truth Constant:** `SITE_URL = "https://chestaa.com"` (`src/data/facts.ts`, `src/utils/sitemapGenerator.ts`, `src/lib/social-meta.ts`)
+- Every `canonical`, `og:url`, `hreflang` (`id`, `en`, `x-default`), `article:author`, `sitemap.xml` `<loc>` / `<image:loc>`, JSON-LD `@id` / `url`, `rss.xml` `<link>` / `<enclosure>`, and `llms.txt` URL is constructed strictly from `SITE_URL`.
 
 ---
 
-## 2. Pre-Deployment Verification Workflow
+## 2. Exact Vercel Dashboard Click Path (Apex Primary + `www` Redirect)
 
-Before promoting any build to Production, execute all automated quality gates:
+To ensure Vercel's edge layer serves `https://chestaa.com` as the primary domain and redirects `https://www.chestaa.com` to `https://chestaa.com` in a single hop (preventing an infinite redirect loop with `vercel.json`):
 
+1. Open **[Vercel Dashboard](https://vercel.com/dashboard)** and select the **chestaa.com** project.
+2. Click **Settings** in the top navigation bar.
+3. Click **Domains** in the left sidebar (`/settings/domains`).
+4. Locate **`chestaa.com`** (the apex domain):
+   - Click **Edit** on `chestaa.com`.
+   - Set **Redirect to** -> **No Redirect** (Connect to Production Environment / Primary Domain).
+   - Click **Save**.
+5. Locate **`www.chestaa.com`**:
+   - Click **Edit** on `www.chestaa.com`.
+   - Select **Redirect to Another Domain**.
+   - Choose status code **308 Permanent Redirect** (or **301 Moved Permanently**) and target **`chestaa.com`**.
+   - Click **Save**.
+
+---
+
+## 3. Code-Level Redirect & Build Gate Enforcement
+
+### `vercel.json` Edge Rule
+```json
+{
+  "source": "/:path*",
+  "has": [
+    {
+      "type": "host",
+      "value": "www.chestaa.com"
+    }
+  ],
+  "destination": "https://chestaa.com/:path*",
+  "permanent": true
+}
+```
+
+### `server.ts` Express Middleware
+```ts
+app.use((req, res, next) => {
+  const host = (req.headers.host || "").toLowerCase();
+  if (host.startsWith("www.")) {
+    const cleanHost = host.replace(/^www\./, "");
+    const proto = req.headers["x-forwarded-proto"] || req.protocol || "https";
+    return res.redirect(301, `${proto}://${cleanHost}${req.originalUrl}`);
+  }
+  next();
+});
+```
+
+### Pre-Deploy Build Gates
+Run the full build and audit suite before deploying:
 ```bash
-# 1. Verify 0 prohibited legacy strings exist in repository
-npm run lint:legacy
-
-# 2. Check pricing consistency across packages
-npm run pricing:check
-
-# 3. Lint content structure & internal link rules
+npm run covers:generate
+npm run covers:check
 npm run content:lint
-
-# 4. Perform full-site SEO, schema, hreflang, and freshness audit
 npm run seo:audit
-
-# 5. Execute Indexability Quality Gate evaluation
-npm run seo:indexability
+npm run build
 ```
 
 ---
 
-## 3. Promoting Deployment to Production
+## 4. Post-Deploy Verification Check
 
-1. **Run Build Locally**:
-   ```bash
-   npm run build
-   ```
-2. **Deploy via Vercel CLI or Git**:
-   ```bash
-   vercel --prod
-   ```
-3. **Verify Promotion in Vercel Dashboard**:
-   - Confirm domain `chestaa.com` points to the newly deployed deployment ID.
-   - Verify `www.chestaa.com` points to `chestaa.com` redirect target.
-
----
-
-## 4. Post-Deployment Parity Verification
-
-Run the live parity check against `https://chestaa.com`:
+Run the following command after updating Vercel Domains to verify that:
+1. `https://chestaa.com/id` returns **HTTP 200** directly with **0 redirects**.
+2. `https://www.chestaa.com/id` returns **exactly 1 redirect (301/308)** to `https://chestaa.com/id`.
 
 ```bash
-npm run seo:parity
+# 1. Verify apex returns 200 with 0 redirects
+curl -sS -D - -o /dev/null https://chestaa.com/id | grep -E "^(HTTP/|location:)"
+
+# 2. Verify www redirects in a single hop to https://chestaa.com/id
+curl -sS -D - -o /dev/null https://www.chestaa.com/id | grep -E "^(HTTP/|location:)"
 ```
 
-### Verification Thresholds
-- **HTTP Status**: Must return 200 OK for all canonical routes.
-- **Title & Description**: Must match local build output.
-- **Search Console Tag**: `<meta name="google-site-verification" content="qsI5diUIpk_GpZYdwmC6zaFNWkBiQSkLMnr701rO34w">` present.
-- **Legacy String Check**: Must return **0 instances** of `"Principal Architecture"`, `"Autonomous AI Systems"`, `"dominasi pasar"`, `"CHESTAA Enterprise"`, `"chesta.png"`.
+Or run the automated post-deploy host check via Node:
+```bash
+node -e '
+(async () => {
+  const apex = await fetch("https://chestaa.com/id", { redirect: "manual" });
+  console.log("Apex status:", apex.status, "Location:", apex.headers.get("location"));
+  if (apex.status !== 200) throw new Error(`Expected 200 on apex, got ${apex.status}`);
+
+  const www = await fetch("https://www.chestaa.com/id", { redirect: "manual" });
+  console.log("WWW status:", www.status, "Location:", www.headers.get("location"));
+  if (![301, 308].includes(www.status) || www.headers.get("location") !== "https://chestaa.com/id") {
+    throw new Error(`Expected single redirect to https://chestaa.com/id, got ${www.status} -> ${www.headers.get("location")}`);
+  }
+  console.log("PASS: Apex returns 200 and www redirects in 1 hop to apex.");
+})();
+'
+```

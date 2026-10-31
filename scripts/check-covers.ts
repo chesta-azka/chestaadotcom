@@ -1,9 +1,12 @@
 import fs from 'fs';
 import path from 'path';
 import crypto from 'crypto';
+import sharp from 'sharp';
 import { BLOG_POSTS, ENGLISH_BLOG_POSTS } from '../src/data/blog-posts';
 import { ALL_CANONICAL_COVER_SPECS } from '../src/data/blog-cover-specs';
 import { generateAllCoversAndOgCards } from './generate-covers';
+import { getAllSitemapRoutes } from '../src/utils/sitemapGenerator';
+import { getMetaTagsForUrl } from '../src/lib/social-meta';
 
 const CANVAS_W = 1600;
 const CANVAS_H = 900;
@@ -350,15 +353,15 @@ function sha256Short(content: string): string {
   return crypto.createHash('sha256').update(content).digest('hex').slice(0, 12);
 }
 
-function main() {
+async function main() {
   console.log('======================================================================');
   console.log(' CHESTAADOTCOM — BLOG COVER & OPENGRAPH UNIQUENESS GATE (covers:check)');
   console.log('======================================================================\n');
 
-  // Ensure all covers and OG SVGs are generated and fresh
-  const { coversWritten, ogCardsWritten } = generateAllCoversAndOgCards();
+  // Ensure all covers and OG PNGs are generated and fresh
+  const { coversWritten, ogCardsWritten } = await generateAllCoversAndOgCards();
   console.log(
-    `[Generator] Synced ${coversWritten} cover SVGs (1600x900) and ${ogCardsWritten} OG card SVGs (1200x630).\n`
+    `[Generator] Synced ${coversWritten} cover SVGs (1600x900) and ${ogCardsWritten} OG card PNGs (1200x630).\n`
   );
 
   const errors: string[] = [];
@@ -546,8 +549,8 @@ function main() {
       alt: spec.alt,
       altEn: spec.altEn,
       coverPath,
-      ogIdPath: `/images/og/blog/id/${spec.canonicalSlug}.svg`,
-      ogEnPath: `/images/og/blog/en/${spec.enSlug}.svg`,
+      ogIdPath: `/images/og/id/blog/${spec.canonicalSlug}.png`,
+      ogEnPath: `/images/og/en/blog/${spec.enSlug}.png`,
       sha256,
       dHashHex,
       dHashBigInt,
@@ -585,31 +588,64 @@ function main() {
     records[i].nearestNeighborSlug = nearestSlug;
   }
 
-  // 4. Verify all 70 localized BlogPost entries (35 ID + 35 EN) & their 1200x630 OG cards
+  // 4. Verify all 70 localized BlogPost entries & all 154 Sitemap Route 1200x630 OG PNG cards
   const allPosts = [...BLOG_POSTS, ...ENGLISH_BLOG_POSTS];
   for (const post of allPosts) {
     const loc = post.locale || 'id';
     if (!post.coverSpec || !post.coverSpec.coverId) {
       errors.push(`[Post ${loc}:${post.slug}] Missing coverSpec.`);
     }
-    const absOgPath = path.resolve(
-      process.cwd(),
-      'public',
-      post.ogImage.replace(/^\//, '')
-    );
-    if (!fs.existsSync(absOgPath)) {
-      errors.push(`[Missing OG Card] ${post.ogImage} does not exist on disk.`);
-    } else {
-      const ogContent = fs.readFileSync(absOgPath, 'utf8');
-      const ogBytes = Buffer.byteLength(ogContent, 'utf8');
-      if (ogBytes >= 25 * 1024) {
-        errors.push(`[OG Size Gate] ${post.ogImage} is ${ogBytes} bytes (must be < 25 KB).`);
-      }
-      const ogWithoutXmlns = ogContent.replace(/xmlns="http:\/\/www\.w3\.org\/2000\/svg"/g, '');
-      if (/https?:\/\/|@import/i.test(ogWithoutXmlns)) {
-        errors.push(`[OG Self-Contained Gate] ${post.ogImage} contains external URL.`);
-      }
+  }
+
+  const allRoutes = getAllSitemapRoutes();
+  const seenOgUrls = new Map<string, string>();
+  const seenOgHashes = new Map<string, string>();
+
+  for (const route of allRoutes) {
+    const meta = getMetaTagsForUrl(route.path);
+    const ogUrl = meta.image;
+    if (!ogUrl.startsWith('https://chestaa.com/images/og/') || !ogUrl.endsWith('.png')) {
+      errors.push(`[OG Format Gate] ${route.path} og:image is not a /images/og/...png URL: "${ogUrl}"`);
+      continue;
     }
+    if (seenOgUrls.has(ogUrl)) {
+      errors.push(
+        `[Duplicate OG Image URL] ${ogUrl} shared by "${route.path}" and "${seenOgUrls.get(ogUrl)}".`
+      );
+    }
+    seenOgUrls.set(ogUrl, route.path);
+
+    const relOg = new URL(ogUrl).pathname.replace(/^\//, '');
+    const absOgPath = path.resolve(process.cwd(), 'public', relOg);
+    if (!fs.existsSync(absOgPath)) {
+      errors.push(`[Missing OG PNG] ${relOg} does not exist on disk for route ${route.path}.`);
+      continue;
+    }
+
+    const buf = fs.readFileSync(absOgPath);
+    if (buf.byteLength >= 300 * 1024) {
+      errors.push(
+        `[OG Size Gate] ${relOg} is ${buf.byteLength} bytes (must be < 300 KB).`
+      );
+    }
+    const imgMeta = await sharp(buf).metadata();
+    if (imgMeta.format !== 'png' && imgMeta.format !== 'jpeg') {
+      errors.push(`[OG MIME Gate] ${relOg} format is "${imgMeta.format}" (must be png or jpeg).`);
+    }
+    if ((imgMeta.width || 0) < 1200 || (imgMeta.height || 0) < 630) {
+      errors.push(
+        `[OG Dimensions Gate] ${relOg} is ${imgMeta.width}x${imgMeta.height} (must be at least 1200x630).`
+      );
+    }
+    const fileHash = crypto.createHash('sha256').update(buf).digest('hex').slice(0, 16);
+    if (seenOgHashes.has(fileHash)) {
+      errors.push(
+        `[Duplicate OG PNG Content] ${relOg} (${route.path}) has identical PNG bytes to ${seenOgHashes.get(
+          fileHash
+        )}.`
+      );
+    }
+    seenOgHashes.set(fileHash, route.path);
   }
 
   // 5. Print Complete New Cover Verification Table

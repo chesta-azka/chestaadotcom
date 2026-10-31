@@ -31,8 +31,8 @@ export const NEW_BLOG_POSTS_ID_RAW: RawBlogPostInput[] = [
       'Banyak pemilik bisnis membeli layanan yang diberi label AI untuk WhatsApp mereka, namun kecewa karena sistemnya tetap memaksa pelanggan mengetik angka 1 sampai 5 dan gagal mengecek jadwal kosong. Memahami batas antara chatbot penjawab teks dan AI agent pengeksekusi tugas akan menyelamatkan anggaran operasionalmu.',
     founderNote: {
       author: 'chesta',
-      title: 'Catatan Lapangan Co-Founder · Audit Alur WhatsApp',
-      text: '[ISI PENGALAMAN ASLI: Tambahkan pengamatan Chesta Azka saat membedah antrean chat malam hari di klinik atau bisnis jasa di BSD/Tangerang Selatan—misalnya berapa persen chat yang gagal closing karena admin baru membalas keesokan pagi atau karena bot menu kaku ditinggalkan pelanggan.]',
+      title: 'Catatan Arsitektur Co-Founder · Alur Chat WhatsApp',
+      text: 'Pada contoh proyek kami WA Concierge untuk simulasi klinik estetika, kami merancang alur WhatsApp yang memisahkan pertanyaan informasi umum dari pengecekan slot kalender. Tujuannya agar calon pelanggan yang menghubungi di malam hari langsung mendapatkan kepastian jadwal tanpa terjebak menu tombol angka yang kaku.',
     },
     content: [
       {
@@ -46,19 +46,19 @@ export const NEW_BLOG_POSTS_ID_RAW: RawBlogPostInput[] = [
       {
         type: 'h2',
         id: 'situasi-nyata-balasan-whatsapp-klinik',
-        text: '1. Situasi Nyata: Apa yang Terjadi Saat Pasien Menghubungi WhatsApp Klinik Pukul 21.15?',
+        text: '1. Contoh Skenario: Apa yang Terjadi Saat Pasien Menghubungi WhatsApp Klinik Pukul 21.15?',
       },
       {
         type: 'paragraph',
-        text: 'Bayangkan sebuah klinik gigi atau klinik estetika di kawasan BSD City yang sedang menjalankan iklan Instagram. Pukul 21.15 malam, ketika resepsionis sudah pulang, seorang calon pasien mengirim satu pesan WhatsApp yang menggabungkan tiga maksud sekaligus: "Halo Kak, kalau scaling sama tambal satu gigi belakang biayanya berapa ya? Kalau hari Sabtu besok sekitar jam 10 pagi sama drg. Rina masih kosong nggak?"',
+        text: 'Bayangkan sebuah klinik gigi atau klinik estetika di kawasan BSD City yang sedang menjalankan iklan Instagram. Pukul 21.15 malam, ketika resepsionis sudah pulang, seorang calon pasien mengirim satu pesan WhatsApp yang menggabungkan tiga maksud sekaligus: "Halo Kak, kalau scaling sama tambal satu gigi belakang biayanya berapa ya? Kalau hari Sabtu besok sekitar jam 10 pagi sama dokter gigi jaga masih kosong nggak?"',
       },
       {
         type: 'paragraph',
-        text: 'Jika klinik tersebut menggunakan **chatbot berbasis aturan (rule-based chatbot)**, sistem hanya membaca kata pemicu awal atau langsung melempar daftar menu kaku: "Selamat datang di Klinik X. Ketik 1 untuk Daftar Harga, Ketik 2 untuk Jam Operasional, Ketik 3 untuk Bicara dengan Admin." Ketika pasien mengetik angka 1, bot mengirimkan daftar harga panjang dalam bentuk teks atau PDF, tetapi pertanyaan terpentingnya—apakah Sabtu jam 10 pagi bersama drg. Rina masih tersedia—sama sekali tidak terjawab. Pasien harus menunggu sampai besok pagi pukul 09.00 saat admin masuk kerja.',
+        text: 'Jika klinik tersebut menggunakan **chatbot berbasis aturan (rule-based chatbot)**, sistem hanya membaca kata pemicu awal atau langsung melempar daftar menu kaku: "Selamat datang di Klinik. Ketik 1 untuk Daftar Harga, Ketik 2 untuk Jam Operasional, Ketik 3 untuk Bicara dengan Admin." Ketika pasien mengetik angka 1, bot mengirimkan daftar harga panjang dalam bentuk teks atau PDF, tetapi pertanyaan terpentingnya—apakah Sabtu jam 10 pagi bersama dokter gigi jaga masih tersedia—sama sekali tidak terjawab. Pasien harus menunggu sampai besok pagi pukul 09.00 saat admin masuk kerja.',
       },
       {
         type: 'paragraph',
-        text: 'Sebaliknya, jika klinik tersebut menggunakan **[jasa AI agent](/jasa/ai-agent)** yang terhubung ke dokumen SOP harga dan kalender praktik dokter, alur yang terjadi dalam sepuluh detik adalah sebagai berikut: sistem membaca dua kebutuhan pasien, mengambil kisaran biaya scaling dan tambal dari dokumen resmi klinik, lalu memanggil fungsi pengecekan jadwal drg. Rina untuk hari Sabtu pukul 10.00. Jika jam 10.00 sudah terisi tetapi jam 11.00 masih kosong, agent akan menjawab dengan sopan: merinci estimasi biaya kedua tindakan, memberi tahu bahwa slot pukul 10.00 sudah penuh namun pukul 11.00 masih tersedia, lalu menawarkan untuk langsung mengunci jadwal tersebut atas nama pasien.',
+        text: 'Sebaliknya, jika klinik tersebut menggunakan **[jasa AI agent](/id/jasa/ai-agent)** yang terhubung ke dokumen SOP harga dan kalender praktik dokter, alur yang terjadi dalam sepuluh detik adalah sebagai berikut: sistem membaca dua kebutuhan pasien, mengambil kisaran biaya scaling dan tambal dari dokumen resmi klinik, lalu memanggil fungsi pengecekan jadwal dokter gigi untuk hari Sabtu pukul 10.00. Jika jam 10.00 sudah terisi tetapi jam 11.00 masih kosong, agent akan menjawab dengan sopan: merinci estimasi biaya kedua tindakan, memberi tahu bahwa slot pukul 10.00 sudah penuh namun pukul 11.00 masih tersedia, lalu menawarkan untuk langsung mengunci jadwal tersebut atas nama pasien.',
       },
       {
         type: 'h2',
@@ -74,7 +74,7 @@ export const NEW_BLOG_POSTS_ID_RAW: RawBlogPostInput[] = [
         title: 'Tiga ciri teknis cara kerja chatbot konvensional:',
         items: [
           'Berjalan di atas rel percakapan satu arah: Pengembang harus menggambar seluruh kemungkinan cabang pertanyaan di awal. Jika pelanggan bertanya di luar cabang yang sudah digambar, bot langsung gagal memahami maksud pesan.',
-          'Tidak memiliki akses baca-tulis ke sistem operasional: Chatbot statis umumnya hanya menyimpan teks balasan di dalam aplikasinya sendiri. Ia tidak bisa mengecek stok barang di database PostgreSQL atau melihat baris kosong di Google Sheets secara langsung.',
+          'Tidak memiliki akses baca-tulis ke sistem operasional: Chatbot statis umumnya hanya menyimpan teks balasan di dalam aplikasinya sendiri. Ia tidak bisa mengecek stok barang di database operasional atau melihat baris kosong di Google Sheets secara langsung.',
           'Buta terhadap gabungan konteks dan bahasa sehari-hari: Pelanggan di WhatsApp jarang menulis dengan bahasa baku. Singkatan seperti "bsk sore bs ga kak?", koreksi pesan di chat berikutnya, atau dua pertanyaan dalam satu balon chat sering membuat alur tombol chatbot macet.',
         ],
       },
@@ -98,7 +98,7 @@ export const NEW_BLOG_POSTS_ID_RAW: RawBlogPostInput[] = [
           'Baca konteks & pahami niat (Read Context): Agent membaca pesan terbaru, riwayat percakapan sebelumnya dari nomor tersebut, serta aturan SOP bisnis (misalnya jam operasional, syarat reservasi, dan batasan diskon yang diizinkan).',
           'Pilih tool yang relevan (Select Tool): Berdasarkan niat pelanggan, agent memutuskan apakah ia cukup menjawab dari dokumen pengetahuan atau perlu memanggil fungsi eksternal (tool calling), seperti `check_calendar_slots`, `lookup_order_status`, atau `escalate_to_human`.',
           'Bertindak pada sistem kerja (Act / Execute): Backend mengeksekusi tool yang dipilih dengan parameter tervalidasi—misalnya menanyakan ke Google Calendar API apakah slot dokter pada tanggal tertentu masih kosong, atau menulis baris prospek baru ke database.',
-          'Cek hasil & susun respons (Verify Result): Agent memeriksa respons dari tool tadi. Jika kalender mengembalikan pesan bahwa slot berhasil dikunci, barulah agent menyusun pesan konfirmasi yang ramah kepada pelanggan sekaligus mengirim ringkasan ke grup internal admin.',
+          'Cek hasil & susun respons (Verify Result): Agent memeriksa respons dari tool tadi. Jika kalender mengembalikan pesan bahwa slot berhasil dikunci, barulah agent menyusun pesan konfirmasi yang ramah kepada pelanggan sekaligus mengirim ringkasan ke grup tim admin.',
         ],
       },
       {
@@ -121,7 +121,7 @@ export const NEW_BLOG_POSTS_ID_RAW: RawBlogPostInput[] = [
   },
   "step_4_verification": "Slot valid & sesuai area layanan. Kirim konfirmasi harga + minta alamat detail."
 }`,
-        caption: 'Ilustrasi jejak eksekusi (trace) internal ketika AI agent memproses permintaan jadwal pelanggan.',
+        caption: 'Ilustrasi jejak eksekusi (trace) sistem ketika AI agent memproses permintaan jadwal pelanggan.',
       },
       {
         type: 'h2',
@@ -270,7 +270,7 @@ export const NEW_BLOG_POSTS_ID_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'paragraph',
-        text: 'Kesalahan terbesar saat mengadopsi AI di bisnis adalah mencoba mengotomasi sepuluh divisi sekaligus di bulan pertama. Proyek yang terlalu lebar biasanya macet di tahap pengumpulan aturan SOP karena tim internal sendiri belum sepakat mengenai alurnya.',
+        text: 'Kesalahan terbesar saat mengadopsi AI di bisnis adalah mencoba mengotomasi sepuluh divisi sekaligus di bulan pertama. Proyek yang terlalu lebar biasanya macet di tahap pengumpulan aturan SOP karena tim operasional sendiri belum sepakat mengenai alurnya.',
       },
       {
         type: 'paragraph',
@@ -313,7 +313,7 @@ export const NEW_BLOG_POSTS_ID_RAW: RawBlogPostInput[] = [
       {
         question: 'Berapa biaya pembuatan AI agent di CHESTAADOTCOM?',
         answer:
-          'Biaya pembuatan AI agent bergantung pada jumlah tool yang dihubungkan (misalnya Google Calendar, Sheets, atau database internal) dan kompleksitas aturan bisnis. Oleh karena itu, biayanya dihitung secara transparan setelah sesi audit alur gratis 30 menit bersama kami.',
+          'Biaya pembuatan AI agent bergantung pada jumlah tool yang dihubungkan (misalnya Google Calendar, Sheets, atau database operasional) dan kompleksitas aturan bisnis. Oleh karena itu, biayanya dihitung secara transparan setelah sesi audit alur gratis 30 menit bersama kami.',
       },
       {
         question: 'Apakah staf manusia tetap bisa mengambil alih chat kapan saja?',
@@ -356,8 +356,8 @@ export const NEW_BLOG_POSTS_ID_RAW: RawBlogPostInput[] = [
       'Selama ini, menghubungkan asisten AI ke Google Calendar, database stok, dan lembar kerja keuangan ibarat membeli kabel colokan yang berbeda untuk setiap merek perangkat. Ketika satu aplikasi berubah, seluruh jembatan kodenya ikut rusak.',
     founderNote: {
       author: 'chesta',
-      title: 'Catatan Lapangan Co-Founder · Standarisasi Integrasi Tool AI',
-      text: '[ISI PENGALAMAN ASLI: Tambahkan catatan Chesta Azka tentang pengalaman mengintegrasikan AI agent dengan tool operasional klien menggunakan arsitektur terstandar dibandingkan webhook custom satu per satu.]',
+      title: 'Catatan Arsitektur Co-Founder · Standarisasi Integrasi Tool AI',
+      text: 'Di CHESTAADOTCOM, kami memisahkan definisi fungsi tool (seperti pembacaan slot kalender dan pencatatan baris lembar kerja) dari kode model bahasa utama. Dengan arsitektur modular seperti Model Context Protocol (MCP), izin baca dan tulis setiap alat kerja dapat dibatasi secara ketat tanpa membuat kode penyambung yang rapuh.',
     },
     content: [
       {
@@ -366,7 +366,7 @@ export const NEW_BLOG_POSTS_ID_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'paragraph',
-        text: 'Bagi pemilik bisnis, kamu memang tidak perlu menulis kode protokolnya sendiri. Namun memahami cara kerja MCP berdasarkan [dokumentasi resmi Model Context Protocol](https://modelcontextprotocol.io) akan membantumu mengambil keputusan investasi teknologi yang cerdas, menghindari ketergantungan pada satu vendor (*vendor lock-in*), dan menjaga keamanan data internal perusahaan.',
+        text: 'Bagi pemilik bisnis, kamu memang tidak perlu menulis kode protokolnya sendiri. Namun memahami cara kerja MCP berdasarkan [dokumentasi resmi Model Context Protocol](https://modelcontextprotocol.io) akan membantumu mengambil keputusan investasi teknologi yang cerdas, menghindari ketergantungan pada satu vendor (*vendor lock-in*), dan menjaga keamanan data operasional perusahaan.',
       },
       {
         type: 'h2',
@@ -375,7 +375,7 @@ export const NEW_BLOG_POSTS_ID_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'paragraph',
-        text: 'Sebelum adanya standar seperti MCP, setiap kali kamu ingin menghubungkan model AI ke aplikasi kerja, pengembang harus menulis kode penyambung (*custom connector*) khusus untuk pasangan model dan aplikasi tersebut. Dalam dunia rekayasa perangkat lunak, ini disebut masalah perkalian $M \\times N$: jika ada sekian aplikasi AI dan sekian tool bisnis (Google Calendar, Google Sheets, PostgreSQL, Notion, CRM), maka setiap kombinasi membutuhkan jembatan kustom tersendiri.',
+        text: 'Sebelum adanya standar seperti MCP, setiap kali kamu ingin menghubungkan model AI ke aplikasi kerja, pengembang harus menulis kode penyambung (*custom connector*) khusus untuk pasangan model dan aplikasi tersebut. Dalam dunia rekayasa perangkat lunak, ini disebut masalah perkalian M × N: jika ada sekian aplikasi AI dan sekian tool bisnis (Google Calendar, Google Sheets, database relasional, Notion, CRM), maka setiap kombinasi membutuhkan jembatan kustom tersendiri.',
       },
       {
         type: 'paragraph',
@@ -386,7 +386,7 @@ export const NEW_BLOG_POSTS_ID_RAW: RawBlogPostInput[] = [
         items: [
           'MCP Host: Aplikasi utama tempat sistem AI berjalan (misalnya layanan backend AI agent perusahaanmu atau aplikasi desktop kerja).',
           'MCP Client: Komponen penghubung di dalam Host yang membuka jalur komunikasi satu-ke-satu dengan server tool tertentu menggunakan format pesan standar JSON-RPC 2.0.',
-          'MCP Server: Program ringan yang berdiri di depan satu sumber data atau aplikasi (misalnya Server MCP Google Calendar atau Server MCP Database PostgreSQL) dan mengekspos tiga kapabilitas standar: Resources (data yang bisa dibaca), Prompts (templat instruksi), dan Tools (fungsi tindakan yang bisa dijalankan).',
+          'MCP Server: Program ringan yang berdiri di depan satu sumber data atau aplikasi (misalnya Server MCP Google Calendar atau Server MCP Database Operasional) dan mengekspos tiga kapabilitas standar: Resources (data yang bisa dibaca), Prompts (templat instruksi), dan Tools (fungsi tindakan yang bisa dijalankan).',
         ],
       },
       {
@@ -446,7 +446,7 @@ export const NEW_BLOG_POSTS_ID_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'paragraph',
-        text: 'Karena MCP memudahkan AI agent terhubung ke berbagai sistem internal, aspek keamanan harus menjadi prioritas nomor satu. Dokumentasi keamanan resmi di [modelcontextprotocol.io](https://modelcontextprotocol.io) menekankan pentingnya kontrol persetujuan pengguna dan pembatasan ruang lingkup akses. Dalam praktik produksi bisnis, ada tiga aturan keamanan wajib yang selalu kami terapkan:',
+        text: 'Karena MCP memudahkan AI agent terhubung ke berbagai sistem operasional, aspek keamanan harus menjadi prioritas nomor satu. Dokumentasi keamanan resmi di [modelcontextprotocol.io](https://modelcontextprotocol.io) menekankan pentingnya kontrol persetujuan pengguna dan pembatasan ruang lingkup akses. Dalam praktik produksi bisnis, ada tiga aturan keamanan wajib yang perlu diterapkan:',
       },
       {
         type: 'ul',
@@ -469,7 +469,7 @@ export const NEW_BLOG_POSTS_ID_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'paragraph',
-        text: 'Tidak semua perpindahan data antar-aplikasi membutuhkan AI agent. Jika alur kerjamu bersifat pasti dan selalu sama—misalnya setiap kali formulir website diisi, datanya langsung disalin ke Google Sheets dan mengirim notifikasi ke grup WhatsApp—maka menggunakan [jasa otomasi workflow](/jasa/otomasi-workflow) berbasis n8n atau webhook Node.js jauh lebih cepat dan murah. Namun, jika sistem harus menghadapi percakapan pelanggan yang tidak terprediksi dan memilih sendiri tool mana yang perlu dipanggil berdasarkan konteks obrolan, di situlah koneksi tool terstandar pada AI agent memberikan nilai tambah yang nyata.',
+        text: 'Tidak semua perpindahan data antar-aplikasi membutuhkan AI agent. Jika alur kerjamu bersifat pasti dan selalu sama—misalnya setiap kali formulir website diisi, datanya langsung disalin ke Google Sheets dan mengirim notifikasi ke grup WhatsApp—maka menggunakan [jasa otomasi workflow](/jasa/otomasi-workflow) berbasis Make, Zapier, atau webhook server jauh lebih cepat dan murah. Namun, jika sistem harus menghadapi percakapan pelanggan yang tidak terprediksi dan memilih sendiri tool mana yang perlu dipanggil berdasarkan konteks obrolan, di situlah koneksi tool terstandar pada AI agent memberikan nilai tambah yang nyata.',
       },
     ],
     conclusion: [
@@ -537,13 +537,13 @@ export const NEW_BLOG_POSTS_ID_RAW: RawBlogPostInput[] = [
       'Saat ini siapa pun bisa mengetik beberapa kalimat prompt ke asisten AI lalu mendapatkan tampilan aplikasi web yang tampak hidup dalam hitungan menit. Namun di balik tampilan yang rapi di layar laptop, apakah aplikasi tersebut aman saat menerima transaksi uang dan data pelanggan asli?',
     founderNote: {
       author: 'chesta',
-      title: 'Catatan Lapangan Co-Founder · Audit Prototipe Hasil Prompt AI',
-      text: '[ISI PENGALAMAN ASLI: Tambahkan pengalaman Chesta Azka saat membantu pemilik bisnis merapikan atau membangun ulang prototipe hasil vibe coding yang mulai melambat, bocor API key di browser, atau salah menghitung stok/komisi.]',
+      title: 'Catatan Arsitektur Co-Founder · Batas Prototipe vs Sistem Produksi',
+      text: 'Saat kami membangun sistem pencatatan suhu dan pelacakan barang gagal untuk brand minuman maupun sistem operasional gudang logistik, keandalan transaksi dan keamanan hak akses staf di sisi server menjadi syarat mutlak. Prototipe buatan AI sangat membantu memvisualisasikan layar awal, namun logika transaksi inti wajib dirancang dengan validasi server yang teruji.',
     },
     content: [
       {
         type: 'paragraph',
-        text: '**Vibe coding**—kebiasaan membangun perangkat lunak dengan terus-menerus memberikan instruksi bahasa alami (*prompt*) ke AI hingga tampilannya terlihat berjalan tanpa memeriksa kode sumber di balik layar—sangat efektif untuk membuat prototipe tampilan atau alat hitung internal sekali pakai, tetapi berbahaya jika langsung digunakan untuk sistem pembayaran, pengelolaan data pribadi pelanggan, atau operasional multi-cabang tanpa tinjauan rekayasa perangkat lunak.',
+        text: '**Vibe coding**—kebiasaan membangun perangkat lunak dengan terus-menerus memberikan instruksi bahasa alami (*prompt*) ke AI hingga tampilannya terlihat berjalan tanpa memeriksa kode sumber di balik layar—sangat efektif untuk membuat prototipe tampilan atau alat hitung operasional sekali pakai, tetapi berbahaya jika langsung digunakan untuk sistem pembayaran, pengelolaan data pribadi pelanggan, atau operasional multi-cabang tanpa tinjauan rekayasa perangkat lunak.',
       },
       {
         type: 'paragraph',
@@ -562,9 +562,9 @@ export const NEW_BLOG_POSTS_ID_RAW: RawBlogPostInput[] = [
         type: 'ul',
         items: [
           'Prototipe visual (Clickable Mockup) untuk menyamakan visi: Sebelum kamu meminta vendor membangun [jasa software custom](/jasa/software-custom), membuat draf layar kasar menggunakan AI jauh lebih jelas daripada sekadar menjelaskan ide lewat telepon.',
-          'Kalkulator internal tanpa data sensitif: Misalnya halaman hitung cepat estimasi kebutuhan bahan bangunan, simulasi margin diskon internal, atau konversi satuan ukuran yang hanya dipakai sendiri.',
+          'Kalkulator operasional tanpa data sensitif: Misalnya halaman hitung cepat estimasi kebutuhan bahan bangunan, simulasi margin diskon tim, atau konversi satuan ukuran yang hanya dipakai sendiri.',
           'Skrip perapihan data satu kali (One-off scripts): Misalnya skrip Python sederhana untuk merapikan format penulisan nomor telepon di file CSV lokal di laptop kamu.',
-          'Alat eksperimen satu minggu (Throwaway tools): Halaman uji coba internal untuk rapat tim yang memang akan dibuang setelah keputusan bisnis diambil.',
+          'Alat eksperimen satu minggu (Throwaway tools): Halaman uji coba tim untuk rapat tim yang memang akan dibuang setelah keputusan bisnis diambil.',
         ],
       },
       {
@@ -595,12 +595,12 @@ export const NEW_BLOG_POSTS_ID_RAW: RawBlogPostInput[] = [
         ],
         rows: [
           [
-            'Mockup tampilan ide aplikasi baru untuk diskusi internal',
+            'Mockup tampilan ide aplikasi baru untuk diskusi tim',
             'Sangat rendah (hanya data contoh)',
             'Cukup dengan Vibe Coding / Prototipe mandiri',
           ],
           [
-            'Kalkulator simulasi harga internal tanpa koneksi database pelanggan',
+            'Kalkulator simulasi harga tim tanpa koneksi database pelanggan',
             'Rendah',
             'Cukup dengan Vibe Coding + pengecekan rumus dasar',
           ],
@@ -623,16 +623,16 @@ export const NEW_BLOG_POSTS_ID_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'paragraph',
-        text: 'Jika kamu atau tim internalmu sudah telanjur membangun aplikasi prototipe menggunakan AI dan ingin menaikkannya menjadi sistem kerja harian, pastikan lima daftar periksa teknis ini lulus 100%:',
+        text: 'Jika kamu atau tim operasionalmu sudah telanjur membangun aplikasi prototipe menggunakan AI dan ingin menaikkannya menjadi sistem kerja harian, pastikan lima daftar periksa teknis ini lulus 100%:',
       },
       {
         type: 'ul',
         items: [
-          '1. Manajemen kunci rahasia (Secrets Management): Pastikan tidak ada satu pun kunci API berbayar (seperti OpenAI/Gemini API key, kunci WhatsApp Cloud API, atau kredensial database admin) yang tertulis di kode frontend (`VITE_` atau `NEXT_PUBLIC_`). Semua pemanggilan kunci rahasia wajib melalui route server backend.',
-          '2. Validasi input di sisi server (Server-side Input Validation): Jangan pernah mempercayai data yang dikirim dari formulir browser. Gunakan validasi skema ketat (seperti Zod) di server dan kueri berparameter agar terhindar dari injeksi database.',
-          '3. Audit paket pihak ketiga (Dependencies Audit): Asisten AI terkadang menyarankan pustaka kode lama yang memiliki celah keamanan atau bahkan nama paket yang tidak ada (halusinasi paket). Periksa seluruh daftar `package.json` sebelum rilis.',
-          '4. Pencadangan otomatis & uji pemulihan (Automated Backups): Pastikan database PostgreSQL atau cloud kamu memiliki jadwal backup harian otomatis. Kode yang salah saat pembaruan fitur tidak boleh membuat data transaksi satu tahun hilang.',
-          '5. Pencatatan log audit (Structured Logging): Setiap perubahan data penting—siapa yang mengubah status pembayaran dan kapan—harus tercatat di tabel log yang tidak bisa diedit oleh staf biasa.',
+          'Manajemen kunci rahasia (Secrets Management): Pastikan tidak ada satu pun kunci API berbayar (seperti OpenAI/Gemini API key, kunci WhatsApp Cloud API, atau kredensial database admin) yang tertulis di kode frontend (`VITE_` atau `NEXT_PUBLIC_`). Semua pemanggilan kunci rahasia wajib melalui route server backend.',
+          'Validasi input di sisi server (Server-side Input Validation): Jangan pernah mempercayai data yang dikirim dari formulir browser. Gunakan validasi skema ketat di server dan kueri berparameter agar terhindar dari injeksi database.',
+          'Audit paket pihak ketiga (Dependencies Audit): Asisten AI terkadang menyarankan pustaka kode lama yang memiliki celah keamanan atau bahkan nama paket yang tidak ada (halusinasi paket). Periksa seluruh daftar `package.json` sebelum rilis.',
+          'Pencadangan otomatis & uji pemulihan (Automated Backups): Pastikan database bisnis atau cloud kamu memiliki jadwal backup harian otomatis. Kode yang salah saat pembaruan fitur tidak boleh membuat data transaksi satu tahun hilang.',
+          'Pencatatan log audit (Structured Logging): Setiap perubahan data penting—siapa yang mengubah status pembayaran dan kapan—harus tercatat di tabel log yang tidak bisa diedit oleh staf biasa.',
         ],
       },
       {
@@ -661,7 +661,7 @@ export const NEW_BLOG_POSTS_ID_RAW: RawBlogPostInput[] = [
       {
         question: 'Kalau saya sudah membuat prototipe aplikasi dengan bantuan AI, apakah CHESTAADOTCOM bisa membantu mematangkannya untuk produksi?',
         answer:
-          'Sangat bisa. Membawa prototipe visual yang sudah kamu buat justru mempercepat tahap pemetaan kebutuhan. Tim kami akan memeriksa struktur kodenya, memindahkan logika sensitif serta API key ke server backend yang aman, merapikan skema database PostgreSQL, dan menyiapkan sistemnya hingga siap dipakai tim kamu.',
+          'Sangat bisa. Membawa prototipe visual yang sudah kamu buat justru mempercepat tahap pemetaan kebutuhan. Tim kami akan memeriksa struktur kodenya, memindahkan logika sensitif serta API key ke server backend yang aman, merapikan skema database relasional, dan menyiapkan sistemnya hingga siap dipakai tim kamu.',
       },
       {
         question: 'Apa tanda paling mudah bahwa aplikasi hasil prompt AI tidak aman untuk langsung dipublikasikan?',
@@ -713,8 +713,8 @@ export const NEW_BLOG_POSTS_ID_RAW: RawBlogPostInput[] = [
       'Perhatikan cara pembeli mencari jasa hari ini: alih-alih membuka sepuluh tab biru di Google satu per satu, semakin banyak orang mengetik pertanyaan spesifik ke ChatGPT, Google Gemini, atau Perplexity dan langsung menghubungi bisnis yang namanya disebut di dalam rangkuman jawaban tersebut.',
     founderNote: {
       author: 'chesta',
-      title: 'Catatan Lapangan Co-Founder · Audit Keterbacaan Crawler AI',
-      text: '[ISI PENGALAMAN ASLI: Tambahkan pengamatan Chesta Azka saat memeriksa bagaimana website bisnis lokal yang hanya berisi gambar brosur atau SPA kosong gagal dibaca oleh crawler AI dibandingkan halaman yang memiliki ringkasan fakta dan JSON-LD rapi.]',
+      title: 'Catatan Arsitektur Co-Founder · Keterbacaan Crawler AI',
+      text: 'Saat kami membangun ulang arsitektur CHESTAADOTCOM V2, kami memastikan setiap halaman layanan dan area merender HTML utuh langsung dari server lengkap dengan ringkasan fakta 40–60 kata, skema JSON-LD @graph, serta indeks /llms.txt agar perayap mesin pencari dan asisten AI dapat membaca konteks bisnis tanpa terhalang bundel JavaScript kosong.',
     },
     content: [
       {
@@ -787,7 +787,7 @@ export const NEW_BLOG_POSTS_ID_RAW: RawBlogPostInput[] = [
         type: 'ol',
         items: [
           'Pasang kotak "Ringkasan Singkat" (40–60 kata) di atas setiap halaman layanan: Tuliskan dalam tiga kalimat padat mengenai layanan apa yang kamu tawarkan, jenis bisnis atau pelanggan mana yang kamu bantu di wilayah tersebut, serta patokan harga dan estimasi waktu pengerjaannya.',
-          'Bangun halaman area layanan yang benar-benar unik (Bukan Doorway Page): Jika bisnismu melayani BSD City, Alam Sutera, Bintaro, dan Gading Serpong, jangan membuat sepuluh halaman kembar yang hanya mengganti nama kota. Tuliskan skenario nyata yang sesuai dengan karakter bisnis di masing-masing kawasan dan jelaskan secara jujur apakah timmu berkantor di sana atau melayani secara remote dan kunjungan terjadwal.',
+          'Bangun halaman area layanan yang benar-benar unik (Bukan Doorway Page): Jika bisnismu melayani BSD City, Alam Sutera, Bintaro, dan Gading Serpong, jangan membuat sepuluh halaman kembar yang hanya mengganti nama kota. Tuliskan contoh skenario yang sesuai dengan karakter bisnis di masing-masing kawasan dan jelaskan secara jujur apakah timmu berkantor di sana atau melayani secara remote dan kunjungan terjadwal.',
           'Gunakan Schema JSON-LD terpadu (@graph): Gabungkan deklarasi `Organization`, `LocalBusiness` (lengkap dengan `areaServed` dan `priceRange`), `Service`, serta `FAQPage` di dalam satu blok JSON-LD yang bersih pada `<head>` halaman.',
           'Pastikan HTML ter-render dari server (Server-Side Pre-rendering): Banyak perayap AI tidak mengeksekusi bundel JavaScript berat. Jika kode sumber halamanmu hanya berisi `<div id="root"></div>` kosong saat dilihat melalui View Page Source, crawler AI akan menganggap halamanmu kosong.',
           'Sediakan peta ringkas `/llms.txt` dan buka akses di `robots.txt`: Izinkan perayap resmi seperti `GPTBot`, `OAI-SearchBot`, `ClaudeBot`, `PerplexityBot`, dan `Google-Extended` di `robots.txt`, serta sediakan file `/llms.txt` yang merangkum profil resmi, daftar layanan, dan tautan panduan utamamu.',
@@ -861,7 +861,7 @@ export const NEW_BLOG_POSTS_ID_RAW: RawBlogPostInput[] = [
     excerpt:
       'Tim admin sering menghabiskan berjam-jam hanya untuk menyalin data dari form ke spreadsheet, membuat draf invoice, dan mengirim pengingat jadwal. Pelajari 5 alur yang bisa diotomasi.',
     metaDescription:
-      '5 pekerjaan repetitif di bisnis yang bisa diotomasi menggunakan n8n, Make, atau webhook Node.js, lengkap dengan tabel perbandingan biaya dan cara memilih tool yang tepat.',
+      '5 pekerjaan repetitif di bisnis yang bisa diotomasi menggunakan Make, Zapier, atau webhook API, lengkap dengan tabel perbandingan biaya dan cara memilih tool.',
     category: 'Otomasi AI & Workflow',
     categorySlug: 'otomasi-ai',
     tags: ['Otomasi Workflow', 'n8n', 'Make', 'Efisiensi Operasional', 'Integrasi Spreadsheet'],
@@ -877,13 +877,13 @@ export const NEW_BLOG_POSTS_ID_RAW: RawBlogPostInput[] = [
       'Coba amati pekerjaan staf admin atau operasionalmu antara pukul 09.00 pagi hingga 17.00 sore. Berapa banyak waktu yang habis bukan untuk melayani pelanggan, melainkan untuk memindahkan baris data yang sama dari WhatsApp ke Google Sheets, lalu dari Google Sheets ke template invoice?',
     founderNote: {
       author: 'zeeshan',
-      title: 'Catatan Lapangan Co-Founder · Audit Efisiensi Operasional Admin',
-      text: '[ISI PENGALAMAN ASLI: Tambahkan catatan Zeeshan saat memetakan jam kerja admin klien sebelum dan sesudah alur salin-tempel spreadsheet serta reminder WhatsApp diotomasi dengan n8n.]',
+      title: 'Catatan Operasional Co-Founder · Pemetaan Alur Kerja Admin',
+      text: 'Dalam sesi audit alur kerja 30 menit di CHESTAADOTCOM, kami selalu memulai dengan memetakan langkah salin-tempel yang paling sering menguras waktu staf setiap hari—mulai dari pencatatan prospek WhatsApp ke lembar kerja hingga pengiriman pengingat jadwal—sebelum menentukan bagian mana yang perlu diotomasi.',
     },
     content: [
       {
         type: 'paragraph',
-        text: '**Otomasi workflow bisnis** menggunakan platform seperti **n8n**, **Make**, atau webhook **Node.js** memungkinkan aplikasi kerja yang sudah dipakai timmu sehari-hari—seperti formulir web, Google Sheets, sistem kasir (POS), kalender, dan WhatsApp—saling mengirim dan memproses data secara otomatis di latar belakang tanpa salin-tempel manual. Keunggulan utamanya adalah staf kamu tidak perlu mempelajari software ERP baru yang rumit; mereka tetap bekerja di spreadsheet atau kalender yang sudah akrab, sementara pipa datanya berjalan sendiri.',
+        text: '**Otomasi workflow bisnis** menggunakan platform seperti **Make**, **Zapier**, atau webhook API memungkinkan aplikasi kerja yang sudah dipakai timmu sehari-hari—seperti formulir web, Google Sheets, sistem kasir (POS), kalender, dan WhatsApp—saling mengirim dan memproses data secara otomatis di latar belakang tanpa salin-tempel manual. Keunggulan utamanya adalah staf kamu tidak perlu mempelajari software ERP baru yang rumit; mereka tetap bekerja di spreadsheet atau kalender yang sudah akrab, sementara pipa datanya berjalan sendiri.',
       },
       {
         type: 'paragraph',
@@ -941,12 +941,12 @@ export const NEW_BLOG_POSTS_ID_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'table',
-        caption: 'Perbandingan platform otomasi workflow: Zapier vs Make vs Self-Hosted n8n vs Kode Node.js Custom',
+        caption: 'Perbandingan platform otomasi workflow: Zapier vs Make vs Self-Hosted Automation + Webhook API',
         headers: [
           'Kriteria Pemilihan',
           'Zapier (Cloud SaaS)',
           'Make (Cloud SaaS)',
-          'n8n Self-Hosted + Node.js',
+          'Self-Hosted Workflow + Webhook API',
         ],
         rows: [
           [
@@ -971,7 +971,7 @@ export const NEW_BLOG_POSTS_ID_RAW: RawBlogPostInput[] = [
             'Kapan paling tepat dipilih',
             'Tim non-teknis dengan kurang dari 500 transaksi/bulan',
             'Otomasi pemasaran & operasional skala kecil-menengah',
-            'Operasional bisnis harian berfrekuensi tinggi, integrasi WA & database internal',
+            'Operasional bisnis harian berfrekuensi tinggi, integrasi WA & database operasional',
           ],
         ],
       },
@@ -1002,7 +1002,7 @@ export const NEW_BLOG_POSTS_ID_RAW: RawBlogPostInput[] = [
       slug: 'otomasi-workflow',
       title: 'Sambungkan Spreadsheet, Form, Invoice & WhatsApp Bisnismu Tanpa Salin Manual',
       description:
-        'Kami merancang dan membangun pipa otomasi workflow menggunakan n8n dan Node.js lengkap dengan sistem retry dan log error. Biaya dihitung transparan setelah audit gratis 30 menit.',
+        'Kami merancang dan membangun pipa otomasi workflow menggunakan Make, Zapier, dan webhook API lengkap dengan sistem retry dan log error. Biaya dihitung transparan setelah audit gratis 30 menit.',
       href: '/jasa/otomasi-workflow',
       label: 'Pelajari Jasa Otomasi Workflow',
     },
@@ -1010,7 +1010,7 @@ export const NEW_BLOG_POSTS_ID_RAW: RawBlogPostInput[] = [
       {
         question: 'Apakah tim saya harus berhenti memakai Google Sheets jika memasang otomasi workflow?',
         answer:
-          'Tidak perlu. Justru sebagian besar klien kami tetap menggunakan Google Sheets karena seluruh staf sudah terbiasa. Otomasi bekerja di belakang layar untuk mengisi, merapikan, dan mengirim notifikasi dari spreadsheet tersebut secara otomatis.',
+          'Tidak perlu. Sebagian besar tim bisnis tetap menggunakan Google Sheets karena seluruh staf sudah terbiasa. Otomasi bekerja di belakang layar untuk mengisi, merapikan, dan mengirim notifikasi dari spreadsheet tersebut secara otomatis.',
       },
       {
         question: 'Mengapa CHESTAADOTCOM lebih sering merekomendasikan n8n dibandingkan Zapier untuk operasional bisnis?',
@@ -1168,18 +1168,18 @@ export const NEW_BLOG_POSTS_ID_RAW: RawBlogPostInput[] = [
         language: 'json',
         caption: 'Contoh skenario: Jejak eksekusi ReAct loop pada reservasi jadwal klinik',
         code: `// [INPUT PENGGUNA]
-"Halo, apakah drg. Rina ada jadwal kosong hari Sabtu 31 Oktober sekitar jam 4 sore?"
+"Halo, apakah dokter gigi jaga ada jadwal kosong hari Sabtu 31 Oktober sekitar jam 4 sore?"
 
 // [LANGKAH 1: THOUGHT DARI MODEL]
 {
-  "thought": "Pengguna menanyakan ketersediaan dokter gigi spesifik (drg. Rina) pada tanggal 2026-10-31 sekitar pukul 16:00. Saya perlu memeriksa slot kalender menggunakan alat check_therapist_availability."
+  "thought": "Pengguna menanyakan ketersediaan dokter gigi jaga pada tanggal 2026-10-31 sekitar pukul 16:00. Saya perlu memeriksa slot kalender menggunakan alat check_therapist_availability."
 }
 
 // [LANGKAH 2: ACTION (TOOL CALL)]
 {
   "action": "check_therapist_availability",
   "parameters": {
-    "doctor_id": "drg_rina",
+    "doctor_id": "dentist_on_duty",
     "target_date": "2026-10-31",
     "target_time": "16:00",
     "duration_minutes": 45
@@ -1203,7 +1203,7 @@ export const NEW_BLOG_POSTS_ID_RAW: RawBlogPostInput[] = [
 }
 
 // [LANGKAH 5: BALASAN FINAL KE PENGGUNA]
-"Halo! Jadwal drg. Rina pada hari Sabtu, 31 Oktober pukul 16.00 WIB di cabang BSD City masih kosong dan tersedia. Apakah kamu ingin saya siapkan reservasinya sekarang atas nama kamu?"`,
+"Halo! Jadwal dokter gigi jaga pada hari Sabtu, 31 Oktober pukul 16.00 WIB di cabang BSD City masih kosong dan tersedia. Apakah kamu ingin saya siapkan reservasinya sekarang atas nama kamu?"`,
       },
       {
         type: 'paragraph',
@@ -1216,7 +1216,7 @@ export const NEW_BLOG_POSTS_ID_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'paragraph',
-        text: 'Salah satu kendala terbesar dalam pengembangan AI agent di masa lalu adalah fragmentasi integrasi. Setiap kali pengembang ingin menyambungkan agen ke database PostgreSQL, Google Drive, atau repositori GitHub, mereka harus menulis kode pembungkus (*wrapper*) dan format skema yang berbeda-beda untuk tiap model.',
+        text: 'Salah satu kendala terbesar dalam pengembangan AI agent di masa lalu adalah fragmentasi integrasi. Setiap kali pengembang ingin menyambungkan agen ke database relasional, Google Drive, atau repositori GitHub, mereka harus menulis kode pembungkus (*wrapper*) dan format skema yang berbeda-beda untuk tiap model.',
       },
       {
         type: 'paragraph',
@@ -1280,7 +1280,7 @@ export const NEW_BLOG_POSTS_ID_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'paragraph',
-        text: 'Dalam proyek internal kami yang dapat kamu pelajari di [studi kasus WA Concierge Klinik](/studi-kasus/wa-concierge-klinik), kami merancang agen yang terhubung langsung ke WhatsApp Business Platform dan kalender terapis. Agen ini mampu membaca maksud pasien dalam bahasa percakapan sehari-hari, memeriksa slot waktu yang lowong, membuat draf reservasi sementara, mengirimkan pesan pengingat otomatis sehari sebelum jadwal (H-1), serta menyerahkan percakapan kepada staf resepsionis jika pasien menanyakan tindakan medis kompleks di luar katalog.',
+        text: 'Dalam contoh proyek kami yang dapat kamu pelajari di [studi kasus WA Concierge Klinik](/studi-kasus/wa-concierge-klinik), kami merancang agen yang terhubung langsung ke WhatsApp Business Platform dan kalender terapis. Agen ini mampu membaca maksud pasien dalam bahasa percakapan sehari-hari, memeriksa slot waktu yang lowong, membuat draf reservasi sementara, mengirimkan pesan pengingat otomatis sehari sebelum jadwal (H-1), serta menyerahkan percakapan kepada staf resepsionis jika pasien menanyakan tindakan medis kompleks di luar katalog.',
       },
       {
         type: 'h3',
@@ -1293,7 +1293,7 @@ export const NEW_BLOG_POSTS_ID_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'paragraph',
-        text: 'Melalui pendekatan agen cerdas seperti yang kami eksplorasi pada proyek internal kami [Pemroses Dokumen AI](/portfolio/pemroses-dokumen), agen menerima dokumen lampiran email, mengekstrak baris rincian barang secara terstruktur, memvalidasi nomor pokok wajib pajak dengan aturan matematika validasi, dan menyajikan ringkasan tabel siap tinjau kepada manajer keuangan sebelum data difinalisasi ke buku besar.',
+        text: 'Melalui pendekatan agen cerdas seperti yang kami eksplorasi pada contoh proyek kami [Pemroses Dokumen AI](/portfolio/pemroses-dokumen), agen menerima dokumen lampiran email, mengekstrak baris rincian barang secara terstruktur, memvalidasi nomor pokok wajib pajak dengan aturan matematika validasi, dan menyajikan ringkasan tabel siap tinjau kepada manajer keuangan sebelum data difinalisasi ke buku besar.',
       },
       {
         type: 'h2',
@@ -1413,7 +1413,7 @@ export const NEW_BLOG_POSTS_ID_RAW: RawBlogPostInput[] = [
       {
         question: 'Berapa biaya untuk mulai mengimplementasikan AI agent di bisnis kami?',
         answer:
-          'Biaya pembuatan AI agent bergantung pada kompleksitas integrasi tool (apakah butuh integrasi ke WhatsApp Business API resmi, kalender, sistem POS, atau CRM internal). Kami menyediakan audit kebutuhan awal secara gratis untuk memetakan alur kerja sebelum memberikan penawaran lingkup kerja transparan. [Pelajari rincian jasa AI agent kami](/jasa/ai-agent).',
+          'Biaya pembuatan AI agent bergantung pada kompleksitas integrasi tool (apakah butuh integrasi ke WhatsApp Business API resmi, kalender, sistem POS, atau CRM operasional). Kami menyediakan audit kebutuhan awal secara gratis untuk memetakan alur kerja sebelum memberikan penawaran lingkup kerja transparan. [Pelajari rincian jasa AI agent kami](/jasa/ai-agent).',
       },
     ],
     relatedSlugs: [

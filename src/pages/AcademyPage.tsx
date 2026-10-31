@@ -37,7 +37,7 @@ export default function AcademyPage() {
         link: `/portfolio/${p.id}`,
         category: p.category,
         tags: p.techStack || [],
-        meta: p.client || 'Client Case Study',
+        meta: p.badgeLabel,
         featured: false,
         icon: <Terminal className="text-slate-900" size={24} />
       })),

@@ -110,7 +110,7 @@ export const BLOG_POSTS_15_16_EN_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'paragraph',
-        text: 'Next.js allows developers to compile pages into static files at build time (static generation). When a prospective buyer taps your link, the server delivers the ready-made page immediately without querying a database. You can see how page speed directly protects your advertising budget in our article on [why slow landing pages waste ad spend](/en/blog/why-slow-landing-pages-waste-ad-spend).',
+        text: 'Next.js allows developers to compile pages into static files at build time (static generation). When a prospective buyer taps your link, the server delivers the ready-made page immediately without querying a database. You can see how page speed directly protects your advertising budget in our article on why slow landing pages waste ad spend.',
       },
       {
         type: 'paragraph',
@@ -192,7 +192,7 @@ export const BLOG_POSTS_15_16_EN_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'paragraph',
-        text: '**Example scenario three (interior contracting firm or B2B service provider):** A service company needs a landing site that loads rapidly when receiving paid Google Ads clicks, complete with an interactive budget estimation calculator and direct integration into an internal lead queue. Custom interactivity and strict speed targets like these align well with an application framework like Next.js.',
+        text: '**Example scenario three (interior contracting firm or B2B service provider):** A service company needs a landing site that loads rapidly when receiving paid Google Ads clicks, complete with an interactive budget estimation calculator and direct integration into an team lead queue. Custom interactivity and strict speed targets like these align well with an application framework like Next.js.',
       },
       {
         type: 'h2',
@@ -257,7 +257,7 @@ export const BLOG_POSTS_15_16_EN_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'paragraph',
-        text: 'For a concrete example of how static architecture works in practice, you can examine our internal project in the [case study on rebuilding the bilingual chestaa.com v2 website](/en/case-studies/chestaa-v2). Our internal project was engineered to serve pre-built pages without unnecessary script overhead so it feels responsive on mobile phones.',
+        text: 'For a concrete example of how static architecture works in practice, you can examine our sample project in the [case study on rebuilding the bilingual chestaa.com v2 website](/en/case-studies/chestaa-v2). Our sample project was engineered to serve pre-built pages without unnecessary script overhead so it feels responsive on mobile phones.',
       },
       {
         type: 'ol',
@@ -418,7 +418,7 @@ export const BLOG_POSTS_15_16_EN_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'paragraph',
-        text: 'To prevent misunderstandings later, get in the habit of requesting a clear cost separation before the project starts, as detailed in our [business website cost breakdown guide](/en/blog/how-much-does-a-business-website-cost-pricing-guide). That way, no surprise bills disrupt your cash flow.',
+        text: 'To prevent misunderstandings later, get in the habit of requesting a clear cost separation before the project starts, as detailed in our business website cost breakdown guide. That way, no surprise bills disrupt your cash flow.',
       },
       {
         type: 'h2',
@@ -473,7 +473,7 @@ export const BLOG_POSTS_15_16_EN_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'paragraph',
-        text: 'Conversely, if your daily operations rely on an internal web application—such as our internal project in the [Cafe Operations Dashboard case study](/en/case-studies/dashboard-kafe) that tracks ingredient stock variance and daily branch sales—even a few hours of downtime during peak hours disrupts cashiers and stock clerks. For systems like that, having an on-call technical partner costs far less than hiring a full-time in-house developer.',
+        text: 'Conversely, if your daily operations rely on an operational web application—such as our sample project in the [Cafe Operations Dashboard case study](/en/case-studies/dashboard-kafe) that tracks ingredient stock variance and daily branch sales—even a few hours of downtime during peak hours disrupts cashiers and stock clerks. For systems like that, having an on-call technical partner costs far less than hiring a full-time in-house developer.',
       },
       {
         type: 'h2',
@@ -522,7 +522,7 @@ export const BLOG_POSTS_15_16_EN_RAW: RawBlogPostInput[] = [
           [
             'Recommended Upkeep Model',
             'Self-renew + on-demand edits',
-            'Light care plan or disciplined internal staff',
+            'Light care plan or disciplined in-house staff',
             'Scheduled maintenance plan with clear SLA',
           ],
         ],
@@ -581,12 +581,12 @@ export const BLOG_POSTS_15_16_EN_RAW: RawBlogPostInput[] = [
           'Record the annual domain renewal fee directly from the official registrar you use; check the official documentation for current figures and terms.',
           'Record the hosting plan, cloud database storage, or API messaging quota costs based on your monthly usage volume; check each provider official documentation for current figures and terms.',
           'Estimate how many times a year your business will need promotional page redesigns or small feature additions beyond basic text changes.',
-          'Decide whether routine monitoring will be executed by internal staff following a written checklist or delegated to a technical partner on a fixed monthly retainer.',
+          'Decide whether routine monitoring will be executed by in-house staff following a written checklist or delegated to a technical partner on a fixed monthly retainer.',
         ],
       },
       {
         type: 'paragraph',
-        text: '**Example scenario (joint medical practice and home renovation service in Jurang Mangu):** Imagine you manage a medical practice or renovation contracting office in the [Jurang Mangu service area](/en/areas). You run a profile website to receive consultation inquiries and a simple internal table to log site survey schedules.',
+        text: '**Example scenario (joint medical practice and home renovation service in Jurang Mangu):** Imagine you manage a medical practice or renovation contracting office in the [Jurang Mangu service area](/en/areas). You run a profile website to receive consultation inquiries and a simple operational table to log site survey schedules.',
       },
       {
         type: 'paragraph',

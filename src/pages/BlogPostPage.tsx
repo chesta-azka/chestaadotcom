@@ -57,6 +57,7 @@ interface TocItem {
 function buildTocFromContent(
   blocks: BlogContentBlock[],
   hasFaq: boolean,
+  hasSumber: boolean,
   isEn: boolean
 ): TocItem[] {
   const items: TocItem[] = [];
@@ -76,6 +77,18 @@ function buildTocFromContent(
     items.push({
       id: 'faq',
       text: isEn ? 'Frequently Asked Questions (FAQ)' : 'Pertanyaan Umum (FAQ)',
+      level: 2,
+    });
+  }
+  items.push({
+    id: 'baca-juga',
+    text: isEn ? 'Further Reading & Service' : 'Baca Juga & Layanan Terkait',
+    level: 2,
+  });
+  if (hasSumber) {
+    items.push({
+      id: 'sumber-rujukan',
+      text: isEn ? 'Official Reference Sources' : 'Sumber Rujukan Resmi',
       level: 2,
     });
   }
@@ -392,12 +405,55 @@ export default function BlogPostPage() {
   const [activeHeadingId, setActiveHeadingId] = useState<string>('');
   const [linkCopied, setLinkCopied] = useState(false);
 
+  // Partition post.content into:
+  // 1. Poin utama block (if exists as a ul titled Poin utama / Key takeaways)
+  // 2. Sumber blocks (if exists as an H2 section containing 'sumber' / 'source')
+  // 3. Main narrative body blocks
+  const { poinUtamaBlock, sumberBlocks, bodyBlocks } = useMemo(() => {
+    if (!post) {
+      return { poinUtamaBlock: null, sumberBlocks: [] as BlogContentBlock[], bodyBlocks: [] as BlogContentBlock[] };
+    }
+
+    const poinIdx = post.content.findIndex(
+      (b) =>
+        b.type === 'ul' &&
+        Boolean(b.title && /poin utama|key takeaway/i.test(b.title))
+    );
+    const poinUtama = poinIdx !== -1 ? post.content[poinIdx] : null;
+
+    const sumberH2Idx = post.content.findIndex(
+      (b) => b.type === 'h2' && /sumber|source/i.test(b.text)
+    );
+
+    let sumber: BlogContentBlock[] = [];
+    if (sumberH2Idx !== -1) {
+      const nextH2Idx = post.content.findIndex(
+        (b, i) => i > sumberH2Idx && b.type === 'h2'
+      );
+      sumber =
+        nextH2Idx !== -1
+          ? post.content.slice(sumberH2Idx, nextH2Idx)
+          : post.content.slice(sumberH2Idx);
+    }
+
+    const body = post.content.filter(
+      (b) => b !== poinUtama && !sumber.includes(b)
+    );
+
+    return { poinUtamaBlock: poinUtama, sumberBlocks: sumber, bodyBlocks: body };
+  }, [post]);
+
   const tocItems = useMemo(
     () =>
       post
-        ? buildTocFromContent(post.content, post.faq.length > 0, isEn)
+        ? buildTocFromContent(
+            bodyBlocks,
+            post.faq.length > 0,
+            sumberBlocks.length > 0,
+            isEn
+          )
         : [],
-    [post, isEn]
+    [post, bodyBlocks, sumberBlocks, isEn]
   );
 
   // Thin Reading Progress Bar
@@ -716,7 +772,7 @@ export default function BlogPostPage() {
         </header>
 
         {/* 3. 16:9 COVER IMAGE WITH EXPLICIT DIMENSIONS, HIGH FETCHPRIORITY & SHARED VIEW TRANSITION */}
-        <div className="mt-8 mb-12 rounded-[24px] overflow-hidden border border-[rgba(91,60,196,0.14)] bg-[#F8F6FE] aspect-video max-w-4xl">
+        <div className="mt-8 mb-8 rounded-[24px] overflow-hidden border border-[rgba(91,60,196,0.14)] bg-[#F8F6FE] aspect-video max-w-4xl">
           <ImageWithFallback
             src={post.cover}
             alt={post.coverAlt}
@@ -728,7 +784,26 @@ export default function BlogPostPage() {
           />
         </div>
 
-        {/* 4. MOBILE COLLAPSIBLE TABLE OF CONTENTS */}
+        {/* 4. POIN UTAMA / KEY TAKEAWAYS (3 BULLETS HIGHLIGHT CARD) */}
+        {poinUtamaBlock && poinUtamaBlock.type === 'ul' && (
+          <div className="mb-10 p-6 md:p-7 rounded-[22px] bg-[#F8F6FE] border-2 border-[rgba(91,60,196,0.22)] shadow-[0_4px_24px_rgba(91,60,196,0.06)] max-w-4xl">
+            <div className="flex items-center gap-2 mb-3.5">
+              <Sparkles size={16} className="text-[#6A3FD0]" />
+              <h2 className="font-mono text-[12px] md:text-[13px] uppercase tracking-[0.08em] text-[#6A3FD0] font-bold">
+                {poinUtamaBlock.title || (isEn ? 'Key takeaways' : 'Poin utama')}
+              </h2>
+            </div>
+            <ul className="space-y-3 pl-5 list-disc marker:text-[#6A3FD0]">
+              {poinUtamaBlock.items.map((item, i) => (
+                <li key={i} className="pl-1 text-[#17122B] text-[15.5px] md:text-[16px] font-medium leading-[1.65]">
+                  {renderInlineContent(item)}
+                </li>
+              ))}
+            </ul>
+          </div>
+        )}
+
+        {/* 5. MOBILE COLLAPSIBLE TABLE OF CONTENTS */}
         {tocItems.length > 0 && (
           <div className="lg:hidden mb-8 rounded-[20px] bg-[#F8F6FE] border border-[rgba(91,60,196,0.14)] overflow-hidden">
             <button
@@ -776,11 +851,11 @@ export default function BlogPostPage() {
           </div>
         )}
 
-        {/* 5. READING COLUMN (~680PX) + STICKY DESKTOP TOC */}
+        {/* 6. READING COLUMN (~680PX) + STICKY DESKTOP TOC */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
           {/* Left Reading Column (max 680px) */}
           <div className="lg:col-span-8 w-full max-w-[680px]">
-            {/* Dedicated Founder Field-Note Callout Box ([ISI PENGALAMAN ASLI]) */}
+            {/* Dedicated Founder Field-Note Callout Box */}
             {post.founderNote && (
               <FounderFieldNoteCard
                 founderNote={post.founderNote}
@@ -791,14 +866,24 @@ export default function BlogPostPage() {
             )}
 
             <div className="space-y-5 text-[#5B5675] text-[15.5px] md:text-[16px] leading-[1.72]">
-              {post.content.map((block, index) => {
+              {bodyBlocks.map((block, index) => {
                 switch (block.type) {
-                  case 'paragraph':
+                  case 'paragraph': {
+                    const prevBlock = index > 0 ? bodyBlocks[index - 1] : null;
+                    const isAnswerCapsule = prevBlock?.type === 'h2';
                     return (
-                      <p key={index} className="text-[#3E3954]">
+                      <p
+                        key={index}
+                        className={
+                          isAnswerCapsule
+                            ? 'text-[#17122B] font-medium text-[16px] md:text-[17px] leading-[1.72] p-4 md:p-5 rounded-[16px] bg-[#F8F6FE] border-l-4 border-[#6A3FD0] shadow-[0_2px_12px_rgba(91,60,196,0.04)]'
+                            : 'text-[#3E3954]'
+                        }
+                      >
                         {renderInlineContent(block.text)}
                       </p>
                     );
+                  }
 
                   case 'h2':
                     return (

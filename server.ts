@@ -10,10 +10,12 @@ import { getAuth } from 'firebase-admin/auth';
 import { getFirestore } from 'firebase-admin/firestore';
 import fsSync from 'fs';
 const firebaseConfig = JSON.parse(fsSync.readFileSync('./firebase-applet-config.json', 'utf8'));
+const ADMIN_DATABASE_ID = firebaseConfig.firestoreDatabaseId || 'ai-studio-07319849-f721-4705-badf-87d9debdf6a5';
 
 if (getApps().length === 0) { 
   initializeApp({ projectId: firebaseConfig.projectId }); 
 }
+const getAdminDb = () => getFirestore(ADMIN_DATABASE_ID);
 
 import Groq from "groq-sdk";
 import { injectSocialMeta } from "./src/lib/social-meta";
@@ -21,9 +23,11 @@ import {
   generateSitemapXml,
   generateSitemapIndexXml,
   generateSitemapPagesXml,
+  generateSitemapProjectsXml,
   generateSitemapServicesXml,
   generateSitemapAreasXml,
   generateSitemapBlogXml,
+  generateSitemapAllXml,
   generateRssXml,
   generateRobotsTxt,
   generateLlmsTxt,
@@ -40,12 +44,23 @@ app.use(compression());
 app.use(express.json());
 
 // Canonical www -> non-www 301 redirect (canonical domain: https://chestaa.com)
+// Resolve legacy/root redirects in the same hop so www.chestaa.com/ redirects in 1 hop to https://chestaa.com/id
 app.use((req, res, next) => {
-  const host = (req.headers.host || "").toLowerCase();
-  if (host.startsWith("www.")) {
-    const cleanHost = host.replace(/^www\./, "");
-    const proto = req.headers["x-forwarded-proto"] || req.protocol || "https";
-    return res.redirect(301, `${proto}://${cleanHost}${req.originalUrl}`);
+  const rawHost = (req.headers["x-forwarded-host"] || req.headers.host || "")
+    .toString()
+    .split(",")[0]
+    .trim()
+    .toLowerCase();
+  if (rawHost.startsWith("www.")) {
+    const cleanHost = rawHost.replace(/^www\./, "").replace(/:\d+$/, "");
+    const proto = (req.headers["x-forwarded-proto"] || req.protocol || "https")
+      .toString()
+      .split(",")[0]
+      .trim();
+    const resolvedTarget = resolveRedirectTarget(req.path || "/");
+    const targetPath =
+      resolvedTarget && resolvedTarget !== req.path ? resolvedTarget : req.originalUrl;
+    return res.redirect(301, `${proto}://${cleanHost}${targetPath}`);
   }
   next();
 });
@@ -104,7 +119,7 @@ app.get("/api/admin/verify", verifyFirebaseToken, (req: any, res: any) => {
 
 app.use(express.json());
 
-const PORT = 3000;
+const PORT = Number(process.env.PORT) || 3000;
 
 const groqApiKey = process.env.GROQ_API_KEY;
 const groq = (groqApiKey && groqApiKey.startsWith('gsk_') && groqApiKey.length > 10) ? new Groq({ apiKey: groqApiKey }) : null;
@@ -834,12 +849,12 @@ Berikan respons dalam format Markdown dengan struktur berikut:
 // API: Fetch current SEO performance metrics for landing page from analytics database
 app.get("/api/admin/seo-performance", async (req, res) => {
   try {
-    const adminDb = getFirestore();
+    const adminDb = getAdminDb();
     const landingDoc = await adminDb.collection('seo_settings').doc('home').get();
     const landingSeo = landingDoc.exists ? landingDoc.data() : {
       title: "Dominasi Pasar Digital. Amankan Profit Maksimal. | CHESTAADOTCOM",
       description: "Sistem otonom berkecepatan tinggi yang melayani pelanggan 24/7. Pangkas biaya operasional admin dan mengembangkan bisnis dengan arsitektur digital kelas enterprise.",
-      ogImage: "https://chestaadotcom.com/og.png"
+      ogImage: `${SITE_URL}/images/og/id/home.png`
     };
 
     // Query server_analytics collection for landing page traffic & real user metrics
@@ -989,7 +1004,7 @@ TUGAS ANDA:
 // API: Search Intent vs Actual Organic Traffic Heatmap Dataset
 app.get("/api/admin/search-intent-heatmap", async (req, res) => {
   try {
-    const adminDb = getFirestore();
+    const adminDb = getAdminDb();
     let totalVisits = 1420;
     try {
       const snap = await adminDb.collection('server_analytics').limit(200).get();
@@ -1341,7 +1356,7 @@ app.post("/api/score-lead", async (req, res) => {
   });
 
   try {
-    const adminDb = getFirestore();
+    const adminDb = getAdminDb();
     let analysisResult: z.infer<typeof LeadScoringSchema> = {
       score: 45,
       tier: "Warm Lead",
@@ -1571,7 +1586,7 @@ app.post("/api/ai/summarize-conversation", async (req, res) => {
   });
 
   try {
-    const adminDb = getFirestore();
+    const adminDb = getAdminDb();
     const chatText = transcript || messages.map((m: any) => `${m.role}: ${m.content}`).join('\n');
 
     let summaryData: z.infer<typeof SummarySchema> = {
@@ -1716,7 +1731,7 @@ app.post("/api/calendar/book", async (req, res) => {
   }
 
   try {
-    const adminDb = getFirestore();
+    const adminDb = getAdminDb();
     const bookingId = sessionId || `booking_${Date.now()}`;
     
     const bookingData = {
@@ -1777,6 +1792,17 @@ app.get("/sitemap-pages.xml", (req, res) => {
   }
 });
 
+app.get("/sitemap-projects.xml", (req, res) => {
+  try {
+    const xml = generateSitemapProjectsXml(SITE_URL);
+    res.setHeader("Content-Type", "application/xml; charset=utf-8");
+    res.setHeader("Cache-Control", "public, max-age=3600");
+    res.status(200).send(xml);
+  } catch (error: any) {
+    res.status(500).send("Error generating sitemap-projects.xml");
+  }
+});
+
 app.get("/sitemap-services.xml", (req, res) => {
   try {
     const xml = generateSitemapServicesXml(SITE_URL);
@@ -1812,7 +1838,7 @@ app.get("/sitemap-blog.xml", (req, res) => {
 
 app.get("/sitemap-all.xml", (req, res) => {
   try {
-    const xml = generateSitemapXml(SITE_URL);
+    const xml = generateSitemapAllXml(SITE_URL);
     res.setHeader("Content-Type", "application/xml; charset=utf-8");
     res.setHeader("Cache-Control", "public, max-age=3600");
     res.status(200).send(xml);
@@ -1928,14 +1954,20 @@ app.get("/api/og", (req, res) => {
 
 // Vite middleware for development / Production Static + SSR Pre-render Fallback
 if (process.env.NODE_ENV !== "production") {
-  const vitePromise = createViteServer({
-    server: { middlewareMode: true },
-    appType: "custom",
-  });
+  let vitePromise: ReturnType<typeof createViteServer> | null = null;
+  const getVite = () => {
+    if (!vitePromise) {
+      vitePromise = createViteServer({
+        server: { middlewareMode: true, hmr: false },
+        appType: "custom",
+      });
+    }
+    return vitePromise;
+  };
 
   app.use(async (req, res, next) => {
     try {
-      const vite = await vitePromise;
+      const vite = await getVite();
       vite.middlewares(req, res, next);
     } catch (err) {
       next(err);
@@ -1947,7 +1979,7 @@ if (process.env.NODE_ENV !== "production") {
       return next();
     }
     try {
-      const vite = await vitePromise;
+      const vite = await getVite();
       const url = req.originalUrl;
       let template = await fs.readFile(
         path.join(process.cwd(), "index.html"),
@@ -1959,7 +1991,7 @@ if (process.env.NODE_ENV !== "production") {
       res.status(statusCode).set({ "Content-Type": "text/html; charset=utf-8" }).end(html);
     } catch (e: any) {
       try {
-        const vite = await vitePromise;
+        const vite = await getVite();
         vite.ssrFixStacktrace(e);
       } catch {}
       next(e);
@@ -1992,6 +2024,14 @@ if (process.env.NODE_ENV !== "production") {
   });
 }
 
-app.listen(PORT, "0.0.0.0", () => {
+const server = app.listen(PORT, "0.0.0.0", () => {
   console.log(`Server running on http://localhost:${PORT}`);
+});
+
+server.on("error", (err: any) => {
+  if (err && err.code === "EADDRINUSE") {
+    console.warn(`Port ${PORT} is already in use; assuming existing server instance is active.`);
+  } else {
+    console.error("Server error:", err);
+  }
 });

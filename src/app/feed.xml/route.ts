@@ -3,7 +3,7 @@ import { adminDb } from '../../lib/firebase-admin';
 
 export async function GET() {
   try {
-    const siteUrl = 'https://chestaadotcom.com'; // Adjust to actual production URL if available
+    const siteUrl = 'https://chestaa.com';
     const blogCollection = adminDb.collection('blogs');
     const snapshot = await blogCollection
       .orderBy('createdAt', 'desc')

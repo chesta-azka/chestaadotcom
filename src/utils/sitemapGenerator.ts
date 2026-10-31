@@ -13,20 +13,27 @@ import {
 import {
   getIndexableServiceAreaPages,
   getIndexableAreas,
+  getIndexableUnifiedAreaPages,
+  getUnifiedAreaPath,
+  isUnifiedAreaSlug,
 } from '../data/service-areas';
 import { getPublishedProjects } from '../data/projects';
 import { getPublishedCaseStudies } from '../data/case-studies';
+import { REAL_PROJECTS_EXPERIENCE } from '../data/experience';
 import { getHreflangAlternates } from '../lib/i18n';
+import { getRouteOgPngPath } from '../lib/cover-generator';
 
 export const SITE_URL = (
   (typeof process !== 'undefined' && process.env?.SITE_URL) ||
   'https://chestaa.com'
 ).replace(/\/+$/, '');
 
+const MAX_BUILD_DATE = '2026-10-29';
+
 export interface SitemapRouteEntry {
   path: string;
   lastmod: string;
-  category?: 'pages' | 'services' | 'areas' | 'blog';
+  category?: 'pages' | 'services' | 'areas' | 'blog' | 'projects';
 }
 
 function escapeXml(unsafe: string): string {
@@ -71,13 +78,14 @@ export function getFileLastModDate(
     }
 
     if (latestMtimeMs > 0) {
-      return new Date(latestMtimeMs).toISOString().split('T')[0];
+      const iso = new Date(latestMtimeMs).toISOString().split('T')[0];
+      return iso > MAX_BUILD_DATE ? MAX_BUILD_DATE : iso;
     }
   } catch {
     // Fallback to explicit content date
   }
 
-  return fallbackDate;
+  return fallbackDate > MAX_BUILD_DATE ? MAX_BUILD_DATE : fallbackDate;
 }
 
 function normalizeIsoDate(dateStr?: string, fallbackFiles?: string[]): string {
@@ -89,19 +97,44 @@ function normalizeIsoDate(dateStr?: string, fallbackFiles?: string[]): string {
   if (dateStr) {
     const parsed = new Date(dateStr);
     if (!isNaN(parsed.getTime())) {
-      const contentDate = parsed.toISOString().split('T')[0];
+      const rawContentDate = parsed.toISOString().split('T')[0];
+      const contentDate =
+        rawContentDate > MAX_BUILD_DATE ? MAX_BUILD_DATE : rawContentDate;
       if (fileMtimeDate && fileMtimeDate > contentDate) {
-        return fileMtimeDate;
+        return fileMtimeDate > MAX_BUILD_DATE ? MAX_BUILD_DATE : fileMtimeDate;
       }
       return contentDate;
     }
   }
 
   if (fileMtimeDate) {
-    return fileMtimeDate;
+    return fileMtimeDate > MAX_BUILD_DATE ? MAX_BUILD_DATE : fileMtimeDate;
   }
 
   return '2026-03-20';
+}
+
+export function getSitemapServiceRoutes(): SitemapRouteEntry[] {
+  const serviceFileMtime = getFileLastModDate(
+    ['src/data/services.ts', 'src/pages/ServiceDetailPage.tsx'],
+    '2026-03-20'
+  );
+  const services = getAllServices('id');
+
+  const routes: SitemapRouteEntry[] = [];
+  for (const service of services) {
+    routes.push({
+      path: getServicePath(service.slug, 'id'),
+      lastmod: serviceFileMtime,
+      category: 'pages',
+    });
+    routes.push({
+      path: getServicePath(service.slug, 'en'),
+      lastmod: serviceFileMtime,
+      category: 'pages',
+    });
+  }
+  return routes;
 }
 
 export function getSitemapPageRoutes(): SitemapRouteEntry[] {
@@ -114,22 +147,10 @@ export function getSitemapPageRoutes(): SitemapRouteEntry[] {
     ],
     '2026-03-20'
   );
-  const portfolioMtime = getFileLastModDate(
-    ['src/data/projects.ts', 'src/pages/PortfolioPage.tsx'],
-    '2026-03-20'
-  );
-  const caseStudiesMtime = getFileLastModDate(
-    ['src/data/case-studies.ts', 'src/pages/CaseStudiesPage.tsx'],
-    '2026-03-20'
-  );
 
   const mainRoutes: SitemapRouteEntry[] = [
     { path: '/id', lastmod: pagesMtime, category: 'pages' },
     { path: '/en', lastmod: pagesMtime, category: 'pages' },
-    { path: '/id/portfolio', lastmod: portfolioMtime, category: 'pages' },
-    { path: '/en/portfolio', lastmod: portfolioMtime, category: 'pages' },
-    { path: '/id/studi-kasus', lastmod: caseStudiesMtime, category: 'pages' },
-    { path: '/en/case-studies', lastmod: caseStudiesMtime, category: 'pages' },
     { path: '/id/audit-gratis', lastmod: pagesMtime, category: 'pages' },
     { path: '/en/free-audit', lastmod: pagesMtime, category: 'pages' },
     { path: '/id/tentang', lastmod: pagesMtime, category: 'pages' },
@@ -146,8 +167,44 @@ export function getSitemapPageRoutes(): SitemapRouteEntry[] {
     { path: '/en/workflow', lastmod: pagesMtime, category: 'pages' },
   ];
 
+  return [...mainRoutes, ...getSitemapServiceRoutes()];
+}
+
+export function getSitemapProjectRoutes(): SitemapRouteEntry[] {
+  const portfolioMtime = getFileLastModDate(
+    ['src/data/projects.ts', 'src/pages/PortfolioPage.tsx'],
+    '2026-03-20'
+  );
+  const caseStudiesMtime = getFileLastModDate(
+    ['src/data/case-studies.ts', 'src/pages/CaseStudiesPage.tsx'],
+    '2026-03-20'
+  );
+
+  const hubRoutes: SitemapRouteEntry[] = [
+    { path: '/id/portfolio', lastmod: portfolioMtime, category: 'projects' },
+    { path: '/en/portfolio', lastmod: portfolioMtime, category: 'projects' },
+    { path: '/id/studi-kasus', lastmod: caseStudiesMtime, category: 'projects' },
+    { path: '/en/case-studies', lastmod: caseStudiesMtime, category: 'projects' },
+  ];
+
   const projects = getPublishedProjects('id');
   const projectRoutes: SitemapRouteEntry[] = [];
+  const realProjectsLastmod = getFileLastModDate(
+    ['src/data/experience.ts', 'src/pages/ProjectDetailPage.tsx'],
+    '2026-03-20'
+  );
+  for (const realProj of REAL_PROJECTS_EXPERIENCE) {
+    projectRoutes.push({
+      path: `/id/portfolio/${realProj.slugId}`,
+      lastmod: realProjectsLastmod,
+      category: 'projects',
+    });
+    projectRoutes.push({
+      path: `/en/portfolio/${realProj.slugEn}`,
+      lastmod: realProjectsLastmod,
+      category: 'projects',
+    });
+  }
   for (const project of projects) {
     const lastmod = normalizeIsoDate(project.updatedAt, [
       'src/data/projects.ts',
@@ -156,12 +213,12 @@ export function getSitemapPageRoutes(): SitemapRouteEntry[] {
     projectRoutes.push({
       path: `/id/portfolio/${project.slug}`,
       lastmod,
-      category: 'pages',
+      category: 'projects',
     });
     projectRoutes.push({
       path: `/en/portfolio/${project.slug}`,
       lastmod,
-      category: 'pages',
+      category: 'projects',
     });
   }
 
@@ -175,52 +232,51 @@ export function getSitemapPageRoutes(): SitemapRouteEntry[] {
     caseStudyRoutes.push({
       path: `/id/studi-kasus/${study.slug}`,
       lastmod,
-      category: 'pages',
+      category: 'projects',
     });
     caseStudyRoutes.push({
       path: `/en/case-studies/${study.slug}`,
       lastmod,
-      category: 'pages',
+      category: 'projects',
     });
   }
 
-  return [...mainRoutes, ...projectRoutes, ...caseStudyRoutes];
-}
-
-export function getSitemapServiceRoutes(): SitemapRouteEntry[] {
-  const serviceFileMtime = getFileLastModDate(
-    ['src/data/services.ts', 'src/pages/ServiceDetailPage.tsx'],
-    '2026-03-20'
-  );
-  const services = getAllServices('id');
-
-  const routes: SitemapRouteEntry[] = [];
-  for (const service of services) {
-    routes.push({
-      path: getServicePath(service.slug, 'id'),
-      lastmod: serviceFileMtime,
-      category: 'services',
-    });
-    routes.push({
-      path: getServicePath(service.slug, 'en'),
-      lastmod: serviceFileMtime,
-      category: 'services',
-    });
-  }
-  return routes;
+  return [...hubRoutes, ...projectRoutes, ...caseStudyRoutes];
 }
 
 export function getSitemapAreaRoutes(): SitemapRouteEntry[] {
   const areaPages = getIndexableServiceAreaPages('id');
+  const unifiedAreaPages = getIndexableUnifiedAreaPages('id');
   const hubLastmod = getFileLastModDate(
-    ['src/data/areas.ts', 'src/data/areas.en.ts', 'src/pages/AreasHubPage.tsx'],
-    '2026-03-20'
+    [
+      'src/data/areas.ts',
+      'src/data/areas.en.ts',
+      'src/data/unified-areas.ts',
+      'src/pages/AreasHubPage.tsx',
+    ],
+    '2026-10-29',
   );
 
   const routes: SitemapRouteEntry[] = [
     { path: '/id/area', lastmod: hubLastmod, category: 'areas' },
     { path: '/en/areas', lastmod: hubLastmod, category: 'areas' },
   ];
+
+  for (const unified of unifiedAreaPages) {
+    if (!unified.indexable) continue;
+    const lastmod =
+      unified.publishAt > MAX_BUILD_DATE ? MAX_BUILD_DATE : unified.publishAt;
+    routes.push({
+      path: getUnifiedAreaPath(unified.slug, 'id'),
+      lastmod,
+      category: 'areas',
+    });
+    routes.push({
+      path: getUnifiedAreaPath(unified.slug, 'en'),
+      lastmod,
+      category: 'areas',
+    });
+  }
 
   for (const areaPage of areaPages) {
     if (!areaPage.indexable) continue;
@@ -301,7 +357,7 @@ export function getSitemapBlogRoutes(): SitemapRouteEntry[] {
 export function getAllSitemapRoutes(): SitemapRouteEntry[] {
   return [
     ...getSitemapPageRoutes(),
-    ...getSitemapServiceRoutes(),
+    ...getSitemapProjectRoutes(),
     ...getSitemapAreaRoutes(),
     ...getSitemapBlogRoutes(),
   ];
@@ -314,6 +370,13 @@ export function isKnownRoute(pathname: string): boolean {
   if (clean === '/' || clean === '/id' || clean === '/en') return true;
   if (
     clean === '/sitemap.xml' ||
+    clean === '/sitemap-index.xml' ||
+    clean === '/sitemap-pages.xml' ||
+    clean === '/sitemap-blog.xml' ||
+    clean === '/sitemap-areas.xml' ||
+    clean === '/sitemap-projects.xml' ||
+    clean === '/sitemap-services.xml' ||
+    clean === '/sitemap-all.xml' ||
     clean === '/robots.txt' ||
     clean === '/llms.txt' ||
     clean === '/llms-full.txt' ||
@@ -351,6 +414,12 @@ export function isKnownRoute(pathname: string): boolean {
     return pageNum >= 1 && pageNum <= totalPages;
   }
 
+  // Unified area routes (/id/area/:slug and /en/areas/:slug)
+  const unifiedAreaMatch = clean.match(/^\/(id\/area|en\/areas)\/([^/]+)$/i);
+  if (unifiedAreaMatch) {
+    return isUnifiedAreaSlug(unifiedAreaMatch[2].toLowerCase());
+  }
+
   const allRoutes = getAllSitemapRoutes();
   return allRoutes.some(
     (r) => r.path === clean || r.path === `/${clean.replace(/^\/+/, '')}`
@@ -365,8 +434,9 @@ function buildUrlsetXml(routes: SitemapRouteEntry[], baseUrl: string = SITE_URL)
       const normalizedPath =
         route.path === '/' ? '/id' : `/${route.path.replace(/^\/+|\/+$/g, '')}`;
       const loc = escapeXml(`${cleanBase}${normalizedPath}`);
-      const lastmod = escapeXml(route.lastmod);
+      const lastmod = escapeXml(route.lastmod > MAX_BUILD_DATE ? MAX_BUILD_DATE : route.lastmod);
       const alternates = getHreflangAlternates(normalizedPath, cleanBase);
+      const ogImageLoc = escapeXml(`${cleanBase}${getRouteOgPngPath(normalizedPath)}`);
 
       return [
         '  <url>',
@@ -375,6 +445,9 @@ function buildUrlsetXml(routes: SitemapRouteEntry[], baseUrl: string = SITE_URL)
         `    <xhtml:link rel="alternate" hreflang="id" href="${escapeXml(alternates.idUrl)}" />`,
         `    <xhtml:link rel="alternate" hreflang="en" href="${escapeXml(alternates.enUrl)}" />`,
         `    <xhtml:link rel="alternate" hreflang="x-default" href="${escapeXml(alternates.xDefaultUrl)}" />`,
+        '    <image:image>',
+        `      <image:loc>${ogImageLoc}</image:loc>`,
+        '    </image:image>',
         '  </url>',
       ].join('\n');
     })
@@ -382,7 +455,7 @@ function buildUrlsetXml(routes: SitemapRouteEntry[], baseUrl: string = SITE_URL)
 
   return [
     '<?xml version="1.0" encoding="UTF-8"?>',
-    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">',
+    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">',
     urlNodes,
     '</urlset>',
   ].join('\n');
@@ -401,15 +474,15 @@ function getLatestLastmod(routes: SitemapRouteEntry[]): string {
 export function generateSitemapIndexXml(baseUrl: string = SITE_URL): string {
   const cleanBase = baseUrl.replace(/\/+$/, '');
   const pagesLastmod = getLatestLastmod(getSitemapPageRoutes());
-  const servicesLastmod = getLatestLastmod(getSitemapServiceRoutes());
-  const areasLastmod = getLatestLastmod(getSitemapAreaRoutes());
   const blogLastmod = getLatestLastmod(getSitemapBlogRoutes());
+  const areasLastmod = getLatestLastmod(getSitemapAreaRoutes());
+  const projectsLastmod = getLatestLastmod(getSitemapProjectRoutes());
 
   const subSitemaps = [
     { loc: `${cleanBase}/sitemap-pages.xml`, lastmod: pagesLastmod },
-    { loc: `${cleanBase}/sitemap-services.xml`, lastmod: servicesLastmod },
-    { loc: `${cleanBase}/sitemap-areas.xml`, lastmod: areasLastmod },
     { loc: `${cleanBase}/sitemap-blog.xml`, lastmod: blogLastmod },
+    { loc: `${cleanBase}/sitemap-areas.xml`, lastmod: areasLastmod },
+    { loc: `${cleanBase}/sitemap-projects.xml`, lastmod: projectsLastmod },
   ];
 
   const sitemapNodes = subSitemaps
@@ -436,6 +509,10 @@ export function generateSitemapPagesXml(baseUrl: string = SITE_URL): string {
   return buildUrlsetXml(getSitemapPageRoutes(), baseUrl);
 }
 
+export function generateSitemapProjectsXml(baseUrl: string = SITE_URL): string {
+  return buildUrlsetXml(getSitemapProjectRoutes(), baseUrl);
+}
+
 export function generateSitemapServicesXml(baseUrl: string = SITE_URL): string {
   return buildUrlsetXml(getSitemapServiceRoutes(), baseUrl);
 }
@@ -448,13 +525,16 @@ export function generateSitemapBlogXml(baseUrl: string = SITE_URL): string {
   return buildUrlsetXml(getSitemapBlogRoutes(), baseUrl);
 }
 
+export function generateSitemapAllXml(baseUrl: string = SITE_URL): string {
+  return buildUrlsetXml(getAllSitemapRoutes(), baseUrl);
+}
+
 /**
- * Generates /sitemap.xml with all indexable /id and /en service pages,
- * the 10 indexable area pages in both languages (20 URLs), /id/area + /en/areas,
- * and core/portfolio/blog pages with xhtml:link rel="alternate" hreflang entries and real lastmod.
+ * Generates /sitemap.xml as a sitemap index pointing to the 4 child sitemaps:
+ * sitemap-pages.xml, sitemap-blog.xml, sitemap-areas.xml, and sitemap-projects.xml.
  */
 export function generateSitemapXml(baseUrl: string = SITE_URL): string {
-  return buildUrlsetXml(getAllSitemapRoutes(), baseUrl);
+  return generateSitemapIndexXml(baseUrl);
 }
 
 export function generateRssXml(baseUrl: string = SITE_URL): string {
@@ -466,17 +546,20 @@ export function generateRssXml(baseUrl: string = SITE_URL): string {
 
   const caseStudyItemsXml = caseStudies
     .map((study) => {
-      const link = `${cleanBase}/id/studi-kasus/${study.slug}`;
+      const routePath = `/id/studi-kasus/${study.slug}`;
+      const link = `${cleanBase}${routePath}`;
+      const enclosureUrl = `${cleanBase}${getRouteOgPngPath(routePath)}`;
       const pubDate = new Date(study.updatedAt || study.publishedAt).toUTCString();
       return [
         '    <item>',
-        `      <title>${escapeXml(`${study.title} (${study.internalBadgeLabel})`)}</title>`,
+        `      <title>${escapeXml(`${study.title} (${study.badgeLabel})`)}</title>`,
         `      <link>${escapeXml(link)}</link>`,
         `      <guid isPermaLink="true">${escapeXml(link)}</guid>`,
         `      <pubDate>${escapeXml(pubDate)}</pubDate>`,
         `      <dc:creator>${escapeXml(study.author)}</dc:creator>`,
-        `      <category>${escapeXml(`Studi Kasus · ${study.industry}`)}</category>`,
-        `      <description>${escapeXml(study.seo.description)}</description>`,
+        `      <category>${escapeXml(`${study.badgeLabel} · ${study.industry}`)}</category>`,
+        `      <description>${escapeXml(`${study.seo.description} ${study.sampleNote}`)}</description>`,
+        `      <enclosure url="${escapeXml(enclosureUrl)}" length="48000" type="image/png" />`,
         '    </item>',
       ].join('\n');
     })
@@ -484,19 +567,22 @@ export function generateRssXml(baseUrl: string = SITE_URL): string {
 
   const itemsXml = posts
     .map((post) => {
-      const link = `${cleanBase}/id/blog/${post.slug}`;
+      const routePath = `/id/blog/${post.slug}`;
+      const link = `${cleanBase}${routePath}`;
+      const enclosureUrl = `${cleanBase}${post.ogImage || getRouteOgPngPath(routePath)}`;
       const pubDate = new Date(post.updatedAt || post.date).toUTCString();
       const authorProfile = getAuthorProfile(post.author);
 
       return [
         '    <item>',
-        `      <title>${escapeXml(post.title)}</title>`,
+        `      <title>${escapeXml(post.title || '')}</title>`,
         `      <link>${escapeXml(link)}</link>`,
         `      <guid isPermaLink="true">${escapeXml(link)}</guid>`,
         `      <pubDate>${escapeXml(pubDate)}</pubDate>`,
-        `      <dc:creator>${escapeXml(authorProfile.name)}</dc:creator>`,
-        `      <category>${escapeXml(post.category)}</category>`,
-        `      <description>${escapeXml(post.metaDescription || post.excerpt)}</description>`,
+        `      <dc:creator>${escapeXml(authorProfile.name || '')}</dc:creator>`,
+        `      <category>${escapeXml(post.category || '')}</category>`,
+        `      <description>${escapeXml(post.metaDescription || post.excerpt || '')}</description>`,
+        `      <enclosure url="${escapeXml(enclosureUrl)}" length="48000" type="image/png" />`,
         '    </item>',
       ].join('\n');
     })
@@ -506,10 +592,10 @@ export function generateRssXml(baseUrl: string = SITE_URL): string {
     '<?xml version="1.0" encoding="UTF-8"?>',
     '<rss version="2.0" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:atom="http://www.w3.org/2005/Atom">',
     '  <channel>',
-    '    <title>Catatan &amp; Studi Kasus Proyek Internal — CHESTAADOTCOM</title>',
+    '    <title>Catatan &amp; Studi Kasus Contoh — CHESTAADOTCOM</title>',
     `    <link>${escapeXml(`${cleanBase}/id/blog`)}</link>`,
     `    <atom:link href="${escapeXml(`${cleanBase}/rss.xml`)}" rel="self" type="application/rss+xml" />`,
-    '    <description>Catatan praktis dan studi kasus proyek internal seputar software custom, AI agent WhatsApp, otomasi alur kerja, dan web untuk bisnis di BSD, Tangerang Selatan &amp; Jabodetabek.</description>',
+    '    <description>Catatan praktis dan studi kasus contoh seputar software custom, AI agent WhatsApp, otomasi alur kerja, dan web untuk bisnis di BSD, Tangerang Selatan &amp; Jabodetabek.</description>',
     '    <language>id</language>',
     `    <lastBuildDate>${escapeXml(buildDate)}</lastBuildDate>`,
     caseStudyItemsXml,
@@ -521,34 +607,34 @@ export function generateRssXml(baseUrl: string = SITE_URL): string {
 
 export function generateRobotsTxt(baseUrl: string = SITE_URL): string {
   const cleanBase = baseUrl.replace(/\/+$/, '');
-  const allowedBots = [
-    '*',
-    'Googlebot',
-    'Bingbot',
+  const explicitBots = [
     'GPTBot',
     'OAI-SearchBot',
     'ChatGPT-User',
     'ClaudeBot',
     'PerplexityBot',
     'Google-Extended',
+    'Applebot-Extended',
   ];
 
-  const blocks = allowedBots.map((bot) =>
-    [
-      `User-agent: ${bot}`,
-      'Allow: /',
-      'Disallow: /admin',
-      'Disallow: /portal',
-      'Disallow: /api/',
-    ].join('\n')
+  const botBlocks = explicitBots.map((bot) =>
+    [`User-agent: ${bot}`, 'Allow: /'].join('\n')
   );
 
   return [
-    ...blocks,
+    '# CHESTAADOTCOM (https://chestaa.com) robots.txt',
+    '# To block a single bot from crawling the site, replace its "Allow: /" line with "Disallow: /"',
+    '# Example to block a single bot:',
+    '# User-agent: GPTBot',
+    '# Disallow: /',
     '',
+    'User-agent: *',
+    'Allow: /',
+    '',
+    ...botBlocks.flatMap((b) => [b, '']),
     `Sitemap: ${cleanBase}/sitemap.xml`,
     '',
-  ].join('\n\n');
+  ].join('\n');
 }
 
 export function generateLlmsTxt(baseUrl: string = SITE_URL): string {
@@ -574,6 +660,23 @@ export function generateLlmsTxt(baseUrl: string = SITE_URL): string {
     )
     .join('\n');
 
+  const unifiedAreasId = getIndexableUnifiedAreaPages('id');
+  const unifiedAreasEn = getIndexableUnifiedAreaPages('en');
+
+  const unifiedAreaLinesId = unifiedAreasId
+    .map(
+      (u) =>
+        `- [${u.h1}](${cleanBase}${getUnifiedAreaPath(u.slug, 'id')}): ${u.quickSummary}`,
+    )
+    .join('\n');
+
+  const unifiedAreaLinesEn = unifiedAreasEn
+    .map(
+      (u) =>
+        `- [${u.h1}](${cleanBase}${getUnifiedAreaPath(u.slug, 'en')}): ${u.quickSummary}`,
+    )
+    .join('\n');
+
   const areaLinesId = areaPagesId
     .map(
       (a) =>
@@ -588,17 +691,31 @@ export function generateLlmsTxt(baseUrl: string = SITE_URL): string {
     )
     .join('\n');
 
+  const realProjectLinesId = REAL_PROJECTS_EXPERIENCE.map(
+    (rp) =>
+      `- [${rp.titleId} (${rp.tagId})](${cleanBase}/id/portfolio/${rp.slugId}): ${rp.descriptionId}${
+        rp.projectValueNoteId ? ` (${rp.projectValueNoteId})` : ''
+      }`
+  ).join('\n');
+
+  const realProjectLinesEn = REAL_PROJECTS_EXPERIENCE.map(
+    (rp) =>
+      `- [${rp.titleEn} (${rp.tagEn})](${cleanBase}/en/portfolio/${rp.slugEn}): ${rp.descriptionEn}${
+        rp.projectValueNoteEn ? ` (${rp.projectValueNoteEn})` : ''
+      }`
+  ).join('\n');
+
   const projectLinesId = projectsId
     .map(
       (proj) =>
-        `- [${proj.title} (${proj.internalBadgeLabel} — ${proj.client})](${cleanBase}/id/portfolio/${proj.slug}): ${proj.oneLiner}`
+        `- [${proj.title} (${proj.badgeLabel})](${cleanBase}/id/portfolio/${proj.slug}): ${proj.oneLiner} (${proj.sampleNote})`
     )
     .join('\n');
 
   const projectLinesEn = projectsEn
     .map(
       (proj) =>
-        `- [${proj.title} (${proj.internalBadgeLabel} — ${proj.client})](${cleanBase}/en/portfolio/${proj.slug}): ${proj.oneLiner}`
+        `- [${proj.title} (${proj.badgeLabel})](${cleanBase}/en/portfolio/${proj.slug}): ${proj.oneLiner} (${proj.sampleNote})`
     )
     .join('\n');
 
@@ -608,14 +725,14 @@ export function generateLlmsTxt(baseUrl: string = SITE_URL): string {
   const caseStudyLinesId = caseStudiesId
     .map(
       (cs) =>
-        `- [${cs.title} (${cs.internalBadgeLabel})](${cleanBase}/id/studi-kasus/${cs.slug}): Masalah: ${cs.summary.problem} Yang dibangun: ${cs.summary.built}`
+        `- [${cs.title} (${cs.badgeLabel})](${cleanBase}/id/studi-kasus/${cs.slug}): Masalah: ${cs.summary.problem} Yang dibangun: ${cs.summary.built} (${cs.sampleNote})`
     )
     .join('\n');
 
   const caseStudyLinesEn = caseStudiesEn
     .map(
       (cs) =>
-        `- [${cs.title} (${cs.internalBadgeLabel})](${cleanBase}/en/case-studies/${cs.slug}): Problem: ${cs.summary.problem} What we built: ${cs.summary.built}`
+        `- [${cs.title} (${cs.badgeLabel})](${cleanBase}/en/case-studies/${cs.slug}): Problem: ${cs.summary.problem} What we built: ${cs.summary.built} (${cs.sampleNote})`
     )
     .join('\n');
 
@@ -632,12 +749,11 @@ export function generateLlmsTxt(baseUrl: string = SITE_URL): string {
     '- **Basis**: Berbasis di BSD, Tangerang Selatan, melayani klien di Tangerang Selatan dan Jabodetabek. Kerja sehari-hari dilakukan secara online (WhatsApp, video call); pertemuan tatap muka di area Tangerang Selatan bisa dijadwalkan sesuai kesepakatan.',
     '- **Kontak**:',
     '  - WhatsApp: +62 821-2544-7232 (https://wa.me/6282125447232)',
-    '  - Email: chestaadotcom@gmail.com',
-    '  - Instagram: @chestaadotcom (https://instagram.com/chestaadotcom)',
+    '  - Instagram: @softwaredev.aiagentic.agency (https://instagram.com/softwaredev.aiagentic.agency)',
     '- **Layanan (4)**:',
     '  1. Pembuatan website dan landing page — mulai dari Rp1.200.000 (IDR 1,200,000), tergantung kompleksitas.',
     '  2. AI agent untuk bisnis (WhatsApp, operasional, customer support, kualifikasi leads) — harga dihitung setelah audit gratis.',
-    '  3. Pengembangan software custom (aplikasi web internal, portal klien, dashboard) — harga dihitung setelah audit gratis.',
+    '  3. Pengembangan software custom (aplikasi web operasional, portal klien, dashboard) — harga dihitung setelah audit gratis.',
     '  4. Otomasi workflow bisnis (integrasi antar aplikasi, form ke sheet ke notifikasi, laporan otomatis) — harga dihitung setelah audit gratis.',
     '- **Proses Kerja (4 Langkah)**:',
     '  1. Audit gratis (30 menit)',
@@ -652,28 +768,41 @@ export function generateLlmsTxt(baseUrl: string = SITE_URL): string {
     '## 4 Core Services — English (/en/services/*)',
     serviceLinesEn,
     '',
-    '## 10 Halaman Area Layanan Indexable — Bahasa Indonesia (/id/jasa/{service}/{area})',
-    `- [Indeks Area Layanan (ID)](${cleanBase}/id/area): Ringkasan 5 area layanan di Tangerang Selatan dan Jakarta Selatan.`,
+    '## Halaman Area Layanan Terpadu Indexable — Bahasa Indonesia (/id/area/{slug})',
+    `- [Indeks Area Layanan (ID)](${cleanBase}/id/area): Ringkasan area layanan berdasarkan wilayah (Tangerang Selatan, Kabupaten Tangerang, Kota Tangerang, Kota Depok, Jakarta Selatan).`,
+    unifiedAreaLinesId,
+    '',
+    '## Indexable Unified Service Area Pages — English (/en/areas/{slug})',
+    `- [Service Areas Hub (EN)](${cleanBase}/en/areas): Overview of service areas grouped by region (South Tangerang, Tangerang Regency, Tangerang City, Depok City, South Jakarta).`,
+    unifiedAreaLinesEn,
+    '',
+    '## 10 Halaman Layanan x Area Indexable — Bahasa Indonesia (/id/jasa/{service}/{area})',
     areaLinesId,
     '',
-    '## 10 Indexable Local Area Pages — English (/en/services/{service}/{area})',
-    `- [Service Areas Hub (EN)](${cleanBase}/en/areas): Overview of 5 service areas in South Tangerang and South Jakarta.`,
+    '## 10 Indexable Service x Area Pages — English (/en/services/{service}/{area})',
     areaLinesEn,
     '',
-    '## 6 Proyek Internal CHESTAADOTCOM (Internal Projects — Bukan Proyek Klien)',
+    '## 3 Proyek Nyata CHESTAADOTCOM (Proyek nyata · klien dirahasiakan)',
+    '### Bahasa Indonesia (/id/portfolio/*)',
+    realProjectLinesId,
+    '',
+    '### English (/en/portfolio/*)',
+    realProjectLinesEn,
+    '',
+    '## 6 Contoh Proyek CHESTAADOTCOM (Contoh proyek — Bukan Proyek Klien)',
     '### Bahasa Indonesia (/id/portfolio/*)',
     projectLinesId,
     '',
     '### English (/en/portfolio/*)',
     projectLinesEn,
     '',
-    '## 3 Studi Kasus Proyek Internal CHESTAADOTCOM (Internal Case Studies — Bukan Proyek Klien)',
+    '## 5 Studi Kasus Contoh CHESTAADOTCOM (Studi kasus contoh — Bukan Proyek Klien)',
     '### Bahasa Indonesia (/id/studi-kasus/*)',
-    `- [Indeks Studi Kasus (ID)](${cleanBase}/id/studi-kasus): Semua studi kasus di halaman ini adalah proyek internal CHESTAADOTCOM, bukan proyek klien.`,
+    `- [Indeks Studi Kasus (ID)](${cleanBase}/id/studi-kasus): Contoh studi kasus yang memperlihatkan cara kami menganalisis masalah, mengambil keputusan, dan menimbang kompromi. Pengalaman proyek nyata kami ada di halaman Tentang dan Proyek. Contoh proyek dirancang untuk memperlihatkan alur kerja kami. Bukan proyek klien.`,
     caseStudyLinesId,
     '',
     '### English (/en/case-studies/*)',
-    `- [Case Studies Index (EN)](${cleanBase}/en/case-studies): All case studies on this page are CHESTAADOTCOM internal projects, not client projects.`,
+    `- [Case Studies Index (EN)](${cleanBase}/en/case-studies): Sample case studies that show how we analyze problems, make decisions, and weigh trade-offs. Our real project experience is on the About and Projects pages. Sample project designed to show our workflow. Not a client project.`,
     caseStudyLinesEn,
     '',
   ].join('\n');
@@ -730,12 +859,33 @@ export function generateLlmsFullTxt(baseUrl: string = SITE_URL): string {
     ].join('\n');
   };
 
+  const renderRealProjectMarkdown = (rp: (typeof REAL_PROJECTS_EXPERIENCE)[number], locale: 'id' | 'en') => {
+    const slug = locale === 'en' ? rp.slugEn : rp.slugId;
+    const url = `${cleanBase}/${locale}/portfolio/${slug}`;
+    const title = locale === 'en' ? rp.titleEn : rp.titleId;
+    const label = locale === 'en' ? rp.tagEn : rp.tagId;
+    const desc = locale === 'en' ? rp.descriptionEn : rp.descriptionId;
+    const valueNote = locale === 'en' ? rp.projectValueNoteEn : rp.projectValueNoteId;
+    const workItems = locale === 'en' ? rp.workItemsEn : rp.workItemsId;
+    return [
+      `### ${title} [${label}]`,
+      `- **URL**: ${url}`,
+      `- **Label**: ${label}`,
+      `- **Deskripsi**: ${desc}`,
+      ...(valueNote ? [`- **Catatan Nilai**: ${valueNote}`] : []),
+      `- **${locale === 'en' ? 'What we worked on' : 'Yang kami kerjakan'}**:`,
+      ...workItems.map((w) => `  - ${w}`),
+      `- **${locale === 'en' ? 'Client' : 'Klien'}**: ${locale === 'en' ? 'Client kept confidential' : 'Klien dirahasiakan'}`,
+    ].join('\n');
+  };
+
   const renderProjectMarkdown = (p: (typeof projectsId)[number], locale: 'id' | 'en') => {
     const url = `${cleanBase}/${locale}/portfolio/${p.slug}`;
     return [
-      `### ${p.title} [${p.internalBadgeLabel}]`,
+      `### ${p.title} [${p.badgeLabel}]`,
       `- **URL**: ${url}`,
-      `- **Status**: ${p.client} (internal: true, year: ${p.year})`,
+      `- **Label**: ${p.badgeLabel} (year: ${p.year})`,
+      `- **Catatan**: ${p.sampleNote}`,
       `- **Peran / Role**: ${p.role}`,
       `- **Kategori / Category**: ${p.categoryLabel} (${p.industry})`,
       `- **Ringkasan 1 Kalimat**: ${p.oneLiner}`,
@@ -755,9 +905,10 @@ export function generateLlmsFullTxt(baseUrl: string = SITE_URL): string {
         ? `${cleanBase}/en/case-studies/${cs.slug}`
         : `${cleanBase}/id/studi-kasus/${cs.slug}`;
     return [
-      `### ${cs.title} [${cs.internalBadgeLabel}]`,
+      `### ${cs.title} [${cs.badgeLabel}]`,
       `- **URL**: ${url}`,
-      `- **Status**: ${cs.client} (internal: true, year: ${cs.year})`,
+      `- **Label**: ${cs.badgeLabel} (year: ${cs.year})`,
+      `- **Catatan**: ${cs.sampleNote}`,
       `- **Penulis / Author**: ${cs.author} (${cs.authorRole})`,
       `- **Industri / Industry**: ${cs.industry} (${cs.services.join(', ')})`,
       `- **Masalah / Problem**: ${cs.summary.problem}`,
@@ -766,6 +917,14 @@ export function generateLlmsFullTxt(baseUrl: string = SITE_URL): string {
       ...cs.targets.map((t) => `  - **${t.label}**: ${t.value} (${t.note})`),
     ].join('\n');
   };
+
+  const indexableUnifiedAreas = getIndexableUnifiedAreaPages('id');
+  const unifiedAreasMd = indexableUnifiedAreas
+    .map((u) => {
+      const enPage = getIndexableUnifiedAreaPages('en').find((e) => e.slug === u.slug);
+      return `- **${u.name} (${enPage?.name || u.name}) — ${u.regionLabel}**: ${u.factsSummary}\n  - ID Area Page: ${cleanBase}${getUnifiedAreaPath(u.slug, 'id')}\n  - EN Area Page: ${cleanBase}${getUnifiedAreaPath(u.slug, 'en')}`;
+    })
+    .join('\n');
 
   const areasMd = indexableAreas
     .map(
@@ -777,7 +936,7 @@ export function generateLlmsFullTxt(baseUrl: string = SITE_URL): string {
   return [
     '# CHESTAADOTCOM — Full Documentation Export (llms-full.txt)',
     '',
-    '> Export lengkap halaman layanan, proyek internal, dan studi kasus internal CHESTAADOTCOM (https://chestaa.com) berdasarkan fakta resmi Section 1.',
+    '> Export lengkap halaman layanan, proyek nyata, contoh proyek, dan studi kasus contoh CHESTAADOTCOM (https://chestaa.com) berdasarkan fakta resmi Section 1.',
     '',
     '## 1. Fact Sheet Resmi',
     '- **Nama**: CHESTAADOTCOM (chestaa.com)',
@@ -785,20 +944,19 @@ export function generateLlmsFullTxt(baseUrl: string = SITE_URL): string {
     '- **Basis**: Berbasis di BSD, Tangerang Selatan, melayani klien di Tangerang Selatan dan Jabodetabek. Kerja sehari-hari dilakukan secara online (WhatsApp, video call); pertemuan tatap muka di area Tangerang Selatan bisa dijadwalkan sesuai kesepakatan.',
     '- **Kontak**:',
     '  - WhatsApp: +62 821-2544-7232 (https://wa.me/6282125447232)',
-    '  - Email: chestaadotcom@gmail.com',
-    '  - Instagram: @chestaadotcom (https://instagram.com/chestaadotcom)',
+    '  - Instagram: @softwaredev.aiagentic.agency (https://instagram.com/softwaredev.aiagentic.agency)',
     '- **Layanan (4)**:',
     '  1. Pembuatan website dan landing page — mulai dari Rp1.200.000 (IDR 1,200,000), tergantung kompleksitas.',
     '  2. AI agent untuk bisnis (WhatsApp, operasional, customer support, kualifikasi leads) — harga dihitung setelah audit gratis.',
-    '  3. Pengembangan software custom (aplikasi web internal, portal klien, dashboard) — harga dihitung setelah audit gratis.',
+    '  3. Pengembangan software custom (aplikasi web operasional, portal klien, dashboard) — harga dihitung setelah audit gratis.',
     '  4. Otomasi workflow bisnis (integrasi antar aplikasi, form ke sheet ke notifikasi, laporan otomatis) — harga dihitung setelah audit gratis.',
     '- **Proses Kerja (4 Langkah)**:',
     '  1. Audit gratis (30 menit) — melihat masalah, alur sekarang, dan apa yang masuk akal dibangun.',
     '  2. Rancang dan prototipe — kamu lihat bentuk dan alurnya dulu sebelum dibangun penuh.',
-    '  3. Bangun dan uji — sistem dibangun, diuji di skenario nyata, dan dirapikan.',
+    '  3. Bangun dan uji — sistem dibangun, diuji di skenario operasional, dan dirapikan.',
     '  4. Rilis dan rawat — sistem jalan di operasional kamu, dipantau, dan disesuaikan kalau ada kebutuhan baru.',
     '- **Kepemilikan Data & Kode**: Data tetap milikmu (Google Sheets, database, atau server milikmu sendiri). Domain dan hosting terdaftar atas namamu.',
-    '- **Catatan Proyek Internal**: Semua proyek dan studi kasus di situs ini adalah proyek internal CHESTAADOTCOM ("Proyek internal" / "Internal project"), bukan proyek klien. Semua metrik adalah "Target desain, bukan hasil klien" / "Design target, not client results".',
+    '- **Catatan Proyek & Studi Kasus**: Tiga proyek nyata memiliki label "Proyek nyata · klien dirahasiakan" ("Real project · client kept confidential"). Enam contoh proyek ("Contoh proyek" / "Sample project") dan lima studi kasus contoh ("Studi kasus contoh" / "Sample case study") menampilkan catatan: "Contoh proyek dirancang untuk memperlihatkan alur kerja kami. Bukan proyek klien." / "Sample project designed to show our workflow. Not a client project." Semua target adalah "Target desain" / "Design target".',
     '',
     '---',
     '',
@@ -812,28 +970,38 @@ export function generateLlmsFullTxt(baseUrl: string = SITE_URL): string {
     ...servicesEn.map((s) => renderServiceMarkdown(s, 'en') + '\n'),
     '---',
     '',
-    '## 4. 6 Proyek Internal CHESTAADOTCOM — Bahasa Indonesia',
+    '## 4. 3 Proyek Nyata CHESTAADOTCOM (Klien Dirahasiakan) — Bahasa Indonesia & English',
+    '',
+    ...REAL_PROJECTS_EXPERIENCE.map((rp) => renderRealProjectMarkdown(rp, 'id') + '\n'),
+    ...REAL_PROJECTS_EXPERIENCE.map((rp) => renderRealProjectMarkdown(rp, 'en') + '\n'),
+    '---',
+    '',
+    '## 5. 6 Contoh Proyek CHESTAADOTCOM — Bahasa Indonesia',
     '',
     ...projectsId.map((p) => renderProjectMarkdown(p, 'id') + '\n'),
     '---',
     '',
-    '## 5. 6 Internal CHESTAADOTCOM Projects — English',
+    '## 6. 6 Sample CHESTAADOTCOM Projects — English',
     '',
     ...projectsEn.map((p) => renderProjectMarkdown(p, 'en') + '\n'),
     '---',
     '',
-    '## 6. 3 Studi Kasus Proyek Internal CHESTAADOTCOM — Bahasa Indonesia (/id/studi-kasus/*)',
+    '## 7. 5 Studi Kasus Contoh CHESTAADOTCOM — Bahasa Indonesia (/id/studi-kasus/*)',
     '',
     ...caseStudiesId.map((cs) => renderCaseStudyMarkdown(cs, 'id') + '\n'),
     '---',
     '',
-    '## 7. 3 Internal CHESTAADOTCOM Case Studies — English (/en/case-studies/*)',
+    '## 8. 5 Sample CHESTAADOTCOM Case Studies — English (/en/case-studies/*)',
     '',
     ...caseStudiesEn.map((cs) => renderCaseStudyMarkdown(cs, 'en') + '\n'),
     '---',
     '',
-    '## 8. 5 Area Layanan Indexable (/id/area & /en/areas)',
+    '## 9. Area Layanan Terpadu & Layanan x Area Indexable (/id/area & /en/areas)',
     '',
+    '### Halaman Area Terpadu (/id/area/{slug} & /en/areas/{slug})',
+    unifiedAreasMd,
+    '',
+    '### Halaman Layanan x Area (/id/jasa/{service}/{area} & /en/services/{service}/{area})',
     areasMd,
     '',
   ].join('\n');

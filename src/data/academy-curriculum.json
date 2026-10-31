@@ -18,7 +18,7 @@
     {
       "id": "module-1",
       "title": "Modul 1: Persiapan Environment & Workspace (VS Code)",
-      "content": "Selamat datang di Masterclass *Full-Stack Music Streaming App*. Pendekatan kita di sini adalah **Enterprise-grade**. Kita akan membangun arsitektur aplikasi dari awal (scratch) agar mudah dikembangkan (scalable) di masa depan.\n\n### 💡 Prasyarat Utama\nSebelum memulai, pastikan Anda menggunakan **Visual Studio Code (VS Code)** sebagai kode editor (IDE) Anda.\n1. Buka VS Code.\n2. Buka terminal internal VS Code dengan menekan shortcut `` Ctrl + ` `` (Backtick).\n3. Instal ekstensi wajib: **ESLint**, **Tailwind CSS IntelliSense**, dan **Prettier**.",
+      "content": "Selamat datang di Masterclass *Full-Stack Music Streaming App*. Pendekatan kita di sini adalah **Enterprise-grade**. Kita akan membangun arsitektur aplikasi dari awal (scratch) agar mudah dikembangkan (scalable) di masa depan.\n\n### 💡 Prasyarat Utama\nSebelum memulai, pastikan Anda menggunakan **Visual Studio Code (VS Code)** sebagai kode editor (IDE) Anda.\n1. Buka VS Code.\n2. Buka terminal operasional VS Code dengan menekan shortcut `` Ctrl + ` `` (Backtick).\n3. Instal ekstensi wajib: **ESLint**, **Tailwind CSS IntelliSense**, dan **Prettier**.",
       "submodules": [
         {
           "id": "sub-1-1",

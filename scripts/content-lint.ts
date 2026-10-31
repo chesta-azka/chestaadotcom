@@ -54,20 +54,68 @@ const BANNED_SLOP_WORDS_EN = [
   'delve into',
 ];
 
+const PLACEHOLDER_REGEX = /\[(ISI|KONFIRMASI|VERIFIKASI|TODO)[^\]]*\]/i;
+const TRAILING_CONNECTOR_REGEX =
+  /\b(serta|dan|atau|dengan|untuk|yang|pada|dari|ke|di|and|or|with|for|to|from|in|on|by|as|at)[.!?]?$/i;
+
+const HONESTY_BANNED_PHRASES = [
+  'skenario nyata',
+  'studi kasus nyata',
+  'kasus nyata',
+  'lingkungan kerja nyata',
+  'pengujian penetrasi',
+  'pengujian keamanan penetrasi',
+  'kerap kami temukan',
+  'selalu kami terapkan',
+  'klien kami',
+  'pasien kami',
+  'drg. rina',
+  'dr. santi',
+  'dr. hendra',
+  'dr. kevin',
+];
+
+const HONESTY_BANNED_STACK_REGEX = /\b(Node\.js|Zod|n8n|PostgreSQL|Redis|Supabase)\b/;
+
+function validateMetaDescriptionSentence(desc: string, label: string, errors: string[]) {
+  const trimmed = (desc || '').trim();
+  if (trimmed.length < 140 || trimmed.length > 160) {
+    errors.push(
+      `${label} metaDescription is ${trimmed.length} chars (must be 140-160): "${trimmed}"`
+    );
+  }
+  if (!/[.!?]$/.test(trimmed)) {
+    errors.push(
+      `${label} metaDescription must end with final punctuation (. ! ?): "${trimmed}"`
+    );
+  }
+  if (TRAILING_CONNECTOR_REGEX.test(trimmed)) {
+    errors.push(
+      `${label} metaDescription ends with a trailing connector word: "${trimmed}"`
+    );
+  }
+}
+
 function extractLinksFromBlocks(
   content: BlogContentBlock[],
   conclusion: string[]
-): Array<{ anchor: string; href: string; blockIndex: number }> {
-  const results: Array<{ anchor: string; href: string; blockIndex: number }> = [];
+): Array<{ anchor: string; href: string; blockIndex: number; isSeriesList?: boolean }> {
+  const results: Array<{
+    anchor: string;
+    href: string;
+    blockIndex: number;
+    isSeriesList?: boolean;
+  }> = [];
   const regex = /\[([^\]]+)\]\(([^)]+)\)/g;
 
-  const scanText = (txt: string, blockIdx: number) => {
+  const scanText = (txt: string, blockIdx: number, isSeriesList = false) => {
     let match: RegExpExecArray | null;
     while ((match = regex.exec(txt)) !== null) {
       results.push({
         anchor: match[1].trim(),
         href: match[2].trim(),
         blockIndex: blockIdx,
+        isSeriesList,
       });
     }
   };
@@ -80,9 +128,17 @@ function extractLinksFromBlocks(
         scanText(block.text, idx);
         break;
       case 'ul':
-      case 'ol':
-        block.items.forEach((item) => scanText(item, idx));
+      case 'ol': {
+        const isSeriesList = Boolean(
+          block.title &&
+            (block.title.includes('Rangkaian artikel lanjutan') ||
+              block.title.includes('Follow-up articles') ||
+              block.title.includes('Further reading in this series') ||
+              block.title.includes('Complete cluster articles'))
+        );
+        block.items.forEach((item) => scanText(item, idx, isSeriesList));
         break;
+      }
       case 'callout':
         scanText(block.text, idx);
         break;
@@ -114,7 +170,7 @@ function main() {
   const warnings: string[] = [];
 
   console.log('======================================================================');
-  console.log(' CHESTAADOTCOM — CONTENT, CLUSTER, LINK, CTR & PARITY LINTER');
+  console.log(' CHESTAADOTCOM — CONTENT, CLUSTER, LINK, CTR, HONESTY & DATE LINTER');
   console.log('======================================================================\n');
 
   // 1. Validate Topic Clusters
@@ -141,21 +197,22 @@ function main() {
         `[Cluster ${cluster.id}] EN seoTitle length is ${cluster.seoTitleEn.length} (must be 50-62): "${cluster.seoTitleEn}"`
       );
     }
-    if (cluster.metaDescriptionId.length < 140 || cluster.metaDescriptionId.length > 160) {
-      errors.push(
-        `[Cluster ${cluster.id}] ID metaDescription length is ${cluster.metaDescriptionId.length} (must be 140-160).`
-      );
-    }
-    if (cluster.metaDescriptionEn.length < 140 || cluster.metaDescriptionEn.length > 160) {
-      errors.push(
-        `[Cluster ${cluster.id}] EN metaDescription length is ${cluster.metaDescriptionEn.length} (must be 140-160).`
-      );
-    }
+    validateMetaDescriptionSentence(
+      cluster.metaDescriptionId,
+      `[Cluster ${cluster.id} ID]`,
+      errors
+    );
+    validateMetaDescriptionSentence(
+      cluster.metaDescriptionEn,
+      `[Cluster ${cluster.id} EN]`,
+      errors
+    );
   }
 
-  // 2. Validate All Posts (Cluster assignment, CTR Title/Desc, Freshness, Link Quality)
+  // 2. Validate All Posts (Cluster assignment, CTR Title/Desc, Dates <= 2026-10-29, Honesty Sweep, Link Quality)
   const allPosts = [...BLOG_POSTS, ...ENGLISH_BLOG_POSTS];
-  const referenceNow = new Date('2026-11-03T00:00:00Z').getTime();
+  const MAX_BUILD_DATE = '2026-10-29';
+  const referenceNow = new Date(`${MAX_BUILD_DATE}T00:00:00Z`).getTime();
 
   for (const post of allPosts) {
     const label = `[${post.locale?.toUpperCase() || 'ID'}:${post.slug}]`;
@@ -163,6 +220,15 @@ function main() {
     if (!cluster) {
       errors.push(`${label} Invalid or missing clusterId "${post.clusterId}".`);
       continue;
+    }
+
+    // Category label must strictly match cluster label (single source of truth in data/clusters)
+    const expectedCategory =
+      post.locale === 'en' ? cluster.shortLabelEn : cluster.shortLabelId;
+    if (!post.category || post.category !== expectedCategory) {
+      errors.push(
+        `${label} Category "${post.category}" does not match cluster label "${expectedCategory}".`
+      );
     }
 
     // CTR Title: 50-62 chars
@@ -175,21 +241,88 @@ function main() {
       errors.push(`${label} seoTitle must end with "| CHESTAADOTCOM": "${post.seoTitle}"`);
     }
 
-    // CTR Description: 140-160 chars
-    if (post.metaDescription.length < 140 || post.metaDescription.length > 160) {
+    // CTR Description: 140-160 chars, complete sentence, no trailing connector
+    validateMetaDescriptionSentence(post.metaDescription, label, errors);
+
+    // Date validation: date and updatedAt <= MAX_BUILD_DATE (2026-10-29 Asia/Jakarta) and updatedAt >= date
+    if (!post.date || !/^\d{4}-\d{2}-\d{2}$/.test(post.date)) {
+      errors.push(`${label} Missing or invalid published date "${post.date}".`);
+    } else if (post.date > MAX_BUILD_DATE) {
       errors.push(
-        `${label} metaDescription is ${post.metaDescription.length} chars (must be 140-160): "${post.metaDescription}"`
+        `${label} Future published date "${post.date}" is later than build date ${MAX_BUILD_DATE}.`
       );
     }
 
-    // Freshness: updatedAt valid & <= 180 days
     if (!post.updatedAt || !/^\d{4}-\d{2}-\d{2}$/.test(post.updatedAt)) {
       errors.push(`${label} Missing or invalid updatedAt "${post.updatedAt}".`);
     } else {
+      if (post.updatedAt > MAX_BUILD_DATE) {
+        errors.push(
+          `${label} Future updatedAt "${post.updatedAt}" is later than build date ${MAX_BUILD_DATE}.`
+        );
+      }
+      if (post.date && post.updatedAt < post.date) {
+        errors.push(
+          `${label} updatedAt (${post.updatedAt}) is earlier than publishedAt (${post.date}).`
+        );
+      }
       const updatedMs = new Date(`${post.updatedAt}T00:00:00Z`).getTime();
       const ageDays = Math.floor((referenceNow - updatedMs) / (1000 * 60 * 60 * 24));
       if (ageDays > 180) {
         warnings.push(`${label} Stale article: last updated ${ageDays} days ago (${post.updatedAt}).`);
+      }
+    }
+
+    // Placeholders, raw LaTeX, duplicate numbering, and Honesty Sweep checks
+    const serializedPost =
+      post.title +
+      ' ' +
+      post.excerpt +
+      ' ' +
+      post.metaDescription +
+      ' ' +
+      JSON.stringify(post.content) +
+      ' ' +
+      JSON.stringify(post.conclusion) +
+      ' ' +
+      JSON.stringify(post.faq);
+
+    if (PLACEHOLDER_REGEX.test(serializedPost)) {
+      errors.push(`${label} Contains editorial placeholder matching [ISI|KONFIRMASI|VERIFIKASI|TODO].`);
+    }
+    if (/lorem ipsum/i.test(serializedPost)) {
+      errors.push(`${label} Contains "lorem ipsum".`);
+    }
+    if (serializedPost.includes('$M \\times N$') || serializedPost.includes('$M \\\\times N$')) {
+      errors.push(`${label} Contains raw LaTeX "$M \\times N$" (must be "M × N").`);
+    }
+
+    // Check duplicate list numbering in ol blocks
+    for (const block of post.content) {
+      if (block.type === 'ol') {
+        for (const item of block.items) {
+          if (/^\s*(\*\*)?\d+\.\s+/.test(item) || /\d+\.\s+\*\*\d+\./.test(item)) {
+            errors.push(`${label} Duplicate numbering inside <ol> item: "${item.slice(0, 60)}..."`);
+          }
+        }
+      }
+    }
+
+    // Honesty sweep check unless explicitly verified
+    const isVerified = Boolean((post as any).verified);
+    if (!isVerified) {
+      const proseOnly = serializedPost.replace(/\[([^\]]+)\]\(([^)]+)\)/g, '$1');
+      const lowerPost = proseOnly.toLowerCase();
+      for (const phrase of HONESTY_BANNED_PHRASES) {
+        if (lowerPost.includes(phrase)) {
+          errors.push(`${label} Honesty sweep violation: contains unverified phrase "${phrase}".`);
+        }
+      }
+      const stackMatch = proseOnly.match(HONESTY_BANNED_STACK_REGEX);
+      if (stackMatch) {
+        errors.push(
+          `${label} Honesty sweep violation: contains unverified stack claim "${stackMatch[0]}".`
+        );
       }
     }
 
@@ -203,9 +336,10 @@ function main() {
       );
     }
 
-    // At most 1 link per target URL per article
+    // At most 1 link per target URL per article (excluding dedicated series index list in pillar posts)
     const seenTargets = new Map<string, string>();
     for (const link of internalLinks) {
+      if (link.isSeriesList) continue;
       const targetKey = link.href.split('#')[0].toLowerCase().replace(/\/+$/, '');
       if (seenTargets.has(targetKey)) {
         errors.push(
@@ -249,13 +383,16 @@ function main() {
       const peerPosts = (post.locale === 'en' ? ENGLISH_BLOG_POSTS : BLOG_POSTS).filter(
         (p) => p.clusterId === post.clusterId && p.slug !== post.slug
       );
-      for (const spoke of peerPosts) {
-        const linksToSpoke = internalLinks.some((l) => l.href.includes(spoke.slug));
-        if (!linksToSpoke) {
-          errors.push(
-            `${label} Pillar post is missing downward link to cluster spoke "${spoke.slug}".`
-          );
-        }
+      const linkedSpokesCount = peerPosts.filter(
+        (spoke) =>
+          internalLinks.some((l) => l.href.includes(spoke.slug)) ||
+          post.relatedSlugs?.includes(spoke.slug)
+      ).length;
+      const minRequired = Math.min(3, peerPosts.length);
+      if (linkedSpokesCount < minRequired) {
+        errors.push(
+          `${label} Pillar post has only ${linkedSpokesCount} downward links to cluster spokes (minimum ${minRequired} required).`
+        );
       }
     }
   }

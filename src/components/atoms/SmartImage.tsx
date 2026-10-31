@@ -1,5 +1,4 @@
 import React, { useEffect, useRef, useState } from 'react';
-import { getImageAsset, SiteImageAsset } from '../../config/images';
 import { detectMotionMode } from '../../lib/motion';
 
 interface SmartImageProps {
@@ -15,14 +14,51 @@ interface SmartImageProps {
   disableClipReveal?: boolean;
 }
 
-/**
- * Resilient Image component that reads from src/config/images.ts,
- * enforces explicit width/height attributes to prevent CLS, supports
- * priority (fetchPriority="high" + eager loading) vs below-the-fold lazy loading,
- * performs clip-path inset(8% round 16px) -> 0 + 1.06 -> 1 scale settle on enter,
- * includes a subtle blur-up placeholder that fades out with opacity,
- * and falls back gracefully to a soft lavender + purple #7C54E0 canvas if missing.
- */
+const IMAGE_KEY_MAP: Record<string, { src: string; alt: string; width: number; height: number }> = {
+  ogDefault: {
+    src: '/images/og-default.svg',
+    alt: 'Ilustrasi layanan pembuatan website, AI agent, software custom, dan otomasi workflow CHESTAADOTCOM',
+    width: 1200,
+    height: 630,
+  },
+  projectWaConciergeKlinik: {
+    src: '/images/portfolio/klinik-estetika-bsd.svg',
+    alt: 'Ilustrasi contoh proyek WA Concierge agen booking WhatsApp untuk klinik dengan pengecekan slot terapis',
+    width: 1200,
+    height: 900,
+  },
+  projectDashboardKafe: {
+    src: '/images/portfolio/dashboard-logistik-tangsel.svg',
+    alt: 'Ilustrasi contoh proyek Dashboard Operasional Kafe untuk memantau stok bahan dan penjualan harian cabang',
+    width: 1200,
+    height: 900,
+  },
+  projectLeadProperti: {
+    src: '/images/portfolio/properti-interior-bintaro.svg',
+    alt: 'Ilustrasi contoh proyek Alur Lead Properti dari formulir iklan ke CRM dan jadwal follow-up otomatis',
+    width: 1200,
+    height: 900,
+  },
+  projectLandingKlinikEstetika: {
+    src: '/images/blog/checklist-landing-page-konversi.svg',
+    alt: 'Ilustrasi contoh proyek Landing Page Klinik Estetika dengan daftar perawatan, harga mulai dari, dan tombol WhatsApp',
+    width: 1280,
+    height: 720,
+  },
+  projectChestaaV2: {
+    src: '/images/blog/landing-page-lambat-iklan-boncos.svg',
+    alt: 'Ilustrasi contoh proyek membangun ulang situs dua bahasa chestaa.com yang statis dan cepat',
+    width: 1280,
+    height: 720,
+  },
+  projectPemrosesDokumen: {
+    src: '/images/portfolio/asisten-kualifikasi-klien-konsultan.svg',
+    alt: 'Ilustrasi contoh proyek Pemroses Dokumen AI yang mengekstrak data dokumen ke tabel dengan tinjauan manusia',
+    width: 1200,
+    height: 900,
+  },
+};
+
 export default function SmartImage({
   imageKey,
   src,
@@ -40,11 +76,14 @@ export default function SmartImage({
   const [inView, setInView] = useState(priority);
   const imgRef = useRef<HTMLImageElement>(null);
 
-  const asset: SiteImageAsset = getImageAsset(imageKey || src || 'ogDefault');
-  const resolvedSrc = src || asset.src;
-  const resolvedAlt = alt || asset.alt;
-  const resolvedWidth = width || asset.width || 1200;
-  const resolvedHeight = height || asset.height || 900;
+  const keyOrSrc = imageKey || src || 'ogDefault';
+  const mapped = IMAGE_KEY_MAP[keyOrSrc];
+  const resolvedSrc = src && (src.startsWith('/') || src.startsWith('http'))
+    ? src
+    : mapped?.src || (keyOrSrc.startsWith('cover-') ? `/images/blog/covers/${keyOrSrc.slice(6)}.svg` : '/images/og-default.svg');
+  const resolvedAlt = alt || mapped?.alt || 'Ilustrasi software custom dan AI agent CHESTAADOTCOM';
+  const resolvedWidth = width || mapped?.width || 1200;
+  const resolvedHeight = height || mapped?.height || 900;
 
   useEffect(() => {
     const el = imgRef.current;
@@ -88,13 +127,6 @@ export default function SmartImage({
           ...transitionStyle,
         }}
       >
-        <div
-          className="absolute inset-0 opacity-40 pointer-events-none"
-          style={{
-            backgroundImage:
-              'radial-gradient(circle at 80% 20%, rgba(124, 84, 224, 0.18), transparent 55%)',
-          }}
-        />
         <div className="relative z-10 flex items-center justify-between text-xs font-mono text-[#5B5675]">
           <span className="font-semibold text-[#17122B]">CHESTAADOTCOM</span>
           {badgeLabel && <span className="text-[#6A3FD0] font-medium">{badgeLabel}</span>}
@@ -104,10 +136,6 @@ export default function SmartImage({
           <p className="text-sm sm:text-base font-semibold text-[#17122B] line-clamp-2 max-w-md">
             {resolvedAlt}
           </p>
-        </div>
-        <div className="relative z-10 flex items-center justify-between text-[11px] font-mono text-[#5B5675]">
-          <span>chestaa.com</span>
-          <span>Verified Production</span>
         </div>
       </div>
     );
@@ -123,7 +151,7 @@ export default function SmartImage({
       width={resolvedWidth}
       height={resolvedHeight}
       loading={priority ? 'eager' : 'lazy'}
-      decoding={priority ? 'sync' : 'async'}
+      decoding={priority ? 'async' : 'async'}
       // @ts-ignore
       fetchPriority={priority ? 'high' : 'auto'}
       onLoad={() => setIsLoaded(true)}

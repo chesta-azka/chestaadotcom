@@ -152,8 +152,8 @@ export const SITE_IMAGES: Record<string, SiteImageAsset> = {
   serviceSoftwareCustom: {
     key: 'serviceSoftwareCustom',
     src: '/images/portfolio/dashboard-logistik-tangsel.svg',
-    alt: 'Ilustrasi modul aplikasi web dan dashboard laporan internal yang tersusun sesuai peran pengguna',
-    altEn: 'Illustration of custom web application modules and internal reporting dashboard organized by user role',
+    alt: 'Ilustrasi modul aplikasi web dan dashboard laporan operasional yang tersusun sesuai peran pengguna',
+    altEn: 'Illustration of custom web application modules and operational reporting dashboard organized by user role',
     width: 1200,
     height: 900,
     aspectRatio: '4:3',
@@ -242,7 +242,7 @@ export const SITE_IMAGES: Record<string, SiteImageAsset> = {
   },
 
   // ==========================================================================
-  // 6 SHARED INTERNAL DEMO PROJECTS (data/projects)
+  // 6 SHARED SAMPLE DEMO PROJECTS (data/projects)
   // Every cover is a palette-matched illustration labeled "Ilustrasi"
   // ==========================================================================
 
@@ -250,8 +250,8 @@ export const SITE_IMAGES: Record<string, SiteImageAsset> = {
   projectWaConciergeKlinik: {
     key: 'projectWaConciergeKlinik',
     src: '/images/portfolio/klinik-estetika-bsd.svg',
-    alt: 'Ilustrasi proyek internal WA Concierge agen booking WhatsApp untuk klinik dengan pengecekan slot terapis',
-    altEn: 'Illustration of internal project WA Concierge WhatsApp booking agent for clinics with therapist slot checking',
+    alt: 'Ilustrasi contoh proyek WA Concierge agen booking WhatsApp untuk klinik dengan pengecekan slot terapis',
+    altEn: 'Illustration of sample project WA Concierge WhatsApp booking agent for clinics with therapist slot checking',
     width: 1200,
     height: 900,
     aspectRatio: '4:3',
@@ -264,8 +264,8 @@ export const SITE_IMAGES: Record<string, SiteImageAsset> = {
   projectDashboardKafe: {
     key: 'projectDashboardKafe',
     src: '/images/portfolio/dashboard-logistik-tangsel.svg',
-    alt: 'Ilustrasi proyek internal Dashboard Operasional Kafe untuk memantau stok bahan dan penjualan harian cabang',
-    altEn: 'Illustration of internal project Cafe Operations Dashboard for monitoring ingredient stock and daily branch sales',
+    alt: 'Ilustrasi contoh proyek Dashboard Operasional Kafe untuk memantau stok bahan dan penjualan harian cabang',
+    altEn: 'Illustration of sample project Cafe Operations Dashboard for monitoring ingredient stock and daily branch sales',
     width: 1200,
     height: 900,
     aspectRatio: '4:3',
@@ -278,8 +278,8 @@ export const SITE_IMAGES: Record<string, SiteImageAsset> = {
   projectLeadProperti: {
     key: 'projectLeadProperti',
     src: '/images/portfolio/properti-interior-bintaro.svg',
-    alt: 'Ilustrasi proyek internal Alur Lead Properti dari formulir iklan ke CRM dan jadwal follow-up otomatis',
-    altEn: 'Illustration of internal project Property Lead Flow from ad forms to CRM and automated follow-up schedules',
+    alt: 'Ilustrasi contoh proyek Alur Lead Properti dari formulir iklan ke CRM dan jadwal follow-up otomatis',
+    altEn: 'Illustration of sample project Property Lead Flow from ad forms to CRM and automated follow-up schedules',
     width: 1200,
     height: 900,
     aspectRatio: '4:3',
@@ -292,8 +292,8 @@ export const SITE_IMAGES: Record<string, SiteImageAsset> = {
   projectLandingKlinikEstetika: {
     key: 'projectLandingKlinikEstetika',
     src: '/images/blog/checklist-landing-page-konversi.svg',
-    alt: 'Ilustrasi proyek internal Landing Page Klinik Estetika dengan daftar perawatan, harga mulai dari, dan tombol WhatsApp',
-    altEn: 'Illustration of internal project Aesthetic Clinic Landing Page with treatment list, starting prices, and WhatsApp button',
+    alt: 'Ilustrasi contoh proyek Landing Page Klinik Estetika dengan daftar perawatan, harga mulai dari, dan tombol WhatsApp',
+    altEn: 'Illustration of sample project Aesthetic Clinic Landing Page with treatment list, starting prices, and WhatsApp button',
     width: 1280,
     height: 720,
     aspectRatio: '16:9',
@@ -306,8 +306,8 @@ export const SITE_IMAGES: Record<string, SiteImageAsset> = {
   projectChestaaV2: {
     key: 'projectChestaaV2',
     src: '/images/blog/landing-page-lambat-iklan-boncos.svg',
-    alt: 'Ilustrasi proyek internal membangun ulang situs dua bahasa chestaa.com yang statis dan cepat',
-    altEn: 'Illustration of internal project rebuilding the fast static bilingual chestaa.com website',
+    alt: 'Ilustrasi contoh proyek membangun ulang situs dua bahasa chestaa.com yang statis dan cepat',
+    altEn: 'Illustration of sample project rebuilding the fast static bilingual chestaa.com website',
     width: 1280,
     height: 720,
     aspectRatio: '16:9',
@@ -320,8 +320,8 @@ export const SITE_IMAGES: Record<string, SiteImageAsset> = {
   projectPemrosesDokumen: {
     key: 'projectPemrosesDokumen',
     src: '/images/portfolio/asisten-kualifikasi-klien-konsultan.svg',
-    alt: 'Ilustrasi proyek internal Pemroses Dokumen AI yang mengekstrak data dokumen ke tabel dengan tinjauan manusia',
-    altEn: 'Illustration of internal project AI Document Processor extracting document data into tables with human review',
+    alt: 'Ilustrasi contoh proyek Pemroses Dokumen AI yang mengekstrak data dokumen ke tabel dengan tinjauan manusia',
+    altEn: 'Illustration of sample project AI Document Processor extracting document data into tables with human review',
     width: 1200,
     height: 900,
     aspectRatio: '4:3',
@@ -550,8 +550,8 @@ export const SITE_IMAGES: Record<string, SiteImageAsset> = {
   blogRagBusiness: {
     key: 'blogRagBusiness',
     src: '/images/blog/covers/rag-untuk-pemilik-bisnis-ai-menjawab-dari-dokumen.svg',
-    alt: 'Diagram alur Retrieval-Augmented Generation (RAG) yang mengekstrak potongan dokumen SOP internal untuk jawaban akurat',
-    altEn: 'Pipeline diagram of Retrieval-Augmented Generation (RAG) extracting internal SOP document chunks for grounded AI answers',
+    alt: 'Diagram alur Retrieval-Augmented Generation (RAG) yang mengekstrak potongan dokumen SOP operasional untuk jawaban akurat',
+    altEn: 'Pipeline diagram of Retrieval-Augmented Generation (RAG) extracting operational SOP document chunks for grounded AI answers',
     width: 1600,
     height: 900,
     aspectRatio: '16:9',
@@ -651,12 +651,12 @@ export const SITE_IMAGES: Record<string, SiteImageAsset> = {
     labelEn: 'Illustration',
   },
 
-  // Legacy aliases mapped cleanly to the 6 internal projects
+  // Legacy aliases mapped cleanly to the 6 sample projects
   portfolioClinicPlaceholder: {
     key: 'portfolioClinicPlaceholder',
     src: '/images/portfolio/klinik-estetika-bsd.svg',
-    alt: 'Ilustrasi proyek internal WA Concierge agen booking WhatsApp untuk klinik',
-    altEn: 'Illustration of internal project WA Concierge WhatsApp booking agent for clinics',
+    alt: 'Ilustrasi contoh proyek WA Concierge agen booking WhatsApp untuk klinik',
+    altEn: 'Illustration of sample project WA Concierge WhatsApp booking agent for clinics',
     width: 1200,
     height: 900,
     aspectRatio: '4:3',
@@ -668,8 +668,8 @@ export const SITE_IMAGES: Record<string, SiteImageAsset> = {
   portfolioLogisticsDashboard: {
     key: 'portfolioLogisticsDashboard',
     src: '/images/portfolio/dashboard-logistik-tangsel.svg',
-    alt: 'Ilustrasi proyek internal Dashboard Operasional Kafe untuk stok dan penjualan cabang',
-    altEn: 'Illustration of internal project Cafe Operations Dashboard for stock and branch sales',
+    alt: 'Ilustrasi contoh proyek Dashboard Operasional Kafe untuk stok dan penjualan cabang',
+    altEn: 'Illustration of sample project Cafe Operations Dashboard for stock and branch sales',
     width: 1200,
     height: 900,
     aspectRatio: '4:3',
@@ -681,8 +681,8 @@ export const SITE_IMAGES: Record<string, SiteImageAsset> = {
   portfolioPropertyPlaceholder: {
     key: 'portfolioPropertyPlaceholder',
     src: '/images/portfolio/properti-interior-bintaro.svg',
-    alt: 'Ilustrasi proyek internal Alur Lead Properti dari iklan ke CRM dan agen',
-    altEn: 'Illustration of internal project Property Lead Flow from ads to CRM and agents',
+    alt: 'Ilustrasi contoh proyek Alur Lead Properti dari iklan ke CRM dan agen',
+    altEn: 'Illustration of sample project Property Lead Flow from ads to CRM and agents',
     width: 1200,
     height: 900,
     aspectRatio: '4:3',
@@ -707,8 +707,8 @@ export const SITE_IMAGES: Record<string, SiteImageAsset> = {
   portfolioErpInventory: {
     key: 'portfolioErpInventory',
     src: '/images/portfolio/sistem-inventaris-erp-manufaktur.svg',
-    alt: 'Ilustrasi tampilan tabel stok dan laporan internal berbasis web',
-    altEn: 'Illustration of web-based stock table and internal reporting interface',
+    alt: 'Ilustrasi tampilan tabel stok dan laporan operasional berbasis web',
+    altEn: 'Illustration of web-based stock table and operational reporting interface',
     width: 1200,
     height: 900,
     aspectRatio: '4:3',
@@ -720,8 +720,8 @@ export const SITE_IMAGES: Record<string, SiteImageAsset> = {
   portfolioConsultantAgent: {
     key: 'portfolioConsultantAgent',
     src: '/images/portfolio/asisten-kualifikasi-klien-konsultan.svg',
-    alt: 'Ilustrasi proyek internal Pemroses Dokumen AI dengan tabel tinjauan manusia',
-    altEn: 'Illustration of internal project AI Document Processor with human review table',
+    alt: 'Ilustrasi contoh proyek Pemroses Dokumen AI dengan tabel tinjauan manusia',
+    altEn: 'Illustration of sample project AI Document Processor with human review table',
     width: 1200,
     height: 900,
     aspectRatio: '4:3',
@@ -733,8 +733,8 @@ export const SITE_IMAGES: Record<string, SiteImageAsset> = {
   portfolioGalleryArchitecture: {
     key: 'portfolioGalleryArchitecture',
     src: '/images/portfolio/gallery-architecture-diagram.svg',
-    alt: 'Ilustrasi diagram alur data, aturan tindakan, dan penyimpanan database pada proyek internal',
-    altEn: 'Illustration of data flow diagram, action rules, and database storage in internal project',
+    alt: 'Ilustrasi diagram alur data, aturan tindakan, dan penyimpanan database pada contoh proyek',
+    altEn: 'Illustration of data flow diagram, action rules, and database storage in sample project',
     width: 1280,
     height: 720,
     aspectRatio: '16:9',

@@ -1081,8 +1081,52 @@ function wrapTitleLines(title: string, maxCharsPerLine = 28, maxLines = 2): stri
   return lines.slice(0, maxLines);
 }
 
+const HERO_SCENE_IDS: ReadonlyArray<CoverHeroId> = [
+  'react-loop',
+  'tool-bus',
+  'wa-flow',
+  'mcp-hub',
+  'memory-tiers',
+  'multi-agent',
+  'cost-meter',
+  'guardrail-gate',
+  'vitals-gauges',
+  'local-map',
+  'schema-graph',
+  'answer-box',
+  'form-to-wa',
+  'https-lock',
+  'vendor-matrix',
+];
+
+const LAYOUT_VARIANTS: ReadonlyArray<'A' | 'B' | 'C' | 'D'> = ['A', 'B', 'C', 'D'];
+
 /**
- * Generates a static 1200×630 OpenGraph SVG card for a blog post and locale.
+ * Returns the canonical public path `/images/og/{lang}/{path}.png` for any route.
+ */
+export function getRouteOgPngPath(rawPathname: string): string {
+  const clean = (rawPathname || '/id')
+    .split('?')[0]
+    .split('#')[0]
+    .replace(/\/+$/, '') || '/id';
+
+  if (clean === '/' || clean === '/id') {
+    return '/images/og/id/index.png';
+  }
+  if (clean === '/en') {
+    return '/images/og/en/index.png';
+  }
+  if (clean.startsWith('/id/')) {
+    return `/images/og/id/${clean.slice(4)}.png`;
+  }
+  if (clean.startsWith('/en/')) {
+    return `/images/og/en/${clean.slice(4)}.png`;
+  }
+  return `/images/og/id/${clean.replace(/^\/+/, '')}.png`;
+}
+
+/**
+ * Generates a static 1200×630 OpenGraph SVG card for a blog post or page and locale.
  * Includes category pill, 2-line clamped title, miniature hero diagram, and brand mark.
  */
 export function buildOgCardSvg(options: {
@@ -1092,10 +1136,14 @@ export function buildOgCardSvg(options: {
   spec: CoverSpec;
 }): string {
   const { title, category, locale, spec } = options;
-  const titleLines = wrapTitleLines(title, 27, 2);
+  const cleanTitle = (title || '')
+    .replace(/\s*\|\s*CHESTAADOTCOM\s*$/i, '')
+    .replace(/\s*—\s*CHESTAADOTCOM\s*$/i, '')
+    .trim();
+  const titleLines = wrapTitleLines(cleanTitle, 27, 2);
   const heroSvg = renderHeroScene(spec);
   const altText = locale === 'en' ? spec.altEn : spec.alt;
-  const catText = escapeXml((category || 'BLOG').toUpperCase());
+  const catText = escapeXml((category || 'CHESTAADOTCOM').toUpperCase().slice(0, 32));
   const catWidth = Math.max(120, catText.length * 8.5 + 32);
 
   return `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 630" width="1200" height="630" fill="none" role="img" aria-label="${escapeXml(
@@ -1165,4 +1213,47 @@ export function buildOgCardSvg(options: {
     ${heroSvg}
   </g>
 </svg>`;
+}
+
+/**
+ * Generates a deterministic 1200×630 OpenGraph SVG card for any non-blog page.
+ */
+export function buildGenericPageOgCardSvg(options: {
+  routePath: string;
+  title: string;
+  category: string;
+  locale: 'id' | 'en';
+  labels?: [string, string, string?];
+}): string {
+  const { routePath, title, category, locale, labels } = options;
+  const seed = fnv1a32(`og:${locale}:${routePath}`);
+  const heroId = HERO_SCENE_IDS[seed % HERO_SCENE_IDS.length];
+  const layoutVariant = LAYOUT_VARIANTS[(seed >>> 4) % LAYOUT_VARIANTS.length];
+  const defaultLabels: [string, string, string] =
+    locale === 'en'
+      ? ['BSD & TANGSEL', 'FAST & CLEAR', 'FREE AUDIT']
+      : ['BSD & TANGSEL', 'CEPAT & JELAS', 'AUDIT GRATIS'];
+
+  const spec: CoverSpec = {
+    coverId: `cover-${seed}`,
+    canonicalSlug: routePath.replace(/^\/+/, '').replace(/\//g, '-') || 'home',
+    enSlug: 'home',
+    cluster: 'web-perf',
+    seed,
+    layoutVariant,
+    hero: heroId,
+    variant: 'A',
+    motif: 'node-graph',
+    accentToken: 'violet',
+    labels: labels || defaultLabels,
+    alt: `${title} — CHESTAADOTCOM`,
+    altEn: `${title} — CHESTAADOTCOM`,
+  };
+
+  return buildOgCardSvg({
+    title,
+    category,
+    locale,
+    spec,
+  });
 }

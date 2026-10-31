@@ -29,8 +29,8 @@ export const BLOG_POSTS_23_24_EN_RAW: RawBlogPostInput[] = [
       'Pamulang Tutoring',
     ],
     author: 'chesta',
-    date: '2026-11-03',
-    updatedAt: '2026-11-03',
+    date: '2026-10-29',
+    updatedAt: '2026-10-29',
     featured: false,
     draft: false,
     coverImageKey: 'clusterAgenticAi',
@@ -72,7 +72,7 @@ export const BLOG_POSTS_23_24_EN_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'paragraph',
-        text: 'AI agents forget easily because large language models are stateless by design, meaning that once an API call finishes generating a reply, the model internal compute memory is wiped clean and retains zero trace for the next request.',
+        text: 'AI agents forget easily because large language models are stateless by design, meaning that once an API call finishes generating a reply, the model active compute memory is wiped clean and retains zero trace for the next request.',
       },
       {
         type: 'paragraph',
@@ -363,8 +363,8 @@ export const BLOG_POSTS_23_24_EN_RAW: RawBlogPostInput[] = [
       'AI Orchestration',
     ],
     author: 'chesta',
-    date: '2026-11-03',
-    updatedAt: '2026-11-03',
+    date: '2026-10-29',
+    updatedAt: '2026-10-29',
     featured: false,
     draft: false,
     coverImageKey: 'clusterAgenticAi',
@@ -475,7 +475,7 @@ export const BLOG_POSTS_23_24_EN_RAW: RawBlogPostInput[] = [
         items: [
           'Router / Triage Agent: Greets the customer, classifies the primary intent, extracts initial entities, and routes the request to the appropriate specialist without running heavy calculations itself.',
           'Domain Specialist Agent: Executes narrow business logic. For example, an Inventory Agent that only holds stock lookup tools, or a Scheduling Agent that only accesses staff calendar endpoints.',
-          'Critic / Compliance Validator Agent: Acts as an internal auditor. This agent never speaks directly to the customer; instead, it inspects drafts produced by other agents to verify pricing accuracy, privacy compliance, and discount limits.',
+          'Critic / Compliance Validator Agent: Acts as an compliance auditor. This agent never speaks directly to the customer; instead, it inspects drafts produced by other agents to verify pricing accuracy, privacy compliance, and discount limits.',
         ],
       },
       {
@@ -531,7 +531,7 @@ export const BLOG_POSTS_23_24_EN_RAW: RawBlogPostInput[] = [
           'Receptionist Agent: Welcomes the homeowner on WhatsApp, collects room dimensions, work scope (kitchen remodel or carport canopy), and housing cluster location in BSD.',
           'Material Estimator Agent: Receives the dimensions from the Receptionist Agent, invokes `calculate_boq_estimate` connected to live material price tables, and produces a transparent budget range.',
           'Survey Scheduler Agent: Offers a free on-site measurement visit, checks field supervisor availability across Serpong, and locks the appointment into Google Calendar.',
-          'Manager Summary Notification: Once the site visit is booked, the system sends the structured client brief and initial estimate sheet to the internal project team group.',
+          'Manager Summary Notification: Once the site visit is booked, the system sends the structured client brief and initial estimate sheet to the sample project team group.',
         ],
       },
       {
@@ -594,7 +594,7 @@ export const BLOG_POSTS_23_24_EN_RAW: RawBlogPostInput[] = [
         items: [
           '[LangGraph Multi-Agent Architecture Concepts](https://langchain-ai.github.io/langgraph/concepts/multi_agent/) details supervisor, network, and hierarchical state graph patterns; check the official documentation for current figures and terms.',
           '[Microsoft Research AutoGen Multi-Agent Framework Documentation](https://microsoft.github.io/autogen/) presents conversational orchestration patterns for multi-agent systems; check the official documentation for current figures and terms.',
-          '[OWASP API Security Top 10 Guidelines](https://owasp.org/www-project-api-security/) establishes security controls for internal service-to-service API and webhook traffic; check the official documentation for current figures and terms.',
+          '[OWASP API Security Top 10 Guidelines](https://owasp.org/www-project-api-security/) establishes security controls for in-house service-to-service API and webhook traffic; check the official documentation for current figures and terms.',
           '[Google Cloud Architecture Center: Generative AI Agents](https://cloud.google.com/architecture) covers latency management and fault tolerance in production AI deployments; check the official documentation for current figures and terms.',
           '[W3C Architecture of the World Wide Web](https://www.w3.org/TR/webarch/) defines core principles of interface separation and modular distributed systems; check the official documentation for current figures and terms.',
         ],

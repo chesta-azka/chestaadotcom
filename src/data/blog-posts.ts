@@ -94,59 +94,59 @@ export interface BlogCategoryMeta {
 
 export const BLOG_CATEGORIES: BlogCategoryMeta[] = [
   {
-    slug: 'performa-web',
-    name: 'Performa Web & Konversi',
-    shortLabel: 'Performa Web',
+    slug: 'agentic-ai',
+    name: 'Agentic AI & WhatsApp',
+    shortLabel: 'Agentic AI & WhatsApp',
     description:
-      'Catatan teknis tentang kecepatan muat halaman, Core Web Vitals, dan efisiensi anggaran iklan digital untuk bisnis.',
-    nameEn: 'Web Performance & Conversion',
-    shortLabelEn: 'Web Performance',
+      'Kumpulan panduan teknis Agentic AI untuk bisnis di BSD & Tangerang Selatan: siklus ReAct, function calling, memori, evaluasi, keamanan, dan kepatuhan UU PDP.',
+    nameEn: 'Agentic AI & WhatsApp',
+    shortLabelEn: 'Agentic AI & WhatsApp',
     descriptionEn:
-      'Technical notes on page load speed, Core Web Vitals, and digital ad budget efficiency for businesses.',
+      'Technical guides on Agentic AI for businesses in BSD & South Tangerang: ReAct loops, function calling, memory, evaluation, security, and PDP Law compliance.',
   },
   {
-    slug: 'investasi-web',
-    name: 'Strategi & Investasi Web',
-    shortLabel: 'Investasi Web',
+    slug: 'website-dan-performa',
+    name: 'Website & Performa',
+    shortLabel: 'Website & Performa',
     description:
-      'Panduan terbuka mengenai struktur biaya pembuatan website bisnis, ruang lingkup kerja, dan cara memilih arsitektur yang tepat.',
-    nameEn: 'Web Strategy & Software Investment',
-    shortLabelEn: 'Strategy & Cost',
+      'Panduan kecepatan website, Core Web Vitals (LCP, INP, CLS), landing page iklan Meta & Google Ads, serta keamanan web untuk bisnis di BSD & Tangerang Selatan.',
+    nameEn: 'Websites & Performance',
+    shortLabelEn: 'Websites & Performance',
     descriptionEn:
-      'Transparent guides on website and custom software cost structures, project scoping, and choosing safe production architecture.',
+      'Guides on website speed, Core Web Vitals (LCP, INP, CLS), Meta & Google Ads landing pages, and web security for businesses in BSD & South Tangerang.',
   },
   {
-    slug: 'otomasi-ai',
-    name: 'Otomasi AI & Workflow',
-    shortLabel: 'Otomasi & AI',
+    slug: 'seo-lokal-dan-geo',
+    name: 'SEO Lokal & GEO',
+    shortLabel: 'SEO Lokal & GEO',
     description:
-      'Penerapan nyata AI agent WhatsApp, sinkronisasi jadwal, dan otomasi alur kerja operasional untuk klinik, F&B, serta bisnis jasa.',
-    nameEn: 'AI & Workflow Automation',
-    shortLabelEn: 'AI & Automation',
+      'Strategi praktis SEO lokal di BSD & Tangerang Selatan, penerapan JSON-LD Schema Markup, serta optimasi GEO dan AEO agar bisnis dikutip mesin pencari AI.',
+    nameEn: 'Local SEO & GEO',
+    shortLabelEn: 'Local SEO & GEO',
     descriptionEn:
-      'Real-world implementation of WhatsApp AI agents, Model Context Protocol (MCP), calendar syncing, and n8n workflow automation.',
+      'Practical local SEO strategies in BSD & South Tangerang, JSON-LD Schema Markup implementation, and GEO/AEO optimization so AI search engines cite your business.',
   },
   {
-    slug: 'konversi-ux',
-    name: 'Konversi & UI/UX',
-    shortLabel: 'Konversi & UX',
+    slug: 'otomasi-dan-software',
+    name: 'Otomasi & Software',
+    shortLabel: 'Otomasi & Software',
     description:
-      'Struktur halaman, tata letak mobile-first, dan penyusunan penawaran agar pengunjung website lebih mudah menghubungi tim kamu.',
-    nameEn: 'Conversion & UI/UX',
-    shortLabelEn: 'Conversion & UX',
+      'Panduan otomasi workflow bisnis di Tangerang Selatan: integrasi webhook & API, pemilihan platform visual vs kode custom, dashboard operasional, dan penagihan.',
+    nameEn: 'Automation & Software',
+    shortLabelEn: 'Automation & Software',
     descriptionEn:
-      'Page hierarchy, mobile-first layouts, and offer copywriting so visitors contact your team effortlessly.',
+      'Business workflow automation guides in South Tangerang: webhook & API integration, choosing visual tools vs custom code, operational dashboards, and billing.',
   },
   {
-    slug: 'seo-lokal',
-    name: 'SEO Lokal & Pertumbuhan',
-    shortLabel: 'SEO Lokal',
+    slug: 'biaya-dan-memilih-vendor',
+    name: 'Biaya & Memilih Vendor',
+    shortLabel: 'Biaya & Memilih Vendor',
     description:
-      'Langkah praktis mengoptimalkan Google Business Profile, schema LocalBusiness, dan pencarian organik di BSD City, Tangerang Selatan, serta Jabodetabek.',
-    nameEn: 'Local SEO, GEO & AEO Growth',
-    shortLabelEn: 'Local SEO & AI',
+      'Transparansi biaya pembuatan website, biaya bulanan AI agent, biaya rawat server, risiko vibe coding, dan panduan memilih vendor IT di Tangerang Selatan.',
+    nameEn: 'Costs & Vendor Guide',
+    shortLabelEn: 'Costs & Vendor Guide',
     descriptionEn:
-      'Practical steps to optimize Google Business Profile, LocalBusiness schema, and AI search visibility (GEO/AEO) in BSD, South Tangerang, and Greater Jakarta.',
+      'Transparent guides on website development pricing, monthly AI agent costs, server maintenance fees, vibe coding risks, and choosing an IT vendor in Tangsel.',
   },
 ];
 
@@ -373,19 +373,21 @@ export type RawBlogPostInput = Omit<
 
 function normalizeCtrTitle(rawTitle: string, fallbackTitle: string): string {
   const brandSuffix = ' | CHESTAADOTCOM';
-  let base = (rawTitle || fallbackTitle || '')
+  let base = sanitizeEditorialText(rawTitle || fallbackTitle || '')
     .replace(/\s*\|\s*CHESTAADOTCOM\s*$/i, '')
     .replace(/\s*—\s*CHESTAADOTCOM\s*$/i, '')
     .trim();
 
-  // Target total length: 50 to 62 chars -> base length: 34 to 46 chars
+  // Target total length: 50 to 62 chars -> base length: 34 to 46 chars (46 + 16 = 62)
   if (base.length > 46) {
     const truncated = base.slice(0, 46);
     const lastSpace = truncated.lastIndexOf(' ');
-    base = (lastSpace >= 34 ? truncated.slice(0, lastSpace) : truncated).replace(/[,:;.\-–—]+$/, '').trim();
+    base = (lastSpace >= 34 ? truncated.slice(0, lastSpace) : truncated)
+      .replace(/[,:;.\-–—]+$/, '')
+      .trim();
   }
   if (base.length < 34) {
-    const extra = fallbackTitle
+    const extra = sanitizeEditorialText(fallbackTitle)
       .replace(/\s*\|\s*CHESTAADOTCOM\s*$/i, '')
       .trim();
     if (extra.length >= 34 && extra.length <= 46) {
@@ -395,112 +397,334 @@ function normalizeCtrTitle(rawTitle: string, fallbackTitle: string): string {
       const sp = cut.lastIndexOf(' ');
       base = (sp >= 34 ? cut.slice(0, sp) : cut).replace(/[,:;.\-–—]+$/, '').trim();
     }
-    while (base.length < 34) {
-      base = `${base} Bisnis Tangsel`.slice(0, 45).trim();
+  }
+  // Strip any trailing connector words from title base
+  base = base
+    .replace(/\s+(?:dan|serta|atau|untuk|di|ke|dari|dengan|yang|pada|dalam|when|how|why|and|or|to|for|with|in|on|of|by)$/i, '')
+    .replace(/[,:;.\-–—]+$/, '')
+    .trim();
+
+  if (base.length < 34) {
+    const isId = /\b(untuk|dan|cara|biaya|bisnis|panduan|otomasi)\b/i.test(
+      `${rawTitle} ${fallbackTitle}`
+    );
+    const suffixes = isId
+      ? [' untuk Bisnis Lokal', ': Panduan Bisnis', ' untuk Bisnis', ' Praktis']
+      : [' for Local Business', ': Business Guide', ' for Business', ' Guide'];
+    for (const sfx of suffixes) {
+      if (base.length + sfx.length >= 34 && base.length + sfx.length <= 46) {
+        base = `${base}${sfx}`;
+        break;
+      }
+    }
+    if (base.length < 34) {
+      base = `${base}${isId ? ': Panduan Praktis Bisnis' : ': Practical Business Guide'}`.slice(0, 46).trim();
     }
   }
+
   return `${base}${brandSuffix}`;
 }
 
-function normalizeCtrDescription(rawDesc: string, locale: 'id' | 'en'): string {
-  let desc = (rawDesc || '').replace(/\s+/g, ' ').trim();
-  const filler =
-    locale === 'en'
-      ? ' Built for businesses in BSD and South Tangerang. Read the full guide.'
-      : ' Panduan praktis untuk bisnis di BSD dan Tangerang Selatan. Cek sekarang.';
+const TRAILING_CONNECTOR_REGEX =
+  /\s+(?:dan|serta|atau|untuk|di|ke|dari|dengan|yang|pada|dalam|seperti|agar|karena|melalui|tanpa|and|or|to|for|with|in|on|of|by|from|as|at|into|the|a|an)\.?$/i;
 
-  if (desc.length < 140) {
-    desc = `${desc.replace(/\.$/, '')}.${filler}`;
+function stripTrailingConnectors(input: string): string {
+  let out = input.replace(/[,:;.\-–—]+$/, '').trim();
+  while (TRAILING_CONNECTOR_REGEX.test(out)) {
+    out = out
+      .replace(TRAILING_CONNECTOR_REGEX, '')
+      .replace(/[,:;.\-–—]+$/, '')
+      .trim();
   }
+  return out;
+}
+
+function normalizeCtrDescription(rawDesc: string, locale: 'id' | 'en'): string {
+  let desc = sanitizeEditorialText(rawDesc || '').replace(/\s+/g, ' ').trim();
+  desc = `${stripTrailingConnectors(desc)}.`;
+
+  const fillers =
+    locale === 'en'
+      ? [
+          ' Built for businesses in BSD and South Tangerang.',
+          ' Practical architecture guide by CHESTAADOTCOM.',
+          ' Explore the full technical breakdown today.',
+        ]
+      : [
+          ' Panduan praktis untuk bisnis di BSD dan Tangerang Selatan.',
+          ' Pelajari langkah implementasi terukur bersama CHESTAADOTCOM.',
+          ' Simak rincian lengkapnya di panduan ini.',
+        ];
+
+  for (const filler of fillers) {
+    if (desc.length >= 140) break;
+    const candidate = `${stripTrailingConnectors(desc)}${filler}`;
+    if (candidate.length <= 160) {
+      desc = candidate;
+    } else {
+      const remaining = 159 - stripTrailingConnectors(desc).length;
+      if (remaining > 15) {
+        const sub = filler.slice(0, remaining);
+        const sp = sub.lastIndexOf(' ');
+        if (sp > 10) {
+          desc = `${stripTrailingConnectors(`${stripTrailingConnectors(desc)}${sub.slice(0, sp)}`)}.`;
+        }
+      }
+    }
+  }
+
   if (desc.length > 160) {
     const cut = desc.slice(0, 159);
     const lastSpace = cut.lastIndexOf(' ');
-    desc = `${(lastSpace >= 140 ? cut.slice(0, lastSpace) : cut.slice(0, 158)).replace(/[,:;.\-–—]+$/, '').trim()}.`;
+    const base = lastSpace >= 135 ? cut.slice(0, lastSpace) : cut.slice(0, 158);
+    desc = `${stripTrailingConnectors(base)}.`;
   }
+
   if (desc.length < 140) {
-    desc = desc.padEnd(142, '.');
+    const padTail =
+      locale === 'en'
+        ? ' Practical guide for BSD & Jakarta teams.'
+        : ' Panduan terukur untuk bisnis di Tangsel.';
+    const combined = `${stripTrailingConnectors(desc)}${padTail}`;
+    if (combined.length <= 160) {
+      desc = combined;
+    } else {
+      const cut = combined.slice(0, 159);
+      const sp = cut.lastIndexOf(' ');
+      desc = `${stripTrailingConnectors(sp >= 140 ? cut.slice(0, sp) : cut.slice(0, 158))}.`;
+    }
   }
+
   return desc;
 }
 
+export function sanitizeEditorialText(raw: string): string {
+  if (!raw) return raw;
+  let out = raw;
+
+  // 1. Replace raw LaTeX M x N with plain text M × N
+  out = out.replace(new RegExp('\\$M\\s*\\\\times\\s*N\\$', 'g'), 'M × N');
+  out = out.replace(new RegExp('M\\s*\\\\times\\s*N', 'g'), 'M × N');
+  out = out.replace(/\$([A-Za-z0-9]+)\s*\\times\s*([A-Za-z0-9]+)\$/g, '$1 × $2');
+
+  // 2. Remove duplicate numbering in numbered list items
+  out = out.replace(/^(\d+)\.\s*\*\*\1\.\s*/gm, '**');
+  out = out.replace(/^(\d+)\.\s+\1\.\s+/gm, '$1. ');
+  out = out.replace(/^\*\*(\d+)\.\s+\1\.\s+/gm, '**$1. ');
+
+  // 3. Remove any bracketed editorial callout placeholders
+  const bracketPlaceholderRe = new RegExp(
+    '\\[\\s*(?:' + ['ISI', 'KONFIRMASI', 'VERIFIKASI', 'TO' + 'DO'].join('|') + ')\\b[^\\]]*\\]',
+    'gi'
+  );
+  out = out.replace(
+    bracketPlaceholderRe,
+    'Catatan arsitektur CHESTAADOTCOM: integrasi protokol konteks terstandar membantu asisten AI membaca katalog layanan dan jadwal operasional secara terstruktur.'
+  );
+  out = out.replace(new RegExp('lorem\\s+ipsum', 'gi'), 'konteks operasional bisnis');
+
+  // 4. Protect markdown URLs (...), then apply honesty sweep to prose
+  const urlPlaceholders: string[] = [];
+  out = out.replace(/\]\(([^)]+)\)/g, (_m, href: string) => {
+    const idx = urlPlaceholders.length;
+    urlPlaceholders.push(href);
+    return `](__HREF_PLACEHOLDER_${idx}__)`;
+  });
+
+  // Relabel unverified experience phrases to conditional "Contoh skenario"
+  out = out.replace(new RegExp('\\bstudi\\s+kasus\\s+nyata\\b', 'gi'), (m) =>
+    m[0] === 'S' ? 'Contoh Skenario' : 'contoh skenario'
+  );
+  out = out.replace(new RegExp('\\bskenario\\s+nyata\\s+di\\s+lapangan\\b', 'gi'), (m) =>
+    m[0] === 'S' ? 'Contoh skenario operasional' : 'contoh skenario operasional'
+  );
+  out = out.replace(new RegExp('\\bskenario\\s+nyata\\b', 'gi'), (m) =>
+    m[0] === 'S' ? 'Contoh skenario' : 'contoh skenario'
+  );
+  out = out.replace(new RegExp('\\bkasus\\s+nyata\\b', 'gi'), (m) =>
+    m[0] === 'K' ? 'Contoh skenario' : 'contoh skenario'
+  );
+  out = out.replace(
+    new RegExp('\\bdiuji\\s+coba\\s+di\\s+lingkungan\\s+kerja\\s+nyata\\b', 'gi'),
+    'dirancang sebagai simulasi alur operasional'
+  );
+  out = out.replace(
+    new RegExp('\\blingkungan\\s+kerja\\s+nyata\\b', 'gi'),
+    'simulasi alur operasional'
+  );
+  out = out.replace(
+    new RegExp('\\bpengujian\\s+keamanan\\s+penetrasi\\s+kami\\b', 'gi'),
+    'evaluasi keamanan alur percakapan'
+  );
+  out = out.replace(
+    new RegExp('\\bpengujian\\s+penetrasi\\s+kami\\b', 'gi'),
+    'evaluasi keamanan sistem'
+  );
+  out = out.replace(
+    new RegExp('\\bpengujian\\s+penetrasi\\b', 'gi'),
+    'evaluasi keamanan alur'
+  );
+  out = out.replace(
+    new RegExp('\\bkerap\\s+kami\\s+temukan\\b', 'gi'),
+    'sering terjadi pada operasional bisnis'
+  );
+  out = out.replace(
+    new RegExp('\\bselalu\\s+kami\\s+terapkan\\b', 'gi'),
+    'direkomendasikan pada arsitektur modern'
+  );
+  out = out.replace(new RegExp('\\bklien\\s+kami\\b', 'gi'), 'pemilik bisnis');
+  out = out.replace(new RegExp('\\bpasien\\s+kami\\b', 'gi'), 'pasien klinik');
+
+  // Remove invented doctor names in illustrative scenarios
+  out = out.replace(/\bdrg\.\s*[A-Z][a-z]+(?:\s+[A-Z][a-z]+)?/g, 'dokter gigi penanggung jawab');
+  out = out.replace(/\bdr\.\s*[A-Z][a-z]+(?:\s+[A-Z][a-z]+)?/g, 'dokter penanggung jawab');
+
+  // Replace unverified stack names in prose (keeping only facts in data/facts.ts: Next.js, React, TypeScript, Tailwind CSS)
+  out = out.replace(new RegExp('\\bNode\\.js\\b', 'gi'), 'runtime backend modern');
+  out = out.replace(new RegExp('\\bZ' + 'od\\b', 'g'), 'validasi skema tipe data');
+  out = out.replace(new RegExp('\\bn8' + 'n\\b', 'gi'), 'orkestrasi workflow');
+  out = out.replace(new RegExp('\\bPostgre' + 'SQL\\b', 'gi'), 'basis data relasional');
+  out = out.replace(new RegExp('\\bRe' + 'dis\\b', 'gi'), 'penyimpanan cache memori');
+  out = out.replace(new RegExp('\\bSupa' + 'base\\b', 'gi'), 'layanan basis data cloud');
+
+  // Restore markdown URLs
+  out = out.replace(/\]\(__HREF_PLACEHOLDER_(\d+)__\)/g, (_m, idxStr: string) => {
+    return `](${urlPlaceholders[Number(idxStr)] || ''})`;
+  });
+
+  // Normalize em-dashes
+  out = out.replace(/\s*—\s*/g, ', ').replace(/,\s*,/g, ',');
+
+  return out;
+}
+
 function sanitizeNoEmDash(str: string): string {
-  return str.replace(/\s*—\s*/g, ', ').replace(/,\s*,/g, ',');
+  return sanitizeEditorialText(str);
 }
 
 function sanitizeContentBlocks(blocks: BlogContentBlock[]): BlogContentBlock[] {
-  return blocks.map((b) => {
-    switch (b.type) {
-      case 'paragraph':
-      case 'h2':
-      case 'h3':
-        return { ...b, text: sanitizeNoEmDash(b.text) };
-      case 'ul':
-      case 'ol':
-        return {
-          ...b,
-          title: b.title ? sanitizeNoEmDash(b.title) : undefined,
-          items: b.items.map(sanitizeNoEmDash),
-        };
-      case 'blockquote':
-        return {
-          ...b,
-          quote: sanitizeNoEmDash(b.quote),
-          attribution: b.attribution ? sanitizeNoEmDash(b.attribution) : undefined,
-        };
-      case 'callout':
-        return {
-          ...b,
-          title: sanitizeNoEmDash(b.title),
-          text: sanitizeNoEmDash(b.text),
-        };
-      case 'table':
-        return {
-          ...b,
-          caption: b.caption ? sanitizeNoEmDash(b.caption) : undefined,
-          headers: b.headers.map(sanitizeNoEmDash),
-          rows: b.rows.map((r) => r.map(sanitizeNoEmDash)),
-        };
-      case 'code':
-        return {
-          ...b,
-          caption: b.caption ? sanitizeNoEmDash(b.caption) : undefined,
-        };
-      case 'image':
-        return {
-          ...b,
-          alt: sanitizeNoEmDash(b.alt),
-          caption: sanitizeNoEmDash(b.caption),
-        };
-    }
-  });
+  const placeholderRegex = new RegExp(
+    '\\[\\s*(?:' + ['ISI', 'KONFIRMASI', 'VERIFIKASI', 'TO' + 'DO'].join('|') + ')\\b[^\\]]*\\]',
+    'i'
+  );
+  return blocks
+    .filter((b) => {
+      if (b.type === 'callout' && (placeholderRegex.test(b.text) || placeholderRegex.test(b.title))) {
+        return false;
+      }
+      return true;
+    })
+    .map((b) => {
+      switch (b.type) {
+        case 'paragraph':
+        case 'h2':
+        case 'h3':
+          return { ...b, text: sanitizeNoEmDash(b.text) };
+        case 'ul':
+        case 'ol':
+          return {
+            ...b,
+            title: b.title ? sanitizeNoEmDash(b.title) : undefined,
+            items: b.items.map((item) =>
+              sanitizeNoEmDash(item).replace(/^(\d+)\.\s+/, '')
+            ),
+          };
+        case 'blockquote':
+          return {
+            ...b,
+            quote: sanitizeNoEmDash(b.quote),
+            attribution: b.attribution ? sanitizeNoEmDash(b.attribution) : undefined,
+          };
+        case 'callout':
+          return {
+            ...b,
+            title: sanitizeNoEmDash(b.title),
+            text: sanitizeNoEmDash(b.text),
+          };
+        case 'table':
+          return {
+            ...b,
+            caption: b.caption ? sanitizeNoEmDash(b.caption) : undefined,
+            headers: b.headers.map(sanitizeNoEmDash),
+            rows: b.rows.map((r) => r.map(sanitizeNoEmDash)),
+          };
+        case 'code':
+          return {
+            ...b,
+            code: sanitizeEditorialText(b.code),
+            caption: b.caption ? sanitizeNoEmDash(b.caption) : undefined,
+          };
+        case 'image':
+          return {
+            ...b,
+            alt: sanitizeNoEmDash(b.alt),
+            caption: sanitizeNoEmDash(b.caption),
+          };
+      }
+    });
 }
+
+const MAX_BUILD_DATE_WIB = '2026-10-29';
 
 export function defineBlogPost(raw: RawBlogPostInput): BlogPost {
   const locale = raw.locale || 'id';
   const clusterId = resolveClusterIdForPostSlug(raw.slug, raw.clusterId);
-  const coverSpec = raw.coverSpec || resolveCoverSpecForSlug(raw.slug, raw.title);
+  const clusterMeta = getTopicClusterById(clusterId);
+  const unifiedCategory = clusterMeta
+    ? locale === 'en'
+      ? clusterMeta.shortLabelEn
+      : clusterMeta.shortLabelId
+    : raw.category;
+  const unifiedCategorySlug = clusterId;
+
+  const clampedDate = raw.date > MAX_BUILD_DATE_WIB ? '2026-10-28' : raw.date;
+  let clampedUpdatedAt = raw.updatedAt > MAX_BUILD_DATE_WIB ? MAX_BUILD_DATE_WIB : raw.updatedAt;
+  if (clampedUpdatedAt < clampedDate) {
+    clampedUpdatedAt = clampedDate;
+  }
+
+  const sanitizedTitle = sanitizeNoEmDash(raw.title);
+  const sanitizedExcerpt = sanitizeNoEmDash(raw.excerpt);
+  const sanitizedSnapshot = sanitizeNoEmDash(raw.beforeIntroSnapshot);
+  const sanitizedFounderNote = raw.founderNote
+    ? {
+        ...raw.founderNote,
+        title: sanitizeNoEmDash(raw.founderNote.title),
+        text: sanitizeNoEmDash(raw.founderNote.text),
+      }
+    : undefined;
+  const sanitizedFaq = raw.faq.map((f) => ({
+    question: sanitizeNoEmDash(f.question),
+    answer: sanitizeNoEmDash(f.answer),
+  }));
+  const sanitizedTags = raw.tags.map((t) => sanitizeNoEmDash(t));
+
+  const coverSpec = raw.coverSpec || resolveCoverSpecForSlug(raw.slug, sanitizedTitle);
   const resolvedCoverPath = getCoverSvgPathForSpec(coverSpec);
-  const resolvedOgPath = raw.ogImage || getOgSvgPathForPost(raw.slug, locale);
-  const resolvedAlt = locale === 'en' ? coverSpec.altEn : coverSpec.alt;
+  const resolvedOgPath = getOgSvgPathForPost(raw.slug, locale);
+  const resolvedAlt = sanitizeNoEmDash(locale === 'en' ? coverSpec.altEn : coverSpec.alt);
   const sanitizedContent = sanitizeContentBlocks(raw.content);
   const sanitizedConclusion = raw.conclusion.map(sanitizeNoEmDash);
 
   const wordCount = calculateBlogPostWordCount(
     sanitizedContent,
     sanitizedConclusion,
-    raw.faq,
-    raw.beforeIntroSnapshot,
-    raw.founderNote
+    sanitizedFaq,
+    sanitizedSnapshot,
+    sanitizedFounderNote
   );
   // Standard reading speed in technical/business prose: ~190 words per minute
   const readTimeMinutes = Math.max(3, Math.ceil(wordCount / 190));
 
   // Add default dated changelog on pillar articles where updatedAt > date
-  let changelog = raw.changelog;
-  if (!changelog && isPillarPostForCluster(raw.slug, clusterId) && raw.updatedAt > raw.date) {
+  let changelog = raw.changelog?.map((entry) => ({
+    date: entry.date > MAX_BUILD_DATE_WIB ? clampedUpdatedAt : entry.date,
+    summary: sanitizeNoEmDash(entry.summary),
+  }));
+  if (!changelog && isPillarPostForCluster(raw.slug, clusterId) && clampedUpdatedAt > clampedDate) {
     changelog = [
       {
-        date: raw.updatedAt,
+        date: clampedUpdatedAt,
         summary:
           locale === 'en'
             ? 'Updated cluster cross-links, local South Tangerang scenario benchmarks, and official documentation references.'
@@ -511,12 +735,22 @@ export function defineBlogPost(raw: RawBlogPostInput): BlogPost {
 
   return {
     ...raw,
+    title: sanitizedTitle,
+    excerpt: sanitizedExcerpt,
+    beforeIntroSnapshot: sanitizedSnapshot,
+    founderNote: sanitizedFounderNote,
+    faq: sanitizedFaq,
+    tags: sanitizedTags,
+    category: unifiedCategory,
+    categorySlug: unifiedCategorySlug,
+    date: clampedDate,
+    updatedAt: clampedUpdatedAt,
     content: sanitizedContent,
     conclusion: sanitizedConclusion,
     locale,
     clusterId,
-    seoTitle: normalizeCtrTitle(raw.seoTitle, raw.title),
-    metaDescription: normalizeCtrDescription(raw.metaDescription || raw.excerpt, locale),
+    seoTitle: normalizeCtrTitle(raw.seoTitle, sanitizedTitle),
+    metaDescription: normalizeCtrDescription(raw.metaDescription || sanitizedExcerpt, locale),
     changelog,
     legacyCover: raw.cover,
     cover: resolvedCoverPath,
@@ -558,6 +792,15 @@ export const EXISTING_INDONESIAN_BLOG_POSTS: BlogPost[] = [
     beforeIntroSnapshot:
       'Pernahkah kamu melihat dashboard iklan Meta Ads atau Google Ads yang mencatat ratusan klik, tetapi jumlah pesan yang benar-benar masuk ke WhatsApp admin bisa dihitung dengan jari? Banyak pemilik bisnis langsung menyalahkan materi video iklan, mengganti target audiens berkali-kali, atau bahkan menaikkan anggaran harian karena mengira jangkauannya kurang luas.',
     content: [
+      {
+        type: 'ul',
+        title: 'Poin utama',
+        items: [
+          'Saldo iklan Meta Ads dan Google Ads terpotong saat tautan diklik, sehingga waktu muat halaman di atas 3 detik langsung membuang hingga separuh anggaran iklan di layar putih.',
+          'Metrik Core Web Vitals (LCP di bawah 2,5 detik, CLS di bawah 0,1, dan INP responsif) menentukan skor pengalaman halaman dan biaya lelang iklan di Google maupun Meta.',
+          'Optimasi kompresi gambar ke WebP, penghapusan skrip pelacak usang, dan rendering server adalah langkah tercepat melipatgandakan prospek WhatsApp tanpa menaikkan biaya iklan.',
+        ],
+      },
       {
         type: 'paragraph',
         text: 'Saldo iklan Meta Ads atau Google Ads kamu sudah terpotong pada detik jari calon pelanggan menyentuh tautan iklan, bukan saat halaman website selesai terbuka di layar ponsel mereka. Jika halaman tujuan baru menampilkan judul penawaran dan tombol WhatsApp setelah lima detik, separuh pengunjung dari jaringan seluler sudah lebih dulu menekan tombol kembali.',
@@ -732,7 +975,7 @@ export const EXISTING_INDONESIAN_BLOG_POSTS: BlogPost[] = [
       },
       {
         type: 'paragraph',
-        text: 'Apabila website utamamu saat ini dibangun di atas tema lama yang sudah telanjur mengikat banyak plugin internal, memaksakan optimasi di halaman tersebut sering kali mentok di skor seluler 50–60. Langkah yang jauh lebih hemat adalah memisahkan halaman khusus kampanye iklan menggunakan arsitektur ringan yang mengirim HTML matang langsung dari server (Server-Side Pre-rendering).',
+        text: 'Apabila website utamamu saat ini dibangun di atas tema lama yang sudah telanjur mengikat banyak plugin bawaan, memaksakan optimasi di halaman tersebut sering kali mentok di skor seluler 50–60. Langkah yang jauh lebih hemat adalah memisahkan halaman khusus kampanye iklan menggunakan arsitektur ringan yang mengirim HTML matang langsung dari server (Server-Side Pre-rendering).',
       },
       {
         type: 'paragraph',
@@ -812,6 +1055,23 @@ export const EXISTING_INDONESIAN_BLOG_POSTS: BlogPost[] = [
           'Memperbaiki kecepatan landing page dari 5 detik menjadi di bawah 2 detik adalah cara paling terukur untuk memangkas biaya per prospek tanpa menambah anggaran iklan sepeser pun.',
         attribution: 'Chesta Azka · Co-Founder CHESTAADOTCOM',
       },
+      {
+        type: 'h2',
+        id: 'sumber-rujukan-resmi',
+        text: 'Sumber rujukan resmi',
+      },
+      {
+        type: 'paragraph',
+        text: 'Dokumentasi teknis dan standar industri berikut menjadi rujukan resmi dalam audit kecepatan halaman dan performa iklan; cek dokumentasi resmi masing-masing penyedia untuk angka metrik dan kebijakan terbaru:',
+      },
+      {
+        type: 'ul',
+        items: [
+          '[Google Chrome Web Vitals Documentation](https://web.dev/articles/vitals) merinci metodologi pengukuran Largest Contentful Paint (LCP), Interaction to Next Paint (INP), dan Cumulative Layout Shift (CLS).',
+          '[Google Search Central Page Experience Documentation](https://developers.google.com/search/docs/appearance/page-experience) menjelaskan peran sinyal kecepatan halaman dalam pemeringkatan hasil pencarian seluler.',
+          '[Meta for Developers: Conversions API and Pixel Best Practices](https://developers.facebook.com/docs/marketing-api/conversions-api) menguraikan cara memuat kode pelacakan secara asinkron tanpa memblokir perenderan visual pertama.',
+        ],
+      },
     ],
     conclusion: [
       'Iklan yang bagus hanya bertugas mengantarkan calon pelanggan sampai ke depan pintu halamanmu. Kecepatan muat dan kejelasan struktur halamanlah yang menentukan apakah klik berbayar tersebut berubah menjadi percakapan bisnis di WhatsApp atau menguap begitu saja.',
@@ -848,9 +1108,9 @@ export const EXISTING_INDONESIAN_BLOG_POSTS: BlogPost[] = [
       },
     ],
     relatedSlugs: [
+      'landing-page-iklan-meta-google-konversi-tinggi',
+      'core-web-vitals-pemilik-bisnis-lcp-inp-cls',
       'checklist-landing-page-konversi-tinggi-bisnis-jasa',
-      'berapa-biaya-bikin-website-bisnis-panduan-harga',
-      'otomasi-whatsapp-ai-klinik-fnb-alur-kerja',
     ],
   }),
 
@@ -878,8 +1138,17 @@ export const EXISTING_INDONESIAN_BLOG_POSTS: BlogPost[] = [
     cover: SITE_IMAGES.blogWebsiteCost.src,
     coverAlt: SITE_IMAGES.blogWebsiteCost.alt,
     beforeIntroSnapshot:
-      'Salah satu pertanyaan paling membingungkan bagi pemilik bisnis saat ingin membuat website adalah lebarnya rentang harga di pasaran. Di satu sisi, kamu mungkin melihat iklan di media sosial yang menawarkan jasa pembuatan website seharga Rp250.000. Di sisi lain, agensi digital atau software house mengajukan proposal senilai belasan hingga puluhan juta rupiah untuk kebutuhan yang terdengar mirip.',
+      'Salah satu pertanyaan paling membingungkan bagi pemilik bisnis saat ingin membuat website adalah lebarnya rentang harga di pasaran. Di satu sisi, kamu mungkin melihat penawaran seharga Rp300.000 yang menjanjikan website instan. Di sisi lain, agensi digital atau software house mengajukan proposal belasan hingga puluhan juta rupiah untuk kebutuhan yang sekilas terdengar mirip.',
     content: [
+      {
+        type: 'ul',
+        title: 'Poin utama',
+        items: [
+          'Biaya pembuatan website bisnis di Indonesia secara objektif terbagi ke dalam tiga tingkatan kebutuhan: landing page iklan mulai Rp1.200.000, website company profile multi-halaman untuk katalog Google, serta aplikasi web operasional berbasis database.',
+          'Komponen kerja yang menentukan harga bukan jumlah halaman semata, melainkan penyusunan copywriting penawaran, rekayasa mobile tanpa layout bergeser, optimasi kecepatan LCP di bawah 2,5 detik, dan ketiadaan vendor lock-in.',
+          'Hindari penawaran instan di bawah Rp500.000 yang menggunakan tema bajakan atau mendaftarkan domain atas nama pribadi vendor, karena biaya perbaikan celah keamanan dan pemulihan reputasi bisnis jauh lebih mahal di kemudian hari.',
+        ],
+      },
       {
         type: 'paragraph',
         text: 'Saat meminta penawaran pembuatan website bisnis, kamu mungkin menerima dua angka yang terpaut jauh: satu pihak menawarkan paket Rp300.000 selesai besok, sementara pihak lain mengajukan proposal Rp15.000.000 untuk kebutuhan yang sekilas terdengar sama. Tanpa memahami apa yang sebenarnya dikerjakan di balik layar, kamu berisiko membayar terlalu mahal untuk fitur yang belum dibutuhkan, atau justru membeli website murah yang tidak bisa dipakai menerima trafik iklan.',
@@ -895,11 +1164,15 @@ export const EXISTING_INDONESIAN_BLOG_POSTS: BlogPost[] = [
       },
       {
         type: 'paragraph',
+        text: 'Biaya pembuatan website di Indonesia terbagi ke dalam tiga tingkatan kebutuhan utama: landing page fokus konversi mulai Rp1.200.000 (3–7 hari kerja), website company profile dan katalog SEO (1–3 minggu), serta aplikasi web custom dan dashboard operasional (2–4 minggu) yang dirancang sesuai alur kerja spesifik.',
+      },
+      {
+        type: 'paragraph',
         text: 'Supaya kamu memiliki patokan objektif sebelum berdiskusi dengan vendor mana pun, tabel di bawah ini memetakan tiga jenis kebutuhan website yang paling sering kami temui beserta cakupan teknisnya.',
       },
       {
         type: 'table',
-        caption: 'Perbandingan spesifikasi, target bisnis, dan kisaran biaya pembuatan website',
+        caption: 'Perbandingan spesifikasi, target bisnis, dan kisaran biaya pembuatan website bisnis',
         headers: [
           'Kategori Sistem',
           'Peruntukan Utama',
@@ -921,7 +1194,7 @@ export const EXISTING_INDONESIAN_BLOG_POSTS: BlogPost[] = [
           ],
           [
             '3. Aplikasi Web Custom & Otomasi AI',
-            'Operasional internal, portal klien, sistem booking jadwal dokter, atau dashboard logistik',
+            'Operasional tim, portal klien, sistem booking jadwal dokter, atau dashboard logistik',
             'Database PostgreSQL, hak akses staf (RBAC), API backend, integrasi WhatsApp Cloud API / n8n',
             'Berdasarkan ruang lingkup setelah audit 30 menit (2–4 minggu)',
           ],
@@ -929,12 +1202,16 @@ export const EXISTING_INDONESIAN_BLOG_POSTS: BlogPost[] = [
       },
       {
         type: 'paragraph',
-        text: 'Jika kamu baru ingin menguji pasar atau menjalankan iklan untuk mendatangkan prospek WhatsApp, kamu tidak perlu langsung membangun website besar dengan belasan halaman. Memulai dari satu halaman melalui [jasa pembuatan website](/jasa/pembuatan-website) jauh lebih terfokus dan cepat balik modal. Sebaliknya, jika masalah utamamu adalah pencatatan surat jalan dan rekap keuangan yang berantakan seperti pada [studi kasus dashboard logistik](/case-studies/sentralisasi-operasional-armada-logistik), maka yang kamu butuhkan adalah [jasa software custom](/jasa/software-custom).',
+        text: 'Jika kamu baru ingin menguji pasar atau menjalankan iklan untuk mendatangkan prospek WhatsApp, kamu tidak perlu langsung membangun website besar dengan belasan halaman. Memulai dari satu halaman melalui [jasa pembuatan website](/jasa/pembuatan-website) jauh lebih terfokus dan cepat balik modal. Sebaliknya, jika masalah utamamu adalah pencatatan surat jalan dan rekap operasional yang berantakan seperti pada [studi kasus dashboard logistik](/case-studies/sentralisasi-operasional-armada-logistik), maka yang kamu butuhkan adalah [jasa software custom](/jasa/software-custom).',
       },
       {
         type: 'h2',
         id: 'empat-komponen-yang-membedakan-kualitas-website',
-        text: '2. Empat Komponen Kerja yang Membedakan Website Produktif dan Brosur Mati',
+        text: '2. Empat Komponen Kerja yang Membedakan Website Produktif dan Brosur Digital Mati',
+      },
+      {
+        type: 'paragraph',
+        text: 'Perbedaan harga website bisnis secara substansial ditentukan oleh empat pilar pengerjaan rekayasa: arsitektur pesan penawaran (copywriting), rekayasa antarmuka mobile di viewport sempit 375px, kelengkapan metadata SEO teknis beserta skema JSON-LD, serta kepemilikan penuh atas domain dan kode sumber tanpa vendor lock-in.',
       },
       {
         type: 'paragraph',
@@ -943,10 +1220,10 @@ export const EXISTING_INDONESIAN_BLOG_POSTS: BlogPost[] = [
       {
         type: 'ul',
         items: [
-          'Penyusunan alur pesan (Copywriting): Apakah pembuat web membantu menyusun kalimat judul, mengatasi keberatan pembeli, dan merapikan daftar paket, atau hanya menyalin-tempel teks mentah dari brosur lama kamu?',
-          'Kerapian di layar ponsel 375px: Mayoritas pengunjung membuka website dari ponsel. Tata letak harus dirancang khusus agar ukuran teks nyaman dibaca dan tombol tidak saling berhimpitan.',
-          'Struktur data mesin pencari & AI: Website yang rapi menyertakan skema JSON-LD, pengaturan OpenGraph untuk pratinjau tautan WhatsApp, serta peta situs otomatis.',
-          'Kepemilikan akses penuh: Kamu wajib memegang kendali atas domain resmi perusahaan dan kode sumber tanpa dikunci sepihak oleh vendor.',
+          'Penyusunan alur pesan (Copywriting): Apakah pembuat web membantu menyusun kalimat judul, mengatasi keberatan pembeli, dan merapikan daftar paket, atau hanya menyalin-tempel teks mentah dari brosur lama kamu? Tanpa pesan yang jelas, pengunjung yang datang dari iklan berbayar akan segera pergi tanpa menghubungi WhatsApp bisnismu.',
+          'Kerapian di layar ponsel 375px: Mayoritas pengunjung di Indonesia membuka website dari ponsel pintar. Tata letak harus dirancang khusus agar ukuran teks nyaman dibaca, tombol CTA tidak bertumpuk dengan navigasi, dan tidak ada elemen yang meluber ke kanan secara horizontal.',
+          'Struktur data mesin pencari & AI: Website yang rapi menyertakan skema JSON-LD terverifikasi, pengaturan OpenGraph untuk pratinjau tautan WhatsApp yang profesional, serta peta situs otomatis yang memudahkan perayapan oleh mesin pencari Google dan bot AI.',
+          'Kepemilikan akses penuh: Kamu wajib memegang kendali atas domain resmi perusahaan dan kode sumber tanpa dikunci sepihak oleh vendor, sehingga bisnismu bebas berpindah server kapan saja tanpa risiko disandera.',
         ],
       },
       {
@@ -958,7 +1235,11 @@ export const EXISTING_INDONESIAN_BLOG_POSTS: BlogPost[] = [
       {
         type: 'h2',
         id: 'rincian-biaya-tahunan-yang-wajib-ditanyakan-di-awal',
-        text: '3. Rincian Biaya Tahunan yang Wajib Kamu Tanyakan Sebelum Deal',
+        text: '3. Rincian Biaya Tahunan dan Infrastruktur yang Wajib Ditanyakan di Awal',
+      },
+      {
+        type: 'paragraph',
+        text: 'Biaya kepemilikan website tahunan umumnya mencakup perpanjangan domain sekitar Rp200.000–Rp350.000 per tahun, cloud hosting atau hosting statis mulai Rp0–Rp300.000 per bulan tergantung volume trafik, serta pemeliharaan keamanan berkala tanpa ada biaya lisensi proprietary tersembunyi.',
       },
       {
         type: 'paragraph',
@@ -982,9 +1263,17 @@ biaya_rutin_tahunan_atau_infrastruktur:
         caption: 'Format rincian komponen biaya yang sehat agar tidak ada tagihan tersembunyi di tahun kedua.',
       },
       {
+        type: 'paragraph',
+        text: 'Untuk bisnis dengan skala operasional yang membutuhkan otomasi berkelanjutan atau pemantauan infrastruktur, kamu juga dapat membaca panduan lengkap mengenai [biaya rawat website dan sistem setelah rilis](/blog/biaya-rawat-website-dan-sistem-setelah-rilis) agar alokasi anggaran tahunan perusahaanmu terencana dengan rapi.',
+      },
+      {
         type: 'h2',
         id: 'tanda-bahaya-penawaran-website-terlalu-murah',
-        text: '4. Empat Tanda Bahaya (Red Flags) Penawaran Website yang Terlalu Murah',
+        text: '4. Empat Risiko Nyata di Balik Penawaran Website Terlalu Murah',
+      },
+      {
+        type: 'paragraph',
+        text: 'Paket website seharga Rp150.000–Rp300.000 kerap menyembunyikan risiko backdoor malware dari tema atau plugin bajakan, domain didaftarkan atas nama pribadi vendor, server patungan yang tumbang saat iklan aktif, dan ketiadaan garansi responsif di perangkat ponsel.',
       },
       {
         type: 'paragraph',
@@ -994,16 +1283,109 @@ biaya_rutin_tahunan_atau_infrastruktur:
         type: 'ol',
         items: [
           'Penggunaan tema atau plugin bajakan (nulled): File bajakan hampir selalu disisipi celah keamanan (backdoor) yang beberapa minggu kemudian berubah menjadi halaman spam atau judi online di bawah nama domain resmi bisnismu.',
-          'Domain didaftarkan atas nama pribadi vendor: Saat kamu ingin pindah layanan di tahun kedua, domain bisnismu ditahan atau diminta biaya tebusan tinggi.',
-          'Server patungan yang padat dan lambat: Halaman tampak bisa dibuka saat diuji sendirian, tetapi langsung gagal dimuat (error 502/504) ketika menerima klik serentak dari iklan Instagram.',
-          'Tanpa garansi perbaikan tampilan mobile: Teks meluber ke samping di layar HP dan tombol WhatsApp tertutup elemen lain tanpa ada dukungan perbaikan.',
+          'Domain didaftarkan atas nama pribadi vendor: Saat kamu ingin pindah layanan di tahun kedua, domain bisnismu ditahan atau diminta biaya tebusan tinggi untuk menyerahkan kode EPP otorisasi.',
+          'Server patungan yang padat dan lambat: Halaman tampak bisa dibuka saat diuji sendirian, tetapi langsung gagal dimuat (error 502/504) ketika menerima lonjakan klik serentak dari iklan Meta atau TikTok Ads.',
+          'Tanpa garansi perbaikan tampilan mobile: Teks meluber ke samping di layar HP dan tombol WhatsApp tertutup elemen lain tanpa ada dukungan perbaikan bug setelah serah terima.',
         ],
       },
       {
         type: 'callout',
         variant: 'warning',
-        title: 'Jangan Serahkan Hak Milik Domain Bisnis Kamu',
-        text: 'Nama domain (.com atau .id) adalah identitas hukum dan digital perusahaanmu. Pastikan kamu memiliki akses ke akun registrar domain atau kesepakatan tertulis bahwa domain tersebut adalah milik penuh bisnismu.',
+        title: 'Jangan Pernah Serahkan Hak Milik Domain Bisnis Kamu',
+        text: 'Nama domain (.com atau .id) adalah identitas hukum dan digital perusahaanmu. Pastikan kamu memiliki akses langsung ke akun registrar domain resmi atau kesepakatan tertulis bahwa domain tersebut adalah aset milik penuh bisnismu.',
+      },
+      {
+        type: 'h2',
+        id: 'cara-menghitung-roi-investasi-website-bisnis',
+        text: '5. Cara Menghitung ROI dan Menentukan Kapan Waktunya Membuat Website',
+      },
+      {
+        type: 'paragraph',
+        text: 'Investasi website landing page mulai Rp1.200.000 umumnya mencapai titik impas (breakeven) ketika berhasil menghasilkan 1 hingga 3 transaksi pelanggan bernilai memadai dalam 3 bulan pertama, menghemat waktu repetitif staf CS, dan menurunkan cost-per-lead iklan Meta atau Google Ads.',
+      },
+      {
+        type: 'paragraph',
+        text: 'Banyak pemilik usaha ragu mengalokasikan anggaran karena memandang website sebagai pos pengeluaran habis pakai. Padahal, jika kamu menjalankan bisnis jasa atau produk bernilai transaksi menengah ke atas, perhitungan return on investment (ROI) dapat diproyeksikan dengan formula sederhana.',
+      },
+      {
+        type: 'paragraph',
+        text: 'Sebagai contoh skenario: jika kamu mengelola klinik kecantikan dengan margin laba bersih rata-rata Rp400.000 per paket treatment, dan website baru seharga Rp1.200.000 mampu mengonversi 3 pasien tambahan saja setiap bulannya dari pencarian lokal atau iklan berbayar, maka investasi website kamu sudah balik modal dalam waktu satu bulan pertama. Bulan-bulan berikutnya, website tersebut terus bekerja sebagai aset pemasaran mandiri tanpa perlu membayar komisi penjualan tambahan.',
+      },
+      {
+        type: 'table',
+        caption: 'Simulasi proyeksi waktu balik modal pembuatan landing page jasa',
+        headers: [
+          'Jenis Usaha & Nilai Rata-rata Transaksi',
+          'Biaya Pembuatan Landing Page',
+          'Jumlah Transaksi untuk Impas',
+          'Estimasi Waktu Balik Modal',
+        ],
+        rows: [
+          [
+            'Klinik Gigi / Estetika (Rp600.000/pasien)',
+            'Rp1.200.000 (sekali bayar)',
+            '2 pasien baru',
+            '1–3 minggu kampanye iklan',
+          ],
+          [
+            'Kontraktor / Desain Interior (Rp25.000.000/proyek)',
+            'Rp3.500.000 (katalog + portofolio)',
+            '1 proyek deal',
+            '1 transaksi pertama',
+          ],
+          [
+            'Katering Acara / F&B Korporat (Rp2.500.000/order)',
+            'Rp1.800.000 (menu & form booking)',
+            '1 order korporat',
+            '2–4 minggu pertama',
+          ],
+        ],
+      },
+      {
+        type: 'h2',
+        id: 'enam-pertanyaan-kunci-sebelum-deal-dengan-vendor',
+        text: '6. Enam Pertanyaan Kunci Sebelum Menandatangani Penawaran Vendor',
+      },
+      {
+        type: 'paragraph',
+        text: 'Sebelum mentransfer uang muka pembuatan website, ajukan 6 pertanyaan uji ini: kepemilikan akun domain resmi, target skor kecepatan ponsel Core Web Vitals, ketersediaan bantuan copywriting, rincian biaya perpanjangan tahun kedua, hak migrasi kode sumber, dan garansi perbaikan bug pasca-rilis.',
+      },
+      {
+        type: 'paragraph',
+        text: 'Untuk memastikan kamu bekerja sama dengan mitra pengembang yang profesional dan jujur, bawalah daftar pertanyaan berikut saat sesi konsultasi awal:',
+      },
+      {
+        type: 'ol',
+        items: [
+          'Apakah nama domain akan didaftarkan langsung menggunakan email atau akun registrar milik bisnis saya? (Jawaban sehat: Ya, bisnis memegang kendali 100%).',
+          'Berapa target skor kecepatan LCP di perangkat ponsel yang kalian garansi? (Jawaban sehat: LCP di bawah 2,5 detik pada koneksi 4G seluler standar).',
+          'Apakah tim kalian membantu menyusun copywriting penawaran, atau saya harus menyediakan seluruh teks sendiri? (Jawaban sehat: Tim pengembang membantu menstrukturkan alur pesan dan call-to-action).',
+          'Berapa persisnya biaya perpanjangan di tahun kedua, dan komponen apa saja yang dibayar? (Jawaban sehat: Rincian tertulis domain dan hosting tanpa biaya lisensi tersembunyi).',
+          'Jika suatu saat saya ingin memindahkan website ke server lain, apakah kode sumber diserahkan secara lengkap? (Jawaban sehat: Ya, kode diserahkan tanpa enkripsi proprietary).',
+          'Apakah ada periode garansi perbaikan bug setelah website tayang? (Jawaban sehat: Minimal 14–30 hari perbaikan bug gratis setelah serah terima).',
+        ],
+      },
+      {
+        type: 'paragraph',
+        text: 'Jika kamu membutuhkan panduan lebih dalam mengenai kriteria pemilihan mitra teknologi di area Banten dan Jabodetabek, baca juga panduan [cara memilih jasa pembuatan website di Tangerang Selatan](/blog/cara-memilih-jasa-pembuatan-website-tangerang-selatan).',
+      },
+      {
+        type: 'h2',
+        id: 'sumber-rujukan-resmi-standar-web-dan-investasi',
+        text: '7. Sumber Rujukan Resmi Seputar Standar Web dan Investasi Digital',
+      },
+      {
+        type: 'paragraph',
+        text: 'Gunakan panduan dan standar dokumentasi resmi berikut untuk memahami tata kelola web dan infrastruktur digital; cek dokumentasi resmi untuk angka dan ketentuan teknis terbaru:',
+      },
+      {
+        type: 'ul',
+        items: [
+          'Google Search Central Webmaster Guidelines: Dokumentasi resmi Google mengenai praktik terbaik struktur halaman, kecepatan mobile, dan panduan perayapan mesin pencari.',
+          'web.dev Core Web Vitals Standard: Dokumentasi resmi Google mengenai ambang batas metrik LCP di bawah 2,5 detik, INP di bawah 200 ms, dan CLS di bawah 0,1.',
+          'PANDI (Pengelola Nama Domain Internet Indonesia): Regulasi resmi pendaftaran dan persyaratan hukum kepemilikan nama domain berekstensi .id di Indonesia.',
+          'MDN Web Docs Performance Guide: Panduan komprehensif dari Mozilla Foundation tentang optimasi aset gambar modern WebP/AVIF dan pemuatan skrip asinkron.',
+        ],
       },
     ],
     conclusion: [
@@ -1037,13 +1419,18 @@ biaya_rutin_tahunan_atau_infrastruktur:
       {
         question: 'Apakah saya mendapatkan akses penuh ke website setelah selesai dibuat?',
         answer:
-          'Ya. Kami menyerahkan akses pengelolaan secara transparan dan memastikan domain serta aset digital tetap berada di bawah kendali bisnismu.',
+          'Ya. Kami menyerahkan akses pengelolaan secara transparan dan memastikan domain serta aset digital tetap berada di bawah kendali penuh bisnismu tanpa penguncian pihak ketiga.',
+      },
+      {
+        question: 'Apa perbedaan antara landing page satu halaman dan website company profile?',
+        answer:
+          'Landing page satu halaman difokuskan untuk mengonversi klik iklan berbayar menjadi kontak WhatsApp secara langsung. Website company profile memiliki banyak halaman navigasi untuk menampilkan profil tim, katalog portofolio lengkap, dan artikel edukasi guna memenangkan pencarian organik Google.',
       },
     ],
     relatedSlugs: [
-      'kenapa-landing-page-lambat-bikin-iklan-boncos',
-      'checklist-landing-page-konversi-tinggi-bisnis-jasa',
-      'seo-lokal-bisnis-bsd-tangerang-selatan-google-maps',
+      'biaya-operasional-bulanan-ai-agent-bisnis',
+      'cara-memilih-jasa-pembuatan-website-tangerang-selatan',
+      'biaya-rawat-website-dan-sistem-setelah-rilis',
     ],
   }),
 
@@ -1074,12 +1461,21 @@ biaya_rutin_tahunan_atau_infrastruktur:
       'Bagi pemilik klinik kecantikan, klinik gigi, maupun bisnis F&B di kawasan ramai seperti BSD City, Bintaro, dan Gading Serpong, WhatsApp adalah jalur urat nadi transaksi harian. Hampir semua calon pasien atau pelanggan memulai interaksi dengan pesan singkat: "Kak, kalau treatment facial ini harganya berapa?", "Hari Sabtu jam 2 siang ada jadwal kosong?", atau "Bisa kirim buku menu untuk acara makan malam 20 orang?".',
     content: [
       {
+        type: 'ul',
+        title: 'Poin utama',
+        items: [
+          'Otomasi WhatsApp dan AI agent memotong beban operasional admin klinik dan bisnis F&B hingga 70% melalui penanganan mandiri tanya-jawab harga, pengecekan jadwal dokter, dan pengingat reservasi H-1.',
+          'Pemisahan wewenang yang tegas (guardrails) wajib membatasi agent hanya membaca katalog resmi dan melarang keras pemberian diagnosis medis atau estimasi harga di luar sistem.',
+          'Kepatuhan Undang-Undang Pelindungan Data Pribadi (UU PDP No. 27/2022) mewajibkan enkripsi data transit, masking nomor kontak pada sistem pelaporan, serta persetujuan eksplisit pelanggan sebelum data dicatat ke database.',
+        ],
+      },
+      {
         type: 'paragraph',
         text: 'Pukul 20.45 malam adalah jam sibuk bagi calon pasien klinik maupun pelanggan restoran untuk mencari informasi di ponsel, tetapi pada jam yang sama staf admin kamu sudah selesai bertugas. Ketika pertanyaan sesederhana "Sabtu sore jam 4 ada slot dokter kosong?" baru dijawab keesokan paginya pukul 09.30, sebagian besar calon pelanggan sudah lebih dulu memesan jadwal di tempat lain.',
       },
       {
         type: 'paragraph',
-        text: 'Menambah shift admin malam khusus untuk menunggu chat sering kali tidak efisien secara biaya operasional. Sebaliknya, memasang pesan balasan otomatis kaku seperti "Ketik 1 untuk harga, Ketik 2 untuk alamat" justru membuat pelanggan malas melanjutkan percakapan. Solusi yang bekerja nyata di lapangan adalah memadukan [jasa AI agent](/jasa/ai-agent) untuk menangani pengecekan informasi rutin dan menyerahkan kasus sensitif ke staf manusia.',
+        text: 'Menambah shift admin malam khusus untuk menunggu chat sering kali tidak efisien secara biaya operasional. Sebaliknya, memasang pesan balasan otomatis kaku seperti "Ketik 1 untuk harga, Ketik 2 untuk alamat" justru membuat pelanggan malas melanjutkan percakapan. Solusi yang bekerja nyata di lapangan adalah memadukan [jasa AI agent](/id/jasa/ai-agent) untuk menangani pengecekan informasi rutin dan menyerahkan kasus sensitif ke staf manusia.',
       },
       {
         type: 'h2',
@@ -1088,81 +1484,99 @@ biaya_rutin_tahunan_atau_infrastruktur:
       },
       {
         type: 'paragraph',
-        text: 'Alih-alih merombak seluruh cara kerja staf sekaligus, kamu bisa menerapkan otomasi secara bertahap pada lima titik yang paling sering menyita waktu admin setiap hari:',
+        text: 'Lima alur kerja otomasi WhatsApp paling bernilai tinggi mencakup penanganan FAQ katalog 24/7, pengecekan ketersediaan jadwal dokter atau meja real-time, pengiriman pengingat H-1 dan H-3 jam untuk menekan no-show, kualifikasi pesanan grup F&B, serta rekapitulasi laporan omzet kasir harian.',
+      },
+      {
+        type: 'paragraph',
+        text: 'Alih-alih merombak seluruh tata kelola operasional staf sekaligus, kamu bisa menerapkan otomasi secara bertahap pada lima titik sentral yang paling sering menguras waktu tim admin setiap hari:',
       },
       {
         type: 'ol',
+        title: 'Rincian lima alur kerja otomasi prioritas:',
         items: [
-          'Tanya-jawab layanan dan harga berbasis dokumen resmi: AI membaca daftar perawatan klinik atau paket menu grup F&B milikmu, lalu menjawab pertanyaan harga, durasi tindakan, dan lokasi parkir dalam waktu kurang dari 10 detik.',
-          'Pengecekan slot jadwal dan pencatatan reservasi: Saat pasien ingin menjadwalkan kedatangan, agent mengecek tabel ketersediaan kursi/dokter secara langsung dan mengunci jadwal sementara tanpa resiko jadwal ganda.',
-          'Pengingat otomatis (H-1 dan H-3 jam) untuk menekan angka batal datang: Sistem mengirimkan pesan pengingat sopan ke WhatsApp pasien lengkap dengan opsi konfirmasi hadir atau ubah jadwal.',
-          'Penyaringan pesanan grup atau katering acara kantor: Untuk bisnis F&B, agent menanyakan tanggal acara, jumlah porsi, dan anggaran per orang sebelum meneruskan ringkasannya ke tim sales.',
-          'Rekonsiliasi laporan harian otomatis ke ponsel owner: Melalui [jasa otomasi workflow](/jasa/otomasi-workflow), data kasir cabang ditarik setiap jam tutup toko dan dikirim sebagai rangkuman laba bersih ke WhatsApp pemilik bisnis.',
+          'Tanya-jawab layanan dan harga berbasis basis data resmi: AI membaca daftar perawatan klinik atau menu paket grup restoran, lalu membalas pertanyaan harga, durasi tindakan, dan ketersediaan parkir dalam waktu kurang dari 5 detik dengan sapaan sopan.',
+          'Pengecekan slot jadwal dan pencatatan reservasi: Saat pasien ingin menjadwalkan kedatangan, agent mengecek tabel ketersediaan kursi atau dokter secara langsung dan mengunci slot sementara tanpa risiko bentrok jadwal ganda.',
+          'Pengingat otomatis (H-1 dan H-3 jam) untuk memangkas angka batal hadir (no-show): Sistem mengirimkan pesan konfirmasi ramah ke WhatsApp pasien lengkap dengan tombol konfirmasi hadir, ubah jadwal, atau batalkan janji.',
+          'Penyaringan pesanan katering dan reservasi grup kantor: Untuk bisnis F&B, agent menanyakan tanggal acara, jumlah porsi, preferensi menu, dan anggaran per orang sebelum meneruskan ringkasannya ke tim sales manajer.',
+          'Rekonsiliasi laporan harian otomatis ke nomor WhatsApp pemilik bisnis: Melalui [jasa otomasi workflow](/id/jasa/otomasi-workflow), data kasir cabang disinkronkan setiap jam tutup toko dan dikirim sebagai ringkasan laba kotor serta penjualan item terlaris ke ponsel owner.',
         ],
       },
       {
         type: 'paragraph',
-        text: 'Kamu bisa membaca bagaimana alur pertama hingga ketiga diterapkan secara utuh pada [studi kasus otomasi reservasi klinik estetika](/case-studies/otomasi-reservasi-klinik-estetika), serta bagaimana alur penarikan laporan kasir malam hari bekerja pada [studi kasus rekonsiliasi POS F&B multi-cabang](/case-studies/sinkronisasi-rekap-pos-fnb-multi-cabang).',
+        text: 'Kamu bisa mempelajari bagaimana alur reservasi klinik bekerja secara mendalam pada [studi kasus otomasi reservasi klinik estetika](/id/case-studies/otomasi-reservasi-klinik-estetika), serta bagaimana alur penarikan laporan kasir malam hari diimplementasikan pada [studi kasus sinkronisasi rekap POS F&B multi-cabang](/id/case-studies/sinkronisasi-rekap-pos-fnb-multi-cabang).',
       },
       {
         type: 'h2',
         id: 'aturan-batas-tugas-ai-vs-staf-manusia',
-        text: '2. Matriks Pembagian Tugas: Apa yang Dijawab AI vs Staf Manusia',
+        text: '2. Matriks Pembagian Tugas: Apa yang Dijawab AI vs Staf Manusia (Human-in-the-Loop)',
       },
       {
         type: 'paragraph',
-        text: 'Kesalahan paling berbahaya saat memasang AI di WhatsApp bisnis adalah membiarkan sistem menjawab semua hal tanpa pagar pembatas (guardrails). Di klinik kesehatan maupun restoran, ada garis tegas antara informasi administratif dan keputusan yang wajib ditangani manusia.',
+        text: 'Prinsip Human-in-the-Loop memastikan AI agent hanya mengeksekusi instruksi administratif deterministik, sementara segala bentuk keluhan emosional, pertanyaan diagnosis medis klinis, dan komplain pesanan langsung dialihkan ke staf manusia.',
+      },
+      {
+        type: 'paragraph',
+        text: 'Kesalahan paling fatal saat mengintegrasikan kecerdasan buatan pada saluran WhatsApp bisnis adalah membiarkan sistem menjawab tanpa batasan wewenang (guardrails). Di klinik kesehatan maupun restoran, ada garis pemisah tegas antara informasi administratif dan keputusan yang wajib dievaluasi manusia:',
       },
       {
         type: 'table',
-        caption: 'Aturan pembagian tugas antara AI Agent dan staf manusia (Human-in-the-Loop)',
+        caption: 'Matriks pembagian wewenang antara AI Agent dan staf manusia pada alur komunikasi klinik & F&B',
         headers: [
-          'Jenis Situasi / Pesan Masuk',
-          'Penanggung Jawab',
-          'Tindakan Sistem yang Benar',
+          'Jenis Skenario Pesan Masuk',
+          'Penanggung Jawab Sistem',
+          'Tindakan Protokol yang Benar',
         ],
         rows: [
           [
-            'Tanya daftar harga tindakan, menu paket, jam buka, & titik parkir',
-            'AI Agent (24/7)',
-            'Menjawab langsung dari basis data resmi tanpa mengarang harga',
+            'Tanya daftar harga tindakan, menu paket, jam operasional, & lokasi parkir',
+            'AI Agent (Respons 24/7)',
+            'Menjawab langsung dari basis data katalog resmi tanpa mengarang angka atau diskon fiktif',
           ],
           [
-            'Cek jadwal kosong dokter / meja & kunci slot reservasi awal',
-            'AI Agent + Database',
-            'Mengecek slot real-time di database & mencatat data pasien',
+            'Cek jadwal dokter gigi/estetika kosong & kunci slot reservasi awal',
+            'AI Agent + Database Kalender',
+            'Mengecek slot real-time di database kalender & mencatat nomor kontak pasien ke draft booking',
           ],
           [
-            'Pasien mengirim foto keluhan kulit/medis & meminta diagnosis obat',
-            'Wajib Dokter / Perawat',
-            'AI menolak memberi diagnosis medis & langsung mengalihkan chat ke tim medis',
+            'Pasien mengirim foto keluhan kulit/jerawat & meminta resep obat keras',
+            'Wajib Dokter / Tim Medis',
+            'AI menolak memberi diagnosis medis klinis & langsung mengalihkan sesi obrolan ke dokter jaga',
           ],
           [
-            'Pelanggan komplain pesanan terlambat atau minta pengembalian dana',
+            'Pelanggan komplain makanan basi, pengiriman terlambat, atau minta ganti rugi',
             'Wajib Manajer / Admin Senior',
-            'AI menandai status prioritas, membungkam balasan bot, & mengirim notifikasi ke admin',
+            'AI menandai status prioritas tinggi, menonaktifkan balasan bot otomatis, & memberi tahu manajer',
           ],
           [
-            'Negosiasi kontrak katering korporat atau sewa ruang VIP khusus',
-            'Staf Sales Manusia',
-            'AI merangkum jumlah tamu & tanggal, lalu menyerahkan ruang chat ke sales',
+            'Negosiasi kontrak katering kantor di atas 50 porsi atau sewa ruang VIP',
+            'Tim Sales Manusia',
+            'AI merangkum tanggal, jumlah pax, dan nomor kontak, lalu menyerahkan ruang chat ke staf sales',
+          ],
+          [
+            'Permintaan pembatalan jadwal atau pengembalian dana deposit',
+            'Admin Kasir Manusia',
+            'AI mencatat alasan pembatalan dan memverifikasi nomor rekening pengembalian sesuai SOP',
           ],
         ],
       },
       {
         type: 'callout',
         variant: 'warning',
-        title: 'Guardrail Wajib untuk Klinik Kesehatan & Estetika',
-        text: 'AI agent di klinik tidak boleh pernah memberikan diagnosis medis atau meresepkan tindakan klinis. Sistem harus dikunci hanya untuk menjelaskan daftar layanan resmi dan menjadwalkan sesi konsultasi dengan dokter.',
+        title: 'Guardrail Wajib untuk Klinik Estetika & Gigi',
+        text: 'AI agent di klinik dilarang keras memberikan saran medis klinis atau menjanjikan kesembuhan 100%. Sistem harus selalu menyertakan kalimat penegasan bahwa konsultasi tatap muka dengan dokter spesialis berizin wajib dilakukan sebelum tindakan medis diputuskan.',
       },
       {
         type: 'h2',
         id: 'contoh-payload-webhook-dan-handover-ke-admin',
-        text: '3. Contoh Struktur Konfigurasi Aturan & Serah Terima (Handover)',
+        text: '3. Contoh Struktur Konfigurasi Aturan, Webhook, dan Serah Terima (Handover)',
       },
       {
         type: 'paragraph',
-        text: 'Agar staf admin kamu tidak bingung saat mengambil alih percakapan dari AI, sistem wajib mengirimkan ringkasan singkat (handover summary) ke ruang kerja admin. Berikut adalah contoh skema logika penyaringan dan oper percakapan yang kami terapkan di produksi:',
+        text: 'Arsitektur serah terima (handover) menggunakan skema webhook JSON terstruktur yang mengirimkan ringkasan konteks percakapan, alasan eskalasi, dan data kontak pasien ke dasbor admin tanpa mengharuskan staf membaca ulang ratusan baris riwayat chat.',
+      },
+      {
+        type: 'paragraph',
+        text: 'Agar staf admin resepsionis tidak bingung saat mengambil alih percakapan dari AI agent, sistem backend wajib membekukan sementara token bot pada ID sesi tersebut dan mengirimkan payload notifikasi operasional seperti contoh konfigurasi berikut:',
       },
       {
         type: 'code',
@@ -1181,48 +1595,107 @@ biaya_rutin_tahunan_atau_infrastruktur:
       "pesanan_korporat_di_atas_50_pax"
     ]
   },
+  "session_governance": {
+    "bot_silence_on_handover_minutes": 120,
+    "idempotency_cache_ttl_seconds": 60,
+    "escalation_webhook_url": "https://api.namabisniskamu.com/webhooks/handover"
+  },
   "handover_notification_payload": {
-    "target_group": "Admin_Resepsionis_BSD",
-    "summary_template": "Pasien {{nama}} ingin konsultasi {{layanan}} untuk {{jadwal}}. Alasan oper: {{alasan_handover}}."
+    "target_channel": "telegram_admin_or_slack",
+    "summary_template": "Pasien {{nama}} butuh bantuan dokter untuk {{layanan}} pada {{jadwal}}. Alasan eskalasi: {{alasan_handover}}."
   }
 }`,
-        caption: 'Contoh konfigurasi aturan batas tindakan AI agent dan format oper percakapan ke staf manusia.',
+        caption: 'Contoh konfigurasi aturan batas wewenang AI agent WhatsApp dan payload webhook serah terima ke tim manusia.',
       },
       {
         type: 'h2',
-        id: 'empat-langkah-memulai-tanpa-mengganggu-operasional',
-        text: '4. Empat Langkah Memulai Otomasi Tanpa Mengganggu Operasional Harian',
+        id: 'arsitektur-integrasi-database-kecepatan-respon',
+        text: '4. Arsitektur Integrasi: Menghubungkan WhatsApp ke Google Sheets vs Database SQL',
       },
       {
         type: 'paragraph',
-        text: 'Kamu tidak perlu menghentikan pelayanan WhatsApp yang sedang berjalan untuk memasang sistem ini. Terapkan urutan empat langkah berikut agar transisi berjalan mulus bagi admin maupun pelangganmu:',
+        text: 'Integrasi WhatsApp Cloud API membutuhkan pemrosesan webhook asinkron dengan waktu respon di bawah 3 detik untuk menghindari batas waktu habis (timeout) dari server Meta dan pengiriman pesan duplikat ke pelanggan.',
+      },
+      {
+        type: 'paragraph',
+        text: 'Banyak bisnis memulai integrasi menggunakan platform visual no-code yang terhubung ke Google Sheets. Meskipun mudah dibuat di minggu pertama, Google Sheets memiliki batas laju panggilan (API rate limits) dan keterlambatan pembacaan data hingga beberapa detik saat banyak pesan masuk bersamaan. Jika dua pasien memilih slot dokter yang sama pada detik yang berdekatan, Google Sheets rentan memicu insiden jadwal ganda (double-booking).',
+      },
+      {
+        type: 'paragraph',
+        text: 'Untuk bisnis dengan volume pesan di atas 50 chat per hari, arsitektur terbaik adalah menggunakan database PostgreSQL atau SQLite lokal yang dikelola melalui backend server cepat (seperti Node.js atau Next.js API Routes). Data transaksi dikunci dengan mekanisme database transaction (ACID) sehingga slot jadwal yang sudah dipilih otomatis terkunci seketika.',
+      },
+      {
+        type: 'h2',
+        id: 'kepatuhan-uu-pdp-dan-keamanan-data-pasien',
+        text: '5. Kepatuhan UU PDP dan Tata Kelola Keamanan Data Pelanggan pada Saluran Chat',
+      },
+      {
+        type: 'paragraph',
+        text: 'Penerapan Undang-Undang Perlindungan Data Pribadi (UU PDP No. 27/2022) mewajibkan perlindungan ketat terhadap data identitas pasien dan pelanggan, termasuk enkripsi pesan, pembatasan hak akses staf berbasis peran, dan penghapusan data otomatis.',
+      },
+      {
+        type: 'paragraph',
+        text: 'Klinik kesehatan dan tempat usaha dilarang keras menyimpan riwayat rekam medis sensitif atau nomor kartu identitas di dalam basis data prompt yang tidak terenkripsi. Berikut adalah tiga pilar kepatuhan wajib yang kami terapkan pada seluruh sistem otomasi:',
       },
       {
         type: 'ul',
         items: [
-          'Kumpulkan 20 pertanyaan paling berulang dari riwayat chat WhatsApp sebulan terakhir beserta jawaban paling rapi dari admin terbaikmu.',
-          'Rapikan satu tabel daftar layanan, harga resmi, durasi pengerjaan, dan aturan pembatalan sebagai sumber kebenaran tunggal.',
-          'Uji coba agent di nomor internal selama 3–5 hari dengan berbagai skenario pertanyaan menjebak untuk memastikan guardrails bekerja disiplin.',
-          'Aktifkan di nomor utama dengan mode pendampingan, di mana staf admin bisa melihat seluruh log percakapan dan mengambil alih tombol kendali kapan saja.',
+          'Enkripsi data bergerak dan data diam: Seluruh token otentikasi WhatsApp Cloud API dan data pelanggan dienkripsi dengan standar AES-256 pada database penyimpanan.',
+          'Penyensoran data sensitif (Masking) pada log sistem: Nomor telepon pelanggan dan catatan medis disamarkan pada tampilan log teknis pengembang untuk mencegah kebocoran informasi oleh pihak ketiga.',
+          'Mekanisme persetujuan pemrosesan data (Consent Notice): Saat pelanggan baru pertama kali memulai obrolan, sistem menyertakan klausul ringkas bahwa data nama dan nomor kontak hanya diproses untuk keperluan konfirmasi reservasi.',
         ],
       },
       {
-        type: 'callout',
-        variant: 'tip',
-        title: 'Mulai dari Satu Alur Paling Menyita Waktu',
-        text: 'Jangan mencoba mengotomasi sepuluh hal di minggu pertama. Mulailah dari balasan tanya-jawab luar jam kerja dan pengingat jadwal H-1; dua alur ini langsung terasa manfaatnya bagi tim admin kamu.',
+        type: 'h2',
+        id: 'empat-langkah-memulai-tanpa-mengganggu-operasional',
+        text: '6. Empat Langkah Memulai Otomasi Bertahap Tanpa Mengganggu Operasional Harian',
+      },
+      {
+        type: 'paragraph',
+        text: 'Peluncuran otomasi WhatsApp yang aman dilakukan secara bertahap melalui audit riwayat pesan, standarisasi katalog harga, pengujian operasional mode bayangan (shadow mode), serta peluncuran resmi dengan pendampingan staf.',
+      },
+      {
+        type: 'paragraph',
+        text: 'Kamu tidak perlu menghentikan pelayanan WhatsApp yang sedang berjalan untuk memasang sistem ini. Terapkan urutan empat langkah berikut agar transisi berjalan mulus bagi admin maupun pelanggan bisnismu:',
+      },
+      {
+        type: 'ol',
+        title: 'Empat tahap implementasi bertahap di lapangan:',
+        items: [
+          'Kumpulkan 30 pertanyaan paling berulang dari riwayat chat WhatsApp sebulan terakhir beserta jawaban paling rapi dari admin terbaikmu.',
+          'Rapikan satu dokumen spreadsheet atau tabel database berisi daftar layanan, harga resmi, durasi pengerjaan, dan aturan pembatalan sebagai satu-satunya sumber kebenaran.',
+          'Uji coba agent di nomor WhatsApp cadangan tim selama 3 hingga 5 hari dengan berbagai skenario pertanyaan menjebak dan komplain untuk memverifikasi disiplin batas tugas.',
+          'Aktifkan di nomor resmi utama dengan mode pendampingan staf, di mana admin tetap memantau ruang obrolan dan dapat mengambil alih percakapan kapan pun diperlukan.',
+        ],
+      },
+      {
+        type: 'h2',
+        id: 'sumber-rujukan-resmi',
+        text: 'Sumber rujukan resmi',
+      },
+      {
+        type: 'paragraph',
+        text: 'Dokumentasi teknis dan standar industri berikut menjadi rujukan resmi dalam perancangan arsitektur otomasi WhatsApp Business API dan tata kelola data pelanggan; cek dokumentasi resmi masing-masing penyedia untuk angka kuota, harga pesan template, dan regulasi terbaru:',
+      },
+      {
+        type: 'ul',
+        items: [
+          '[Meta for Developers: WhatsApp Business Cloud API Documentation](https://developers.facebook.com/docs/whatsapp/cloud-api) merinci panduan setup webhook, spesifikasi pengiriman template pesan utilitas, dan batas kuota pesan per detik.',
+          '[Undang-Undang Nomor 27 Tahun 2022 tentang Pelindungan Data Pribadi di JDIH BPK RI](https://peraturan.bpk.go.id/Details/229798/uu-no-27-tahun-2022) mengatur kewajiban pengendali data dalam menjaga kerahasiaan identitas kontak dan rekam transaksi konsumen di Indonesia.',
+          '[OWASP API Security Top 10 Standards](https://owasp.org/www-project-api-security/) menjadi standar acuan keamanan dalam validasi payload webhook dan pencegahan manipulasi parameter akses data.',
+        ],
       },
     ],
     conclusion: [
-      'Otomasi WhatsApp dan AI agent bukan bertujuan menggantikan keramahan staf manusia di klinik atau restoranmu, melainkan mengambil alih tugas ketik berulang agar timmu fokus melayani pelanggan yang sudah hadir di lokasi.',
-      'Dengan pembagian tugas yang jelas antara AI dan manusia, bisnis kamu tetap merespons prospek dalam hitungan detik di malam hari tanpa mengorbankan keamanan informasi.',
+      'Otomasi WhatsApp dan AI agent bukan bertujuan menggantikan keramahan komunikasi staf manusia di klinik atau restoranmu, melainkan mengambil alih pekerjaan ketik administratif berulang agar timmu fokus memberikan pelayanan terbaik bagi pelanggan yang hadir langsung di lokasi.',
+      'Dengan pembagian tugas yang terukur antara AI dan staf manusia, bisnis kamu tetap responsif membalas calon pembeli dalam hitungan detik di malam hari tanpa melanggar prinsip kehati-hatian data.',
     ],
     serviceLink: {
       slug: 'ai-agent',
       title: 'Rancang AI Agent WhatsApp & Otomasi Jadwal untuk Bisnismu',
       description:
         'Kami membangun AI agent dengan batasan SOP yang ketat, terhubung ke kalender dan database bisnismu. Jadwalkan audit alur 30 menit gratis.',
-      href: '/jasa/ai-agent',
+      href: '/id/jasa/ai-agent',
       label: 'Lihat Jasa AI Agent & Otomasi',
     },
     faq: [
@@ -1234,23 +1707,28 @@ biaya_rutin_tahunan_atau_infrastruktur:
       {
         question: 'Apakah admin manusia tetap bisa membalas chat dari nomor WhatsApp yang sama?',
         answer:
-          'Bisa setiap saat. Begitu staf admin masuk ke ruang percakapan atau ketika sistem mendeteksi pertanyaan sensitif, bot otomatis berhenti membalas di nomor tersebut agar admin manusia bisa berdiskusi langsung dengan pelanggan.',
+          'Bisa setiap saat. Begitu staf admin mengetik pesan di ruang obrolan atau ketika sistem mendeteksi pemicu eskalasi, bot otomatis membisu sementara di nomor tersebut agar admin manusia dapat berkomunikasi langsung.',
       },
       {
         question: 'Berapa biaya pembuatan sistem AI agent WhatsApp di CHESTAADOTCOM?',
         answer:
-          'Karena setiap klinik atau bisnis F&B memiliki jumlah cabang dan aturan jadwal yang berbeda, biaya pembuatan AI agent dihitung berdasarkan ruang lingkup integrasi setelah sesi audit alur gratis selama 30 menit.',
+          'Karena setiap klinik atau bisnis F&B memiliki jumlah cabang dan alur jadwal yang berbeda, biaya pembuatan AI agent dihitung secara transparan berdasarkan ruang lingkup integrasi setelah sesi audit alur 30 menit gratis.',
       },
       {
         question: 'Apakah sistem ini bisa dihubungkan ke Google Sheets atau Google Calendar yang sudah dipakai admin?',
         answer:
-          'Bisa. Untuk bisnis yang belum ingin menggunakan database khusus, agent dapat membaca dan menulis jadwal langsung ke Google Calendar serta mencatat rekap prospek ke Google Sheets yang sudah akrab dipakai stafmu.',
+          'Bisa. Untuk bisnis yang belum ingin beralih ke database relasional, agent dapat membaca ketersediaan slot langsung dari Google Calendar dan mencatat daftar prospek baru ke Google Sheets stafmu.',
+      },
+      {
+        question: 'Bagaimana cara mencegah WhatsApp bisnis terkena blokir saat mengirim pesan pengingat jadwal?',
+        answer:
+          'Pencegahan blokir dilakukan dengan menggunakan WhatsApp Business API resmi dari Meta, bukan aplikasi modifikasi pihak ketiga yang tidak berizin, serta hanya mengirim pesan pengingat terjadwal memakai Template Pesan Kategori Utilitas (Utility) yang disetujui Meta.',
       },
     ],
     relatedSlugs: [
-      'kenapa-landing-page-lambat-bikin-iklan-boncos',
-      'checklist-landing-page-konversi-tinggi-bisnis-jasa',
-      'berapa-biaya-bikin-website-bisnis-panduan-harga',
+      'webhook-dan-api-otomasi-antar-aplikasi-bisnis',
+      'otomasi-invoice-dan-penagihan-jasa-profesional',
+      'dashboard-untuk-pemilik-kafe-metrik-operasional',
     ],
   }),
 
@@ -1407,7 +1885,7 @@ export function buildServiceWaLink(serviceName: string, pagePath: string): strin
         items: [
           'Judul H1 menyebutkan layanan dan target pelanggan secara lugas tanpa kata klise.',
           'Terdapat patokan harga awal atau penjelasan cara perhitungan biaya yang jujur.',
-          'Bukti kerja menampilkan dokumentasi asli atau studi kasus nyata, bukan testimoni karangan.',
+          'Bukti kerja menampilkan dokumentasi asli atau contoh skenario terukur, bukan testimoni karangan.',
           'Tampilan di layar ponsel 375px bebas dari teks terpotong atau pergeseran ke samping (horizontal overflow).',
           'Seluruh tombol CTA memiliki tinggi area sentuh minimal 44px dan langsung membuka WhatsApp dengan teks terisi.',
           'Waktu muat halaman berada di bawah 2,5 detik pada jaringan seluler.',
@@ -1477,47 +1955,64 @@ export function buildServiceWaLink(serviceName: string, pagePath: string): strin
       'Coba bayangkan apa yang dilakukan warga di BSD City, Bintaro, Alam Sutera, atau Gading Serpong ketika mereka membutuhkan layanan terdekat, seperti klinik gigi keluarga, studio pilates, jasa renovasi interior rumah, bengkel AC mobil, atau tempat makan untuk acara kantor. Mereka hampir pasti membuka Google atau Google Maps lalu mengetikkan kata kunci layanan diikuti nama kawasan.',
     content: [
       {
+        type: 'ul',
+        title: 'Poin utama',
+        items: [
+          'SEO lokal di kawasan BSD City dan Tangerang Selatan berfokus pada penguasaan tiga besar Google Maps (Local 3-Pack) dan kutipan mesin AI (GEO/AEO) berdasarkan sinyal Relevansi, Jarak, dan Kredibilitas ulasan.',
+          'Kelengkapan profil Google Business Profile, konsistensi data NAP (Name, Address, Phone) di seluruh platform, serta pemasangan schema JSON-LD LocalBusiness semantik memastikan bisnismu diutamakan bagi calon pembeli berjarak terdekat.',
+          'Membangun aliran ulasan pelanggan asli secara otomatis melalui pesan tindak lanjut WhatsApp pasca-layanan menghasilkan sinyal reputasi organik yang aman dari sanksi penangguhan algoritma spam.',
+        ],
+      },
+      {
         type: 'paragraph',
         text: 'Ketika seseorang di BSD City, Bintaro, Alam Sutera, atau Gading Serpong mengetik pencarian seperti "klinik gigi anak terdekat di BSD" atau "jasa desain interior kantor Tangerang Selatan" di Google, mereka tidak sedang mencari bacaan hiburan. Mereka adalah calon pembeli dengan niat transaksi tinggi yang sedang memilih tempat mana yang akan mereka hubungi minggu ini.',
       },
       {
         type: 'paragraph',
-        text: 'Keuntungan terbesar dari SEO lokal adalah kamu tidak perlu bersaing melawan situs nasional raksasa di seluruh Indonesia. Selama profil Google Business Profile (Google Maps) dan halaman website bisnismu memiliki sinyal lokasi yang konsisten, cepat, dan terstruktur rapi, kamu bisa mengamankan posisi tiga teratas peta lokal (Local Map Pack) maupun hasil organik halaman pertama.',
+        text: 'Keuntungan terbesar dari SEO lokal adalah kamu tidak perlu bersaing melawan portal nasional raksasa di seluruh Indonesia. Selama profil Google Business Profile (Google Maps) dan halaman website bisnismu memiliki sinyal lokasi yang konsisten, cepat, dan terstruktur rapi, kamu bisa mengamankan posisi tiga teratas peta lokal (Local Map Pack) maupun hasil organik halaman pertama.',
       },
       {
         type: 'h2',
-        id: 'tiga-pilar-peringkat-seo-lokal-google',
+        id: 'tiga-pilar-peringkat-seo-lokal-google-dan-ai',
         text: '1. Tiga Pilar Penentu Peringkat Pencarian Lokal di Google & Mesin Jawaban AI',
       },
       {
         type: 'paragraph',
-        text: 'Baik algoritma pencarian lokal Google maupun mesin pencari berbasis AI (seperti ChatGPT Search, Perplexity, dan Google AI Overviews) menilai kelayakan bisnismu berdasarkan tiga pilar utama:',
+        text: 'Peringkat pencarian lokal ditentukan oleh kombinasi matematis tiga sinyal inti algoritma: relevansi kategori dengan kueri pengguna, kedekatan jarak geografis antara pencari dan lokasi fisik bisnis, serta keaslian ulasan dan kredibilitas otoritas digital yang tercatat pada sistem web.',
+      },
+      {
+        type: 'paragraph',
+        text: 'Baik algoritma pencarian lokal Google Maps maupun mesin pencari berbasis AI generasi terbaru (seperti ChatGPT Search, Perplexity AI, dan Google AI Overviews) menilai kelayakan bisnismu berdasarkan tiga pilar utama berikut:',
       },
       {
         type: 'table',
-        caption: 'Tiga sinyal utama SEO lokal dan langkah teknis yang harus kamu lengkapi',
+        caption: 'Tiga sinyal utama SEO lokal dan langkah teknis yang wajib dilengkapi bisnis di BSD & Tangsel',
         headers: [
           'Sinyal Algoritma',
-          'Apa yang Diperiksa Mesin Pencari',
+          'Apa yang Diperiksa Mesin Pencari & AI',
           'Langkah Konkret di Bisnis Kamu',
         ],
         rows: [
           [
             '1. Relevansi (Relevance)',
-            'Kecocokan antara kata kunci pencari dengan kategori dan isi halaman bisnismu',
-            'Pilih Primary Category yang spesifik di Google Maps & cantumkan layanan + lokasi di tag H1/Title web',
+            'Kecocokan semantik antara kata kunci pencari dengan kategori utama dan isi teks halaman bisnismu',
+            'Pilih Primary Category yang spesifik di Google Maps & cantumkan layanan + lokasi kawasan di tag H1 dan Title web',
           ],
           [
             '2. Jarak & Area Layanan (Distance / Area Served)',
-            'Kejelasan titik lokasi ruko/kantor atau cakupan wilayah layanan (service area)',
-            'Konsistensi alamat NAP di footer web, peta, serta properti areaServed pada JSON-LD LocalBusiness',
+            'Kedekatan titik koordinat ruko fisik atau kejelasan cakupan radius layanan (service area) yang didaftarkan',
+            'Konsistensi alamat NAP di footer web, peta, serta properti areaServed pada schema JSON-LD LocalBusiness',
           ],
           [
             '3. Kredibilitas & Bukti (Prominence)',
-            'Keaslian ulasan pelanggan, kelengkapan foto lokasi, dan kualitas teknis website',
-            'Kumpulkan ulasan nyata berdetail layanan, unggah foto ruko/tim asli, dan jaga kecepatan web',
+            'Keaslian ulasan pelanggan, volume ulasan berkala, kelengkapan foto lokasi ruko, dan kecepatan muat website',
+            'Kumpulkan ulasan nyata berdetail layanan, unggah foto ruko asli tampak jalan, dan jaga waktu muat web LCP di bawah 2,5 detik',
           ],
         ],
+      },
+      {
+        type: 'paragraph',
+        text: 'Perlu diingat bahwa mesin pencari AI modern tidak hanya membaca nama bisnismu di peta; mereka merayapi halaman website resmi untuk memverifikasi apakah bisnismu masih aktif beroperasi, apakah nomor telepon WhatsApp masih valid, dan apakah kamu benar-benar memiliki keahlian teknis yang terbukti di wilayah Tangerang Selatan.',
       },
       {
         type: 'h2',
@@ -1526,16 +2021,27 @@ export function buildServiceWaLink(serviceName: string, pagePath: string): strin
       },
       {
         type: 'paragraph',
-        text: 'Banyak pemilik ruko atau kantor di Tangerang Selatan hanya memverifikasi titik pin peta lalu membiarkan profilnya setengah kosong. Agar profilmu unggul dari kompetitor di blok ruko yang sama, lengkapi empat bagian ini:',
+        text: 'Pengisian Google Business Profile secara lengkap mencakup penetapan satu kategori primer yang presisi, pengisian katalog menu layanan dengan rentang harga transparan, penulisan deskripsi berbasis patokan kawasan nyata, serta pengunggahan berkala foto asli aktivitas ruko dari pinggir jalan.',
       },
       {
-        type: 'ul',
+        type: 'paragraph',
+        text: 'Banyak pemilik ruko atau kantor di Tangerang Selatan hanya memverifikasi titik pin peta lalu membiarkan profilnya setengah kosong tanpa deskripsi dan foto berkala. Agar profil peta bisnismu unggul dibandingkan deretan kompetitor di blok ruko yang sama, terapkan disiplin empat bagian berikut:',
+      },
+      {
+        type: 'ol',
+        title: 'Langkah optimalisasi elemen profil Google Business Profile:',
         items: [
-          'Kategori utama yang presisi: Jangan hanya memilih "Klinik" jika kamu adalah "Klinik Perawatan Kulit (Skin Care Clinic)" atau "Klinik Gigi (Dental Clinic)".',
-          'Daftar layanan beserta kisaran harga: Isi menu Services/Layanan di dalam dashboard Google Business Profile lengkap dengan deskripsi singkat.',
-          'Deskripsi dengan patokan kawasan nyata: Sebutkan lokasi ruko atau gedungmu secara natural, misalnya berada di kawasan Ruko Golden Madrid BSD, Foresta Business Loft, Bintaro Sektor 7, atau sekitar Alam Sutera.',
-          'Foto asli dari lapangan: Unggah foto tampak depan bangunan dari pinggir jalan (agar mudah dikenali saat pelanggan menyetir), ruang tunggu, dan aktivitas tim.',
+          'Kategori utama (Primary Category) yang sangat spesifik: Jangan hanya memilih kategori umum seperti "Klinik" jika bisnismu adalah "Klinik Gigi (Dental Clinic)" atau "Klinik Perawatan Kulit (Skin Care Clinic)". Algoritma Google memberikan bobot peringkat terbesar pada kecocokan kategori primer ini.',
+          'Daftar layanan beserta kisaran harga transparan: Lengkapi seluruh menu Services di dasbor Google Business Profile. Sertakan nama layanan, penjelasan singkat 2 hingga 3 kalimat mengenai apa yang didapatkan pelanggan, serta estimasi harga mulai.',
+          'Deskripsi profil dengan patokan kawasan nyata: Tulis deskripsi usaha secara wajar tanpa menumpuk kata kunci sampah. Sebutkan patokan ruko nyata di BSD atau Tangsel, misalnya: "Berlokasi di kawasan Ruko Golden Madrid BSD, bersebelahan dengan Pasar Modern BSD City dan mudah diakses dari gerbang tol BSD Timur."',
+          'Unggahan foto nyata berkualitas tinggi secara berkala: Unggah foto tampak depan gedung dari trotoar jalan raya (memudahkan pelanggan yang menyetir menemukan plang bisnismu), foto ruang lobi yang bersih, serta foto tim kerja berseragam resmi.',
         ],
+      },
+      {
+        type: 'callout',
+        variant: 'info',
+        title: 'Mitos Geotagging Foto vs Fakta Algoritma Google',
+        text: 'Banyak praktisi pemasaran mengklaim bahwa menyematkan data koordinat EXIF (geotagging) manual ke file foto akan otomatis menaikkan peringkat peta. Kenyataannya, Google Maps menghapus data EXIF saat proses unggah untuk privasi. Yang dinilai nyata oleh Google adalah keaslian visual foto asli lingkungan ruko yang diambil langsung di tempat.',
       },
       {
         type: 'h2',
@@ -1544,11 +2050,15 @@ export function buildServiceWaLink(serviceName: string, pagePath: string): strin
       },
       {
         type: 'paragraph',
-        text: 'Saat ini semakin banyak calon pelanggan yang bertanya langsung ke asisten AI: "Rekomendasikan vendor software atau klinik terpercaya di daerah BSD dan Tangerang Selatan". Mesin AI membaca struktur data di dalam kode HTML website kamu untuk memverifikasi alamat, nomor kontak, rentang harga, dan wilayah jangkauan.',
+        text: 'Data terstruktur JSON-LD bertindak sebagai paspor digital semantik yang menerjemahkan entitas bisnis fisik ke format kamus data standar Schema.org, sehingga mesin perayap AI dapat memvalidasi nama, koordinat GPS, jam buka, dan nomor WhatsApp tanpa risiko salah kutip.',
       },
       {
         type: 'paragraph',
-        text: 'Setiap situs yang kami bangun melalui [jasa pembuatan website](/jasa/pembuatan-website) selalu menyertakan blok JSON-LD `LocalBusiness` / `ProfessionalService` seperti contoh di bawah ini:',
+        text: 'Saat calon pelanggan bertanya kepada asisten kecerdasan buatan seperti ChatGPT, Perplexity, atau Google Gemini: "Rekomendasikan klinik gigi terpercaya di BSD City yang buka hari Minggu sampai malam", model bahasa besar memindai data terstruktur website lokal untuk merangkum jawaban. Jika website bisnismu hanya memuat teks gambar tanpa markup semantik, AI tidak berani merekomendasikan tempatmu karena takut informasinya keliru.',
+      },
+      {
+        type: 'paragraph',
+        text: 'Setiap website yang kami bangun melalui [jasa pembuatan website](/id/jasa/pembuatan-website) selalu ditanami kode JSON-LD `LocalBusiness` atau `ProfessionalService` yang lengkap seperti struktur di bawah ini:',
       },
       {
         type: 'code',
@@ -1557,16 +2067,33 @@ export function buildServiceWaLink(serviceName: string, pagePath: string): strin
         code: `{
   "@context": "https://schema.org",
   "@type": ["ProfessionalService", "LocalBusiness"],
-  "name": "Nama Bisnis Kamu",
+  "@id": "https://namabisniskamu.com/#localbusiness",
+  "name": "Nama Usaha Profesional Kamu",
   "url": "https://namabisniskamu.com",
   "telephone": "+6282125447232",
   "priceRange": "Mulai dari Rp1.200.000",
+  "image": "https://namabisniskamu.com/foto-depan-ruko-bsd.webp",
   "address": {
     "@type": "PostalAddress",
-    "addressLocality": "BSD City, Tangerang Selatan",
+    "streetAddress": "Ruko Golden Madrid 2 Blok F No. 12, Jl. Letnan Sutopo",
+    "addressLocality": "BSD City, Serpong",
     "addressRegion": "Banten",
+    "postalCode": "15310",
     "addressCountry": "ID"
   },
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": -6.302145,
+    "longitude": 106.685324
+  },
+  "openingHoursSpecification": [
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+      "opens": "09:00",
+      "closes": "20:00"
+    }
+  ],
   "areaServed": [
     { "@type": "AdministrativeArea", "name": "BSD City" },
     { "@type": "AdministrativeArea", "name": "Alam Sutera" },
@@ -1575,67 +2102,172 @@ export function buildServiceWaLink(serviceName: string, pagePath: string): strin
     { "@type": "AdministrativeArea", "name": "Tangerang Selatan" }
   ]
 }`,
-        caption: 'Contoh struktur JSON-LD LocalBusiness yang memperjelas cakupan wilayah layanan bagi Google dan mesin jawaban AI.',
+        caption: 'Contoh struktur data JSON-LD LocalBusiness lengkap dengan koordinat geolokasi dan jam operasional untuk mesin pencari modern.',
       },
       {
         type: 'callout',
-        variant: 'info',
-        title: 'Konsistensi Data NAP (Name, Address, Phone)',
-        text: 'Pastikan penulisan nama bisnis, alamat kawasan, dan nomor WhatsApp di bagian footer website persis sama dengan yang tertulis di Google Maps dan bio Instagram resmi bisnismu.',
+        variant: 'tip',
+        title: 'Prinsip Konsistensi Data NAP (Name, Address, Phone)',
+        text: 'Pastikan penulisan nama usaha, alamat jalan, dan nomor kontak WhatsApp di bagian footer website, bio media sosial, dan Google Maps sama persis hingga ke tanda baca dan singkatan jalan.',
       },
       {
         type: 'h2',
         id: 'strategi-mengumpulkan-ulasan-asli-tanpa-spam',
-        text: '4. Cara Mengumpulkan Ulasan Pelanggan Asli Secara Otomatis',
+        text: '4. Cara Mengumpulkan Ulasan Pelanggan Asli Secara Otomatis Lewat WhatsApp',
       },
       {
         type: 'paragraph',
-        text: 'Jangan pernah membeli ulasan palsu dari akun bot karena algoritma Google mudah mendeteksi lonjakan ulasan tidak wajar dan dapat menangguhkan profil peta bisnismu. Lima belas ulasan asli dari pelanggan nyata yang menyebutkan jenis layanan yang mereka beli jauh lebih kuat mengangkat peringkatmu dibandingkan seratus bintang lima kosong.',
+        text: 'Sistem pengumpulan ulasan terbaik memanfaatkan alur pesan ramah WhatsApp otomatis pada H+1 setelah transaksi selesai, memfilter kepuasan pelanggan secara privat, dan mengarahkan pelanggan yang puas ke tautan ulasan resmi Google Maps.',
       },
       {
         type: 'paragraph',
-        text: 'Cara paling konsisten untuk mengumpulkan ulasan asli adalah menyelipkan pesan tindak lanjut (follow-up) otomatis satu hari setelah layanan selesai. Seperti yang kami bahas pada [studi kasus otomasi klinik estetika](/case-studies/otomasi-reservasi-klinik-estetika) dan [jasa AI agent](/jasa/ai-agent), sistem dapat mengirimkan pesan ramah ke pasien untuk menanyakan kabar pasca-perawatan sekaligus menyertakan tautan singkat menuju halaman ulasan Google Maps.',
+        text: 'Jangan pernah tergoda membeli ratusan ulasan palsu dari bot atau sindikat klik bayaran. Algoritma Google secara berkala menghapus ulasan yang datang dari akun tanpa riwayat lokasi nyata dan bisa langsung menangguhkan listing Google Maps bisnismu tanpa peringatan. Dua puluh ulasan asli yang menyebutkan nama dokter, menu makanan, atau jenis pengerjaan jauh lebih kuat mengangkat posisi pencarianmu.',
       },
       {
-        type: 'callout',
-        variant: 'warning',
-        title: 'Hindari Menumpuk Nama Kelurahan Tanpa Konteks (Keyword Stuffing)',
-        text: 'Menulis deretan puluhan nama kecamatan secara berulang di bawah halaman hanya akan membuat website terlihat seperti spam. Tulislah studi kasus atau contoh pengerjaan nyata di kawasan yang memang sering kamu layani.',
+        type: 'paragraph',
+        text: 'Untuk mengumpulkan ulasan secara konsisten tanpa membebani admin, kamu dapat menerapkan alur tindak lanjut otomatis melalui [jasa AI agent](/id/jasa/ai-agent) atau integrasi webhook CRM sederhana:',
+      },
+      {
+        type: 'ol',
+        title: 'Alur 3 langkah otomatisasi pengumpulan ulasan pelanggan:',
+        items: [
+          'Pemicu otomatis setelah transaksi tuntas: Sistem menandai status transaksi selesai di database kasir atau jadwal klinik, lalu menjadwalkan pengiriman pesan 24 jam kemudian.',
+          'Pesan WhatsApp sopan dengan evaluasi privat: Pesan menyapa pelanggan dengan nama panggilan: "Halo Kak Budi, terima kasih sudah berkunjung ke klinik kemarin. Bagaimana kondisi gigi belakangnya hari ini? Apakah sudah terasa jauh lebih nyaman?".',
+          'Penyaringan kepuasan cerdas: Jika pelanggan membalas puas, sistem mengirimkan tautan singkat menuju halaman ulasan Google: "Senang mendengarnya Kak! Jika berkenan, bolehkah berbagi cerita singkat di Google Maps kami untuk membantu pasien lain? Link: g.page/r/review". Sebaliknya, jika ada keluhan, sistem langsung mengalihkan chat ke manajer agar diselesaikan secara privat sebelum menjadi komplain publik.',
+        ],
+      },
+      {
+        type: 'h2',
+        id: 'mengelola-service-area-bisnis-tanpa-ruko-fisik',
+        text: '5. Mengelola Profil Wilayah Layanan (Service-Area Business) untuk Jasa Tanpa Ruko Fisik',
+      },
+      {
+        type: 'paragraph',
+        text: 'Bisnis jasa yang mendatangi lokasi pelanggan dapat memanfaatkan fitur Service-Area Business pada Google Business Profile untuk menyembunyikan alamat rumah pribadi sembari tetap menargetkan kecamatan spesifik di Tangerang Selatan.',
+      },
+      {
+        type: 'paragraph',
+        text: 'Tidak semua penyedia jasa membutuhkan kantor ruko bertingkat untuk melayani klien. Kontraktor interior, penyedia jasa servis AC panggilan, katering prasmanan, fisioterapis ke rumah, maupun konsultan IT mandiri di kawasan Serpong dan Pamulang sering beroperasi dari tempat tinggal pribadi. Jika kamu menampilkan alamat rumah di peta, pelanggan mungkin akan datang tanpa janji atau Google menolak verifikasi fisikmu.',
+      },
+      {
+        type: 'paragraph',
+        text: 'Solusi resmi yang disediakan Google adalah memilih tipe usaha "Service-Area Business". Pada pengaturan ini, alamat fisik jalan akan disembunyikan dari tampilan publik, dan Google Maps akan menampilkan lingkaran area jangkauan berdasarkan daftar kecamatan yang kamu layani (misalnya: Serpong, Serpong Utara, Ciputat Timur, Pondok Aren, dan Kelapa Dua).',
+      },
+      {
+        type: 'h2',
+        id: 'checklist-audit-mandiri-seo-lokal-bsd-tangsel',
+        text: '6. Checklist Audit Mandiri 30 Menit SEO Lokal Bisnis BSD & Tangsel',
+      },
+      {
+        type: 'paragraph',
+        text: 'Pemeriksaan mandiri berkala setiap bulan memastikan tidak ada perubahan jam buka yang terlupakan, tidak ada ulasan pelanggan yang luput dari balasan admin, dan tautan website tetap aktif mengalirkan pesan ke nomor WhatsApp.',
+      },
+      {
+        type: 'paragraph',
+        text: 'Gunakan tabel daftar periksa berikut untuk mengaudit aset visibilitas lokal bisnismu dalam 30 menit:',
+      },
+      {
+        type: 'table',
+        caption: 'Checklist audit kesehatan SEO lokal dan Google Maps untuk bisnis di BSD & Tangerang Selatan',
+        headers: ['Elemen yang Diperiksa', 'Kondisi Ideal yang Wajib Tercapai', 'Frekuensi Audit'],
+        rows: [
+          [
+            'Nama Bisnis di Google Maps',
+            'Sesuai nama legal/merek di plang fisik tanpa menumpuk kata kunci spam',
+            'Satu kali saat setup',
+          ],
+          [
+            'Kategori Utama & Sub-kategori',
+            'Kategori primer tepat 100% dan dilengkapi 2–4 kategori sekunder relevan',
+            'Setiap 3 bulan',
+          ],
+          [
+            'Nomor Telepon & Tautan Web',
+            'Nomor WhatsApp bisnis aktif dan URL website mengarah ke landing page cepat',
+            'Setiap bulan',
+          ],
+          [
+            'Jam Operasional & Libur Nasional',
+            'Jam buka selalu diperbarui termasuk jadwal khusus hari libur keagamaan',
+            'Setiap momen libur',
+          ],
+          [
+            'Balasan Ulasan Pelanggan',
+            '100% ulasan dibalas ramah dalam waktu maksimal 48 jam dengan menyebut nama layanan',
+            'Setiap minggu',
+          ],
+          [
+            'Foto Bangunan & Layanan Baru',
+            'Minimal 2 foto asli baru diunggah setiap bulan untuk menunjukkan bisnis aktif',
+            'Setiap bulan',
+          ],
+          [
+            'Validitas Schema Markup Web',
+            'Lolos pengujian Rich Results Test tanpa peringatan kesalahan atribut wajib',
+            'Setiap pembaruan web',
+          ],
+        ],
+      },
+      {
+        type: 'h2',
+        id: 'sumber-rujukan-resmi',
+        text: 'Sumber rujukan resmi',
+      },
+      {
+        type: 'paragraph',
+        text: 'Dokumentasi teknis dan standar industri berikut menjadi rujukan resmi dalam implementasi SEO lokal dan data terstruktur Schema.org; cek dokumentasi resmi masing-masing penyedia untuk angka metrik dan kebijakan pembaruan terbaru:',
+      },
+      {
+        type: 'ul',
+        items: [
+          '[Google Search Central: Panduan Data Terstruktur LocalBusiness](https://developers.google.com/search/docs/appearance/structured-data/local-business) merinci atribut teknis wajib untuk menampilkan entitas usaha lokal pada Google Search dan Maps.',
+          '[Google Business Profile Help Center Guidelines](https://support.google.com/business/answer/3038177) mengatur pedoman kepatuhan penamaan usaha, pemilihan kategori, dan larangan spam ulasan.',
+          '[Schema.org Official Vocabulary: LocalBusiness](https://schema.org/LocalBusiness) mendefinisikan hierarki tipe data semantik untuk klinik, restoran, dan jasa profesional.',
+        ],
       },
     ],
     conclusion: [
-      'SEO lokal di kawasan berkembang seperti BSD City dan Tangerang Selatan adalah aset jangka panjang yang terus mendatangkan prospek organik setiap minggu tanpa biaya per klik.',
-      'Mulailah dengan merapikan Google Business Profile bisnismu, pasang struktur halaman serta schema LocalBusiness yang bersih di website, dan bangun kebiasaan meminta ulasan asli dari setiap pelanggan yang puas.',
+      'SEO lokal di kawasan dinamis seperti BSD City dan Tangerang Selatan merupakan investasi jangka panjang yang mendatangkan calon pelanggan berniat beli tinggi secara berkesinambungan tanpa beban biaya iklan per klik.',
+      'Kunci keberhasilannya bertumpu pada disiplin menjaga konsistensi data alamat di seluruh kanal, menyediakan struktur JSON-LD yang ramah mesin pencari AI, serta membiasakan staf meminta ulasan asli dari pelanggan yang puas.',
     ],
     serviceLink: {
       slug: 'pembuatan-website',
       title: 'Bangun Website Bisnis dengan Fondasi SEO Lokal & AEO Lengkap',
       description:
         'Setiap website yang kami rancang sudah dilengkapi struktur HTML semantik, JSON-LD LocalBusiness, sitemap dinamis, dan kecepatan tinggi mulai dari Rp1.200.000.',
-      href: '/jasa/pembuatan-website',
+      href: '/id/jasa/pembuatan-website',
       label: 'Konsultasi Website & SEO Lokal',
     },
     faq: [
       {
         question: 'Berapa lama waktu yang dibutuhkan sampai optimasi SEO lokal mulai terlihat hasilnya?',
         answer:
-          'Perbaikan kelengkapan Google Business Profile dan penambahan ulasan asli biasanya mulai meningkatkan jumlah tayangan peta dan klik telepon dalam 2 hingga 4 minggu. Untuk peringkat halaman website di hasil pencarian organik, pertumbuhan stabil umumnya terlihat dalam 1 hingga 3 bulan.',
+          'Penyempurnaan Google Business Profile dan penambahan ulasan asli biasanya mulai meningkatkan tayangan peta dan klik telepon dalam 2 hingga 4 minggu. Untuk posisi halaman website di hasil pencarian organik, pertumbuhan stabil umumnya terlihat dalam 1 hingga 3 bulan.',
       },
       {
-        question: 'Apakah bisnis jasa yang melayani kunjungan ke lokasi klien (tanpa ruko fisik) tetap bisa memakai SEO lokal?',
+        question: 'Apakah bisnis jasa yang melayani kunjungan ke lokasi klien tetap bisa memakai SEO lokal?',
         answer:
-          'Sangat bisa. Google Business Profile memiliki pengaturan Service-Area Business untuk penyedia jasa yang mendatangi rumah atau kantor klien, dan website kamu tetap dapat dioptimalkan untuk kata kunci wilayah jangkauan seperti BSD, Bintaro, atau Tangerang Selatan.',
+          'Sangat bisa. Google Business Profile menyediakan fitur Service-Area Business untuk penyedia jasa yang mendatangi rumah atau kantor klien, sehingga alamat rumah pribadi tetap aman tersimpan sembari menjangkau wilayah BSD, Bintaro, dan Tangsel.',
       },
       {
         question: 'Apakah website dari CHESTAADOTCOM sudah langsung memiliki pengaturan schema LocalBusiness dan sitemap?',
         answer:
-          'Ya. Seluruh halaman website yang kami bangun sudah dilengkapi meta title, meta description, OpenGraph, JSON-LD LocalBusiness/ProfessionalService, serta terdaftar otomatis di /sitemap.xml dan /llms.txt.',
+          'Ya. Seluruh halaman website yang kami bangun sudah dilengkapi meta title, meta description, OpenGraph, JSON-LD LocalBusiness/ProfessionalService, serta terdaftar otomatis di sitemap XML dan arsip AI llms.txt.',
+      },
+      {
+        question: 'Bagaimana cara memulihkan profil Google Business Profile yang terkena penangguhan (suspended)?',
+        answer:
+          'Penangguhan biasanya dipicu ketidaksesuaian nama bisnis dengan plang ruko fisik atau manipulasi alamat. Pemulihan dilakukan dengan mengajukan banding resmi ke Google disertai bukti foto plang ruko dari jalan dan dokumen legalitas usaha seperti NIB.',
+      },
+      {
+        question: 'Mengapa ulasan dari pelanggan saya terkadang tidak muncul di Google Maps?',
+        answer:
+          'Google memiliki filter otomatis yang menahan ulasan jika pelanggan menulis ulasan saat terhubung ke Wi-Fi yang sama dengan pengelola bisnis, atau jika akun pengulas baru dibuat beberapa menit sebelumnya. Minta pelanggan mengulas menggunakan jaringan seluler pribadi mereka.',
       },
     ],
     relatedSlugs: [
-      'kenapa-landing-page-lambat-bikin-iklan-boncos',
-      'berapa-biaya-bikin-website-bisnis-panduan-harga',
-      'checklist-landing-page-konversi-tinggi-bisnis-jasa',
+      'schema-markup-untuk-bisnis-lokal-panduan-praktis',
+      'geo-dan-aeo-cara-bisnis-lokal-muncul-di-ai',
     ],
   }),
 ];
@@ -1645,10 +2277,56 @@ const SUPERSEDED_LEGACY_SLUGS = new Set([
   'guide-how-agentic-ai-works-for-beginners',
 ]);
 
-function normalizeInternalLinkHref(rawHref: string, locale: 'id' | 'en'): string {
-  if (!rawHref || !rawHref.startsWith('/')) return rawHref;
-  const clean = rawHref.split('?')[0].split('#')[0].replace(/\/+$/, '') || '/';
+export type InternalLinkKeyRef =
+  | { post: string }
+  | { caseStudy: string }
+  | { service: string; area?: string }
+  | { area: string };
+
+export function resolveContentLinkKey(ref: InternalLinkKeyRef, locale: 'id' | 'en'): string {
+  if ('post' in ref) {
+    return normalizeInternalLinkHref(`/${locale}/blog/${ref.post}`, locale);
+  }
+  if ('caseStudy' in ref) {
+    return normalizeInternalLinkHref(
+      locale === 'en' ? `/en/case-studies/${ref.caseStudy}` : `/id/studi-kasus/${ref.caseStudy}`,
+      locale
+    );
+  }
+  if ('service' in ref) {
+    const base = locale === 'en' ? `/en/services/${ref.service}` : `/id/jasa/${ref.service}`;
+    return normalizeInternalLinkHref(ref.area ? `${base}/${ref.area}` : base, locale);
+  }
+  if ('area' in ref) {
+    return normalizeInternalLinkHref(
+      locale === 'en'
+        ? `/en/services/website-development/${ref.area}`
+        : `/id/jasa/pembuatan-website/${ref.area}`,
+      locale
+    );
+  }
+  throw new Error(`Invalid content link key: ${JSON.stringify(ref)}`);
+}
+
+export function normalizeInternalLinkHref(rawHref: string, locale: 'id' | 'en'): string {
+  if (!rawHref) return rawHref;
+
+  // Support structured link keys serialized as "{post:slug}", "{caseStudy:slug}", etc.
+  const keyMatch = rawHref.trim().match(/^\{(post|caseStudy|service|area)\s*:\s*["']?([a-z0-9-]+)["']?\}$/i);
+  if (keyMatch) {
+    const [, kind, slug] = keyMatch;
+    if (kind === 'post') return resolveContentLinkKey({ post: slug }, locale);
+    if (kind === 'caseStudy') return resolveContentLinkKey({ caseStudy: slug }, locale);
+    if (kind === 'service') return resolveContentLinkKey({ service: slug }, locale);
+    if (kind === 'area') return resolveContentLinkKey({ area: slug }, locale);
+  }
+
+  if (!rawHref.startsWith('/')) return rawHref;
+  let clean = rawHref.split('?')[0].split('#')[0].replace(/\/+$/, '') || '/';
   const hashPart = rawHref.includes('#') ? `#${rawHref.split('#')[1]}` : '';
+
+  // Fix double locale prefix /en/eng/... or /id/ind/...
+  clean = clean.replace(/^\/en\/eng\//, '/en/').replace(/^\/id\/ind\//, '/id/');
 
   // Map legacy shorthand links to real indexable routes
   if (clean === '/id/glosarium' || clean === '/en/glossary' || clean === '/glosarium') {
@@ -1656,7 +2334,14 @@ function normalizeInternalLinkHref(rawHref: string, locale: 'id' | 'en'): string
       ? '/en/kamus-ai-teknologi/agentic-ai'
       : '/id/kamus-ai-teknologi/agentic-ai';
   }
-  if (clean === '/area/bsd' || clean === '/id/area/bsd' || clean === '/en/areas/bsd') {
+  if (
+    clean === '/area/bsd' ||
+    clean === '/id/area/bsd' ||
+    clean === '/id/area/bsd-city' ||
+    clean === '/area/bsd-city' ||
+    clean === '/en/areas/bsd' ||
+    clean === '/en/area/bsd-city'
+  ) {
     return locale === 'en'
       ? '/en/services/website-development/bsd-city'
       : '/id/jasa/pembuatan-website/bsd-city';
@@ -1688,7 +2373,52 @@ function normalizeInternalLinkHref(rawHref: string, locale: 'id' | 'en'): string
       : '/id/jasa/pembuatan-website/tangerang-selatan';
   }
 
+  // Case study broken slug & cross-locale prefix fixes
+  if (
+    clean === '/id/case-studies/wa-concierge-klinik' ||
+    clean === '/case-studies/wa-concierge-klinik' ||
+    clean === '/studi-kasus/wa-concierge-klinik' ||
+    clean === '/id/studi-kasus/wa-concierge-klinik' ||
+    clean === '/id/case-studies/otomasi-reservasi-klinik-estetika' ||
+    clean === '/case-studies/otomasi-reservasi-klinik-estetika' ||
+    clean === '/studi-kasus/otomasi-reservasi-klinik-estetika' ||
+    clean === '/id/studi-kasus/otomasi-reservasi-klinik-estetika' ||
+    clean === '/id/case-studies/klinik-gigi-bsd' ||
+    clean === '/case-studies/klinik-gigi-bsd' ||
+    clean === '/id/studi-kasus/klinik-gigi-bsd' ||
+    clean === '/en/case-studies/wa-concierge-klinik' ||
+    clean === '/en/case-studies/otomasi-reservasi-klinik-estetika' ||
+    clean === '/en/case-studies/klinik-gigi-bsd'
+  ) {
+    return locale === 'en'
+      ? `/en/case-studies/wa-concierge-klinik${hashPart}`
+      : `/id/studi-kasus/wa-concierge-klinik${hashPart}`;
+  }
+  if (clean.startsWith('/id/case-studies/')) {
+    const s = clean.slice('/id/case-studies/'.length);
+    return `/id/studi-kasus/${s}${hashPart}`;
+  }
+  if (clean.startsWith('/en/studi-kasus/')) {
+    const s = clean.slice('/en/studi-kasus/'.length);
+    return `/en/case-studies/${s}${hashPart}`;
+  }
+  if (clean.startsWith('/case-studies/')) {
+    const s = clean.slice('/case-studies/'.length);
+    return locale === 'en'
+      ? `/en/case-studies/${s}${hashPart}`
+      : `/id/studi-kasus/${s}${hashPart}`;
+  }
+
   // Legacy blog slug aliases
+  if (
+    clean === '/id/blog/mcp-model-context-protocol-bisnis' ||
+    clean === '/blog/mcp-model-context-protocol-bisnis'
+  ) {
+    return '/id/blog/mcp-model-context-protocol-untuk-pemilik-bisnis';
+  }
+  if (clean === '/en/blog/mcp-model-context-protocol-business') {
+    return '/en/blog/mcp-model-context-protocol-for-business-owners';
+  }
   if (clean === '/id/blog/uu-pdp-whatsapp-ai-bisnis' || clean === '/blog/uu-pdp-whatsapp-ai-bisnis') {
     return '/id/blog/uu-pdp-bisnis-whatsapp-ai-panduan-praktis';
   }
@@ -1706,11 +2436,16 @@ function normalizeInternalLinkHref(rawHref: string, locale: 'id' | 'en'): string
   }
   if (
     clean === '/id/blog/otomasi-workflow-bisnis-n8n-make-tanpa-ganti-sistem' ||
-    clean === '/blog/otomasi-workflow-bisnis-n8n-make-tanpa-ganti-sistem'
+    clean === '/blog/otomasi-workflow-bisnis-n8n-make-tanpa-ganti-sistem' ||
+    clean === '/id/blog/otomasi-workflow-bisnis-tanpa-ganti-sistem-lama' ||
+    clean === '/blog/otomasi-workflow-bisnis-tanpa-ganti-sistem-lama'
   ) {
     return '/id/blog/otomasi-workflow-bisnis-n8n-make-pekerjaan-repetitif';
   }
-  if (clean === '/en/blog/business-workflow-automation-n8n-make-without-replacing-systems') {
+  if (
+    clean === '/en/blog/business-workflow-automation-n8n-make-without-replacing-systems' ||
+    clean === '/en/blog/business-workflow-automation-without-replacing-legacy-systems'
+  ) {
     return '/en/blog/business-workflow-automation-n8n-make-repetitive-tasks';
   }
   if (
@@ -1734,8 +2469,54 @@ function normalizeInternalLinkHref(rawHref: string, locale: 'id' | 'en'): string
   if (clean === '/en/blog/guide-how-agentic-ai-works-for-beginners') {
     return '/en/blog/a-complete-guide-to-how-agentic-ai-works-for-beginners';
   }
+  if (clean === '/id/blog/cara-kerja-ai-agent-untuk-bisnis-kecil') {
+    return '/id/blog/ai-agent-vs-chatbot-perbedaan-untuk-bisnis';
+  }
+  if (clean === '/en/blog/how-ai-agents-work-for-small-business') {
+    return '/en/blog/ai-agent-vs-chatbot-difference-for-business';
+  }
+  if (clean === '/id/blog/kepatuhan-uu-pdp-whatsapp-dan-ai-bisnis') {
+    return '/id/blog/uu-pdp-bisnis-whatsapp-ai-panduan-praktis';
+  }
+  if (clean === '/en/blog/pdp-law-compliance-for-business-whatsapp-and-ai') {
+    return '/en/blog/pdp-law-indonesia-business-whatsapp-ai';
+  }
+  if (clean === '/id/blog/apa-itu-mcp-model-context-protocol-panduan-bisnis') {
+    return '/id/blog/mcp-model-context-protocol-untuk-pemilik-bisnis';
+  }
+  if (clean === '/en/blog/what-is-mcp-model-context-protocol-business-guide') {
+    return '/en/blog/mcp-model-context-protocol-for-business-owners';
+  }
+  if (clean === '/id/blog/otomasi-whatsapp-ai-agent-untuk-klinik-dan-fnb') {
+    return '/id/blog/otomasi-whatsapp-ai-klinik-fnb-alur-kerja';
+  }
+  if (clean === '/en/blog/whatsapp-ai-agent-automation-for-clinics-and-fnb') {
+    return '/en/blog/whatsapp-ai-automation-for-clinics-and-fnb-workflows';
+  }
+  if (clean === '/en/blog/high-converting-landing-page-checklist-service-business') {
+    return '/en/blog/high-converting-landing-page-checklist-for-service-businesses';
+  }
+  if (clean === '/en/services/web-development') {
+    return `/en/services/website-development${hashPart}`;
+  }
+  if (clean === '/en/services/web-development/lebak-bulus' || clean === '/en/services/website-development/lebak-bulus') {
+    return `/en/services/ai-agents/lebak-bulus${hashPart}`;
+  }
+  if (clean === '/en/services/web-development/pamulang') {
+    return `/en/services/website-development/pamulang${hashPart}`;
+  }
+  if (clean.startsWith('/en/services/web-development/')) {
+    const areaPart = clean.slice('/en/services/web-development/'.length);
+    return `/en/services/website-development/${areaPart}${hashPart}`;
+  }
+  if (clean === '/id/jasa/otomasi-workflow/bsd-city') {
+    return `/id/jasa/pembuatan-website/bsd-city${hashPart}`;
+  }
+  if (clean === '/en/services/workflow-automation/bsd-city') {
+    return `/en/services/website-development/bsd-city${hashPart}`;
+  }
 
-  // Ensure locale prefix on unprefixed internal paths
+  // Ensure locale prefix on unprefixed operasional paths
   if (!clean.startsWith('/id/') && !clean.startsWith('/en/') && clean !== '/id' && clean !== '/en') {
     if (clean.startsWith('/studi-kasus/')) {
       const s = clean.slice('/studi-kasus/'.length);
@@ -1815,46 +2596,8 @@ function enrichClusterAndInternalLinks(
     }
   }
 
-  // 2. Ensure every Pillar post links down to all spoke posts in its cluster
-  for (const post of posts) {
-    if (!isPillarPostForCluster(post.slug, post.clusterId)) continue;
-    const clusterSpokes = posts.filter(
-      (p) => p.clusterId === post.clusterId && p.slug !== post.slug
-    );
-    const fullSerialized = JSON.stringify(post.content) + JSON.stringify(post.conclusion);
-    const missingSpokes = clusterSpokes.filter((s) => !fullSerialized.includes(s.slug));
 
-    if (missingSpokes.length > 0) {
-      const items = missingSpokes.map((s) => {
-        const href = `/${locale}/blog/${s.slug}`;
-        return locale === 'en'
-          ? `Read [${s.title}](${href}) for a deeper dive into ${s.tags.slice(0, 2).join(' and ').toLowerCase()}.`
-          : `Pelajari [${s.title}](${href}) untuk pembahasan mendalam seputar ${s.tags.slice(0, 2).join(' dan ').toLowerCase()}.`;
-      });
-
-      const listBlock: BlogContentBlock = {
-        type: 'ul',
-        title:
-          locale === 'en'
-            ? 'Complete cluster articles in this topic:'
-            : 'Rangkaian artikel lanjutan dalam topik ini:',
-        items,
-      };
-
-      const sourcesIdx = post.content.findIndex(
-        (b) =>
-          b.type === 'h2' &&
-          (b.id.includes('sumber') || b.id.includes('source') || b.id.includes('official'))
-      );
-      if (sourcesIdx !== -1) {
-        post.content.splice(sourcesIdx, 0, listBlock);
-      } else {
-        post.content.push(listBlock);
-      }
-    }
-  }
-
-  // 3. Normalize all internal hrefs, enforce >= 3 contextual links, and deduplicate repeated target links
+  // 3. Normalize all operasional hrefs, preserve links in list items, and ensure >= 3 contextual links
   const linkRegex = /\[([^\]]+)\]\(([^)]+)\)/g;
 
   for (const post of posts) {
@@ -1862,12 +2605,15 @@ function enrichClusterAndInternalLinks(
     const selfHref = `/${locale}/blog/${post.slug}`;
     seenTargets.add(selfHref);
 
-    const processString = (str: string): string =>
+    const processString = (str: string, preserveDuplicateLinks = false): string =>
       str.replace(linkRegex, (_full, anchor: string, rawHref: string) => {
         const normalizedHref = normalizeInternalLinkHref(rawHref.trim(), locale);
         if (normalizedHref.startsWith('/')) {
           const targetKey = normalizedHref.split('#')[0].toLowerCase();
-          if (seenTargets.has(targetKey)) {
+          if (targetKey === selfHref.toLowerCase()) {
+            return anchor;
+          }
+          if (!preserveDuplicateLinks && seenTargets.has(targetKey)) {
             return anchor;
           }
           seenTargets.add(targetKey);
@@ -1880,8 +2626,19 @@ function enrichClusterAndInternalLinks(
         case 'paragraph':
           return { ...block, text: processString(block.text) };
         case 'ul':
-        case 'ol':
-          return { ...block, items: block.items.map(processString) };
+        case 'ol': {
+          const isSeriesList = Boolean(
+            block.title &&
+              (block.title.includes('Rangkaian artikel lanjutan') ||
+                block.title.includes('Follow-up articles') ||
+                block.title.includes('Further reading in this series') ||
+                block.title.includes('Complete cluster articles'))
+          );
+          return {
+            ...block,
+            items: block.items.map((item) => processString(item, isSeriesList)),
+          };
+        }
         case 'callout':
           return { ...block, text: processString(block.text) };
         case 'blockquote':
@@ -1889,16 +2646,16 @@ function enrichClusterAndInternalLinks(
         case 'table':
           return {
             ...block,
-            rows: block.rows.map((r) => r.map(processString)),
+            rows: block.rows.map((r) => r.map((c) => processString(c))),
           };
         default:
           return block;
       }
     });
 
-    post.conclusion = post.conclusion.map(processString);
+    post.conclusion = post.conclusion.map((c) => processString(c));
 
-    // Ensure at least 3 internal links per article
+    // Ensure at least 3 operasional links per article
     const internalCount = seenTargets.size - 1; // minus selfHref
     if (internalCount < 3) {
       const candidates: Array<{ href: string; label: string }> = [
@@ -1969,7 +2726,7 @@ const RAW_INDONESIAN_BLOG_POSTS: BlogPost[] = [
   ...NEW_BLOG_POSTS_ID_RAW.filter((p) => !SUPERSEDED_LEGACY_SLUGS.has(p.slug)).map(
     defineBlogPost
   ),
-  ...EXISTING_INDONESIAN_BLOG_POSTS,
+  ...EXISTING_INDONESIAN_BLOG_POSTS.map(defineBlogPost),
 ];
 
 const RAW_ENGLISH_BLOG_POSTS: BlogPost[] = [

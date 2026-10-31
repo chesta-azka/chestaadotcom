@@ -76,7 +76,7 @@ export const BLOG_POSTS_11_12_EN_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'paragraph',
-        text: 'The second source of regret is losing control over the business name asset. Some providers register the client domain under their own internal agency email address without informing the business owner. When the owner wants to move servers the following year, the transfer process becomes complicated because the official registrant record does not list the business owner.',
+        text: 'The second source of regret is losing control over the business name asset. Some providers register the client domain under their own in-house agency email address without informing the business owner. When the owner wants to move servers the following year, the transfer process becomes complicated because the official registrant record does not list the business owner.',
       },
       {
         type: 'paragraph',
@@ -125,7 +125,7 @@ export const BLOG_POSTS_11_12_EN_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'paragraph',
-        text: 'Static pictures in a presentation slide deck do not show how a page responds when scrolled with a thumb on a 375-pixel mobile screen. Ask for two or three active website links, including their own internal projects if available, and open them directly on your phone to test the navigation experience.',
+        text: 'Static pictures in a presentation slide deck do not show how a page responds when scrolled with a thumb on a 375-pixel mobile screen. Ask for two or three active website links, including their own sample projects if available, and open them directly on your phone to test the navigation experience.',
       },
       {
         type: 'h3',
@@ -221,7 +221,7 @@ export const BLOG_POSTS_11_12_EN_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'paragraph',
-        text: 'Request a written separation between the one-time design and engineering fee and recurring annual infrastructure subscriptions such as domain renewal and server hosting. You can study how these cost components work in our [business website cost breakdown guide](/en/blog/how-much-does-a-business-website-cost-pricing-guide) before approving a budget.',
+        text: 'Request a written separation between the one-time design and engineering fee and recurring annual infrastructure subscriptions such as domain renewal and server hosting. You can study how these cost components work in our business website cost breakdown guide before approving a budget.',
       },
       {
         type: 'h3',
@@ -267,7 +267,7 @@ export const BLOG_POSTS_11_12_EN_RAW: RawBlogPostInput[] = [
         type: 'ul',
         title: 'Five red flags that should make you hold off on paying a deposit:',
         items: [
-          'The provider refuses to register the domain under your own email address, citing complicated internal technical procedures.',
+          'The provider refuses to register the domain under your own email address, citing complicated in-house technical procedures.',
           'The quotation only lists a single total price without specifying the number of pages, contact features, and delivery timeline.',
           'Every portfolio example shown is merely a static design picture without a single active website URL you can test.',
           'The second-year renewal fee is priced far above reasonable domain and server costs without a clear breakdown of maintenance work.',
@@ -335,7 +335,7 @@ export const BLOG_POSTS_11_12_EN_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'paragraph',
-        text: '**Example scenario one (healthcare and aesthetic clinic in BSD City):** Imagine you manage a skin clinic or dental practice in a commercial shophouse row in the [BSD City service area](/en/areas). Your prospective patients frequently compare three clinics side by side on their phones during their lunch break before booking a consultation.',
+        text: '**Example scenario one (healthcare and aesthetic clinic in BSD City):** Imagine you manage a skin clinic or dental practice in a commercial shophouse row in the [BSD City service area](/en/services/website-development/bsd-city). Your prospective patients frequently compare three clinics side by side on their phones during their lunch break before booking a consultation.',
       },
       {
         type: 'paragraph',
@@ -343,7 +343,7 @@ export const BLOG_POSTS_11_12_EN_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'paragraph',
-        text: '**Example scenario two (boarding house and tutoring center in Pamulang):** Now imagine you manage a student boarding house or learning center near university campuses and residential neighborhoods in the [Pamulang service area](/en/areas). Prospective tenants or parents typically look for facility details, house rules, authentic room photos, and clear directions from the main road.',
+        text: '**Example scenario two (boarding house and tutoring center in Pamulang):** Now imagine you manage a student boarding house or learning center near university campuses and residential neighborhoods in the [Pamulang service area](/en/services/website-development/pamulang). Prospective tenants or parents typically look for facility details, house rules, authentic room photos, and clear directions from the main road.',
       },
       {
         type: 'paragraph',
@@ -360,7 +360,7 @@ export const BLOG_POSTS_11_12_EN_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'paragraph',
-        text: 'For questions one through four regarding live proof and page structure, you can inspect our internal project directly in the [case study on rebuilding the bilingual chestaa.com v2 website](/en/case-studies/chestaa-v2). That internal project was built as a fast static site with a clear offer sequence and tested on 375-pixel mobile screens.',
+        text: 'For questions one through four regarding live proof and page structure, you can inspect our sample project directly in the [case study on rebuilding the bilingual chestaa.com v2 website](/en/case-studies/chestaa-v2). That sample project was built as a fast static site with a clear offer sequence and tested on 375-pixel mobile screens.',
       },
       {
         type: 'paragraph',
@@ -484,7 +484,7 @@ export const BLOG_POSTS_11_12_EN_RAW: RawBlogPostInput[] = [
     founderNote: {
       author: 'chesta',
       title: 'Technical Note · Automatic Stop Switch When Staff Steps In',
-      text: 'When designing the architecture of our internal projects, the most critical rule is not the opening greeting prompt, but the session status lock that guarantees the agent stops replying the exact second a complaint or medical symptom trigger is detected.',
+      text: 'When designing the architecture of our sample projects, the most critical rule is not the opening greeting prompt, but the session status lock that guarantees the agent stops replying the exact second a complaint or medical symptom trigger is detected.',
     },
     content: [
       {
@@ -541,7 +541,7 @@ export const BLOG_POSTS_11_12_EN_RAW: RawBlogPostInput[] = [
           'Intent classification or system rules detect that the incoming message meets one of the criteria for escalation to a human.',
           'The system switches the conversation thread status from automated mode to human queue mode so the bot is locked and will not reply to subsequent messages.',
           'The agent sends one polite transition message to the customer explaining that a human colleague will assist shortly.',
-          'The system compiles a short summary from recent chat turns and dispatches it to the internal notification channel of the authorized staff team.',
+          'The system compiles a short summary from recent chat turns and dispatches it to the in-house notification channel of the authorized staff team.',
           'A human staff member opens the chat room, reads the summary card in ten seconds, and continues the conversation with a relevant solution.',
         ],
       },
@@ -632,7 +632,7 @@ export const BLOG_POSTS_11_12_EN_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'paragraph',
-        text: 'So your admin team can get straight to the core issue in under fifteen seconds, configure the system to generate a structured internal note before sending the alert. Below is an example of a clean handover data payload:',
+        text: 'So your admin team can get straight to the core issue in under fifteen seconds, configure the system to generate a structured in-house note before sending the alert. Below is an example of a clean handover data payload:',
       },
       {
         type: 'code',
@@ -737,11 +737,11 @@ export const BLOG_POSTS_11_12_EN_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'paragraph',
-        text: 'You can study a concrete implementation of this workflow in our internal project, the [WA Concierge clinic booking case study](/en/case-studies/wa-concierge-klinik). In our internal project, the agent checks therapist slots and records appointments, but the moment a patient reports skin irritation after a treatment, the agent stops giving medical advice and hands a summary card to clinic staff.',
+        text: 'You can study a concrete implementation of this workflow in our sample project, the [WA Concierge clinic booking case study](/en/case-studies/wa-concierge-klinik). In our sample project, the agent checks therapist slots and records appointments, but the moment a patient reports skin irritation after a treatment, the agent stops giving medical advice and hands a summary card to clinic staff.',
       },
       {
         type: 'paragraph',
-        text: '**Example scenario (aesthetic and dental clinic in BSD City):** Imagine a clinic in the [BSD City service area](/en/areas) receiving dozens of messages every afternoon. Most ask about open Saturday slots and scaling price lists, which the agent answers accurately from the official schedule table.',
+        text: '**Example scenario (aesthetic and dental clinic in BSD City):** Imagine a clinic in the [BSD City service area](/en/services/website-development/bsd-city) receiving dozens of messages every afternoon. Most ask about open Saturday slots and scaling price lists, which the agent answers accurately from the official schedule table.',
       },
       {
         type: 'paragraph',
@@ -764,7 +764,7 @@ export const BLOG_POSTS_11_12_EN_RAW: RawBlogPostInput[] = [
           'Keywords and sentence patterns requesting a human admin are tested and trigger escalation on the very first turn.',
           'Conversation session status automatically locks (bot muted) the moment a chat is routed to the human staff queue.',
           'The handoff summary card format includes customer name, discussion topic, and escalation reason in five lines or fewer.',
-          'Staff notification channels (whether helpdesk dashboard, internal group, or dedicated alert) have a designated owner per work shift.',
+          'Staff notification channels (whether helpdesk dashboard, team group, or dedicated alert) have a designated owner per work shift.',
           'Customer transition messages distinguish clearly between active working hours and after-hours escalations.',
           'Admin staff have a single clear button or command to return a session status to automated mode once the customer issue is resolved.',
           'A weekly review schedule is in place to read escalated chat logs and refine trigger rules that fired too early or too late.',

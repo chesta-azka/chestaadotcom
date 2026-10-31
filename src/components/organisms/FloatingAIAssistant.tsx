@@ -345,7 +345,7 @@ Anda dapat berdiskusi atau mengirim referensi langsung melalui:
 
 • **WhatsApp**: **0821-2544-7232** *(Respon Cepat)*
 • **Email**: chestacode@gmail.com
-• **Instagram**: @chestaadotcom
+• **Instagram**: @softwaredev.aiagentic.agency
 
 Silakan klik tombol di bawah untuk langsung terhubung ke WhatsApp.`,
       actions: [

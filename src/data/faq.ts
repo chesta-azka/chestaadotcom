@@ -193,7 +193,7 @@ export const FAQ_THREADS: FAQThread[] = [
     answerId:
       'Setiap paket punya masa dukungan perbaikan setelah rilis, lamanya ada di halaman Harga. Setelah itu kamu bisa memakai paket rawat bulanan atau memegang sendiri.',
     answerEn:
-      'Every package includes a post-release support window specified on the Pricing page. Afterward, you can choose an optional monthly care plan or manage it internally.',
+      'Every package includes a post-release support window specified on the Pricing page. Afterward, you can choose an optional monthly care plan or manage it with your own team.',
     crossLinks: [
       {
         labelId: 'Lihat paket rawat bulanan',
@@ -323,9 +323,9 @@ export const FAQ_THREADS: FAQThread[] = [
     questionEn: 'What past projects have you built?',
     author: 'chesta',
     answerId:
-      'Chesta menulis kode sejak 2021 dan sudah membangun sistem untuk sebuah brand minuman (pencatatan suhu, barang, dan barang gagal), sebuah pondok pesantren, dan sebuah gudang logistik. Nama klien tidak kami tampilkan tanpa izin tertulis, dan studi kasus bernama kami tambahkan setelah klien mengizinkan. Kamu juga bisa melihat proyek internal kami sebagai contoh alurnya.',
+      'Chesta menulis kode sejak 2021 dan sudah mengerjakan proyek nyata untuk sebuah brand minuman (pencatatan suhu, pembukuan barang, dan pelacakan barang gagal; nilai proyek di atas Rp100 juta), sistem operasional sebuah pondok pesantren, dan sistem operasional sebuah gudang logistik. Nama klien tidak kami tampilkan tanpa izin tertulis, dan studi kasus bernama kami tambahkan setelah klien mengizinkan. Kamu juga bisa melihat contoh proyek kami yang dirancang untuk memperlihatkan alur kerja kami.',
     answerEn:
-      'Chesta has written code since 2021 and built systems for a beverage brand (temperature logging, inventory, quality defect tracking), an Islamic boarding school, and a logistics warehouse. Client names are withheld without written consent, and named case studies are published once permitted. You can also inspect our internal systems as workflow examples.',
+      'Chesta has written code since 2021 and built real projects for a beverage brand (temperature recording, inventory bookkeeping, and defective item tracking; project value above IDR 100 million), an operational system for an Islamic boarding school, and an operational system for a logistics warehouse. Client names are kept confidential without written permission, and named case studies are added once permitted. You can also view our sample projects designed to show our workflow.',
     crossLinks: [
       {
         labelId: 'Profil tim di halaman Tentang',

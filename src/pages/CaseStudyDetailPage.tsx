@@ -221,8 +221,8 @@ export default function CaseStudyDetailPage() {
           }
           description={
             isEn
-              ? 'The case study page you requested is not available yet. View all internal project stories on our Case Studies page.'
-              : 'Halaman studi kasus yang kamu cari belum tersedia. Lihat daftar cerita proyek internal kami di halaman Studi Kasus.'
+              ? 'The case study page you requested is not available yet. View all sample case studies on our Case Studies page.'
+              : 'Halaman studi kasus yang kamu cari belum tersedia. Lihat daftar studi kasus contoh kami di halaman Studi Kasus.'
           }
           path={toLocalizedHref(`/studi-kasus/${slug || ''}`, locale, prefixMode)}
         />
@@ -239,8 +239,8 @@ export default function CaseStudyDetailPage() {
           </h1>
           <p className="text-[15px] md:text-[16px] text-[#5B5675] leading-[1.65]">
             {isEn
-              ? 'The link may have been updated. Please return to the case studies index to read the stories behind our internal projects.'
-              : 'Tautan mungkin telah diperbarui. Silakan kembali ke halaman daftar studi kasus untuk membaca cerita di balik proyek internal kami.'}
+              ? 'The link may have been updated. Please return to the case studies index to read our sample case studies.'
+              : 'Tautan mungkin telah diperbarui. Silakan kembali ke halaman daftar studi kasus untuk membaca studi kasus contoh kami.'}
           </p>
           <div className="pt-2 flex justify-center">
             <Button to={caseStudiesHref} variant="primary">
@@ -402,9 +402,9 @@ export default function CaseStudyDetailPage() {
             />
 
             <div className="space-y-4">
-              {/* Badges: Proyek internal, industry, service tags, reading time */}
+              {/* Badges: Studi kasus contoh, industry, service tags, reading time */}
               <div className="flex flex-wrap items-center gap-2">
-                <Badge variant="dark">{study.internalBadgeLabel}</Badge>
+                <Badge variant="dark">{study.badgeLabel}</Badge>
                 <Badge variant="tint">{study.industry}</Badge>
                 {study.services.map((srv) => (
                   <Badge key={srv} variant="outline">
@@ -427,6 +427,14 @@ export default function CaseStudyDetailPage() {
                 {study.oneSentenceSummary}
               </p>
 
+              {/* Mandatory Sample Note */}
+              <div
+                role="note"
+                className="p-3.5 md:p-4 rounded-[16px] bg-[#EFEAFB]/75 border border-[rgba(91,60,196,0.2)] text-[13.5px] md:text-[14px] text-[#17122B]"
+              >
+                {study.sampleNote}
+              </div>
+
               {/* Author & Meta Strip */}
               <div className="pt-2 flex flex-wrap items-center gap-x-6 gap-y-2 text-[13px] text-[#5B5675]">
                 <span>
@@ -436,7 +444,7 @@ export default function CaseStudyDetailPage() {
                 <span aria-hidden="true" className="text-[#5B5675]/40">
                   ·
                 </span>
-                <span>{study.client}</span>
+                <span>{study.badgeLabel}</span>
                 <span aria-hidden="true" className="text-[#5B5675]/40">
                   ·
                 </span>
@@ -484,7 +492,7 @@ export default function CaseStudyDetailPage() {
               />
               <div className="absolute top-4 left-4 flex flex-wrap items-center gap-2">
                 <span className="px-3 py-1 rounded-full bg-[#6A3FD0] text-[#FFFFFF] font-mono text-[11px] uppercase tracking-[0.08em] font-semibold">
-                  {study.internalBadgeLabel}
+                  {study.badgeLabel}
                 </span>
                 <span className="px-3 py-1 rounded-full bg-[#FFFFFF]/92 backdrop-blur-sm border border-[rgba(91,60,196,0.18)] font-mono text-[11px] uppercase tracking-[0.08em] text-[#5230B0] font-semibold">
                   {isEn ? 'Illustration' : 'Ilustrasi'}
@@ -606,8 +614,8 @@ export default function CaseStudyDetailPage() {
                   </span>
                   <p className="text-[13px] text-[#5B5675] leading-[1.55]">
                     {isEn
-                      ? 'Inspect the visual illustrations and feature list of this internal project in our portfolio.'
-                      : 'Lihat ilustrasi antarmuka dan rincian fitur proyek internal ini di halaman portofolio.'}
+                      ? 'Inspect the visual illustrations and feature list of this sample project on our Projects page.'
+                      : 'Lihat ilustrasi antarmuka dan rincian fitur contoh proyek ini di halaman Proyek.'}
                   </p>
                   <Link
                     to={toLocalizedHref(
@@ -821,7 +829,7 @@ export default function CaseStudyDetailPage() {
                                     <span>{block.badgeLabel}</span>
                                   </span>
                                   <span className="px-2.5 py-0.5 rounded-full bg-[#EFEAFB] border border-[rgba(91,60,196,0.16)] font-mono text-[10px] uppercase tracking-[0.08em] text-[#5230B0] font-semibold">
-                                    {study.internalBadgeLabel}
+                                    {study.badgeLabel}
                                   </span>
                                 </div>
 
@@ -989,8 +997,8 @@ export default function CaseStudyDetailPage() {
                   </h3>
                   <p className="text-[14px] text-[#5B5675] leading-[1.6]">
                     {isEn
-                      ? 'View the visual showcase, 3 system illustrations, feature specifications, and stack for this internal project.'
-                      : 'Lihat tampilan visual, 3 ilustrasi sistem, spesifikasi fitur, dan rincian teknologi dari proyek internal ini.'}
+                      ? 'View the visual showcase, 3 system illustrations, feature specifications, and stack for this sample project.'
+                      : 'Lihat tampilan visual, 3 ilustrasi sistem, spesifikasi fitur, dan rincian teknologi dari contoh proyek ini.'}
                   </p>
                 </div>
 
@@ -1005,8 +1013,8 @@ export default function CaseStudyDetailPage() {
                   >
                     <span>
                       {isEn
-                        ? 'View project in Portfolio'
-                        : 'Lihat proyek di Portofolio'}
+                        ? 'View project on Projects page'
+                        : 'Lihat di halaman Proyek'}
                     </span>
                     <ArrowUpRight size={15} className="text-[#6A3FD0]" />
                   </Button>
@@ -1078,7 +1086,7 @@ export default function CaseStudyDetailPage() {
           <div className="pt-4 border-t border-[rgba(91,60,196,0.14)] space-y-4">
             <div className="flex items-center justify-between">
               <span className="font-mono text-[11px] uppercase tracking-[0.08em] text-[#5B5675] font-semibold">
-                {isEn ? 'OTHER INTERNAL CASE STUDIES' : 'STUDI KASUS INTERNAL LAINNYA'}
+                {isEn ? 'OTHER SAMPLE CASE STUDIES' : 'STUDI KASUS CONTOH LAINNYA'}
               </span>
               <Link
                 to={caseStudiesHref}

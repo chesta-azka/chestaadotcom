@@ -3,8 +3,80 @@
   "trailingSlash": false,
   "redirects": [
     {
+      "source": "/",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.chestaa.com"
+        }
+      ],
+      "destination": "https://chestaa.com/id",
+      "permanent": true
+    },
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.chestaa.com"
+        }
+      ],
+      "destination": "https://chestaa.com/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/",
+      "destination": "/id",
+      "permanent": true
+    },
+    {
       "source": "/blog/panduan-lengkap-cara-kerja-agentic-ai-untuk-pemula",
       "destination": "/id/blog/panduan-lengkap-cara-kerja-agentic-ai-untuk-pemula",
+      "permanent": true
+    },
+    {
+      "source": "/id/blog/mcp-model-context-protocol-bisnis",
+      "destination": "/id/blog/mcp-model-context-protocol-untuk-pemilik-bisnis",
+      "permanent": true
+    },
+    {
+      "source": "/en/blog/mcp-model-context-protocol-business",
+      "destination": "/en/blog/mcp-model-context-protocol-for-business-owners",
+      "permanent": true
+    },
+    {
+      "source": "/id/blog/keamanan-ai-agent-prompt-injection",
+      "destination": "/id/blog/keamanan-ai-agent-prompt-injection-data-pelanggan",
+      "permanent": true
+    },
+    {
+      "source": "/id/blog/otomasi-workflow-bisnis-n8n-make-tanpa-ganti-sistem",
+      "destination": "/id/blog/otomasi-workflow-bisnis-n8n-make-pekerjaan-repetitif",
+      "permanent": true
+    },
+    {
+      "source": "/id/blog/otomasi-workflow-bisnis-tanpa-ganti-sistem-lama",
+      "destination": "/id/blog/otomasi-workflow-bisnis-n8n-make-pekerjaan-repetitif",
+      "permanent": true
+    },
+    {
+      "source": "/id/case-studies/klinik-gigi-bsd",
+      "destination": "/id/studi-kasus/wa-concierge-klinik",
+      "permanent": true
+    },
+    {
+      "source": "/id/studi-kasus/klinik-gigi-bsd",
+      "destination": "/id/studi-kasus/wa-concierge-klinik",
+      "permanent": true
+    },
+    {
+      "source": "/en/eng/:path*",
+      "destination": "/en/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/id/ind/:path*",
+      "destination": "/id/:path*",
       "permanent": true
     },
     {
@@ -38,6 +110,16 @@
       "permanent": true
     },
     {
+      "source": "/id/proyek/:slug",
+      "destination": "/id/portfolio/:slug",
+      "permanent": true
+    },
+    {
+      "source": "/en/projects/:slug",
+      "destination": "/en/portfolio/:slug",
+      "permanent": true
+    },
+    {
       "source": "/portfolio/:slug",
       "destination": "/id/portfolio/:slug",
       "permanent": true
@@ -63,6 +145,26 @@
       "permanent": true
     },
     {
+      "source": "/id/case-studies",
+      "destination": "/id/studi-kasus",
+      "permanent": true
+    },
+    {
+      "source": "/id/case-studies/:slug",
+      "destination": "/id/studi-kasus/:slug",
+      "permanent": true
+    },
+    {
+      "source": "/en/studi-kasus",
+      "destination": "/en/case-studies",
+      "permanent": true
+    },
+    {
+      "source": "/en/studi-kasus/:slug",
+      "destination": "/en/case-studies/:slug",
+      "permanent": true
+    },
+    {
       "source": "/layanan",
       "destination": "/id#layanan",
       "permanent": true
@@ -79,6 +181,16 @@
     },
     {
       "source": "/en/services",
+      "destination": "/en#layanan",
+      "permanent": true
+    },
+    {
+      "source": "/id/services",
+      "destination": "/id#layanan",
+      "permanent": true
+    },
+    {
+      "source": "/en/jasa",
       "destination": "/en#layanan",
       "permanent": true
     },
@@ -105,6 +217,126 @@
     {
       "source": "/layanan/workflow-automation",
       "destination": "/id/jasa/otomasi-workflow",
+      "permanent": true
+    },
+    {
+      "source": "/id/services/website-development",
+      "destination": "/id/jasa/pembuatan-website",
+      "permanent": true
+    },
+    {
+      "source": "/id/jasa/website-development",
+      "destination": "/id/jasa/pembuatan-website",
+      "permanent": true
+    },
+    {
+      "source": "/id/services/ai-agents",
+      "destination": "/id/jasa/ai-agent",
+      "permanent": true
+    },
+    {
+      "source": "/id/jasa/ai-agents",
+      "destination": "/id/jasa/ai-agent",
+      "permanent": true
+    },
+    {
+      "source": "/id/services/custom-software",
+      "destination": "/id/jasa/software-custom",
+      "permanent": true
+    },
+    {
+      "source": "/id/jasa/custom-software",
+      "destination": "/id/jasa/software-custom",
+      "permanent": true
+    },
+    {
+      "source": "/id/services/workflow-automation",
+      "destination": "/id/jasa/otomasi-workflow",
+      "permanent": true
+    },
+    {
+      "source": "/id/jasa/workflow-automation",
+      "destination": "/id/jasa/otomasi-workflow",
+      "permanent": true
+    },
+    {
+      "source": "/en/jasa/pembuatan-website",
+      "destination": "/en/services/website-development",
+      "permanent": true
+    },
+    {
+      "source": "/en/services/pembuatan-website",
+      "destination": "/en/services/website-development",
+      "permanent": true
+    },
+    {
+      "source": "/en/jasa/ai-agent",
+      "destination": "/en/services/ai-agents",
+      "permanent": true
+    },
+    {
+      "source": "/en/services/ai-agent",
+      "destination": "/en/services/ai-agents",
+      "permanent": true
+    },
+    {
+      "source": "/en/jasa/software-custom",
+      "destination": "/en/services/custom-software",
+      "permanent": true
+    },
+    {
+      "source": "/en/services/software-custom",
+      "destination": "/en/services/custom-software",
+      "permanent": true
+    },
+    {
+      "source": "/en/jasa/otomasi-workflow",
+      "destination": "/en/services/workflow-automation",
+      "permanent": true
+    },
+    {
+      "source": "/en/services/otomasi-workflow",
+      "destination": "/en/services/workflow-automation",
+      "permanent": true
+    },
+    {
+      "source": "/id/services/website-development/:areaSlug",
+      "destination": "/id/jasa/pembuatan-website/:areaSlug",
+      "permanent": true
+    },
+    {
+      "source": "/id/jasa/website-development/:areaSlug",
+      "destination": "/id/jasa/pembuatan-website/:areaSlug",
+      "permanent": true
+    },
+    {
+      "source": "/en/jasa/pembuatan-website/:areaSlug",
+      "destination": "/en/services/website-development/:areaSlug",
+      "permanent": true
+    },
+    {
+      "source": "/en/services/pembuatan-website/:areaSlug",
+      "destination": "/en/services/website-development/:areaSlug",
+      "permanent": true
+    },
+    {
+      "source": "/id/services/:slug",
+      "destination": "/id/jasa/:slug",
+      "permanent": true
+    },
+    {
+      "source": "/id/services/:serviceSlug/:areaSlug",
+      "destination": "/id/jasa/:serviceSlug/:areaSlug",
+      "permanent": true
+    },
+    {
+      "source": "/en/jasa/:slug",
+      "destination": "/en/services/:slug",
+      "permanent": true
+    },
+    {
+      "source": "/en/jasa/:serviceSlug/:areaSlug",
+      "destination": "/en/services/:serviceSlug/:areaSlug",
       "permanent": true
     },
     {
@@ -139,6 +371,16 @@
     },
     {
       "source": "/areas",
+      "destination": "/en/areas",
+      "permanent": true
+    },
+    {
+      "source": "/id/areas",
+      "destination": "/id/area",
+      "permanent": true
+    },
+    {
+      "source": "/en/area",
       "destination": "/en/areas",
       "permanent": true
     },
@@ -178,6 +420,11 @@
       "permanent": true
     },
     {
+      "source": "/id/area/:cityName",
+      "destination": "/id/jasa/pembuatan-website/:cityName",
+      "permanent": true
+    },
+    {
       "source": "/ind",
       "destination": "/id",
       "permanent": true
@@ -208,6 +455,51 @@
       "permanent": true
     },
     {
+      "source": "/en/tentang",
+      "destination": "/en/about",
+      "permanent": true
+    },
+    {
+      "source": "/id/pricing",
+      "destination": "/id/harga",
+      "permanent": true
+    },
+    {
+      "source": "/en/harga",
+      "destination": "/en/pricing",
+      "permanent": true
+    },
+    {
+      "source": "/id/how-it-works",
+      "destination": "/id/cara-kerja",
+      "permanent": true
+    },
+    {
+      "source": "/en/cara-kerja",
+      "destination": "/en/how-it-works",
+      "permanent": true
+    },
+    {
+      "source": "/id/free-audit",
+      "destination": "/id/audit-gratis",
+      "permanent": true
+    },
+    {
+      "source": "/en/audit-gratis",
+      "destination": "/en/free-audit",
+      "permanent": true
+    },
+    {
+      "source": "/id/privacy",
+      "destination": "/id/privasi",
+      "permanent": true
+    },
+    {
+      "source": "/en/privasi",
+      "destination": "/en/privacy",
+      "permanent": true
+    },
+    {
       "source": "/workflow",
       "destination": "/id/workflow",
       "permanent": true
@@ -215,7 +507,7 @@
   ],
   "rewrites": [
     {
-      "source": "/(.*)",
+      "source": "/((?!robots\\.txt|sitemap.*\\.xml|llms.*\\.txt|rss\\.xml|favicon\\..*|apple-touch-icon\\.png|icon-.*\\.png|site\\.webmanifest|fonts/|images/|covers/|assets/).*)",
       "destination": "/index.html"
     }
   ],
@@ -230,7 +522,34 @@
       ]
     },
     {
+      "source": "/fonts/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/covers/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
       "source": "/images/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=604800, stale-while-revalidate=2592000"
+        }
+      ]
+    },
+    {
+      "source": "/(favicon\\.svg|favicon\\.ico|apple-touch-icon\\.png|icon-192\\.png|icon-512\\.png|site\\.webmanifest)",
       "headers": [
         {
           "key": "Cache-Control",
@@ -239,8 +558,25 @@
       ]
     },
     {
-      "source": "/(sitemap.*\\.xml|robots\\.txt|llms.*\\.txt)",
+      "source": "/(sitemap.*\\.xml)",
       "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/xml; charset=utf-8"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=3600, stale-while-revalidate=86400"
+        }
+      ]
+    },
+    {
+      "source": "/(robots\\.txt|llms.*\\.txt)",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "text/plain; charset=utf-8"
+        },
         {
           "key": "Cache-Control",
           "value": "public, max-age=3600, stale-while-revalidate=86400"

@@ -23,7 +23,7 @@ export const insightsDatabase: Record<string, InsightArticle> = {
   'cara-pangkas-biaya-operasional-dengan-ai': {
     slug: 'cara-pangkas-biaya-operasional-dengan-ai',
     title: 'Cara Pangkas Biaya Operasional Korporat Hingga 60 Persen dengan AI Automation',
-    subtitle: 'Studi kasus nyata bagaimana perusahaan enterprise mengotomatisasi proses manual menggunakan arsitektur agen AI otonom.',
+    subtitle: 'Contoh skenario bagaimana perusahaan mengotomatisasi proses manual menggunakan arsitektur agen AI.',
     category: 'AI Automation & Efficiency',
     readTime: '6 menit baca',
     publishedDate: '2026-09-28',

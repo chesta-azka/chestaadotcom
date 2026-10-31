@@ -2,14 +2,19 @@
 import { useEffect, useRef } from 'react';
 import { collection, query, where, onSnapshot } from 'firebase/firestore';
 import { db } from '../lib/firebase';
+import { useAuth } from '../contexts/AuthContext';
 import toast from 'react-hot-toast';
 import { User, ArrowRight, Sparkles } from 'lucide-react';
 
 export function CommLinkAdmin() {
+  const { user, role } = useAuth();
   const isInitial = useRef(true);
   const processedSessions = useRef(new Set<string>());
+  const isAdminUser = Boolean(user && (role === 'admin' || user.email === 'chestacode@gmail.com'));
 
   useEffect(() => {
+    if (!isAdminUser) return;
+
     // 1. Real-time onSnapshot listener for AI Chat Sessions requiring human handoff / pricing intent
     const qAiSessions = query(
       collection(db, 'ai_chat_sessions'),
@@ -107,7 +112,7 @@ export function CommLinkAdmin() {
     });
 
     return () => unsubSessions();
-  }, []);
+  }, [isAdminUser]);
 
   return null;
 }

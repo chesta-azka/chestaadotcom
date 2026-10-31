@@ -2,19 +2,14 @@ import React, { useState, useEffect, useRef } from 'react';
 import { MessageCircle } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import {
-  LazyMotion,
-  domAnimation,
-  m,
-  useReducedMotion,
-} from 'framer-motion';
-import {
   buildWhatsAppLink,
   getWhatsAppCtaLabel,
   resolveWhatsAppContextFromPathname,
 } from '../../lib/whatsapp';
 import { trackLanguageSwitch, trackWaClick } from '../../lib/analytics';
-import MenuOverlayPanel from './MenuOverlayPanel';
-import { getActiveLenis } from '../../lib/motion';
+import { getActiveLenis, prefersReducedMotion } from '../../lib/motion';
+
+const MenuOverlayPanel = React.lazy(() => import('./MenuOverlayPanel'));
 import {
   getTranslation,
   parseLocalizedPath,
@@ -32,8 +27,8 @@ const EASE_OUT_EXPO: [number, number, number, number] = [0.22, 1, 0.36, 1];
  */
 export default function Header() {
   const [scrolled, setScrolled] = useState(false);
-  const [hidden, setHidden] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [hasOpenedMenu, setHasOpenedMenu] = useState(false);
   const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
   const [indicatorStyle, setIndicatorStyle] = useState<{
     width: number;
@@ -41,14 +36,13 @@ export default function Header() {
     opacity: number;
   }>({ width: 0, x: 0, opacity: 0 });
 
-  const lastScrollY = useRef(0);
   const hamburgerButtonRef = useRef<HTMLButtonElement | null>(null);
   const navContainerRef = useRef<HTMLDivElement | null>(null);
   const navItemRefs = useRef<(HTMLAnchorElement | null)[]>([]);
 
   const location = useLocation();
   const navigate = useNavigate();
-  const prefersReducedMotion = useReducedMotion();
+  const isReducedMotion = prefersReducedMotion();
 
   const { locale, prefixMode, barePath } = parseLocalizedPath(location.pathname);
   const homeHref = toLocalizedHref('/', locale, prefixMode);
@@ -57,7 +51,22 @@ export default function Header() {
     {
       label: getTranslation(locale, 'nav.servicesGroup'),
       href: toLocalizedHref('/#layanan', locale, prefixMode),
-      matchPrefixes: ['/jasa', '/services', '/area', '/areas'],
+      matchPrefixes: ['/jasa', '/services', '/layanan'],
+    },
+    {
+      label: locale === 'en' ? 'About Us' : 'Tentang',
+      href: toLocalizedHref('/about', locale, prefixMode),
+      matchPrefixes: ['/about', '/tentang'],
+    },
+    {
+      label: locale === 'en' ? 'How We Work' : 'Cara Kerja',
+      href: toLocalizedHref('/cara-kerja', locale, prefixMode),
+      matchPrefixes: ['/cara-kerja', '/how-it-works'],
+    },
+    {
+      label: locale === 'en' ? 'Pricing' : 'Harga',
+      href: toLocalizedHref('/harga', locale, prefixMode),
+      matchPrefixes: ['/harga', '/pricing'],
     },
     {
       label: getTranslation(locale, 'nav.projects'),
@@ -67,17 +76,17 @@ export default function Header() {
     {
       label: getTranslation(locale, 'nav.caseStudies'),
       href: toLocalizedHref('/case-studies', locale, prefixMode),
-      matchPrefixes: ['/case-studies'],
+      matchPrefixes: ['/case-studies', '/studi-kasus'],
+    },
+    {
+      label: 'FAQ',
+      href: toLocalizedHref('/faq', locale, prefixMode),
+      matchPrefixes: ['/faq'],
     },
     {
       label: getTranslation(locale, 'nav.blog'),
       href: toLocalizedHref('/blog', locale, prefixMode),
       matchPrefixes: ['/blog'],
-    },
-    {
-      label: locale === 'en' ? 'Free Audit' : 'Audit Gratis',
-      href: toLocalizedHref('/audit-gratis', locale, prefixMode),
-      matchPrefixes: ['/audit-gratis', '/free-audit'],
     },
   ];
 
@@ -111,25 +120,23 @@ export default function Header() {
     return () => window.removeEventListener('resize', updateIndicator);
   }, [currentTargetIndex, locale, location.pathname]);
 
-  // Shrink-on-scroll & hide-on-scroll-down (never hide while menu is open)
+  // Ultra-responsive, lightweight sticky scroll detection (always stays visible, snappy 150ms transition)
   useEffect(() => {
+    let ticking = false;
     const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      setScrolled(currentScrollY > 24);
-
-      if (menuOpen) {
-        setHidden(false);
-      } else if (currentScrollY > 120 && currentScrollY > lastScrollY.current + 4) {
-        setHidden(true);
-      } else if (currentScrollY < lastScrollY.current - 4 || currentScrollY <= 40) {
-        setHidden(false);
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          setScrolled(window.scrollY > 12);
+          ticking = false;
+        });
+        ticking = true;
       }
-      lastScrollY.current = currentScrollY;
     };
 
+    handleScroll();
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
-  }, [menuOpen]);
+  }, []);
 
   // Auto-close on route or hash change
   useEffect(() => {
@@ -143,7 +150,6 @@ export default function Header() {
     const lenis = getActiveLenis();
 
     if (menuOpen) {
-      setHidden(false);
       htmlEl.style.scrollbarGutter = 'stable';
       bodyEl.style.overflow = 'hidden';
       lenis?.stop();
@@ -224,21 +230,21 @@ export default function Header() {
     : getTranslation(locale, 'nav.openMenu');
 
   return (
-    <LazyMotion features={domAnimation} strict>
+    <>
       {/* Thin 2px Purple Scroll Progress Bar at Top (transform: scaleX only) */}
       <div className="scroll-progress-bar" aria-hidden="true" />
 
       <header
-        className={`fixed top-0 inset-x-0 z-50 flex flex-col items-center px-5 md:px-8 transition-transform duration-300 ${
+        className={`fixed top-0 inset-x-0 z-50 flex flex-col items-center px-4 sm:px-6 md:px-8 transition-[padding] duration-150 ease-out ${
           menuOpen ? 'pointer-events-auto' : 'pointer-events-none'
-        } ${scrolled ? 'pt-2.5' : 'pt-4'} ${
-          hidden && !menuOpen ? '-translate-y-24' : 'translate-y-0'
-        }`}
+        } ${scrolled ? 'pt-2 md:pt-2.5' : 'pt-3 sm:pt-4'} translate-y-0`}
       >
-        {/* Floating Glass Pill Container (shrinks slightly on scroll via transform scale) */}
+        {/* Floating Glass Pill Container (always sticky, snappy 150ms transition, fast response) */}
         <div
-          className={`relative z-50 w-full max-w-[1120px] transition-transform duration-300 pointer-events-auto rounded-full glass-pill px-4 sm:px-5 md:px-6 py-2 flex items-center justify-between gap-2 ${
-            scrolled && !menuOpen ? 'scale-[0.985]' : 'scale-100'
+          className={`relative z-50 w-full max-w-[1120px] transition-all duration-150 ease-out pointer-events-auto rounded-full glass-pill px-4 sm:px-5 md:px-6 py-2 flex items-center justify-between gap-2 ${
+            scrolled && !menuOpen
+              ? 'scale-[0.99] shadow-md border-[rgba(91,60,196,0.22)] bg-white/95'
+              : 'scale-100 shadow-xs bg-white/85'
           }`}
         >
           {/* Left: Wordmark Logo */}
@@ -320,36 +326,35 @@ export default function Header() {
             <button
               ref={hamburgerButtonRef}
               type="button"
-              onClick={() => setMenuOpen((prev) => !prev)}
+              onMouseEnter={() => setHasOpenedMenu(true)}
+              onFocus={() => setHasOpenedMenu(true)}
+              onClick={() => {
+                setHasOpenedMenu(true);
+                setMenuOpen((prev) => !prev);
+              }}
               className="inline-flex items-center justify-center w-11 h-11 text-[#17122B] hover:text-[#6A3FD0] transition-colors cursor-pointer bg-transparent border-0 p-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#6A3FD0]/40 rounded-full shrink-0"
               aria-label={buttonLabel}
               aria-expanded={menuOpen}
               aria-controls="site-menu-panel"
             >
               <span className="sr-only">{buttonLabel}</span>
-              {/* Two 18x1.5px lines that morph into an X via framer-motion m.span (translateY + rotate only) */}
+              {/* Two 18x1.5px lines that morph into an X via smooth CSS transitions */}
               <span
                 className="relative w-5 h-5 flex items-center justify-center"
                 aria-hidden="true"
               >
-                <m.span
-                  initial={false}
-                  animate={
-                    menuOpen
-                      ? { y: 0, rotate: 45 }
-                      : { y: -3.5, rotate: 0 }
-                  }
-                  transition={hamburgerLineTransition}
+                <span
+                  style={{
+                    transform: menuOpen ? 'translateY(0) rotate(45deg)' : 'translateY(-3.5px) rotate(0deg)',
+                    transition: isReducedMotion ? 'none' : 'transform 240ms cubic-bezier(0.22, 1, 0.36, 1)',
+                  }}
                   className="block absolute w-[18px] h-[1.5px] bg-current rounded-full origin-center"
                 />
-                <m.span
-                  initial={false}
-                  animate={
-                    menuOpen
-                      ? { y: 0, rotate: -45 }
-                      : { y: 3.5, rotate: 0 }
-                  }
-                  transition={hamburgerLineTransition}
+                <span
+                  style={{
+                    transform: menuOpen ? 'translateY(0) rotate(-45deg)' : 'translateY(3.5px) rotate(0deg)',
+                    transition: isReducedMotion ? 'none' : 'transform 240ms cubic-bezier(0.22, 1, 0.36, 1)',
+                  }}
                   className="block absolute w-[18px] h-[1.5px] bg-current rounded-full origin-center"
                 />
               </span>
@@ -357,18 +362,22 @@ export default function Header() {
           </div>
         </div>
 
-        {/* Native <dialog> Menu Overlay Panel — always rendered in DOM so crawlers see all links */}
-        <MenuOverlayPanel
-          isOpen={menuOpen}
-          scrolled={scrolled}
-          onClose={() => setMenuOpen(false)}
-          onNavigate={handleNavigate}
-          pathname={location.pathname}
-          hash={location.hash}
-          whatsappUrl={whatsappUrl}
-          hamburgerButtonRef={hamburgerButtonRef}
-        />
+        {/* Lazy-loaded Native <dialog> Menu Overlay Panel (mounted on interaction) */}
+        {(menuOpen || hasOpenedMenu) && (
+          <React.Suspense fallback={null}>
+            <MenuOverlayPanel
+              isOpen={menuOpen}
+              scrolled={scrolled}
+              onClose={() => setMenuOpen(false)}
+              onNavigate={handleNavigate}
+              pathname={location.pathname}
+              hash={location.hash}
+              whatsappUrl={whatsappUrl}
+              hamburgerButtonRef={hamburgerButtonRef}
+            />
+          </React.Suspense>
+        )}
       </header>
-    </LazyMotion>
+    </>
   );
 }

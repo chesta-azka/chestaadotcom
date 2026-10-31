@@ -189,7 +189,7 @@ export function HeroPurple({
                 <span className="w-3 h-3 rounded-full bg-amber-400 inline-block" />
                 <span className="w-3 h-3 rounded-full bg-emerald-400 inline-block" />
                 <span className="ml-3 text-[11px] font-mono font-medium text-slate-500 hidden sm:inline-block">
-                  chestaadotcom.com/live-architecture
+                  chestaa.com/live-architecture
                 </span>
               </div>
 

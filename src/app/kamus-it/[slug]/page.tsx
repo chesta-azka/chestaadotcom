@@ -35,8 +35,8 @@ export async function generateMetadata({ params }: PageProps): Promise<Metadata>
       title,
       description,
       type: 'article',
-      url: `https://chestaadotcom.com/kamus-it/${termData.slug}`,
-      siteName: 'chestaadotcom Enterprise IT',
+      url: `https://chestaa.com/kamus-it/${termData.slug}`,
+      siteName: 'CHESTAADOTCOM',
     },
   };
 }
@@ -54,7 +54,7 @@ export default async function GlossaryDetailPage({ params }: PageProps) {
     '@type': 'DefinedTerm',
     name: termData.term,
     description: termData.shortDefinition,
-    inDefinedTermSet: 'https://chestaadotcom.com/kamus-it',
+    inDefinedTermSet: 'https://chestaa.com/kamus-it',
     about: {
       '@type': 'Thing',
       name: 'Enterprise IT & AI Automation',

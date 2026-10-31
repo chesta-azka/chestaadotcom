@@ -49,14 +49,14 @@ export default function FreeAuditPage() {
     ? [
         'AI Agent & WhatsApp Automation',
         'High-Conversion Website & Landing Page',
-        'Custom Software & Internal Dashboard',
+        'Custom Software & Operational Dashboard',
         'Local SEO & GEO Optimization',
         'Not sure yet — help me map it out',
       ]
     : [
         'AI Agent & Otomasi WhatsApp',
         'Website & Landing Page Konversi Tinggi',
-        'Software Kustom & Dashboard Internal',
+        'Software Kustom & Dashboard Operasional',
         'SEO Lokal & Optimasi GEO',
         'Belum yakin — bantu petakan dulu',
       ];

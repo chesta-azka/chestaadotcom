@@ -4,6 +4,10 @@ import type {
   ProjectCategory,
 } from './projects';
 
+const SAMPLE_BADGE_EN = 'Sample project';
+const SAMPLE_DISCLOSURE_EN =
+  'Sample project designed to show our workflow. Not a client project.';
+
 export const PORTFOLIO_CATEGORIES_EN: Array<{
   id: 'semua' | ProjectCategory;
   label: string;
@@ -27,17 +31,17 @@ const RAW_PORTFOLIO_PROJECTS_EN: PortfolioProjectRaw[] = [
     services: ['ai-agent'],
     serviceSlug: 'ai-agent',
     industry: 'Clinic',
-    client: 'CHESTAADOTCOM internal project',
     year: '2026',
     yearNumeric: 2026,
-    internal: true,
-    internalBadgeLabel: 'Internal project',
+    kind: 'sample',
+    badgeLabel: SAMPLE_BADGE_EN,
+    sampleNote: SAMPLE_DISCLOSURE_EN,
     role: 'Design, development, and testing',
-    duration: 'Internal build',
+    duration: 'Sample project',
     stack: ['WhatsApp Business Platform', 'Calendar Tool', 'CRM Database', 'Action Log'],
     cover: 'projectWaConciergeKlinik',
     coverKey: 'projectWaConciergeKlinik',
-    alt: 'Illustration of internal project WA Concierge WhatsApp booking agent for clinics with therapist slot checking',
+    alt: 'Illustration of sample project WA Concierge WhatsApp booking agent for clinics with therapist slot checking',
     deviceFrame: 'phone',
     gallery: [
       {
@@ -63,7 +67,7 @@ const RAW_PORTFOLIO_PROJECTS_EN: PortfolioProjectRaw[] = [
       },
     ],
     summaryParagraphs: [
-      'WA Concierge is a CHESTAADOTCOM internal project built to demonstrate how an AI agent handles incoming treatment inquiries on WhatsApp, checks therapist calendar availability, creates bookings, logs patient details into a CRM, and sends day-before reminders.',
+      'WA Concierge is a CHESTAADOTCOM sample project designed to show how an AI agent handles incoming treatment inquiries on WhatsApp, checks therapist calendar availability, creates bookings, logs patient details into a CRM, and sends day-before reminders.',
       'The system includes clear action boundaries and human handover: sensitive questions or special requests outside standard rules are forwarded to clinic staff together with a concise conversation summary, and every action is recorded in an inspectable log.',
     ],
     features: [
@@ -103,16 +107,16 @@ const RAW_PORTFOLIO_PROJECTS_EN: PortfolioProjectRaw[] = [
         highlightType: 'interface',
       },
     ],
-    liveStatusLabel: 'Internal project (Design target)',
+    liveStatusLabel: 'Sample project (Design target)',
     relatedCaseSlug: 'wa-concierge-klinik',
     caseStudySlug: 'wa-concierge-klinik',
     featured: true,
     draft: false,
     updatedAt: '2026-03-20',
     seo: {
-      title: 'WA Concierge Clinic Booking Agent — Internal Project | CHESTAADOTCOM',
+      title: 'WA Concierge Clinic Booking — Sample Project | CHESTAADOTCOM',
       description:
-        'CHESTAADOTCOM internal project: WhatsApp booking AI agent for clinics that answers treatment questions, checks therapist slots, and creates bookings.',
+        'CHESTAADOTCOM sample project: WhatsApp booking AI agent for clinics that answers treatment questions, checks therapist slots, and creates bookings.',
     },
   },
 
@@ -127,17 +131,17 @@ const RAW_PORTFOLIO_PROJECTS_EN: PortfolioProjectRaw[] = [
     services: ['software-custom'],
     serviceSlug: 'software-custom',
     industry: 'F&B',
-    client: 'CHESTAADOTCOM internal project',
     year: '2026',
     yearNumeric: 2026,
-    internal: true,
-    internalBadgeLabel: 'Internal project',
+    kind: 'sample',
+    badgeLabel: SAMPLE_BADGE_EN,
+    sampleNote: SAMPLE_DISCLOSURE_EN,
     role: 'Design, development, and testing',
-    duration: 'Internal build',
+    duration: 'Sample project',
     stack: ['Web Application', 'Role-Based Access', 'Database', 'Reporting Dashboard'],
     cover: 'projectDashboardKafe',
     coverKey: 'projectDashboardKafe',
-    alt: 'Illustration of internal project Cafe Operations Dashboard for monitoring ingredient stock and daily branch sales',
+    alt: 'Illustration of sample project Cafe Operations Dashboard for monitoring ingredient stock and daily branch sales',
     deviceFrame: 'browser',
     gallery: [
       {
@@ -163,7 +167,7 @@ const RAW_PORTFOLIO_PROJECTS_EN: PortfolioProjectRaw[] = [
       },
     ],
     summaryParagraphs: [
-      'Cafe Operations Dashboard is a CHESTAADOTCOM internal project showing how custom web software replaces heavy, error-prone spreadsheets for F&B businesses managing multiple branches.',
+      'Cafe Operations Dashboard is a CHESTAADOTCOM sample project showing how custom web software replaces heavy, error-prone spreadsheets for F&B businesses managing multiple branches.',
       'Branch staff record daily stock counts and sales from mobile or desktop screens with role-based permissions, while the owner views consolidated daily reports and low-ingredient alerts from the same data source.',
     ],
     features: [
@@ -203,16 +207,16 @@ const RAW_PORTFOLIO_PROJECTS_EN: PortfolioProjectRaw[] = [
         highlightType: 'security',
       },
     ],
-    liveStatusLabel: 'Internal project (Design target)',
+    liveStatusLabel: 'Sample project (Design target)',
     relatedCaseSlug: 'dashboard-kafe',
     caseStudySlug: 'dashboard-kafe',
     featured: true,
     draft: false,
     updatedAt: '2026-03-24',
     seo: {
-      title: 'Cafe Operations Dashboard — Internal Project | CHESTAADOTCOM',
+      title: 'Cafe Operations Dashboard — Sample Project | CHESTAADOTCOM',
       description:
-        'CHESTAADOTCOM internal project: custom web dashboard for F&B businesses combining ingredient stock, daily sales, and multi-branch reports.',
+        'CHESTAADOTCOM sample project: custom web dashboard for F&B businesses combining ingredient inventory, daily sales, and multi-branch reporting.',
     },
   },
 
@@ -227,17 +231,17 @@ const RAW_PORTFOLIO_PROJECTS_EN: PortfolioProjectRaw[] = [
     services: ['otomasi-workflow'],
     serviceSlug: 'otomasi-workflow',
     industry: 'Property',
-    client: 'CHESTAADOTCOM internal project',
     year: '2026',
     yearNumeric: 2026,
-    internal: true,
-    internalBadgeLabel: 'Internal project',
+    kind: 'sample',
+    badgeLabel: SAMPLE_BADGE_EN,
+    sampleNote: SAMPLE_DISCLOSURE_EN,
     role: 'Design, development, and testing',
-    duration: 'Internal build',
+    duration: 'Sample project',
     stack: ['Ad Form Webhook', 'CRM & Sheets', 'WhatsApp Notification', 'Execution Log'],
     cover: 'projectLeadProperti',
     coverKey: 'projectLeadProperti',
-    alt: 'Illustration of internal project Property Lead Flow from ad forms to CRM and automated follow-up schedules',
+    alt: 'Illustration of sample project Property Lead Flow from ad forms to CRM and automated follow-up schedules',
     deviceFrame: 'browser',
     gallery: [
       {
@@ -263,7 +267,7 @@ const RAW_PORTFOLIO_PROJECTS_EN: PortfolioProjectRaw[] = [
       },
     ],
     summaryParagraphs: [
-      'Property Lead Flow is a CHESTAADOTCOM internal project built to demonstrate workflow automation connecting property inquiry forms directly to a CRM, Google Sheets, and WhatsApp notifications for sales agents.',
+      'Property Lead Flow is a CHESTAADOTCOM sample project built to demonstrate workflow automation connecting property inquiry forms directly to a CRM, Google Sheets, and WhatsApp notifications for sales agents.',
       'Instead of copying buyer data manually between apps, every incoming inquiry is logged, the assigned agent is notified immediately, follow-up reminders are scheduled, and any failed step triggers an alert with an inspectable execution log.',
     ],
     features: [
@@ -296,16 +300,16 @@ const RAW_PORTFOLIO_PROJECTS_EN: PortfolioProjectRaw[] = [
         highlightType: 'security',
       },
     ],
-    liveStatusLabel: 'Internal project (Design target)',
+    liveStatusLabel: 'Sample project (Design target)',
     relatedCaseSlug: 'lead-properti',
     caseStudySlug: 'lead-properti',
     featured: true,
     draft: false,
     updatedAt: '2026-03-20',
     seo: {
-      title: 'Property Lead Flow Automation — Internal Project | CHESTAADOTCOM',
+      title: 'Property Lead Flow Automation — Sample Project | CHESTAADOTCOM',
       description:
-        'CHESTAADOTCOM internal project: workflow automation routing property ad form leads into CRM, notifying agents, and scheduling follow-ups.',
+        'CHESTAADOTCOM sample project: workflow automation routing property ad form leads into CRM records, notifying agents, and scheduling follow-ups.',
     },
   },
 
@@ -320,17 +324,17 @@ const RAW_PORTFOLIO_PROJECTS_EN: PortfolioProjectRaw[] = [
     services: ['pembuatan-website'],
     serviceSlug: 'pembuatan-website',
     industry: 'Clinic',
-    client: 'CHESTAADOTCOM internal project',
     year: '2026',
     yearNumeric: 2026,
-    internal: true,
-    internalBadgeLabel: 'Internal project',
+    kind: 'sample',
+    badgeLabel: SAMPLE_BADGE_EN,
+    sampleNote: SAMPLE_DISCLOSURE_EN,
     role: 'Design, development, and testing',
-    duration: 'Internal build',
+    duration: 'Sample project',
     stack: ['Static HTML/CSS', 'Image Optimization', 'Structured Data', 'WhatsApp CTA'],
     cover: 'projectLandingKlinikEstetika',
     coverKey: 'projectLandingKlinikEstetika',
-    alt: 'Illustration of internal project Aesthetic Clinic Landing Page with treatment list, starting prices, and WhatsApp button',
+    alt: 'Illustration of sample project Aesthetic Clinic Landing Page with treatment list, starting prices, and WhatsApp button',
     deviceFrame: 'browser',
     gallery: [
       {
@@ -356,7 +360,7 @@ const RAW_PORTFOLIO_PROJECTS_EN: PortfolioProjectRaw[] = [
       },
     ],
     summaryParagraphs: [
-      'Aesthetic Clinic Landing Page is a CHESTAADOTCOM internal project demonstrating a fast, mobile-friendly landing page structure for clinics running ads or local search campaigns.',
+      'Aesthetic Clinic Landing Page is a CHESTAADOTCOM sample project demonstrating a fast, mobile-friendly landing page structure for clinics running ads or local search campaigns.',
       'Each treatment page answers common prospective patient questions upfront—what the treatment is, starting prices, practice hours, and location—paired with a direct WhatsApp booking button so visitors can book without extra steps.',
     ],
     features: [
@@ -389,16 +393,16 @@ const RAW_PORTFOLIO_PROJECTS_EN: PortfolioProjectRaw[] = [
         highlightType: 'workflow',
       },
     ],
-    liveStatusLabel: 'Internal project (Design target)',
+    liveStatusLabel: 'Sample project (Design target)',
     relatedCaseSlug: 'wa-concierge-klinik',
     caseStudySlug: 'wa-concierge-klinik',
     featured: true,
     draft: false,
     updatedAt: '2026-03-20',
     seo: {
-      title: 'Aesthetic Clinic Landing Page — Internal Project | CHESTAADOTCOM',
+      title: 'Aesthetic Clinic Landing Page — Sample Project | CHESTAADOTCOM',
       description:
-        'CHESTAADOTCOM internal project: fast clinic landing page per treatment with starting prices, practice schedule, and WhatsApp booking.',
+        'CHESTAADOTCOM sample project: fast clinic landing page per treatment with transparent starting prices, practice hours, and WhatsApp booking.',
     },
   },
 
@@ -413,17 +417,17 @@ const RAW_PORTFOLIO_PROJECTS_EN: PortfolioProjectRaw[] = [
     services: ['pembuatan-website'],
     serviceSlug: 'pembuatan-website',
     industry: 'Agency (own site)',
-    client: 'CHESTAADOTCOM internal project',
     year: '2026',
     yearNumeric: 2026,
-    internal: true,
-    internalBadgeLabel: 'Internal project',
+    kind: 'sample',
+    badgeLabel: SAMPLE_BADGE_EN,
+    sampleNote: SAMPLE_DISCLOSURE_EN,
     role: 'Design, development, and testing',
-    duration: 'Internal build',
+    duration: 'Sample project',
     stack: ['Bilingual Static Architecture', 'JSON-LD @graph', 'Sitemap & llms.txt', 'Core Web Vitals'],
     cover: 'projectChestaaV2',
     coverKey: 'projectChestaaV2',
-    alt: 'Illustration of internal project rebuilding the fast static bilingual chestaa.com website',
+    alt: 'Illustration of sample project rebuilding the fast static bilingual chestaa.com website',
     deviceFrame: 'browser',
     gallery: [
       {
@@ -449,7 +453,7 @@ const RAW_PORTFOLIO_PROJECTS_EN: PortfolioProjectRaw[] = [
       },
     ],
     summaryParagraphs: [
-      'Rebuilding chestaa.com is our own internal website project at CHESTAADOTCOM, engineered as a fast, static bilingual (/id and /en) site focused on website development, AI agents, custom software, and workflow automation.',
+      'Rebuilding chestaa.com is our own sample website project at CHESTAADOTCOM, engineered as a fast, static bilingual (/id and /en) site focused on website development, AI agents, custom software, and workflow automation.',
       'Every service and local area page leads with a direct 40–60 word summary, complete structured data (@graph JSON-LD), reciprocal hreflang links, and restrained motion that respects reduced-motion and low-spec devices.',
     ],
     features: [
@@ -483,16 +487,16 @@ const RAW_PORTFOLIO_PROJECTS_EN: PortfolioProjectRaw[] = [
       },
     ],
     liveUrl: 'https://chestaa.com/id',
-    liveStatusLabel: 'Internal project (Live on chestaa.com)',
+    liveStatusLabel: 'Sample project (Live on chestaa.com)',
     relatedCaseSlug: 'chestaa-v2',
     caseStudySlug: 'chestaa-v2',
     featured: false,
     draft: false,
     updatedAt: '2026-03-20',
     seo: {
-      title: 'Rebuilding chestaa.com — Internal Project | CHESTAADOTCOM',
+      title: 'Rebuilding chestaa.com — Sample Project | CHESTAADOTCOM',
       description:
-        'CHESTAADOTCOM internal project: rebuilding chestaa.com as a fast, static bilingual website focused on custom software and AI agents.',
+        'CHESTAADOTCOM sample project: rebuilding chestaa.com as a fast, static bilingual website focused on custom software, web apps, and AI agents.',
     },
   },
 
@@ -507,17 +511,17 @@ const RAW_PORTFOLIO_PROJECTS_EN: PortfolioProjectRaw[] = [
     services: ['ai-agent', 'software-custom'],
     serviceSlug: 'ai-agent',
     industry: 'Professional services',
-    client: 'CHESTAADOTCOM internal project',
     year: '2026',
     yearNumeric: 2026,
-    internal: true,
-    internalBadgeLabel: 'Internal project',
+    kind: 'sample',
+    badgeLabel: SAMPLE_BADGE_EN,
+    sampleNote: SAMPLE_DISCLOSURE_EN,
     role: 'Design, development, and testing',
-    duration: 'Internal build',
+    duration: 'Sample project',
     stack: ['AI Document Extraction', 'Human Review Table', 'Role Access', 'Audit Log'],
     cover: 'projectPemrosesDokumen',
     coverKey: 'projectPemrosesDokumen',
-    alt: 'Illustration of internal project AI Document Processor extracting document data into tables with human review',
+    alt: 'Illustration of sample project AI Document Processor extracting document data into tables with human review',
     deviceFrame: 'browser',
     gallery: [
       {
@@ -543,7 +547,7 @@ const RAW_PORTFOLIO_PROJECTS_EN: PortfolioProjectRaw[] = [
       },
     ],
     summaryParagraphs: [
-      'AI Document Processor is a CHESTAADOTCOM internal project combining an AI extraction pipeline with a custom web review table for professional service teams that process incoming invoices, forms, or supporting documents.',
+      'AI Document Processor is a CHESTAADOTCOM sample project combining an AI extraction pipeline with a custom web review table for professional service teams that process incoming invoices, forms, or supporting documents.',
       'Instead of writing extracted fields straight into production records, the system places extracted values into a staging table where a staff member reviews, edits if needed, and approves the row before the data is used.',
     ],
     features: [
@@ -571,21 +575,21 @@ const RAW_PORTFOLIO_PROJECTS_EN: PortfolioProjectRaw[] = [
       {
         title: 'Revision & Approval Log',
         description:
-          'Records who reviewed, edited, and approved each document row for clear internal accountability.',
+          'Records who reviewed, edited, and approved each document row for clear team accountability.',
         metricOrTag: 'Design target: full approval trace',
         highlightType: 'interface',
       },
     ],
-    liveStatusLabel: 'Internal project (Design target)',
+    liveStatusLabel: 'Sample project (Design target)',
     relatedCaseSlug: 'pemroses-dokumen',
     caseStudySlug: 'pemroses-dokumen',
     featured: true,
     draft: false,
     updatedAt: '2026-03-24',
     seo: {
-      title: 'AI Document Processor — Internal Project | CHESTAADOTCOM',
+      title: 'AI Document Processor — Sample Project | CHESTAADOTCOM',
       description:
-        'CHESTAADOTCOM internal project: AI document processor and custom web interface that extracts document data into tables with human review.',
+        'CHESTAADOTCOM sample project: AI document processor and custom web review interface that extracts document data into tables with human review.',
     },
   },
 ];

@@ -36,7 +36,6 @@ export const generateLocalBusinessSchema = () => {
     "description": "Elite B2B Software House dan Studio Arsitektur Web Next.js 15, Karyawan AI 24/7, dan Sistem Otonom di BSD City, Cisauk, Tangerang, dan Jakarta.",
     "url": "https://chestaa.com",
     "telephone": "+6282125447232",
-    "email": "chestaadotcom@gmail.com",
     "priceRange": "$$$",
     "currenciesAccepted": "IDR",
     "paymentAccepted": "Cash, Credit Card, Bank Transfer, QRIS",
@@ -75,7 +74,7 @@ export const generateLocalBusinessSchema = () => {
       "https://github.com/chestacode",
       "https://id.linkedin.com/in/chesta-azka",
       "https://twitter.com/chestacode",
-      "https://instagram.com/chestaadotcom",
+      "https://instagram.com/softwaredev.aiagentic.agency",
       "https://tiktok.com/@chesta_azka"
     ],
     "knowsAbout": [

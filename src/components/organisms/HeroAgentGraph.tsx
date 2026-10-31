@@ -1,8 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useLocation } from 'react-router-dom';
 import { MessageSquare, Calendar, Database, FileText, Bell, Bot } from 'lucide-react';
-import gsap from 'gsap';
-import { useMotionMode, MOTION_TOKENS } from '../../lib/motion';
+import { useMotionMode } from '../../lib/motion';
 import { parseLocalizedPath } from '../../lib/i18n';
 
 interface ToolNode {
@@ -159,7 +158,7 @@ export default function HeroAgentGraph() {
     const lines = svgRef.current.querySelectorAll<SVGLineElement>('.agent-draw-line');
     if (!lines.length) return;
 
-    lines.forEach((line) => {
+    lines.forEach((line, i) => {
       const x1 = parseFloat(line.getAttribute('x1') || '0');
       const y1 = parseFloat(line.getAttribute('y1') || '0');
       const x2 = parseFloat(line.getAttribute('x2') || '0');
@@ -167,15 +166,16 @@ export default function HeroAgentGraph() {
       const len = Math.hypot(x2 - x1, y2 - y1);
       line.style.strokeDasharray = `${len}`;
       line.style.strokeDashoffset = `${len}`;
+      line.style.transition = `stroke-dashoffset 750ms cubic-bezier(0.22, 1, 0.36, 1) ${150 + i * 90}ms`;
     });
 
-    gsap.to(lines, {
-      strokeDashoffset: 0,
-      duration: 0.75,
-      stagger: 0.09,
-      ease: MOTION_TOKENS.easings.gsapOut,
-      delay: 0.15,
+    const rafId = requestAnimationFrame(() => {
+      lines.forEach((line) => {
+        line.style.strokeDashoffset = '0';
+      });
     });
+
+    return () => cancelAnimationFrame(rafId);
   }, [motionMode]);
 
   // Step ticker interval (paused when offscreen or reduced motion)
@@ -187,33 +187,36 @@ export default function HeroAgentGraph() {
     return () => clearInterval(interval);
   }, [isVisible, motionMode, tools.length]);
 
-  // Desktop pointer-reactive lerped tilt (max 3 degrees, hooked to single GSAP ticker)
+  // Desktop pointer-reactive lerped tilt (max 3 degrees, native requestAnimationFrame)
   useEffect(() => {
     if (!isVisible || motionMode !== 'full') return;
     const isFinePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
     if (!isFinePointer) return;
 
+    let animId: number;
     const tick = () => {
       const card = cardRef.current;
-      if (!card) return;
-      currentTilt.current.x += (targetTilt.current.x - currentTilt.current.x) * 0.12;
-      currentTilt.current.y += (targetTilt.current.y - currentTilt.current.y) * 0.12;
+      if (card) {
+        currentTilt.current.x += (targetTilt.current.x - currentTilt.current.x) * 0.12;
+        currentTilt.current.y += (targetTilt.current.y - currentTilt.current.y) * 0.12;
 
-      if (
-        Math.abs(currentTilt.current.x) > 0.01 ||
-        Math.abs(currentTilt.current.y) > 0.01
-      ) {
-        card.style.transform = `perspective(900px) rotateX(${currentTilt.current.x.toFixed(
-          2
-        )}deg) rotateY(${currentTilt.current.y.toFixed(2)}deg) translateZ(0)`;
-      } else {
-        card.style.transform = 'perspective(900px) rotateX(0deg) rotateY(0deg) translateZ(0)';
+        if (
+          Math.abs(currentTilt.current.x) > 0.01 ||
+          Math.abs(currentTilt.current.y) > 0.01
+        ) {
+          card.style.transform = `perspective(900px) rotateX(${currentTilt.current.x.toFixed(
+            2
+          )}deg) rotateY(${currentTilt.current.y.toFixed(2)}deg) translateZ(0)`;
+        } else {
+          card.style.transform = 'perspective(900px) rotateX(0deg) rotateY(0deg) translateZ(0)';
+        }
       }
+      animId = requestAnimationFrame(tick);
     };
 
-    gsap.ticker.add(tick);
+    animId = requestAnimationFrame(tick);
     return () => {
-      gsap.ticker.remove(tick);
+      cancelAnimationFrame(animId);
     };
   }, [isVisible, motionMode]);
 

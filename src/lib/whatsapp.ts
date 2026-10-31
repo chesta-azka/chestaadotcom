@@ -1,7 +1,4 @@
 import { SITE_URL, parseLocalizedPath, type SupportedLocale } from './i18n';
-import { getLocalizedService, getLocalizedServiceAreaPage } from './i18n-content';
-import { getBlogPostBySlug } from '../data/blog-posts';
-import { getCaseStudyBySlug } from '../data/case-studies';
 
 export const WHATSAPP_NUMBER = '6282125447232';
 export const WHATSAPP_BASE_URL = `https://wa.me/${WHATSAPP_NUMBER}`;
@@ -18,6 +15,8 @@ export type WhatsAppPageType =
   | 'about'
   | 'blog-index'
   | '404'
+  | 'custom'
+  | 'faq'
   | 'default';
 
 export interface WhatsAppContext {
@@ -29,6 +28,8 @@ export interface WhatsAppContext {
   areaName?: string;
   /** Article or case study title */
   title?: string;
+  /** Custom direct message */
+  message?: string;
   /** Canonical page URL or pathname (any query/UTM params are stripped automatically) */
   url?: string;
   pageUrl?: string;
@@ -192,6 +193,52 @@ export function buildWhatsAppLink(
 // Backwards-compatible alias for any existing imports
 export const buildWhatsAppUrl = buildWhatsAppLink;
 
+const SERVICE_NAMES: Record<string, { id: string; en: string }> = {
+  'pembuatan-website': { id: 'jasa pembuatan website', en: 'website development' },
+  'website-development': { id: 'jasa pembuatan website', en: 'website development' },
+  'ai-agent': { id: 'jasa AI agent', en: 'AI agent development' },
+  'ai-agents': { id: 'jasa AI agent', en: 'AI agent development' },
+  'software-custom': { id: 'jasa software custom', en: 'custom software development' },
+  'custom-software': { id: 'jasa software custom', en: 'custom software development' },
+  'otomasi-workflow': { id: 'jasa otomasi workflow', en: 'workflow automation' },
+  'workflow-automation': { id: 'jasa otomasi workflow', en: 'workflow automation' },
+};
+
+function getServiceNameFromSlug(slug: string, locale: SupportedLocale): string {
+  const clean = slug.toLowerCase().trim();
+  const found = SERVICE_NAMES[clean];
+  if (found) return found[locale] || found.id;
+  return locale === 'en' ? 'digital services' : 'layanan digital';
+}
+
+function formatAreaName(slug: string): string {
+  const map: Record<string, string> = {
+    'bsd-city': 'BSD City',
+    'tangerang-selatan': 'Tangerang Selatan',
+    'lebak-bulus': 'Lebak Bulus',
+    'alam-sutera': 'Alam Sutera',
+    'gading-serpong': 'Gading Serpong',
+    'serpong-utara': 'Serpong Utara',
+    'ciputat-timur': 'Ciputat Timur',
+    'pondok-aren': 'Pondok Aren',
+    'pondok-cabe': 'Pondok Cabe',
+    'pondok-ranji': 'Pondok Ranji',
+    'summarecon-serpong': 'Summarecon Serpong',
+    'karang-tengah': 'Karang Tengah',
+    'kota-tangerang': 'Kota Tangerang',
+    'tb-simatupang': 'TB Simatupang',
+    'pondok-indah': 'Pondok Indah',
+    'kebayoran-lama': 'Kebayoran Lama',
+    'jakarta-selatan': 'Jakarta Selatan',
+    'jurang-mangu': 'Jurang Mangu',
+  };
+  if (map[slug]) return map[slug];
+  return slug
+    .split('-')
+    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
+    .join(' ');
+}
+
 /**
  * Automatically derives the WhatsAppContext from any route pathname so shared
  * chrome (Header, MenuOverlayPanel, FooterSection, StickyMobileWhatsApp)
@@ -205,36 +252,45 @@ export function resolveWhatsAppContextFromPathname(
   const locale = explicitLocale || parsedLocale;
   const cleanUrl = cleanWhatsAppPageUrl(rawPathname);
 
-  // 1. Area page: /jasa/:serviceSlug/:areaSlug
-  const areaMatch = barePath.match(/^\/(jasa|layanan|services)\/([^/]+)\/([^/]+)$/i);
-  if (areaMatch) {
-    const service = getLocalizedService(areaMatch[2], locale);
-    const areaPage = service
-      ? getLocalizedServiceAreaPage(service.slug, areaMatch[3].toLowerCase(), locale)
-      : undefined;
-    if (service && areaPage) {
-      return {
-        type: 'area',
-        locale,
-        serviceName: service.shortTitle || service.title,
-        areaName: areaPage.areaName,
-        url: cleanUrl,
-      };
-    }
+  // 1. Service + Area page: /jasa/:serviceSlug/:areaSlug
+  const serviceAreaMatch = barePath.match(/^\/(jasa|layanan|services)\/([^/]+)\/([^/]+)$/i);
+  if (serviceAreaMatch) {
+    const rawService = serviceAreaMatch[2];
+    const rawArea = serviceAreaMatch[3].toLowerCase();
+    const serviceName = getServiceNameFromSlug(rawService, locale);
+    const areaName = formatAreaName(rawArea);
+    return {
+      type: 'area',
+      locale,
+      serviceName,
+      areaName,
+      url: cleanUrl,
+    };
+  }
+
+  // Unified area page: /area/:areaSlug
+  const unifiedAreaMatch = barePath.match(/^\/(area|areas)\/([^/]+)$/i);
+  if (unifiedAreaMatch) {
+    const rawArea = unifiedAreaMatch[2].toLowerCase();
+    const areaName = formatAreaName(rawArea);
+    return {
+      type: 'area',
+      locale,
+      areaName,
+      url: cleanUrl,
+    };
   }
 
   // 2. Service page: /jasa/:serviceSlug
   const serviceMatch = barePath.match(/^\/(jasa|layanan|services)\/([^/]+)$/i);
   if (serviceMatch) {
-    const service = getLocalizedService(serviceMatch[2], locale);
-    if (service) {
-      return {
-        type: 'service',
-        locale,
-        serviceName: service.shortTitle || service.title,
-        url: cleanUrl,
-      };
-    }
+    const serviceName = getServiceNameFromSlug(serviceMatch[2], locale);
+    return {
+      type: 'service',
+      locale,
+      serviceName,
+      url: cleanUrl,
+    };
   }
 
   // 3. Blog article: /blog/:slug
@@ -246,30 +302,24 @@ export function resolveWhatsAppContextFromPathname(
     !barePath.startsWith('/blog/page/') &&
     !barePath.startsWith('/blog/kategori/')
   ) {
-    const slug = barePath.replace('/blog/', '').trim();
-    const post = getBlogPostBySlug(slug, locale);
-    if (post) {
-      return {
-        type: 'article',
-        locale,
-        title: post.title,
-        url: cleanUrl,
-      };
-    }
+    const title = typeof document !== 'undefined' ? document.title.split('|')[0].trim() : undefined;
+    return {
+      type: 'article',
+      locale,
+      title,
+      url: cleanUrl,
+    };
   }
 
   // 4. Case study detail: /case-studies/:slug
   if (barePath.startsWith('/case-studies/')) {
-    const slug = barePath.replace('/case-studies/', '').trim();
-    const study = getCaseStudyBySlug(slug, locale);
-    if (study) {
-      return {
-        type: 'case-study',
-        locale,
-        title: study.title,
-        url: cleanUrl,
-      };
-    }
+    const title = typeof document !== 'undefined' ? document.title.split('|')[0].trim() : undefined;
+    return {
+      type: 'case-study',
+      locale,
+      title,
+      url: cleanUrl,
+    };
   }
 
   // 5. Default (home, about, blog index, audit, privacy, 404)

@@ -100,8 +100,8 @@ function PackageFinder({ locale }: { locale: 'id' | 'en' }) {
     }
     if (recommendedPackageId === 'software') {
       return isEn
-        ? 'Best for custom internal systems, operational dashboards, or web applications.'
-        : 'Cocok untuk sistem internal, dashboard operasional, atau aplikasi web custom.';
+        ? 'Best for custom operational systems, reporting dashboards, or web applications.'
+        : 'Cocok untuk sistem operasional, dashboard laporan, atau aplikasi web custom.';
     }
     return '';
   }, [recommendedPackageId, isEn]);
@@ -146,7 +146,7 @@ function PackageFinder({ locale }: { locale: 'id' | 'en' }) {
                 { id: 'ad', labelId: 'Halaman untuk kampanye iklan atau promo (Growth)', labelEn: 'Landing page for ad campaigns or promos (Growth)' },
                 { id: 'custom-web', labelId: 'Website dengan banyak halaman atau fitur khusus (Custom Web)', labelEn: 'Multi-page website or custom features (Custom Web)' },
                 { id: 'automation', labelId: 'Mengurangi kerjaan berulang di tim', labelEn: 'Reduce repetitive team workload' },
-                { id: 'software', labelId: 'Sistem internal, dashboard, atau aplikasi web custom', labelEn: 'Internal system, dashboard, or custom web app' },
+                { id: 'software', labelId: 'Sistem operasional, dashboard, atau aplikasi web custom', labelEn: 'Operational system, dashboard, or custom web app' },
               ].map((opt) => (
                 <label
                   key={opt.id}
@@ -1016,7 +1016,7 @@ export default function PricingPage() {
         <section id="segment-software" className="my-16 scroll-mt-28">
           <SectionHeading
             eyebrow="SOFTWARE CUSTOM & DASHBOARD"
-            title={isEn ? 'Custom software & dashboard packages' : 'Paket software custom & dashboard internal'}
+            title={isEn ? 'Custom software & dashboard packages' : 'Paket software custom & dashboard operasional'}
           />
 
           <div className="mt-8">

@@ -20,16 +20,16 @@ export const CASE_STUDIES_DATA_EN: CaseStudyItem[] = [
     legacySlugs: ['otomasi-reservasi-klinik-estetika', 'landing-klinik-estetika'],
     title: 'WA Concierge: designing a booking agent for clinics',
     oneSentenceSummary:
-      'An internal project designing a WhatsApp agent that understands prospective patient intent, checks therapist calendar slots, creates bookings, and hands off out-of-rule cases to clinic staff.',
-    client: 'CHESTAADOTCOM internal project',
+      'A sample case study designing a WhatsApp agent that understands prospective patient intent, checks therapist calendar slots, creates bookings, and hands off out-of-rule cases to clinic staff.',
     industry: 'Clinic',
     services: ['AI Agent'],
     serviceSlugs: ['ai-agent'],
     year: '2026',
-    internal: true,
-    internalBadgeLabel: 'Internal project',
+    kind: 'sample',
+    badgeLabel: 'Sample case study',
+    sampleNote: 'Sample project designed to show our workflow. Not a client project.',
     targetsBadgeLabel: 'Design target, not client results',
-    duration: 'Internal build',
+    duration: 'Sample case study',
     readingTime: '6 min read',
     author: 'Chesta Azka',
     authorRole: 'Co-founder (architecture, product, technology)',
@@ -70,13 +70,13 @@ export const CASE_STUDIES_DATA_EN: CaseStudyItem[] = [
         id: 'konteks-bisnis',
         number: '01',
         title: 'Business context',
-        eyebrow: 'INTERNAL PROJECT · CLINIC',
+        eyebrow: 'SAMPLE CASE STUDY · CLINIC',
         blocks: [
           {
             type: 'text',
             paragraphs: [
               'For many small skincare, dental, and physiotherapy clinics in South Tangerang and South Jakarta, WhatsApp is not a secondary inquiry channel—it is the main front desk. Prospective patients rarely fill out multi-step web forms to book an appointment. Instead, they send short messages asking for basic treatment price ranges, checking whether Saturday afternoon still has an open slot, or asking to move their session because of traffic.',
-              'We built WA Concierge as a CHESTAADOTCOM internal project to test firsthand how a conversational agent behaves when connected to a real therapist calendar and CRM table. Rather than building a slide-deck demo that only handles tidy one-line prompts, we wanted to test everyday chat patterns filled with abbreviations, mid-conversation changes of mind, and strict boundaries between tasks that may be completed automatically and tasks that must be handed over to a human admin.',
+              'We built WA Concierge as a CHESTAADOTCOM sample project to test firsthand how a conversational agent behaves when connected to a real therapist calendar and CRM table. Rather than building a slide-deck demo that only handles tidy one-line prompts, we wanted to test everyday chat patterns filled with abbreviations, mid-conversation changes of mind, and strict boundaries between tasks that may be completed automatically and tasks that must be handed over to a human admin.',
             ],
           },
         ],
@@ -251,7 +251,7 @@ export const CASE_STUDIES_DATA_EN: CaseStudyItem[] = [
           {
             type: 'text',
             paragraphs: [
-              'Because WA Concierge is an internal project we built to test workflow reliability before deploying for clients, all indicators below are engineering design targets, not measured results from a client clinic.',
+              'Because WA Concierge is a sample project we built to test workflow reliability before deploying for clients, all indicators below are engineering design targets, not measured results from a client clinic.',
             ],
           },
           {
@@ -328,10 +328,9 @@ export const CASE_STUDIES_DATA_EN: CaseStudyItem[] = [
         ],
       },
     ],
-    metrics: [],
     pullQuote: {
       text: 'The job of a clinic agent is not to replace staff judgment, but to clear repetitive schedule inquiries so human staff can focus on patients who need personal care.',
-      attribution: 'Chesta Azka — CHESTAADOTCOM Internal Project Note',
+      attribution: 'Chesta Azka — CHESTAADOTCOM Sample Case Study Note',
     },
     projectSlug: 'wa-concierge-klinik',
     relatedServiceSlugs: ['ai-agent'],
@@ -340,7 +339,7 @@ export const CASE_STUDIES_DATA_EN: CaseStudyItem[] = [
     seo: {
       title: 'WA Concierge Clinic Booking Agent Case Study | CHESTAADOTCOM',
       description:
-        'Internal project case study of WA Concierge: designing a WhatsApp booking agent for clinics with calendar checks, H-1 reminders, and staff handover.',
+        'Sample case study of WA Concierge: designing a WhatsApp booking AI agent for clinics with live calendar checks, H-1 reminders, and staff handover.',
     },
   },
 
@@ -352,16 +351,16 @@ export const CASE_STUDIES_DATA_EN: CaseStudyItem[] = [
     legacySlugs: ['membangun-ulang-chestaa-com'],
     title: 'Rebuilding chestaa.com as a static bilingual site',
     oneSentenceSummary:
-      'An internal project rebuilding our own agency website into a fast, static bilingual (/id and /en) architecture with clear service pages and calm purple-on-white design.',
-    client: 'CHESTAADOTCOM internal project',
+      'A sample case study rebuilding our own agency website into a fast, static bilingual (/id and /en) architecture with clear service pages and calm purple-on-white design.',
     industry: 'Agency (own site)',
     services: ['Web & Landing Page'],
     serviceSlugs: ['pembuatan-website'],
     year: '2026',
-    internal: true,
-    internalBadgeLabel: 'Internal project',
+    kind: 'sample',
+    badgeLabel: 'Sample case study',
+    sampleNote: 'Sample project designed to show our workflow. Not a client project.',
     targetsBadgeLabel: 'Design target, not client results',
-    duration: 'Internal build',
+    duration: 'Sample case study',
     readingTime: '6 min read',
     author: 'Chesta Azka',
     authorRole: 'Co-founder (architecture, product, technology)',
@@ -402,13 +401,13 @@ export const CASE_STUDIES_DATA_EN: CaseStudyItem[] = [
         id: 'konteks',
         number: '01',
         title: 'Context',
-        eyebrow: 'INTERNAL PROJECT · OWN SITE',
+        eyebrow: 'SAMPLE CASE STUDY · OWN SITE',
         blocks: [
           {
             type: 'text',
             paragraphs: [
               'As CHESTAADOTCOM grew from building simple web pages into a technical partner for business websites, AI agents, custom software, and workflow automation in BSD, South Tangerang, our early website no longer reflected how we work. Our own site is the first artifact prospective clients inspect when we talk about mobile loading speed, structured information hierarchy, and clear technical communication.',
-              'We decided to rebuild chestaa.com from the ground up as an internal engineering project that practices every standard we recommend to clients: pages must be readable without waiting for heavy JavaScript bundles, available 1:1 in both Indonesian (`/id`) and English (`/en`), and transparent about distinguishing internal demo projects from design targets.',
+              'We decided to rebuild chestaa.com from the ground up as a sample engineering project that practices every standard we recommend to clients: pages must be readable without waiting for heavy JavaScript bundles, available 1:1 in both Indonesian (`/id`) and English (`/en`), and transparent about distinguishing sample projects, real projects, and design targets.',
             ],
           },
         ],
@@ -476,7 +475,7 @@ export const CASE_STUDIES_DATA_EN: CaseStudyItem[] = [
           {
             type: 'text',
             paragraphs: [
-              'To keep the Indonesian and English editions strictly in sync while preserving static page speed, all services, local areas, internal projects, and case studies live in a strongly typed dataset that maps to `/id` and `/en` routes, validates meta tag lengths, and generates unified JSON-LD graphs and discovery files.',
+              'To keep the Indonesian and English editions strictly in sync while preserving static page speed, all services, local areas, sample projects, and sample case studies live in a strongly typed dataset that maps to `/id` and `/en` routes, validates meta tag lengths, and generates unified JSON-LD graphs and discovery files.',
             ],
           },
           {
@@ -583,7 +582,7 @@ export const CASE_STUDIES_DATA_EN: CaseStudyItem[] = [
           {
             type: 'text',
             paragraphs: [
-              'As an internal build for our own website, the numbers below represent the performance budget and architectural design targets we test chestaa.com against.',
+              'As a sample build for our own website, the numbers below represent the performance budget and architectural design targets we test chestaa.com against.',
             ],
           },
           {
@@ -634,7 +633,7 @@ export const CASE_STUDIES_DATA_EN: CaseStudyItem[] = [
           {
             type: 'text',
             paragraphs: [
-              'The most important decision while rebuilding chestaa.com was not choosing a JavaScript library—it was maintaining strict content honesty. As an agency launching this updated service catalog, we chose to label all six demo projects and three case studies openly as "Internal project" (`Proyek internal`), and to label every target metric as "Design target, not client results".',
+              'The most important decision while rebuilding chestaa.com was not choosing a JavaScript library—it was maintaining strict content honesty. As an agency launching this updated service catalog, we chose to label all demo projects and sample case studies openly as "Sample project" (`Contoh proyek`) and "Sample case study" (`Studi kasus contoh`), and to label every target metric as "Design target, not client results".',
               'We also deliberately held back from indexing dozens of local area pages at once. Out of fifteen prepared service-area combinations, we opened only ten pages with genuinely distinct local context for indexing (`index,follow`), keeping the other five as `noindex,follow`. This trade-off keeps our initial indexed footprint smaller, but ensures every page in search results carries honest, specific information rather than copy-pasted city names.',
             ],
           },
@@ -660,10 +659,9 @@ export const CASE_STUDIES_DATA_EN: CaseStudyItem[] = [
         ],
       },
     ],
-    metrics: [],
     pullQuote: {
       text: 'A technology agency website should be a direct example of the architectural clarity, mobile speed, and honest communication it promises to clients.',
-      attribution: 'Chesta Azka — CHESTAADOTCOM Internal Project Note',
+      attribution: 'Chesta Azka — CHESTAADOTCOM Sample Case Study Note',
     },
     projectSlug: 'chestaa-v2',
     relatedServiceSlugs: ['pembuatan-website'],
@@ -672,7 +670,7 @@ export const CASE_STUDIES_DATA_EN: CaseStudyItem[] = [
     seo: {
       title: 'Rebuilding chestaa.com Bilingual Case Study | CHESTAADOTCOM',
       description:
-        'Internal project case study on rebuilding chestaa.com as a fast static bilingual site (/id and /en) with target mobile LCP < 1.8s and CLS < 0.02.',
+        'Sample case study on rebuilding chestaa.com as a fast static bilingual website (/id and /en) with target mobile LCP < 1.8s and low CLS < 0.02.',
     },
   },
 
@@ -684,16 +682,16 @@ export const CASE_STUDIES_DATA_EN: CaseStudyItem[] = [
     legacySlugs: ['otomasi-rekap-pos-fnb-serpong'],
     title: 'Property lead flow: from ad form to agent follow-up',
     oneSentenceSummary:
-      'An internal project designing automated property lead routing from ad forms straight to CRM, round-robin agent assignment, WhatsApp alerts, and scheduled follow-up reminders.',
-    client: 'CHESTAADOTCOM internal project',
+      'A sample case study designing automated property lead routing from ad forms straight to CRM, round-robin agent assignment, WhatsApp alerts, and scheduled follow-up reminders.',
     industry: 'Property',
     services: ['Workflow Automation'],
     serviceSlugs: ['otomasi-workflow'],
     year: '2026',
-    internal: true,
-    internalBadgeLabel: 'Internal project',
+    kind: 'sample',
+    badgeLabel: 'Sample case study',
+    sampleNote: 'Sample project designed to show our workflow. Not a client project.',
     targetsBadgeLabel: 'Design target, not client results',
-    duration: 'Internal build',
+    duration: 'Sample case study',
     readingTime: '6 min read',
     author: 'Zeeshan',
     authorRole: 'Co-founder (operations and client success)',
@@ -734,13 +732,13 @@ export const CASE_STUDIES_DATA_EN: CaseStudyItem[] = [
         id: 'konteks-bisnis',
         number: '01',
         title: 'Business context',
-        eyebrow: 'INTERNAL PROJECT · PROPERTY',
+        eyebrow: 'SAMPLE CASE STUDY · PROPERTY',
         blocks: [
           {
             type: 'text',
             paragraphs: [
               'Property marketing teams and brokerage offices across developing corridors such as BSD City, Serpong, and surrounding areas rely heavily on digital ad campaigns and project landing pages to capture buyer interest. When a prospective buyer submits a form requesting a price brochure or a show-unit visit schedule, their intent is highest during the first five to fifteen minutes after tapping submit.',
-              'We designed the internal Property Lead Flow project at CHESTAADOTCOM to model how a property sales team can eliminate the delay between an incoming ad form submission and the first greeting from an assigned sales agent—without requiring a marketing admin to copy rows one by one from a spreadsheet into a WhatsApp group.',
+              'We designed the sample Property Lead Flow project at CHESTAADOTCOM to model how a property sales team can eliminate the delay between an incoming ad form submission and the first greeting from an assigned sales agent—without requiring a marketing admin to copy rows one by one from a spreadsheet into a WhatsApp group.',
             ],
           },
         ],
@@ -915,7 +913,7 @@ export const CASE_STUDIES_DATA_EN: CaseStudyItem[] = [
           {
             type: 'text',
             paragraphs: [
-              'All figures below are design targets for the internal Property Lead Flow project at CHESTAADOTCOM, engineered as benchmarks for routing speed and follow-up discipline rather than measured client campaign claims.',
+              'All figures below are design targets for the sample Property Lead Flow project at CHESTAADOTCOM, engineered as benchmarks for routing speed and follow-up discipline rather than measured client campaign claims.',
             ],
           },
           {
@@ -966,7 +964,7 @@ export const CASE_STUDIES_DATA_EN: CaseStudyItem[] = [
           {
             type: 'text',
             paragraphs: [
-              'When designing sales workflow automation, the biggest temptation is building overly complex branching rules on day one—such as trying to score buyer budgets automatically with a dozen form fields. In this internal project, we chose the opposite trade-off: the buyer-facing form stays as short as possible (name, active WhatsApp number, and unit interest or visit preference), while deeper qualification happens through human conversation with the agent.',
+              'When designing sales workflow automation, the biggest temptation is building overly complex branching rules on day one—such as trying to score buyer budgets automatically with a dozen form fields. In this sample case study, we chose the opposite trade-off: the buyer-facing form stays as short as possible (name, active WhatsApp number, and unit interest or visit preference), while deeper qualification happens through human conversation with the agent.',
               'The second trade-off involves status updates. Automated H+1 and H+3 reminders are only helpful if agents actually update lead statuses after greeting a buyer. Instead of forcing agents to log into a heavy desktop dashboard, we simplified status updates to a single quick link inside their WhatsApp notification. Good workflow automation does not replace an agent’s personal touch when negotiating property, but it ensures no prospective buyer is forgotten because of slow manual copy-pasting.',
             ],
           },
@@ -992,10 +990,9 @@ export const CASE_STUDIES_DATA_EN: CaseStudyItem[] = [
         ],
       },
     ],
-    metrics: [],
     pullQuote: {
       text: 'Useful lead automation does not force agents to learn a complicated app; its job is making sure the moment a buyer submits a form, the right agent knows and gets reminded until follow-up happens.',
-      attribution: 'Zeeshan — CHESTAADOTCOM Internal Project Note',
+      attribution: 'Zeeshan — CHESTAADOTCOM Sample Case Study Note',
     },
     projectSlug: 'lead-properti',
     relatedServiceSlugs: ['otomasi-workflow'],
@@ -1004,7 +1001,7 @@ export const CASE_STUDIES_DATA_EN: CaseStudyItem[] = [
     seo: {
       title: 'Property Lead Flow Automation Case Study | CHESTAADOTCOM',
       description:
-        'Internal project case study of Property Lead Flow: automating ad form leads to CRM, < 1 minute agent alerts, and H+1 and H+3 follow-up reminders.',
+        'Sample case study of Property Lead Flow: automating ad form leads into a web CRM, < 1 minute agent alerts, and H+1 and H+3 follow-up reminders.',
     },
   },
 
@@ -1016,16 +1013,16 @@ export const CASE_STUDIES_DATA_EN: CaseStudyItem[] = [
     legacySlugs: ['rekap-operasional-kafe', 'pos-kafe-multicabang'],
     title: 'Cafe operational dashboard: from daily spreadsheets to a single view',
     oneSentenceSummary:
-      'An internal project designing a web dashboard that unifies daily sales, ingredient inventory, and branch reports without replacing existing cash registers.',
-    client: 'CHESTAADOTCOM internal project',
+      'A sample case study designing a web dashboard that unifies daily sales, ingredient inventory, and branch reports without replacing existing cash registers.',
     industry: 'F&B',
     services: ['Custom Software'],
     serviceSlugs: ['software-custom'],
     year: '2026',
-    internal: true,
-    internalBadgeLabel: 'Internal project',
+    kind: 'sample',
+    badgeLabel: 'Sample case study',
+    sampleNote: 'Sample project designed to show our workflow. Not a client project.',
     targetsBadgeLabel: 'Design target, not client results',
-    duration: 'Internal build',
+    duration: 'Sample case study',
     readingTime: '7 min read',
     author: 'Chesta Azka',
     authorRole: 'Co-founder (architecture, product, technology)',
@@ -1066,14 +1063,14 @@ export const CASE_STUDIES_DATA_EN: CaseStudyItem[] = [
         id: 'konteks-bisnis',
         number: '01',
         title: 'Business context',
-        eyebrow: 'INTERNAL PROJECT · F&B',
+        eyebrow: 'SAMPLE CASE STUDY · F&B',
         blocks: [
           {
             type: 'text',
             paragraphs: [
               'In the multi-outlet food and beverage (F&B) industry, running three cafe branches in Serpong, Bintaro, and BSD introduces operational friction that scales far faster than managing a single standalone store. Every night at ten o’clock, baristas and shift leads at each outlet tally receipt piles, weigh remaining coffee beans, syrups, and milk, and enter figures into local spreadsheets.',
               'The cafe owner usually only sees consolidated daily revenue and ingredient status the following afternoon, after three separate closing spreadsheets are emailed or texted over WhatsApp and manually merged into a master file. This half-day lag leaves owners blind to branch performance when decisions matter most.',
-              'We built the Cafe Operations Dashboard as a CHESTAADOTCOM internal project to model a practical custom software solution for multi-branch F&B operators. The goal was to unify daily sales figures and inventory movements into one clean screen, without forcing staff to abandon the point-of-sale (POS) registers they already use daily.',
+              'We built the Cafe Operations Dashboard as a CHESTAADOTCOM sample project to model a practical custom software solution for multi-branch F&B operators. The goal was to unify daily sales figures and inventory movements into one clean screen, without forcing staff to abandon the point-of-sale (POS) registers they already use daily.',
             ],
           },
         ],
@@ -1261,7 +1258,7 @@ export const CASE_STUDIES_DATA_EN: CaseStudyItem[] = [
           {
             type: 'text',
             paragraphs: [
-              'As a CHESTAADOTCOM internal engineering project, the indicators below represent system design goals established during operational simulations, not claims from active commercial clients.',
+              'As a CHESTAADOTCOM sample engineering project, the indicators below represent system design goals established during operational simulations, not claims from active commercial clients.',
             ],
           },
           {
@@ -1339,10 +1336,9 @@ export const CASE_STUDIES_DATA_EN: CaseStudyItem[] = [
         ],
       },
     ],
-    metrics: [],
     pullQuote: {
       text: 'We did not discard the cash registers baristas already knew; we simply built a reliable bridge so daily sales and remaining stock flow into one clean screen.',
-      attribution: 'Chesta Azka — CHESTAADOTCOM Internal Project Note',
+      attribution: 'Chesta Azka — CHESTAADOTCOM Sample Case Study Note',
     },
     projectSlug: 'dashboard-kafe',
     relatedServiceSlugs: ['software-custom'],
@@ -1351,7 +1347,7 @@ export const CASE_STUDIES_DATA_EN: CaseStudyItem[] = [
     seo: {
       title: 'Cafe Operations Dashboard Case Study | CHESTAADOTCOM',
       description:
-        'Internal project case study of Cafe Operations Dashboard: unifying daily sales, ingredient inventory, and branch reports without replacing registers.',
+        'Sample case study of Cafe Operations Dashboard: unifying daily sales, raw ingredient inventory, and multi-branch reports without new registers.',
     },
   },
 
@@ -1363,16 +1359,16 @@ export const CASE_STUDIES_DATA_EN: CaseStudyItem[] = [
     legacySlugs: ['ekstraksi-faktur-pajak-ai', 'asisten-kualifikasi-klien-konsultan'],
     title: 'AI Document Processor: data extraction with human review',
     oneSentenceSummary:
-      'An internal project designing an AI pipeline to extract invoices and tax withholdings into web tables with mandatory human review before saving.',
-    client: 'CHESTAADOTCOM internal project',
+      'A sample case study designing an AI pipeline to extract invoices and tax withholdings into web tables with mandatory human review before saving.',
     industry: 'Professional services',
     services: ['AI Agent', 'Custom Software'],
     serviceSlugs: ['ai-agent', 'software-custom'],
     year: '2026',
-    internal: true,
-    internalBadgeLabel: 'Internal project',
+    kind: 'sample',
+    badgeLabel: 'Sample case study',
+    sampleNote: 'Sample project designed to show our workflow. Not a client project.',
     targetsBadgeLabel: 'Design target, not client results',
-    duration: 'Internal build',
+    duration: 'Sample case study',
     readingTime: '7 min read',
     author: 'Chesta Azka',
     authorRole: 'Co-founder (architecture, product, technology)',
@@ -1413,14 +1409,14 @@ export const CASE_STUDIES_DATA_EN: CaseStudyItem[] = [
         id: 'konteks-bisnis',
         number: '01',
         title: 'Business context',
-        eyebrow: 'INTERNAL PROJECT · PROFESSIONAL SERVICES',
+        eyebrow: 'SAMPLE CASE STUDY · PROFESSIONAL SERVICES',
         blocks: [
           {
             type: 'text',
             paragraphs: [
               'At accounting practices, corporate tax consultancies, and notary offices in South Tangerang and Jakarta, administrative paperwork arrives in heavy waves at the start of every month. Operational staff receive dozens of PDF files from clients and vendors encompassing commercial invoices, tax withholding slips (PPh 21 and PPh 23), scanned expense receipts, and legal agreement contracts.',
               'The primary challenge is format heterogeneity. No universal template exists: some vendors attach crisp digital PDFs with structured tables, others send tilted or faded paper scans, and some transmit photos of paper receipts taken on mobile cameras under dim desk lighting.',
-              'We designed the AI Document Processor as a CHESTAADOTCOM internal project to evaluate how modern language models and computer vision can accelerate data ingestion without compromising financial accuracy. Our guiding principle was unyielding: speed gains must never sacrifice bookkeeping and legal integrity.',
+              'We designed the AI Document Processor as a CHESTAADOTCOM sample project to evaluate how modern language models and computer vision can accelerate data ingestion without compromising financial accuracy. Our guiding principle was unyielding: speed gains must never sacrifice bookkeeping and legal integrity.',
             ],
           },
         ],
@@ -1608,7 +1604,7 @@ export const CASE_STUDIES_DATA_EN: CaseStudyItem[] = [
           {
             type: 'text',
             paragraphs: [
-              'All performance figures below are engineering design objectives evaluated during internal simulation testing at CHESTAADOTCOM, not claims from commercial client deployments.',
+              'All performance figures below are engineering design objectives evaluated during design simulation testing at CHESTAADOTCOM, not claims from commercial client deployments.',
             ],
           },
           {
@@ -1659,7 +1655,7 @@ export const CASE_STUDIES_DATA_EN: CaseStudyItem[] = [
           {
             type: 'text',
             paragraphs: [
-              'Amid widespread AI hype, the easiest trap for software engineers is promising complete hands-off autonomy. In this internal project, we consciously rejected that promise.',
+              'Amid widespread AI hype, the easiest trap for software engineers is promising complete hands-off autonomy. In this sample case study, we consciously rejected that promise.',
               'In legal, accounting, and tax contexts, the real-world cost of fixing a faulty entry that slipped into tax filings is exponentially higher than the twenty seconds a staff member takes to inspect a split-screen view.',
               'We intentionally designed low-confidence field alerts with prominent yellow highlights that cannot be overlooked. This visual cue prevents rubber-stamping by actively directing the reviewer’s attention to items requiring genuine judgment. Every adjustment is recorded in an immutable audit log, ensuring complete accountability if external audits occur.',
             ],
@@ -1686,10 +1682,9 @@ export const CASE_STUDIES_DATA_EN: CaseStudyItem[] = [
         ],
       },
     ],
-    metrics: [],
     pullQuote: {
       text: 'Financial document automation is not about letting AI run unmonitored; it cuts manual copy work by 80% while keeping humans in charge of final approval.',
-      attribution: 'Chesta Azka — CHESTAADOTCOM Internal Project Note',
+      attribution: 'Chesta Azka — CHESTAADOTCOM Sample Case Study Note',
     },
     projectSlug: 'pemroses-dokumen',
     relatedServiceSlugs: ['ai-agent', 'software-custom'],
@@ -1698,7 +1693,7 @@ export const CASE_STUDIES_DATA_EN: CaseStudyItem[] = [
     seo: {
       title: 'AI Document Processor System Case Study | CHESTAADOTCOM',
       description:
-        'Internal project case study of AI Document Processor: extracting document data into web tables with human review, split view, and audit logging.',
+        'Sample case study of AI Document Processor: extracting document data into custom web tables with human review, split view, and audit logging.',
     },
   },
 ];

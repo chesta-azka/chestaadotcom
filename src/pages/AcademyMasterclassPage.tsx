@@ -1,7 +1,6 @@
 import { Home, Bookmark, BookmarkCheck, ChevronDown, ChevronRight, ArrowLeft, FileCode, Check, Copy, Share2, Printer, Search, Menu, X, AlignLeft, BrainCircuit, Target } from 'lucide-react';
 import QuizEngine, { QuizQuestion } from '../components/organisms/QuizEngine';
 
-import { codeToHtml } from 'shiki';
 import React, { useState, useEffect }  from 'react';
 import SEOMetadata from '../components/atoms/SEOMetadata';
 import { generateCourseSchema } from '../lib/seo';
@@ -61,6 +60,7 @@ const PremiumCodeBlock = ({ code, language, title, filename }: { code: string, l
     let isMounted = true;
     const highlight = async () => {
       try {
+        const { codeToHtml } = await import('shiki');
         const result = await codeToHtml(code, {
           lang: language || 'text',
           theme: 'github-light',

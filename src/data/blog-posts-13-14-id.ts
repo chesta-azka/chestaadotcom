@@ -40,7 +40,7 @@ export const BLOG_POSTS_13_14_ID_RAW: RawBlogPostInput[] = [
     founderNote: {
       author: 'chesta',
       title: 'Catatan Teknis · Masalahnya Jarang di Model, Tapi di Dokumen Sumber',
-      text: 'Ketika sebuah sistem tanya-jawab internal memberikan jawaban membingungkan, penyebab utamanya hampir selalu berasal dari dua file PDF kebijakan lama yang saling bertentangan di dalam folder perusahaan, bukan karena model bahasanya kurang pintar.',
+      text: 'Ketika sebuah sistem tanya-jawab operasional memberikan jawaban membingungkan, penyebab utamanya hampir selalu berasal dari dua file PDF kebijakan lama yang saling bertentangan di dalam folder perusahaan, bukan karena model bahasanya kurang pintar.',
     },
     content: [
       {
@@ -67,7 +67,7 @@ export const BLOG_POSTS_13_14_ID_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'paragraph',
-        text: 'Model bahasa standar sering menghasilkan jawaban yang terdengar meyakinkan namun keliru karena model tersebut dilatih untuk menebak urutan kata paling wajar dari data publik, bukan membaca aturan internal atau daftar harga terbaru milik perusahaanmu.',
+        text: 'Model bahasa standar sering menghasilkan jawaban yang terdengar meyakinkan namun keliru karena model tersebut dilatih untuk menebak urutan kata paling wajar dari data publik, bukan membaca aturan operasional atau daftar harga terbaru milik perusahaanmu.',
       },
       {
         type: 'paragraph',
@@ -109,7 +109,7 @@ export const BLOG_POSTS_13_14_ID_RAW: RawBlogPostInput[] = [
         items: [
           'Pengumpulan dan pembersihan dokumen: kamu memilih naskah resmi seperti panduan SOP, ketentuan garansi, dan katalog layanan, lalu memastikan teksnya bersih dari catatan usang.',
           'Pemotongan terstruktur (chunking) dan pengindeksan: sistem membagi dokumen panjang menjadi bagian-bagian kecil per topik atau per subjudul, lalu menyimpannya ke dalam basis data pencarian.',
-          'Pencarian kutipan relevan (retrieval): ketika pengguna mengajukan pertanyaan, mesin pencari internal mengambil tiga sampai lima potongan paragraf yang paling berkaitan dengan inti pertanyaan.',
+          'Pencarian kutipan relevan (retrieval): ketika pengguna mengajukan pertanyaan, mesin pencari dokumen mengambil tiga sampai lima potongan paragraf yang paling berkaitan dengan inti pertanyaan.',
           'Penyusunan jawaban terikat sumber (generation): model bahasa membaca potongan paragraf terpilih dan menuliskan jawaban yang rapi kepada pengguna tanpa menambah aturan di luar teks tersebut.',
         ],
       },
@@ -151,9 +151,9 @@ export const BLOG_POSTS_13_14_ID_RAW: RawBlogPostInput[] = [
             'Susun per topik layanan agar potongan panduan mudah diambil secara utuh.',
           ],
           [
-            'SOP internal staf untuk penanganan komplain dan tata cara pembukaan toko',
+            'SOP operasional staf untuk penanganan komplain dan tata cara pembukaan toko',
             'Sangat Cocok',
-            'Indeks ke dalam asisten internal khusus karyawan dengan pembatasan hak akses.',
+            'Indeks ke dalam asisten operasional khusus karyawan dengan pembatasan hak akses.',
           ],
           [
             'Sisa stok bahan baku per jam atau ketersediaan slot jadwal hari ini',
@@ -186,7 +186,7 @@ export const BLOG_POSTS_13_14_ID_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'paragraph',
-        text: 'Untuk dokumen masuk yang formatnya beragam seperti faktur vendor atau formulir pendaftaran PDF, kamu bisa melihat pendekatan pada proyek internal kami, yakni [studi kasus Pemroses Dokumen AI dengan tabel tinjauan manusia](/studi-kasus/pemroses-dokumen). Proyek internal kami tersebut mengekstrak isi dokumen ke dalam kolom terstruktur dan menandai bagian yang meragukan agar diperiksa staf sebelum disimpan ke database.',
+        text: 'Untuk dokumen masuk yang formatnya beragam seperti faktur vendor atau formulir pendaftaran PDF, kamu bisa melihat pendekatan pada contoh proyek kami, yakni [studi kasus Pemroses Dokumen AI dengan tabel tinjauan manusia](/studi-kasus/pemroses-dokumen). Contoh proyek kami tersebut mengekstrak isi dokumen ke dalam kolom terstruktur dan menandai bagian yang meragukan agar diperiksa staf sebelum disimpan ke database.',
       },
       {
         type: 'h2',
@@ -199,7 +199,7 @@ export const BLOG_POSTS_13_14_ID_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'paragraph',
-        text: 'Menyertakan asal kutipan memberikan ketenangan bagi pemilik usaha maupun staf yang mengawasi sistem. Ketika asisten internal menjawab pertanyaan karyawan baru mengenai prosedur cuti, kalimat jawaban yang diakhiri dengan keterangan "(Sumber: Pedoman Karyawan Bab 4, Bagian Cuti Tahunan)" memudahkan siapa pun untuk memeriksa kebenarannya.',
+        text: 'Menyertakan asal kutipan memberikan ketenangan bagi pemilik usaha maupun staf yang mengawasi sistem. Ketika asisten operasional menjawab pertanyaan karyawan baru mengenai prosedur cuti, kalimat jawaban yang diakhiri dengan keterangan "(Sumber: Pedoman Karyawan Bab 4, Bagian Cuti Tahunan)" memudahkan siapa pun untuk memeriksa kebenarannya.',
       },
       {
         type: 'paragraph',
@@ -229,21 +229,21 @@ export const BLOG_POSTS_13_14_ID_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'paragraph',
-        text: 'Keamanan sistem RAG menuntut pemisahan indeks dokumen secara tegas antara informasi publik untuk pelanggan dan dokumen rahasia internal untuk karyawan, ditambah perlindungan terhadap upaya manipulasi instruksi dari pesan masuk.',
+        text: 'Keamanan sistem RAG menuntut pemisahan indeks dokumen secara tegas antara informasi publik untuk pelanggan dan dokumen rahasia operasional untuk karyawan, ditambah perlindungan terhadap upaya manipulasi instruksi dari pesan masuk.',
       },
       {
         type: 'callout',
         variant: 'warning',
-        title: 'Peringatan Keamanan: Jangan Campur Dokumen Internal dan Publik di Satu Indeks',
+        title: 'Peringatan Keamanan: Jangan Campur Dokumen Perusahaan dan Publik di Satu Indeks',
         text: 'Jangan pernah memasukkan dokumen rahasia perusahaan seperti daftar harga modal supplier, kontrak gaji staf, atau data pribadi pelanggan ke dalam koleksi dokumen RAG yang terhubung dengan chatbot publik di website atau WhatsApp. Pisahkan penyimpanan secara fisik agar tidak ada celah kebocoran informasi melalui pertanyaan menjebak.',
       },
       {
         type: 'paragraph',
-        text: 'Jika bisnismu membangun dua asisten berbeda, satu untuk menjawab calon pembeli di WhatsApp dan satu lagi untuk membantu staf gudang mencari SOP, buatlah dua basis data pencarian yang terpisah sepenuhnya. Selain itu, pelajari juga bagaimana izin akses alat diatur melalui standar protokol pada artikel [panduan Model Context Protocol (MCP) untuk bisnis](/blog/apa-itu-mcp-model-context-protocol-panduan-bisnis).',
+        text: 'Jika bisnismu membangun dua asisten berbeda, satu untuk menjawab calon pembeli di WhatsApp dan satu lagi untuk membantu staf gudang mencari SOP, buatlah dua basis data pencarian yang terpisah sepenuhnya. Selain itu, pelajari juga bagaimana izin akses alat diatur melalui standar protokol pada artikel [panduan Model Context Protocol (MCP) untuk bisnis](/blog/mcp-model-context-protocol-untuk-pemilik-bisnis).',
       },
       {
         type: 'paragraph',
-        text: 'Apabila dokumen yang diproses di sistem internal memuat identitas pelanggan, pastikan pengelolaan dan penyimpanannya mematuhi ketentuan Undang-Undang Nomor 27 Tahun 2022 tentang Pelindungan Data Pribadi; cek dokumentasi resmi untuk angka dan ketentuan terbaru.',
+        text: 'Apabila dokumen yang diproses di sistem operasional memuat identitas pelanggan, pastikan pengelolaan dan penyimpanannya mematuhi ketentuan Undang-Undang Nomor 27 Tahun 2022 tentang Pelindungan Data Pribadi; cek dokumentasi resmi untuk angka dan ketentuan terbaru.',
       },
       {
         type: 'h2',
@@ -329,15 +329,15 @@ export const BLOG_POSTS_13_14_ID_RAW: RawBlogPostInput[] = [
       },
       {
         question:
-          'Apakah data dokumen internal perusahaan saya akan bocor ke publik jika memakai RAG?',
+          'Apakah data dokumen perusahaan perusahaan saya akan bocor ke publik jika memakai RAG?',
         answer:
-          'Keamanan dokumen bergantung pada arsitektur penyimpanannya. Selama indeks dokumen internal dipisahkan secara fisik dari chatbot publik dan setiap pencarian menerapkan pemeriksaan hak akses pengguna, dokumen internal hanya dapat diakses oleh staf yang berwenang.',
+          'Keamanan dokumen bergantung pada arsitektur penyimpanannya. Selama indeks dokumen perusahaan dipisahkan secara fisik dari chatbot publik dan setiap pencarian menerapkan pemeriksaan hak akses pengguna, dokumen perusahaan hanya dapat diakses oleh staf yang berwenang.',
       },
     ],
     relatedSlugs: [
-      'apa-itu-mcp-model-context-protocol-panduan-bisnis',
-      'keamanan-ai-agent-bisnis-prompt-injection-akses-data',
-      'perbedaan-ai-agent-dan-chatbot-biasa-untuk-bisnis',
+      'mcp-model-context-protocol-untuk-pemilik-bisnis',
+      'keamanan-ai-agent-prompt-injection-data-pelanggan',
+      'ai-agent-vs-chatbot-perbedaan-untuk-bisnis',
     ],
   },
 
@@ -566,7 +566,7 @@ export const BLOG_POSTS_13_14_ID_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'paragraph',
-        text: 'Pada proyek internal kami di [studi kasus WA Concierge untuk klinik](/studi-kasus/wa-concierge-klinik), seluruh tindakan agent mulai dari pengecekan slot terapis hingga alasan pengalihan ke staf dicatat ke dalam log aktivitas yang dapat diperiksa. Pencatatan log yang transparan memudahkan tim operasional melacak mengapa sebuah percakapan berhasil atau gagal.',
+        text: 'Pada contoh proyek kami di [studi kasus WA Concierge untuk klinik](/studi-kasus/wa-concierge-klinik), seluruh tindakan agent mulai dari pengecekan slot terapis hingga alasan pengalihan ke staf dicatat ke dalam log aktivitas yang dapat diperiksa. Pencatatan log yang transparan memudahkan tim operasional melacak mengapa sebuah percakapan berhasil atau gagal.',
       },
       {
         type: 'paragraph',
@@ -628,14 +628,14 @@ export const BLOG_POSTS_13_14_ID_RAW: RawBlogPostInput[] = [
       },
     ],
     conclusion: [
-      'AI agent bukanlah perangkat yang bisa dipasang sekali lalu ditinggalkan tanpa pengawasan selamanya. Sama seperti staf baru di perusahaanmu, agent membutuhkan target tugas yang jelas, ujian berkala menggunakan kasus nyata, serta tinjauan rutin agar kinerjanya tetap selaras dengan standar layanan bisnismu.',
+      'AI agent bukanlah perangkat yang bisa dipasang sekali lalu ditinggalkan tanpa pengawasan selamanya. Sama seperti staf baru di perusahaanmu, agent membutuhkan target tugas yang jelas, ujian berkala menggunakan contoh skenario operasional, serta tinjauan rutin agar kinerjanya tetap selaras dengan standar layanan bisnismu.',
       'Mulailah dengan menyusun tiga puluh soal uji dari riwayat percakapan pelangganmu, pantau empat metrik utama secara jujur setiap minggu, dan berikan wewenang secara bertahap seiring terbuktinya keandalan sistem di lapangan.',
     ],
     serviceLink: {
       slug: 'ai-agent',
       title: 'Bangun dan Uji AI Agent Bisnismu dengan Standar Evaluasi yang Jelas',
       description:
-        'Kami merancang AI agent lengkap dengan pengujian skenario nyata, aturan human handoff, dan log aktivitas yang mudah diawasi pemilik bisnis. Mulai dari audit gratis 30 menit.',
+        'Kami merancang AI agent lengkap dengan pengujian contoh skenario operasional, aturan human handoff, dan log aktivitas yang mudah diawasi pemilik bisnis. Mulai dari audit gratis 30 menit.',
       href: '/jasa/ai-agent',
       label: 'Lihat Jasa AI Agent',
     },

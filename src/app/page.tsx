@@ -60,7 +60,7 @@ export default function Page() {
                 Forensik Sistem Korporasi
               </span>
               <h3 className="text-2xl md:text-3xl font-display font-bold tracking-tight text-white leading-snug">
-                Bedah Kasus Nyata: Mengapa Sistem Lama Lumpuh & Bagaimana chestaadotcom Menyelamatkannya
+                Contoh Skenario Sistem: Mengapa Sistem Lama Lumpuh & Bagaimana chestaadotcom Menyelamatkannya
               </h3>
               <p className="text-slate-300 text-sm md:text-base leading-relaxed">
                 Pelajari analisis forensik insiden flash sale e-commerce dan latensi core banking QRIS. Bongkar kegagalan arsitektur monolitik dan temukan solusi rekayasa otonom kami.

@@ -16,6 +16,12 @@ import {
 } from '../data/service-areas';
 import { getServicePath, getServiceAreaPath } from '../data/services';
 import { getProjectBySlug } from '../data/projects';
+import {
+  getRealProjectsByServiceSlug,
+  getRealProjectHref,
+  REAL_PROJECT_BADGE_ID,
+  REAL_PROJECT_BADGE_EN,
+} from '../data/experience';
 import { getBlogPostBySlug } from '../data/blog-posts';
 import { SITE_IMAGES } from '../config/images';
 import { resolveRedirectTarget } from '../config/redirects';
@@ -135,7 +141,8 @@ export default function ServiceAreaPage() {
       getLocalizedServiceAreaPage(p.serviceSlug, p.areaSlug, locale) || p
   );
 
-  const relatedInternalProjects = pageData.relatedProjectSlugs
+  const relatedRealProjects = getRealProjectsByServiceSlug(pageData.serviceSlug);
+  const relatedSampleProjects = pageData.relatedProjectSlugs
     .map((slug) => getProjectBySlug(slug, locale))
     .filter((p): p is NonNullable<typeof p> => Boolean(p))
     .slice(0, 2);
@@ -483,22 +490,82 @@ export default function ServiceAreaPage() {
       </section>
 
       {/* =====================================================
-          9. PROYEK INTERNAL TERKAIT + LAYANAN LAIN DI {AREA} + AREA TERDEKAT
+          9. contoh proyek TERKAIT + LAYANAN LAIN DI {AREA} + AREA TERDEKAT
           ===================================================== */}
       <section className="py-16 md:py-24 bg-[#FFFFFF] border-b border-[rgba(91,60,196,0.14)]">
         <Container className="space-y-16">
-          {/* 9A. Proyek internal terkait */}
-          {relatedInternalProjects.length > 0 && (
+          {/* 9A. Proyek terkait (Proyek nyata + Contoh proyek) */}
+          {(relatedRealProjects.length > 0 || relatedSampleProjects.length > 0) && (
             <div>
               <SectionHeading
-                eyebrow={isEn ? 'INTERNAL DEMO PROJECTS' : 'PROYEK INTERNAL'}
+                eyebrow={isEn ? 'RELATED PROJECTS' : 'PROYEK TERKAIT'}
                 title={
-                  isEn ? 'Related internal projects' : 'Proyek internal terkait'
+                  isEn
+                    ? 'Real projects and sample projects'
+                    : 'Proyek nyata dan contoh proyek terkait'
                 }
               />
 
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-6 items-stretch">
-                {relatedInternalProjects.map((proj) => {
+              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
+                {relatedRealProjects.map((realProj) => {
+                  const title = isEn ? realProj.titleEn : realProj.titleId;
+                  const oneLiner = isEn
+                    ? realProj.oneLinerEn
+                    : realProj.oneLinerId;
+                  const badgeLabel = isEn
+                    ? REAL_PROJECT_BADGE_EN
+                    : REAL_PROJECT_BADGE_ID;
+                  const valueNote = isEn
+                    ? realProj.valueNoteEn
+                    : realProj.valueNoteId;
+                  const detailHref = getRealProjectHref(realProj, locale);
+
+                  return (
+                    <Card
+                      key={realProj.id}
+                      variant="highlighted"
+                      padding="lg"
+                      className="h-full flex flex-col justify-between space-y-4"
+                    >
+                      <div className="space-y-3">
+                        <div className="flex flex-wrap items-center gap-1.5">
+                          <Badge variant="tint">{badgeLabel}</Badge>
+                          <Badge variant="outline">
+                            {isEn ? 'Illustration' : 'Ilustrasi'}
+                          </Badge>
+                        </div>
+                        <h3 className="text-[19px] font-semibold text-[#17122B]">
+                          {title}
+                        </h3>
+                        <p className="text-[14px] text-[#5B5675] leading-[1.6]">
+                          {oneLiner}
+                        </p>
+                        {valueNote && (
+                          <p className="font-mono text-[11px] font-semibold text-[#6A3FD0] pt-1">
+                            {valueNote}
+                          </p>
+                        )}
+                      </div>
+
+                      <div className="pt-4 border-t border-[rgba(91,60,196,0.14)] flex items-center justify-between">
+                        <span className="font-mono text-[11px] text-[#5B5675]">
+                          {isEn
+                            ? realProj.confidentialLabelEn
+                            : realProj.confidentialLabelId}
+                        </span>
+                        <Link
+                          to={detailHref}
+                          className="inline-flex items-center gap-1.5 text-[13px] font-semibold text-[#6A3FD0] hover:underline"
+                        >
+                          <span>{isEn ? 'View project' : 'Lihat proyek'}</span>
+                          <ArrowRight size={14} />
+                        </Link>
+                      </div>
+                    </Card>
+                  );
+                })}
+
+                {relatedSampleProjects.map((proj) => {
                   const coverAsset =
                     SITE_IMAGES[proj.cover as keyof typeof SITE_IMAGES] ||
                     SITE_IMAGES.ogDefault;
@@ -523,9 +590,7 @@ export default function ServiceAreaPage() {
                             className="w-full h-full object-cover"
                           />
                           <div className="absolute top-3 left-3 flex flex-wrap gap-1.5">
-                            <Badge variant="tint">
-                              {proj.internalBadgeLabel}
-                            </Badge>
+                            <Badge variant="tint">{proj.badgeLabel}</Badge>
                             <Badge variant="outline">
                               {isEn ? 'Illustration' : 'Ilustrasi'}
                             </Badge>
@@ -546,12 +611,15 @@ export default function ServiceAreaPage() {
                           <p className="font-mono text-[11px] text-[#6A3FD0] pt-1">
                             {proj.outcomesLabel}: {proj.outcomes[0]}
                           </p>
+                          <p className="text-[12px] text-[#5B5675] leading-[1.55] pt-2 border-t border-[rgba(91,60,196,0.12)]">
+                            {proj.sampleNote}
+                          </p>
                         </div>
                       </div>
 
                       <div className="px-6 py-4 bg-[#FFFFFF] border-t border-[rgba(91,60,196,0.14)] flex items-center justify-between">
                         <span className="font-mono text-[11px] text-[#5B5675]">
-                          {proj.client}
+                          {proj.badgeLabel}
                         </span>
                         <Link
                           to={toLocalizedHref(

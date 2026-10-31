@@ -4,7 +4,7 @@ import { ARCHITECTURAL_TEARDOWNS } from '@/data/teardowns';
 import { glossaryTerms } from '@/data/glossary';
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = 'https://chestaadotcom.com';
+  const baseUrl = 'https://chestaa.com';
 
   const staticPages = [
     '',

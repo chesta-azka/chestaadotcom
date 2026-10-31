@@ -40,15 +40,15 @@ export default async function CaseStudyDetailPage({ params }: PageProps) {
     description: cs.problem,
     author: {
       '@type': 'Organization',
-      name: 'chestaadotcom',
-      url: 'https://chestaadotcom.com',
+      name: 'CHESTAADOTCOM',
+      url: 'https://chestaa.com',
     },
     publisher: {
       '@type': 'Organization',
-      name: 'chestaadotcom',
+      name: 'CHESTAADOTCOM',
       logo: {
         '@type': 'ImageObject',
-        url: 'https://chestaadotcom.com/logo.png',
+        url: 'https://chestaa.com/favicon.svg',
       },
     },
     about: {
@@ -105,13 +105,13 @@ export default async function CaseStudyDetailPage({ params }: PageProps) {
             {cs.summary}
           </p>
 
-          {/* Key Metrics Grid */}
+          {/* Design Targets Grid */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-6 border-t border-slate-100">
-            {cs.metrics.map((m, idx) => (
+            {cs.targets.map((m, idx) => (
               <div key={idx} className="p-5 rounded-2xl bg-slate-50 border border-slate-200/80 shadow-xs">
                 <div className="text-xs font-mono uppercase tracking-wider text-slate-500 mb-1">{m.label}</div>
                 <div className="text-2xl font-black text-purple-950">{m.value}</div>
-                <div className="text-xs font-semibold text-emerald-700 mt-1">{m.change}</div>
+                <div className="text-xs font-semibold text-purple-700 mt-1">{m.note}</div>
               </div>
             ))}
           </div>

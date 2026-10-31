@@ -25,10 +25,14 @@ export function sanitizeFaqEntries(faqs: FAQEntry[]): { question: string; answer
   return faqs
     .map((item) => {
       const question = (item.question || item.q || '')
+        .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '$1')
         .replace(/<[^>]*>/g, '')
+        .replace(/\*\*/g, '')
+        .replace(/`/g, '')
         .trim();
       const rawAnswer = (item.answer || item.a || '').trim();
       const answer = rawAnswer
+        .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '$1')
         .replace(/<[^>]*>/g, '')
         .replace(/\*\*/g, '')
         .replace(/`/g, '')

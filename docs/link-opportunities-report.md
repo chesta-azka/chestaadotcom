@@ -18,9 +18,11 @@ Laporan otomatis ini memindai tempat di mana sebuah artikel menyebutkan frasa ku
 | Artikel Sumber | Bahasa | Frasa / Istilah yang Disebut | Target Tautan yang Disarankan | Jenis Target |
 | :--- | :---: | :--- | :--- | :--- |
 | `/id/blog/panduan-lengkap-cara-kerja-agentic-ai-untuk-pemula` | ID | "Webhook" | `/id/blog/webhook-dan-api-otomasi-antar-aplikasi-bisnis` | Artikel Klaster (`otomasi-dan-software`) |
+| `/id/blog/panduan-lengkap-cara-kerja-agentic-ai-untuk-pemula` | ID | "UU PDP" | `/id/blog/uu-pdp-bisnis-whatsapp-ai-panduan-praktis` | Artikel Klaster (`agentic-ai`) |
+| `/id/blog/panduan-lengkap-cara-kerja-agentic-ai-untuk-pemula` | ID | "AI Agent" | `/id/blog/ai-agent-vs-chatbot-perbedaan-untuk-bisnis` | Artikel Klaster (`agentic-ai`) |
+| `/id/blog/panduan-lengkap-cara-kerja-agentic-ai-untuk-pemula` | ID | "Model Context Protocol" | `/id/blog/mcp-model-context-protocol-untuk-pemilik-bisnis` | Artikel Klaster (`agentic-ai`) |
 | `/id/blog/tool-use-function-calling-ai-agent-bisnis` | ID | "Webhook" | `/id/blog/webhook-dan-api-otomasi-antar-aplikasi-bisnis` | Artikel Klaster (`otomasi-dan-software`) |
 | `/id/blog/tool-use-function-calling-ai-agent-bisnis` | ID | "AI Agent" | `/id/blog/ai-agent-vs-chatbot-perbedaan-untuk-bisnis` | Artikel Klaster (`agentic-ai`) |
-| `/id/blog/tool-use-function-calling-ai-agent-bisnis` | ID | "Model Context Protocol" | `/id/blog/mcp-model-context-protocol-untuk-pemilik-bisnis` | Artikel Klaster (`agentic-ai`) |
 | `/id/blog/memori-ai-agent-bisnis-retensi-dan-privasi` | ID | "AI Agent" | `/id/blog/ai-agent-vs-chatbot-perbedaan-untuk-bisnis` | Artikel Klaster (`agentic-ai`) |
 | `/id/blog/multi-agent-vs-single-agent-arsitektur-bisnis` | ID | "Webhook" | `/id/blog/webhook-dan-api-otomasi-antar-aplikasi-bisnis` | Artikel Klaster (`otomasi-dan-software`) |
 | `/id/blog/multi-agent-vs-single-agent-arsitektur-bisnis` | ID | "AI Agent" | `/id/blog/ai-agent-vs-chatbot-perbedaan-untuk-bisnis` | Artikel Klaster (`agentic-ai`) |
@@ -44,9 +46,7 @@ Laporan otomatis ini memindai tempat di mana sebuah artikel menyebutkan frasa ku
 | `/id/blog/human-handoff-ai-agent-kapan-serahkan-ke-manusia` | ID | "Webhook" | `/id/blog/webhook-dan-api-otomasi-antar-aplikasi-bisnis` | Artikel Klaster (`otomasi-dan-software`) |
 | `/id/blog/human-handoff-ai-agent-kapan-serahkan-ke-manusia` | ID | "WhatsApp Business API" | `/id/blog/whatsapp-business-app-vs-api-untuk-bisnis` | Artikel Klaster (`agentic-ai`) |
 | `/id/blog/human-handoff-ai-agent-kapan-serahkan-ke-manusia` | ID | "AI Agent" | `/id/blog/ai-agent-vs-chatbot-perbedaan-untuk-bisnis` | Artikel Klaster (`agentic-ai`) |
-| `/id/blog/human-handoff-ai-agent-kapan-serahkan-ke-manusia` | ID | "Otomasi WhatsApp" | `/id/blog/otomasi-whatsapp-ai-klinik-fnb-alur-kerja` | Artikel Klaster (`otomasi-dan-software`) |
 | `/id/blog/rag-untuk-pemilik-bisnis-ai-menjawab-dari-dokumen` | ID | "AI Agent" | `/id/blog/ai-agent-vs-chatbot-perbedaan-untuk-bisnis` | Artikel Klaster (`agentic-ai`) |
-| `/id/blog/rag-untuk-pemilik-bisnis-ai-menjawab-dari-dokumen` | ID | "Model Context Protocol" | `/id/blog/mcp-model-context-protocol-untuk-pemilik-bisnis` | Artikel Klaster (`agentic-ai`) |
 | `/id/blog/evaluasi-ai-agent-cara-mengukur-kinerja-agent-bisnis` | ID | "AI Agent" | `/id/blog/ai-agent-vs-chatbot-perbedaan-untuk-bisnis` | Artikel Klaster (`agentic-ai`) |
 | `/id/blog/nextjs-vs-wordpress-untuk-bisnis-lokal-cara-memilih` | ID | "Landing Page" | `/id/blog/landing-page-iklan-meta-google-konversi-tinggi` | Artikel Klaster (`website-dan-performa`) |
 | `/id/blog/nextjs-vs-wordpress-untuk-bisnis-lokal-cara-memilih` | ID | "Core Web Vitals" | `/id/blog/core-web-vitals-pemilik-bisnis-lcp-inp-cls` | Artikel Klaster (`website-dan-performa`) |
@@ -56,7 +56,7 @@ Laporan otomatis ini memindai tempat di mana sebuah artikel menyebutkan frasa ku
 | `/id/blog/schema-markup-untuk-bisnis-lokal-panduan-praktis` | ID | "Jasa Pembuatan Website" | `/id/blog/cara-memilih-jasa-pembuatan-website-tangerang-selatan` | Artikel Klaster (`biaya-dan-memilih-vendor`) |
 | `/id/blog/schema-markup-untuk-bisnis-lokal-panduan-praktis` | ID | "Next.js" | `/id/blog/nextjs-vs-wordpress-untuk-bisnis-lokal-cara-memilih` | Artikel Klaster (`website-dan-performa`) |
 | `/id/blog/otomasi-invoice-dan-penagihan-jasa-profesional` | ID | "WhatsApp Business API" | `/id/blog/whatsapp-business-app-vs-api-untuk-bisnis` | Artikel Klaster (`agentic-ai`) |
-| `/id/blog/ai-untuk-kos-kosan-dan-properti-sewa` | ID | "UU PDP" | `/id/blog/uu-pdp-bisnis-whatsapp-ai-panduan-praktis` | Artikel Klaster (`agentic-ai`) |
+| `/id/blog/otomasi-invoice-dan-penagihan-jasa-profesional` | ID | "orkestrasi workflow" | `/id/blog/n8n-make-zapier-kode-custom-pilih-otomasi` | Artikel Klaster (`otomasi-dan-software`) |
 | `/id/blog/ai-untuk-kos-kosan-dan-properti-sewa` | ID | "AI Agent" | `/id/blog/ai-agent-vs-chatbot-perbedaan-untuk-bisnis` | Artikel Klaster (`agentic-ai`) |
 | `/id/blog/whatsapp-business-app-vs-api-untuk-bisnis` | ID | "Webhook" | `/id/blog/webhook-dan-api-otomasi-antar-aplikasi-bisnis` | Artikel Klaster (`otomasi-dan-software`) |
 | `/id/blog/whatsapp-business-app-vs-api-untuk-bisnis` | ID | "AI Agent" | `/id/blog/ai-agent-vs-chatbot-perbedaan-untuk-bisnis` | Artikel Klaster (`agentic-ai`) |
@@ -77,18 +77,17 @@ Laporan otomatis ini memindai tempat di mana sebuah artikel menyebutkan frasa ku
 | `/id/blog/otomasi-workflow-bisnis-n8n-make-pekerjaan-repetitif` | ID | "Webhook" | `/id/blog/webhook-dan-api-otomasi-antar-aplikasi-bisnis` | Artikel Klaster (`otomasi-dan-software`) |
 | `/id/blog/otomasi-workflow-bisnis-n8n-make-pekerjaan-repetitif` | ID | "AI Agent" | `/id/blog/ai-agent-vs-chatbot-perbedaan-untuk-bisnis` | Artikel Klaster (`agentic-ai`) |
 | `/id/blog/otomasi-workflow-bisnis-n8n-make-pekerjaan-repetitif` | ID | "Landing Page" | `/id/blog/kenapa-landing-page-lambat-bikin-iklan-boncos` | Artikel Klaster (`website-dan-performa`) |
-| `/id/blog/kenapa-landing-page-lambat-bikin-iklan-boncos` | ID | "Jasa Pembuatan Website" | `/id/blog/cara-memilih-jasa-pembuatan-website-tangerang-selatan` | Artikel Klaster (`biaya-dan-memilih-vendor`) |
+| `/id/blog/kenapa-landing-page-lambat-bikin-iklan-boncos` | ID | "Landing Page" | `/id/blog/landing-page-iklan-meta-google-konversi-tinggi` | Artikel Klaster (`website-dan-performa`) |
 | `/id/blog/berapa-biaya-bikin-website-bisnis-panduan-harga` | ID | "Landing Page" | `/id/blog/landing-page-iklan-meta-google-konversi-tinggi` | Artikel Klaster (`website-dan-performa`) |
-| `/id/blog/otomasi-whatsapp-ai-klinik-fnb-alur-kerja` | ID | "AI Agent" | `/id/blog/ai-agent-vs-chatbot-perbedaan-untuk-bisnis` | Artikel Klaster (`agentic-ai`) |
+| `/id/blog/otomasi-whatsapp-ai-klinik-fnb-alur-kerja` | ID | "Webhook" | `/id/blog/webhook-dan-api-otomasi-antar-aplikasi-bisnis` | Artikel Klaster (`otomasi-dan-software`) |
 | `/id/blog/checklist-landing-page-konversi-tinggi-bisnis-jasa` | ID | "Landing Page" | `/id/blog/landing-page-iklan-meta-google-konversi-tinggi` | Artikel Klaster (`website-dan-performa`) |
-| `/id/blog/seo-lokal-bisnis-bsd-tangerang-selatan-google-maps` | ID | "Jasa Pembuatan Website" | `/id/blog/cara-memilih-jasa-pembuatan-website-tangerang-selatan` | Artikel Klaster (`biaya-dan-memilih-vendor`) |
+| `/id/blog/seo-lokal-bisnis-bsd-tangerang-selatan-google-maps` | ID | "Webhook" | `/id/blog/webhook-dan-api-otomasi-antar-aplikasi-bisnis` | Artikel Klaster (`otomasi-dan-software`) |
 | `/en/blog/a-complete-guide-to-how-agentic-ai-works-for-beginners` | EN | "Webhook" | `/en/blog/webhooks-and-apis-cross-app-automation-business` | Artikel Klaster (`otomasi-dan-software`) |
 | `/en/blog/tool-use-function-calling-ai-agents-business` | EN | "Webhook" | `/en/blog/webhooks-and-apis-cross-app-automation-business` | Artikel Klaster (`otomasi-dan-software`) |
 | `/en/blog/ai-agent-memory-retention-privacy-business` | EN | "AI Agent" | `/en/blog/ai-agent-vs-chatbot-difference-for-business` | Artikel Klaster (`agentic-ai`) |
 | `/en/blog/multi-agent-vs-single-agent-business-architecture` | EN | "Webhook" | `/en/blog/webhooks-and-apis-cross-app-automation-business` | Artikel Klaster (`otomasi-dan-software`) |
 | `/en/blog/monthly-operating-costs-ai-agents-business` | EN | "Webhook" | `/en/blog/webhooks-and-apis-cross-app-automation-business` | Artikel Klaster (`otomasi-dan-software`) |
 | `/en/blog/designing-whatsapp-conversation-flows-ai-agents` | EN | "Human Handoff" | `/en/blog/human-handoff-ai-agent-when-to-escalate-to-humans` | Artikel Klaster (`agentic-ai`) |
-| `/en/blog/landing-pages-meta-google-ads-high-conversion` | EN | "Landing Page Checklist" | `/en/blog/high-converting-landing-page-checklist-for-service-businesses` | Artikel Klaster (`website-dan-performa`) |
 | `/en/blog/webhooks-and-apis-cross-app-automation-business` | EN | "WhatsApp Flow" | `/en/blog/designing-whatsapp-conversation-flows-ai-agents` | Artikel Klaster (`agentic-ai`) |
 | `/en/blog/local-business-website-security-12-essential-steps` | EN | "Landing Page" | `/en/blog/landing-pages-meta-google-ads-high-conversion` | Artikel Klaster (`website-dan-performa`) |
 | `/en/blog/how-to-choose-web-development-service-south-tangerang` | EN | "Landing Page" | `/en/blog/landing-pages-meta-google-ads-high-conversion` | Artikel Klaster (`website-dan-performa`) |
@@ -99,7 +98,7 @@ Laporan otomatis ini memindai tempat di mana sebuah artikel menyebutkan frasa ku
 | `/en/blog/website-and-system-maintenance-costs-after-launch` | EN | "AI Agent" | `/en/blog/ai-agent-vs-chatbot-difference-for-business` | Artikel Klaster (`agentic-ai`) |
 | `/en/blog/schema-markup-for-local-businesses-practical-guide` | EN | "Next.js" | `/en/blog/nextjs-vs-wordpress-for-local-business-how-to-choose` | Artikel Klaster (`website-dan-performa`) |
 | `/en/blog/invoice-and-billing-automation-for-professional-services` | EN | "WhatsApp Business API" | `/en/blog/whatsapp-business-app-vs-api-for-business` | Artikel Klaster (`agentic-ai`) |
-| `/en/blog/ai-for-boarding-houses-and-rental-properties` | EN | "Indonesian PDP Law" | `/en/blog/pdp-law-indonesia-business-whatsapp-ai` | Artikel Klaster (`agentic-ai`) |
+| `/en/blog/ai-for-boarding-houses-and-rental-properties` | EN | "AI Agent" | `/en/blog/ai-agent-vs-chatbot-difference-for-business` | Artikel Klaster (`agentic-ai`) |
 | `/en/blog/whatsapp-business-app-vs-api-for-business` | EN | "Webhook" | `/en/blog/webhooks-and-apis-cross-app-automation-business` | Artikel Klaster (`otomasi-dan-software`) |
 | `/en/blog/ai-agent-security-prompt-injection-customer-data` | EN | "AI Agent" | `/en/blog/ai-agent-vs-chatbot-difference-for-business` | Artikel Klaster (`agentic-ai`) |
 | `/en/blog/pdp-law-indonesia-business-whatsapp-ai` | EN | "AI Agent" | `/en/blog/ai-agent-vs-chatbot-difference-for-business` | Artikel Klaster (`agentic-ai`) |
@@ -109,8 +108,8 @@ Laporan otomatis ini memindai tempat di mana sebuah artikel menyebutkan frasa ku
 | `/en/blog/mcp-model-context-protocol-for-business-owners` | EN | "Webhook" | `/en/blog/webhooks-and-apis-cross-app-automation-business` | Artikel Klaster (`otomasi-dan-software`) |
 | `/en/blog/geo-and-aeo-how-local-businesses-rank-in-ai-answers` | EN | "Landing Page" | `/en/blog/landing-pages-meta-google-ads-high-conversion` | Artikel Klaster (`website-dan-performa`) |
 | `/en/blog/business-workflow-automation-n8n-make-repetitive-tasks` | EN | "Landing Page" | `/en/blog/landing-pages-meta-google-ads-high-conversion` | Artikel Klaster (`website-dan-performa`) |
-| `/en/blog/why-slow-landing-pages-waste-ad-spend` | EN | "AI Agent" | `/en/blog/ai-agent-vs-chatbot-difference-for-business` | Artikel Klaster (`agentic-ai`) |
+| `/en/blog/why-slow-landing-pages-waste-ad-spend` | EN | "Landing Page" | `/en/blog/landing-pages-meta-google-ads-high-conversion` | Artikel Klaster (`website-dan-performa`) |
 | `/en/blog/how-much-does-a-business-website-cost-pricing-guide` | EN | "Landing Page" | `/en/blog/landing-pages-meta-google-ads-high-conversion` | Artikel Klaster (`website-dan-performa`) |
-| `/en/blog/whatsapp-ai-automation-for-clinics-and-fnb-workflows` | EN | "AI Agent" | `/en/blog/ai-agent-vs-chatbot-difference-for-business` | Artikel Klaster (`agentic-ai`) |
+| `/en/blog/whatsapp-ai-automation-for-clinics-and-fnb-workflows` | EN | "Webhook" | `/en/blog/webhooks-and-apis-cross-app-automation-business` | Artikel Klaster (`otomasi-dan-software`) |
 | `/en/blog/high-converting-landing-page-checklist-for-service-businesses` | EN | "Landing Page" | `/en/blog/landing-pages-meta-google-ads-high-conversion` | Artikel Klaster (`website-dan-performa`) |
-| `/en/blog/local-seo-guide-for-bsd-and-south-tangerang-businesses` | EN | "AI Agent" | `/en/blog/ai-agent-vs-chatbot-difference-for-business` | Artikel Klaster (`agentic-ai`) |
+| `/en/blog/local-seo-guide-for-bsd-and-south-tangerang-businesses` | EN | "Webhook" | `/en/blog/webhooks-and-apis-cross-app-automation-business` | Artikel Klaster (`otomasi-dan-software`) |

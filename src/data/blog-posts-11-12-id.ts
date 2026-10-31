@@ -75,7 +75,7 @@ export const BLOG_POSTS_11_12_ID_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'paragraph',
-        text: 'Sumber penyesalan kedua adalah hilangnya kendali atas aset nama bisnis. Sebagian penyedia mendaftarkan domain menggunakan alamat email internal mereka tanpa memberi tahu klien. Ketika pemilik usaha ingin berpindah server di tahun berikutnya, proses transfer menjadi berbelit karena nama pendaftar resmi di registrar bukan nama pemilik bisnis.',
+        text: 'Sumber penyesalan kedua adalah hilangnya kendali atas aset nama bisnis. Sebagian penyedia mendaftarkan domain menggunakan alamat email operasional mereka tanpa memberi tahu klien. Ketika pemilik usaha ingin berpindah server di tahun berikutnya, proses transfer menjadi berbelit karena nama pendaftar resmi di registrar bukan nama pemilik bisnis.',
       },
       {
         type: 'paragraph',
@@ -124,7 +124,7 @@ export const BLOG_POSTS_11_12_ID_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'paragraph',
-        text: 'Gambar statis di file presentasi tidak menunjukkan bagaimana halaman bereaksi saat digulir dengan ibu jari di layar ponsel ukuran 375 piksel. Mintalah dua atau tiga tautan situs yang sedang aktif, termasuk proyek internal mereka sendiri jika ada, lalu bukalah langsung dari ponselmu untuk merasakan kenyamanan navigasinya.',
+        text: 'Gambar statis di file presentasi tidak menunjukkan bagaimana halaman bereaksi saat digulir dengan ibu jari di layar ponsel ukuran 375 piksel. Mintalah dua atau tiga tautan situs yang sedang aktif, termasuk contoh proyek mereka sendiri jika ada, lalu bukalah langsung dari ponselmu untuk merasakan kenyamanan navigasinya.',
       },
       {
         type: 'h3',
@@ -266,7 +266,7 @@ export const BLOG_POSTS_11_12_ID_RAW: RawBlogPostInput[] = [
         type: 'ul',
         title: 'Lima tanda bahaya yang patut membuatmu menahan pembayaran uang muka:',
         items: [
-          'Penyedia menolak mendaftarkan domain atas nama email milikmu dengan alasan prosedur teknis internal yang rumit.',
+          'Penyedia menolak mendaftarkan domain atas nama email milikmu dengan alasan prosedur teknis mereka yang rumit.',
           'Surat penawaran hanya mencantumkan satu angka total tanpa merinci jumlah halaman, fitur formulir, dan batas waktu pengerjaan.',
           'Semua contoh portofolio yang ditunjukkan hanyalah gambar pratinjau desain tanpa satu pun alamat situs aktif yang bisa diuji.',
           'Biaya perpanjangan tahun kedua dipatok jauh melebihi harga wajar domain dan server tanpa rincian layanan perawatan yang jelas.',
@@ -359,7 +359,7 @@ export const BLOG_POSTS_11_12_ID_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'paragraph',
-        text: 'Untuk pertanyaan satu sampai empat mengenai bukti kerja dan struktur halaman, kamu dapat memeriksa langsung proyek internal kami pada [studi kasus pembangunan ulang situs dua bahasa chestaa.com v2](/studi-kasus/chestaa-v2). Proyek internal kami tersebut dibangun sebagai situs statis yang ringan, dilengkapi urutan penawaran yang jelas, serta diuji pada layar seluler 375 piksel.',
+        text: 'Untuk pertanyaan satu sampai empat mengenai bukti kerja dan struktur halaman, kamu dapat memeriksa langsung contoh proyek kami pada [studi kasus pembangunan ulang situs dua bahasa chestaa.com v2](/studi-kasus/chestaa-v2). Contoh proyek kami tersebut dibangun sebagai situs statis yang ringan, dilengkapi urutan penawaran yang jelas, serta diuji pada layar seluler 375 piksel.',
       },
       {
         type: 'paragraph',
@@ -482,7 +482,7 @@ export const BLOG_POSTS_11_12_ID_RAW: RawBlogPostInput[] = [
     founderNote: {
       author: 'chesta',
       title: 'Catatan Teknis · Tombol Henti Otomatis Saat Staf Masuk',
-      text: 'Dalam perancangan arsitektur proyek internal kami, aturan paling krusial bukanlah prompt sapaan awal, melainkan pengunci status sesi yang memastikan agent langsung berhenti membalas detik itu juga saat pemicu komplain atau keluhan medis terdeteksi.',
+      text: 'Dalam perancangan arsitektur contoh proyek kami, aturan paling krusial bukanlah prompt sapaan awal, melainkan pengunci status sesi yang memastikan agent langsung berhenti membalas detik itu juga saat pemicu komplain atau keluhan medis terdeteksi.',
     },
     content: [
       {
@@ -539,7 +539,7 @@ export const BLOG_POSTS_11_12_ID_RAW: RawBlogPostInput[] = [
           'Klasifikasi niat atau aturan sistem mendeteksi bahwa pesan masuk memenuhi salah satu syarat pengalihan ke manusia.',
           'Sistem mengubah status ruang obrolan pelanggan dari mode otomatis menjadi mode antrean staf manusia sehingga bot terkunci dan tidak membalas pesan berikutnya.',
           'Agent mengirimkan satu pesan transisi yang sopan kepada pelanggan untuk menjelaskan bahwa rekan tim manusia akan segera membantu.',
-          'Sistem menyusun ringkasan pendek dari riwayat obrolan terakhir dan mengirimkannya ke saluran notifikasi internal staf yang berwenang.',
+          'Sistem menyusun ringkasan pendek dari riwayat obrolan terakhir dan mengirimkannya ke saluran notifikasi operasional staf yang berwenang.',
           'Staf manusia membuka ruang obrolan, membaca kartu ringkasan dalam sepuluh detik, dan langsung melanjutkan percakapan dengan solusi yang relevan.',
         ],
       },
@@ -630,7 +630,7 @@ export const BLOG_POSTS_11_12_ID_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'paragraph',
-        text: 'Agar staf admin kamu bisa langsung masuk ke inti persoalan dalam waktu kurang dari lima belas detik, aturlah agar sistem menghasilkan catatan internal terstruktur sebelum mengirim notifikasi. Berikut contoh skema muatan data serah terima yang bersih:',
+        text: 'Agar staf admin kamu bisa langsung masuk ke inti persoalan dalam waktu kurang dari lima belas detik, aturlah agar sistem menghasilkan catatan operasional terstruktur sebelum mengirim notifikasi. Berikut contoh skema muatan data serah terima yang bersih:',
       },
       {
         type: 'code',
@@ -735,7 +735,7 @@ export const BLOG_POSTS_11_12_ID_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'paragraph',
-        text: 'Contoh nyata alur ini dapat kamu pelajari pada proyek internal kami, yaitu [studi kasus WA Concierge untuk alur booking klinik](/studi-kasus/wa-concierge-klinik). Dalam proyek internal kami tersebut, agent dirancang untuk memeriksa slot terapis dan mencatat jadwal, namun begitu pasien melaporkan keluhan iritasi kulit setelah perawatan, agent langsung berhenti memberi saran medis dan menyerahkan kartu ringkasan ke staf klinik.',
+        text: 'Contoh nyata alur ini dapat kamu pelajari pada contoh proyek kami, yaitu [studi kasus WA Concierge untuk alur booking klinik](/studi-kasus/wa-concierge-klinik). Dalam contoh proyek kami tersebut, agent dirancang untuk memeriksa slot terapis dan mencatat jadwal, namun begitu pasien melaporkan keluhan iritasi kulit setelah perawatan, agent langsung berhenti memberi saran medis dan menyerahkan kartu ringkasan ke staf klinik.',
       },
       {
         type: 'paragraph',
@@ -743,7 +743,7 @@ export const BLOG_POSTS_11_12_ID_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'paragraph',
-        text: 'Dalam contoh skenario tersebut, seorang pasien lama mengirim pesan bahwa gusinya masih berdarah pasca-tindakan pencabutan gigi tadi pagi. Karena aturan handoff sudah dipasang dengan benar pada layanan [perancangan AI agent bisnis](/jasa/ai-agent), sistem langsung mengenali laporan pasca-tindakan, mengunci balasan bot, memberi tahu pasien bahwa perawat jaga segera menghubungi, dan mengirim kartu ringkasan ke telepon meja resepsionis. Kamu juga bisa membaca ulasan terkait di artikel [penerapan otomasi WhatsApp dan AI agent untuk klinik serta F&B](/blog/otomasi-whatsapp-ai-agent-untuk-klinik-dan-fnb).',
+        text: 'Dalam contoh skenario tersebut, seorang pasien lama mengirim pesan bahwa gusinya masih berdarah pasca-tindakan pencabutan gigi tadi pagi. Karena aturan handoff sudah dipasang dengan benar pada layanan [perancangan AI agent bisnis](/jasa/ai-agent), sistem langsung mengenali laporan pasca-tindakan, mengunci balasan bot, memberi tahu pasien bahwa perawat jaga segera menghubungi, dan mengirim kartu ringkasan ke telepon meja resepsionis. Kamu juga bisa membaca ulasan terkait di artikel [penerapan otomasi WhatsApp dan AI agent untuk klinik serta F&B](/blog/otomasi-whatsapp-ai-klinik-fnb-alur-kerja).',
       },
       {
         type: 'h2',
@@ -762,7 +762,7 @@ export const BLOG_POSTS_11_12_ID_RAW: RawBlogPostInput[] = [
           'Kata kunci dan pola kalimat permintaan bicara langsung dengan manusia sudah diuji dan langsung memicu pengalihan pada kesempatan pertama.',
           'Status sesi percakapan otomatis berubah menjadi terkunci (bot diam) begitu percakapan dialihkan ke antrean staf manusia.',
           'Format kartu ringkasan serah terima sudah memuat nama pelanggan, topik pembicaraan, dan alasan eskalasi dalam maksimal lima baris.',
-          'Saluran notifikasi staf (baik lewat dasbor helpdesk, grup internal, maupun pesan khusus) sudah memiliki penanggung jawab per shift kerja.',
+          'Saluran notifikasi staf (baik lewat dasbor helpdesk, grup tim, maupun pesan khusus) sudah memiliki penanggung jawab per shift kerja.',
           'Pesan transisi ke pelanggan sudah dibedakan antara kondisi di dalam jam kerja aktif dan kondisi di luar jam operasional.',
           'Staf admin memiliki satu tombol atau perintah jelas untuk mengembalikan status sesi ke mode otomatis setelah urusan pelanggan selesai.',
           'Terdapat jadwal tinjauan mingguan untuk membaca log percakapan yang dialihkan guna memperbaiki aturan pemicu yang kurang pas.',
@@ -837,9 +837,9 @@ export const BLOG_POSTS_11_12_ID_RAW: RawBlogPostInput[] = [
       },
     ],
     relatedSlugs: [
-      'otomasi-whatsapp-ai-agent-untuk-klinik-dan-fnb',
-      'perbedaan-ai-agent-dan-chatbot-biasa-untuk-bisnis',
-      'keamanan-ai-agent-bisnis-prompt-injection-akses-data',
+      'otomasi-whatsapp-ai-klinik-fnb-alur-kerja',
+      'ai-agent-vs-chatbot-perbedaan-untuk-bisnis',
+      'keamanan-ai-agent-prompt-injection-data-pelanggan',
     ],
   },
 ];

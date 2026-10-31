@@ -23,6 +23,12 @@ import {
 } from '../data/services';
 import { getServiceAreasByServiceSlug } from '../data/service-areas';
 import { getProjectsByServiceSlug } from '../data/projects';
+import {
+  getRealProjectsByServiceSlug,
+  getRealProjectHref,
+  REAL_PROJECT_BADGE_ID,
+  REAL_PROJECT_BADGE_EN,
+} from '../data/experience';
 import { getBlogPostBySlug } from '../data/blog-posts';
 import { SITE_IMAGES } from '../config/images';
 import { lineDrawElement } from '../lib/motion';
@@ -183,7 +189,8 @@ export default function ServiceDetailPage() {
   const prev = getLocalizedService(rawPrev.slug, locale) || rawPrev;
   const next = getLocalizedService(rawNext.slug, locale) || rawNext;
 
-  const relatedInternalProjects = getProjectsByServiceSlug(service.slug, locale);
+  const relatedRealProjects = getRealProjectsByServiceSlug(service.slug);
+  const relatedSampleProjects = getProjectsByServiceSlug(service.slug, locale);
 
   const relatedPosts = service.relatedPostSlugs
     .map((postSlug) => getBlogPostBySlug(postSlug, locale))
@@ -935,22 +942,84 @@ export default function ServiceDetailPage() {
       </section>
 
       {/* =====================================================
-          11. PROYEK INTERNAL TERKAIT (CARDS FROM data/projects WITH "Proyek internal" BADGE)
+          11. PROYEK TERKAIT (PROYEK NYATA + CONTOH PROYEK)
           ===================================================== */}
       <section className="py-16 md:py-24 bg-[#FFFFFF] border-b border-[rgba(91,60,196,0.14)] cv-auto">
         <Container>
           <SectionHeading
-            eyebrow={isEn ? 'INTERNAL DEMO PROJECTS' : 'PROYEK INTERNAL'}
-            title={isEn ? 'Related internal projects' : 'Proyek internal terkait'}
+            eyebrow={isEn ? 'RELATED PROJECTS' : 'PROYEK TERKAIT'}
+            title={
+              isEn
+                ? 'Real projects and sample projects for this service'
+                : 'Proyek nyata dan contoh proyek terkait'
+            }
             description={
               isEn
-                ? 'Internal CHESTAADOTCOM projects built to demonstrate our system architecture and workflow standards.'
-                : 'Proyek internal CHESTAADOTCOM yang kami bangun untuk menunjukkan standar arsitektur dan alur kerja sistem.'
+                ? 'Real projects with confidential clients alongside sample projects designed to show our workflow.'
+                : 'Proyek nyata dengan klien dirahasiakan serta contoh proyek yang dirancang untuk memperlihatkan alur kerja kami.'
             }
           />
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
-            {relatedInternalProjects.map((proj) => {
+            {relatedRealProjects.map((realProj) => {
+              const title = isEn ? realProj.titleEn : realProj.titleId;
+              const oneLiner = isEn ? realProj.oneLinerEn : realProj.oneLinerId;
+              const badgeLabel = isEn
+                ? REAL_PROJECT_BADGE_EN
+                : REAL_PROJECT_BADGE_ID;
+              const valueNote = isEn
+                ? realProj.valueNoteEn
+                : realProj.valueNoteId;
+              const detailHref = getRealProjectHref(realProj, locale);
+
+              return (
+                <Card
+                  key={realProj.id}
+                  variant="highlighted"
+                  padding="lg"
+                  className="h-full flex flex-col justify-between space-y-5"
+                >
+                  <div className="space-y-4">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <Badge variant="tint">{badgeLabel}</Badge>
+                      <Badge variant="outline">
+                        {isEn ? 'Illustration' : 'Ilustrasi'}
+                      </Badge>
+                    </div>
+                    <h3 className="text-[19px] font-semibold text-[#17122B]">
+                      {title}
+                    </h3>
+                    <p className="text-[14px] text-[#5B5675] leading-[1.65]">
+                      {oneLiner}
+                    </p>
+                    {valueNote && (
+                      <div className="p-3 rounded-[14px] bg-[#EFEAFB] border border-[rgba(91,60,196,0.18)]">
+                        <p className="font-mono text-[12px] font-semibold text-[#6A3FD0]">
+                          {valueNote}
+                        </p>
+                      </div>
+                    )}
+                  </div>
+
+                  <div className="pt-4 border-t border-[rgba(91,60,196,0.14)] flex items-center justify-between">
+                    <span className="font-mono text-[11px] text-[#5B5675]">
+                      {isEn
+                        ? realProj.confidentialLabelEn
+                        : realProj.confidentialLabelId}
+                    </span>
+                    <Link
+                      to={detailHref}
+                      className="inline-flex items-center gap-1.5 text-[13px] font-semibold text-[#6A3FD0] hover:underline"
+                    >
+                      <span>{isEn ? 'View project' : 'Lihat proyek'}</span>
+                      <ArrowRight size={14} />
+                    </Link>
+                  </div>
+                </Card>
+              );
+            })}
+
+            {relatedSampleProjects.map((proj) => {
               const coverAsset =
                 SITE_IMAGES[proj.cover as keyof typeof SITE_IMAGES] ||
                 SITE_IMAGES.ogDefault;
@@ -975,7 +1044,7 @@ export default function ServiceDetailPage() {
                         className="w-full h-full object-cover"
                       />
                       <div className="absolute top-3 left-3 flex flex-wrap gap-1.5">
-                        <Badge variant="tint">{proj.internalBadgeLabel}</Badge>
+                        <Badge variant="tint">{proj.badgeLabel}</Badge>
                         <Badge variant="outline">
                           {isEn ? 'Illustration' : 'Ilustrasi'}
                         </Badge>
@@ -1001,12 +1070,15 @@ export default function ServiceDetailPage() {
                           {proj.outcomes[0]}
                         </p>
                       </div>
+                      <p className="text-[12px] text-[#5B5675] leading-[1.55] pt-2 border-t border-[rgba(91,60,196,0.12)]">
+                        {proj.sampleNote}
+                      </p>
                     </div>
                   </div>
 
                   <div className="px-6 py-4 bg-[#FFFFFF] border-t border-[rgba(91,60,196,0.14)] flex items-center justify-between">
                     <span className="font-mono text-[11px] text-[#5B5675]">
-                      {proj.client}
+                      {proj.badgeLabel}
                     </span>
                     <Link
                       to={toLocalizedHref(

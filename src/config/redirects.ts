@@ -7,8 +7,16 @@
 import {
   SERVICE_ID_TO_EN_SLUG,
   resolveCanonicalServiceSlug,
-} from '../data/services';
-import { AREAS } from '../data/service-areas';
+} from '../data/service-slugs';
+import {
+  isValidAreaSlug,
+  LEGACY_AREA_SLUG_ALIASES,
+} from '../data/area-slugs';
+import {
+  BLOG_SLUGS_ID,
+  BLOG_SLUGS_EN,
+  resolveBlogAlternateSlug,
+} from '../data/blog-slugs';
 
 export interface RedirectRule {
   source: string;
@@ -45,29 +53,30 @@ export const LEGACY_SERVICE_REDIRECT_MAP: Record<string, string> = {
   'workflow-automation': 'otomasi-workflow',
 };
 
+
 /**
- * Legacy /area/:cityName consolidation map to canonical /id/jasa/pembuatan-website/:areaSlug
+ * Legacy /area/:cityName consolidation map to canonical /id/area/:areaSlug
  */
 export const LEGACY_AREA_REDIRECT_MAP: Record<string, string> = {
-  'bsd-city': '/jasa/pembuatan-website/bsd-city',
-  bsd: '/jasa/pembuatan-website/bsd-city',
-  cisauk: '/jasa/pembuatan-website/bsd-city',
-  'rawa-buntu': '/jasa/pembuatan-website/bsd-city',
-  'alam-sutera': '/jasa/pembuatan-website/alam-sutera',
-  bintaro: '/jasa/pembuatan-website/bintaro',
-  'bintaro-sektor-9': '/jasa/pembuatan-website/bintaro',
-  'gading-serpong': '/jasa/pembuatan-website/gading-serpong',
-  'gading-serpong-ruko': '/jasa/pembuatan-website/gading-serpong',
-  'tangerang-selatan': '/jasa/pembuatan-website/tangerang-selatan',
-  tangsel: '/jasa/pembuatan-website/tangerang-selatan',
-  pamulang: '/jasa/pembuatan-website/pamulang',
-  'pamulang-barat': '/jasa/pembuatan-website/pamulang',
-  'jurang-mangu': '/jasa/pembuatan-website/jurang-mangu',
-  'lebak-bulus': '/jasa/pembuatan-website/lebak-bulus',
-  ciputat: '/jasa/pembuatan-website/ciputat',
-  serpong: '/jasa/pembuatan-website/serpong',
-  'serpong-utara': '/jasa/pembuatan-website/alam-sutera',
-  'pasar-modern-bsd': '/jasa/pembuatan-website/bsd-city',
+  'bsd-city': '/area/bsd-city',
+  bsd: '/area/bsd-city',
+  cisauk: '/area/cisauk',
+  'rawa-buntu': '/area/bsd-city',
+  'alam-sutera': '/area/alam-sutera',
+  bintaro: '/area/bintaro',
+  'bintaro-sektor-9': '/area/bintaro',
+  'gading-serpong': '/area/gading-serpong',
+  'gading-serpong-ruko': '/area/gading-serpong',
+  'tangerang-selatan': '/area/tangerang-selatan',
+  tangsel: '/area/tangerang-selatan',
+  pamulang: '/area/pamulang',
+  'pamulang-barat': '/area/pamulang',
+  'jurang-mangu': '/area/jurang-mangu',
+  'lebak-bulus': '/area/lebak-bulus',
+  ciputat: '/area/ciputat',
+  serpong: '/area/serpong',
+  'serpong-utara': '/area/serpong-utara',
+  'pasar-modern-bsd': '/area/bsd-city',
 };
 
 export const STATIC_REDIRECT_RULES: RedirectRule[] = [
@@ -101,7 +110,15 @@ export function resolveRedirectTarget(rawPathname: string): string | null {
   let hadValidPrefix = false;
   let barePath = cleanPath;
 
-  if (cleanPath === '/ind' || cleanPath.startsWith('/ind/')) {
+  if (cleanPath.startsWith('/en/eng/')) {
+    locale = 'en';
+    hadLegacyPrefix = true;
+    barePath = cleanPath.slice('/en/eng'.length) || '/';
+  } else if (cleanPath.startsWith('/id/ind/')) {
+    locale = 'id';
+    hadLegacyPrefix = true;
+    barePath = cleanPath.slice('/id/ind'.length) || '/';
+  } else if (cleanPath === '/ind' || cleanPath.startsWith('/ind/')) {
     locale = 'id';
     hadLegacyPrefix = true;
     barePath = cleanPath.slice(4) || '/';
@@ -220,19 +237,86 @@ export function resolveRedirectTarget(rawPathname: string): string | null {
 
   const blogDetailMatch = barePath.match(/^\/blog\/([^/]+)$/i);
   if (blogDetailMatch) {
-    const rawSlug = blogDetailMatch[1];
-    // Special explicit handling for the reported failing slug
-    if (rawSlug === 'panduan-lengkap-cara-kerja-agentic-ai-untuk-pemula') {
-      const target = '/id/blog/panduan-lengkap-cara-kerja-agentic-ai-untuk-pemula';
+    const rawSlug = blogDetailMatch[1].toLowerCase().trim();
+    const legacyBlogSlugMap: Record<string, { id: string; en: string }> = {
+      'mcp-model-context-protocol-bisnis': {
+        id: 'mcp-model-context-protocol-untuk-pemilik-bisnis',
+        en: 'mcp-model-context-protocol-for-business-owners',
+      },
+      'mcp-model-context-protocol-business': {
+        id: 'mcp-model-context-protocol-untuk-pemilik-bisnis',
+        en: 'mcp-model-context-protocol-for-business-owners',
+      },
+      'apa-itu-mcp-model-context-protocol-panduan-bisnis': {
+        id: 'mcp-model-context-protocol-untuk-pemilik-bisnis',
+        en: 'mcp-model-context-protocol-for-business-owners',
+      },
+      'keamanan-ai-agent-prompt-injection': {
+        id: 'keamanan-ai-agent-prompt-injection-data-pelanggan',
+        en: 'ai-agent-security-prompt-injection-customer-data',
+      },
+      'kepatuhan-uu-pdp-whatsapp-dan-ai-bisnis': {
+        id: 'uu-pdp-bisnis-whatsapp-ai-panduan-praktis',
+        en: 'pdp-law-indonesia-business-whatsapp-ai',
+      },
+      'otomasi-whatsapp-ai-agent-untuk-klinik-dan-fnb': {
+        id: 'otomasi-whatsapp-ai-klinik-fnb-alur-kerja',
+        en: 'whatsapp-ai-automation-for-clinics-and-fnb-workflows',
+      },
+      'otomasi-workflow-bisnis-n8n-make-tanpa-ganti-sistem': {
+        id: 'otomasi-workflow-bisnis-n8n-make-pekerjaan-repetitif',
+        en: 'business-workflow-automation-n8n-make-repetitive-tasks',
+      },
+      'otomasi-workflow-bisnis-tanpa-ganti-sistem-lama': {
+        id: 'otomasi-workflow-bisnis-n8n-make-pekerjaan-repetitif',
+        en: 'business-workflow-automation-n8n-make-repetitive-tasks',
+      },
+      'panduan-lengkap-cara-kerja-agentic-ai-untuk-pemula': {
+        id: 'panduan-lengkap-cara-kerja-agentic-ai-untuk-pemula',
+        en: 'guide-how-agentic-ai-works-for-beginners',
+      },
+      'guide-how-agentic-ai-works-for-beginners': {
+        id: 'panduan-lengkap-cara-kerja-agentic-ai-untuk-pemula',
+        en: 'guide-how-agentic-ai-works-for-beginners',
+      },
+    };
+
+    if (rawSlug in legacyBlogSlugMap) {
+      const mapped = legacyBlogSlugMap[rawSlug];
+      if (!hadValidPrefix) {
+        const target =
+          rawSlug === 'guide-how-agentic-ai-works-for-beginners' ||
+          rawSlug === 'mcp-model-context-protocol-business'
+            ? `/en/blog/${mapped.en}`
+            : `/id/blog/${mapped.id}`;
+        if (cleanPath !== target) return target;
+        return null;
+      }
+      const canonicalSlug = locale === 'en' ? mapped.en : mapped.id;
+      const target = `${targetPrefix}/blog/${canonicalSlug}`;
       if (cleanPath !== target) return target;
       return null;
     }
-    if (rawSlug === 'guide-how-agentic-ai-works-for-beginners') {
-      const target = '/en/blog/guide-how-agentic-ai-works-for-beginners';
-      if (cleanPath !== target) return target;
-      return null;
+
+    // Cross-language blog post slug resolution (e.g. /id/blog/<en-slug> -> /id/blog/<id-slug> or /en/blog/<id-slug> -> /en/blog/<en-slug>)
+    if (locale === 'id') {
+      const isId = (BLOG_SLUGS_ID as readonly string[]).includes(rawSlug);
+      if (!isId) {
+        const alt = resolveBlogAlternateSlug(rawSlug, 'id');
+        if (alt) return `/id/blog/${alt}`;
+      }
+    } else {
+      const isEn = (BLOG_SLUGS_EN as readonly string[]).includes(rawSlug);
+      if (!isEn) {
+        const alt = resolveBlogAlternateSlug(rawSlug, 'en');
+        if (alt) return `/en/blog/${alt}`;
+      }
     }
+
     if (!hadValidPrefix || hadLegacyPrefix) {
+      if ((BLOG_SLUGS_EN as readonly string[]).includes(rawSlug) && !(BLOG_SLUGS_ID as readonly string[]).includes(rawSlug)) {
+        return `/en/blog/${rawSlug}`;
+      }
       return `${targetPrefix}/blog/${rawSlug}`;
     }
   }
@@ -263,6 +347,21 @@ export function resolveRedirectTarget(rawPathname: string): string | null {
     return null;
   }
 
+  const legacyProjectAndCaseStudySlugMap: Record<string, string> = {
+    'wa-concierge': 'wa-concierge-klinik',
+    'wa-concierge-clinic': 'wa-concierge-klinik',
+    'otomasi-reservasi-klinik-estetika': 'wa-concierge-klinik',
+    'klinik-gigi-bsd': 'wa-concierge-klinik',
+    'dashboard-operasional-kafe': 'dashboard-kafe',
+    'cafe-dashboard': 'dashboard-kafe',
+    'sinkronisasi-rekap-pos-fnb-multi-cabang': 'dashboard-kafe',
+    'alur-lead-properti': 'lead-properti',
+    'property-lead-flow': 'lead-properti',
+    'lead-properti-crm': 'lead-properti',
+    'chestaa-v2-architecture': 'chestaa-v2',
+    'sentralisasi-operasional-armada-logistik': 'pemroses-dokumen',
+  };
+
   // 3B. Case Studies Index & Detail: /id/studi-kasus <-> /en/case-studies
   if (barePath === '/studi-kasus' || barePath === '/case-studies') {
     const expectedCsIndex = locale === 'en' ? '/en/case-studies' : '/id/studi-kasus';
@@ -274,25 +373,32 @@ export function resolveRedirectTarget(rawPathname: string): string | null {
 
   const csDetailMatch = barePath.match(/^\/(studi-kasus|case-studies)\/([^/]+)$/i);
   if (csDetailMatch) {
-    const slug = csDetailMatch[2];
+    const rawCsSlug = csDetailMatch[2].toLowerCase().trim();
+    const canonicalCsSlug = legacyProjectAndCaseStudySlugMap[rawCsSlug] || rawCsSlug;
     const expectedCsDetail =
-      locale === 'en' ? `/en/case-studies/${slug}` : `/id/studi-kasus/${slug}`;
+      locale === 'en'
+        ? `/en/case-studies/${canonicalCsSlug}`
+        : `/id/studi-kasus/${canonicalCsSlug}`;
     if (cleanPath !== expectedCsDetail) {
       return expectedCsDetail;
     }
     return null;
   }
 
-  // 4. Legacy /area/:cityName consolidation
-  const areaOnlyMatch = barePath.match(/^\/area\/([^/]+)$/i);
+  // 4. Unified Area Page: /id/area/:areaSlug <-> /en/areas/:areaSlug
+  const areaOnlyMatch = barePath.match(/^\/(area|areas)\/([^/]+)$/i);
   if (areaOnlyMatch) {
-    const citySlug = areaOnlyMatch[1].toLowerCase();
-    const mappedTarget = LEGACY_AREA_REDIRECT_MAP[citySlug];
-    if (mappedTarget) {
-      const areaSlug = mappedTarget.split('/').pop()!;
-      return locale === 'en'
-        ? `/en/services/website-development/${areaSlug}`
-        : `/id/jasa/pembuatan-website/${areaSlug}`;
+    const rawAreaSlug = areaOnlyMatch[2].toLowerCase().trim();
+    const canonicalAreaSlug = LEGACY_AREA_SLUG_ALIASES[rawAreaSlug] || rawAreaSlug;
+    if (isValidAreaSlug(canonicalAreaSlug)) {
+      const expectedAreaPath =
+        locale === 'en'
+          ? `/en/areas/${canonicalAreaSlug}`
+          : `/id/area/${canonicalAreaSlug}`;
+      if (cleanPath !== expectedAreaPath) {
+        return expectedAreaPath;
+      }
+      return null;
     }
   }
 
@@ -308,7 +414,7 @@ export function resolveRedirectTarget(rawPathname: string): string | null {
         LEGACY_SERVICE_REDIRECT_MAP[rawServiceSlug.toLowerCase()] || ''
       );
 
-    if (canonicalService && rawAreaSlug in AREAS) {
+    if (canonicalService && isValidAreaSlug(rawAreaSlug)) {
       const expectedPath =
         locale === 'en'
           ? `/en/services/${SERVICE_ID_TO_EN_SLUG[canonicalService]}/${rawAreaSlug}`
@@ -342,16 +448,11 @@ export function resolveRedirectTarget(rawPathname: string): string | null {
     }
   }
 
-  // 6C. Portfolio detail legacy alias mapping
-  const portfolioMatch = barePath.match(/^\/portfolio\/([^/]+)$/i);
+  // 6C. Portfolio detail & legacy /proyek or /projects alias mapping
+  const portfolioMatch = barePath.match(/^\/(portfolio|proyek|projects)\/([^/]+)$/i);
   if (portfolioMatch) {
-    const rawProjSlug = portfolioMatch[1].toLowerCase();
-    const legacyProjectMap: Record<string, string> = {
-      'wa-concierge': 'wa-concierge-klinik',
-      'dashboard-operasional-kafe': 'dashboard-kafe',
-      'alur-lead-properti': 'lead-properti',
-    };
-    const canonicalProjSlug = legacyProjectMap[rawProjSlug] || rawProjSlug;
+    const rawProjSlug = portfolioMatch[2].toLowerCase().trim();
+    const canonicalProjSlug = legacyProjectAndCaseStudySlugMap[rawProjSlug] || rawProjSlug;
     const expectedPortfolioPath = `${targetPrefix}/portfolio/${canonicalProjSlug}`;
     if (cleanPath !== expectedPortfolioPath) {
       return expectedPortfolioPath;

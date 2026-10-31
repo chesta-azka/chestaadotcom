@@ -201,7 +201,7 @@ export const BLOG_POSTS_17_18_EN_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'paragraph',
-        text: 'For a real implementation reference, you can see how we structure schema markup and bilingual route mapping in our internal project, the [case study on rebuilding the chestaa.com v2 website](/en/case-studies/chestaa-v2). Our internal project embeds page-appropriate schema without adding third-party script bloat.',
+        text: 'For a real implementation reference, you can see how we structure schema markup and bilingual route mapping in our sample project, the [case study on rebuilding the chestaa.com v2 website](/en/case-studies/chestaa-v2). Our sample project embeds page-appropriate schema without adding third-party script bloat.',
       },
       {
         type: 'h2',
@@ -256,11 +256,11 @@ export const BLOG_POSTS_17_18_EN_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'paragraph',
-        text: '**Example scenario (healthcare clinic and consulting office in BSD City):** Imagine you manage an accounting firm or physiotherapy clinic in the [BSD City service area](/en/areas). You want to make sure that when nearby residents search for your practice, your coverage areas and phone number appear accurately.',
+        text: '**Example scenario (healthcare clinic and consulting office in BSD City):** Imagine you manage an accounting firm or physiotherapy clinic in the [BSD City service area](/en/services/website-development/bsd-city). You want to make sure that when nearby residents search for your practice, your coverage areas and phone number appear accurately.',
       },
       {
         type: 'paragraph',
-        text: 'In that example scenario, your first step is aligning your address and phone formatting in your Google Business Profile as explained in our [local SEO guide for BSD and South Tangerang businesses](/en/blog/local-seo-guide-for-bsd-and-south-tangerang-businesses). Next, when updating your pages through our [website development service](/en/services/website-development), those exact same facts are placed in your `LocalBusiness` schema and page footer.',
+        text: 'In that example scenario, your first step is aligning your address and phone formatting in your Google Business Profile as explained in our local SEO guide for BSD and South Tangerang businesses. Next, when updating your pages through our [website development service](/en/services/website-development), those exact same facts are placed in your `LocalBusiness` schema and page footer.',
       },
       {
         type: 'h2',
@@ -402,8 +402,8 @@ export const BLOG_POSTS_17_18_EN_RAW: RawBlogPostInput[] = [
       'Business Cash Flow',
     ],
     author: 'zeeshan',
-    date: '2026-11-01',
-    updatedAt: '2026-11-01',
+    date: '2026-10-27',
+    updatedAt: '2026-10-27',
     featured: false,
     draft: false,
     coverImageKey: 'blogInvoiceAutomation',
@@ -485,7 +485,7 @@ export const BLOG_POSTS_17_18_EN_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'paragraph',
-        text: 'Never automate a process whose underlying data is still messy. Create one master table (for example in Google Sheets or an internal database) that must be filled out whenever a new client agreement is signed. Make sure the table separates the project point-of-contact column from the finance department email column, because in B2B firms the person ordering the service is rarely the person wiring the money.',
+        text: 'Never automate a process whose underlying data is still messy. Create one master table (for example in Google Sheets or an company database) that must be filled out whenever a new client agreement is signed. Make sure the table separates the project point-of-contact column from the finance department email column, because in B2B firms the person ordering the service is rarely the person wiring the money.',
       },
       {
         type: 'ul',
@@ -508,7 +508,7 @@ export const BLOG_POSTS_17_18_EN_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'paragraph',
-        text: 'To stay safe against typos, enforce a one-click human approval step. When the system finishes generating the PDF invoice in storage, it posts a preview link to the internal admin chat. Once the admin confirms the numbers look right and switches the row status to "Approved to Send", the automation dispatches it to the client.',
+        text: 'To stay safe against typos, enforce a one-click human approval step. When the system finishes generating the PDF invoice in storage, it posts a preview link to the admin team chat. Once the admin confirms the numbers look right and switches the row status to "Approved to Send", the automation dispatches it to the client.',
       },
       {
         type: 'paragraph',
@@ -558,7 +558,7 @@ export const BLOG_POSTS_17_18_EN_RAW: RawBlogPostInput[] = [
           ],
           [
             '7 Days Past Due (T+7)',
-            'Internal escalation to the business owner or project lead.',
+            'Team escalation to the business owner or project lead.',
             'Stop automated bot reminders; hand over to a personal phone call by the project manager.',
             'Flag row for attention and escalate to human staff.',
           ],
@@ -575,7 +575,7 @@ export const BLOG_POSTS_17_18_EN_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'paragraph',
-        text: 'If your clients regularly send photos or PDF transfer receipts via WhatsApp or email, you can combine structured document extraction with staff verification. You can see how extracting incoming files into a human review table works in our internal project, the [AI Document Processor case study](/en/case-studies/pemroses-dokumen).',
+        text: 'If your clients regularly send photos or PDF transfer receipts via WhatsApp or email, you can combine structured document extraction with staff verification. You can see how extracting incoming files into a human review table works in our sample project, the [AI Document Processor case study](/en/case-studies/pemroses-dokumen).',
       },
       {
         type: 'h2',

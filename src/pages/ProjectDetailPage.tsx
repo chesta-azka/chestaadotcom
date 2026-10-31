@@ -14,6 +14,8 @@ import {
   Globe,
   X,
   CheckCircle2,
+  ShieldCheck,
+  Info,
 } from 'lucide-react';
 import SEOMetadata from '../components/atoms/SEOMetadata';
 import {
@@ -22,6 +24,12 @@ import {
   PortfolioProject,
   ProjectGalleryItem,
 } from '../data/projects';
+import {
+  getRealProjectBySlug,
+  getRealProjectHref,
+  REAL_PROJECTS_EXPERIENCE,
+  RealProjectExperience,
+} from '../data/experience';
 import { getCaseStudyBySlug } from '../data/case-studies';
 import { SITE_IMAGES } from '../config/images';
 import {
@@ -47,6 +55,7 @@ export default function ProjectDetailPage() {
 
   const params = useParams<{ slug?: string; id?: string }>();
   const rawSlug = params.slug || params.id || '';
+  const realProject = getRealProjectBySlug(rawSlug);
   const project = getProjectBySlug(rawSlug, locale);
 
   // Lightbox state
@@ -67,6 +76,17 @@ export default function ProjectDetailPage() {
 
   const portfolioHref = toLocalizedHref('/portfolio', locale, prefixMode);
 
+  if (realProject) {
+    return (
+      <RealProjectDetailView
+        realProject={realProject}
+        locale={locale}
+        prefixMode={prefixMode}
+        portfolioHref={portfolioHref}
+      />
+    );
+  }
+
   if (!project) {
     return (
       <div className="bg-[#FFFFFF] text-[#17122B] min-h-screen pt-32 pb-24">
@@ -78,8 +98,8 @@ export default function ProjectDetailPage() {
           }
           description={
             isEn
-              ? 'The portfolio project page you requested was not found. View all projects we have built at CHESTAADOTCOM.'
-              : 'Halaman proyek portofolio yang kamu cari tidak ditemukan. Lihat daftar proyek yang sudah kami bangun di CHESTAADOTCOM.'
+              ? 'The project page you requested was not found. View all projects we have built at CHESTAADOTCOM.'
+              : 'Halaman proyek yang kamu cari tidak ditemukan. Lihat daftar proyek yang sudah kami bangun di CHESTAADOTCOM.'
           }
           path={toLocalizedHref(`/portfolio/${rawSlug}`, locale, prefixMode)}
         />
@@ -94,14 +114,14 @@ export default function ProjectDetailPage() {
           </h1>
           <p className="text-[15px] md:text-[16px] text-[#5B5675] leading-[1.65]">
             {isEn
-              ? 'The project URL may have changed or is currently being updated. Please return to the main portfolio page to browse other projects.'
-              : 'URL proyek mungkin telah berubah atau sedang dalam pembaruan dokumentasi. Silakan kembali ke halaman utama portofolio untuk melihat daftar proyek lainnya.'}
+              ? 'The project URL may have changed or is currently being updated. Please return to the main projects page to browse other projects.'
+              : 'URL proyek mungkin telah berubah atau sedang dalam pembaruan dokumentasi. Silakan kembali ke halaman utama proyek untuk melihat daftar proyek lainnya.'}
           </p>
           <div className="pt-2 flex justify-center">
             <Button to={portfolioHref} variant="primary">
               <ArrowLeft size={16} />
               <span>
-                {isEn ? 'Back to Portfolio' : 'Kembali ke Portofolio'}
+                {isEn ? 'Back to Projects' : 'Kembali ke Proyek'}
               </span>
             </Button>
           </div>
@@ -211,14 +231,14 @@ export default function ProjectDetailPage() {
         <Container>
           <Breadcrumb
             items={[
-              { label: isEn ? 'Portfolio' : 'Portofolio', to: portfolioHref },
+              { label: isEn ? 'Projects' : 'Proyek', to: portfolioHref },
               { label: project.title },
             ]}
           />
 
           <div className="max-w-3xl space-y-4">
             <div className="flex flex-wrap items-center gap-2">
-              <Badge variant="dark">{project.internalBadgeLabel}</Badge>
+              <Badge variant="dark">{project.badgeLabel}</Badge>
               <Badge variant="tint">
                 <span className="w-1.5 h-1.5 rounded-full bg-[#6A3FD0]" />
                 <span>{project.categoryLabel}</span>
@@ -231,6 +251,15 @@ export default function ProjectDetailPage() {
             <p className="text-[16px] md:text-[18px] text-[#5B5675] leading-[1.6]">
               {project.oneLiner}
             </p>
+
+            {/* Mandatory Sample Project Note */}
+            <div
+              role="note"
+              className="p-3.5 md:p-4 rounded-[16px] bg-[#EFEAFB]/75 border border-[rgba(91,60,196,0.2)] flex items-start gap-3 text-[13.5px] md:text-[14px] text-[#17122B]"
+            >
+              <Info size={16} className="text-[#6A3FD0] shrink-0 mt-0.5" />
+              <span>{project.sampleNote}</span>
+            </div>
 
             <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-[#EFEAFB] border border-[rgba(91,60,196,0.16)] font-mono text-[12px] text-[#6A3FD0]">
               <strong>{isEn ? 'Design target:' : 'Target desain:'}</strong>
@@ -251,17 +280,17 @@ export default function ProjectDetailPage() {
           </div>
 
           {/* =====================================================
-              3. META ROW: KLIEN, TAHUN, PERAN, DURASI, STACK, LINK LIVE
+              3. META ROW: JENIS PROYEK, TAHUN, PERAN, DURASI, STACK, LINK LIVE
               ===================================================== */}
           <div className="mt-8 rounded-[24px] bg-[#FFFFFF] border border-[rgba(91,60,196,0.14)] shadow-[0_6px_20px_-6px_rgba(106,63,208,0.05)] p-5 md:p-6">
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-6 gap-6">
-              {/* Klien */}
+              {/* Jenis Proyek */}
               <div className="space-y-1">
                 <span className="block font-mono text-[11px] uppercase tracking-[0.08em] text-[#5B5675]">
-                  {isEn ? 'Client' : 'Klien'}
+                  {isEn ? 'Project Type' : 'Jenis Proyek'}
                 </span>
                 <p className="text-[14px] font-semibold text-[#17122B] leading-snug">
-                  {project.client}
+                  {project.badgeLabel}
                 </p>
               </div>
 
@@ -312,10 +341,10 @@ export default function ProjectDetailPage() {
                 </div>
               </div>
 
-              {/* Link Live / NDA Badge */}
+              {/* Link Live / Sample Badge */}
               <div className="space-y-1.5">
                 <span className="block font-mono text-[11px] uppercase tracking-[0.08em] text-[#5B5675]">
-                  {isEn ? 'Live Link' : 'Link Live'}
+                  {isEn ? 'Status' : 'Status'}
                 </span>
                 {project.liveUrl ? (
                   <a
@@ -333,8 +362,8 @@ export default function ProjectDetailPage() {
                     <span>
                       {project.liveStatusLabel ||
                         (isEn
-                          ? 'Internal System / Client NDA'
-                          : 'Sistem Internal / NDA Klien')}
+                          ? 'Sample project — not a client project'
+                          : 'Contoh proyek — bukan proyek klien')}
                     </span>
                   </span>
                 )}
@@ -536,8 +565,8 @@ export default function ProjectDetailPage() {
                   {relatedCaseStudy
                     ? relatedCaseStudy.oneSentenceSummary
                     : isEn
-                      ? 'Explore the initial operational bottlenecks, system migration steps, and design targets of this internal project on our Case Studies page.'
-                      : 'Pelajari rincian masalah operasional awal, rancangan alur sistem, dan target desain dari proyek internal ini di halaman Studi Kasus.'}
+                      ? 'Explore the initial operational bottlenecks, system migration steps, and design targets of this sample project on our Case Studies page.'
+                      : 'Pelajari rincian masalah operasional awal, rancangan alur sistem, dan target desain dari contoh proyek ini di halaman Studi Kasus.'}
                 </p>
               </div>
 
@@ -642,6 +671,253 @@ export default function ProjectDetailPage() {
           isEn={isEn}
         />
       )}
+    </div>
+  );
+}
+
+/* ============================================================================
+ * REAL PROJECT DETAIL VIEW (Strictly limited to facts in data/experience)
+ * ========================================================================== */
+function RealProjectDetailView({
+  realProject,
+  locale,
+  prefixMode,
+  portfolioHref,
+}: {
+  realProject: RealProjectExperience;
+  locale: 'id' | 'en';
+  prefixMode: PrefixMode;
+  portfolioHref: string;
+}) {
+  const isEn = locale === 'en';
+  const title = isEn ? realProject.titleEn : realProject.titleId;
+  const description = isEn ? realProject.descriptionEn : realProject.descriptionId;
+  const badge = isEn ? realProject.tagEn : realProject.tagId;
+  const workItems = isEn ? realProject.workItemsEn : realProject.workItemsId;
+  const confidentialLabel = isEn
+    ? realProject.confidentialLabelEn
+    : realProject.confidentialLabelId;
+  const ctaPrompt = isEn ? realProject.ctaPromptEn : realProject.ctaPromptId;
+  const valueNote = isEn ? realProject.valueNoteEn : realProject.valueNoteId;
+  const projectHref = getRealProjectHref(realProject, locale);
+  const canonicalUrl = `https://chestaa.com${projectHref}`;
+
+  const otherRealProjects = REAL_PROJECTS_EXPERIENCE.filter(
+    (item) => item.id !== realProject.id
+  );
+
+  const jsonLdGraph = {
+    '@context': 'https://schema.org',
+    '@graph': [
+      {
+        '@type': 'CreativeWork',
+        '@id': `${canonicalUrl}#work`,
+        name: title,
+        headline: title,
+        description,
+        url: canonicalUrl,
+        inLanguage: isEn ? 'en' : 'id-ID',
+        creator: {
+          '@type': 'Organization',
+          '@id': 'https://chestaa.com/#organization',
+          name: 'CHESTAADOTCOM',
+          url: 'https://chestaa.com',
+        },
+      },
+      {
+        '@type': 'BreadcrumbList',
+        '@id': `${canonicalUrl}#breadcrumb`,
+        itemListElement: [
+          {
+            '@type': 'ListItem',
+            position: 1,
+            name: isEn ? 'Home' : 'Beranda',
+            item: `https://chestaa.com${toLocalizedHref('/', locale, prefixMode)}`,
+          },
+          {
+            '@type': 'ListItem',
+            position: 2,
+            name: isEn ? 'Projects' : 'Proyek',
+            item: `https://chestaa.com${portfolioHref}`,
+          },
+          {
+            '@type': 'ListItem',
+            position: 3,
+            name: title,
+            item: canonicalUrl,
+          },
+        ],
+      },
+    ],
+  };
+
+  return (
+    <div className="bg-[#FFFFFF] text-[#17122B] min-h-screen">
+      <SEOMetadata
+        title={`${title} — ${badge} | CHESTAADOTCOM`}
+        description={description}
+        path={projectHref}
+        jsonLd={jsonLdGraph}
+      />
+
+      {/* 1. Header: Breadcrumb, Badge, Title, Description, Value Note */}
+      <section className="pt-28 pb-12 md:pt-36 md:pb-16 bg-gradient-to-b from-[#FFFFFF] via-[#F8F6FE] to-[#FFFFFF] border-b border-[rgba(91,60,196,0.14)]">
+        <Container className="max-w-[920px] space-y-6">
+          <Breadcrumb
+            items={[
+              { label: isEn ? 'Projects' : 'Proyek', to: portfolioHref },
+              { label: title },
+            ]}
+          />
+
+          <div className="space-y-4">
+            <div className="flex flex-wrap items-center gap-2">
+              <Badge variant="dark">
+                <ShieldCheck size={13} className="text-[#B9A2F2]" />
+                <span>{badge}</span>
+              </Badge>
+              <Badge variant="outline">{confidentialLabel}</Badge>
+              {valueNote && <Badge variant="tint">{valueNote}</Badge>}
+            </div>
+
+            <WordRevealHeading as="h1" priority text={title} />
+
+            <p className="text-[16px] md:text-[18px] text-[#5B5675] leading-[1.65]">
+              {description}
+            </p>
+          </div>
+
+          {/* Abstract Illustration labeled "Ilustrasi" / "Illustration" */}
+          <figure className="rounded-[24px] bg-gradient-to-br from-[#EFEAFB] via-[#F8F6FE] to-[#FFFFFF] border border-[rgba(91,60,196,0.16)] p-6 md:p-10 shadow-[0_10px_28px_-10px_rgba(106,63,208,0.08)]">
+            <div className="flex items-center justify-between gap-2 mb-6">
+              <span className="font-mono text-[11px] uppercase tracking-[0.08em] text-[#6A3FD0] font-semibold">
+                {badge}
+              </span>
+              <span className="px-3 py-1 rounded-full bg-[#FFFFFF] border border-[rgba(91,60,196,0.18)] font-mono text-[11px] uppercase tracking-[0.08em] text-[#6A3FD0] font-semibold">
+                {isEn ? 'Illustration' : 'Ilustrasi'}
+              </span>
+            </div>
+
+            <div className="py-4 flex items-center justify-center">
+              <FlowIllustration
+                id="software-flow"
+                locale={locale}
+                className="w-full max-w-3xl"
+              />
+            </div>
+          </figure>
+        </Container>
+      </section>
+
+      {/* 2. "Yang kami kerjakan" & "Klien dirahasiakan" */}
+      <section className="py-16 md:py-20 bg-[#FFFFFF] border-b border-[rgba(91,60,196,0.14)]">
+        <Container className="max-w-[920px] space-y-10">
+          <div className="grid grid-cols-1 md:grid-cols-12 gap-8 items-start">
+            <div className="md:col-span-5 space-y-3">
+              <span className="block font-mono text-[11px] uppercase tracking-[0.08em] text-[#6A3FD0] font-semibold">
+                {badge}
+              </span>
+              <h2 className="text-[22px] md:text-[26px] font-semibold text-[#17122B]">
+                {isEn ? 'What we worked on' : 'Yang kami kerjakan'}
+              </h2>
+              <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-[#F8F6FE] border border-[rgba(91,60,196,0.16)] font-mono text-[12px] text-[#17122B] font-semibold">
+                <Lock size={13} className="text-[#6A3FD0]" />
+                <span>{confidentialLabel}</span>
+              </div>
+              {valueNote && (
+                <div className="pt-1">
+                  <span className="inline-flex items-center px-3.5 py-1.5 rounded-full bg-[#EFEAFB] border border-[rgba(91,60,196,0.18)] font-mono text-[12px] font-semibold text-[#6A3FD0]">
+                    {valueNote}
+                  </span>
+                </div>
+              )}
+            </div>
+
+            <div className="md:col-span-7">
+              <Card variant="soft" padding="lg" className="space-y-4">
+                <ul className="space-y-3">
+                  {workItems.map((workItem) => (
+                    <li
+                      key={workItem}
+                      className="flex items-start gap-3 p-4 rounded-[16px] bg-[#FFFFFF] border border-[rgba(91,60,196,0.14)] text-[15px] md:text-[16px] text-[#17122B] font-medium"
+                    >
+                      <CheckCircle2
+                        size={18}
+                        className="text-[#6A3FD0] shrink-0 mt-0.5"
+                      />
+                      <span>{workItem}</span>
+                    </li>
+                  ))}
+                </ul>
+              </Card>
+            </div>
+          </div>
+
+          {/* Other Real Projects */}
+          <div className="pt-8 border-t border-[rgba(91,60,196,0.14)] space-y-4">
+            <div className="flex items-center justify-between">
+              <span className="font-mono text-[11px] uppercase tracking-[0.08em] text-[#5B5675] font-semibold">
+                {isEn ? 'OTHER REAL PROJECTS' : 'PROYEK NYATA LAINNYA'}
+              </span>
+              <Link
+                to={portfolioHref}
+                className="text-[14px] font-semibold text-[#6A3FD0] hover:underline"
+              >
+                {isEn ? 'All Projects' : 'Semua Proyek'}
+              </Link>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {otherRealProjects.map((other) => (
+                <Link
+                  key={other.id}
+                  to={getRealProjectHref(other, locale)}
+                  className="group p-5 rounded-[20px] bg-[#F8F6FE] border border-[rgba(91,60,196,0.14)] hover:border-[#6A3FD0] hover:bg-[#FFFFFF] transition-all space-y-2"
+                >
+                  <span className="inline-block font-mono text-[11px] uppercase tracking-[0.06em] text-[#6A3FD0] font-semibold">
+                    {isEn ? other.tagEn : other.tagId}
+                  </span>
+                  <h3 className="text-[17px] font-semibold text-[#17122B] group-hover:text-[#6A3FD0] transition-colors">
+                    {isEn ? other.titleEn : other.titleId}
+                  </h3>
+                  <p className="text-[14px] text-[#5B5675] leading-[1.6]">
+                    {isEn ? other.oneLinerEn : other.oneLinerId}
+                  </p>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </Container>
+      </section>
+
+      {/* 3. Mandatory CTA: "Punya kebutuhan serupa? Ceritakan ke kami." */}
+      <section className="py-16 md:py-24 bg-gradient-to-b from-[#FFFFFF] to-[#EFEAFB]">
+        <Container className="max-w-[860px]">
+          <CTABlock
+            title={ctaPrompt}
+            description={
+              isEn
+                ? 'Tell Chesta & Zeeshan about the operational workflow you want to build in a free 30-minute audit session via WhatsApp.'
+                : 'Ceritakan alur operasional yang ingin kamu bangun ke Chesta & Zeeshan dalam sesi audit gratis 30 menit via WhatsApp.'
+            }
+            buttonLabel={
+              isEn
+                ? 'Free consultation via WhatsApp'
+                : 'Konsultasi gratis via WhatsApp'
+            }
+            whatsappMessage={
+              isEn
+                ? `Hi Chesta & Zeeshan, I just viewed "${title}" on chestaa.com and have a similar need for my business.`
+                : `Halo Chesta & Zeeshan, saya baru melihat "${title}" di chestaa.com dan punya kebutuhan serupa untuk bisnis saya.`
+            }
+            secondaryAction={
+              <Button to={portfolioHref} variant="secondary">
+                <span>{isEn ? 'Back to Projects' : 'Kembali ke Proyek'}</span>
+              </Button>
+            }
+          />
+        </Container>
+      </section>
     </div>
   );
 }

@@ -1,6 +1,6 @@
 {
-  "summary":  "Implementation plan for the interactive \"comment thread\" FAQ page (/id/faq and /en/faq) on chestaa.com (CHESTAADOTCOM). Features 21 bilingual threads grouped across 6 categories, client-side search & expand-all controls, native details/summary semantic HTML for zero-JS SEO and screen reader accessibility, CSS-only typing animation indicators, WhatsApp question composer, and JSON-LD FAQPage schema.",
-  "updatedAt":  "2026-10-27T10:21:06.589062745Z",
+  "summary":  "Rencana implementasi Sticky Header yang selalu menempel di atas dengan transisi responsif, instan, dan ringan tanpa jeda menghilang (auto-hide).",
+  "updatedAt":  "2026-10-31T19:39:24.784332832Z",
   "requestFeedback":  true,
   "userFacing":  true
 }

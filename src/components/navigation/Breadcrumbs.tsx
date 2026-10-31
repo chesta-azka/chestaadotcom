@@ -17,7 +17,7 @@ export default function Breadcrumbs({ items }: BreadcrumbProps) {
       '@type': 'ListItem',
       position: index + 1,
       name: indexNumber.label,
-      item: `https://chestaadotcom.com${indexNumber.href}`,
+      item: `https://chestaa.com${indexNumber.href}`,
     })),
   };
 

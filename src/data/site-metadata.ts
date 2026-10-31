@@ -25,7 +25,7 @@ export const SITE_METADATA: SiteMetadata = {
   socials: {
     github: 'https://github.com/chestacode',
     linkedin: 'https://linkedin.com/in/chesta-azka',
-    instagram: 'https://instagram.com/chestaa.dev',
+    instagram: 'https://instagram.com/softwaredev.aiagentic.agency',
     whatsapp: 'https://wa.me/6282125447232'
   }
 };

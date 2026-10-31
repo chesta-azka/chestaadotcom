@@ -2,6 +2,7 @@
 import { SERVICES_DATA } from './services';
 import { getPublishedProjects } from './projects';
 import { getPublishedCaseStudies } from './case-studies';
+import { REAL_PROJECTS_EXPERIENCE, REAL_PROJECT_BADGE_ID } from './experience';
 import { BLOG_CATEGORIES, getPublishedBlogPosts } from './blog-posts';
 
 export interface RouteSEO {
@@ -12,14 +13,13 @@ export interface RouteSEO {
 
 export const SITE_METADATA = {
   brandName: 'CHESTAADOTCOM',
-  defaultTitle: 'Jasa Website, AI Agent, dan Software Custom di Tangsel | CHESTAADOTCOM',
+  defaultTitle: 'Jasa Website, AI Agent & Software di Tangsel | CHESTAADOTCOM',
   defaultDescription:
-    'Jasa pembuatan website, AI agent WhatsApp, dan software custom di BSD, Tangerang Selatan & Jabodetabek. Performa cepat, harga transparan mulai Rp1.200.000.',
+    'Pengembangan software custom, AI agent WhatsApp, otomasi workflow, dan pembuatan website di BSD, Tangerang Selatan dan Jabodetabek. Mulai Rp1.200.000.',
   siteUrl: 'https://chestaa.com',
-  instagramUrl: 'https://instagram.com/chestaadotcom',
+  instagramUrl: 'https://instagram.com/softwaredev.aiagentic.agency',
   whatsappNumber: '6282125447232',
   whatsappDisplay: '+62 821-2544-7232',
-  email: 'chestaadotcom@gmail.com',
   whatsappUrl:
     'https://wa.me/6282125447232?text=Halo%20Chesta%20%26%20Zeeshan,%20saya%20ingin%20mulai%20dari%20audit%20gratis%2030%20menit%20untuk%20bisnis%20saya.',
   founders: [
@@ -97,24 +97,44 @@ const SERVICE_ROUTES_SEO: Record<string, RouteSEO> = Object.fromEntries(
   ])
 );
 
-const PORTFOLIO_ROUTES_SEO: Record<string, RouteSEO> = Object.fromEntries(
-  getPublishedProjects().map((proj) => [
-    `/portfolio/${proj.slug}`,
+const REAL_PORTFOLIO_ROUTES_SEO: Record<string, RouteSEO> = Object.fromEntries(
+  REAL_PROJECTS_EXPERIENCE.map((rp) => [
+    `/portfolio/${rp.slugId}`,
     {
-      title: proj.seo.title,
-      description: proj.seo.description,
+      title: rp.seoTitleId,
+      description: rp.seoDescriptionId,
       keywords: [
-        proj.categoryLabel,
-        proj.industry,
+        rp.titleId,
+        REAL_PROJECT_BADGE_ID,
         'CHESTAADOTCOM',
-        'Proyek internal',
         'BSD City',
         'Tangerang Selatan',
-        ...proj.stack,
       ],
     },
   ])
 );
+
+const PORTFOLIO_ROUTES_SEO: Record<string, RouteSEO> = {
+  ...REAL_PORTFOLIO_ROUTES_SEO,
+  ...Object.fromEntries(
+    getPublishedProjects().map((proj) => [
+      `/portfolio/${proj.slug}`,
+      {
+        title: proj.seo.title,
+        description: proj.seo.description,
+        keywords: [
+          proj.categoryLabel,
+          proj.industry,
+          'CHESTAADOTCOM',
+          'Contoh proyek',
+          'BSD City',
+          'Tangerang Selatan',
+          ...proj.stack,
+        ],
+      },
+    ])
+  ),
+};
 
 const CASE_STUDY_ROUTES_SEO: Record<string, RouteSEO> = Object.fromEntries(
   getPublishedCaseStudies().map((cs) => [
@@ -123,11 +143,11 @@ const CASE_STUDY_ROUTES_SEO: Record<string, RouteSEO> = Object.fromEntries(
       title: cs.seo.title,
       description:
         cs.seo.description ||
-        `Masalah: ${cs.summary.problem} Solusi: ${cs.summary.solution} Hasil: ${cs.summary.result}`,
+        `Masalah: ${cs.summary.problem} Solusi: ${cs.summary.solution} Target desain: ${cs.summary.result}`,
       keywords: [
         cs.industry,
         ...cs.services,
-        'Proyek internal CHESTAADOTCOM',
+        'Studi kasus contoh CHESTAADOTCOM',
         'BSD City',
         'Tangerang Selatan',
       ],
@@ -137,9 +157,9 @@ const CASE_STUDY_ROUTES_SEO: Record<string, RouteSEO> = Object.fromEntries(
 
 export const ROUTES_SEO_MAP: Record<string, RouteSEO> = {
   '/': {
-    title: 'Jasa Website, AI Agent, dan Software Custom di Tangsel | CHESTAADOTCOM',
+    title: 'Jasa Website, AI Agent & Software di Tangsel | CHESTAADOTCOM',
     description:
-      'Jasa pembuatan website, AI agent WhatsApp, dan software custom di BSD, Tangerang Selatan & Jabodetabek. Performa cepat, harga transparan mulai Rp1.200.000.',
+      'Pengembangan software custom, AI agent WhatsApp, otomasi workflow, dan pembuatan website di BSD, Tangerang Selatan dan Jabodetabek. Mulai Rp1.200.000.',
     keywords: [
       'software house BSD',
       'AI agent WhatsApp Tangsel',
@@ -151,7 +171,7 @@ export const ROUTES_SEO_MAP: Record<string, RouteSEO> = {
   '/area': {
     title: 'Area Layanan Tangerang Selatan & Jakarta | CHESTAADOTCOM',
     description:
-      'CHESTAADOTCOM melayani pembuatan website dan AI agent untuk bisnis di Tangerang Selatan, BSD City, Pamulang, Jurang Mangu, dan Lebak Bulus.',
+      'CHESTAADOTCOM melayani jasa pembuatan website, software custom, dan AI agent di Tangerang Selatan, BSD City, Pamulang, Jurang Mangu, dan Lebak Bulus.',
     keywords: [
       'area layanan CHESTAADOTCOM',
       'jasa website Tangerang Selatan',
@@ -161,31 +181,32 @@ export const ROUTES_SEO_MAP: Record<string, RouteSEO> = {
     ],
   },
   '/portfolio': {
-    title: 'Proyek Internal & Demo Sistem | CHESTAADOTCOM',
+    title: 'Proyek Nyata & Contoh Proyek Sistem | CHESTAADOTCOM',
     description:
-      'Daftar proyek internal CHESTAADOTCOM: AI agent WhatsApp klinik, dashboard kafe, asisten properti, dan landing page cepat di BSD, Tangerang Selatan.',
+      'Daftar proyek nyata (klien dirahasiakan) dan contoh proyek CHESTAADOTCOM: sistem brand minuman, pondok pesantren, gudang logistik, dan AI agent di Tangsel.',
     keywords: [
-      'proyek internal CHESTAADOTCOM',
+      'proyek CHESTAADOTCOM',
+      'contoh proyek CHESTAADOTCOM',
       'proyek AI agent WhatsApp',
       'proyek web app Tangsel',
       'CHESTAADOTCOM portofolio',
     ],
   },
   '/case-studies': {
-    title: 'Studi Kasus Proyek Internal & Arsitektur | CHESTAADOTCOM',
+    title: 'Studi Kasus Contoh & Arsitektur Sistem | CHESTAADOTCOM',
     description:
-      'Catatan teknis di balik proyek internal CHESTAADOTCOM: masalah operasional, rancangan arsitektur, alur kerja sistem, dan target desain aplikasi.',
+      'Contoh studi kasus yang memperlihatkan cara CHESTAADOTCOM menganalisis masalah, mengambil keputusan, dan menimbang kompromi teknis di Tangerang Selatan.',
     keywords: [
-      'studi kasus proyek internal',
+      'studi kasus contoh',
       'studi kasus AI agent WhatsApp',
       'otomasi operasional bisnis Tangsel',
       'CHESTAADOTCOM case studies',
     ],
   },
   '/blog': {
-    title: 'Catatan Bisnis & Rekayasa Software | CHESTAADOTCOM',
+    title: 'Blog AI Agent, Website & Otomasi Bisnis | CHESTAADOTCOM',
     description:
-      'Panduan praktis dari Chesta Azka dan Zeeshan seputar software custom, AI agent WhatsApp, otomasi workflow, dan website cepat di Tangerang Selatan.',
+      'Panduan praktis dari Chesta Azka dan Zeeshan seputar software custom, AI agent WhatsApp, otomasi workflow, dan pembuatan website cepat di Tangerang Selatan.',
     keywords: [
       'panduan AI agent bisnis',
       'biaya bikin website BSD',
@@ -195,27 +216,45 @@ export const ROUTES_SEO_MAP: Record<string, RouteSEO> = {
     ],
   },
   '/about': {
-    title: 'Tentang CHESTAADOTCOM — Studio Web & AI Agent di BSD Tangsel',
+    title: 'Tentang CHESTAADOTCOM — Chesta Azka & Zeeshan | BSD',
     description:
-      'Kenali Chesta Azka dan Zeeshan, co-founder di balik CHESTAADOTCOM. Studio rekayasa website, AI agent, dan otomasi bisnis berbasis di BSD, Tangerang Selatan.',
+      'Kenali Chesta Azka (Arsitektur, Produk, Teknologi) dan Zeeshan (Operasional, Client Success), co-founder studio rekayasa CHESTAADOTCOM di BSD, Tangsel.',
     keywords: ['Chesta Azka', 'Zeeshan', 'tentang CHESTAADOTCOM', 'partner teknologi BSD'],
   },
   '/audit-gratis': {
     title: 'Audit Gratis 30 Menit Alur Kerja & Otomasi | CHESTAADOTCOM',
     description:
-      'Ceritakan kerjaan berulang yang paling bikin capek di bisnismu. Dapatkan peta alur kerja, rekomendasi jujur, dan perkiraan biaya gratis dalam 30 menit.',
+      'Ceritakan kerjaan berulang yang paling bikin capek di bisnismu. Dapatkan peta alur kerja, rekomendasi jujur, dan perkiraan biaya gratis dalam sesi 30 menit.',
     keywords: ['audit gratis alur kerja', 'konsultasi AI agent BSD', 'audit otomasi bisnis Tangsel'],
+  },
+  '/harga': {
+    title: 'Harga Pembuatan Website, AI Agent & Software | CHESTAADOTCOM',
+    description:
+      'Rincian biaya pembuatan website dan landing page mulai Rp1.200.000 serta estimasi cakupan AI agent WhatsApp, software custom, dan otomasi setelah audit.',
+    keywords: ['harga pembuatan website BSD', 'biaya AI agent WhatsApp', 'harga software custom'],
+  },
+  '/cara-kerja': {
+    title: 'Cara Kerja & Proses Pengerjaan 4 Langkah | CHESTAADOTCOM',
+    description:
+      'Pelajari empat langkah kerja CHESTAADOTCOM di BSD, Tangerang Selatan: audit gratis 30 menit, rancang dan prototipe, bangun dan uji, serta rilis dan rawat.',
+    keywords: ['cara kerja CHESTAADOTCOM', 'proses pembuatan website', 'audit 30 menit'],
+  },
+  '/faq': {
+    title: 'Pertanyaan Umum (FAQ) Website & AI Agent | CHESTAADOTCOM',
+    description:
+      'Jawaban jujur untuk 21 pertanyaan seputar harga pembuatan website, batas keamanan AI agent WhatsApp, kepemilikan kode, dan garansi di Tangerang Selatan.',
+    keywords: ['FAQ CHESTAADOTCOM', 'tanya jawab AI agent', 'harga website Tangerang Selatan'],
   },
   '/privasi': {
     title: 'Kebijakan Privasi & Pelindungan Data (UU PDP) | CHESTAADOTCOM',
     description:
-      'Kebijakan privasi CHESTAADOTCOM dalam bahasa lugas sesuai UU PDP No. 27 Tahun 2022. Tanpa cookie iklan, tanpa jual data, dan transparan.',
+      'Kebijakan privasi CHESTAADOTCOM dalam bahasa lugas sesuai UU PDP No. 27 Tahun 2022: analitik tanpa cookie, tidak ada cookie dari situs, dan tanpa jual data.',
     keywords: ['kebijakan privasi CHESTAADOTCOM', 'UU PDP No 27 Tahun 2022', 'privasi data'],
   },
   '/workflow': {
-    title: 'Cara Kerja & Proses 4 Langkah | CHESTAADOTCOM',
+    title: 'Alur Kerja Teknis & Tahap Implementasi | CHESTAADOTCOM',
     description:
-      'Empat langkah kerja CHESTAADOTCOM: audit gratis 30 menit, rancang dan prototipe, bangun dan uji, serta rilis dan rawat bersama timmu.',
+      'Empat langkah kerja teknis CHESTAADOTCOM di BSD, Tangsel: audit gratis 30 menit, rancang dan prototipe, bangun dan uji, serta rilis dan rawat bersama timmu.',
     keywords: ['cara kerja CHESTAADOTCOM', 'proses pembuatan AI agent', 'audit software BSD'],
   },
   ...SERVICE_ROUTES_SEO,

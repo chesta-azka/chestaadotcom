@@ -132,7 +132,7 @@ export function buildProjectIndex(): IndexedContentItem[] {
     const combinedText = [
       proj.title,
       proj.category,
-      proj.client || '',
+      proj.badgeLabel || '',
       proj.description,
       proj.overview || '',
       proj.challenges || '',
@@ -153,7 +153,7 @@ export function buildProjectIndex(): IndexedContentItem[] {
       path: `/portfolio/${proj.id}`,
       tags: [...proj.techStack, ...(proj.features || []), proj.category],
       techStack: proj.techStack,
-      client: proj.client,
+      client: proj.badgeLabel,
       metric: proj.impact || 'High Performance',
       thumbnail: proj.thumbnail,
       searchTokens,

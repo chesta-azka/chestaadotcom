@@ -2,6 +2,7 @@ import React, { useMemo } from 'react';
 import { Link, useSearchParams, useLocation } from 'react-router-dom';
 import {
   ArrowRight,
+  ArrowUpRight,
   RotateCcw,
   Compass,
   Target,
@@ -121,7 +122,7 @@ function CaseStudyHorizontalRow({
                 />
                 <div className="absolute top-3 left-3 flex flex-wrap items-center gap-2">
                   <span className="inline-flex items-center px-2.5 py-1 rounded-full bg-[#6A3FD0] text-[#FFFFFF] font-mono text-[10px] uppercase tracking-[0.08em] font-semibold">
-                    {study.internalBadgeLabel}
+                    {study.badgeLabel}
                   </span>
                   <span className="inline-flex items-center px-2.5 py-1 rounded-full bg-[#FFFFFF]/92 backdrop-blur-sm border border-[rgba(91,60,196,0.16)] font-mono text-[10px] uppercase tracking-[0.08em] text-[#5B5675] font-semibold">
                     {isEn ? 'Illustration' : 'Ilustrasi'}
@@ -132,13 +133,13 @@ function CaseStudyHorizontalRow({
 
             {/* Right Editorial Summary */}
             <div className="lg:col-span-7 flex flex-col justify-between space-y-4">
-              {/* Industry tag, "Proyek internal" badge, reading time */}
+              {/* Industry tag, "Studi kasus contoh" badge, reading time */}
               <div className="flex flex-wrap items-center gap-2 text-[12px] font-mono uppercase tracking-[0.08em]">
                 <span className="px-2.5 py-0.5 rounded-full bg-[#EFEAFB] border border-[rgba(91,60,196,0.16)] text-[#6A3FD0] font-semibold">
                   {study.industry}
                 </span>
                 <span className="px-2.5 py-0.5 rounded-full bg-[#F8F6FE] border border-[rgba(91,60,196,0.16)] text-[#17122B] font-semibold">
-                  {study.internalBadgeLabel}
+                  {study.badgeLabel}
                 </span>
                 <span aria-hidden="true" className="text-[#5B5675]/40">
                   ·
@@ -168,6 +169,11 @@ function CaseStudyHorizontalRow({
                   </p>
                 </div>
               </div>
+
+              {/* Mandatory Sample Note under each card */}
+              <p className="text-[13px] text-[#5B5675] leading-[1.55]">
+                {study.sampleNote}
+              </p>
 
               {/* Bottom Row: Service Chips + Static Design Target Note + Sliding Arrow */}
               <div className="pt-1 flex flex-wrap items-center justify-between gap-4">
@@ -235,11 +241,11 @@ export default function CaseStudiesPage() {
     : PROBLEM_READING_PRINCIPLES_ID;
 
   const pageTitle = isEn
-    ? 'The Stories Behind the Projects — Case Studies | CHESTAADOTCOM'
-    : 'Cerita di Balik Proyeknya — Studi Kasus | CHESTAADOTCOM';
+    ? 'Sample Case Studies & System Architecture | CHESTAADOTCOM'
+    : 'Studi Kasus Contoh & Arsitektur Sistem | CHESTAADOTCOM';
   const pageDescription = isEn
-    ? 'Internal CHESTAADOTCOM case studies explaining the problem, architectural decisions, system flows, and design targets before client deployment.'
-    : 'Kumpulan studi kasus proyek internal CHESTAADOTCOM yang menjelaskan masalah, keputusan arsitektur, alur sistem, dan target desain kami.';
+    ? 'Sample case studies that show how we analyze problems, make decisions, and weigh trade-offs. Our real project experience is on the About and Projects pages.'
+    : 'Contoh studi kasus yang memperlihatkan cara kami menganalisis masalah, mengambil keputusan, dan menimbang kompromi. Pengalaman proyek nyata kami ada di halaman Tentang dan Proyek.';
 
   const jsonLdGraph = useMemo(
     () => ({
@@ -296,7 +302,7 @@ export default function CaseStudiesPage() {
       />
 
       {/* =====================================================
-          1. EDITORIAL HEADER + HONESTY DISCLOSURE STRIP
+          1. EDITORIAL HEADER + SAMPLE CASE STUDY DISCLOSURE NOTE
           ===================================================== */}
       <section className="pt-28 pb-12 md:pt-36 md:pb-16 bg-gradient-to-b from-[#FFFFFF] via-[#F8F6FE] to-[#FFFFFF] border-b border-[rgba(91,60,196,0.14)]">
         <Container className="space-y-8">
@@ -306,7 +312,7 @@ export default function CaseStudiesPage() {
             <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6">
               <div className="max-w-2xl space-y-3">
                 <Badge variant="tint">
-                  {isEn ? 'Internal project' : 'Proyek internal'}
+                  {isEn ? 'Sample case study' : 'Studi kasus contoh'}
                 </Badge>
                 <WordRevealHeading
                   as="h1"
@@ -319,8 +325,8 @@ export default function CaseStudiesPage() {
                 />
                 <p className="text-[15px] md:text-[16px] text-[#5B5675] leading-[1.65]">
                   {isEn
-                    ? 'Projects we built ourselves to test the workflows. Each story explains the problem, the decisions, and the trade-offs we made.'
-                    : 'Proyek yang kami bangun sendiri untuk menguji alurnya. Setiap cerita menjelaskan masalah, keputusan, dan hal yang kami kompromikan.'}
+                    ? 'Sample case studies that show how we analyze problems, make decisions, and weigh trade-offs. Our real project experience is on the About and Projects pages.'
+                    : 'Contoh studi kasus yang memperlihatkan cara kami menganalisis masalah, mengambil keputusan, dan menimbang kompromi. Pengalaman proyek nyata kami ada di halaman Tentang dan Proyek.'}
                 </p>
               </div>
 
@@ -332,18 +338,18 @@ export default function CaseStudiesPage() {
                   <LayoutGrid size={15} className="text-[#6A3FD0]" />
                   <span>
                     {isEn
-                      ? 'View visual portfolio showcase'
-                      : 'Lihat galeri visual portofolio'}
+                      ? 'View Projects page'
+                      : 'Lihat halaman Proyek'}
                   </span>
                 </Button>
               </div>
             </div>
           </div>
 
-          {/* Mandatory Disclosure Strip right under the index header */}
+          {/* Mandatory Sample Disclosure Strip right under the index header */}
           <div
             role="note"
-            aria-label={isEn ? 'Internal project disclosure' : 'Keterangan proyek internal'}
+            aria-label={isEn ? 'Sample case study note' : 'Catatan studi kasus contoh'}
             className="p-4 md:p-5 rounded-[20px] bg-[#EFEAFB]/75 border border-[rgba(91,60,196,0.2)] flex items-start gap-3.5"
           >
             <span className="w-8 h-8 rounded-full bg-[#FFFFFF] border border-[rgba(91,60,196,0.18)] flex items-center justify-center text-[#6A3FD0] shrink-0 mt-0.5">
@@ -352,27 +358,34 @@ export default function CaseStudiesPage() {
             <div className="space-y-1">
               <span className="block font-mono text-[11px] uppercase tracking-[0.08em] text-[#6A3FD0] font-semibold">
                 {isEn
-                  ? 'INTERNAL PROJECT DISCLOSURE · DESIGN TARGETS ONLY'
-                  : 'KETERANGAN PROYEK INTERNAL · TARGET DESAIN'}
+                  ? 'SAMPLE CASE STUDY · DESIGN TARGETS'
+                  : 'STUDI KASUS CONTOH · TARGET DESAIN'}
               </span>
               <p className="text-[14px] md:text-[15px] text-[#17122B] leading-[1.6]">
                 {isEn
-                  ? 'All case studies on this page are CHESTAADOTCOM internal projects, not client projects. We built them ourselves to test the workflows before using them for clients.'
-                  : 'Semua studi kasus di halaman ini adalah proyek internal CHESTAADOTCOM, bukan proyek klien. Kami membangunnya sendiri untuk menguji alurnya sebelum dipakai klien.'}
+                  ? 'Sample project designed to show our workflow. Not a client project.'
+                  : 'Contoh proyek dirancang untuk memperlihatkan alur kerja kami. Bukan proyek klien.'}
               </p>
-              <p className="text-[13.5px] text-[#6A3FD0] font-medium pt-1">
+              <div className="flex flex-wrap items-center gap-4 text-[13.5px] text-[#6A3FD0] font-medium pt-1">
                 <Link
                   to={toLocalizedHref('/about', locale, prefixMode)}
                   className="hover:underline inline-flex items-center gap-1"
                 >
                   <span>
-                    {isEn
-                      ? 'Our real project experience is on the About page.'
-                      : 'Pengalaman proyek nyata kami ada di halaman Tentang.'}
+                    {isEn ? 'About page' : 'Halaman Tentang'}
                   </span>
                   <ArrowUpRight size={14} />
                 </Link>
-              </p>
+                <Link
+                  to={toLocalizedHref('/portfolio', locale, prefixMode)}
+                  className="hover:underline inline-flex items-center gap-1"
+                >
+                  <span>
+                    {isEn ? 'Projects page' : 'Halaman Proyek'}
+                  </span>
+                  <ArrowUpRight size={14} />
+                </Link>
+              </div>
             </div>
           </div>
         </Container>
@@ -417,8 +430,8 @@ export default function CaseStudiesPage() {
             <div className="flex items-center gap-3 shrink-0">
               <span className="font-mono text-[11px] uppercase tracking-[0.08em] text-[#5B5675]">
                 {isEn
-                  ? `${filteredStudies.length} internal case studies`
-                  : `${filteredStudies.length} studi kasus internal`}
+                  ? `${filteredStudies.length} sample case studies`
+                  : `${filteredStudies.length} studi kasus contoh`}
               </span>
 
               {isFiltered && (
@@ -453,17 +466,17 @@ export default function CaseStudiesPage() {
                 className="p-10 md:p-14 rounded-[24px] bg-[#F8F6FE] border border-[rgba(91,60,196,0.14)] text-center max-w-xl mx-auto space-y-4"
               >
                 <Badge variant="tint">
-                  {isEn ? 'Internal project' : 'Proyek internal'}
+                  {isEn ? 'Sample case study' : 'Studi kasus contoh'}
                 </Badge>
                 <h2 className="text-[20px] md:text-[24px] text-[#17122B]">
                   {isEn
-                    ? 'No internal case studies in this service filter yet'
-                    : 'Belum ada studi kasus internal pada filter layanan ini'}
+                    ? 'No sample case studies in this service filter yet'
+                    : 'Belum ada studi kasus contoh pada filter layanan ini'}
                 </h2>
                 <p className="text-[15px] text-[#5B5675] leading-[1.65]">
                   {isEn
-                    ? 'Select All to read our three complete internal case studies or browse all six projects in the visual portfolio.'
-                    : 'Pilih Semua untuk membaca tiga cerita studi kasus internal kami atau lihat keenam proyek di halaman portofolio visual.'}
+                    ? 'Select All to read our five sample case studies or browse all projects on the Projects page.'
+                    : 'Pilih Semua untuk membaca lima studi kasus contoh kami atau lihat seluruh daftar di halaman Proyek.'}
                 </p>
                 <div className="pt-2 flex flex-wrap justify-center gap-3">
                   <Button to={caseStudiesHref} variant="primary">
@@ -479,7 +492,7 @@ export default function CaseStudiesPage() {
                     variant="secondary"
                   >
                     <span>
-                      {isEn ? 'Open visual portfolio' : 'Buka portofolio visual'}
+                      {isEn ? 'Open Projects page' : 'Buka halaman Proyek'}
                     </span>
                   </Button>
                 </div>
@@ -506,8 +519,8 @@ export default function CaseStudiesPage() {
               </h2>
               <p className="text-[15px] md:text-[16px] text-[#5B5675] leading-[1.65]">
                 {isEn
-                  ? 'Three working rules we apply when designing every internal project and client workflow.'
-                  : 'Tiga pegangan yang kami pakai saat merancang setiap proyek internal maupun alur kerja klien.'}
+                  ? 'Three working rules we apply when designing every sample project and client workflow.'
+                  : 'Tiga pegangan yang kami pakai saat merancang setiap contoh proyek maupun alur kerja klien.'}
               </p>
             </div>
           </Reveal>

@@ -187,11 +187,11 @@ export const BLOG_POSTS_15_16_ID_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'paragraph',
-        text: '**Contoh skenario kedua (klinik kesehatan atau lembaga edukasi dengan tim penulis aktif):** Sebuah klinik memiliki dua staf pemasaran penuh waktu yang ditugaskan menerbitkan empat artikel edukasi kesehatan setiap minggu dan memperbarui jadwal seminar secara mandiri. Jika mereka tidak memiliki staf pemrograman internal, WordPress yang dikonfigurasi secara ramping dengan pembatasan plugin ketat dapat menjadi pilihan yang masuk akal bagi alur kerja redaksi mereka.',
+        text: '**Contoh skenario kedua (klinik kesehatan atau lembaga edukasi dengan tim penulis aktif):** Sebuah klinik memiliki dua staf pemasaran penuh waktu yang ditugaskan menerbitkan empat artikel edukasi kesehatan setiap minggu dan memperbarui jadwal seminar secara mandiri. Jika mereka tidak memiliki staf pemrograman operasional, WordPress yang dikonfigurasi secara ramping dengan pembatasan plugin ketat dapat menjadi pilihan yang masuk akal bagi alur kerja redaksi mereka.',
       },
       {
         type: 'paragraph',
-        text: '**Contoh skenario ketiga (perusahaan kontraktor interior atau penyedia jasa B2B):** Sebuah perusahaan jasa membutuhkan situs profil yang sangat cepat saat menerima klik iklan Google Ads, dilengkapi kalkulator simulasi anggaran interaktif dan integrasi langsung ke sistem antrean prospek internal. Kebutuhan interaktivitas khusus dan performa tinggi seperti ini lebih selaras dibangun menggunakan kerangka kerja aplikasi seperti Next.js.',
+        text: '**Contoh skenario ketiga (perusahaan kontraktor interior atau penyedia jasa B2B):** Sebuah perusahaan jasa membutuhkan situs profil yang sangat cepat saat menerima klik iklan Google Ads, dilengkapi kalkulator simulasi anggaran interaktif dan integrasi langsung ke sistem antrean prospek operasional. Kebutuhan interaktivitas khusus dan performa tinggi seperti ini lebih selaras dibangun menggunakan kerangka kerja aplikasi seperti Next.js.',
       },
       {
         type: 'h2',
@@ -256,7 +256,7 @@ export const BLOG_POSTS_15_16_ID_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'paragraph',
-        text: 'Sebagai gambaran nyata tentang bagaimana arsitektur statis bekerja, kamu dapat melihat proyek internal kami pada [studi kasus pembangunan ulang situs dua bahasa chestaa.com v2](/studi-kasus/chestaa-v2). Proyek internal kami tersebut dirancang menghasilkan halaman yang langsung siap saji tanpa beban skrip yang tidak perlu, sehingga nyaman diakses dari perangkat seluler.',
+        text: 'Sebagai gambaran nyata tentang bagaimana arsitektur statis bekerja, kamu dapat melihat contoh proyek kami pada [studi kasus pembangunan ulang situs dua bahasa chestaa.com v2](/studi-kasus/chestaa-v2). Contoh proyek kami tersebut dirancang menghasilkan halaman yang langsung siap saji tanpa beban skrip yang tidak perlu, sehingga nyaman diakses dari perangkat seluler.',
       },
       {
         type: 'ol',
@@ -471,7 +471,7 @@ export const BLOG_POSTS_15_16_ID_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'paragraph',
-        text: 'Sebaliknya, jika bisnismu bergantung pada aplikasi web internal setiap hari, seperti pada proyek internal kami [studi kasus Dashboard Operasional Kafe](/studi-kasus/dashboard-kafe) yang memantau selisih stok bahan baku dan penjualan antar-cabang, gangguan beberapa jam saja saat jam sibuk akan menghambat kerja kasir dan gudang. Untuk sistem seperti ini, memiliki rekan teknis siaga jauh lebih hemat daripada merekrut satu staf pemrogram tetap.',
+        text: 'Sebaliknya, jika bisnismu bergantung pada aplikasi web operasional setiap hari, seperti pada contoh proyek kami [studi kasus Dashboard Operasional Kafe](/studi-kasus/dashboard-kafe) yang memantau selisih stok bahan baku dan penjualan antar-cabang, gangguan beberapa jam saja saat jam sibuk akan menghambat kerja kasir dan gudang. Untuk sistem seperti ini, memiliki rekan teknis siaga jauh lebih hemat daripada merekrut satu staf pemrogram tetap.',
       },
       {
         type: 'h2',
@@ -520,7 +520,7 @@ export const BLOG_POSTS_15_16_ID_RAW: RawBlogPostInput[] = [
           [
             'Rekomendasi Skema Perawatan',
             'Rawat mandiri + panggil saat butuh ubah',
-            'Paket rawat ringan atau staf internal disiplin',
+            'Paket rawat ringan atau staf operasional disiplin',
             'Paket perawatan berkala dengan SLA jelas',
           ],
         ],
@@ -579,12 +579,12 @@ export const BLOG_POSTS_15_16_ID_RAW: RawBlogPostInput[] = [
           'Catat biaya perpanjangan tahunan nama domain langsung dari situs registrar resmi yang kamu gunakan; cek dokumentasi resmi untuk angka dan ketentuan terbaru.',
           'Catat biaya paket server hosting, penyimpanan database cloud, atau kuota pesan API sesuai volume pemakaian bulananmu; cek dokumentasi resmi masing-masing penyedia untuk angka dan ketentuan terbaru.',
           'Perkirakan berapa kali dalam setahun bisnismu membutuhkan perombakan halaman promosi atau penambahan fitur kecil di luar perubahan teks biasa.',
-          'Putuskan apakah pemantauan rutin akan dijalankan oleh staf internal menggunakan daftar periksa tertulis atau diserahkan ke rekanan teknis dengan biaya bulanan tetap.',
+          'Putuskan apakah pemantauan rutin akan dijalankan oleh staf operasional menggunakan daftar periksa tertulis atau diserahkan ke rekanan teknis dengan biaya bulanan tetap.',
         ],
       },
       {
         type: 'paragraph',
-        text: '**Contoh skenario (praktik dokter bersama dan jasa renovasi rumah di Jurang Mangu):** Bayangkan kamu mengelola sebuah klinik praktik dokter atau kantor jasa renovasi bangunan di kawasan [area layanan Jurang Mangu](/area/jurang-mangu). Kamu memiliki satu halaman website profil untuk menerima pesan konsultasi dan satu tabel internal sederhana untuk mencatat jadwal survei.',
+        text: '**Contoh skenario (praktik dokter bersama dan jasa renovasi rumah di Jurang Mangu):** Bayangkan kamu mengelola sebuah klinik praktik dokter atau kantor jasa renovasi bangunan di kawasan [area layanan Jurang Mangu](/area/jurang-mangu). Kamu memiliki satu halaman website profil untuk menerima pesan konsultasi dan satu tabel operasional sederhana untuk mencatat jadwal survei.',
       },
       {
         type: 'paragraph',

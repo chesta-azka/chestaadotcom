@@ -32,13 +32,13 @@ export const NEW_BLOG_POSTS_EN_RAW: RawBlogPostInput[] = [
       'Many business owners buy a WhatsApp tool marketed as AI, only to discover it still forces customers to press 1 through 5 and cannot check a single calendar slot. Understanding the boundary between a text-reply chatbot and a task-executing AI agent protects both your budget and your customer experience.',
     founderNote: {
       author: 'chesta',
-      title: 'Co-Founder Field Note · Auditing After-Hours WhatsApp Queues',
-      text: '[ISI PENGALAMAN ASLI: Add Chesta Azka’s first-hand observation from auditing evening WhatsApp inquiry queues for clinics or service businesses in BSD/South Tangerang—for example, what percentage of warm leads go cold overnight or abandon rigid numeric menu bots.]',
+      title: 'Co-Founder Architecture Note · Designing WhatsApp Flows',
+      text: 'In our sample project WA Concierge for aesthetic clinics, we engineered the WhatsApp conversation pipeline to separate general SOP questions from live calendar slot lookups. This ensures evening inquiries get clear scheduling options without getting trapped in rigid numbered keypad menus.',
     },
     content: [
       {
         type: 'paragraph',
-        text: 'The core difference between a chatbot and an AI agent comes down to **agency and tool execution**: a standard chatbot matches keywords or numbered menu buttons to send pre-written text replies, whereas an AI agent understands free-form conversation, selects external tools (such as Google Calendar, spreadsheets, or a PostgreSQL CRM), executes real actions, and verifies the outcome before replying to your customer.',
+        text: 'The core difference between a chatbot and an AI agent comes down to **agency and tool execution**: a standard chatbot matches keywords or numbered menu buttons to send pre-written text replies, whereas an AI agent understands free-form conversation, selects external tools (such as Google Calendar, spreadsheets, or a CRM database), executes real actions, and verifies the outcome before replying to your customer.',
       },
       {
         type: 'paragraph',
@@ -47,19 +47,19 @@ export const NEW_BLOG_POSTS_EN_RAW: RawBlogPostInput[] = [
       {
         type: 'h2',
         id: 'real-world-scenario-clinic-whatsapp-reply',
-        text: '1. Real-World Scenario: What Happens When a Patient Messages Your Clinic at 9:15 PM?',
+        text: '1. Example Scenario: What Happens When a Patient Messages Your Clinic at 9:15 PM?',
       },
       {
         type: 'paragraph',
-        text: 'Picture a dental or aesthetic clinic in BSD City running Instagram ads. At 9:15 PM, long after the front-desk receptionist has gone home, a prospective patient sends a single WhatsApp message combining three distinct intents: *"Hi, how much is teeth scaling plus one back-tooth filling? And does Dr. Rina have an open slot this Saturday around 10 AM?"*',
+        text: 'Imagine a dental or aesthetic clinic in BSD City running Instagram ads. At 9:15 PM, long after the front-desk receptionist has gone home, a prospective patient sends a single WhatsApp message combining three distinct intents: *"Hi, how much is teeth scaling plus one back-tooth filling? And does the on-duty dentist have an open slot this Saturday around 10 AM?"*',
       },
       {
         type: 'paragraph',
-        text: 'If the clinic uses a **rule-based chatbot**, the system either fails to parse the natural sentence or immediately dumps a rigid numbered menu: *"Welcome to Clinic X. Reply 1 for Price List, Reply 2 for Opening Hours, Reply 3 to Speak with Admin."* When the patient types `1`, the bot sends a generic price brochure, but the question that actually drives revenue—whether Dr. Rina is free this Saturday at 10 AM—remains unanswered until 9:00 AM the next morning.',
+        text: 'If the clinic uses a **rule-based chatbot**, the system either fails to parse the natural sentence or immediately dumps a rigid numbered menu: *"Welcome to the Clinic. Reply 1 for Price List, Reply 2 for Opening Hours, Reply 3 to Speak with Admin."* When the patient types `1`, the bot sends a generic price brochure, but the question that actually drives revenue—whether the on-duty dentist is free this Saturday at 10 AM—remains unanswered until 9:00 AM the next morning.',
       },
       {
         type: 'paragraph',
-        text: 'Now contrast that with an **[AI agent system](/eng/jasa/ai-agent)** connected to the clinic’s official SOP pricing document and live doctor calendar. Within ten seconds, the agent parses both questions, retrieves the exact price range for scaling and composite filling from the approved knowledge base, and invokes a calendar lookup tool for Dr. Rina on Saturday at 10:00 AM. Seeing that 10:00 AM is booked but 11:00 AM is open, the agent replies naturally: it states the transparent cost estimate for both treatments, informs the patient that 10:00 AM is taken but 11:00 AM is available, and offers to lock in the 11:00 AM slot right away.',
+        text: 'Now contrast that with an **[AI agent system](/en/services/ai-agents)** connected to the clinic’s official SOP pricing document and live doctor calendar. Within ten seconds, the agent parses both questions, retrieves the exact price range for scaling and composite filling from the approved knowledge base, and invokes a calendar lookup tool for the on-duty dentist on Saturday at 10:00 AM. Seeing that 10:00 AM is booked but 11:00 AM is open, the agent replies naturally: it states the transparent cost estimate for both treatments, informs the patient that 10:00 AM is taken but 11:00 AM is available, and offers to lock in the 11:00 AM slot right away.',
       },
       {
         type: 'h2',
@@ -68,14 +68,14 @@ export const NEW_BLOG_POSTS_EN_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'paragraph',
-        text: 'To understand why traditional chatbots frustrate real buyers on WhatsApp, look at their internal mechanics. Most business chatbots rely on pre-mapped **decision trees** or rigid **keyword matching**.',
+        text: 'To understand why traditional chatbots frustrate real buyers on WhatsApp, look at their underlying mechanics. Most business chatbots rely on pre-mapped **decision trees** or rigid **keyword matching**.',
       },
       {
         type: 'ul',
         title: 'Three structural limitations of a conventional chatbot:',
         items: [
           'Fixed one-way conversation rails: Every possible branch must be drawn manually in advance. If a customer asks two questions at once or changes their mind mid-chat, the flow breaks.',
-          'Zero read/write access to operational databases: A basic chatbot stores static text inside its own dashboard. It cannot query live room availability in PostgreSQL, check technician schedules in Google Calendar, or calculate shipping rates dynamically.',
+          'Zero read/write access to operational databases: A basic chatbot stores static text inside its own dashboard. It cannot query live room availability in a relational database, check technician schedules in Google Calendar, or calculate shipping rates dynamically.',
           'Fragility against everyday conversational language: Customers on WhatsApp use abbreviations, voice-note transcripts, typos, and multi-bubble messages. Keyword triggers regularly misfire when customers do not type the exact phrase the bot expects.',
         ],
       },
@@ -99,7 +99,7 @@ export const NEW_BLOG_POSTS_EN_RAW: RawBlogPostInput[] = [
           'Read Context: The agent inspects the latest message, prior conversation history for that phone number, and your system guardrails (operating hours, booking rules, and pricing boundaries).',
           'Select Tool: Based on the customer’s intent, the agent decides whether to answer directly from verified SOP documents or invoke a backend function tool such as `check_calendar_slots`, `lookup_order_status`, or `escalate_to_human`.',
           'Act (Execute Tool): The backend runs the chosen function with strict schema validation—for example, querying the Google Calendar API for open slots on a specific date or inserting a qualified lead row into your database.',
-          'Verify Result & Respond: The agent inspects the structured response returned by the tool. Only after confirming that the calendar slot was successfully locked does the agent send a friendly confirmation message to the customer and notify your internal admin group.',
+          'Verify Result & Respond: The agent inspects the structured response returned by the tool. Only after confirming that the calendar slot was successfully locked does the agent send a friendly confirmation message to the customer and notify your in-house admin group.',
         ],
       },
       {
@@ -122,7 +122,7 @@ export const NEW_BLOG_POSTS_EN_RAW: RawBlogPostInput[] = [
   },
   "step_4_verification": "Slot verified & within service area. Send price confirmation + request street address."
 }`,
-        caption: 'Internal execution trace showing how an AI agent validates availability and pricing before replying.',
+        caption: 'System execution trace showing how an AI agent validates availability and pricing before replying.',
       },
       {
         type: 'h2',
@@ -228,7 +228,7 @@ export const NEW_BLOG_POSTS_EN_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'paragraph',
-        text: 'Whenever we architect an [AI agent system](/eng/jasa/ai-agent) at CHESTAADOTCOM, we enforce three mandatory safety layers:',
+        text: 'Whenever we architect an [AI agent system](/en/services/ai-agents) at CHESTAADOTCOM, we enforce three mandatory safety layers:',
       },
       {
         type: 'h3',
@@ -270,7 +270,7 @@ export const NEW_BLOG_POSTS_EN_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'paragraph',
-        text: 'The most common mistake companies make with AI is trying to automate ten departments at once in month one. Overly broad projects stall at the SOP gathering stage because internal teams have not agreed on edge-case rules yet.',
+        text: 'The most common mistake companies make with AI is trying to automate ten departments at once in month one. Overly broad projects stall at the SOP gathering stage because in-house teams have not agreed on edge-case rules yet.',
       },
       {
         type: 'paragraph',
@@ -296,7 +296,7 @@ export const NEW_BLOG_POSTS_EN_RAW: RawBlogPostInput[] = [
       title: 'Audit Your WhatsApp Chat Flow & Design a Safe Business AI Agent',
       description:
         'We design and build custom WhatsApp & CRM AI agents complete with calendar/database tool integration, SOP guardrails, and human handover. Transparent fixed pricing after a free 30-minute audit.',
-      href: '/eng/jasa/ai-agent',
+      href: '/en/services/ai-agents',
       label: 'Explore AI Agent Services',
     },
     faq: [
@@ -313,7 +313,7 @@ export const NEW_BLOG_POSTS_EN_RAW: RawBlogPostInput[] = [
       {
         question: 'How much does it cost to build an AI agent at CHESTAADOTCOM?',
         answer:
-          'Pricing depends on the number of connected tools (such as Google Calendar, Sheets, or internal databases) and business rules. We calculate a transparent fixed quote after a free 30-minute workflow audit.',
+          'Pricing depends on the number of connected tools (such as Google Calendar, Sheets, or company databases) and business rules. We calculate a transparent fixed quote after a free 30-minute workflow audit.',
       },
       {
         question: 'Can our human admin take over a conversation at any time?',
@@ -357,8 +357,8 @@ export const NEW_BLOG_POSTS_EN_RAW: RawBlogPostInput[] = [
       'Until recently, connecting an AI assistant to Google Calendar, an inventory database, and a finance spreadsheet was like buying a different proprietary charger for every device in your office. Whenever one app updated its API, the custom connector broke.',
     founderNote: {
       author: 'chesta',
-      title: 'Co-Founder Field Note · Standardizing AI Tool Connections',
-      text: '[ISI PENGALAMAN ASLI: Add Chesta Azka’s note on building modular, standardized tool servers for client AI agents versus maintaining brittle one-off webhook glue code.]',
+      title: 'Co-Founder Architecture Note · Standardizing AI Tool Connections',
+      text: 'At CHESTAADOTCOM, we decouple tool function definitions (such as calendar slot queries and spreadsheet row updates) from the core language model layer. Using a modular architecture like Model Context Protocol (MCP) keeps read and write permissions strictly bounded without brittle one-off webhook glue code.',
     },
     content: [
       {
@@ -376,7 +376,7 @@ export const NEW_BLOG_POSTS_EN_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'paragraph',
-        text: 'Before a shared standard existed, connecting an AI model to your operational tools required writing custom point-to-point integration code for every single pairing. Engineers call this the $M \\times N$ integration problem: if you have multiple AI interfaces and multiple business tools (Google Calendar, Google Sheets, PostgreSQL, Notion, CRM), every combination demanded its own bespoke parser and authentication wrapper.',
+        text: 'Before a shared standard existed, connecting an AI model to your operational tools required writing custom point-to-point integration code for every single pairing. Engineers call this the M × N integration problem: if you have multiple AI interfaces and multiple business tools (Google Calendar, Google Sheets, relational databases, Notion, CRM), every combination demanded its own bespoke parser and authentication wrapper.',
       },
       {
         type: 'paragraph',
@@ -385,9 +385,9 @@ export const NEW_BLOG_POSTS_EN_RAW: RawBlogPostInput[] = [
       {
         type: 'ul',
         items: [
-          'MCP Host: The primary application running your AI workflow (such as your company’s backend WhatsApp AI agent service or an internal workspace app).',
+          'MCP Host: The primary application running your AI workflow (such as your company’s backend WhatsApp AI agent service or an in-house workspace app).',
           'MCP Client: The protocol connector inside the Host that maintains a dedicated 1:1 connection with each configured tool server.',
-          'MCP Server: A lightweight, isolated adapter sitting in front of a specific tool or database (for example, a Google Calendar MCP Server or a PostgreSQL MCP Server) that exposes three standardized primitives: Resources (read-only data context), Prompts (reusable instruction templates), and Tools (executable functions).',
+          'MCP Server: A lightweight, isolated adapter sitting in front of a specific tool or database (for example, a Google Calendar MCP Server or a Relational Database MCP Server) that exposes three standardized primitives: Resources (read-only data context), Prompts (reusable instruction templates), and Tools (executable functions).',
         ],
       },
       {
@@ -428,7 +428,7 @@ export const NEW_BLOG_POSTS_EN_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'paragraph',
-        text: 'Let’s look at how a clinic or B2B consultancy in South Tangerang benefits from this structure when deploying an [AI agent system](/eng/jasa/ai-agent). Suppose your team manages consultation slots in **Google Calendar** and tracks incoming client bookings in **Google Sheets**.',
+        text: 'Let’s look at how a clinic or B2B consultancy in South Tangerang benefits from this structure when deploying an [AI agent system](/en/services/ai-agents). Suppose your team manages consultation slots in **Google Calendar** and tracks incoming client bookings in **Google Sheets**.',
       },
       {
         type: 'ol',
@@ -470,7 +470,7 @@ export const NEW_BLOG_POSTS_EN_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'paragraph',
-        text: 'Not every integration requires an AI agent. If your process follows a fixed, predictable rule every time—for example, whenever a web form is submitted, copy the row to Google Sheets and generate a PDF invoice—our [workflow automation service](/eng/jasa/otomasi-workflow) using n8n and Node.js webhooks is faster and cheaper to run. You only need an MCP-connected AI agent when the system must interpret unstructured human conversation and dynamically choose which tool to run.',
+        text: 'Not every integration requires an AI agent. If your process follows a fixed, predictable rule every time—for example, whenever a web form is submitted, copy the row to Google Sheets and generate a PDF invoice—our [workflow automation service](/en/services/workflow-automation) using Make, Zapier, and server webhooks is faster and cheaper to run. You only need an MCP-connected AI agent when the system must interpret unstructured human conversation and dynamically choose which tool to run.',
       },
     ],
     conclusion: [
@@ -481,15 +481,15 @@ export const NEW_BLOG_POSTS_EN_RAW: RawBlogPostInput[] = [
       slug: 'ai-agent',
       title: 'Connect an AI Agent Safely to Your Calendar, Sheets & CRM',
       description:
-        'We architect WhatsApp & internal AI agents with least-privilege tool connectors and full audit logs. Book a free 30-minute workflow audit with our co-founders.',
-      href: '/eng/jasa/ai-agent',
+        'We architect WhatsApp & operational AI agents with least-privilege tool connectors and full audit logs. Book a free 30-minute workflow audit with our co-founders.',
+      href: '/en/services/ai-agents',
       label: 'Explore AI Agent Integration',
     },
     faq: [
       {
         question: 'Do we have to replace Google Sheets or Google Calendar to use MCP with an AI agent?',
         answer:
-          'Not at all. The entire purpose of standardized tool servers is to let the AI agent read and update the Google Calendar, Google Sheets, or PostgreSQL database your team already uses every day.',
+          'Not at all. The entire purpose of standardized tool servers is to let the AI agent read and update the Google Calendar, Google Sheets, or operational database your team already uses every day.',
       },
       {
         question: 'Does "open protocol" mean our company data is exposed to the public?',
@@ -520,9 +520,9 @@ export const NEW_BLOG_POSTS_EN_RAW: RawBlogPostInput[] = [
     title: 'Vibe Coding for Business: When AI-Generated Code Is Enough and When It Is Dangerous',
     seoTitle: 'Vibe Coding for Business: Safe Uses & Risks | CHESTAADOTCOM',
     excerpt:
-      'Building software purely by prompting AI (vibe coding) is great for rapid UI prototypes and internal scripts, but dangerous when handling payments, user permissions, and customer data without review.',
+      'Building software purely by prompting AI (vibe coding) is great for rapid UI prototypes and team scripts, but dangerous when handling payments, user permissions, and customer data without review.',
     metaDescription:
-      'An honest engineering guide to vibe coding for business owners: good uses (prototypes, internal scripts), dangerous uses (payments, auth, PII), and a 5-point production checklist.',
+      'An honest engineering guide to vibe coding for business owners: good uses (prototypes, team scripts), dangerous uses (payments, auth, PII), and a 5-point production checklist.',
     category: 'Web Strategy & Investment',
     categorySlug: 'investasi-web',
     tags: ['Vibe Coding', 'Custom Software', 'Application Security', 'Code Audit', 'Web Architecture'],
@@ -539,13 +539,13 @@ export const NEW_BLOG_POSTS_EN_RAW: RawBlogPostInput[] = [
       'Today, anyone can type a few paragraphs into an AI coding assistant and get a working web interface in minutes. Behind a polished laptop demo, however, lies a critical business question: is that code actually safe to handle real customer money and private company records?',
     founderNote: {
       author: 'chesta',
-      title: 'Co-Founder Field Note · Auditing AI-Generated Prototypes',
-      text: '[ISI PENGALAMAN ASLI: Add Chesta Azka’s experience helping founders rescue or re-architect vibe-coded prototypes that leaked API keys in the browser bundle or failed under multi-staff usage.]',
+      title: 'Co-Founder Architecture Note · Prototypes vs Production Systems',
+      text: 'When we engineered our temperature logging and defect tracking system for a beverage brand as well as our logistics warehouse management system, strict server-side validation and role-based access control were essential. AI-generated prototypes are great for early screen alignment, but core operational logic requires disciplined backend engineering.',
     },
     content: [
       {
         type: 'paragraph',
-        text: '**Vibe coding**—the practice of generating software by repeatedly prompting an AI model until the screen looks right, without inspecting or understanding the underlying code—is a fantastic accelerator for clickable prototypes and throwaway internal calculators, but becomes a serious business liability when deployed directly for payment processing, role-based staff permissions, or customer personal data without engineering review.',
+        text: '**Vibe coding**—the practice of generating software by repeatedly prompting an AI model until the screen looks right, without inspecting or understanding the underlying code—is a fantastic accelerator for clickable prototypes and throwaway team calculators, but becomes a serious business liability when deployed directly for payment processing, role-based staff permissions, or customer personal data without engineering review.',
       },
       {
         type: 'paragraph',
@@ -563,10 +563,10 @@ export const NEW_BLOG_POSTS_EN_RAW: RawBlogPostInput[] = [
       {
         type: 'ul',
         items: [
-          'Clickable UI prototypes to align your team: Before commissioning [custom software development](/eng/jasa/software-custom), generating a rough interactive mockup helps you test screen layouts with your staff in hours instead of weeks.',
-          'Internal calculators with zero confidential data: For example, a simple web calculator to estimate renovation material volume, mortgage installments, or package dimensions.',
+          'Clickable UI prototypes to align your team: Before commissioning [custom software development](/en/services/custom-software), generating a rough interactive mockup helps you test screen layouts with your staff in hours instead of weeks.',
+          'Team calculators with zero confidential data: For example, a simple web calculator to estimate renovation material volume, mortgage installments, or package dimensions.',
           'One-off local data cleanup scripts: Writing a quick Python or JavaScript script on your laptop to normalize phone numbers or merge two CSV files.',
-          'Throwaway internal validation tools: Single-purpose demos built for a workshop or pitch that will be discarded afterward.',
+          'Throwaway team validation tools: Single-purpose demos built for a workshop or pitch that will be discarded afterward.',
         ],
       },
       {
@@ -597,7 +597,7 @@ export const NEW_BLOG_POSTS_EN_RAW: RawBlogPostInput[] = [
         ],
         rows: [
           [
-            'Interactive wireframe to test a new product idea internally',
+            'Interactive wireframe to test a new product idea in-house',
             'Very Low (dummy data only)',
             'Vibe coding is ideal and fast',
           ],
@@ -630,11 +630,11 @@ export const NEW_BLOG_POSTS_EN_RAW: RawBlogPostInput[] = [
       {
         type: 'ul',
         items: [
-          '1. Secrets Management: Ensure zero API keys (OpenAI, Gemini, WhatsApp Cloud API, or database service keys) are exposed in frontend variables (`VITE_` or `NEXT_PUBLIC_`). All secret calls must live strictly on backend server routes.',
-          '2. Server-Side Input Validation: Never trust browser requests. Validate every payload against a strict schema (e.g., Zod) on the server and use parameterized database queries to prevent SQL/NoSQL injection.',
-          '3. Dependency Auditing: AI models occasionally import outdated packages with known vulnerabilities—or hallucinate package names. Audit `package.json` and lockfiles before deployment.',
-          '4. Automated Backups & Rollback Strategy: Configure daily automated PostgreSQL backups and test restoration so a bad prompt migration never wipes out live company records.',
-          '5. Immutable Audit Logging: Record who created, edited, or approved every critical transaction in an append-only audit log table.',
+          'Secrets Management: Ensure zero API keys (OpenAI, Gemini, WhatsApp Cloud API, or database service keys) are exposed in frontend variables (`VITE_` or `NEXT_PUBLIC_`). All secret calls must live strictly on backend server routes.',
+          'Server-Side Input Validation: Never trust browser requests. Validate every payload against a strict schema on the server and use parameterized database queries to prevent SQL/NoSQL injection.',
+          'Dependency Auditing: AI models occasionally import outdated packages with known vulnerabilities—or hallucinate package names. Audit `package.json` and lockfiles before deployment.',
+          'Automated Backups & Rollback Strategy: Configure daily automated database backups and test restoration so a bad prompt migration never wipes out live company records.',
+          'Immutable Audit Logging: Record who created, edited, or approved every critical transaction in an append-only audit log table.',
         ],
       },
       {
@@ -644,7 +644,7 @@ export const NEW_BLOG_POSTS_EN_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'paragraph',
-        text: 'A prompt answers *"How do I render this feature right now?"*, whereas a software engineer answers *"How does this system stay fast, accurate, and secure when 25 staff members use it concurrently over the next three years?"*. When you work with our [custom software engineering team](/eng/jasa/software-custom), you are paying for clean relational data modeling, graceful failure recovery when third-party APIs time out, strict role boundaries, and a maintainable codebase your business owns 100%.',
+        text: 'A prompt answers *"How do I render this feature right now?"*, whereas a software engineer answers *"How does this system stay fast, accurate, and secure when 25 staff members use it concurrently over the next three years?"*. When you work with our [custom software engineering team](/en/services/custom-software), you are paying for clean relational data modeling, graceful failure recovery when third-party APIs time out, strict role boundaries, and a maintainable codebase your business owns 100%.',
       },
     ],
     conclusion: [
@@ -655,15 +655,15 @@ export const NEW_BLOG_POSTS_EN_RAW: RawBlogPostInput[] = [
       slug: 'software-custom',
       title: 'Turn Your Prototype Into Secure, Production-Grade Custom Software',
       description:
-        'Built an AI prototype or outgrowing fragile spreadsheets? We engineer production React, Node.js, and PostgreSQL systems with strict RBAC and 30-day warranty. Free 30-minute audit.',
-      href: '/eng/jasa/software-custom',
+        'Built an AI prototype or outgrowing fragile spreadsheets? We engineer production React, TypeScript, and relational database systems with strict RBAC and 30-day warranty. Free 30-minute audit.',
+      href: '/en/services/custom-software',
       label: 'Explore Custom Software Services',
     },
     faq: [
       {
         question: 'If I already built a prototype with AI tools, can CHESTAADOTCOM turn it into a secure production app?',
         answer:
-          'Yes. Bringing a working visual prototype actually speeds up our discovery phase. We audit the architecture, move exposed API keys and business logic to secure backend routes, design a normalized PostgreSQL schema, and harden permissions for production launch.',
+          'Yes. Bringing a working visual prototype actually speeds up our discovery phase. We audit the architecture, move exposed API keys and business logic to secure backend routes, design a normalized relational database schema, and harden permissions for production launch.',
       },
       {
         question: 'What is the most common security flaw in vibe-coded business apps?',
@@ -716,8 +716,8 @@ export const NEW_BLOG_POSTS_EN_RAW: RawBlogPostInput[] = [
       'Watch how high-intent buyers search for local services today: instead of clicking ten blue links on Google, more people ask ChatGPT, Google Gemini, or Perplexity a specific question and message the two or three businesses named directly in the AI’s summary.',
     founderNote: {
       author: 'chesta',
-      title: 'Co-Founder Field Note · Auditing AI Crawler Visibility',
-      text: '[ISI PENGALAMAN ASLI: Add Chesta Azka’s observation on why local business websites built as image-only brochures or unrendered client-side apps remain invisible to AI search crawlers.]',
+      title: 'Co-Founder Architecture Note · AI Crawler Readability',
+      text: 'When we rebuilt the CHESTAADOTCOM V2 architecture, we ensured every service and location page delivers complete server-rendered HTML with a 40–60 word factual summary, a unified JSON-LD @graph, and an /llms.txt index so search crawlers and AI assistants can parse our entity details without hitting an empty JavaScript shell.',
     },
     content: [
       {
@@ -784,7 +784,7 @@ export const NEW_BLOG_POSTS_EN_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'paragraph',
-        text: 'Every site we engineer through our [website and landing page development service](/eng/jasa/pembuatan-website) incorporates five practical AEO and GEO foundations:',
+        text: 'Every site we engineer through our [website and landing page development service](/en/services/website-development) incorporates five practical AEO and GEO foundations:',
       },
       {
         type: 'ol',
@@ -824,7 +824,7 @@ export const NEW_BLOG_POSTS_EN_RAW: RawBlogPostInput[] = [
       title: 'Build a High-Speed Business Website Engineered for SEO, GEO & AEO',
       description:
         'We hand-code fast websites and landing pages (<1.2s load) complete with unified JSON-LD @graph, server-rendered HTML for AI crawlers, and /llms.txt. Starting from IDR 1,200,000.',
-      href: '/eng/jasa/pembuatan-website',
+      href: '/en/services/website-development',
       label: 'Explore Website Development',
     },
     faq: [
@@ -864,10 +864,10 @@ export const NEW_BLOG_POSTS_EN_RAW: RawBlogPostInput[] = [
     excerpt:
       'Admin teams lose hours every week copying rows between forms, Google Sheets, PDF invoices, and WhatsApp. Learn the 5 highest-ROI workflows to automate first.',
     metaDescription:
-      '5 repetitive business tasks you can automate with n8n, Make, and Node.js webhooks, complete with a platform cost comparison table and error-handling best practices.',
+      '5 repetitive business tasks you can automate with Make, Zapier, and API webhooks, complete with a platform cost comparison table and error-handling rules.',
     category: 'AI & Workflow Automation',
     categorySlug: 'otomasi-ai',
-    tags: ['Workflow Automation', 'n8n', 'Make', 'Operational Efficiency', 'Spreadsheet Integration'],
+    tags: ['Workflow Automation', 'Make', 'Zapier', 'Operational Efficiency', 'Spreadsheet Integration'],
     author: 'zeeshan',
     date: '2026-10-24',
     updatedAt: '2026-10-24',
@@ -876,22 +876,22 @@ export const NEW_BLOG_POSTS_EN_RAW: RawBlogPostInput[] = [
     coverImageKey: 'blogWorkflowAutomationN8n',
     cover: SITE_IMAGES.blogWorkflowAutomationN8n.src,
     coverAlt:
-      'Business workflow automation pipeline using n8n and Make to connect web forms, Google Sheets, PDF invoices, and WhatsApp',
+      'Business workflow automation pipeline using Make and webhooks to connect web forms, Google Sheets, PDF invoices, and WhatsApp',
     beforeIntroSnapshot:
       'Look closely at what your operations or admin team does between 9:00 AM and 5:00 PM. How many hours are spent not advising customers, but manually copying the exact same name, phone number, and order total from WhatsApp into Google Sheets, and then from Google Sheets into an invoice template?',
     founderNote: {
       author: 'zeeshan',
-      title: 'Co-Founder Field Note · Auditing Repetitive Admin Hours',
-      text: '[ISI PENGALAMAN ASLI: Add Zeeshan’s field note from mapping a client’s weekly admin hours before and after automating spreadsheet data entry and WhatsApp reminders with n8n.]',
+      title: 'Co-Founder Operations Note · Mapping Admin Workflows',
+      text: 'During our 30-minute workflow audit sessions at CHESTAADOTCOM, we start by mapping the repetitive copy-paste steps that consume admin time every day—from logging WhatsApp leads into spreadsheets to sending appointment reminders—before deciding which steps to automate first.',
     },
     content: [
       {
         type: 'paragraph',
-        text: '**Business workflow automation** using platforms like **n8n**, **Make**, or custom **Node.js** webhooks connects the everyday tools your team already uses—web forms, Google Sheets, POS systems, calendars, and WhatsApp—so data moves, formats, and triggers notifications automatically in the background without manual copy-paste. The biggest practical advantage is zero staff retraining: your team keeps working inside familiar spreadsheets and calendars while the repetitive data plumbing runs on its own.',
+        text: '**Business workflow automation** using platforms like **Make**, **Zapier**, or custom API webhooks connects the everyday tools your team already uses—web forms, Google Sheets, POS systems, calendars, and WhatsApp—so data moves, formats, and triggers notifications automatically in the background without manual copy-paste. The biggest practical advantage is zero staff retraining: your team keeps working inside familiar spreadsheets and calendars while the repetitive data plumbing runs on its own.',
       },
       {
         type: 'paragraph',
-        text: 'Many business owners assume they must build a massive custom ERP from scratch to fix operational bottlenecks. In reality, when we audit clients for our [workflow automation service](/eng/jasa/otomasi-workflow), automating the five repetitive tasks below typically frees up hours of admin capacity within two weeks.',
+        text: 'Many business owners assume they must build a massive custom ERP from scratch to fix operational bottlenecks. In reality, when we audit clients for our [workflow automation service](/en/services/workflow-automation), automating the five repetitive tasks below typically frees up hours of admin capacity within two weeks.',
       },
       {
         type: 'h2',
@@ -905,7 +905,7 @@ export const NEW_BLOG_POSTS_EN_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'paragraph',
-        text: 'When a prospect submits a consultation form on your landing page, waiting hours to check an email inbox kills conversion. An automated webhook captures the submission in under a second, normalizes the Indonesian phone number format (`0812...` to `62812...`), appends a clean row to your Google Sheets CRM, sends an instant WhatsApp greeting to the prospect, and posts a click-to-chat alert in your internal sales WhatsApp group.',
+        text: 'When a prospect submits a consultation form on your landing page, waiting hours to check an email inbox kills conversion. An automated webhook captures the submission in under a second, normalizes the Indonesian phone number format (`0812...` to `62812...`), appends a clean row to your Google Sheets CRM, sends an instant WhatsApp greeting to the prospect, and posts a click-to-chat alert in your in-house sales WhatsApp group.',
       },
       {
         type: 'h3',
@@ -945,12 +945,12 @@ export const NEW_BLOG_POSTS_EN_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'table',
-        caption: 'Workflow automation platform comparison: Zapier vs Make vs Self-Hosted n8n + Node.js',
+        caption: 'Workflow automation platform comparison: Zapier vs Make vs Self-Hosted Workflow + API Webhooks',
         headers: [
           'Selection Criteria',
           'Zapier (Cloud SaaS)',
           'Make (Cloud SaaS)',
-          'Self-Hosted n8n + Node.js',
+          'Self-Hosted Workflow + Webhooks',
         ],
         rows: [
           [
@@ -975,7 +975,7 @@ export const NEW_BLOG_POSTS_EN_RAW: RawBlogPostInput[] = [
             'Best fit for',
             'Non-technical teams running under 500 tasks/month',
             'Small-to-mid marketing and spreadsheet automations',
-            'High-frequency daily operations, WhatsApp Cloud API, & internal database sync',
+            'High-frequency daily operations, WhatsApp Cloud API, & company database sync',
           ],
         ],
       },
@@ -995,7 +995,7 @@ export const NEW_BLOG_POSTS_EN_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'paragraph',
-        text: 'To pick the highest-return starting point, run a quick calculation with your admin team: multiply the average minutes spent on one manual task (for example, 6 minutes to format an invoice and send a WhatsApp payment reminder) by how many times that task happens each month (for example, 150 orders). Any deterministic task consuming more than 12 to 15 hours per month is an immediate candidate for week-one automation. Once that first pipeline is running smoothly, you can connect additional sheets or pair it with an [AI agent](/eng/jasa/ai-agent) to handle two-way customer conversations.',
+        text: 'To pick the highest-return starting point, run a quick calculation with your admin team: multiply the average minutes spent on one manual task (for example, 6 minutes to format an invoice and send a WhatsApp payment reminder) by how many times that task happens each month (for example, 150 orders). Any deterministic task consuming more than 12 to 15 hours per month is an immediate candidate for week-one automation. Once that first pipeline is running smoothly, you can connect additional sheets or pair it with an [AI agent](/en/services/ai-agents) to handle two-way customer conversations.',
       },
     ],
     conclusion: [
@@ -1006,15 +1006,15 @@ export const NEW_BLOG_POSTS_EN_RAW: RawBlogPostInput[] = [
       slug: 'otomasi-workflow',
       title: 'Connect Your Spreadsheets, Forms, Invoices & WhatsApp Automatically',
       description:
-        'We design and deploy reliable n8n and Node.js workflow pipelines complete with retry queues and error alerts. Transparent fixed pricing after a free 30-minute audit.',
-      href: '/eng/jasa/otomasi-workflow',
+        'We design and deploy reliable Make, Zapier, and API webhook workflow pipelines complete with retry queues and error alerts. Transparent fixed pricing after a free 30-minute audit.',
+      href: '/en/services/workflow-automation',
       label: 'Explore Workflow Automation',
     },
     faq: [
       {
         question: 'Do our staff have to stop using Google Sheets when we add workflow automation?',
         answer:
-          'No. Most of our clients keep using Google Sheets because their staff already know it well. Automation runs in the background to populate rows, validate phone numbers, generate PDFs, and trigger WhatsApp notifications automatically.',
+          'No. Most business teams keep using Google Sheets because their staff already know it well. Automation runs in the background to populate rows, validate phone numbers, generate PDFs, and trigger WhatsApp notifications automatically.',
       },
       {
         question: 'Why does CHESTAADOTCOM often recommend self-hosted n8n over Zapier?',
@@ -1154,7 +1154,7 @@ export const NEW_BLOG_POSTS_EN_RAW: RawBlogPostInput[] = [
         type: 'ol',
         title: 'Phases in an iterative ReAct execution cycle:',
         items: [
-          '**Thought**: The model evaluates its current state, formulating an explicit internal reasoning string that articulates what information it possesses, what gaps remain, and which specific tool must be queried.',
+          '**Thought**: The model evaluates its current state, formulating an explicit structured reasoning string that articulates what information it possesses, what gaps remain, and which specific tool must be queried.',
           '**Action**: Translating that thought into execution, the agent outputs a structured JSON function call specifying the target tool identifier and exact parameter arguments.',
           '**Observation**: The application runtime executes the requested tool against external APIs or databases and feeds the raw execution payload back into the model’s context as an observation string.',
         ],
@@ -1172,18 +1172,18 @@ export const NEW_BLOG_POSTS_EN_RAW: RawBlogPostInput[] = [
         language: 'json',
         caption: 'Example scenario: Concrete ReAct execution trace for a dental clinic reservation inquiry',
         code: `// [INCOMING USER INPUT VIA WHATSAPP]
-"Hi, is Dr. Rina available for an appointment this Saturday, October 31st around 4:00 PM?"
+"Hi, is the on-duty dentist available for an appointment this Saturday, October 31st around 4:00 PM?"
 
 // [STEP 1: AGENT THOUGHT REASONING]
 {
-  "thought": "The user is requesting schedule availability for a specific dentist (Dr. Rina) on 2026-10-31 near 16:00. I must invoke the check_therapist_availability tool with appropriate parameter types."
+  "thought": "The user is requesting schedule availability for the on-duty dentist on 2026-10-31 near 16:00. I must invoke the check_therapist_availability tool with appropriate parameter types."
 }
 
 // [STEP 2: AGENT ACTION (TOOL CALL)]
 {
   "action": "check_therapist_availability",
   "parameters": {
-    "doctor_id": "drg_rina",
+    "doctor_id": "dentist_on_duty",
     "target_date": "2026-10-31",
     "target_time": "16:00",
     "duration_minutes": 45
@@ -1207,7 +1207,7 @@ export const NEW_BLOG_POSTS_EN_RAW: RawBlogPostInput[] = [
 }
 
 // [STEP 5: FINAL OUTPUT DISPATCHED TO WHATSAPP]
-"Hello! Dr. Rina's calendar on Saturday, October 31st at 4:00 PM WIB at our BSD City branch is currently open and available. Would you like me to hold this reservation slot under your name right now?"`,
+"Hello! The on-duty dentist's calendar on Saturday, October 31st at 4:00 PM WIB at our BSD City branch is currently open and available. Would you like me to hold this reservation slot under your name right now?"`,
       },
       {
         type: 'paragraph',
@@ -1220,7 +1220,7 @@ export const NEW_BLOG_POSTS_EN_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'paragraph',
-        text: 'Historically, one of the greatest bottlenecks in enterprise AI agent adoption was integration fragmentation. Every software team attempting to connect an agent to PostgreSQL, Google Drive, or ERP systems had to write proprietary wrapper code and custom tool definitions unique to each model vendor.',
+        text: 'Historically, one of the greatest bottlenecks in enterprise AI agent adoption was integration fragmentation. Every software team attempting to connect an agent to a relational database, Google Drive, or ERP systems had to write proprietary wrapper code and custom tool definitions unique to each model vendor.',
       },
       {
         type: 'paragraph',
@@ -1228,7 +1228,7 @@ export const NEW_BLOG_POSTS_EN_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'paragraph',
-        text: 'By standardizing on MCP over JSON-RPC 2.0, an AI agent can connect to diverse enterprise infrastructure without bespoke glue code. If your company deploys a new warehouse tracking system or internal CRM, you merely spin up an MCP server for that system, and all authorized agents instantly discover its available tools and validation schemas.',
+        text: 'By standardizing on MCP over JSON-RPC 2.0, an AI agent can connect to diverse enterprise infrastructure without bespoke glue code. If your company deploys a new warehouse tracking system or company CRM, you merely spin up an MCP server for that system, and all authorized agents instantly discover its available tools and validation schemas.',
       },
       {
         type: 'callout',
@@ -1284,7 +1284,7 @@ export const NEW_BLOG_POSTS_EN_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'paragraph',
-        text: 'In our internal project, which you can examine in detail in our [WA Concierge Clinic case study](/case-studies/wa-concierge-klinik), we architected an agent connected directly to the official WhatsApp Business Platform and therapist appointment calendars. The agent interprets informal colloquial Indonesian messages, verifies open calendar slots in real time, generates pending reservation holds, schedules automated reminder messages 24 hours prior to visits (D-1), and seamlessly escalates conversations to human clinic staff whenever questions venture outside standard procedure boundaries.',
+        text: 'In our sample project, which you can examine in detail in our [WA Concierge Clinic case study](/case-studies/wa-concierge-klinik), we architected an agent connected directly to the official WhatsApp Business Platform and therapist appointment calendars. The agent interprets informal colloquial Indonesian messages, verifies open calendar slots in real time, generates pending reservation holds, schedules automated reminder messages 24 hours prior to visits (D-1), and seamlessly escalates conversations to human clinic staff whenever questions venture outside standard procedure boundaries.',
       },
       {
         type: 'h3',
@@ -1297,7 +1297,7 @@ export const NEW_BLOG_POSTS_EN_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'paragraph',
-        text: 'Utilizing the intelligent agentic approach demonstrated in our internal project [AI Document Processor](/portfolio/pemroses-dokumen), an autonomous agent monitors incoming billing inboxes, extracts structured line-item arrays, validates tax identification numbers against mathematical checksum rules, and delivers an audit-ready reconciliation dashboard to the finance manager for one-click approval prior to ledger posting.',
+        text: 'Utilizing the intelligent agentic approach demonstrated in our sample project [AI Document Processor](/portfolio/pemroses-dokumen), an autonomous agent monitors incoming billing inboxes, extracts structured line-item arrays, validates tax identification numbers against mathematical checksum rules, and delivers an audit-ready reconciliation dashboard to the finance manager for one-click approval prior to ledger posting.',
       },
       {
         type: 'h2',
@@ -1395,7 +1395,7 @@ export const NEW_BLOG_POSTS_EN_RAW: RawBlogPostInput[] = [
       title: 'Build Secure WhatsApp AI Agents and Operational Automation for Your Business',
       description:
         'We design and engineer custom AI agents with disciplined ReAct execution loops, calendar and database integrations, and transparent human handoff protocols.',
-      href: '/en/services/ai-agent',
+      href: '/en/services/ai-agents',
       label: 'Explore Custom AI Agent Engineering',
     },
     faq: [
@@ -1417,7 +1417,7 @@ export const NEW_BLOG_POSTS_EN_RAW: RawBlogPostInput[] = [
       {
         question: 'How much does it cost to implement custom AI agents for our business?',
         answer:
-          'Implementation investment varies depending on integration complexity (such as whether connections are required to official WhatsApp Business APIs, calendars, legacy POS software, or internal CRMs). We provide an initial workflow discovery audit to map out requirements before providing a transparent scope proposal. [Learn more about our AI agent services](/en/services/ai-agent).',
+          'Implementation investment varies depending on integration complexity (such as whether connections are required to official WhatsApp Business APIs, calendars, legacy POS software, or company CRMs). We provide an initial workflow discovery audit to map out requirements before providing a transparent scope proposal. [Learn more about our AI agent services](/en/services/ai-agents).',
       },
     ],
     relatedSlugs: [

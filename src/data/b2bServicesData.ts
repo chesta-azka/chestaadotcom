@@ -37,7 +37,7 @@ export interface B2BServiceContent {
 export const DEFAULT_AI_SERVICE: B2BServiceContent = {
   slug: 'ai-integration',
   metaTitle: 'Jasa Integrasi AI & Otomasi Alur Kerja Bisnis B2B Enterprise & UMKM | CHESTAADOTCOM',
-  metaDescription: 'Jasa integrasi AI praktis untuk B2B Enterprise dan UMKM komersial. Otomasi alur kerja, chatbot WhatsApp 24/7, knowledge base internal, dan rekomendasi hemat ratusan jam kerja tanpa vendor lock-in.',
+  metaDescription: 'Jasa integrasi AI praktis untuk B2B Enterprise dan UMKM komersial. Otomasi alur kerja, chatbot WhatsApp 24/7, knowledge base operasional, dan rekomendasi hemat ratusan jam kerja tanpa vendor lock-in.',
   commercialKeywords: 'jasa integrasi AI, chatbot customer service B2B, automasi workflow UMKM, AI korporasi, konsultan AI enterprise, efisiensi operasional AI',
   tagline: 'Konsultasi Gratis',
   h1: 'Jasa Integrasi AI & Otomasi Alur Kerja Perusahaan (B2B Enterprise & UMKM Komersial)',
@@ -74,7 +74,7 @@ export const DEFAULT_AI_SERVICE: B2BServiceContent = {
   ],
   workProofHeading: 'Integrasi AI · Selected Work',
   workProofProject: 'Enterprise Knowledge Assistant & Smart Sales Agent',
-  workProofDesc: 'Implementasi AI terkontrol yang mencari jawaban eksklusif dari dokumen internal, menampilkan rujukan sumber, dan secara cerdas meneruskan kasus sensitif kepada agen manusia.',
+  workProofDesc: 'Implementasi AI terkontrol yang mencari jawaban eksklusif dari dokumen operasional, menampilkan rujukan sumber, dan secara cerdas meneruskan kasus sensitif kepada agen manusia.',
   workProofTags: ['OpenAI', 'Vector Database', 'Node.js', 'n8n'],
   partnerValuesHeading: 'Bukan sekadar selesai. Dibangun agar berhasil.',
   partnerValues: [
@@ -102,7 +102,7 @@ export const DEFAULT_AI_SERVICE: B2BServiceContent = {
   faqs: [
     {
       q: 'Bagaimana keamanan data sensitif perusahaan saat menggunakan AI?',
-      a: 'Kami menjamin kerahasiaan penuh. Model AI dijalankan dengan arsitektur private enterprise atau isolasi VPC. Data internal Anda tidak pernah digunakan untuk melatih model publik.',
+      a: 'Kami menjamin kerahasiaan penuh. Model AI dijalankan dengan arsitektur private enterprise atau isolasi VPC. Data operasional Anda tidak pernah digunakan untuk melatih model publik.',
     },
     {
       q: 'Berapa lama fase Proof of Concept (PoC) untuk mengukur kelayakan ROI?',
@@ -110,7 +110,7 @@ export const DEFAULT_AI_SERVICE: B2BServiceContent = {
     },
     {
       q: 'Bisakah sistem AI dihubungkan ke database dan aplikasi yang sudah kami gunakan?',
-      a: 'Bisa. Kami membangun konektor REST API, webhook aman, dan integrasi langsung ke PostgreSQL, MySQL, SAP, ERP, Odoo, WhatsApp Business API, CRM, hingga spreadsheet internal.',
+      a: 'Bisa. Kami membangun konektor REST API, webhook aman, dan integrasi langsung ke PostgreSQL, MySQL, SAP, ERP, Odoo, WhatsApp Business API, CRM, hingga spreadsheet operasional.',
     },
     {
       q: 'Bagaimana cara menghitung ROI konkret dari integrasi AI bagi B2B Enterprise dan UMKM?',
@@ -205,7 +205,7 @@ export const B2B_SERVICES_MAP: Record<string, B2BServiceContent> = {
     ...DEFAULT_AI_SERVICE,
     slug: 'karyawan-digital-ai',
     metaTitle: 'Vendor Karyawan Digital AI Otonom 24/7 B2B Enterprise & UMKM | CHESTAADOTCOM',
-    metaDescription: 'Solusi karyawan digital AI cerdas yang bekerja 24 jam nonstop menjawab pelanggan, memproses pesanan, dan menyinkronkan data internal tanpa risiko human error untuk B2B Enterprise dan UMKM.',
+    metaDescription: 'Solusi karyawan digital AI cerdas yang bekerja 24 jam nonstop menjawab pelanggan, memproses pesanan, dan menyinkronkan data operasional tanpa risiko human error untuk B2B Enterprise dan UMKM.',
     commercialKeywords: 'karyawan digital ai, agen ai otonom bisnis, chatbot ai whatsapp 24 jam, customer service otomatis ai, vendor ai indonesia, efisiensi gaji admin b2b',
     h1: 'Vendor Karyawan Digital AI Otonom 24/7 (B2B Enterprise & UMKM Komersial)',
     subText: 'Otomatisasi tugas operasional, rekonsiliasi data, dan interaksi prospek 24 jam nonstop tanpa kelelahan dengan akurasi jawaban tingkat enterprise.',
@@ -231,7 +231,7 @@ export const B2B_SERVICES_MAP: Record<string, B2BServiceContent> = {
       },
       {
         q: 'Berapa penghematan biaya operasional yang dapat dicapai oleh UMKM dan Enterprise?',
-        a: 'Klien kami mencatat penurunan beban operasional customer service hingga 70% dan lonjakan respon prospek di luar jam kerja (malam/akhir pekan) hingga 100%.',
+        a: 'Dalam contoh skenario desain kami, otomasi membantu mengurangi beban tanya-jawab berulang customer service dan mempercepat respon prospek di luar jam kerja.',
       },
     ],
   },

@@ -1,7 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import {
   MessageCircle,
   ArrowRight,
@@ -19,15 +17,14 @@ import {
 } from 'lucide-react';
 import HeroAgentGraph from '../components/organisms/HeroAgentGraph';
 import AgentSimulationSection from '../components/organisms/AgentSimulationSection';
-import TrustStrip from '../components/atoms/TrustStrip';
-import { PRICING_PACKAGES, formatCurrency } from '../data/pricing';
 import { PROCESS_PHASES } from '../data/process';
-import { SITE_IMAGES, getImageMeta } from '../config/images';
-import { getPublishedBlogPosts } from '../data/blog-posts';
-import { getServicePath } from '../data/services';
-import { getPublishedProjects } from '../data/projects';
+import {
+  HOME_LATEST_BLOG_POSTS,
+  HOME_SAMPLE_PROJECTS,
+  HOME_ENGLISH_FAQS,
+} from '../data/footer-links';
+import { getServicePath } from '../data/service-slugs';
 import { parseLocalizedPath, toLocalizedHref } from '../lib/i18n';
-import { ENGLISH_HOME_FAQS } from '../lib/i18n-content';
 import { useMotionMode } from '../lib/motion';
 import {
   Container,
@@ -45,10 +42,6 @@ import {
 } from '../components/ui/DesignSystem';
 import { buildWhatsAppLink, getWhatsAppCtaLabel } from '../lib/whatsapp';
 import { trackServiceCardClick, trackWaClick } from '../lib/analytics';
-
-if (typeof window !== 'undefined') {
-  gsap.registerPlugin(ScrollTrigger);
-}
 
 export default function HomePage() {
   const location = useLocation();
@@ -94,48 +87,54 @@ export default function HomePage() {
   // Hero layered depth parallax (max 6-10% of scroll distance, desktop full mode only)
   useEffect(() => {
     if (motionMode !== 'full' || !heroSectionRef.current) return;
+    if (typeof window === 'undefined' || window.innerWidth < 1024) return;
 
-    const mm = gsap.matchMedia();
-    mm.add('(min-width: 1024px) and (hover: hover) and (pointer: fine)', () => {
-      if (heroBlobRef.current) {
-        gsap.to(heroBlobRef.current, {
-          y: 32,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: heroSectionRef.current,
-            start: 'top top',
-            end: 'bottom top',
-            scrub: true,
-          },
-        });
-      }
-      if (heroChipRef.current) {
-        gsap.to(heroChipRef.current, {
-          y: -14,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: heroSectionRef.current,
-            start: 'top top',
-            end: 'bottom top',
-            scrub: true,
-          },
-        });
-      }
-      if (heroGraphWrapRef.current) {
-        gsap.to(heroGraphWrapRef.current, {
-          y: 26,
-          ease: 'none',
-          scrollTrigger: {
-            trigger: heroSectionRef.current,
-            start: 'top top',
-            end: 'bottom top',
-            scrub: true,
-          },
-        });
-      }
-    });
+    let revert = () => {};
+    Promise.all([import('gsap'), import('gsap/ScrollTrigger')]).then(([{ default: gsap }, { ScrollTrigger }]) => {
+      gsap.registerPlugin(ScrollTrigger);
+      const mm = gsap.matchMedia();
+      mm.add('(min-width: 1024px) and (hover: hover) and (pointer: fine)', () => {
+        if (heroBlobRef.current) {
+          gsap.to(heroBlobRef.current, {
+            y: 32,
+            ease: 'none',
+            scrollTrigger: {
+              trigger: heroSectionRef.current,
+              start: 'top top',
+              end: 'bottom top',
+              scrub: true,
+            },
+          });
+        }
+        if (heroChipRef.current) {
+          gsap.to(heroChipRef.current, {
+            y: -14,
+            ease: 'none',
+            scrollTrigger: {
+              trigger: heroSectionRef.current,
+              start: 'top top',
+              end: 'bottom top',
+              scrub: true,
+            },
+          });
+        }
+        if (heroGraphWrapRef.current) {
+          gsap.to(heroGraphWrapRef.current, {
+            y: 26,
+            ease: 'none',
+            scrollTrigger: {
+              trigger: heroSectionRef.current,
+              start: 'top top',
+              end: 'bottom top',
+              scrub: true,
+            },
+          });
+        }
+      });
+      revert = () => mm.revert();
+    }).catch(() => {});
 
-    return () => mm.revert();
+    return () => revert();
   }, [motionMode]);
 
   // Close Services dropdown on outside click or Escape
@@ -166,7 +165,7 @@ export default function HomePage() {
   );
   const waCtaLabel = getWhatsAppCtaLabel(locale);
 
-  const latestPosts = getPublishedBlogPosts(locale).slice(0, 3);
+  const latestPosts = HOME_LATEST_BLOG_POSTS[locale] || HOME_LATEST_BLOG_POSTS.id;
 
   const industries = isEn
     ? [
@@ -191,28 +190,26 @@ export default function HomePage() {
       ];
 
   // Item 8: Process line (#cara-kerja) scrubs with scroll and steps light up in turn
-
-  // Item 8: Process line (#cara-kerja) scrubs with scroll and steps light up in turn
   useEffect(() => {
     const section = processSectionRef.current;
     if (!section || motionMode === 'reduced') return;
 
-    const st = ScrollTrigger.create({
-      trigger: section,
-      start: 'top 70%',
-      end: 'bottom 45%',
-      scrub: 0.5,
-      onUpdate: (self) => {
-        const p = self.progress;
-        if (processLineFillRef.current) {
-          processLineFillRef.current.style.transform = `scaleX(${Math.max(0.05, p).toFixed(3)})`;
-        }
-        const idx = Math.min(3, Math.floor(p * 4));
-        setActiveProcessStep((prev) => (prev !== idx ? idx : prev));
-      },
-    });
+    const handleScroll = () => {
+      const rect = section.getBoundingClientRect();
+      const vh = window.innerHeight || 800;
+      const start = vh * 0.7;
+      const end = vh * 0.45 - rect.height;
+      const rawProgress = (start - rect.top) / Math.max(1, start - end);
+      const p = Math.min(1, Math.max(0, rawProgress));
+      if (processLineFillRef.current) {
+        processLineFillRef.current.style.transform = `scaleX(${Math.max(0.05, p).toFixed(3)})`;
+      }
+      const idx = Math.min(5, Math.floor(p * 6));
+      setActiveProcessStep((prev) => (prev !== idx ? idx : prev));
+    };
 
-    return () => st.kill();
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
   }, [motionMode]);
 
   const idFaqs = [
@@ -239,7 +236,7 @@ export default function HomePage() {
     {
       question: 'Apakah data pelanggan saya aman?',
       answer:
-        'Aman. Lokasi penyimpanan data bebas kamu pilih sesuai infrastruktur internal bisnismu—baik di database milikmu sendiri (on-premise/private cloud) maupun cloud terenkripsi.',
+        'Aman. Lokasi penyimpanan data bebas kamu pilih sesuai infrastruktur bisnismu—baik di database milikmu sendiri (on-premise/private cloud) maupun cloud terenkripsi.',
     },
     {
       question: 'Apakah bisa untuk bisnis kecil yang belum punya sistem apa pun?',
@@ -253,8 +250,8 @@ export default function HomePage() {
     },
   ];
 
-  const faqs = isEn ? ENGLISH_HOME_FAQS : idFaqs;
-  const featuredInternalProjects = getPublishedProjects(locale).slice(0, 3);
+  const faqs = isEn ? HOME_ENGLISH_FAQS : idFaqs;
+  const featuredSampleProjects = HOME_SAMPLE_PROJECTS[locale] || HOME_SAMPLE_PROJECTS.id;
 
   const scrollToPinnedSection = (e: React.MouseEvent<HTMLElement>) => {
     e.preventDefault();
@@ -350,9 +347,6 @@ export default function HomePage() {
           </div>
         </Container>
       </section>
-
-      {/* Trust Strip */}
-      <TrustStrip locale={locale} />
 
       {/* =====================================================
           3. INDUSTRY STRIP (VELOCITY-REACTIVE CSS MARQUEE, PAUSES OFFSCREEN/HOVER)
@@ -497,6 +491,7 @@ export default function HomePage() {
       <section className="py-16 md:py-24 bg-[#FFFFFF] border-b border-[rgba(91,60,196,0.14)] cv-auto">
         <Container>
           <SectionHeading
+            as="h3"
             align="center"
             eyebrow={isEn ? 'CORE DIFFERENCE' : 'PERBEDAAN MENDASAR'}
             title={
@@ -986,7 +981,7 @@ export default function HomePage() {
                           num: '04',
                           icon: <Lock size={18} className="text-[#6A3FD0]" />,
                           title: 'Your data stays yours',
-                          desc: 'You choose the storage infrastructure—whether on your internal company database (on-premise) or a private cloud.',
+                          desc: 'You choose the storage infrastructure—whether on your own company database (on-premise) or a private cloud.',
                         },
                       ]
                     : [
@@ -1012,7 +1007,7 @@ export default function HomePage() {
                           num: '04',
                           icon: <Lock size={18} className="text-[#6A3FD0]" />,
                           title: 'Data tetap milikmu',
-                          desc: 'Infrastruktur penyimpanan bebas kamu pilih—baik di database internal perusahaanmu (on-premise) maupun private cloud.',
+                          desc: 'Infrastruktur penyimpanan bebas kamu pilih—baik di database perusahaanmu sendiri (on-premise) maupun private cloud.',
                         },
                       ]
                   ).map((row) => (
@@ -1055,13 +1050,13 @@ export default function HomePage() {
         <Container className="text-center">
           <Tag>{isEn ? 'PRODUCTION TECHNOLOGY' : 'TEKNOLOGI PRODUKSI'}</Tag>
           <WordRevealHeading
-            as="h2"
+            as="h3"
             text={
               isEn
                 ? 'Built with tools we know inside out'
                 : 'Dibangun dengan tool yang kami kuasai'
             }
-            className="mt-2"
+            className="mt-2 text-[clamp(1.65rem,3vw,2.25rem)] leading-[1.18] tracking-[-0.02em] font-semibold"
           />
           <p className="mt-2 text-[15px] text-[#5B5675] max-w-lg mx-auto">
             {isEn
@@ -1172,7 +1167,7 @@ export default function HomePage() {
       </section>
 
       {/* =====================================================
-          11. PROYEK INTERNAL (SHARED INTERNAL DEMO DATASET)
+          11. CONTOH PROYEK (SHARED SAMPLE PROJECTS DATASET)
           ===================================================== */}
       <section
         id="proyek"
@@ -1180,16 +1175,16 @@ export default function HomePage() {
       >
         <Container>
           <SectionHeading
-            eyebrow={isEn ? 'INTERNAL PROJECTS' : 'PROYEK INTERNAL'}
+            eyebrow={isEn ? 'SAMPLE PROJECTS' : 'CONTOH PROYEK'}
             title={
               isEn
-                ? 'Internal projects we have built'
-                : 'Proyek internal yang kami bangun'
+                ? 'Sample projects we have built'
+                : 'Contoh proyek yang kami bangun'
             }
             description={
               isEn
-                ? 'Internal CHESTAADOTCOM demos and prototypes built to validate workflows across different industries.'
-                : 'Demo dan prototipe internal CHESTAADOTCOM yang kami bangun untuk menguji alur kerja di berbagai industri.'
+                ? 'Sample projects designed to show our workflow across different industries. Real project experience is on the Projects and About pages.'
+                : 'Contoh proyek yang dirancang untuk memperlihatkan alur kerja kami di berbagai industri. Pengalaman proyek nyata kami ada di halaman Proyek dan Tentang.'
             }
             action={
               <Button
@@ -1204,8 +1199,7 @@ export default function HomePage() {
 
           <Reveal staggerSelector=".project-blueprint-card">
             <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-stretch">
-              {featuredInternalProjects.map((project) => {
-                const imgAsset = getImageMeta(project.cover, locale);
+              {featuredSampleProjects.map((project) => {
                 const projectHref = toLocalizedHref(
                   `/portfolio/${project.slug}`,
                   locale,
@@ -1225,14 +1219,14 @@ export default function HomePage() {
                         className="relative block aspect-video bg-[#F8F6FE] border-b border-[rgba(91,60,196,0.14)] overflow-hidden"
                       >
                         <ImageWithFallback
-                          src={imgAsset.src}
-                          alt={imgAsset.alt}
-                          width={imgAsset.width}
-                          height={imgAsset.height}
+                          src={project.cover}
+                          alt={project.title}
+                          width={1200}
+                          height={900}
                           className="w-full h-full object-cover"
                         />
                         <div className="absolute top-3 left-3 flex flex-wrap items-center gap-2">
-                          <Badge variant="tint">{project.internalBadgeLabel}</Badge>
+                          <Badge variant="tint">{project.badgeLabel}</Badge>
                           <Badge variant="outline" className="bg-[#FFFFFF]/90">
                             {project.categoryLabel}
                           </Badge>
@@ -1257,6 +1251,10 @@ export default function HomePage() {
 
                         <p className="p-3 rounded-[14px] bg-[#F8F6FE] border border-[rgba(91,60,196,0.14)] text-[#6A3FD0] font-mono text-[11px]">
                           {isEn ? 'Design target:' : 'Target desain:'} {project.targetNote}
+                        </p>
+
+                        <p className="text-[12px] text-[#5B5675] leading-[1.55] pt-2 border-t border-[rgba(91,60,196,0.12)]">
+                          {project.sampleNote}
                         </p>
                       </div>
                     </div>
@@ -1394,8 +1392,8 @@ export default function HomePage() {
                       <Check size={16} className="text-[#6A3FD0] shrink-0" />
                       <span>
                         {isEn
-                          ? 'Internal operations dashboard'
-                          : 'Dashboard operasional internal'}
+                          ? 'Operational reporting dashboard'
+                          : 'Dashboard laporan operasional'}
                       </span>
                     </li>
                     <li className="flex items-center gap-2.5">
@@ -1572,6 +1570,7 @@ export default function HomePage() {
       <section className="py-16 md:py-24 bg-[#FFFFFF] border-b border-[rgba(91,60,196,0.14)] cv-auto">
         <Container>
           <SectionHeading
+            as="h3"
             eyebrow={isEn ? 'EDUCATION & INSIGHTS' : 'EDUKASI & WAWASAN'}
             title={
               isEn
@@ -1686,6 +1685,7 @@ export default function HomePage() {
       <section className="py-16 md:py-24 bg-gradient-to-b from-[#F8F6FE] to-[#EFEAFB] cv-auto">
         <Container className="max-w-[860px]">
           <CTABlock
+            as="h3"
             title={
               isEn
                 ? 'Tell us the repetitive task that drains your team the most.'

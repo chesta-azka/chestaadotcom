@@ -28,8 +28,8 @@ export const BLOG_POSTS_19_20_EN_RAW: RawBlogPostInput[] = [
       'Pamulang',
     ],
     author: 'zeeshan',
-    date: '2026-11-02',
-    updatedAt: '2026-11-02',
+    date: '2026-10-28',
+    updatedAt: '2026-10-28',
     featured: false,
     draft: false,
     coverImageKey: 'blogAiBoardingHouse',
@@ -139,7 +139,7 @@ export const BLOG_POSTS_19_20_EN_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'paragraph',
-        text: 'This automated lead qualification and logging workflow shares core principles with our internal project in the [Property Lead Flow case study](/en/case-studies/lead-properti). In our internal project, every incoming inquiry has its preferences logged cleanly into a table so no prospective tenant or buyer slips through the cracks.',
+        text: 'This automated lead qualification and logging workflow shares core principles with our sample project in the [Property Lead Flow case study](/en/case-studies/lead-properti). In our sample project, every incoming inquiry has its preferences logged cleanly into a table so no prospective tenant or buyer slips through the cracks.',
       },
       {
         type: 'ol',
@@ -246,7 +246,7 @@ export const BLOG_POSTS_19_20_EN_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'paragraph',
-        text: '**Example scenario (25-door boarding house manager in Pamulang):** Imagine you own a two-story boarding house in the [Pamulang service area](/en/areas) occupied by university students and young employees. Ahead of every new semester, you receive dozens of WhatsApp inquiries asking about vacant rooms and distance to the main road.',
+        text: '**Example scenario (25-door boarding house manager in Pamulang):** Imagine you own a two-story boarding house in the [Pamulang service area](/en/services/website-development/pamulang) occupied by university students and young employees. Ahead of every new semester, you receive dozens of WhatsApp inquiries asking about vacant rooms and distance to the main road.',
       },
       {
         type: 'paragraph',
@@ -372,8 +372,8 @@ export const BLOG_POSTS_19_20_EN_RAW: RawBlogPostInput[] = [
       'Lebak Bulus',
     ],
     author: 'zeeshan',
-    date: '2026-11-03',
-    updatedAt: '2026-11-03',
+    date: '2026-10-29',
+    updatedAt: '2026-10-29',
     featured: true,
     draft: false,
     coverImageKey: 'blogCafeDashboard',
@@ -416,7 +416,7 @@ export const BLOG_POSTS_19_20_EN_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'paragraph',
-        text: 'When you operate two or three cafe branches, every night your internal WhatsApp group fills up with photos of register closing slips and warehouse stock notes. Because sales receipts and ingredient usage sit in separate files, you only have time to glance at the bottom-line rupiah total before going to sleep.',
+        text: 'When you operate two or three cafe branches, every night your team WhatsApp group fills up with photos of register closing slips and warehouse stock notes. Because sales receipts and ingredient usage sit in separate files, you only have time to glance at the bottom-line rupiah total before going to sleep.',
       },
       {
         type: 'paragraph',
@@ -600,7 +600,7 @@ export const BLOG_POSTS_19_20_EN_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'paragraph',
-        text: 'You can study a concrete example of moving from manual sheets to a centralized web app in our internal project, the [Cafe Operations Dashboard case study](/en/case-studies/dashboard-kafe). In our internal project, views and permissions are separated between stock clerks logging daily counts and business owners reviewing branch summaries.',
+        text: 'You can study a concrete example of moving from manual sheets to a centralized web app in our sample project, the [Cafe Operations Dashboard case study](/en/case-studies/dashboard-kafe). In our sample project, views and permissions are separated between stock clerks logging daily counts and business owners reviewing branch summaries.',
       },
       {
         type: 'paragraph',
@@ -608,7 +608,7 @@ export const BLOG_POSTS_19_20_EN_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'paragraph',
-        text: 'In that example scenario, by building an internal web application through our [custom software development service](/en/services/custom-software), branch staff simply fill out a clean mobile closing stock form on their phones at night. The system automatically computes ingredient variance and presents it on the owner dashboard the next morning. To plan long-term upkeep for a system like this, you can also read our guide on [website and system maintenance costs after launch](/en/blog/website-and-system-maintenance-costs-after-launch).',
+        text: 'In that example scenario, by building an operational web application through our [custom software development service](/en/services/custom-software), branch staff simply fill out a clean mobile closing stock form on their phones at night. The system automatically computes ingredient variance and presents it on the owner dashboard the next morning. To plan long-term upkeep for a system like this, you can also read our guide on [website and system maintenance costs after launch](/en/blog/website-and-system-maintenance-costs-after-launch).',
       },
       {
         type: 'h2',
@@ -636,7 +636,7 @@ export const BLOG_POSTS_19_20_EN_RAW: RawBlogPostInput[] = [
       slug: 'software-custom',
       title: 'Build an Operations & Inventory Dashboard Matched to Your Cafe SOP',
       description:
-        'We design internal web apps, branch inventory logs, and reporting dashboards that run fast on mobile phones and are easy for your staff to use. Start with a free 30-minute audit.',
+        'We design operational web apps, branch inventory logs, and reporting dashboards that run fast on mobile phones and are easy for your staff to use. Start with a free 30-minute audit.',
       href: '/jasa/software-custom',
       label: 'View Custom Software Service',
     },

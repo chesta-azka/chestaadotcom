@@ -29,8 +29,8 @@ export const BLOG_POSTS_21_22_EN_RAW: RawBlogPostInput[] = [
       'Beginner Guide',
     ],
     author: 'chesta',
-    date: '2026-11-03',
-    updatedAt: '2026-11-03',
+    date: '2026-10-29',
+    updatedAt: '2026-10-29',
     featured: true,
     draft: false,
     coverImageKey: 'clusterAgenticAi',
@@ -63,7 +63,7 @@ export const BLOG_POSTS_21_22_EN_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'paragraph',
-        text: 'Understanding how this technology operates under the hood is essential for business owners and software engineers. In this pillar guide, we break down the internal architecture of agentic AI transparently, strip away misleading marketing buzzwords, and connect every core concept—from [tool use and function calling](/en/blog/tool-use-function-calling-ai-agents-business) and [agent memory retention](/en/blog/ai-agent-memory-retention-privacy-business) to [multi-agent vs single-agent architecture](/en/blog/multi-agent-vs-single-agent-business-architecture), [WhatsApp conversation design](/en/blog/designing-whatsapp-conversation-flows-ai-agents), [prompt injection security](/en/blog/ai-agent-security-prompt-injection), [Model Context Protocol (MCP)](/en/blog/mcp-model-context-protocol-business), [UU PDP privacy compliance](/en/blog/indonesia-pdp-law-whatsapp-ai-business), and [how AI agents work for small businesses](/en/blog/how-ai-agents-work-for-small-business).',
+        text: 'Understanding how this technology operates under the hood is essential for business owners and software engineers. In this pillar guide, we break down the core architecture of agentic AI transparently, strip away misleading marketing buzzwords, and connect core concepts—from [tool use and function calling](/en/blog/tool-use-function-calling-ai-agents-business) and [agent memory retention](/en/blog/ai-agent-memory-retention-privacy-business) to [multi-agent vs single-agent architecture](/en/blog/multi-agent-vs-single-agent-business-architecture).',
       },
       {
         type: 'h2',
@@ -138,7 +138,7 @@ export const BLOG_POSTS_21_22_EN_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'paragraph',
-        text: 'Let us examine the exact role of each internal module so you can see how a text message on a phone screen turns into an accurate database transaction:',
+        text: 'Let us examine the exact role of each core module so you can see how a text message on a phone screen turns into an accurate database transaction:',
       },
       {
         type: 'ol',
@@ -158,7 +158,7 @@ export const BLOG_POSTS_21_22_EN_RAW: RawBlogPostInput[] = [
         type: 'callout',
         variant: 'info',
         title: 'Context Isolation in Software Architecture',
-        text: 'The planning module must never hold raw master database credentials. Every function call must pass through an internal API proxy layer that validates authorization and schema parameters before touching production records.',
+        text: 'The planning module must never hold raw master database credentials. Every function call must pass through an in-house API proxy layer that validates authorization and schema parameters before touching production records.',
       },
       {
         type: 'h2',
@@ -175,7 +175,7 @@ export const BLOG_POSTS_21_22_EN_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'paragraph',
-        text: 'The second phase is Think. Here, the language model digests the observation and selects the next logical step. If the data is complete, the model formulates a decision: "I need to invoke `check_doctor_schedule` with `date=2026-11-04` and `specialty=dental`." If information is missing, the model decides to ask the patient a polite follow-up question.',
+        text: 'The second phase is Think. Here, the language model digests the observation and selects the next logical step. If the data is complete, the model formulates a decision: "I need to invoke `check_doctor_schedule` with `date=2026-10-29` and `specialty=dental`." If information is missing, the model decides to ask the patient a polite follow-up question.',
       },
       {
         type: 'paragraph',
@@ -198,31 +198,31 @@ export const BLOG_POSTS_21_22_EN_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'paragraph',
-        text: 'As a concrete local business scenario, a dental and aesthetic clinic in BSD, South Tangerang deployed agentic AI on its business WhatsApp line to automate new patient bookings without adding an overnight receptionist shift.',
+        text: 'As an example scenario, imagine a dental and aesthetic clinic in BSD, South Tangerang deploying agentic AI on its business WhatsApp line to automate new patient bookings without adding an overnight receptionist shift.',
       },
       {
         type: 'paragraph',
-        text: 'Before deployment, the clinic frequently lost prospective patients who messaged after 9:00 PM WIB. Receptionists only replied at 8:30 AM the next morning. During that eleven-hour gap, most patients had already contacted competing clinics around Serpong or Bintaro that responded faster.',
+        text: 'Suppose that before deployment, the clinic frequently loses prospective patients who message after 9:00 PM WIB because receptionists only reply at 8:30 AM the next morning. During that eleven-hour gap, prospective patients may contact competing clinics around Serpong or Bintaro that respond faster.',
       },
       {
         type: 'paragraph',
-        text: 'The clinic implemented an integrated agentic workflow following these six steps:',
+        text: 'In this scenario, the clinic can implement an integrated agentic workflow following these six steps:',
       },
       {
         type: 'ol',
-        title: 'Execution flow of the BSD dental clinic booking agent',
+        title: 'Example execution flow of a BSD dental clinic booking agent',
         items: [
-          'The patient sends a WhatsApp message: "Hello, I want to check a cavity tomorrow afternoon around 2 PM. Is Dr. Anita practicing?"',
+          'The prospective patient sends a WhatsApp message: "Hello, I want to check a cavity tomorrow afternoon around 2 PM. Is the restorative dentist practicing?"',
           'The agent executes the `get_doctor_schedule` tool to inspect the requested dentist roster for that date.',
-          'The backend returns data showing Dr. Anita starts her shift at 3:00 PM WIB, while a partner dentist is available at 2:00 PM WIB.',
-          'The agent replies with clear options: explaining that Dr. Anita is available at 3:00 PM or offering Dr. Budi at 2:00 PM.',
-          'The patient selects 3:00 PM with Dr. Anita. The agent asks for the patient full name and date of birth for the medical record.',
+          'The backend returns data showing the restorative dentist starts the afternoon shift at 3:00 PM WIB, while a partner dentist is available at 2:00 PM WIB.',
+          'The agent replies with clear options: explaining that the restorative dentist is available at 3:00 PM or offering the partner dentist at 2:00 PM.',
+          'The prospective patient selects 3:00 PM. The agent asks for the full name and date of birth for scheduling records.',
           'The agent validates the input format, calls `create_appointment`, records the booking in the clinic software, and triggers an automated calendar reminder.',
         ],
       },
       {
         type: 'paragraph',
-        text: 'You can explore similar production architectures on our [AI agent development service](/en/services/ai-agent) page and read the full engineering breakdown in our [aesthetic clinic WhatsApp concierge case study](/en/case-studies/wa-concierge-klinik).',
+        text: 'You can explore similar architectures on our [AI agent development service](/en/services/ai-agent) page and read the full engineering breakdown in our [in-house demo project WA Concierge Clinic](/en/case-studies/wa-concierge-klinik).',
       },
       {
         type: 'h2',
@@ -235,7 +235,7 @@ export const BLOG_POSTS_21_22_EN_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'paragraph',
-        text: 'The first risk is an infinite execution loop. When an agent receives a timeout error from an external API, an unguarded model may retry calling the exact same function dozens of times within seconds. This burns through your API credit balance and can overload your internal database server.',
+        text: 'The first risk is an infinite execution loop. When an agent receives a timeout error from an external API, an unguarded model may retry calling the exact same function dozens of times within seconds. This burns through your API credit balance and can overload your company database server.',
       },
       {
         type: 'paragraph',
@@ -258,7 +258,7 @@ export const BLOG_POSTS_21_22_EN_RAW: RawBlogPostInput[] = [
           [
             'Action Hallucination',
             'Duplicate or corrupted bookings in the database',
-            'Validate schemas strictly using Zod or JSON Schema on the backend',
+            'Validate schemas strictly using JSON Schema on the backend',
           ],
           [
             'Context Window Bloat',
@@ -279,7 +279,7 @@ export const BLOG_POSTS_21_22_EN_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'paragraph',
-        text: 'To learn how to defend your system against adversarial input manipulation, read our engineering guide on [AI agent security and prompt injection mitigation](/en/blog/ai-agent-security-prompt-injection).',
+        text: 'To learn how to defend your system against adversarial input manipulation, read our engineering guide on [AI agent security and prompt injection mitigation](/en/blog/ai-agent-security-prompt-injection-customer-data).',
       },
       {
         type: 'h2',
@@ -310,7 +310,7 @@ export const BLOG_POSTS_21_22_EN_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'paragraph',
-        text: 'If you operate a growing service company in the [BSD service area](/en/area/bsd) and want to map out the right boundary between deterministic workflows and AI agents, our engineering team can audit your current process.',
+        text: 'If you operate a growing service company in the [BSD service area](/en/area/bsd-city) and want to map out the right boundary between deterministic workflows and AI agents, our engineering team can audit your current process.',
       },
       {
         type: 'h2',
@@ -319,16 +319,15 @@ export const BLOG_POSTS_21_22_EN_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'paragraph',
-        text: 'The following technical documentation and industry standards serve as primary references for designing agentic AI systems; check the official documentation for current figures and terms regarding quota limits, model pricing, and protocol specifications:',
+        text: 'The following technical documentation and industry standards serve as official references for designing agentic AI systems; check the official documentation for current figures, quota limits, and model pricing:',
       },
       {
         type: 'ul',
         items: [
-          '[Anthropic Model Context Protocol (MCP) Documentation](https://modelcontextprotocol.io/) defines the open standard for connecting language models with external data sources and tool interfaces; check the official documentation for current figures and terms.',
-          '[Google AI for Developers Function Calling Guide](https://ai.google.dev/gemini-api/docs/function-calling) provides implementation patterns for tool use and JSON schema declarations in the Gemini API; check the official documentation for current figures and terms.',
-          '[OWASP Top 10 for Large Language Model Applications](https://owasp.org/www-project-top-10-for-large-language-model-applications/) details security risks in agent architectures including excessive agency and insecure output handling; check the official documentation for current figures and terms.',
-          '[Official JDIH BPK RI Portal for Indonesia Personal Data Protection Law No. 27 of 2022](https://peraturan.bpk.go.id/Details/229798/uu-no-27-tahun-2022) sets mandatory compliance rules for processing patient and customer identity records in Indonesia; check the official documentation for current figures and terms.',
-          '[W3C Web Architecture and Semantic Standards](https://www.w3.org/standards/) outlines core interoperability principles for structured machine data; check the official documentation for current figures and terms.',
+          '[Anthropic Model Context Protocol (MCP) Documentation](https://modelcontextprotocol.io/) defines the open standard for connecting language models with external data sources and tool interfaces.',
+          '[Google AI for Developers Function Calling Guide](https://ai.google.dev/gemini-api/docs/function-calling) provides implementation patterns for tool use and JSON schema declarations in the Gemini API.',
+          '[OWASP Top 10 for Large Language Model Applications](https://owasp.org/www-project-top-10-for-large-language-model-applications/) details security risks in agent architectures including excessive agency and insecure output handling.',
+          '[Official JDIH BPK RI Portal for Indonesia Personal Data Protection Law No. 27 of 2022](https://peraturan.bpk.go.id/Details/229798/uu-no-27-tahun-2022) sets mandatory compliance rules for processing patient and customer identity records in Indonesia.',
         ],
       },
     ],
@@ -340,7 +339,7 @@ export const BLOG_POSTS_21_22_EN_RAW: RawBlogPostInput[] = [
       slug: 'ai-agent',
       title: 'Design a Safe AI Agent Architecture for Your Business Workflow',
       description:
-        'We build WhatsApp and internal AI agents with strict schema validation, direct API connections to your business database, and human supervision.',
+        'We build WhatsApp and operational AI agents with strict schema validation, direct API connections to your business database, and human supervision.',
       href: '/en/services/ai-agent',
       label: 'Consult on AI Agent Implementation',
     },
@@ -410,8 +409,8 @@ export const BLOG_POSTS_21_22_EN_RAW: RawBlogPostInput[] = [
       'Pamulang Cafe',
     ],
     author: 'chesta',
-    date: '2026-11-03',
-    updatedAt: '2026-11-03',
+    date: '2026-10-29',
+    updatedAt: '2026-10-29',
     featured: false,
     draft: false,
     coverImageKey: 'clusterAgenticAi',
@@ -488,7 +487,7 @@ export const BLOG_POSTS_21_22_EN_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'paragraph',
-        text: 'Your application server retains full control. It inspects the JSON request from the model, verifies user permissions, executes local backend code (such as a parameterized `SELECT` query against PostgreSQL), and feeds the resulting data payload back to the model.',
+        text: 'Your application server retains full control. It inspects the JSON request from the model, verifies user permissions, executes local backend code (such as a parameterized `SELECT` query against a relational database), and feeds the resulting data payload back to the model.',
       },
       {
         type: 'h2',
@@ -533,7 +532,7 @@ export const BLOG_POSTS_21_22_EN_RAW: RawBlogPostInput[] = [
           [
             '"What was our total cafe revenue last night?"',
             '`get_sales_summary`',
-            '{"date": "2026-11-02", "shift": "evening"}',
+            '{"date": "2026-10-28", "shift": "evening"}',
             'Aggregates settled transaction totals from server',
           ],
           [
@@ -565,10 +564,10 @@ export const BLOG_POSTS_21_22_EN_RAW: RawBlogPostInput[] = [
         type: 'ol',
         title: 'Chronological sequence of a function calling orchestration loop',
         items: [
-          'The user sends a text message through an interface (such as a WhatsApp webhook or internal staff app).',
+          'The user sends a text message through an interface (such as a WhatsApp webhook or in-house staff app).',
           'Your application server bundles the message with the list of declared tool schemas and forwards the request to the language model API.',
           'The language model analyzes the text, concludes a tool is required, and returns a `tool_calls` response containing the function name and JSON arguments.',
-          'Your application server intercepts that response, validates the arguments, and executes the internal function code (such as a SQL query to PostgreSQL).',
+          'Your application server intercepts that response, validates the arguments, and executes the backend function code (such as a SQL query to a relational database).',
           'Your server receives the database rows, wraps them inside a `tool` role message, and sends them back to the language model.',
           'The language model reads the verified data and writes a natural, helpful final reply delivered to the user phone.',
         ],
@@ -577,7 +576,7 @@ export const BLOG_POSTS_21_22_EN_RAW: RawBlogPostInput[] = [
         type: 'callout',
         variant: 'warning',
         title: 'Watch Out for Network Latency Stacking',
-        text: 'Because a tool call involves two model API round-trips plus one internal database query, ensure your database queries use proper indexes so total response time stays under 3 seconds.',
+        text: 'Because a tool call involves two model API round-trips plus one company database query, ensure your database queries use proper indexes so total response time stays under 3 seconds.',
       },
       {
         type: 'h2',
@@ -586,23 +585,23 @@ export const BLOG_POSTS_21_22_EN_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'paragraph',
-        text: 'As a practical local scenario, an independent coffee shop in Pamulang, South Tangerang uses function calling to let baristas and store managers check ingredient stock directly through their operational WhatsApp group.',
+        text: 'As an example scenario, imagine an independent coffee shop in Pamulang, South Tangerang using function calling to let baristas and store managers check ingredient stock directly through their operational WhatsApp group.',
       },
       {
         type: 'paragraph',
-        text: 'During busy afternoon shifts, baristas rarely have time to open a back-office laptop just to check whether UHT milk cartons in the secondary storage room are sufficient for the weekend. Instead, they send a quick text to the cafe assistant number.',
+        text: 'Suppose during busy afternoon shifts, baristas rarely have time to open a back-office laptop just to check whether UHT milk cartons in the secondary storage room are sufficient for the weekend. Instead, they send a quick text to the cafe assistant number.',
       },
       {
         type: 'paragraph',
-        text: 'When a barista messages: "Admin, how many crates of fresh milk are left in the storage room?", the system executes a structured sequence:',
+        text: 'When a barista messages: "Admin, how many crates of fresh milk are left in the storage room?", the system can execute a structured sequence:',
       },
       {
         type: 'ol',
-        title: 'Inventory execution steps at the Pamulang coffee shop',
+        title: 'Example inventory execution steps at a Pamulang coffee shop',
         items: [
           'The model maps the phrase "fresh milk" to item code `SKU-MILK-FRESH-1L` via the `check_inventory` function parameter.',
           'The backend server queries the inventory database and retrieves the result: 4 crates remaining (48 liters), with the nearest expiration date in 5 days.',
-          'The model reads the payload and replies on WhatsApp: "Fresh milk stock in secondary storage is 4 crates (48 liters). Note: 1 crate expires on November 8."',
+          'The model reads the payload and replies on WhatsApp: "Fresh milk stock in secondary storage is 4 crates (48 liters). Note: 1 crate expires in 5 days."',
           'If the barista follows up with: "Please draft a purchase order for 5 crates to our usual supplier," the model calls `create_po_draft`, which sends an approval button to the cafe manager.',
         ],
       },
@@ -629,7 +628,7 @@ export const BLOG_POSTS_21_22_EN_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'paragraph',
-        text: 'The third principle is strict server-side parameter validation. Never trust JSON arguments generated by a language model blindly. Validate every field using libraries like Zod or Pydantic to guarantee phone numbers match valid formats and order quantities are never negative numbers.',
+        text: 'The third principle is strict server-side parameter validation. Never trust JSON arguments generated by a language model blindly. Validate every field using strict JSON Schema validators on the server to guarantee phone numbers match valid formats and order quantities are never negative numbers.',
       },
       {
         type: 'callout',
@@ -639,7 +638,7 @@ export const BLOG_POSTS_21_22_EN_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'paragraph',
-        text: 'For a deeper look at open cross-platform tool standards, read our guide on the [Model Context Protocol (MCP) for business integration](/en/blog/mcp-model-context-protocol-business) and our security analysis on [prompt injection mitigation](/en/blog/ai-agent-security-prompt-injection).',
+        text: 'For a deeper look at open cross-platform tool standards, read our guide on the [Model Context Protocol (MCP) for business integration](/en/blog/mcp-model-context-protocol-for-business-owners) and our security analysis on [prompt injection mitigation](/en/blog/ai-agent-security-prompt-injection-customer-data).',
       },
       {
         type: 'h2',
@@ -690,7 +689,7 @@ export const BLOG_POSTS_21_22_EN_RAW: RawBlogPostInput[] = [
           'Yes, there is a modest token overhead because the JSON schema definitions of active tools are included in the API request context. Keeping your active tool list focused minimizes this cost.',
       },
       {
-        question: 'Can I use function calling with an internal database that is not exposed to the public internet?',
+        question: 'Can I use function calling with an company database that is not exposed to the public internet?',
         answer:
           'Yes. Because your own backend server executes the database query locally and only sends the resulting text snippet to the model API, your database never needs a public internet port.',
       },
@@ -707,8 +706,8 @@ export const BLOG_POSTS_21_22_EN_RAW: RawBlogPostInput[] = [
     ],
     relatedSlugs: [
       'a-complete-guide-to-how-agentic-ai-works-for-beginners',
-      'mcp-model-context-protocol-business',
-      'ai-agent-security-prompt-injection',
+      'mcp-model-context-protocol-for-business-owners',
+      'ai-agent-security-prompt-injection-customer-data',
     ],
   },
 ];

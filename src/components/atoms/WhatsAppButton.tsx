@@ -18,6 +18,7 @@ export interface WhatsAppButtonProps {
   showIcon?: boolean;
   children?: React.ReactNode;
   onClick?: (e: React.MouseEvent<HTMLAnchorElement>) => void;
+  location?: string;
 }
 
 /**

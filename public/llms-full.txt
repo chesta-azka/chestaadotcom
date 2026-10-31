@@ -8,8 +8,8 @@
 - **Basis**: Berbasis di BSD, Tangerang Selatan, melayani klien di Tangerang Selatan dan Jabodetabek. Kerja sehari-hari dilakukan secara online (WhatsApp, video call); pertemuan tatap muka di area Tangerang Selatan bisa dijadwalkan sesuai kesepakatan.
 - **Kontak**:
   - WhatsApp: +62 821-2544-7232 (https://wa.me/6282125447232)
-  - Email: chestaadotcom@gmail.com
-  - Instagram: @chestaadotcom (https://instagram.com/chestaadotcom)
+  - Kontak Web: https://chestaa.com/id (WhatsApp CTA & interaksi kontak)
+  - Instagram: @softwaredev.aiagentic.agency (https://instagram.com/softwaredev.aiagentic.agency)
 - **Layanan (4)**:
   1. Pembuatan website dan landing page — mulai dari Rp1.200.000 (IDR 1,200,000), tergantung kompleksitas.
   2. AI agent untuk bisnis (WhatsApp, operasional, customer support, kualifikasi leads) — harga dihitung setelah audit gratis.

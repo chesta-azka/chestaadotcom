@@ -235,7 +235,7 @@ export const SERVICES_DATA: Record<string, ServiceDetailData> = {
       },
       {
         q: 'Bisa terhubung ke data kami?',
-        a: 'Bisa. Kami mengintegrasikan AI dengan database, CRM, atau sistem internal Anda melalui API aman.'
+        a: 'Bisa. Kami mengintegrasikan AI dengan database, CRM, atau sistem operasional Anda melalui API aman.'
       },
       {
         q: 'Bagaimana hasilnya diukur?',

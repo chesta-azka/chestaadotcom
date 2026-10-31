@@ -1,30 +1,16 @@
 import type { Metadata } from 'next';
-import { Geist, Geist_Mono } from 'next/font/google';
 import { ThemeProvider } from '../components/providers/ThemeProvider';
 import { NextErrorBoundary } from '../components/atoms/NextErrorBoundary';
 import { Navbar } from '../components/Navbar';
 import DynamicBreadcrumb from '../components/ui/dynamic-breadcrumb';
-import CommandPalette from '../components/organisms/CommandPalette';
-import AIConcierge from '../components/organisms/AIConcierge';
-import { SpeedInsights } from "@vercel/speed-insights/next";
 import '../index.css';
 
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
 export const metadata: Metadata = {
-  title: 'Jasa Website, AI Agent, dan Software Custom di Tangsel | CHESTAADOTCOM',
-  description: 'Jasa pembuatan website, AI agent WhatsApp, dan software custom di BSD, Tangerang Selatan & Jabodetabek. Performa cepat, harga transparan mulai Rp1.200.000.',
+  title: 'Jasa Website, AI Agent & Software di Tangsel | CHESTAADOTCOM',
+  description: 'Pengembangan software custom, AI agent WhatsApp, otomasi workflow, dan pembuatan website di BSD, Tangerang Selatan dan Jabodetabek. Mulai Rp1.200.000.',
   openGraph: {
-    title: 'Jasa Website, AI Agent, dan Software Custom di Tangsel | CHESTAADOTCOM',
-    description: 'Jasa pembuatan website, AI agent WhatsApp, dan software custom di BSD, Tangerang Selatan & Jabodetabek. Performa cepat, harga transparan mulai Rp1.200.000.',
+    title: 'Jasa Website, AI Agent & Software di Tangsel | CHESTAADOTCOM',
+    description: 'Pengembangan software custom, AI agent WhatsApp, otomasi workflow, dan pembuatan website di BSD, Tangerang Selatan dan Jabodetabek. Mulai Rp1.200.000.',
     type: 'website',
     locale: 'id_ID',
     siteName: 'CHESTAADOTCOM',
@@ -40,7 +26,7 @@ export default function RootLayout({
     "@context": "https://schema.org",
     "@type": "ProfessionalService",
     "name": "CHESTAADOTCOM - Jasa Website, AI Agent, dan Software Custom",
-    "image": "https://chestaa.com/favicon.svg",
+    "image": "https://chestaa.com/images/og/id/index.png",
     "url": "https://chestaa.com",
     "telephone": "+6282125447232",
     "priceRange": "$$$",
@@ -59,15 +45,15 @@ export default function RootLayout({
     },
     "areaServed": [
       "BSD City",
-      "Cisauk",
-      "Pemalang",
-      "Rawa Buntu",
       "Tangerang Selatan",
+      "Pamulang",
+      "Jurang Mangu",
+      "Lebak Bulus",
       "Jakarta Selatan",
       "Indonesia"
     ],
     "sameAs": [
-      "https://instagram.com/chestaadotcom",
+      "https://instagram.com/softwaredev.aiagentic.agency",
       "https://linkedin.com/company/chestaa",
       "https://github.com/chestacode"
     ]
@@ -79,7 +65,7 @@ export default function RootLayout({
     "url": "https://chestaa.com",
     "potentialAction": {
       "@type": "SearchAction",
-      "target": "https://chestaa.com/blog?q={search_term_string}",
+      "target": "https://chestaa.com/id/blog?q={search_term_string}",
       "query-input": "required name=search_term_string"
     }
   };
@@ -110,14 +96,18 @@ export default function RootLayout({
   const serializeJsonLd = (schema: object) => {
     return JSON.stringify(schema)
       .replace(/</g, '\\u003c')
-      .replace/>/g, '\\u003e')
+      .replace(/>/g, '\\u003e')
       .replace(/&/g, '\\u0026');
   };
 
   return (
     <html lang="id" suppressHydrationWarning>
       <head>
-        <link rel="preload" href="/favicon.svg" as="image" />
+        <link rel="icon" href="/favicon.ico" sizes="32x32" />
+        <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+        <link rel="manifest" href="/site.webmanifest" />
+        <meta name="theme-color" content="#6A3FD0" />
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: serializeJsonLd(localBusinessJsonLd) }}
@@ -130,29 +120,15 @@ export default function RootLayout({
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: serializeJsonLd(siteNavigationJsonLd) }}
         />
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-L0TSZYYPXL" />
-        <script
-          dangerouslySetInnerHTML={{
-            __html: `
-              window.dataLayer = window.dataLayer || [];
-              function gtag(){dataLayer.push(arguments);}
-              gtag('js', new Date());
-              gtag('config', 'G-L0TSZYYPXL');
-            `,
-          }}
-        />
       </head>
-      <body className={`${geistSans.variable} ${geistMono.variable} antialiased bg-white text-slate-900 min-h-screen selection:bg-purple-100 selection:text-purple-900`}>
+      <body className="antialiased bg-white text-slate-900 min-h-screen selection:bg-purple-100 selection:text-purple-900">
         <ThemeProvider>
           <NextErrorBoundary>
             <Navbar />
-            <CommandPalette />
-            <AIConcierge />
             <main>
               <DynamicBreadcrumb />
               {children}
             </main>
-            <SpeedInsights />
           </NextErrorBoundary>
         </ThemeProvider>
       </body>

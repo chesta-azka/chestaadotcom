@@ -27,6 +27,27 @@ import {
   ALL_SERVICE_AREA_PAGES_EN,
 } from './areas.en';
 import { resolveCanonicalServiceSlug, getServiceAreaPath } from './services';
+import {
+  ALL_UNIFIED_AREA_SEEDS,
+  CURRENT_WAVE_BUILD_DATE,
+  REGION_GROUPS,
+  TOP_10_FOOTER_AREA_SLUGS,
+  buildUnifiedAreaH1,
+  buildUnifiedAreaSeoTitle,
+  evaluateAllUnifiedAreaQualityGates,
+  getAllUnifiedAreaPages,
+  getIndexableUnifiedAreaPages,
+  getUnifiedAreaBodyText,
+  getUnifiedAreaPath,
+  isUnifiedAreaSlug,
+  normalizeUnifiedAreaMetaDescription,
+  resolveUnifiedAreaPage,
+  type RegionGroupDefinition,
+  type RegionGroupSlug,
+  type UnifiedAreaPageResolved,
+  type UnifiedAreaQualityGateResult,
+  type UnifiedAreaSeed,
+} from './unified-areas';
 
 export {
   AREAS,
@@ -37,6 +58,28 @@ export {
   SERVICE_AREA_PAGES_EN,
   ALL_SERVICE_AREA_PAGES_EN,
   getServiceAreaPath,
+  ALL_UNIFIED_AREA_SEEDS,
+  CURRENT_WAVE_BUILD_DATE,
+  REGION_GROUPS,
+  TOP_10_FOOTER_AREA_SLUGS,
+  buildUnifiedAreaH1,
+  buildUnifiedAreaSeoTitle,
+  evaluateAllUnifiedAreaQualityGates,
+  getAllUnifiedAreaPages,
+  getIndexableUnifiedAreaPages,
+  getUnifiedAreaBodyText,
+  getUnifiedAreaPath,
+  isUnifiedAreaSlug,
+  normalizeUnifiedAreaMetaDescription,
+  resolveUnifiedAreaPage,
+};
+
+export type {
+  RegionGroupDefinition,
+  RegionGroupSlug,
+  UnifiedAreaPageResolved,
+  UnifiedAreaQualityGateResult,
+  UnifiedAreaSeed,
 };
 
 export type {

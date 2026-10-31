@@ -1,27 +1,30 @@
 /**
  * ============================================================================
- * SHARED INTERNAL DEMO DATASET: data/projects — CHESTAADOTCOM
+ * SHARED SAMPLE DEMO DATASET: data/projects — CHESTAADOTCOM
  * ============================================================================
- * Internal demo content rule:
- * - Every project in this site is an INTERNAL CHESTAADOTCOM project.
- * - Common fields for every entry:
- *   client: "Proyek internal CHESTAADOTCOM" (EN: "CHESTAADOTCOM internal project")
+ * Sample project rule:
+ * - Every project in this dataset is a SAMPLE project ("Contoh proyek" / "Sample project").
+ * - Real confidential projects live in `src/data/experience.ts` ("Proyek nyata · klien dirahasiakan").
+ * - Common fields for every sample entry:
+ *   kind: 'sample'
+ *   badgeLabel: "Contoh proyek" (EN: "Sample project")
+ *   sampleNote: "Contoh proyek dirancang untuk memperlihatkan alur kerja kami. Bukan proyek klien."
+ *               (EN: "Sample project designed to show our workflow. Not a client project.")
  *   year: 2026
- *   internal: true
  *   role: "Desain, pengembangan, dan pengujian"
  *   coverKey: from src/config/images.ts (labeled "Ilustrasi" / "Illustration")
  * - Targets are labeled "Target desain" ("Design target").
- * - Never present as client work; never invent client names, testimonials, ratings, or measured results.
+ * - Never present as client work; never include fields for client name, testimonials, ratings, or measured results.
  *
- * HOW TO REPLACE AN INTERNAL PROJECT WITH A REAL CLIENT PROJECT LATER:
+ * HOW TO TURN A REAL PROJECT INTO A FULL CASE STUDY LATER:
  * 1. Obtain written permission from the client to publish the project name, scope, and verified results.
- * 2. In `src/data/projects.ts` and `src/data/projects.en.ts`:
- *    - Change `internal` from `true` to `false` (update the type `internal: boolean`).
- *    - Update `internalBadgeLabel` to `"Proyek klien"` (EN: `"Client project"`).
- *    - Replace `client` with the verified client name (or agreed industry descriptor if under partial NDA).
- *    - Replace `coverKey` and `gallery` items in `src/config/images.ts` with real screenshots and update captions to remove `"Ilustrasi:"`.
- *    - Update `features[].metricOrTag` from `"Target desain: ..."` to the verified operational outcome.
- * 3. If a corresponding case study exists in `src/data/case-studies.ts`, update its `internal` flag, `targets` label, and author/date metadata accordingly.
+ * 2. In `src/data/experience.ts` or `src/data/case-studies.ts`:
+ *    - Add `clientName` (verified client name or approved industry descriptor if under partial NDA).
+ *    - Add `clientPermissionDate` (ISO date when written consent was signed).
+ *    - Add `duration` (actual build timeline, e.g., "6 minggu") and `stack` (verified production technologies).
+ *    - Add `problem`, `solutionSteps`, `tradeOffs`, and `verifiedOutcomes` (measured results approved by the client).
+ *    - Replace abstract schematic illustrations (`FlowIllustration`) with approved production screenshots.
+ *    - Update the visible badge from `"Proyek nyata · klien dirahasiakan"` to `"Studi kasus proyek nyata"`.
  */
 
 import { PORTFOLIO_PROJECTS_EN, PORTFOLIO_CATEGORIES_EN } from './projects.en';
@@ -32,6 +35,22 @@ export type ProjectServiceId =
   | 'ai-agent'
   | 'software-custom'
   | 'otomasi-workflow';
+
+export const SAMPLE_PROJECT_BADGE = {
+  id: 'Contoh proyek',
+  en: 'Sample project',
+} as const;
+
+export const SAMPLE_PROJECT_BADGE_ID = SAMPLE_PROJECT_BADGE.id;
+export const SAMPLE_PROJECT_BADGE_EN = SAMPLE_PROJECT_BADGE.en;
+
+export const SAMPLE_PROJECT_DISCLOSURE = {
+  id: 'Contoh proyek dirancang untuk memperlihatkan alur kerja kami. Bukan proyek klien.',
+  en: 'Sample project designed to show our workflow. Not a client project.',
+} as const;
+
+export const SAMPLE_PROJECT_DISCLOSURE_ID = SAMPLE_PROJECT_DISCLOSURE.id;
+export const SAMPLE_PROJECT_DISCLOSURE_EN = SAMPLE_PROJECT_DISCLOSURE.en;
 
 export interface ProjectGalleryItem {
   imageKey: string;
@@ -56,11 +75,11 @@ export interface PortfolioProjectRaw {
   services: ProjectServiceId[];
   serviceSlug: ProjectServiceId;
   industry: string;
-  client: string;
   year: string;
   yearNumeric: number;
-  internal: boolean;
-  internalBadgeLabel: string;
+  kind: 'sample';
+  badgeLabel: string;
+  sampleNote: string;
   role: string;
   duration: string;
   stack: string[];
@@ -140,17 +159,17 @@ const RAW_PORTFOLIO_PROJECTS: PortfolioProjectRaw[] = [
     services: ['ai-agent'],
     serviceSlug: 'ai-agent',
     industry: 'Klinik',
-    client: 'Proyek internal CHESTAADOTCOM',
     year: '2026',
     yearNumeric: 2026,
-    internal: true,
-    internalBadgeLabel: 'Proyek internal',
+    kind: 'sample',
+    badgeLabel: SAMPLE_PROJECT_BADGE.id,
+    sampleNote: SAMPLE_PROJECT_DISCLOSURE.id,
     role: 'Desain, pengembangan, dan pengujian',
-    duration: 'Proyek internal',
+    duration: 'Contoh proyek',
     stack: ['WhatsApp Business Platform', 'Kalender Terapis', 'Database CRM', 'Log Tindakan'],
     cover: 'projectWaConciergeKlinik',
     coverKey: 'projectWaConciergeKlinik',
-    alt: 'Ilustrasi proyek internal WA Concierge agen booking WhatsApp untuk klinik dengan pengecekan slot terapis',
+    alt: 'Ilustrasi contoh proyek WA Concierge agen booking WhatsApp untuk klinik dengan pengecekan slot terapis',
     deviceFrame: 'phone',
     gallery: [
       {
@@ -176,7 +195,7 @@ const RAW_PORTFOLIO_PROJECTS: PortfolioProjectRaw[] = [
       },
     ],
     summaryParagraphs: [
-      'WA Concierge adalah proyek internal CHESTAADOTCOM yang dirancang untuk menunjukkan cara AI agent membaca maksud calon pasien di WhatsApp, mengecek slot kalender terapis, membuat booking, mencatat data ke CRM, dan mengirim pengingat sehari sebelumnya.',
+      'WA Concierge adalah contoh proyek CHESTAADOTCOM yang dirancang untuk memperlihatkan cara AI agent membaca maksud calon pasien di WhatsApp, mengecek slot kalender terapis, membuat booking, mencatat data ke CRM, dan mengirim pengingat sehari sebelumnya.',
       'Sistem ini dilengkapi batas tindakan dan aturan serah ke manusia: pertanyaan di luar aturan atau keluhan khusus diteruskan ke staf klinik beserta ringkasan percakapan, dan setiap tindakan agent punya log yang bisa diperiksa.',
     ],
     features: [
@@ -216,16 +235,16 @@ const RAW_PORTFOLIO_PROJECTS: PortfolioProjectRaw[] = [
         highlightType: 'interface',
       },
     ],
-    liveStatusLabel: 'Proyek internal (Target desain)',
+    liveStatusLabel: 'Contoh proyek (Target desain)',
     relatedCaseSlug: 'wa-concierge-klinik',
     caseStudySlug: 'wa-concierge-klinik',
     featured: true,
     draft: false,
     updatedAt: '2026-03-20',
     seo: {
-      title: 'WA Concierge Agen Booking Klinik — Proyek Internal | CHESTAADOTCOM',
+      title: 'WA Concierge Booking Klinik — Contoh Proyek | CHESTAADOTCOM',
       description:
-        'Proyek internal CHESTAADOTCOM: agen booking WhatsApp untuk klinik yang menjawab pertanyaan perawatan, mengecek slot terapis, dan membuat booking.',
+        'Contoh proyek CHESTAADOTCOM: agen booking WhatsApp untuk klinik yang menjawab pertanyaan perawatan, mengecek slot terapis, dan membuat booking.',
     },
   },
 
@@ -240,17 +259,17 @@ const RAW_PORTFOLIO_PROJECTS: PortfolioProjectRaw[] = [
     services: ['software-custom'],
     serviceSlug: 'software-custom',
     industry: 'F&B',
-    client: 'Proyek internal CHESTAADOTCOM',
     year: '2026',
     yearNumeric: 2026,
-    internal: true,
-    internalBadgeLabel: 'Proyek internal',
+    kind: 'sample',
+    badgeLabel: SAMPLE_PROJECT_BADGE.id,
+    sampleNote: SAMPLE_PROJECT_DISCLOSURE.id,
     role: 'Desain, pengembangan, dan pengujian',
-    duration: 'Proyek internal',
+    duration: 'Contoh proyek',
     stack: ['Aplikasi Web', 'Hak Akses Per Peran', 'Database Terpusat', 'Dashboard Laporan'],
     cover: 'projectDashboardKafe',
     coverKey: 'projectDashboardKafe',
-    alt: 'Ilustrasi proyek internal Dashboard Operasional Kafe untuk memantau stok bahan dan penjualan harian cabang',
+    alt: 'Ilustrasi contoh proyek Dashboard Operasional Kafe untuk memantau stok bahan dan penjualan harian cabang',
     deviceFrame: 'browser',
     gallery: [
       {
@@ -276,7 +295,7 @@ const RAW_PORTFOLIO_PROJECTS: PortfolioProjectRaw[] = [
       },
     ],
     summaryParagraphs: [
-      'Dashboard Operasional Kafe adalah proyek internal CHESTAADOTCOM yang menunjukkan bagaimana aplikasi web custom menggantikan spreadsheet yang makin berat untuk usaha F&B dengan beberapa cabang.',
+      'Dashboard Operasional Kafe adalah contoh proyek CHESTAADOTCOM yang memperlihatkan bagaimana aplikasi web custom menggantikan spreadsheet yang makin berat untuk usaha F&B dengan beberapa cabang.',
       'Staf tiap cabang mencatat stok bahan dan penjualan harian dari HP atau desktop sesuai hak akses perannya, sementara pemilik melihat laporan gabungan yang diperbarui dari data yang sama.',
     ],
     features: [
@@ -316,16 +335,16 @@ const RAW_PORTFOLIO_PROJECTS: PortfolioProjectRaw[] = [
         highlightType: 'security',
       },
     ],
-    liveStatusLabel: 'Proyek internal (Target desain)',
+    liveStatusLabel: 'Contoh proyek (Target desain)',
     relatedCaseSlug: 'dashboard-kafe',
     caseStudySlug: 'dashboard-kafe',
     featured: true,
     draft: false,
     updatedAt: '2026-03-24',
     seo: {
-      title: 'Dashboard Operasional Kafe — Proyek Internal | CHESTAADOTCOM',
+      title: 'Dashboard Operasional Kafe — Contoh Proyek | CHESTAADOTCOM',
       description:
-        'Proyek internal CHESTAADOTCOM: dashboard web untuk memantau stok bahan, penjualan harian, dan laporan beberapa cabang kafe.',
+        'Contoh proyek CHESTAADOTCOM: dashboard aplikasi web custom untuk memantau stok bahan baku, penjualan harian, dan laporan beberapa cabang kafe.',
     },
   },
 
@@ -340,17 +359,17 @@ const RAW_PORTFOLIO_PROJECTS: PortfolioProjectRaw[] = [
     services: ['otomasi-workflow'],
     serviceSlug: 'otomasi-workflow',
     industry: 'Properti',
-    client: 'Proyek internal CHESTAADOTCOM',
     year: '2026',
     yearNumeric: 2026,
-    internal: true,
-    internalBadgeLabel: 'Proyek internal',
+    kind: 'sample',
+    badgeLabel: SAMPLE_PROJECT_BADGE.id,
+    sampleNote: SAMPLE_PROJECT_DISCLOSURE.id,
     role: 'Desain, pengembangan, dan pengujian',
-    duration: 'Proyek internal',
+    duration: 'Contoh proyek',
     stack: ['Formulir Iklan', 'CRM & Sheets', 'Notifikasi WhatsApp', 'Log Eksekusi'],
     cover: 'projectLeadProperti',
     coverKey: 'projectLeadProperti',
-    alt: 'Ilustrasi proyek internal Alur Lead Properti dari formulir iklan ke CRM dan jadwal follow-up otomatis',
+    alt: 'Ilustrasi contoh proyek Alur Lead Properti dari formulir iklan ke CRM dan jadwal follow-up otomatis',
     deviceFrame: 'browser',
     gallery: [
       {
@@ -376,7 +395,7 @@ const RAW_PORTFOLIO_PROJECTS: PortfolioProjectRaw[] = [
       },
     ],
     summaryParagraphs: [
-      'Alur Lead Properti adalah proyek internal CHESTAADOTCOM untuk memperlihatkan otomasi workflow yang menyambungkan formulir iklan properti langsung ke CRM, Google Sheets, dan notifikasi WhatsApp agen.',
+      'Alur Lead Properti adalah contoh proyek CHESTAADOTCOM untuk memperlihatkan otomasi workflow yang menyambungkan formulir iklan properti langsung ke CRM, Google Sheets, dan notifikasi WhatsApp agen.',
       'Tanpa perlu menyalin data calon pembeli secara manual antar aplikasi, setiap formulir yang masuk tercatat otomatis, agen yang bertugas langsung diberi tahu, jadwal follow-up dibuat, dan kegagalan langkah apa pun memicu notifikasi beserta log eksekusi.',
     ],
     features: [
@@ -409,16 +428,16 @@ const RAW_PORTFOLIO_PROJECTS: PortfolioProjectRaw[] = [
         highlightType: 'security',
       },
     ],
-    liveStatusLabel: 'Proyek internal (Target desain)',
+    liveStatusLabel: 'Contoh proyek (Target desain)',
     relatedCaseSlug: 'lead-properti',
     caseStudySlug: 'lead-properti',
     featured: true,
     draft: false,
     updatedAt: '2026-03-20',
     seo: {
-      title: 'Alur Lead Properti Otomatis — Proyek Internal | CHESTAADOTCOM',
+      title: 'Alur Lead Properti Otomatis — Contoh Proyek | CHESTAADOTCOM',
       description:
-        'Proyek internal CHESTAADOTCOM: otomasi workflow yang memasukkan lead dari formulir iklan ke CRM, memberi tahu agen, dan menjadwalkan follow-up.',
+        'Contoh proyek CHESTAADOTCOM: otomasi workflow yang memasukkan lead dari formulir iklan ke CRM, memberi tahu agen, dan menjadwalkan follow-up.',
     },
   },
 
@@ -433,17 +452,17 @@ const RAW_PORTFOLIO_PROJECTS: PortfolioProjectRaw[] = [
     services: ['pembuatan-website'],
     serviceSlug: 'pembuatan-website',
     industry: 'Klinik',
-    client: 'Proyek internal CHESTAADOTCOM',
     year: '2026',
     yearNumeric: 2026,
-    internal: true,
-    internalBadgeLabel: 'Proyek internal',
+    kind: 'sample',
+    badgeLabel: SAMPLE_PROJECT_BADGE.id,
+    sampleNote: SAMPLE_PROJECT_DISCLOSURE.id,
     role: 'Desain, pengembangan, dan pengujian',
-    duration: 'Proyek internal',
+    duration: 'Contoh proyek',
     stack: ['Halaman Statis', 'Optimasi Gambar', 'Data Terstruktur', 'Tombol WhatsApp'],
     cover: 'projectLandingKlinikEstetika',
     coverKey: 'projectLandingKlinikEstetika',
-    alt: 'Ilustrasi proyek internal Landing Page Klinik Estetika dengan daftar perawatan, harga mulai dari, dan tombol WhatsApp',
+    alt: 'Ilustrasi contoh proyek Landing Page Klinik Estetika dengan daftar perawatan, harga mulai dari, dan tombol WhatsApp',
     deviceFrame: 'browser',
     gallery: [
       {
@@ -469,7 +488,7 @@ const RAW_PORTFOLIO_PROJECTS: PortfolioProjectRaw[] = [
       },
     ],
     summaryParagraphs: [
-      'Landing Page Klinik Estetika adalah proyek internal CHESTAADOTCOM yang mendemonstrasikan struktur halaman tujuan iklan dan pencarian lokal untuk klinik perawatan.',
+      'Landing Page Klinik Estetika adalah contoh proyek CHESTAADOTCOM yang mendemonstrasikan struktur halaman tujuan iklan dan pencarian lokal untuk klinik perawatan.',
       'Setiap halaman perawatan disusun untuk menjawab pertanyaan calon pasien sebelum mereka bertanya—mulai dari penjelasan tindakan, harga mulai dari, hingga jadwal praktik—lengkap dengan tombol booking via WhatsApp tanpa banyak langkah.',
     ],
     features: [
@@ -502,16 +521,16 @@ const RAW_PORTFOLIO_PROJECTS: PortfolioProjectRaw[] = [
         highlightType: 'workflow',
       },
     ],
-    liveStatusLabel: 'Proyek internal (Target desain)',
+    liveStatusLabel: 'Contoh proyek (Target desain)',
     relatedCaseSlug: 'wa-concierge-klinik',
     caseStudySlug: 'wa-concierge-klinik',
     featured: true,
     draft: false,
     updatedAt: '2026-03-20',
     seo: {
-      title: 'Landing Page Klinik Estetika — Proyek Internal | CHESTAADOTCOM',
+      title: 'Landing Page Klinik Estetika — Contoh Proyek | CHESTAADOTCOM',
       description:
-        'Proyek internal CHESTAADOTCOM: landing page klinik estetika per perawatan dengan harga mulai dari, jadwal praktik, dan booking via WhatsApp.',
+        'Contoh proyek CHESTAADOTCOM: landing page klinik estetika per perawatan lengkap dengan harga mulai dari, jadwal praktik, dan booking WhatsApp.',
     },
   },
 
@@ -526,17 +545,17 @@ const RAW_PORTFOLIO_PROJECTS: PortfolioProjectRaw[] = [
     services: ['pembuatan-website'],
     serviceSlug: 'pembuatan-website',
     industry: 'Agensi (situs sendiri)',
-    client: 'Proyek internal CHESTAADOTCOM',
     year: '2026',
     yearNumeric: 2026,
-    internal: true,
-    internalBadgeLabel: 'Proyek internal',
+    kind: 'sample',
+    badgeLabel: SAMPLE_PROJECT_BADGE.id,
+    sampleNote: SAMPLE_PROJECT_DISCLOSURE.id,
     role: 'Desain, pengembangan, dan pengujian',
-    duration: 'Proyek internal',
+    duration: 'Contoh proyek',
     stack: ['Arsitektur Dua Bahasa', 'JSON-LD @graph', 'Sitemap & llms.txt', 'Core Web Vitals'],
     cover: 'projectChestaaV2',
     coverKey: 'projectChestaaV2',
-    alt: 'Ilustrasi proyek internal membangun ulang situs dua bahasa chestaa.com yang statis dan cepat',
+    alt: 'Ilustrasi contoh proyek membangun ulang situs dua bahasa chestaa.com yang statis dan cepat',
     deviceFrame: 'browser',
     gallery: [
       {
@@ -562,14 +581,14 @@ const RAW_PORTFOLIO_PROJECTS: PortfolioProjectRaw[] = [
       },
     ],
     summaryParagraphs: [
-      'Membangun ulang chestaa.com adalah proyek internal situs kami sendiri di CHESTAADOTCOM, dirancang sebagai situs dua bahasa (/id dan /en) yang statis, cepat dibuka di HP, dan berfokus pada layanan pembuatan website, AI agent, software custom, serta otomasi workflow.',
+      'Membangun ulang chestaa.com adalah contoh proyek situs kami sendiri di CHESTAADOTCOM, dirancang sebagai situs dua bahasa (/id dan /en) yang statis, cepat dibuka di HP, dan berfokus pada layanan pembuatan website, AI agent, software custom, serta otomasi workflow.',
       'Setiap halaman layanan dan area lokal diawali dengan ringkasan singkat yang langsung menjawab pertanyaan pembaca, dilengkapi struktur heading yang rapi, data terstruktur JSON-LD @graph, serta berkas sitemap dan llms.txt.',
     ],
     features: [
       {
         title: 'Situs Dua Bahasa (/id dan /en)',
         description:
-          'Seluruh halaman layanan, area lokal, studi kasus, dan proyek internal tersedia dalam bahasa Indonesia dan Inggris secara 1:1.',
+          'Seluruh halaman layanan, area lokal, studi kasus contoh, dan daftar proyek tersedia dalam bahasa Indonesia dan Inggris secara 1:1.',
         metricOrTag: 'Target desain: hreflang timbal balik /id & /en',
         highlightType: 'architecture',
       },
@@ -596,16 +615,16 @@ const RAW_PORTFOLIO_PROJECTS: PortfolioProjectRaw[] = [
       },
     ],
     liveUrl: 'https://chestaa.com/id',
-    liveStatusLabel: 'Proyek internal (Aktif di chestaa.com)',
+    liveStatusLabel: 'Contoh proyek (Aktif di chestaa.com)',
     relatedCaseSlug: 'chestaa-v2',
     caseStudySlug: 'chestaa-v2',
     featured: false,
     draft: false,
     updatedAt: '2026-03-20',
     seo: {
-      title: 'Membangun Ulang chestaa.com — Proyek Internal | CHESTAADOTCOM',
+      title: 'Membangun Ulang chestaa.com — Contoh Proyek | CHESTAADOTCOM',
       description:
-        'Proyek internal CHESTAADOTCOM: membangun ulang situs dua bahasa chestaa.com yang statis dan cepat dengan fokus software custom dan AI agent.',
+        'Contoh proyek CHESTAADOTCOM: membangun ulang situs web dua bahasa chestaa.com yang statis dan cepat dengan fokus software custom dan AI agent.',
     },
   },
 
@@ -620,17 +639,17 @@ const RAW_PORTFOLIO_PROJECTS: PortfolioProjectRaw[] = [
     services: ['ai-agent', 'software-custom'],
     serviceSlug: 'ai-agent',
     industry: 'Jasa profesional',
-    client: 'Proyek internal CHESTAADOTCOM',
     year: '2026',
     yearNumeric: 2026,
-    internal: true,
-    internalBadgeLabel: 'Proyek internal',
+    kind: 'sample',
+    badgeLabel: SAMPLE_PROJECT_BADGE.id,
+    sampleNote: SAMPLE_PROJECT_DISCLOSURE.id,
     role: 'Desain, pengembangan, dan pengujian',
-    duration: 'Proyek internal',
+    duration: 'Contoh proyek',
     stack: ['Ekstraksi Dokumen AI', 'Tabel Tinjauan Manusia', 'Hak Akses Peran', 'Log Tindakan'],
     cover: 'projectPemrosesDokumen',
     coverKey: 'projectPemrosesDokumen',
-    alt: 'Ilustrasi proyek internal Pemroses Dokumen AI yang mengekstrak data dokumen ke tabel dengan tinjauan manusia',
+    alt: 'Ilustrasi contoh proyek Pemroses Dokumen AI yang mengekstrak data dokumen ke tabel dengan tinjauan manusia',
     deviceFrame: 'browser',
     gallery: [
       {
@@ -656,7 +675,7 @@ const RAW_PORTFOLIO_PROJECTS: PortfolioProjectRaw[] = [
       },
     ],
     summaryParagraphs: [
-      'Pemroses Dokumen AI adalah proyek internal CHESTAADOTCOM yang menggabungkan pemroses dokumen berbasis AI dengan antarmuka tabel web custom untuk tim jasa profesional yang setiap hari menyalin isi dokumen ke tabel.',
+      'Pemroses Dokumen AI adalah contoh proyek CHESTAADOTCOM yang menggabungkan pemroses dokumen berbasis AI dengan antarmuka tabel web custom untuk tim jasa profesional yang setiap hari menyalin isi dokumen ke tabel.',
       'Alih-alih langsung memakai hasil bacaan AI tanpa pemeriksaan, sistem menempatkan data hasil ekstraksi ke layar tinjauan supaya staf manusia bisa memeriksa, mengoreksi bila perlu, dan menyetujui baris data sebelum dipakai.',
     ],
     features: [
@@ -689,16 +708,16 @@ const RAW_PORTFOLIO_PROJECTS: PortfolioProjectRaw[] = [
         highlightType: 'interface',
       },
     ],
-    liveStatusLabel: 'Proyek internal (Target desain)',
+    liveStatusLabel: 'Contoh proyek (Target desain)',
     relatedCaseSlug: 'pemroses-dokumen',
     caseStudySlug: 'pemroses-dokumen',
     featured: true,
     draft: false,
     updatedAt: '2026-03-24',
     seo: {
-      title: 'Pemroses Dokumen AI — Proyek Internal | CHESTAADOTCOM',
+      title: 'Pemroses Dokumen AI — Contoh Proyek | CHESTAADOTCOM',
       description:
-        'Proyek internal CHESTAADOTCOM: pemroses dokumen AI dan aplikasi tabel web yang mengekstrak data dari dokumen dengan tinjauan manusia.',
+        'Contoh proyek CHESTAADOTCOM: pemroses dokumen AI dan aplikasi tabel web custom yang mengekstrak data dari dokumen bisnis dengan tinjauan staf.',
     },
   },
 ];
@@ -769,7 +788,8 @@ export function getPortfolioIndustries(locale: 'id' | 'en' = 'id'): string[] {
 export interface Project {
   id: string;
   title: string;
-  client?: string;
+  badgeLabel: string;
+  sampleNote: string;
   duration?: string;
   category: string;
   description: string;
@@ -786,7 +806,8 @@ export interface Project {
 export const PROJECTS: Project[] = getPublishedProjects('id').map((p) => ({
   id: p.slug,
   title: p.title,
-  client: p.client,
+  badgeLabel: p.badgeLabel,
+  sampleNote: p.sampleNote,
   duration: p.duration,
   category: p.categoryLabel,
   description: p.oneLiner,

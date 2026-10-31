@@ -1,22 +1,28 @@
 {
-  "name": "CHESTADOTCOM Jasa Website Premium",
-  "short_name": "CHESTADOTCOM",
-  "description": "Jasa Pembuatan Website Corporate & UMKM Premium oleh Chesta Azka Sofyan di Cisauk, BSD City, dan Gading Serpong.",
-  "start_url": "/",
+  "name": "CHESTAADOTCOM — Software Custom & AI Agent",
+  "short_name": "CHESTAADOTCOM",
+  "description": "Pengembangan software custom, AI agent WhatsApp, otomasi workflow, dan pembuatan website di BSD, Tangerang Selatan dan Jabodetabek. Mulai Rp1.200.000.",
+  "start_url": "/id",
   "display": "standalone",
-  "background_color": "#06070a",
-  "theme_color": "#D4FF00",
+  "background_color": "#FFFFFF",
+  "theme_color": "#6A3FD0",
   "icons": [
     {
-      "src": "/chesta.png",
-      "sizes": "512x512",
-      "type": "image/png",
-      "purpose": "any maskable"
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
     },
     {
-      "src": "/favicon.svg",
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-512.png",
       "sizes": "512x512",
-      "type": "image/svg+xml",
+      "type": "image/png",
       "purpose": "any maskable"
     }
   ]

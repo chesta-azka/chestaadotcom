@@ -33,6 +33,28 @@ export type NonIndexableAreaSlug =
   | 'serpong'
   | 'ciputat';
 
+export type ExtendedAreaSlug =
+  | 'serpong-utara'
+  | 'setu'
+  | 'ciputat-timur'
+  | 'pondok-aren'
+  | 'pondok-cabe'
+  | 'pondok-ranji'
+  | 'summarecon-serpong'
+  | 'cisauk'
+  | 'pagedangan'
+  | 'ciledug'
+  | 'karang-tengah'
+  | 'karawaci'
+  | 'kota-tangerang'
+  | 'cinere'
+  | 'depok'
+  | 'cilandak'
+  | 'tb-simatupang'
+  | 'pondok-indah'
+  | 'kebayoran-lama'
+  | 'jakarta-selatan';
+
 export const NON_INDEXABLE_AREA_SLUGS: NonIndexableAreaSlug[] = [
   'alam-sutera',
   'bintaro',
@@ -41,7 +63,10 @@ export const NON_INDEXABLE_AREA_SLUGS: NonIndexableAreaSlug[] = [
   'ciputat',
 ];
 
-export type AreaSlug = IndexableAreaSlug | NonIndexableAreaSlug;
+export type AreaSlug =
+  | IndexableAreaSlug
+  | NonIndexableAreaSlug
+  | ExtendedAreaSlug;
 
 export interface AreaDefinition {
   slug: AreaSlug;
@@ -56,7 +81,7 @@ export interface AreaDefinition {
   factsSummaryEn: string;
   typicalBusinessesId: string[];
   typicalBusinessesEn: string[];
-  nearbySlugs: IndexableAreaSlug[];
+  nearbySlugs: AreaSlug[];
   targetPhrases: {
     website: string[];
     aiAgent: string[];
@@ -139,28 +164,26 @@ export const AREAS: Record<AreaSlug, AreaDefinition> = {
     indexable: true,
     isBaseArea: true,
     factsSummaryId:
-      'Kota di Provinsi Banten yang berbatasan dengan Jakarta Selatan, Depok, Kota Tangerang, dan Kabupaten Tangerang, terdiri dari tujuh kecamatan dengan campuran kawasan perumahan, kampus, dan pusat komersial.',
+      'Kota di Provinsi Banten yang terdiri dari tujuh kecamatan dengan kawasan permukiman, kawasan kampus, dan koridor komersial.',
     factsSummaryEn:
-      'A city in Banten Province bordering South Jakarta, Depok, Tangerang City, and Tangerang Regency, spanning seven districts with a mix of residential neighborhoods, university campuses, and commercial centers.',
+      'A city in Banten Province spanning seven districts with residential neighborhoods, campus areas, and commercial corridors.',
     typicalBusinessesId: [
-      'Praktik dokter dan klinik kesehatan',
-      'Klinik kecantikan dan perawatan',
+      'Klinik dan praktik medis',
       'Kafe dan restoran',
       'Bimbingan belajar (bimbel)',
-      'Agen dan pengembang properti',
+      'Properti dan kontraktor',
       'Jasa profesional',
-      'Toko online UMKM',
+      'Toko online',
     ],
     typicalBusinessesEn: [
-      'Medical practices and health clinics',
-      'Beauty and aesthetic clinics',
+      'Clinics and medical practices',
       'Cafes and restaurants',
       'Tutoring centers (bimbel)',
-      'Property agents and developers',
+      'Property and contractors',
       'Professional services',
-      'SME online stores',
+      'Online shops',
     ],
-    nearbySlugs: ['bsd-city', 'pamulang', 'jurang-mangu', 'lebak-bulus'],
+    nearbySlugs: ['bsd-city', 'serpong', 'pamulang', 'ciputat', 'pondok-aren'],
     targetPhrases: {
       website: [
         'jasa pembuatan website Tangerang Selatan',
@@ -181,24 +204,24 @@ export const AREAS: Record<AreaSlug, AreaDefinition> = {
     indexable: true,
     isBaseArea: true,
     factsSummaryId:
-      'Kawasan kota mandiri di Serpong, Tangerang Selatan dengan pusat belanja seperti AEON Mall BSD City dan The Breeze, kawasan perkantoran, serta ICE BSD sebagai pusat pameran.',
+      'Kawasan di Serpong, Tangerang Selatan dengan AEON Mall BSD City, The Breeze, dan ICE BSD serta koridor komersial dan kawasan perkantoran.',
     factsSummaryEn:
-      'A planned township in Serpong, South Tangerang featuring shopping centers such as AEON Mall BSD City and The Breeze, office districts, and the ICE BSD exhibition center.',
+      'An area in Serpong, South Tangerang featuring AEON Mall BSD City, The Breeze, and ICE BSD alongside commercial corridors and office districts.',
     typicalBusinessesId: [
-      'Klinik estetika',
-      'Restoran dan kafe',
-      'Kantor dan startup',
-      'Agen properti',
-      'Studio arsitektur dan kontraktor',
+      'Klinik',
+      'Kafe dan restoran',
+      'Jasa profesional',
+      'Properti',
+      'Kontraktor',
     ],
     typicalBusinessesEn: [
-      'Aesthetic clinics',
-      'Restaurants and cafes',
-      'Offices and startups',
-      'Property agents',
-      'Architecture studios and contractors',
+      'Clinics',
+      'Cafes and restaurants',
+      'Professional services',
+      'Property',
+      'Contractors',
     ],
-    nearbySlugs: ['tangerang-selatan', 'pamulang', 'jurang-mangu'],
+    nearbySlugs: ['serpong', 'tangerang-selatan', 'gading-serpong', 'alam-sutera', 'pamulang'],
     targetPhrases: {
       website: [
         'jasa pembuatan website BSD City',
@@ -218,26 +241,24 @@ export const AREAS: Record<AreaSlug, AreaDefinition> = {
     regionLabelEn: 'Pamulang District, South Tangerang',
     indexable: true,
     factsSummaryId:
-      'Kecamatan padat penduduk di Tangerang Selatan tempat Universitas Pamulang berada, dengan banyak usaha kos-kosan, tempat makan, bimbel dan kursus, toko online, bengkel, dan laundry.',
+      'Kecamatan di Kota Tangerang Selatan tempat Universitas Pamulang berada, dengan kawasan permukiman, kawasan kampus, dan koridor komersial.',
     factsSummaryEn:
-      'A densely populated district in South Tangerang home to Universitas Pamulang, with many boarding houses, eateries, tutoring and course centers, online shops, workshops, and laundries.',
+      'A district in South Tangerang City where Universitas Pamulang is located, featuring residential neighborhoods, campus areas, and commercial corridors.',
     typicalBusinessesId: [
-      'Usaha kos-kosan',
-      'Tempat makan dan kuliner harian',
-      'Bimbel dan tempat kursus',
-      'Toko online dan reseller',
-      'Bengkel dan layanan servis',
-      'Usaha laundry',
+      'Kos-kosan',
+      'Kafe dan restoran',
+      'Bimbel',
+      'Toko online',
+      'Klinik',
     ],
     typicalBusinessesEn: [
       'Boarding houses (kos-kosan)',
-      'Eateries and daily food stalls',
-      'Tutoring and course centers',
-      'Online shops and resellers',
-      'Workshops and repair services',
-      'Laundry businesses',
+      'Cafes and restaurants',
+      'Tutoring centers (bimbel)',
+      'Online shops',
+      'Clinics',
     ],
-    nearbySlugs: ['tangerang-selatan', 'bsd-city', 'lebak-bulus', 'jurang-mangu'],
+    nearbySlugs: ['ciputat', 'tangerang-selatan', 'bsd-city', 'serpong', 'lebak-bulus'],
     targetPhrases: {
       website: [
         'jasa pembuatan website Pamulang',
@@ -257,22 +278,22 @@ export const AREAS: Record<AreaSlug, AreaDefinition> = {
     regionLabelEn: 'Jurang Mangu Subdistrict, Pondok Aren, South Tangerang',
     indexable: true,
     factsSummaryId:
-      'Kelurahan di Kecamatan Pondok Aren, Tangerang Selatan di sekitar kawasan Bintaro, berupa permukiman padat dengan praktik dokter, kuliner, jasa renovasi, dan kursus.',
+      'Kelurahan di Kecamatan Pondok Aren, Kota Tangerang Selatan dengan kawasan permukiman dan usaha harian warga.',
     factsSummaryEn:
-      'A subdistrict in Pondok Aren, South Tangerang around the Bintaro area, featuring dense residential neighborhoods with medical practices, food businesses, renovation services, and courses.',
+      'A subdistrict in Pondok Aren District, South Tangerang City with residential neighborhoods and daily local businesses.',
     typicalBusinessesId: [
-      'Praktik dokter dan dokter gigi',
-      'Kuliner rumahan dan kafe',
-      'Jasa renovasi dan kontraktor',
-      'Tempat kursus dan les',
+      'Klinik',
+      'Kafe dan restoran',
+      'Kontraktor',
+      'Bimbel',
     ],
     typicalBusinessesEn: [
-      'Medical and dental practices',
-      'Home-based food businesses and cafes',
-      'Renovation services and contractors',
-      'Courses and private lessons',
+      'Clinics',
+      'Cafes and restaurants',
+      'Contractors',
+      'Tutoring centers (bimbel)',
     ],
-    nearbySlugs: ['tangerang-selatan', 'pamulang', 'lebak-bulus', 'bsd-city'],
+    nearbySlugs: ['pondok-aren', 'bintaro', 'ciputat', 'tangerang-selatan', 'pamulang'],
     targetPhrases: {
       website: [
         'jasa pembuatan website Jurang Mangu',
@@ -292,22 +313,22 @@ export const AREAS: Record<AreaSlug, AreaDefinition> = {
     regionLabelEn: 'Lebak Bulus Subdistrict, Cilandak, South Jakarta',
     indexable: true,
     factsSummaryId:
-      'Kelurahan di Kecamatan Cilandak, Jakarta Selatan di sisi barat daya Jakarta dekat perbatasan Tangerang Selatan; lokasi Stasiun MRT Jakarta Lebak Bulus dengan banyak komuter, kafe, jasa profesional, dan bisnis online.',
+      'Kelurahan di Jakarta Selatan tempat Stasiun MRT Lebak Bulus berada, berbatasan dekat dengan Tangerang Selatan.',
     factsSummaryEn:
-      'A subdistrict in Cilandak, South Jakarta on the southwestern edge of Jakarta near the South Tangerang border; home to Lebak Bulus MRT Jakarta Station with many commuters, cafes, professional services, and online businesses.',
+      'A subdistrict in South Jakarta home to Lebak Bulus MRT Station, bordering closely with South Tangerang.',
     typicalBusinessesId: [
-      'Kafe dan usaha katering',
-      'Konsultan dan jasa profesional',
-      'Bisnis online',
-      'Jasa servis dan klinik sekitar permukiman',
+      'Kafe dan restoran',
+      'Jasa profesional',
+      'Toko online',
+      'Klinik',
     ],
     typicalBusinessesEn: [
-      'Cafes and catering businesses',
-      'Consultants and professional services',
-      'Online businesses',
-      'Repair services and neighborhood clinics',
+      'Cafes and restaurants',
+      'Professional services',
+      'Online shops',
+      'Clinics',
     ],
-    nearbySlugs: ['pamulang', 'jurang-mangu', 'tangerang-selatan'],
+    nearbySlugs: ['ciputat', 'pamulang', 'bintaro', 'pondok-aren', 'tangerang-selatan'],
     targetPhrases: {
       website: [
         'jasa pembuatan website Lebak Bulus',
@@ -318,22 +339,21 @@ export const AREAS: Record<AreaSlug, AreaDefinition> = {
     ogImageKey: 'ogAreaLebakBulus',
   },
 
-  // ==========================================================================
-  // 5 NON-INDEXABLE AREAS (indexable: false)
-  // ==========================================================================
   'alam-sutera': {
     slug: 'alam-sutera',
     name: 'Alam Sutera',
     nameEn: 'Alam Sutera',
     shortName: 'Alam Sutera',
-    regionLabel: 'Alam Sutera, Serpong Utara',
-    regionLabelEn: 'Alam Sutera, North Serpong',
+    regionLabel: 'Kawasan di perbatasan Tangerang Selatan dan Kota Tangerang',
+    regionLabelEn: 'Area on the border of South Tangerang and Tangerang City',
     indexable: false,
-    factsSummaryId: 'Kawasan hunian dan komersial di sekitar Serpong Utara dan Tangerang.',
-    factsSummaryEn: 'Residential and commercial area around North Serpong and Tangerang.',
-    typicalBusinessesId: ['Klinik', 'Restoran', 'Jasa profesional'],
-    typicalBusinessesEn: ['Clinics', 'Restaurants', 'Professional services'],
-    nearbySlugs: ['bsd-city', 'tangerang-selatan'],
+    factsSummaryId:
+      'Kawasan di perbatasan Tangerang Selatan dan Kota Tangerang dengan koridor komersial dan kawasan permukiman.',
+    factsSummaryEn:
+      'An area on the border of South Tangerang and Tangerang City featuring commercial corridors and residential neighborhoods.',
+    typicalBusinessesId: ['Klinik', 'Kafe dan restoran', 'Jasa profesional', 'Properti'],
+    typicalBusinessesEn: ['Clinics', 'Cafes and restaurants', 'Professional services', 'Property'],
+    nearbySlugs: ['serpong', 'bsd-city', 'gading-serpong', 'tangerang-selatan'],
     targetPhrases: { website: [], aiAgent: [] },
     ogImageKey: 'ogDefault',
   },
@@ -343,14 +363,16 @@ export const AREAS: Record<AreaSlug, AreaDefinition> = {
     name: 'Bintaro',
     nameEn: 'Bintaro',
     shortName: 'Bintaro',
-    regionLabel: 'Bintaro, Pondok Aren, Tangerang Selatan',
-    regionLabelEn: 'Bintaro, Pondok Aren, South Tangerang',
+    regionLabel: 'Kawasan di perbatasan Tangerang Selatan dan Jakarta Selatan',
+    regionLabelEn: 'Area on the border of South Tangerang and South Jakarta',
     indexable: false,
-    factsSummaryId: 'Kawasan permukiman dan niaga di Pondok Aren, Tangerang Selatan.',
-    factsSummaryEn: 'Residential and commercial area in Pondok Aren, South Tangerang.',
-    typicalBusinessesId: ['Klinik', 'Kafe', 'Jasa renovasi'],
-    typicalBusinessesEn: ['Clinics', 'Cafes', 'Renovation services'],
-    nearbySlugs: ['jurang-mangu', 'tangerang-selatan', 'bsd-city'],
+    factsSummaryId:
+      'Kawasan di perbatasan Tangerang Selatan dan Jakarta Selatan dengan kawasan permukiman dan koridor komersial.',
+    factsSummaryEn:
+      'An area on the border of South Tangerang and South Jakarta with residential neighborhoods and commercial corridors.',
+    typicalBusinessesId: ['Klinik', 'Kafe dan restoran', 'Kontraktor', 'Jasa profesional'],
+    typicalBusinessesEn: ['Clinics', 'Cafes and restaurants', 'Contractors', 'Professional services'],
+    nearbySlugs: ['pondok-aren', 'jurang-mangu', 'ciputat', 'lebak-bulus', 'tangerang-selatan'],
     targetPhrases: { website: [], aiAgent: [] },
     ogImageKey: 'ogDefault',
   },
@@ -360,14 +382,16 @@ export const AREAS: Record<AreaSlug, AreaDefinition> = {
     name: 'Gading Serpong',
     nameEn: 'Gading Serpong',
     shortName: 'Gading Serpong',
-    regionLabel: 'Gading Serpong, Tangerang',
-    regionLabelEn: 'Gading Serpong, Tangerang',
+    regionLabel: 'Gading Serpong, Kabupaten Tangerang',
+    regionLabelEn: 'Gading Serpong, Tangerang Regency',
     indexable: false,
-    factsSummaryId: 'Kawasan komersial dan perumahan di dekat Serpong, Tangerang Selatan.',
-    factsSummaryEn: 'Commercial and residential area near Serpong, South Tangerang.',
-    typicalBusinessesId: ['Restoran', 'Klinik', 'Toko ritel'],
-    typicalBusinessesEn: ['Restaurants', 'Clinics', 'Retail shops'],
-    nearbySlugs: ['bsd-city', 'tangerang-selatan'],
+    factsSummaryId:
+      'Kawasan di Kabupaten Tangerang yang berdekatan dengan Serpong dan BSD City, mencakup koridor komersial dan kawasan permukiman.',
+    factsSummaryEn:
+      'An area in Tangerang Regency adjacent to Serpong and BSD City, encompassing commercial corridors and residential neighborhoods.',
+    typicalBusinessesId: ['Kafe dan restoran', 'Klinik', 'Toko online', 'Jasa profesional'],
+    typicalBusinessesEn: ['Cafes and restaurants', 'Clinics', 'Online shops', 'Professional services'],
+    nearbySlugs: ['bsd-city', 'serpong', 'alam-sutera', 'tangerang-selatan'],
     targetPhrases: { website: [], aiAgent: [] },
     ogImageKey: 'ogDefault',
   },
@@ -380,11 +404,13 @@ export const AREAS: Record<AreaSlug, AreaDefinition> = {
     regionLabel: 'Kecamatan Serpong, Tangerang Selatan',
     regionLabelEn: 'Serpong District, South Tangerang',
     indexable: false,
-    factsSummaryId: 'Kecamatan di Kota Tangerang Selatan yang mencakup kawasan perumahan dan niaga.',
-    factsSummaryEn: 'District in South Tangerang City covering residential and commercial areas.',
-    typicalBusinessesId: ['Klinik', 'Kafe', 'Jasa profesional'],
-    typicalBusinessesEn: ['Clinics', 'Cafes', 'Professional services'],
-    nearbySlugs: ['bsd-city', 'tangerang-selatan', 'pamulang'],
+    factsSummaryId:
+      'Kecamatan di Kota Tangerang Selatan yang mencakup kawasan permukiman dan koridor komersial.',
+    factsSummaryEn:
+      'A district in South Tangerang City covering residential neighborhoods and commercial corridors.',
+    typicalBusinessesId: ['Klinik', 'Kafe dan restoran', 'Jasa profesional', 'Kontraktor'],
+    typicalBusinessesEn: ['Clinics', 'Cafes and restaurants', 'Professional services', 'Contractors'],
+    nearbySlugs: ['bsd-city', 'tangerang-selatan', 'alam-sutera', 'gading-serpong', 'pamulang'],
     targetPhrases: { website: [], aiAgent: [] },
     ogImageKey: 'ogDefault',
   },
@@ -397,11 +423,393 @@ export const AREAS: Record<AreaSlug, AreaDefinition> = {
     regionLabel: 'Kecamatan Ciputat, Tangerang Selatan',
     regionLabelEn: 'Ciputat District, South Tangerang',
     indexable: false,
-    factsSummaryId: 'Kecamatan di Kota Tangerang Selatan yang berbatasan dekat dengan Jakarta Selatan.',
-    factsSummaryEn: 'District in South Tangerang City bordering South Jakarta.',
-    typicalBusinessesId: ['Kuliner', 'Bimbel', 'Toko online'],
-    typicalBusinessesEn: ['Food stalls', 'Tutoring', 'Online shops'],
-    nearbySlugs: ['pamulang', 'tangerang-selatan', 'lebak-bulus', 'jurang-mangu'],
+    factsSummaryId:
+      'Kecamatan di Kota Tangerang Selatan dengan kawasan permukiman dan usaha harian warga.',
+    factsSummaryEn:
+      'A district in South Tangerang City with residential neighborhoods and daily local businesses.',
+    typicalBusinessesId: ['Kafe dan restoran', 'Bimbel', 'Toko online', 'Kos-kosan'],
+    typicalBusinessesEn: ['Cafes and restaurants', 'Tutoring centers (bimbel)', 'Online shops', 'Boarding houses'],
+    nearbySlugs: ['pamulang', 'tangerang-selatan', 'lebak-bulus', 'pondok-aren', 'bintaro'],
+    targetPhrases: { website: [], aiAgent: [] },
+    ogImageKey: 'ogDefault',
+  },
+
+  'serpong-utara': {
+    slug: 'serpong-utara',
+    name: 'Serpong Utara',
+    nameEn: 'North Serpong',
+    shortName: 'Serpong Utara',
+    regionLabel: 'Kecamatan Serpong Utara, Tangerang Selatan',
+    regionLabelEn: 'North Serpong District, South Tangerang',
+    indexable: false,
+    factsSummaryId:
+      'Kecamatan di Kota Tangerang Selatan dengan kawasan permukiman dan koridor komersial.',
+    factsSummaryEn:
+      'A district in South Tangerang City with residential neighborhoods and commercial corridors.',
+    typicalBusinessesId: ['Klinik', 'Kafe dan restoran', 'Jasa profesional', 'Toko online'],
+    typicalBusinessesEn: ['Clinics', 'Cafes and restaurants', 'Professional services', 'Online shops'],
+    nearbySlugs: ['alam-sutera', 'serpong', 'bsd-city', 'tangerang-selatan'],
+    targetPhrases: { website: [], aiAgent: [] },
+    ogImageKey: 'ogDefault',
+  },
+
+  setu: {
+    slug: 'setu',
+    name: 'Setu',
+    nameEn: 'Setu',
+    shortName: 'Setu',
+    regionLabel: 'Kecamatan Setu, Tangerang Selatan',
+    regionLabelEn: 'Setu District, South Tangerang',
+    indexable: false,
+    factsSummaryId:
+      'Kecamatan di Kota Tangerang Selatan dengan kawasan permukiman, kontraktor, dan usaha harian.',
+    factsSummaryEn:
+      'A district in South Tangerang City with residential neighborhoods, contractors, and daily businesses.',
+    typicalBusinessesId: ['Kontraktor', 'Toko online', 'Kafe dan restoran', 'Kos-kosan'],
+    typicalBusinessesEn: ['Contractors', 'Online shops', 'Cafes and restaurants', 'Boarding houses'],
+    nearbySlugs: ['serpong', 'pamulang', 'bsd-city', 'tangerang-selatan'],
+    targetPhrases: { website: [], aiAgent: [] },
+    ogImageKey: 'ogDefault',
+  },
+
+  'ciputat-timur': {
+    slug: 'ciputat-timur',
+    name: 'Ciputat Timur',
+    nameEn: 'East Ciputat',
+    shortName: 'Ciputat Timur',
+    regionLabel: 'Kecamatan Ciputat Timur, Tangerang Selatan',
+    regionLabelEn: 'East Ciputat District, South Tangerang',
+    indexable: false,
+    factsSummaryId:
+      'Kecamatan di Kota Tangerang Selatan yang berbatasan dekat dengan Jakarta Selatan.',
+    factsSummaryEn:
+      'A district in South Tangerang City bordering closely with South Jakarta.',
+    typicalBusinessesId: ['Kos-kosan', 'Bimbel', 'Klinik', 'Kafe dan restoran'],
+    typicalBusinessesEn: ['Boarding houses', 'Tutoring centers', 'Clinics', 'Cafes and restaurants'],
+    nearbySlugs: ['ciputat', 'lebak-bulus', 'pamulang', 'pondok-aren', 'tangerang-selatan'],
+    targetPhrases: { website: [], aiAgent: [] },
+    ogImageKey: 'ogDefault',
+  },
+
+  'pondok-aren': {
+    slug: 'pondok-aren',
+    name: 'Pondok Aren',
+    nameEn: 'Pondok Aren',
+    shortName: 'Pondok Aren',
+    regionLabel: 'Kecamatan Pondok Aren, Tangerang Selatan',
+    regionLabelEn: 'Pondok Aren District, South Tangerang',
+    indexable: false,
+    factsSummaryId:
+      'Kecamatan di Kota Tangerang Selatan yang mencakup kawasan permukiman dan koridor komersial.',
+    factsSummaryEn:
+      'A district in South Tangerang City covering residential neighborhoods and commercial corridors.',
+    typicalBusinessesId: ['Klinik', 'Kafe dan restoran', 'Jasa profesional', 'Kontraktor'],
+    typicalBusinessesEn: ['Clinics', 'Cafes and restaurants', 'Professional services', 'Contractors'],
+    nearbySlugs: ['bintaro', 'jurang-mangu', 'ciputat', 'tangerang-selatan', 'serpong'],
+    targetPhrases: { website: [], aiAgent: [] },
+    ogImageKey: 'ogDefault',
+  },
+
+  'pondok-cabe': {
+    slug: 'pondok-cabe',
+    name: 'Pondok Cabe',
+    nameEn: 'Pondok Cabe',
+    shortName: 'Pondok Cabe',
+    regionLabel: 'Kelurahan Pondok Cabe, Pamulang, Tangerang Selatan',
+    regionLabelEn: 'Pondok Cabe Subdistrict, Pamulang, South Tangerang',
+    indexable: false,
+    factsSummaryId:
+      'Kelurahan di Kecamatan Pamulang, Kota Tangerang Selatan dengan kawasan permukiman dan usaha warga.',
+    factsSummaryEn:
+      'A subdistrict in Pamulang District, South Tangerang City with residential neighborhoods and local businesses.',
+    typicalBusinessesId: ['Toko online', 'Kafe dan restoran', 'Bimbel', 'Kontraktor'],
+    typicalBusinessesEn: ['Online shops', 'Cafes and restaurants', 'Tutoring centers', 'Contractors'],
+    nearbySlugs: ['pamulang', 'ciputat', 'lebak-bulus', 'tangerang-selatan'],
+    targetPhrases: { website: [], aiAgent: [] },
+    ogImageKey: 'ogDefault',
+  },
+
+  'pondok-ranji': {
+    slug: 'pondok-ranji',
+    name: 'Pondok Ranji',
+    nameEn: 'Pondok Ranji',
+    shortName: 'Pondok Ranji',
+    regionLabel: 'Kelurahan Pondok Ranji, Ciputat Timur, Tangerang Selatan',
+    regionLabelEn: 'Pondok Ranji Subdistrict, East Ciputat, South Tangerang',
+    indexable: false,
+    factsSummaryId:
+      'Kelurahan di Kecamatan Ciputat Timur, Kota Tangerang Selatan dengan kawasan permukiman.',
+    factsSummaryEn:
+      'A subdistrict in East Ciputat District, South Tangerang City with residential neighborhoods.',
+    typicalBusinessesId: ['Kafe dan restoran', 'Kos-kosan', 'Klinik', 'Jasa profesional'],
+    typicalBusinessesEn: ['Cafes and restaurants', 'Boarding houses', 'Clinics', 'Professional services'],
+    nearbySlugs: ['ciputat', 'bintaro', 'pondok-aren', 'jurang-mangu', 'tangerang-selatan'],
+    targetPhrases: { website: [], aiAgent: [] },
+    ogImageKey: 'ogDefault',
+  },
+
+  'summarecon-serpong': {
+    slug: 'summarecon-serpong',
+    name: 'Summarecon Serpong',
+    nameEn: 'Summarecon Serpong',
+    shortName: 'Summarecon Serpong',
+    regionLabel: 'Summarecon Serpong, Kabupaten Tangerang',
+    regionLabelEn: 'Summarecon Serpong, Tangerang Regency',
+    indexable: false,
+    factsSummaryId:
+      'Kawasan di Kabupaten Tangerang dengan koridor komersial dan kawasan permukiman.',
+    factsSummaryEn:
+      'An area in Tangerang Regency featuring commercial corridors and residential neighborhoods.',
+    typicalBusinessesId: ['Kafe dan restoran', 'Klinik', 'Properti', 'Jasa profesional'],
+    typicalBusinessesEn: ['Cafes and restaurants', 'Clinics', 'Property', 'Professional services'],
+    nearbySlugs: ['gading-serpong', 'bsd-city', 'serpong', 'alam-sutera'],
+    targetPhrases: { website: [], aiAgent: [] },
+    ogImageKey: 'ogDefault',
+  },
+
+  cisauk: {
+    slug: 'cisauk',
+    name: 'Cisauk',
+    nameEn: 'Cisauk',
+    shortName: 'Cisauk',
+    regionLabel: 'Kecamatan Cisauk, Kabupaten Tangerang',
+    regionLabelEn: 'Cisauk District, Tangerang Regency',
+    indexable: false,
+    factsSummaryId:
+      'Wilayah di Kabupaten Tangerang yang berbatasan dekat dengan BSD City dan Serpong.',
+    factsSummaryEn:
+      'An area in Tangerang Regency bordering closely with BSD City and Serpong.',
+    typicalBusinessesId: ['Kos-kosan', 'Toko online', 'Kafe dan restoran', 'Kontraktor'],
+    typicalBusinessesEn: ['Boarding houses', 'Online shops', 'Cafes and restaurants', 'Contractors'],
+    nearbySlugs: ['bsd-city', 'serpong', 'tangerang-selatan', 'gading-serpong'],
+    targetPhrases: { website: [], aiAgent: [] },
+    ogImageKey: 'ogDefault',
+  },
+
+  pagedangan: {
+    slug: 'pagedangan',
+    name: 'Pagedangan',
+    nameEn: 'Pagedangan',
+    shortName: 'Pagedangan',
+    regionLabel: 'Kecamatan Pagedangan, Kabupaten Tangerang',
+    regionLabelEn: 'Pagedangan District, Tangerang Regency',
+    indexable: false,
+    factsSummaryId:
+      'Wilayah di Kabupaten Tangerang di sekitar kawasan BSD City dan Gading Serpong.',
+    factsSummaryEn:
+      'An area in Tangerang Regency around BSD City and Gading Serpong.',
+    typicalBusinessesId: ['Kafe dan restoran', 'Properti', 'Klinik', 'Jasa profesional'],
+    typicalBusinessesEn: ['Cafes and restaurants', 'Property', 'Clinics', 'Professional services'],
+    nearbySlugs: ['bsd-city', 'gading-serpong', 'serpong', 'tangerang-selatan'],
+    targetPhrases: { website: [], aiAgent: [] },
+    ogImageKey: 'ogDefault',
+  },
+
+  ciledug: {
+    slug: 'ciledug',
+    name: 'Ciledug',
+    nameEn: 'Ciledug',
+    shortName: 'Ciledug',
+    regionLabel: 'Kecamatan Ciledug, Kota Tangerang',
+    regionLabelEn: 'Ciledug District, Tangerang City',
+    indexable: false,
+    factsSummaryId:
+      'Wilayah di Kota Tangerang yang berbatasan dekat dengan Pondok Aren, Tangerang Selatan.',
+    factsSummaryEn:
+      'An area in Tangerang City bordering closely with Pondok Aren, South Tangerang.',
+    typicalBusinessesId: ['Toko online', 'Klinik', 'Kafe dan restoran', 'Bimbel'],
+    typicalBusinessesEn: ['Online shops', 'Clinics', 'Cafes and restaurants', 'Tutoring centers'],
+    nearbySlugs: ['pondok-aren', 'bintaro', 'alam-sutera', 'tangerang-selatan'],
+    targetPhrases: { website: [], aiAgent: [] },
+    ogImageKey: 'ogDefault',
+  },
+
+  'karang-tengah': {
+    slug: 'karang-tengah',
+    name: 'Karang Tengah',
+    nameEn: 'Karang Tengah',
+    shortName: 'Karang Tengah',
+    regionLabel: 'Kecamatan Karang Tengah, Kota Tangerang',
+    regionLabelEn: 'Karang Tengah District, Tangerang City',
+    indexable: false,
+    factsSummaryId:
+      'Wilayah di Kota Tangerang dengan kawasan permukiman dan usaha harian.',
+    factsSummaryEn:
+      'An area in Tangerang City with residential neighborhoods and daily businesses.',
+    typicalBusinessesId: ['Klinik', 'Kafe dan restoran', 'Toko online', 'Kontraktor'],
+    typicalBusinessesEn: ['Clinics', 'Cafes and restaurants', 'Online shops', 'Contractors'],
+    nearbySlugs: ['alam-sutera', 'pondok-aren', 'bintaro', 'tangerang-selatan'],
+    targetPhrases: { website: [], aiAgent: [] },
+    ogImageKey: 'ogDefault',
+  },
+
+  karawaci: {
+    slug: 'karawaci',
+    name: 'Karawaci',
+    nameEn: 'Karawaci',
+    shortName: 'Karawaci',
+    regionLabel: 'Karawaci, Kota Tangerang',
+    regionLabelEn: 'Karawaci, Tangerang City',
+    indexable: false,
+    factsSummaryId:
+      'Wilayah di Kota Tangerang dengan kawasan permukiman dan koridor komersial.',
+    factsSummaryEn:
+      'An area in Tangerang City with residential neighborhoods and commercial corridors.',
+    typicalBusinessesId: ['Klinik', 'Kafe dan restoran', 'Jasa profesional', 'Kos-kosan'],
+    typicalBusinessesEn: ['Clinics', 'Cafes and restaurants', 'Professional services', 'Boarding houses'],
+    nearbySlugs: ['gading-serpong', 'alam-sutera', 'bsd-city', 'serpong'],
+    targetPhrases: { website: [], aiAgent: [] },
+    ogImageKey: 'ogDefault',
+  },
+
+  'kota-tangerang': {
+    slug: 'kota-tangerang',
+    name: 'Kota Tangerang',
+    nameEn: 'Tangerang City',
+    shortName: 'Kota Tangerang',
+    regionLabel: 'Kota Tangerang, Banten',
+    regionLabelEn: 'Tangerang City, Banten',
+    indexable: false,
+    factsSummaryId:
+      'Kota di Provinsi Banten yang berbatasan langsung dengan Tangerang Selatan.',
+    factsSummaryEn:
+      'A city in Banten Province bordering directly with South Tangerang.',
+    typicalBusinessesId: ['Jasa profesional', 'Klinik', 'Toko online', 'Kontraktor'],
+    typicalBusinessesEn: ['Professional services', 'Clinics', 'Online shops', 'Contractors'],
+    nearbySlugs: ['alam-sutera', 'gading-serpong', 'pondok-aren', 'tangerang-selatan'],
+    targetPhrases: { website: [], aiAgent: [] },
+    ogImageKey: 'ogDefault',
+  },
+
+  cinere: {
+    slug: 'cinere',
+    name: 'Cinere',
+    nameEn: 'Cinere',
+    shortName: 'Cinere',
+    regionLabel: 'Kecamatan Cinere, Kota Depok',
+    regionLabelEn: 'Cinere District, Depok City',
+    indexable: false,
+    factsSummaryId:
+      'Wilayah di Kota Depok yang berbatasan dekat dengan Tangerang Selatan dan Jakarta Selatan.',
+    factsSummaryEn:
+      'An area in Depok City bordering closely with South Tangerang and South Jakarta.',
+    typicalBusinessesId: ['Klinik', 'Kafe dan restoran', 'Kontraktor', 'Bimbel'],
+    typicalBusinessesEn: ['Clinics', 'Cafes and restaurants', 'Contractors', 'Tutoring centers'],
+    nearbySlugs: ['lebak-bulus', 'pamulang', 'ciputat', 'tangerang-selatan'],
+    targetPhrases: { website: [], aiAgent: [] },
+    ogImageKey: 'ogDefault',
+  },
+
+  depok: {
+    slug: 'depok',
+    name: 'Kota Depok',
+    nameEn: 'Depok City',
+    shortName: 'Depok',
+    regionLabel: 'Kota Depok, Jawa Barat',
+    regionLabelEn: 'Depok City, West Java',
+    indexable: false,
+    factsSummaryId:
+      'Kota di sebelah selatan Jakarta yang berbatasan dengan Tangerang Selatan dan Jakarta Selatan.',
+    factsSummaryEn:
+      'A city south of Jakarta bordering South Tangerang and South Jakarta.',
+    typicalBusinessesId: ['Kos-kosan', 'Bimbel', 'Toko online', 'Kafe dan restoran'],
+    typicalBusinessesEn: ['Boarding houses', 'Tutoring centers', 'Online shops', 'Cafes and restaurants'],
+    nearbySlugs: ['pamulang', 'ciputat', 'lebak-bulus', 'tangerang-selatan'],
+    targetPhrases: { website: [], aiAgent: [] },
+    ogImageKey: 'ogDefault',
+  },
+
+  cilandak: {
+    slug: 'cilandak',
+    name: 'Cilandak',
+    nameEn: 'Cilandak',
+    shortName: 'Cilandak',
+    regionLabel: 'Kecamatan Cilandak, Jakarta Selatan',
+    regionLabelEn: 'Cilandak District, South Jakarta',
+    indexable: false,
+    factsSummaryId:
+      'Wilayah di Jakarta Selatan yang mencakup kawasan permukiman dan koridor komersial.',
+    factsSummaryEn:
+      'An area in South Jakarta covering residential neighborhoods and commercial corridors.',
+    typicalBusinessesId: ['Jasa profesional', 'Klinik', 'Kafe dan restoran', 'Properti'],
+    typicalBusinessesEn: ['Professional services', 'Clinics', 'Cafes and restaurants', 'Property'],
+    nearbySlugs: ['lebak-bulus', 'ciputat', 'bintaro', 'pondok-aren'],
+    targetPhrases: { website: [], aiAgent: [] },
+    ogImageKey: 'ogDefault',
+  },
+
+  'tb-simatupang': {
+    slug: 'tb-simatupang',
+    name: 'TB Simatupang',
+    nameEn: 'TB Simatupang',
+    shortName: 'TB Simatupang',
+    regionLabel: 'TB Simatupang, Jakarta Selatan',
+    regionLabelEn: 'TB Simatupang, South Jakarta',
+    indexable: false,
+    factsSummaryId:
+      'Wilayah di Jakarta Selatan dengan kawasan perkantoran dan jasa profesional.',
+    factsSummaryEn:
+      'An area in South Jakarta featuring office districts and professional services.',
+    typicalBusinessesId: ['Jasa profesional', 'Properti', 'Kontraktor', 'Klinik'],
+    typicalBusinessesEn: ['Professional services', 'Property', 'Contractors', 'Clinics'],
+    nearbySlugs: ['lebak-bulus', 'ciputat', 'bintaro', 'tangerang-selatan'],
+    targetPhrases: { website: [], aiAgent: [] },
+    ogImageKey: 'ogDefault',
+  },
+
+  'pondok-indah': {
+    slug: 'pondok-indah',
+    name: 'Pondok Indah',
+    nameEn: 'Pondok Indah',
+    shortName: 'Pondok Indah',
+    regionLabel: 'Pondok Indah, Jakarta Selatan',
+    regionLabelEn: 'Pondok Indah, South Jakarta',
+    indexable: false,
+    factsSummaryId:
+      'Wilayah di Jakarta Selatan dengan kawasan permukiman dan koridor komersial.',
+    factsSummaryEn:
+      'An area in South Jakarta with residential neighborhoods and commercial corridors.',
+    typicalBusinessesId: ['Klinik', 'Jasa profesional', 'Kafe dan restoran', 'Properti'],
+    typicalBusinessesEn: ['Clinics', 'Professional services', 'Cafes and restaurants', 'Property'],
+    nearbySlugs: ['lebak-bulus', 'bintaro', 'pondok-aren', 'ciputat'],
+    targetPhrases: { website: [], aiAgent: [] },
+    ogImageKey: 'ogDefault',
+  },
+
+  'kebayoran-lama': {
+    slug: 'kebayoran-lama',
+    name: 'Kebayoran Lama',
+    nameEn: 'Kebayoran Lama',
+    shortName: 'Kebayoran Lama',
+    regionLabel: 'Kebayoran Lama, Jakarta Selatan',
+    regionLabelEn: 'Kebayoran Lama, South Jakarta',
+    indexable: false,
+    factsSummaryId:
+      'Wilayah di Jakarta Selatan yang berdekatan dengan Bintaro dan Lebak Bulus.',
+    factsSummaryEn:
+      'An area in South Jakarta adjacent to Bintaro and Lebak Bulus.',
+    typicalBusinessesId: ['Toko online', 'Klinik', 'Kafe dan restoran', 'Kontraktor'],
+    typicalBusinessesEn: ['Online shops', 'Clinics', 'Cafes and restaurants', 'Contractors'],
+    nearbySlugs: ['bintaro', 'lebak-bulus', 'pondok-aren', 'jurang-mangu'],
+    targetPhrases: { website: [], aiAgent: [] },
+    ogImageKey: 'ogDefault',
+  },
+
+  'jakarta-selatan': {
+    slug: 'jakarta-selatan',
+    name: 'Jakarta Selatan',
+    nameEn: 'South Jakarta',
+    shortName: 'Jaksel',
+    regionLabel: 'Jakarta Selatan, DKI Jakarta',
+    regionLabelEn: 'South Jakarta, DKI Jakarta',
+    indexable: false,
+    factsSummaryId:
+      'Wilayah di DKI Jakarta yang berbatasan langsung dengan Tangerang Selatan dan Kota Depok.',
+    factsSummaryEn:
+      'An administrative city in DKI Jakarta bordering directly with South Tangerang and Depok City.',
+    typicalBusinessesId: ['Jasa profesional', 'Klinik', 'Kafe dan restoran', 'Properti'],
+    typicalBusinessesEn: ['Professional services', 'Clinics', 'Cafes and restaurants', 'Property'],
+    nearbySlugs: ['lebak-bulus', 'bintaro', 'ciputat', 'tangerang-selatan'],
     targetPhrases: { website: [], aiAgent: [] },
     ogImageKey: 'ogDefault',
   },

@@ -21,6 +21,17 @@ export type CoverMotifFamily =
   | 'roi-timeline';
 
 export type CoverHeroId =
+  | 'mcp-hub'
+  | 'memory-tiers'
+  | 'multi-agent'
+  | 'cost-meter'
+  | 'guardrail-gate'
+  | 'vitals-gauges'
+  | 'local-map'
+  | 'schema-graph'
+  | 'react-loop'
+  | 'tool-bus'
+  | 'wa-flow'
   | 'speed-gauge'
   | 'three-gauges'
   | 'price-tiers'
@@ -219,8 +230,8 @@ const RAW_COVER_ENTRIES: RawCoverEntry[] = [
     layoutVariant: 'A',
     accentToken: 'cyan',
     labels: ['CHUNKING', 'RETRIEVE', 'CITED ANS'],
-    alt: 'Diagram alur Retrieval-Augmented Generation (RAG) yang mengekstrak potongan dokumen SOP internal untuk jawaban akurat',
-    altEn: 'Pipeline diagram of Retrieval-Augmented Generation (RAG) extracting internal SOP document chunks for grounded AI answers',
+    alt: 'Diagram alur Retrieval-Augmented Generation (RAG) yang mengekstrak potongan dokumen SOP operasional untuk jawaban akurat',
+    altEn: 'Pipeline diagram of Retrieval-Augmented Generation (RAG) extracting operational SOP document chunks for grounded AI answers',
     legacyImagePath: '/images/blog/mcp-model-context-protocol-bisnis.svg',
   },
   {
@@ -810,10 +821,17 @@ export function getCoverSvgPathForSpec(spec: CoverSpec): string {
   return `/images/blog/covers/${spec.canonicalSlug}.svg`;
 }
 
-export function getOgSvgPathForPost(
+export function getOgPngPathForPost(
   slug: string,
   locale: 'id' | 'en' = 'id'
 ): string {
   const cleanSlug = (slug || '').trim().toLowerCase();
-  return `/images/og/blog/${locale}/${cleanSlug}.svg`;
+  return `/images/og/${locale}/blog/${cleanSlug}.png`;
+}
+
+export function getOgSvgPathForPost(
+  slug: string,
+  locale: 'id' | 'en' = 'id'
+): string {
+  return getOgPngPathForPost(slug, locale);
 }

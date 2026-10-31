@@ -158,7 +158,7 @@ export interface ProblemSelectorOption {
 export const SERVICE_CASE_STUDIES: Record<string, ServiceCaseStudyBlueprint> = {
   'wa-concierge-klinik': {
     slug: 'wa-concierge-klinik',
-    sector: 'Proyek Internal · Klinik',
+    sector: 'Contoh proyek · Klinik',
     title: 'WA Concierge: agen booking WhatsApp untuk klinik',
     problem:
       'Pertanyaan perawatan berulang setiap hari, pesan malam hari baru terbalas besok pagi, dan pencatatan jadwal ke spreadsheet masih manual.',
@@ -170,7 +170,7 @@ export const SERVICE_CASE_STUDIES: Record<string, ServiceCaseStudyBlueprint> = {
   },
   'dashboard-kafe': {
     slug: 'dashboard-kafe',
-    sector: 'Proyek Internal · F&B',
+    sector: 'Contoh proyek · F&B',
     title: 'Dashboard Operasional Kafe',
     problem:
       'Stok bahan dan penjualan harian beberapa cabang dicatat di spreadsheet terpisah yang makin berat dan sering salah.',
@@ -182,7 +182,7 @@ export const SERVICE_CASE_STUDIES: Record<string, ServiceCaseStudyBlueprint> = {
   },
   'lead-properti': {
     slug: 'lead-properti',
-    sector: 'Proyek Internal · Properti',
+    sector: 'Contoh proyek · Properti',
     title: 'Alur Lead Properti',
     problem:
       'Data calon pembeli dari formulir iklan dimasukkan manual ke beberapa tempat sehingga tindak lanjut agen terlambat.',
@@ -194,7 +194,7 @@ export const SERVICE_CASE_STUDIES: Record<string, ServiceCaseStudyBlueprint> = {
   },
   'pemroses-dokumen': {
     slug: 'pemroses-dokumen',
-    sector: 'Proyek Internal · Jasa Profesional',
+    sector: 'Contoh proyek · Jasa Profesional',
     title: 'Pemroses Dokumen AI: ekstraksi data dengan tinjauan manusia',
     problem:
       'Tim administrasi mengetik ulang data dari invoice dan formulir ke tabel, yang lambat dan rawan salah.',
@@ -241,7 +241,7 @@ export const PROBLEM_SELECTOR_OPTIONS: ProblemSelectorOption[] = [
       'Punya beberapa aplikasi yang tidak saling terhubung atau butuh dashboard laporan dan hak akses per peran.',
     recommendedSlug: 'software-custom',
     recommendationNote:
-      'Aplikasi web, dashboard, dan sistem internal yang mengikuti cara kerjamu, dibangun bertahap dari versi kecil.',
+      'Aplikasi web, dashboard, dan sistem operasional yang mengikuti cara kerjamu, dibangun bertahap dari versi kecil.',
   },
 ];
 
@@ -852,10 +852,10 @@ export const SERVICES_DATA_ID: ServiceItem[] = [
     enSlug: 'custom-software',
     urlSlug: 'software-custom',
     eyebrow: 'Software custom',
-    h1: 'Jasa pembuatan software custom: aplikasi web, dashboard, dan sistem internal',
-    sub: 'Sistem yang mengikuti cara kerjamu, bukan sebaliknya. Dari dashboard laporan sampai aplikasi internal untuk timmu.',
+    h1: 'Jasa pembuatan software custom: aplikasi web, dashboard, dan sistem operasional',
+    sub: 'Sistem yang mengikuti cara kerjamu, bukan sebaliknya. Dari dashboard laporan sampai aplikasi operasional untuk timmu.',
     ringkasanSingkat:
-      'Software custom dari CHESTAADOTCOM mencakup aplikasi web, dashboard, dan sistem internal untuk bisnis di Tangerang Selatan dan Jabodetabek. Dibangun mengikuti alur kerja yang sudah berjalan di timmu, dimulai dari versi kecil yang bisa dipakai cepat lalu dikembangkan bertahap. Biaya dihitung setelah audit gratis.',
+      'Software custom dari CHESTAADOTCOM mencakup aplikasi web, dashboard, dan sistem operasional untuk bisnis di Tangerang Selatan dan Jabodetabek. Dibangun mengikuti alur kerja yang sudah berjalan di timmu, dimulai dari versi kecil yang bisa dipakai cepat lalu dikembangkan bertahap. Biaya dihitung setelah audit gratis.',
     cocokKalau: [
       'Memakai spreadsheet yang makin berat dan sering salah.',
       'Punya beberapa aplikasi yang tidak saling terhubung.',
@@ -1005,12 +1005,12 @@ export const SERVICES_DATA_ID: ServiceItem[] = [
     shortTitle: 'Software Custom',
     tagline: 'Software custom',
     shortPromise:
-      'Sistem yang mengikuti cara kerjamu, bukan sebaliknya. Dari dashboard laporan sampai aplikasi internal untuk timmu.',
+      'Sistem yang mengikuti cara kerjamu, bukan sebaliknya. Dari dashboard laporan sampai aplikasi operasional untuk timmu.',
     summary:
-      'Software custom dari CHESTAADOTCOM mencakup aplikasi web, dashboard, dan sistem internal untuk bisnis di Tangerang Selatan dan Jabodetabek. Dibangun mengikuti alur kerja yang sudah berjalan di timmu, dimulai dari versi kecil yang bisa dipakai cepat lalu dikembangkan bertahap. Biaya dihitung setelah audit gratis.',
+      'Software custom dari CHESTAADOTCOM mencakup aplikasi web, dashboard, dan sistem operasional untuk bisnis di Tangerang Selatan dan Jabodetabek. Dibangun mengikuti alur kerja yang sudah berjalan di timmu, dimulai dari versi kecil yang bisa dipakai cepat lalu dikembangkan bertahap. Biaya dihitung setelah audit gratis.',
     bentoSpan: 'small',
     timeline: 'Hitungan minggu (estimasi pasti setelah audit)',
-    bestForSummary: 'Aplikasi web, dashboard laporan, dan sistem internal',
+    bestForSummary: 'Aplikasi web, dashboard laporan, dan sistem operasional',
     forWho: [
       'Memakai spreadsheet yang makin berat dan sering salah.',
       'Punya beberapa aplikasi yang tidak saling terhubung.',
@@ -1086,7 +1086,7 @@ export const SERVICES_DATA_ID: ServiceItem[] = [
     seo: {
       title: 'Jasa Software Custom dan Dashboard di Tangsel | CHESTAADOTCOM',
       description:
-        'Aplikasi web, dashboard, dan sistem internal sesuai alur kerja bisnismu. Melayani Tangerang Selatan, BSD, dan Jabodetabek. Mulai dari audit gratis.',
+        'Aplikasi web, dashboard, dan sistem operasional sesuai alur kerja bisnismu. Melayani Tangerang Selatan, BSD, dan Jabodetabek. Mulai dari audit gratis.',
     },
     imageKey: 'serviceSoftwareCustom',
   },
@@ -1946,10 +1946,10 @@ export const SERVICES_DATA_EN: ServiceItem[] = [
     enSlug: 'custom-software',
     urlSlug: 'custom-software',
     eyebrow: 'Custom software',
-    h1: 'Custom software development: web applications, dashboards, and internal systems',
-    sub: 'Systems that follow the way you work, not the other way around. From reporting dashboards to internal applications for your team.',
+    h1: 'Custom software development: web applications, dashboards, and operational systems',
+    sub: 'Systems that follow the way you work, not the other way around. From reporting dashboards to operational applications for your team.',
     ringkasanSingkat:
-      'Custom software from CHESTAADOTCOM covers web applications, dashboards, and internal systems for businesses in South Tangerang and Greater Jakarta. Built around the workflows already running in your team, starting from a small version you can use quickly and expanded step by step. Pricing is calculated after a free audit.',
+      'Custom software from CHESTAADOTCOM covers web applications, dashboards, and operational systems for businesses in South Tangerang and Greater Jakarta. Built around the workflows already running in your team, starting from a small version you can use quickly and expanded step by step. Pricing is calculated after a free audit.',
     cocokKalau: [
       'You use spreadsheets that are getting heavier and prone to errors.',
       'You have several applications that do not connect to one another.',
@@ -2099,12 +2099,12 @@ export const SERVICES_DATA_EN: ServiceItem[] = [
     shortTitle: 'Custom Software',
     tagline: 'Custom software',
     shortPromise:
-      'Systems that follow the way you work, not the other way around. From reporting dashboards to internal applications for your team.',
+      'Systems that follow the way you work, not the other way around. From reporting dashboards to operational applications for your team.',
     summary:
-      'Custom software from CHESTAADOTCOM covers web applications, dashboards, and internal systems for businesses in South Tangerang and Greater Jakarta. Built around the workflows already running in your team, starting from a small version you can use quickly and expanded step by step. Pricing is calculated after a free audit.',
+      'Custom software from CHESTAADOTCOM covers web applications, dashboards, and operational systems for businesses in South Tangerang and Greater Jakarta. Built around the workflows already running in your team, starting from a small version you can use quickly and expanded step by step. Pricing is calculated after a free audit.',
     bentoSpan: 'small',
     timeline: 'Weeks (exact estimate after audit)',
-    bestForSummary: 'Web applications, reporting dashboards, and internal systems',
+    bestForSummary: 'Web applications, reporting dashboards, and operational systems',
     forWho: [
       'You use spreadsheets that are getting heavier and prone to errors.',
       'You have several applications that do not connect to one another.',
@@ -2180,7 +2180,7 @@ export const SERVICES_DATA_EN: ServiceItem[] = [
     seo: {
       title: 'Custom Software & Dashboards in Tangsel | CHESTAADOTCOM',
       description:
-        'Web applications, dashboards, and internal systems built around your team\'s workflow in South Tangerang, BSD, and Greater Jakarta. Free 30-min audit.',
+        'Web applications, dashboards, and operational systems built around your team\'s workflow in South Tangerang, BSD, and Greater Jakarta. Free 30-min audit.',
     },
     imageKey: 'serviceSoftwareCustom',
   },

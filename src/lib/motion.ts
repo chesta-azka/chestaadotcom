@@ -1,14 +1,7 @@
 import { useEffect, useState } from 'react';
-import gsap from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
-import Lenis from 'lenis';
-
-if (typeof window !== 'undefined') {
-  gsap.registerPlugin(ScrollTrigger);
-}
 
 /**
- * Apple-grade Motion Tokens (TypeScript export matching CSS variables in index.css)
+ * Apple-grade Motion Tokens (matching CSS variables in index.css)
  */
 export const MOTION_TOKENS = {
   easings: {
@@ -151,7 +144,6 @@ export function initFrameBudgetMonitor(): void {
   const sample = (now: number) => {
     const delta = now - lastTime;
     lastTime = now;
-    // Ignore tab-switch spikes > 150ms
     if (delta > 0 && delta < 150) {
       totalDelta += delta;
       frames += 1;
@@ -169,18 +161,21 @@ export function initFrameBudgetMonitor(): void {
   requestAnimationFrame(sample);
 }
 
-/**
- * Single unified animation clock:
- * - Instantiates Lenis ONLY on desktop fine-pointer devices in 'full' motion mode.
- * - Connects Lenis to GSAP's ticker so there is only ONE requestAnimationFrame loop in the app.
- * - Updates --scroll-progress on <html> and modulates --marquee-duration based on scroll velocity.
- */
-let activeLenis: Lenis | null = null;
+// Lenis reference (typed loosely to avoid static import)
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+let activeLenis: any = null;
 
-export function getActiveLenis(): Lenis | null {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export function getActiveLenis(): any {
   return activeLenis;
 }
 
+/**
+ * Single unified animation clock:
+ * - On desktop fine-pointer in 'full' mode: dynamically imports Lenis and connects it.
+ * - On mobile, touch, low-hardware, or reduced mode: lightweight native scroll listener (0 KB GSAP/Lenis).
+ * - Updates --scroll-progress on <html> and modulates --marquee-duration.
+ */
 export function initUnifiedMotionEngine(): () => void {
   if (typeof window === 'undefined') return () => {};
 
@@ -191,7 +186,7 @@ export function initUnifiedMotionEngine(): () => void {
   const isFineDesktop =
     window.matchMedia('(hover: hover) and (pointer: fine)').matches && window.innerWidth >= 1024;
 
-  let lenisInstance: Lenis | null = null;
+  let destroyed = false;
   let lastScrollY = window.scrollY;
 
   const updateScrollMetrics = (velocity = 0) => {
@@ -199,7 +194,6 @@ export function initUnifiedMotionEngine(): () => void {
     const progress = docHeight > 0 ? Math.min(1, Math.max(0, window.scrollY / docHeight)) : 0;
     root.style.setProperty('--scroll-progress', progress.toFixed(4));
 
-    // Clamp marquee duration modulation between 18s (fast scroll) and 28s (idle)
     const speedFactor = Math.min(10, Math.abs(velocity) * 0.15);
     const marqueeDuration = Math.max(18, 28 - speedFactor);
     root.style.setProperty('--marquee-duration', `${marqueeDuration.toFixed(1)}s`);
@@ -212,39 +206,51 @@ export function initUnifiedMotionEngine(): () => void {
     updateScrollMetrics(velocity);
   };
 
-  if (mode === 'full' && isFineDesktop) {
-    lenisInstance = new Lenis({
-      duration: 1.05,
-      easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-      smoothWheel: true,
-      syncTouch: false,
-      touchMultiplier: 1,
-    });
-    activeLenis = lenisInstance;
+  updateScrollMetrics(0);
 
-    lenisInstance.on('scroll', (e: { velocity?: number }) => {
-      ScrollTrigger.update();
-      updateScrollMetrics(e?.velocity || 0);
+  if (mode === 'full' && isFineDesktop) {
+    // Dynamic import for desktop only
+    Promise.all([
+      import('lenis'),
+      import('gsap'),
+      import('gsap/ScrollTrigger'),
+    ]).then(([{ default: Lenis }, { default: gsap }, { ScrollTrigger }]) => {
+      if (destroyed) return;
+      gsap.registerPlugin(ScrollTrigger);
+
+      const lenisInstance = new Lenis({
+        duration: 1.05,
+        easing: (t: number) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+        smoothWheel: true,
+        syncTouch: false,
+        touchMultiplier: 1,
+      });
+      activeLenis = lenisInstance;
+
+      lenisInstance.on('scroll', (e: { velocity?: number }) => {
+        ScrollTrigger.update();
+        updateScrollMetrics(e?.velocity || 0);
+      });
+
+      const tickerCallback = (time: number) => {
+        lenisInstance.raf(time * 1000);
+      };
+
+      gsap.ticker.add(tickerCallback);
+      gsap.ticker.lagSmoothing(500, 33);
+    }).catch(() => {
+      // Fallback to native scroll if dynamic import fails
+      window.addEventListener('scroll', onNativeScroll, { passive: true });
     });
   } else {
     window.addEventListener('scroll', onNativeScroll, { passive: true });
   }
 
-  const tickerCallback = (time: number) => {
-    if (lenisInstance) {
-      lenisInstance.raf(time * 1000);
-    }
-  };
-
-  gsap.ticker.add(tickerCallback);
-  gsap.ticker.lagSmoothing(500, 33);
-  updateScrollMetrics(0);
-
   return () => {
-    gsap.ticker.remove(tickerCallback);
+    destroyed = true;
     window.removeEventListener('scroll', onNativeScroll);
-    if (lenisInstance) {
-      lenisInstance.destroy();
+    if (activeLenis) {
+      activeLenis.destroy?.();
       activeLenis = null;
     }
   };
@@ -267,9 +273,8 @@ export interface RevealOptions {
 }
 
 /**
- * Shared reveal helper: animates transform (translateY), opacity, and optional subtle blur (<700ms).
- * Uses CSS animation-timeline: view() when supported and delay === 0 for zero main-thread cost,
- * falling back to IntersectionObserver + CSS/GSAP transition.
+ * Shared reveal helper: animates transform (translateY), opacity, and optional subtle blur.
+ * Uses native IntersectionObserver + CSS transition for zero main-thread blockage and zero JS payload.
  */
 export function revealElement(
   element: HTMLElement | null,
@@ -294,7 +299,6 @@ export function revealElement(
     preferCssViewTimeline = true,
   } = options;
 
-  // Zero-JS main-thread path using CSS view() timeline when supported and no custom delay
   if (preferCssViewTimeline && delay === 0 && supportsCssScrollTimeline()) {
     element.classList.add('reveal-css-view');
     return () => {
@@ -307,32 +311,25 @@ export function revealElement(
     element.setAttribute('data-reveal-blur', 'true');
   }
 
+  element.style.opacity = '0.001';
+  element.style.transform = `translateY(${y}px)`;
+  if (blur && mode === 'full') {
+    element.style.filter = 'blur(6px)';
+  }
+
+  const animDuration = mode === 'lite' ? Math.min(0.45, duration) : duration;
+  element.style.transition = `opacity ${animDuration}s cubic-bezier(0.22, 1, 0.36, 1) ${delay}s, transform ${animDuration}s cubic-bezier(0.22, 1, 0.36, 1) ${delay}s, filter ${animDuration}s cubic-bezier(0.22, 1, 0.36, 1) ${delay}s`;
+
   const observer = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          element.style.willChange = 'transform, opacity';
-          gsap.fromTo(
-            element,
-            {
-              opacity: 0.001,
-              y,
-              filter: blur && mode === 'full' && duration <= 0.7 ? 'blur(6px)' : 'blur(0px)',
-            },
-            {
-              opacity: 1,
-              y: 0,
-              filter: 'blur(0px)',
-              duration: mode === 'lite' ? Math.min(0.45, duration) : duration,
-              delay,
-              ease: MOTION_TOKENS.easings.gsapOut,
-              onComplete: () => {
-                element.setAttribute('data-revealed', 'true');
-                element.style.willChange = 'auto';
-                gsap.set(element, { clearProps: 'transform,filter,willChange' });
-              },
-            }
-          );
+          requestAnimationFrame(() => {
+            element.style.opacity = '1';
+            element.style.transform = 'translateY(0)';
+            element.style.filter = 'blur(0px)';
+            element.setAttribute('data-revealed', 'true');
+          });
           observer.disconnect();
         }
       });
@@ -353,7 +350,7 @@ export interface StaggerOptions {
 
 /**
  * Shared stagger helper: animates a group of child elements on transform and opacity only.
- * Enforces max 8 staggered items — items 9+ appear together with the 8th item.
+ * Native IntersectionObserver + CSS transition with zero GSAP requirement.
  */
 export function staggerElements(
   container: HTMLElement | null,
@@ -381,34 +378,28 @@ export function staggerElements(
     delay = 0,
   } = options;
 
+  const animDuration = mode === 'lite' ? 0.45 : duration;
+  const staggerStep = mode === 'lite' ? 0.035 : stagger;
+
+  targets.forEach((el, index) => {
+    const clampedIndex = Math.min(index, MOTION_TOKENS.stagger.maxItems - 1);
+    const itemDelay = delay + clampedIndex * staggerStep;
+    el.style.opacity = '0.001';
+    el.style.transform = `translateY(${y}px)`;
+    el.style.transition = `opacity ${animDuration}s cubic-bezier(0.22, 1, 0.36, 1) ${itemDelay}s, transform ${animDuration}s cubic-bezier(0.22, 1, 0.36, 1) ${itemDelay}s`;
+  });
+
   const observer = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          targets.forEach((el) => {
-            el.style.willChange = 'transform, opacity';
+          requestAnimationFrame(() => {
+            targets.forEach((el) => {
+              el.style.opacity = '1';
+              el.style.transform = 'translateY(0)';
+              el.setAttribute('data-revealed', 'true');
+            });
           });
-          gsap.fromTo(
-            targets,
-            { opacity: 0.001, y },
-            {
-              opacity: 1,
-              y: 0,
-              duration: mode === 'lite' ? 0.45 : duration,
-              delay,
-              stagger: (index: number) =>
-                Math.min(index, MOTION_TOKENS.stagger.maxItems - 1) *
-                (mode === 'lite' ? 0.035 : stagger),
-              ease: MOTION_TOKENS.easings.gsapOut,
-              onComplete: () => {
-                targets.forEach((el) => {
-                  el.setAttribute('data-revealed', 'true');
-                  el.style.willChange = 'auto';
-                  gsap.set(el, { clearProps: 'transform,willChange' });
-                });
-              },
-            }
-          );
           observer.disconnect();
         }
       });
@@ -435,16 +426,15 @@ export function lineDrawElement(
   const length = pathElement.getTotalLength ? pathElement.getTotalLength() : 200;
   pathElement.style.strokeDasharray = `${length}`;
   pathElement.style.strokeDashoffset = `${length}`;
+  const animDuration = mode === 'lite' ? 0.5 : duration;
+  pathElement.style.transition = `stroke-dashoffset ${animDuration}s cubic-bezier(0.22, 1, 0.36, 1) ${delay}s`;
 
   const observer = new IntersectionObserver(
     (entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          gsap.to(pathElement, {
-            strokeDashoffset: 0,
-            duration: mode === 'lite' ? 0.5 : duration,
-            delay,
-            ease: MOTION_TOKENS.easings.gsapOut,
+          requestAnimationFrame(() => {
+            pathElement.style.strokeDashoffset = '0';
           });
           observer.disconnect();
         }
@@ -459,8 +449,6 @@ export function lineDrawElement(
 
 /**
  * Count-up helper for real numeric metric values (runs once on view).
- * Target metrics on case studies and portfolio are static badges, never counted up.
- * Parses prefix, numeric value, decimals, and suffix (e.g., "+42%", "3.2x").
  */
 export function animateCountUp(
   element: HTMLElement | null,
@@ -470,7 +458,6 @@ export function animateCountUp(
   if (!element) return () => {};
   const mode = detectMotionMode();
   
-  // Static badge enforcement: never animate case studies, portfolio targets, or when in reduced/lite mode
   const isStaticMetric =
     element.getAttribute('data-static-metric') === 'true' ||
     Boolean(element.closest('[data-static-metric="true"]')) ||
@@ -483,7 +470,6 @@ export function animateCountUp(
     return () => {};
   }
 
-  // Match first numeric sequence that is not part of a ratio like 24/7
   const match = rawText.match(/^([^0-9+-]*[+-]?)(\d+(?:[.,]\d+)?)(.*)$/);
   if (!match || rawText.includes('/')) {
     element.textContent = rawText;
@@ -508,21 +494,27 @@ export function animateCountUp(
     (entries) => {
       entries.forEach((entry) => {
         if (entry.isIntersecting) {
-          const state = { val: 0 };
-          gsap.to(state, {
-            val: normalizedNum,
-            duration: Math.min(0.65, duration),
-            ease: MOTION_TOKENS.easings.gsapOut,
-            onUpdate: () => {
-              const formatted = state.val.toFixed(decimals);
-              element.textContent = `${prefix}${
-                usesComma ? formatted.replace('.', ',') : formatted
-              }${suffix}`;
-            },
-            onComplete: () => {
+          const startTime = performance.now();
+          const totalMs = Math.min(650, duration * 1000);
+
+          const step = (now: number) => {
+            const elapsed = now - startTime;
+            const progress = Math.min(1, elapsed / totalMs);
+            const easedProgress = 1 - Math.pow(1 - progress, 3);
+            const currentVal = normalizedNum * easedProgress;
+            const formatted = currentVal.toFixed(decimals);
+            element.textContent = `${prefix}${
+              usesComma ? formatted.replace('.', ',') : formatted
+            }${suffix}`;
+
+            if (progress < 1) {
+              requestAnimationFrame(step);
+            } else {
               element.textContent = rawText;
-            },
-          });
+            }
+          };
+
+          requestAnimationFrame(step);
           observer.disconnect();
         }
       });
@@ -536,37 +528,38 @@ export function animateCountUp(
 
 /**
  * Creates a GSAP timeline scoped to a section element with guaranteed cleanup.
- * Enforces one timeline per section, killed when the section leaves view or unmounts.
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function createSectionTimeline(
   scopeElement?: HTMLElement | null,
-  vars?: gsap.TimelineVars
+  vars?: any
 ): {
-  tl: gsap.core.Timeline;
+  tl: any;
   kill: () => void;
 } {
-  const tl = gsap.timeline(vars);
+  let killed = false;
+  let activeTl: any = null;
+
+  import('gsap').then(({ default: gsap }) => {
+    if (killed) return;
+    activeTl = gsap.timeline(vars);
+  });
+
   const kill = () => {
-    tl.kill();
-    if (typeof ScrollTrigger !== 'undefined') {
-      ScrollTrigger.getAll().forEach((st) => {
-        if (
-          scopeElement &&
-          (st.trigger === scopeElement || (st.trigger instanceof Node && scopeElement.contains(st.trigger)))
-        ) {
-          st.kill();
-        }
-      });
+    killed = true;
+    if (activeTl) {
+      activeTl.kill();
     }
   };
-  return { tl, kill };
+  return { tl: activeTl, kill };
 }
 
 /**
  * Registers one or more ScrollTrigger instances for cleanup.
  */
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 export function registerScrollTriggerCleanup(
-  ...triggers: Array<ScrollTrigger | null | undefined>
+  ...triggers: Array<any>
 ): () => void {
   return () => {
     triggers.forEach((st) => {
@@ -579,17 +572,18 @@ export function registerScrollTriggerCleanup(
 
 /**
  * Calls ScrollTrigger.refresh() once document fonts and images settle.
- * Debounced and guarded against repetitive layout shifts.
  */
 let refreshTimer: number | null = null;
 export function refreshScrollTrigger(): void {
-  if (typeof window === 'undefined' || typeof ScrollTrigger === 'undefined') return;
+  if (typeof window === 'undefined') return;
   if (refreshTimer !== null) {
     window.clearTimeout(refreshTimer);
   }
 
   const runRefresh = () => {
-    ScrollTrigger.refresh();
+    import('gsap/ScrollTrigger').then(({ ScrollTrigger }) => {
+      ScrollTrigger.refresh();
+    }).catch(() => {});
     refreshTimer = null;
   };
 

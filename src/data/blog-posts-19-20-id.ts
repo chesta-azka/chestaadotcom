@@ -28,8 +28,8 @@ export const BLOG_POSTS_19_20_ID_RAW: RawBlogPostInput[] = [
       'Pamulang',
     ],
     author: 'zeeshan',
-    date: '2026-11-02',
-    updatedAt: '2026-11-02',
+    date: '2026-10-28',
+    updatedAt: '2026-10-28',
     featured: false,
     draft: false,
     coverImageKey: 'blogAiBoardingHouse',
@@ -138,7 +138,7 @@ export const BLOG_POSTS_19_20_ID_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'paragraph',
-        text: 'Cara kerja penyaringan dan pencatatan prospek otomatis ini memiliki kemiripan prinsip dengan proyek internal kami pada [studi kasus Alur Lead Properti](/studi-kasus/lead-properti). Dalam proyek internal kami tersebut, setiap prospek yang masuk dicatat preferensinya secara rapi ke dalam tabel agar tidak ada calon penyewa atau pembeli potensial yang terlewat ditindaklanjuti.',
+        text: 'Cara kerja penyaringan dan pencatatan prospek otomatis ini memiliki kemiripan prinsip dengan contoh proyek kami pada [studi kasus Alur Lead Properti](/studi-kasus/lead-properti). Dalam contoh proyek kami tersebut, setiap prospek yang masuk dicatat preferensinya secara rapi ke dalam tabel agar tidak ada calon penyewa atau pembeli potensial yang terlewat ditindaklanjuti.',
       },
       {
         type: 'ol',
@@ -232,7 +232,7 @@ export const BLOG_POSTS_19_20_ID_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'paragraph',
-        text: 'Pastikan hanya pemilik dan pengelola resmi yang memiliki hak akses untuk membuka folder dokumen identitas penghuni. Kamu dapat membaca panduan praktis mengenai pengamanan data percakapan pelanggan pada artikel [kepatuhan UU PDP untuk WhatsApp dan AI bisnis](/blog/kepatuhan-uu-pdp-whatsapp-dan-ai-bisnis).',
+        text: 'Pastikan hanya pemilik dan pengelola resmi yang memiliki hak akses untuk membuka folder dokumen identitas penghuni. Kamu dapat membaca panduan praktis mengenai pengamanan data percakapan pelanggan pada artikel [kepatuhan UU PDP untuk WhatsApp dan AI bisnis](/blog/uu-pdp-bisnis-whatsapp-ai-panduan-praktis).',
       },
       {
         type: 'h2',
@@ -339,7 +339,7 @@ export const BLOG_POSTS_19_20_ID_RAW: RawBlogPostInput[] = [
       },
     ],
     relatedSlugs: [
-      'kepatuhan-uu-pdp-whatsapp-dan-ai-bisnis',
+      'uu-pdp-bisnis-whatsapp-ai-panduan-praktis',
       'otomasi-invoice-dan-penagihan-jasa-profesional',
       'human-handoff-ai-agent-kapan-serahkan-ke-manusia',
     ],
@@ -371,8 +371,8 @@ export const BLOG_POSTS_19_20_ID_RAW: RawBlogPostInput[] = [
       'Lebak Bulus',
     ],
     author: 'zeeshan',
-    date: '2026-11-03',
-    updatedAt: '2026-11-03',
+    date: '2026-10-29',
+    updatedAt: '2026-10-29',
     featured: true,
     draft: false,
     coverImageKey: 'blogCafeDashboard',
@@ -414,7 +414,7 @@ export const BLOG_POSTS_19_20_ID_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'paragraph',
-        text: 'Ketika kamu memiliki dua atau tiga cabang kedai, setiap malam grup WhatsApp internal penuh dengan foto struk tutup kasir dan catatan sisa stok gudang. Karena format catatannya terpisah-pisah antara penjualan dan pemakaian bahan, kamu hanya sempat melirik angka total rupiah paling bawah lalu menutupnya.',
+        text: 'Ketika kamu memiliki dua atau tiga cabang kedai, setiap malam grup WhatsApp tim penuh dengan foto struk tutup kasir dan catatan sisa stok gudang. Karena format catatannya terpisah-pisah antara penjualan dan pemakaian bahan, kamu hanya sempat melirik angka total rupiah paling bawah lalu menutupnya.',
       },
       {
         type: 'paragraph',
@@ -598,7 +598,7 @@ export const BLOG_POSTS_19_20_ID_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'paragraph',
-        text: 'Gambaran nyata mengenai peralihan dari catatan manual ke aplikasi web terpusat dapat kamu pelajari pada proyek internal kami, yaitu [studi kasus Dashboard Operasional Kafe](/studi-kasus/dashboard-kafe). Dalam proyek internal kami tersebut, tampilan dan hak akses dibedakan antara staf gudang yang mencatat stok harian dan pemilik bisnis yang memantau rekapitulasi cabang.',
+        text: 'Gambaran nyata mengenai peralihan dari catatan manual ke aplikasi web terpusat dapat kamu pelajari pada contoh proyek kami, yaitu [studi kasus Dashboard Operasional Kafe](/studi-kasus/dashboard-kafe). Dalam contoh proyek kami tersebut, tampilan dan hak akses dibedakan antara staf gudang yang mencatat stok harian dan pemilik bisnis yang memantau rekapitulasi cabang.',
       },
       {
         type: 'paragraph',
@@ -606,7 +606,7 @@ export const BLOG_POSTS_19_20_ID_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'paragraph',
-        text: 'Dalam contoh skenario tersebut, melalui perancangan aplikasi internal pada layanan [pengembangan software custom](/jasa/software-custom), staf di tiap cabang cukup mengisi formulir stok akhir yang sederhana dari layar ponsel mereka saat tutup kedai. Sistem secara otomatis menghitung selisih bahan dan menyajikannya di dashboard pemilik keesokan paginya. Untuk merencanakan anggaran jangka panjang sistem semacam ini, kamu juga dapat membaca panduan [biaya perawatan website dan sistem setelah rilis](/blog/biaya-rawat-website-dan-sistem-setelah-rilis).',
+        text: 'Dalam contoh skenario tersebut, melalui perancangan aplikasi operasional pada layanan [pengembangan software custom](/jasa/software-custom), staf di tiap cabang cukup mengisi formulir stok akhir yang sederhana dari layar ponsel mereka saat tutup kedai. Sistem secara otomatis menghitung selisih bahan dan menyajikannya di dashboard pemilik keesokan paginya. Untuk merencanakan anggaran jangka panjang sistem semacam ini, kamu juga dapat membaca panduan [biaya perawatan website dan sistem setelah rilis](/blog/biaya-rawat-website-dan-sistem-setelah-rilis).',
       },
       {
         type: 'h2',
@@ -634,7 +634,7 @@ export const BLOG_POSTS_19_20_ID_RAW: RawBlogPostInput[] = [
       slug: 'software-custom',
       title: 'Bangun Dashboard Operasional & Stok Sesuai SOP Kafe Kamu',
       description:
-        'Kami merancang aplikasi web internal, pencatatan stok cabang, dan dashboard laporan yang ringan di HP serta mudah dipakai stafmu. Mulai dari sesi audit gratis 30 menit.',
+        'Kami merancang aplikasi web operasional, pencatatan stok cabang, dan dashboard laporan yang ringan di HP serta mudah dipakai stafmu. Mulai dari sesi audit gratis 30 menit.',
       href: '/jasa/software-custom',
       label: 'Lihat Jasa Software Custom',
     },

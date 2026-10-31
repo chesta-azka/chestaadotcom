@@ -108,28 +108,10 @@ export function WordRevealHeading({
   return (
     <TagName
       ref={ref}
-      aria-label={text}
       data-revealed={revealed ? 'true' : 'false'}
       className={className}
     >
-      <span className="sr-only">{text}</span>
-      {words.map((word, idx) => {
-        // Cap stagger at 8 words so long bilingual headlines finish briskly
-        const delayMs = Math.min(idx, MOTION_TOKENS.stagger.maxItems - 1) * 42;
-        return (
-          <React.Fragment key={`${word}-${idx}`}>
-            <span className="word-mask" aria-hidden="true">
-              <span
-                className="word-inner"
-                style={{ transitionDelay: `${delayMs}ms` }}
-              >
-                {word}
-              </span>
-            </span>
-            {idx < words.length - 1 ? ' ' : ''}
-          </React.Fragment>
-        );
-      })}
+      {text}
     </TagName>
   );
 }
@@ -161,12 +143,12 @@ export function CountUpMetric({ value, className = '' }: CountUpMetricProps) {
  * 2. BUTTON
  * Spec:
  * - Magnetic pull on desktop primary buttons (max 8px, spring return)
- * - Vertical text-swap hover on primary/secondary buttons
  * - Press state scale .98
  * - Arrow icon slides 4px on hover
  * ========================================================================== */
 export interface ButtonProps {
   variant?: 'primary' | 'secondary' | 'ghost' | 'tint';
+  size?: 'sm' | 'md' | 'lg';
   href?: string;
   to?: string;
   onClick?: (e: React.MouseEvent<HTMLElement>) => void;
@@ -178,36 +160,9 @@ export interface ButtonProps {
   ariaLabel?: string;
 }
 
-function renderSwappableChildren(children: React.ReactNode): React.ReactNode {
-  return React.Children.map(children, (child) => {
-    if (typeof child === 'string') {
-      return (
-        <span className="btn-text-swap" data-text={child}>
-          <span className="btn-text-swap-inner">{child}</span>
-        </span>
-      );
-    }
-    if (
-      React.isValidElement<{ children?: React.ReactNode; className?: string }>(child) &&
-      child.type === 'span' &&
-      typeof child.props.children === 'string'
-    ) {
-      const label = child.props.children;
-      return (
-        <span
-          className={`btn-text-swap ${child.props.className || ''}`}
-          data-text={label}
-        >
-          <span className="btn-text-swap-inner">{label}</span>
-        </span>
-      );
-    }
-    return child;
-  });
-}
-
 export function Button({
   variant = 'primary',
+  size = 'md',
   href,
   to,
   onClick,
@@ -255,7 +210,7 @@ export function Button({
 
   const widthClass = fullWidth ? 'w-full' : '';
   const combined = `${baseStyles} ${variantStyles[variant]} ${widthClass} ${className}`;
-  const enhancedChildren = renderSwappableChildren(children);
+  const enhancedChildren = children;
 
   if (href) {
     const isExternal = href.startsWith('http');
@@ -432,26 +387,31 @@ export function Tag({ children, className = '' }: TagProps) {
  * Spec: Word-masked headline reveal + light blur-to-sharp subtitle fade-up (<700ms)
  * ========================================================================== */
 export interface SectionHeadingProps {
-  eyebrow: string;
+  eyebrow?: string;
+  badge?: string;
   title: string;
   description?: string;
   align?: 'left' | 'center';
   dark?: boolean;
   action?: React.ReactNode;
   className?: string;
+  as?: 'h2' | 'h3';
 }
 
 export function SectionHeading({
   eyebrow,
+  badge,
   title,
   description,
   align = 'left',
   dark = false,
   action,
   className = '',
+  as: HeadingTag = 'h2',
 }: SectionHeadingProps) {
   const subRef = useRef<HTMLParagraphElement>(null);
   const [subRevealed, setSubRevealed] = useState(false);
+  const resolvedEyebrow = eyebrow || badge || '';
 
   useEffect(() => {
     const el = subRef.current;
@@ -477,20 +437,27 @@ export function SectionHeading({
     return () => observer.disconnect();
   }, [description]);
 
+  const headingSizeClass =
+    HeadingTag === 'h3'
+      ? 'text-[clamp(1.65rem,3vw,2.25rem)] leading-[1.18] tracking-[-0.02em] font-semibold'
+      : '';
+
   if (align === 'center') {
     return (
       <div className={`max-w-2xl mx-auto text-center mb-12 ${className}`}>
-        <span
-          className={`block font-mono text-[11px] md:text-[12px] uppercase tracking-[0.08em] font-semibold ${
-            dark ? 'text-[#B9A2F2]' : 'text-[#6A3FD0]'
-          }`}
-        >
-          {eyebrow}
-        </span>
+        {resolvedEyebrow && (
+          <span
+            className={`block font-mono text-[11px] md:text-[12px] uppercase tracking-[0.08em] font-semibold ${
+              dark ? 'text-[#B9A2F2]' : 'text-[#6A3FD0]'
+            }`}
+          >
+            {resolvedEyebrow}
+          </span>
+        )}
         <WordRevealHeading
-          as="h2"
+          as={HeadingTag}
           text={title}
-          className={`mt-2 ${dark ? 'text-[#FFFFFF]' : 'text-[#17122B]'}`}
+          className={`mt-2 ${headingSizeClass} ${dark ? 'text-[#FFFFFF]' : 'text-[#17122B]'}`}
         />
         {description && (
           <p
@@ -512,17 +479,19 @@ export function SectionHeading({
       className={`flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12 ${className}`}
     >
       <div className="max-w-2xl">
-        <span
-          className={`block font-mono text-[11px] md:text-[12px] uppercase tracking-[0.08em] font-semibold ${
-            dark ? 'text-[#B9A2F2]' : 'text-[#6A3FD0]'
-          }`}
-        >
-          {eyebrow}
-        </span>
+        {resolvedEyebrow && (
+          <span
+            className={`block font-mono text-[11px] md:text-[12px] uppercase tracking-[0.08em] font-semibold ${
+              dark ? 'text-[#B9A2F2]' : 'text-[#6A3FD0]'
+            }`}
+          >
+            {resolvedEyebrow}
+          </span>
+        )}
         <WordRevealHeading
-          as="h2"
+          as={HeadingTag}
           text={title}
-          className={`mt-2 ${dark ? 'text-[#FFFFFF]' : 'text-[#17122B]'}`}
+          className={`mt-2 ${headingSizeClass} ${dark ? 'text-[#FFFFFF]' : 'text-[#17122B]'}`}
         />
         {description && (
           <p
@@ -651,6 +620,7 @@ export interface CTABlockProps {
   whatsappMessage?: string;
   whatsappContext?: WhatsAppContext;
   secondaryAction?: React.ReactNode;
+  as?: 'h2' | 'h3';
 }
 
 export function CTABlock({
@@ -661,6 +631,7 @@ export function CTABlock({
   whatsappMessage,
   whatsappContext,
   secondaryAction,
+  as: HeadingTag = 'h2',
 }: CTABlockProps) {
   const location = useLocation();
   const { locale } = parseLocalizedPath(location.pathname);
@@ -693,9 +664,13 @@ export function CTABlock({
             {resolvedEyebrow}
           </Badge>
           <WordRevealHeading
-            as="h2"
+            as={HeadingTag}
             text={title}
-            className="max-w-xl mx-auto text-[#17122B]"
+            className={`max-w-xl mx-auto text-[#17122B] ${
+              HeadingTag === 'h3'
+                ? 'text-[clamp(1.65rem,3vw,2.25rem)] leading-[1.18] tracking-[-0.02em] font-semibold'
+                : ''
+            }`}
           />
           <p className="mt-3 text-[15px] md:text-[16px] text-[#5B5675] max-w-lg mx-auto leading-[1.65]">
             {description}
@@ -733,6 +708,7 @@ export function CTABlock({
 export interface BreadcrumbItem {
   label: string;
   to?: string;
+  href?: string;
 }
 
 export function Breadcrumb({ items }: { items: BreadcrumbItem[] }) {
@@ -751,9 +727,9 @@ export function Breadcrumb({ items }: { items: BreadcrumbItem[] }) {
       {items.map((item, idx) => (
         <React.Fragment key={`${item.label}-${idx}`}>
           <span aria-hidden="true">/</span>
-          {item.to ? (
+          {item.to || item.href ? (
             <Link
-              to={toLocalizedHref(item.to, location.pathname)}
+              to={toLocalizedHref(item.to || item.href || '', location.pathname)}
               className="link-underline hover:text-[#6A3FD0] transition-colors py-1"
             >
               {item.label}

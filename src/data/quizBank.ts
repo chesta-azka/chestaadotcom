@@ -111,7 +111,7 @@ export const QUIZ_BANK = [
     question: "Aturan Keamanan Firebase (Firestore Rules) dapat melakukan request API HTTP eksternal untuk memvalidasi token dari pihak ketiga.",
     options: ["Benar", "Salah"],
     answer: 1,
-    explanation: "Salah. Firestore Rules tidak memiliki kemampuan untuk melakukan request HTTP ke luar. Semua validasi harus didasarkan pada data dokumen, auth token (JWT internal), atau fungsi internal Firebase."
+    explanation: "Salah. Firestore Rules tidak memiliki kemampuan untuk melakukan request HTTP ke luar. Semua validasi harus didasarkan pada data dokumen, auth token (JWT operasional), atau fungsi operasional Firebase."
   },
   {
     question: "Middleware Next.js dieksekusi di edge runtime, sehingga tidak semua modul Node.js (seperti `fs`) dapat digunakan di dalamnya.",

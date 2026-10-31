@@ -12,11 +12,12 @@
  * - /id/area <-> /en/areas
  */
 
-import { getBlogAlternateSlugs } from '../data/blog-posts';
+import { getBlogAlternateSlugs } from '../data/blog-slugs';
+import { getRealProjectBySlug } from '../data/experience';
 import {
   SERVICE_ID_TO_EN_SLUG,
   resolveCanonicalServiceSlug,
-} from '../data/services';
+} from '../data/service-slugs';
 
 export type LocaleCode = 'id' | 'en';
 export type SupportedLocale = LocaleCode;
@@ -54,6 +55,13 @@ function normalizeInternalBarePath(rawBare: string): string {
   if (path.startsWith('/studi-kasus/')) {
     return `/case-studies/${path.slice('/studi-kasus/'.length)}`;
   }
+  if (path.startsWith('/portfolio/')) {
+    const rawProjectSlug = path.slice('/portfolio/'.length).trim();
+    const realProject = getRealProjectBySlug(rawProjectSlug);
+    if (realProject) {
+      return `/portfolio/${realProject.slugId}`;
+    }
+  }
   if (path.startsWith('/blog/topic/')) {
     return `/blog/topik/${path.slice('/blog/topic/'.length)}`;
   }
@@ -76,6 +84,11 @@ function normalizeInternalBarePath(rawBare: string): string {
     if (canonicalService) {
       return `/jasa/${canonicalService}`;
     }
+  }
+
+  const areaDetailMatch = path.match(/^\/(area|areas)\/([^/]+)$/i);
+  if (areaDetailMatch) {
+    return `/area/${areaDetailMatch[2].toLowerCase()}`;
   }
 
   return path;
@@ -143,6 +156,7 @@ export function parseLocalizedPath(rawUrlOrPath: string): ParsedLocalizedUrl {
   // Unprefixed fallback (e.g. /services/website-development or /jasa/pembuatan-website)
   const isExplicitEnglishService =
     pathname === '/areas' ||
+    pathname.startsWith('/areas/') ||
     pathname === '/free-audit' ||
     pathname === '/about' ||
     pathname === '/privacy' ||
@@ -213,6 +227,11 @@ function buildCanonicalLocalePath(barePath: string, locale: LocaleCode): string 
     return locale === 'en' ? '/en/areas' : '/id/area';
   }
 
+  if (normalized.startsWith('/area/')) {
+    const areaSlug = normalized.slice('/area/'.length).trim().toLowerCase();
+    return locale === 'en' ? `/en/areas/${areaSlug}` : `/id/area/${areaSlug}`;
+  }
+
   if (normalized === '/case-studies') {
     return locale === 'en' ? '/en/case-studies' : '/id/studi-kasus';
   }
@@ -222,6 +241,17 @@ function buildCanonicalLocalePath(barePath: string, locale: LocaleCode): string 
     return locale === 'en'
       ? `/en/case-studies/${slug}`
       : `/id/studi-kasus/${slug}`;
+  }
+
+  if (normalized.startsWith('/portfolio/')) {
+    const slug = normalized.slice('/portfolio/'.length).trim();
+    const realProject = getRealProjectBySlug(slug);
+    if (realProject) {
+      return locale === 'en'
+        ? `/en/portfolio/${realProject.slugEn}`
+        : `/id/portfolio/${realProject.slugId}`;
+    }
+    return locale === 'en' ? `/en/portfolio/${slug}` : `/id/portfolio/${slug}`;
   }
 
   const serviceAreaMatch = normalized.match(/^\/jasa\/([^/]+)\/([^/]+)$/i);
@@ -412,8 +442,8 @@ export const KEYED_TRANSLATIONS: Record<LocaleCode, Record<string, string>> = {
       'Melayani Tangerang Selatan, BSD City, Pamulang, Jurang Mangu, dan Lebak Bulus',
     'nav.areasLineShort': 'Tangsel · BSD City · Pamulang · Jurang Mangu · Lebak Bulus',
     'nav.langSwitchLabel': 'Pilih bahasa halaman',
-    'nav.projects': 'Proyek Internal',
-    'nav.caseStudies': 'Studi Kasus Internal',
+    'nav.projects': 'Proyek',
+    'nav.caseStudies': 'Studi Kasus',
     'nav.blog': 'Blog',
     'nav.areas': 'Area Layanan',
     'nav.howItWorks': 'Cara Kerja',
@@ -424,7 +454,7 @@ export const KEYED_TRANSLATIONS: Record<LocaleCode, Record<string, string>> = {
     'service.ai.title': 'AI Agent untuk Bisnis',
     'service.ai.desc': 'Jawab chat WhatsApp, cek jadwal, dan catat ke sistem 24/7.',
     'service.software.title': 'Pengembangan Software Custom',
-    'service.software.desc': 'Aplikasi web internal, portal klien, dan dashboard sesuai SOP.',
+    'service.software.desc': 'Aplikasi web operasional, portal klien, dan dashboard sesuai SOP.',
     'service.workflow.title': 'Otomasi Workflow Bisnis',
     'service.workflow.desc': 'Sambungkan form, Sheets, kalender, dan WhatsApp tanpa salin manual.',
     'footer.brandDesc':
@@ -512,8 +542,8 @@ export const KEYED_TRANSLATIONS: Record<LocaleCode, Record<string, string>> = {
       'Serving South Tangerang, BSD City, Pamulang, Jurang Mangu, and Lebak Bulus',
     'nav.areasLineShort': 'South Tangerang · BSD City · Pamulang · Jurang Mangu · Lebak Bulus',
     'nav.langSwitchLabel': 'Switch page language',
-    'nav.projects': 'Internal Projects',
-    'nav.caseStudies': 'Internal Case Studies',
+    'nav.projects': 'Projects',
+    'nav.caseStudies': 'Case Studies',
     'nav.blog': 'Blog',
     'nav.areas': 'Service Areas',
     'nav.howItWorks': 'How It Works',
@@ -524,7 +554,7 @@ export const KEYED_TRANSLATIONS: Record<LocaleCode, Record<string, string>> = {
     'service.ai.title': 'AI Agents for Business',
     'service.ai.desc': 'Reply to WhatsApp chats, check schedules, and update systems 24/7.',
     'service.software.title': 'Custom Software Development',
-    'service.software.desc': 'Internal web apps, client portals, and dashboards built for your SOP.',
+    'service.software.desc': 'Operational web apps, client portals, and dashboards built for your SOP.',
     'service.workflow.title': 'Business Workflow Automation',
     'service.workflow.desc': 'Connect forms, Sheets, calendars, and WhatsApp with zero manual copy-paste.',
     'footer.brandDesc':

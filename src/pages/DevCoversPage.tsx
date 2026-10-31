@@ -38,7 +38,8 @@ export default function DevCoversPage() {
   const [viewMode, setViewMode] = useState<'covers' | 'og-id' | 'og-en'>('covers');
   const [selectedCluster, setSelectedCluster] = useState<string>('all');
 
-  const items = (coversManifest.items || []) as ManifestItem[];
+  const manifest = coversManifest as any;
+  const items = (manifest.items || []) as ManifestItem[];
   const filtered =
     selectedCluster === 'all'
       ? items
@@ -58,7 +59,7 @@ export default function DevCoversPage() {
             <p className="text-[15.5px] text-[#5B5675] leading-[1.68]">
               Every post renders a deterministic 1600×900 cover SVG and localized 1200×630 OpenGraph cards with zero shared fallbacks, unique SHA-256 content hashes, unique <code>(cluster, motif, layoutVariant, accentToken)</code> tuples, and pairwise 64-bit perceptual <code>dHash</code> Hamming distance &ge; 10 bits (current minimum across 595 pairs:{' '}
               <strong className="text-[#6A3FD0]">
-                {coversManifest.minPairwiseHammingDistance} bits
+                {manifest.minPairwiseHammingDistance} bits
               </strong>
               ).
             </p>

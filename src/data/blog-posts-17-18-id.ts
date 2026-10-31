@@ -199,7 +199,7 @@ export const BLOG_POSTS_17_18_ID_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'paragraph',
-        text: 'Sebagai rujukan nyata, kamu bisa melihat bagaimana kami menerapkan penandaan data terstruktur dan pemetaan rute dwibahasa pada proyek internal kami di [studi kasus pembangunan ulang situs chestaa.com v2](/studi-kasus/chestaa-v2). Proyek internal kami tersebut menyematkan schema sesuai konteks halaman tanpa menambah beban skrip pihak ketiga.',
+        text: 'Sebagai rujukan nyata, kamu bisa melihat bagaimana kami menerapkan penandaan data terstruktur dan pemetaan rute dwibahasa pada contoh proyek kami di [studi kasus pembangunan ulang situs chestaa.com v2](/studi-kasus/chestaa-v2). Contoh proyek kami tersebut menyematkan schema sesuai konteks halaman tanpa menambah beban skrip pihak ketiga.',
       },
       {
         type: 'h2',
@@ -400,8 +400,8 @@ export const BLOG_POSTS_17_18_ID_RAW: RawBlogPostInput[] = [
       'Arus Kas Bisnis',
     ],
     author: 'zeeshan',
-    date: '2026-11-01',
-    updatedAt: '2026-11-01',
+    date: '2026-10-27',
+    updatedAt: '2026-10-27',
     featured: false,
     draft: false,
     coverImageKey: 'blogInvoiceAutomation',
@@ -481,7 +481,7 @@ export const BLOG_POSTS_17_18_ID_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'paragraph',
-        text: 'Jangan pernah mengotomasi proses yang datanya masih berantakan. Buatlah satu tabel induk (misalnya di Google Sheets atau database internal) yang wajib diisi setiap kali ada kesepakatan klien baru. Pastikan tabel tersebut memisahkan kolom nama kontak proyek dari kolom email bagian keuangan, karena pada perusahaan B2B orang yang memesan jasa jarang sekali orang yang mentransfer uang.',
+        text: 'Jangan pernah mengotomasi proses yang datanya masih berantakan. Buatlah satu tabel induk (misalnya di Google Sheets atau database operasional) yang wajib diisi setiap kali ada kesepakatan klien baru. Pastikan tabel tersebut memisahkan kolom nama kontak proyek dari kolom email bagian keuangan, karena pada perusahaan B2B orang yang memesan jasa jarang sekali orang yang mentransfer uang.',
       },
       {
         type: 'ul',
@@ -504,7 +504,7 @@ export const BLOG_POSTS_17_18_ID_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'paragraph',
-        text: 'Agar tetap aman dari kesalahan ketik, terapkan pola persetujuan satu klik. Saat sistem selesai membuat file PDF invoice di dalam folder penyimpanan, sistem mengirim pratinjau ke ruang obrolan internal admin. Begitu admin memastikan angkanya sudah benar dan mengubah status menjadi "Siap Kirim", barulah alur otomasi mengirimkannya ke klien.',
+        text: 'Agar tetap aman dari kesalahan ketik, terapkan pola persetujuan satu klik. Saat sistem selesai membuat file PDF invoice di dalam folder penyimpanan, sistem mengirim pratinjau ke ruang obrolan operasional admin. Begitu admin memastikan angkanya sudah benar dan mengubah status menjadi "Siap Kirim", barulah alur otomasi mengirimkannya ke klien.',
       },
       {
         type: 'paragraph',
@@ -554,7 +554,7 @@ export const BLOG_POSTS_17_18_ID_RAW: RawBlogPostInput[] = [
           ],
           [
             'H+7 Lewat Jatuh Tempo',
-            'Eskalasi internal ke pemilik bisnis atau penanggung jawab proyek.',
+            'Eskalasi tim ke pemilik bisnis atau penanggung jawab proyek.',
             'Hentikan pengingat robot; serahkan ke komunikasi telepon manusia oleh manajer proyek.',
             'Ubah penanda perhatian dan alihkan ke staf manusia.',
           ],
@@ -571,7 +571,7 @@ export const BLOG_POSTS_17_18_ID_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'paragraph',
-        text: 'Jika klienmu terbiasa mengirimkan foto atau file PDF bukti transfer melalui WhatsApp atau email, kamu dapat memanfaatkan ekstraksi data terstruktur disertai verifikasi staf. Pendekatan mengekstrak dokumen masuk ke dalam tabel tinjauan manusia ini dapat kamu lihat cara kerjanya pada proyek internal kami di [studi kasus Pemroses Dokumen AI](/studi-kasus/pemroses-dokumen).',
+        text: 'Jika klienmu terbiasa mengirimkan foto atau file PDF bukti transfer melalui WhatsApp atau email, kamu dapat memanfaatkan ekstraksi data terstruktur disertai verifikasi staf. Pendekatan mengekstrak dokumen masuk ke dalam tabel tinjauan manusia ini dapat kamu lihat cara kerjanya pada contoh proyek kami di [studi kasus Pemroses Dokumen AI](/studi-kasus/pemroses-dokumen).',
       },
       {
         type: 'h2',

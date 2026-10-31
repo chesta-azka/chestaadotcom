@@ -1,73 +1,11 @@
-import { initializeApp, getApps, getApp } from 'firebase/app';
-import { getFirestore, initializeFirestore } from 'firebase/firestore';
-import { getAuth } from 'firebase/auth';
-import { getStorage } from 'firebase/storage';
-import { getAnalytics, isSupported, logEvent } from 'firebase/analytics';
-import firebaseAppletConfig from '@/firebase-applet-config.json';
+// Lightweight zero-SDK stub replacing Firebase client SDK.
+// Zero network requests to *.googleapis.com or *.firebaseio.com.
 
-const getEnv = (key: string): string | undefined => {
-  if (typeof process !== 'undefined' && process.env && process.env[key]) {
-    return process.env[key];
-  }
-  try {
-    const importMetaEnv = new Function('return typeof import.meta !== "undefined" ? import.meta.env : undefined')();
-    if (importMetaEnv && importMetaEnv[key]) {
-      return importMetaEnv[key];
-    }
-  } catch {
-    // Fallback if import.meta is unavailable
-  }
-  return undefined;
+export const app: any = null;
+export const db: any = null;
+export const auth: any = null;
+export const storage: any = null;
+
+export const logAnalyticsEvent = (_eventName: string, _eventParams?: Record<string, any>) => {
+  // No-op: Plausible cookieless analytics is used via src/lib/analytics.ts
 };
-
-const firebaseConfig = {
-  apiKey: getEnv('NEXT_PUBLIC_FIREBASE_API_KEY') || getEnv('VITE_FIREBASE_API_KEY') || firebaseAppletConfig.apiKey,
-  authDomain: getEnv('NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN') || getEnv('VITE_FIREBASE_AUTH_DOMAIN') || firebaseAppletConfig.authDomain,
-  projectId: getEnv('NEXT_PUBLIC_FIREBASE_PROJECT_ID') || getEnv('VITE_FIREBASE_PROJECT_ID') || firebaseAppletConfig.projectId,
-  storageBucket: getEnv('NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET') || getEnv('VITE_FIREBASE_STORAGE_BUCKET') || firebaseAppletConfig.storageBucket,
-  messagingSenderId: getEnv('NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID') || getEnv('VITE_FIREBASE_MESSAGING_SENDER_ID') || firebaseAppletConfig.messagingSenderId,
-  appId: getEnv('NEXT_PUBLIC_FIREBASE_APP_ID') || getEnv('VITE_FIREBASE_APP_ID') || firebaseAppletConfig.appId
-};
-
-const app = getApps().length > 0 ? getApp() : initializeApp(firebaseConfig);
-const databaseId = (firebaseAppletConfig as any).firestoreDatabaseId || "ai-studio-07319849-f721-4705-badf-87d9debdf6a5";
-
-// Use initializeFirestore with experimentalForceLongPolling for better connection stability in restricted network environments like AI Studio Preview Iframe
-let db;
-try {
-  db = initializeFirestore(app, { experimentalForceLongPolling: true }, databaseId);
-} catch (e) {
-  db = getFirestore(app, databaseId);
-}
-
-const auth = getAuth(app);
-const storage = getStorage(app);
-
-let analytics: any = null;
-if (typeof window !== 'undefined') {
-  // Only attempt analytics if not in restricted preview iframe where fetch to Google analytics fails
-  isSupported().then((supported) => {
-    if (supported) {
-      try {
-        // Wrap in unhandled rejection safe check
-        analytics = getAnalytics(app);
-      } catch (err) {
-        analytics = null;
-      }
-    }
-  }).catch(() => {
-    analytics = null;
-  });
-}
-
-const logAnalyticsEvent = (eventName: string, eventParams?: Record<string, any>) => {
-  if (analytics) {
-    try {
-      logEvent(analytics, eventName, eventParams);
-    } catch (err) {
-      // Suppress
-    }
-  }
-};
-
-export { app, db, auth, storage, logAnalyticsEvent };

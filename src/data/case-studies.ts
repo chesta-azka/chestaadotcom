@@ -2,19 +2,13 @@
  * ============================================================================
  * SINGLE SOURCE OF TRUTH: CASE STUDIES (data/case-studies) — CHESTAADOTCOM
  * ============================================================================
- * Honesty & Internal Demo Content Rules:
- * - Every case study on this site is an INTERNAL CHESTAADOTCOM project.
- * - Carries the visible badge "Proyek internal" ("Internal project" in English).
+ * Sample Case Study Content Rules:
+ * - Every case study in this dataset is a SAMPLE case study ("Studi kasus contoh" / "Sample case study").
+ * - Carries the visible badge "Studi kasus contoh" ("Sample case study" in English) and the note:
+ *   "Contoh proyek dirancang untuk memperlihatkan alur kerja kami. Bukan proyek klien."
  * - Numbers on the page are "Target desain" only (labeled "Target desain, bukan hasil klien" /
  *   "Design target, not client results"). Shown as static badges, never count-up.
  * - Never present as client work. No client names, no testimonials, no ratings, no measured results.
- *
- * HOW TO REPLACE AN INTERNAL CASE STUDY WITH A REAL CLIENT CASE STUDY LATER:
- * 1. Obtain written approval from the client for publishing the story and verified metrics.
- * 2. Set `internal: false` and update `internalBadgeLabel` to `"Studi kasus klien"` (EN: `"Client case study"`).
- * 3. Update `client` to the approved client name or industry descriptor.
- * 4. Change `targetsBadgeLabel` to `"Hasil terukur di lapangan"` (EN: `"Measured field results"`) only for metrics verified with the client.
- * 5. Replace illustration keys (`cover`) with real approved screenshots in `src/config/images.ts`.
  */
 
 import { ServiceSlug } from './services';
@@ -157,13 +151,13 @@ export interface CaseStudyItem {
   legacySlugs?: string[];
   title: string;
   oneSentenceSummary: string;
-  client: string;
   industry: string;
   services: string[];
   serviceSlugs: ServiceSlug[];
   year: string;
-  internal: boolean;
-  internalBadgeLabel: string;
+  kind: 'sample';
+  badgeLabel: string;
+  sampleNote: string;
   targetsBadgeLabel: string;
   duration: string;
   readingTime: string;
@@ -181,7 +175,6 @@ export interface CaseStudyItem {
   };
   targets: CaseStudyDesignTarget[];
   sections: CaseStudySection[];
-  metrics: CaseStudyMetricItem[];
   pullQuote: {
     text: string;
     attribution: string;
@@ -216,16 +209,16 @@ export const CASE_STUDIES_DATA: CaseStudyItem[] = [
     legacySlugs: ['otomasi-reservasi-klinik-estetika', 'landing-klinik-estetika'],
     title: 'WA Concierge: merancang agen booking untuk klinik',
     oneSentenceSummary:
-      'Proyek internal merancang agen WhatsApp yang memahami maksud pesan calon pasien, mengecek slot kalender terapis, membuat booking, dan menyerahkan kasus di luar aturan ke staf klinik.',
-    client: 'Proyek internal CHESTAADOTCOM',
+      'Studi kasus contoh merancang agen WhatsApp yang memahami maksud pesan calon pasien, mengecek slot kalender terapis, membuat booking, dan menyerahkan kasus di luar aturan ke staf klinik.',
     industry: 'Klinik',
     services: ['AI Agent'],
     serviceSlugs: ['ai-agent'],
     year: '2026',
-    internal: true,
-    internalBadgeLabel: 'Proyek internal',
+    kind: 'sample',
+    badgeLabel: 'Studi kasus contoh',
+    sampleNote: 'Contoh proyek dirancang untuk memperlihatkan alur kerja kami. Bukan proyek klien.',
     targetsBadgeLabel: 'Target desain, bukan hasil klien',
-    duration: 'Proyek internal',
+    duration: 'Studi kasus contoh',
     readingTime: '6 menit baca',
     author: 'Chesta Azka',
     authorRole: 'Co-founder (arsitektur, produk, teknologi)',
@@ -266,13 +259,13 @@ export const CASE_STUDIES_DATA: CaseStudyItem[] = [
         id: 'konteks-bisnis',
         number: '01',
         title: 'Konteks bisnis',
-        eyebrow: 'PROYEK INTERNAL · KLINIK',
+        eyebrow: 'STUDI KASUS CONTOH · KLINIK',
         blocks: [
           {
             type: 'text',
             paragraphs: [
               'Di banyak klinik perawatan kulit, gigi, maupun fisioterapi skala kecil di Tangerang Selatan dan Jakarta Selatan, WhatsApp bukan sekadar saluran tanya jawab tambahan—WhatsApp adalah meja resepsionis utama. Calon pasien jarang mengisi formulir panjang di website untuk memesan jadwal. Mereka lebih suka mengirim pesan singkat seperti menanyakan kisaran harga perawatan dasar, menanyakan apakah hari Sabtu sore masih ada jadwal kosong, atau meminta pindah jam karena terjebak macet di jalan.',
-              'Kami membangun WA Concierge sebagai proyek internal CHESTAADOTCOM untuk menguji secara langsung bagaimana sebuah agen percakapan bekerja ketika dihubungkan ke kalender terapis dan tabel CRM. Alih-alih membuat demo presentasi yang hanya menjawab satu kalimat rapi, kami ingin menguji skenario percakapan sehari-hari yang penuh singkatan, perubahan niat di tengah obrolan, serta batas tegas antara tugas yang boleh diselesaikan otomatis dan tugas yang wajib diserahkan ke admin manusia.',
+              'Kami membangun WA Concierge sebagai contoh proyek CHESTAADOTCOM untuk menguji secara langsung bagaimana sebuah agen percakapan bekerja ketika dihubungkan ke kalender terapis dan tabel CRM. Alih-alih membuat demo presentasi yang hanya menjawab satu kalimat rapi, kami ingin menguji skenario percakapan sehari-hari yang penuh singkatan, perubahan niat di tengah obrolan, serta batas tegas antara tugas yang boleh diselesaikan otomatis dan tugas yang wajib diserahkan ke admin manusia.',
             ],
           },
         ],
@@ -447,7 +440,7 @@ export const CASE_STUDIES_DATA: CaseStudyItem[] = [
           {
             type: 'text',
             paragraphs: [
-              'Karena WA Concierge adalah proyek internal yang kami bangun untuk menguji keandalan alur sebelum diterapkan pada klien, seluruh indikator di bawah ini merupakan target desain rekayasa sistem kami, bukan klaim hasil pengukuran dari klinik klien.',
+              'Karena WA Concierge adalah contoh proyek yang kami bangun untuk menguji keandalan alur sebelum diterapkan pada klien, seluruh indikator di bawah ini merupakan target desain rekayasa sistem kami, bukan klaim hasil pengukuran dari klinik klien.',
             ],
           },
           {
@@ -524,10 +517,9 @@ export const CASE_STUDIES_DATA: CaseStudyItem[] = [
         ],
       },
     ],
-    metrics: [],
     pullQuote: {
       text: 'Tugas agen bukan menggantikan penilaian staf klinik, melainkan membereskan tanya-jawab jadwal yang berulang supaya staf manusia bisa fokus melayani pasien yang butuh perhatian khusus.',
-      attribution: 'Chesta Azka — Catatan Proyek Internal CHESTAADOTCOM',
+      attribution: 'Chesta Azka — Catatan Studi Kasus Contoh CHESTAADOTCOM',
     },
     projectSlug: 'wa-concierge-klinik',
     relatedServiceSlugs: ['ai-agent'],
@@ -536,7 +528,7 @@ export const CASE_STUDIES_DATA: CaseStudyItem[] = [
     seo: {
       title: 'Studi Kasus WA Concierge Agen Klinik | CHESTAADOTCOM',
       description:
-        'Studi kasus proyek internal WA Concierge: merancang agen booking WhatsApp untuk klinik dengan cek kalender terapis, pengingat H-1, dan serah ke staf.',
+        'Studi kasus contoh WA Concierge: merancang agen booking WhatsApp untuk klinik dengan cek kalender terapis, pengingat H-1, dan serah ke staf.',
     },
   },
 
@@ -548,16 +540,16 @@ export const CASE_STUDIES_DATA: CaseStudyItem[] = [
     legacySlugs: ['membangun-ulang-chestaa-com'],
     title: 'Membangun ulang chestaa.com sebagai situs statis dua bahasa',
     oneSentenceSummary:
-      'Proyek internal merombak situs kami sendiri menjadi arsitektur dua bahasa (/id dan /en) yang ringan, jujur soal posisi layanan, dan cepat dibuka di layar HP.',
-    client: 'Proyek internal CHESTAADOTCOM',
+      'Studi kasus contoh merombak situs kami sendiri menjadi arsitektur dua bahasa (/id dan /en) yang ringan, jujur soal posisi layanan, dan cepat dibuka di layar HP.',
     industry: 'Agensi (situs sendiri)',
     services: ['Web & Landing Page'],
     serviceSlugs: ['pembuatan-website'],
     year: '2026',
-    internal: true,
-    internalBadgeLabel: 'Proyek internal',
+    kind: 'sample',
+    badgeLabel: 'Studi kasus contoh',
+    sampleNote: 'Contoh proyek dirancang untuk memperlihatkan alur kerja kami. Bukan proyek klien.',
     targetsBadgeLabel: 'Target desain, bukan hasil klien',
-    duration: 'Proyek internal',
+    duration: 'Studi kasus contoh',
     readingTime: '6 menit baca',
     author: 'Chesta Azka',
     authorRole: 'Co-founder (arsitektur, produk, teknologi)',
@@ -598,13 +590,13 @@ export const CASE_STUDIES_DATA: CaseStudyItem[] = [
         id: 'konteks',
         number: '01',
         title: 'Konteks',
-        eyebrow: 'PROYEK INTERNAL · SITUS SENDIRI',
+        eyebrow: 'STUDI KASUS CONTOH · SITUS SENDIRI',
         blocks: [
           {
             type: 'text',
             paragraphs: [
               'Ketika CHESTAADOTCOM berkembang dari mengerjakan halaman web sederhana menjadi partner teknis untuk pembuatan website, AI agent bisnis, pengembangan software custom, dan otomasi workflow di BSD, Tangerang Selatan, situs lama kami tidak lagi mencerminkan cara kami bekerja. Situs adalah benda pertama yang diuji oleh calon klien ketika kami berbicara soal kecepatan muat halaman, kerapian struktur informasi, dan kejelasan penjelasan teknis.',
-              'Kami memutuskan membangun ulang chestaa.com dari nol sebagai proyek rekayasa internal yang menerapkan seluruh standar yang kami tawarkan ke klien: halaman harus bisa dibaca tuntas tanpa menunggu bundel JavaScript berat, tersedia secara utuh dalam bahasa Indonesia (`/id`) dan bahasa Inggris (`/en`), serta transparan membedakan mana proyek internal dan mana target desain.',
+              'Kami memutuskan membangun ulang chestaa.com dari nol sebagai contoh proyek rekayasa yang menerapkan seluruh standar yang kami tawarkan ke klien: halaman harus bisa dibaca tuntas tanpa menunggu bundel JavaScript berat, tersedia secara utuh dalam bahasa Indonesia (`/id`) dan bahasa Inggris (`/en`), serta transparan membedakan mana contoh proyek, proyek nyata, dan target desain.',
             ],
           },
         ],
@@ -672,7 +664,7 @@ export const CASE_STUDIES_DATA: CaseStudyItem[] = [
           {
             type: 'text',
             paragraphs: [
-              'Untuk menjaga konsistensi antara versi bahasa Indonesia dan bahasa Inggris sekaligus mempertahankan kecepatan halaman statis, seluruh konten layanan, area lokal, proyek internal, dan studi kasus disimpan dalam sumber data bertipe ketat (typed dataset) yang kemudian dipetakan ke rute `/id` dan `/en`, divalidasi panjang metatag-nya, serta dilengkapi grafik JSON-LD dan berkas indeks.',
+              'Untuk menjaga konsistensi antara versi bahasa Indonesia dan bahasa Inggris sekaligus mempertahankan kecepatan halaman statis, seluruh konten layanan, area lokal, contoh proyek, dan studi kasus contoh disimpan dalam sumber data bertipe ketat (typed dataset) yang kemudian dipetakan ke rute `/id` dan `/en`, divalidasi panjang metatag-nya, serta dilengkapi grafik JSON-LD dan berkas indeks.',
             ],
           },
           {
@@ -779,7 +771,7 @@ export const CASE_STUDIES_DATA: CaseStudyItem[] = [
           {
             type: 'text',
             paragraphs: [
-              'Sebagai proyek internal untuk situs kami sendiri, angka di bawah ini adalah anggaran performa dan target desain arsitektur yang menjadi standar pengujian halaman di chestaa.com.',
+              'Sebagai contoh proyek untuk situs kami sendiri, angka di bawah ini adalah anggaran performa dan target desain arsitektur yang menjadi standar pengujian halaman di chestaa.com.',
             ],
           },
           {
@@ -830,7 +822,7 @@ export const CASE_STUDIES_DATA: CaseStudyItem[] = [
           {
             type: 'text',
             paragraphs: [
-              'Keputusan terbesar saat membangun ulang chestaa.com bukan soal memilih pustaka kode, melainkan menjaga disiplin kejujuran konten. Sebagai agensi yang baru merilis pembaruan identitas dan katalog layanan ini, kami memilih untuk memberi label "Proyek internal" secara terbuka pada seluruh enam proyek demo dan tiga studi kasus kami, serta menuliskan semua angka sasaran sebagai "Target desain, bukan hasil klien".',
+              'Keputusan terbesar saat membangun ulang chestaa.com bukan soal memilih pustaka kode, melainkan menjaga disiplin kejujuran konten. Sebagai agensi yang baru merilis pembaruan identitas dan katalog layanan ini, kami memilih untuk memberi label "Contoh proyek" dan "Studi kasus contoh" secara terbuka pada seluruh proyek demo dan studi kasus contoh kami, serta menuliskan semua angka sasaran sebagai "Target desain, bukan hasil klien".',
               'Kami juga sengaja menahan diri untuk tidak membuka puluhan halaman area lokal sekaligus. Dari total lima belas kombinasi area dan layanan yang datanya sudah kami siapkan, hanya sepuluh halaman dengan konteks bisnis lokal yang benar-benar spesifik yang kami buka untuk diindeks (`index,follow`), sedangkan lima sisanya kami tahan sebagai `noindex,follow`. Kompromi ini membuat jumlah halaman yang terindeks lebih ramping di awal, namun menjamin setiap halaman yang tampil di mesin pencari memiliki isi yang jujur, relevan, dan tidak terasa seperti salinan tempel.',
             ],
           },
@@ -856,10 +848,9 @@ export const CASE_STUDIES_DATA: CaseStudyItem[] = [
         ],
       },
     ],
-    metrics: [],
     pullQuote: {
       text: 'Situs agensi teknologi seharusnya menjadi contoh langsung dari kerapian arsitektur, kecepatan muat di HP, dan kejujuran informasi yang dijanjikan kepada klien.',
-      attribution: 'Chesta Azka — Catatan Proyek Internal CHESTAADOTCOM',
+      attribution: 'Chesta Azka — Catatan Studi Kasus Contoh CHESTAADOTCOM',
     },
     projectSlug: 'chestaa-v2',
     relatedServiceSlugs: ['pembuatan-website'],
@@ -868,7 +859,7 @@ export const CASE_STUDIES_DATA: CaseStudyItem[] = [
     seo: {
       title: 'Studi Kasus Membangun Ulang chestaa.com | CHESTAADOTCOM',
       description:
-        'Studi kasus proyek internal membangun ulang chestaa.com sebagai situs statis dua bahasa (/id dan /en) dengan target LCP < 1,8 detik dan CLS < 0,02.',
+        'Studi kasus contoh membangun ulang chestaa.com sebagai situs statis dua bahasa (/id dan /en) dengan target LCP < 1,8 detik serta CLS < 0,02.',
     },
   },
 
@@ -880,16 +871,16 @@ export const CASE_STUDIES_DATA: CaseStudyItem[] = [
     legacySlugs: ['otomasi-rekap-pos-fnb-serpong'],
     title: 'Alur lead properti: dari formulir iklan ke follow-up agen',
     oneSentenceSummary:
-      'Proyek internal merancang otomasi penyaluran lead properti dari formulir iklan langsung ke CRM, pembagian giliran agen, notifikasi WhatsApp, hingga jadwal pengingat follow-up.',
-    client: 'Proyek internal CHESTAADOTCOM',
+      'Studi kasus contoh merancang otomasi penyaluran lead properti dari formulir iklan langsung ke CRM, pembagian giliran agen, notifikasi WhatsApp, hingga jadwal pengingat follow-up.',
     industry: 'Properti',
     services: ['Otomasi Workflow'],
     serviceSlugs: ['otomasi-workflow'],
     year: '2026',
-    internal: true,
-    internalBadgeLabel: 'Proyek internal',
+    kind: 'sample',
+    badgeLabel: 'Studi kasus contoh',
+    sampleNote: 'Contoh proyek dirancang untuk memperlihatkan alur kerja kami. Bukan proyek klien.',
     targetsBadgeLabel: 'Target desain, bukan hasil klien',
-    duration: 'Proyek internal',
+    duration: 'Studi kasus contoh',
     readingTime: '6 menit baca',
     author: 'Zeeshan',
     authorRole: 'Co-founder (operasional dan client success)',
@@ -930,13 +921,13 @@ export const CASE_STUDIES_DATA: CaseStudyItem[] = [
         id: 'konteks-bisnis',
         number: '01',
         title: 'Konteks bisnis',
-        eyebrow: 'PROYEK INTERNAL · PROPERTI',
+        eyebrow: 'STUDI KASUS CONTOH · PROPERTI',
         blocks: [
           {
             type: 'text',
             paragraphs: [
               'Tim pemasaran properti dan kantor agen pemasaran di koridor pengembangan seperti BSD City, Serpong, dan sekitarnya sangat bergantung pada kampanye iklan digital serta halaman landing proyek untuk menjaring minat calon pembeli. Ketika seseorang mengisi formulir untuk meminta brosur harga atau jadwal kunjungan rumah contoh (show unit), minat mereka sedang berada di titik paling tinggi pada lima hingga lima belas menit pertama setelah menekan tombol kirim.',
-              'Kami merancang proyek internal Alur Lead Properti di CHESTAADOTCOM untuk memodelkan bagaimana sebuah tim pemasaran properti dapat menghapus jeda waktu antara masuknya formulir iklan dan sapaan pertama dari agen penjualan di lapangan—tanpa mengharuskan admin pemasaran menyalin baris data satu per satu dari berkas spreadsheet ke ruang obrolan grup WhatsApp.',
+              'Kami merancang contoh proyek Alur Lead Properti di CHESTAADOTCOM untuk memodelkan bagaimana sebuah tim pemasaran properti dapat menghapus jeda waktu antara masuknya formulir iklan dan sapaan pertama dari agen penjualan di lapangan—tanpa mengharuskan admin pemasaran menyalin baris data satu per satu dari berkas spreadsheet ke ruang obrolan grup WhatsApp.',
             ],
           },
         ],
@@ -1111,7 +1102,7 @@ export const CASE_STUDIES_DATA: CaseStudyItem[] = [
           {
             type: 'text',
             paragraphs: [
-              'Seluruh angka di bawah ini merupakan target desain dari proyek internal Alur Lead Properti di CHESTAADOTCOM, dirancang sebagai tolok ukur kecepatan penyaluran data dan ketertiban tindak lanjut, bukan klaim hasil kampanye klien.',
+              'Seluruh angka di bawah ini merupakan target desain dari contoh proyek Alur Lead Properti di CHESTAADOTCOM, dirancang sebagai tolok ukur kecepatan penyaluran data dan ketertiban tindak lanjut, bukan klaim hasil kampanye klien.',
             ],
           },
           {
@@ -1162,7 +1153,7 @@ export const CASE_STUDIES_DATA: CaseStudyItem[] = [
           {
             type: 'text',
             paragraphs: [
-              'Dalam merancang otomasi workflow penjualan, godaan terbesar adalah membuat aturan cabang yang terlalu rumit sejak hari pertama—misalnya mencoba menilai skor daya beli secara otomatis dengan lusinan pertanyaan formulir. Dalam proyek internal ini, kami memilih kompromi sebaliknya: formulir di sisi calon pembeli dibuat sesingkat mungkin (cukup nama, nomor WhatsApp aktif, dan pilihan tipe unit/jadwal kunjungan), sementara kualifikasi mendalam tetap dilakukan oleh agen manusia melalui percakapan.',
+              'Dalam merancang otomasi workflow penjualan, godaan terbesar adalah membuat aturan cabang yang terlalu rumit sejak hari pertama—misalnya mencoba menilai skor daya beli secara otomatis dengan lusinan pertanyaan formulir. Dalam studi kasus contoh ini, kami memilih kompromi sebaliknya: formulir di sisi calon pembeli dibuat sesingkat mungkin (cukup nama, nomor WhatsApp aktif, dan pilihan tipe unit/jadwal kunjungan), sementara kualifikasi mendalam tetap dilakukan oleh agen manusia melalui percakapan.',
               'Kompromi kedua berkaitan dengan pembaruan status. Pengingat otomatis H+1 dan H+3 hanya akan akurat apabila agen disiplin memperbarui status lead setelah menghubungi calon pembeli. Karena itu, alih-alih mengharuskan agen membuka dashboard desktop yang berat, kami menyederhanakan aksi pembaruan status menjadi satu tautan cepat dari pesan notifikasi WhatsApp mereka. Otomasi yang baik tidak menggantikan keramahan agen properti saat bernegosiasi, tetapi memastikan tidak ada calon pembeli yang terlewat hanya karena keterlambatan salin data.',
             ],
           },
@@ -1188,10 +1179,9 @@ export const CASE_STUDIES_DATA: CaseStudyItem[] = [
         ],
       },
     ],
-    metrics: [],
     pullQuote: {
       text: 'Otomasi lead yang berguna tidak memaksa agen belajar aplikasi rumit; tugasnya memastikan begitu calon pembeli mengirim formulir, agen yang tepat langsung tahu dan diingatkan sampai tuntas.',
-      attribution: 'Zeeshan — Catatan Proyek Internal CHESTAADOTCOM',
+      attribution: 'Zeeshan — Catatan Studi Kasus Contoh CHESTAADOTCOM',
     },
     projectSlug: 'lead-properti',
     relatedServiceSlugs: ['otomasi-workflow'],
@@ -1200,7 +1190,7 @@ export const CASE_STUDIES_DATA: CaseStudyItem[] = [
     seo: {
       title: 'Studi Kasus Alur Lead Properti Otomatis | CHESTAADOTCOM',
       description:
-        'Studi kasus proyek internal alur lead properti: otomasi dari formulir iklan ke CRM, pembagian agen < 1 menit, dan pengingat follow-up H+1 serta H+3.',
+        'Studi kasus contoh alur lead properti: otomasi dari formulir iklan ke CRM, pembagian ke agen < 1 menit, dan pengingat follow-up H+1 serta H+3.',
     },
   },
 
@@ -1212,16 +1202,16 @@ export const CASE_STUDIES_DATA: CaseStudyItem[] = [
     legacySlugs: ['rekap-operasional-kafe', 'pos-kafe-multicabang'],
     title: 'Dashboard operasional kafe: dari spreadsheet harian ke satu tampilan',
     oneSentenceSummary:
-      'Proyek internal merancang dashboard web yang menyatukan penjualan harian, stok bahan, dan laporan cabang kafe tanpa mengganti mesin kasir yang sudah ada.',
-    client: 'Proyek internal CHESTAADOTCOM',
+      'Studi kasus contoh merancang dashboard web yang menyatukan penjualan harian, stok bahan, dan laporan cabang kafe tanpa mengganti mesin kasir yang sudah ada.',
     industry: 'F&B',
     services: ['Software Custom'],
     serviceSlugs: ['software-custom'],
     year: '2026',
-    internal: true,
-    internalBadgeLabel: 'Proyek internal',
+    kind: 'sample',
+    badgeLabel: 'Studi kasus contoh',
+    sampleNote: 'Contoh proyek dirancang untuk memperlihatkan alur kerja kami. Bukan proyek klien.',
     targetsBadgeLabel: 'Target desain, bukan hasil klien',
-    duration: 'Proyek internal',
+    duration: 'Studi kasus contoh',
     readingTime: '7 menit baca',
     author: 'Chesta Azka',
     authorRole: 'Co-founder (arsitektur, produk, teknologi)',
@@ -1262,14 +1252,14 @@ export const CASE_STUDIES_DATA: CaseStudyItem[] = [
         id: 'konteks-bisnis',
         number: '01',
         title: 'Konteks bisnis',
-        eyebrow: 'PROYEK INTERNAL · F&B',
+        eyebrow: 'STUDI KASUS CONTOH · F&B',
         blocks: [
           {
             type: 'text',
             paragraphs: [
               'Di industri makanan dan minuman (F&B) multi-cabang, mengelola tiga gerai kafe di Serpong, Bintaro, dan BSD sering kali menghadirkan tantangan operasional yang jauh lebih melelahkan daripada saat mengelola satu gerai tunggal. Setiap malam tepat pukul sepuluh, barista dan kepala shift di masing-masing gerai harus menghitung tumpukan struk kasir, menimbang sisa fisik biji kopi, sirup, dan susu, lalu mengetik angka ke lembar spreadsheet lokal di komputer kasir.',
               'Pemilik kafe biasanya baru bisa membaca total omzet harian dan sisa bahan baku keesokan siangnya setelah ketiga lembar rekap dikirimkan lewat grup obrolan WhatsApp dan digabungkan secara manual. Jeda waktu setengah hari ini membuat pemilik bisnis tidak memiliki visibilitas real-time terhadap performa gerai mereka sendiri.',
-              'Kami membangun proyek internal Dashboard Operasional Kafe di CHESTAADOTCOM untuk memodelkan solusi software custom yang realistis bagi pemilik bisnis F&B. Tujuannya adalah menyatukan angka penjualan harian dan pergerakan stok dari beberapa gerai ke satu layar terpusat, tanpa harus memaksa tim mengganti aplikasi kasir (POS) yang sudah mereka pakai sehari-hari.',
+              'Kami membangun contoh proyek Dashboard Operasional Kafe di CHESTAADOTCOM untuk memodelkan solusi software custom yang realistis bagi pemilik bisnis F&B. Tujuannya adalah menyatukan angka penjualan harian dan pergerakan stok dari beberapa gerai ke satu layar terpusat, tanpa harus memaksa tim mengganti aplikasi kasir (POS) yang sudah mereka pakai sehari-hari.',
             ],
           },
         ],
@@ -1457,7 +1447,7 @@ export const CASE_STUDIES_DATA: CaseStudyItem[] = [
           {
             type: 'text',
             paragraphs: [
-              'Sebagai proyek rekayasa internal CHESTAADOTCOM, seluruh indikator di bawah ini adalah sasaran desain sistem yang kami tetapkan dalam uji simulasi operasional, bukan klaim hasil pengukuran dari klien nyata.',
+              'Sebagai contoh proyek rekayasa CHESTAADOTCOM, seluruh indikator di bawah ini adalah sasaran desain sistem yang kami tetapkan dalam uji simulasi operasional, bukan klaim hasil pengukuran dari klien nyata.',
             ],
           },
           {
@@ -1535,10 +1525,9 @@ export const CASE_STUDIES_DATA: CaseStudyItem[] = [
         ],
       },
     ],
-    metrics: [],
     pullQuote: {
       text: 'Kami tidak membuang mesin kasir yang sudah akrab dengan barista; kami hanya membangun jembatan agar data penjualan dan sisa stok masuk ke satu layar yang rapi.',
-      attribution: 'Chesta Azka — Catatan Proyek Internal CHESTAADOTCOM',
+      attribution: 'Chesta Azka — Catatan Studi Kasus Contoh CHESTAADOTCOM',
     },
     projectSlug: 'dashboard-kafe',
     relatedServiceSlugs: ['software-custom'],
@@ -1547,7 +1536,7 @@ export const CASE_STUDIES_DATA: CaseStudyItem[] = [
     seo: {
       title: 'Studi Kasus Dashboard Operasional Kafe | CHESTAADOTCOM',
       description:
-        'Studi kasus proyek internal Dashboard Operasional Kafe: menyatukan penjualan harian, stok bahan baku, dan laporan cabang kafe tanpa ganti kasir.',
+        'Studi kasus contoh Dashboard Operasional Kafe: menyatukan penjualan harian, stok bahan baku, dan laporan antar cabang kafe tanpa ganti kasir.',
     },
   },
 
@@ -1559,16 +1548,16 @@ export const CASE_STUDIES_DATA: CaseStudyItem[] = [
     legacySlugs: ['ekstraksi-faktur-pajak-ai', 'asisten-kualifikasi-klien-konsultan'],
     title: 'Pemroses Dokumen AI: ekstraksi data dengan tinjauan manusia',
     oneSentenceSummary:
-      'Proyek internal merancang pipeline AI untuk mengekstrak invoice dan bukti potong pajak ke tabel web dengan peninjauan manusia sebelum disimpan.',
-    client: 'Proyek internal CHESTAADOTCOM',
+      'Studi kasus contoh merancang pipeline AI untuk mengekstrak invoice dan bukti potong pajak ke tabel web dengan peninjauan manusia sebelum disimpan.',
     industry: 'Jasa profesional',
     services: ['AI Agent', 'Software Custom'],
     serviceSlugs: ['ai-agent', 'software-custom'],
     year: '2026',
-    internal: true,
-    internalBadgeLabel: 'Proyek internal',
+    kind: 'sample',
+    badgeLabel: 'Studi kasus contoh',
+    sampleNote: 'Contoh proyek dirancang untuk memperlihatkan alur kerja kami. Bukan proyek klien.',
     targetsBadgeLabel: 'Target desain, bukan hasil klien',
-    duration: 'Proyek internal',
+    duration: 'Studi kasus contoh',
     readingTime: '7 menit baca',
     author: 'Chesta Azka',
     authorRole: 'Co-founder (arsitektur, produk, teknologi)',
@@ -1609,14 +1598,14 @@ export const CASE_STUDIES_DATA: CaseStudyItem[] = [
         id: 'konteks-bisnis',
         number: '01',
         title: 'Konteks bisnis',
-        eyebrow: 'PROYEK INTERNAL · JASA PROFESIONAL',
+        eyebrow: 'STUDI KASUS CONTOH · JASA PROFESIONAL',
         blocks: [
           {
             type: 'text',
             paragraphs: [
               'Di firma konsultan akuntansi, kantor konsultan pajak, dan praktik notaris di Tangerang Selatan dan Jakarta, dokumen administratif datang dalam gelombang besar setiap awal bulan. Staf operasional menerima puluhan berkas PDF dari klien dan vendor yang mencakup invoice tagihan, bukti potong pajak penghasilan (PPh 21 dan PPh 23), pindaian struk pembayaran operasional, serta lembar kontrak kerja.',
               'Tantangan terbesarnya adalah keberagaman tata letak dokumen. Tidak ada satu pun standar format yang seragam: sebagian vendor melampirkan invoice digital dengan tabel yang rapi, sebagian mengirimkan pindaian kertas yang miring atau sedikit buram, dan sebagian lainnya melampirkan foto bukti pembayaran yang diambil menggunakan kamera ponsel dengan pencahayaan seadanya.',
-              'Kami merancang proyek internal Pemroses Dokumen AI di CHESTAADOTCOM untuk mengeksplorasi bagaimana model bahasa dan visi komputer modern dapat mempercepat penyalinan data tanpa mengorbankan ketepatan angka finansial. Kami berpegang pada satu prinsip tegas: efisiensi tidak boleh mengorbankan akurasi data hukum dan pembukuan.',
+              'Kami merancang contoh proyek Pemroses Dokumen AI di CHESTAADOTCOM untuk mengeksplorasi bagaimana model bahasa dan visi komputer modern dapat mempercepat penyalinan data tanpa mengorbankan ketepatan angka finansial. Kami berpegang pada satu prinsip tegas: efisiensi tidak boleh mengorbankan akurasi data hukum dan pembukuan.',
             ],
           },
         ],
@@ -1804,7 +1793,7 @@ export const CASE_STUDIES_DATA: CaseStudyItem[] = [
           {
             type: 'text',
             paragraphs: [
-              'Seluruh indikator kinerja di bawah ini merupakan sasaran desain rekayasa yang kami gunakan dalam pengujian simulasi internal CHESTAADOTCOM, bukan klaim hasil pengukuran dari klien aktif.',
+              'Seluruh indikator kinerja di bawah ini merupakan sasaran desain rekayasa yang kami gunakan dalam pengujian simulasi perancangan CHESTAADOTCOM, bukan klaim hasil pengukuran dari klien aktif.',
             ],
           },
           {
@@ -1855,7 +1844,7 @@ export const CASE_STUDIES_DATA: CaseStudyItem[] = [
           {
             type: 'text',
             paragraphs: [
-              'Di era antusiasme kecerdasan buatan, godaan terbesar para pengembang software adalah menjanjikan otomatisasi seratus persen tanpa campur tangan manusia. Dalam proyek internal ini, kami secara sadar menolak janji tersebut.',
+              'Di era antusiasme kecerdasan buatan, godaan terbesar para pengembang software adalah menjanjikan otomatisasi seratus persen tanpa campur tangan manusia. Dalam studi kasus contoh ini, kami secara sadar menolak janji tersebut.',
               'Dalam konteks perpajakan, keuangan, dan perjanjian hukum, biaya untuk memperbaiki satu kesalahan data yang terlanjur dilaporkan ke kantor pajak jauh lebih besar daripada beberapa detik yang dihabiskan staf untuk memeriksa layar terbagi.',
               'Kami sengaja merancang penanda tingkat keyakinan rendah dengan warna kuning kontras yang tidak bisa diabaikan. Penanda ini berfungsi sebagai pengingat visual agar mata manusia tidak sekadar melakukan stempel persetujuan buta (rubber-stamping). Setiap koreksi yang dilakukan staf juga otomatis tercatat dalam riwayat audit, sehingga jika sewaktu-waktu terjadi pemeriksaan eksternal, tim memiliki catatan pertanggungjawaban yang transparan.',
             ],
@@ -1882,10 +1871,9 @@ export const CASE_STUDIES_DATA: CaseStudyItem[] = [
         ],
       },
     ],
-    metrics: [],
     pullQuote: {
       text: 'Otomasi dokumen finansial bukan soal membiarkan AI bekerja tanpa diawasi, melainkan memangkas waktu salin manual hingga 80% sambil memastikan manusia tetap menjadi pemegang keputusan akhir.',
-      attribution: 'Chesta Azka — Catatan Proyek Internal CHESTAADOTCOM',
+      attribution: 'Chesta Azka — Catatan Studi Kasus Contoh CHESTAADOTCOM',
     },
     projectSlug: 'pemroses-dokumen',
     relatedServiceSlugs: ['ai-agent', 'software-custom'],
@@ -1894,7 +1882,7 @@ export const CASE_STUDIES_DATA: CaseStudyItem[] = [
     seo: {
       title: 'Studi Kasus Sistem Pemroses Dokumen AI | CHESTAADOTCOM',
       description:
-        'Studi kasus proyek internal Pemroses Dokumen AI: ekstraksi dokumen ke tabel web dengan peninjauan manusia, layar terbagi, dan catatan log audit.',
+        'Studi kasus contoh Pemroses Dokumen AI: ekstraksi data dokumen ke tabel web dengan peninjauan manusia, layar terbagi, dan catatan log audit.',
     },
   },
 ];
@@ -2042,19 +2030,19 @@ export interface CaseStudyData {
   implementationTime: string;
   summary: string;
   keyTakeaways: string[];
-  metrics: { label: string; value: string; change: string }[];
+  targets: CaseStudyDesignTarget[];
 }
 
 export const CASE_STUDIES: CaseStudyData[] = getPublishedCaseStudies('id').map((cs) => ({
   slug: cs.slug,
   title: cs.title,
   clientIndustry: cs.industry,
-  location: cs.client,
+  location: cs.badgeLabel,
   problem: cs.summary.problem,
   architectureUsed: cs.summary.built,
   roiMetrics: cs.summary.result,
   implementationTime: cs.duration,
   summary: cs.oneSentenceSummary,
   keyTakeaways: [cs.summary.problem, cs.summary.built, cs.summary.result],
-  metrics: [],
+  targets: cs.targets,
 }));

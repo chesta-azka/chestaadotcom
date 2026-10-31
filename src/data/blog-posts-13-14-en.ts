@@ -41,7 +41,7 @@ export const BLOG_POSTS_13_14_EN_RAW: RawBlogPostInput[] = [
     founderNote: {
       author: 'chesta',
       title: 'Technical Note · The Bottleneck Is Rarely the Model, It Is the Source Document',
-      text: 'When an internal Q&A system gives a confusing answer, the root cause almost always traces back to two old conflicting policy PDF files sitting inside the same company folder, not a lack of intelligence in the language model.',
+      text: 'When an operational Q&A system gives a confusing answer, the root cause almost always traces back to two old conflicting policy PDF files sitting inside the same company folder, not a lack of intelligence in the language model.',
     },
     content: [
       {
@@ -68,7 +68,7 @@ export const BLOG_POSTS_13_14_EN_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'paragraph',
-        text: 'Standard language models frequently produce answers that sound convincing yet are factually wrong because they are trained to predict plausible word sequences from public internet text rather than reading your company internal rules or current price lists.',
+        text: 'Standard language models frequently produce answers that sound convincing yet are factually wrong because they are trained to predict plausible word sequences from public internet text rather than reading your company in-house rules or current price lists.',
       },
       {
         type: 'paragraph',
@@ -110,7 +110,7 @@ export const BLOG_POSTS_13_14_EN_RAW: RawBlogPostInput[] = [
         items: [
           'Document collection and cleaning: you select official texts such as SOP guides, warranty terms, and service catalogs, ensuring the text is free of obsolete notes.',
           'Structured splitting (chunking) and indexing: the system divides long documents into smaller sections by topic or subheading and stores them in a searchable index.',
-          'Relevant excerpt search (retrieval): when a user asks a question, the internal search engine retrieves the three to five paragraph chunks most closely related to the question.',
+          'Relevant excerpt search (retrieval): when a user asks a question, the document search engine retrieves the three to five paragraph chunks most closely related to the question.',
           'Source-bound answer generation (generation): the language model reads the retrieved excerpts and writes a clear reply to the user without adding rules outside that text.',
         ],
       },
@@ -152,9 +152,9 @@ export const BLOG_POSTS_13_14_EN_RAW: RawBlogPostInput[] = [
             'Organize by service topic so instruction sections are retrieved intact.',
           ],
           [
-            'Internal staff SOPs for complaint handling and store opening routines',
+            'Operational staff SOPs for complaint handling and store opening routines',
             'Highly Suitable',
-            'Index into an internal employee-only assistant with role access controls.',
+            'Index into an in-house employee assistant with role access controls.',
           ],
           [
             'Hourly ingredient stock balances or open appointment slots today',
@@ -187,7 +187,7 @@ export const BLOG_POSTS_13_14_EN_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'paragraph',
-        text: 'For incoming documents with varied layouts such as vendor invoices or PDF registration forms, you can see how our internal project handles extraction in the [AI Document Processor case study with a human review table](/en/case-studies/pemroses-dokumen). Our internal project extracts document fields into structured columns and flags uncertain items for staff review before saving them to the database.',
+        text: 'For incoming documents with varied layouts such as vendor invoices or PDF registration forms, you can see how our sample project handles extraction in the [AI Document Processor case study with a human review table](/en/case-studies/pemroses-dokumen). Our sample project extracts document fields into structured columns and flags uncertain items for staff review before saving them to the database.',
       },
       {
         type: 'h2',
@@ -200,7 +200,7 @@ export const BLOG_POSTS_13_14_EN_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'paragraph',
-        text: 'Including source citations gives peace of mind to both business owners and supervising staff. When an internal assistant answers a new employee question about leave procedures, ending the reply with "(Source: Employee Handbook Chapter 4, Annual Leave Section)" makes verification effortless.',
+        text: 'Including source citations gives peace of mind to both business owners and supervising staff. When an in-house assistant answers a new employee question about leave procedures, ending the reply with "(Source: Employee Handbook Chapter 4, Annual Leave Section)" makes verification effortless.',
       },
       {
         type: 'paragraph',
@@ -230,13 +230,13 @@ export const BLOG_POSTS_13_14_EN_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'paragraph',
-        text: 'RAG security requires strict separation between public document indexes for customers and confidential internal document indexes for employees, combined with safeguards against prompt manipulation in incoming messages.',
+        text: 'RAG security requires strict separation between public document indexes for customers and confidential company document indexes for employees, combined with safeguards against prompt manipulation in incoming messages.',
       },
       {
         type: 'callout',
         variant: 'warning',
-        title: 'Security Warning: Never Mix Internal and Public Documents in One Index',
-        text: 'Never place confidential company files such as supplier cost sheets, staff salary contracts, or customer personal records into a RAG document collection connected to a public website or WhatsApp chatbot. Separate storage physically so tricky user prompts cannot leak internal data.',
+        title: 'Security Warning: Never Mix Company and Public Documents in One Index',
+        text: 'Never place confidential company files such as supplier cost sheets, staff salary contracts, or customer personal records into a RAG document collection connected to a public website or WhatsApp chatbot. Separate storage physically so tricky user prompts cannot leak in-house data.',
       },
       {
         type: 'paragraph',
@@ -244,7 +244,7 @@ export const BLOG_POSTS_13_14_EN_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'paragraph',
-        text: 'Whenever documents processed inside an internal system contain customer personal identities, ensure storage and handling comply with Indonesian Law No. 27 of 2022 on Personal Data Protection; check the official documentation for current figures and terms.',
+        text: 'Whenever documents processed inside an operational system contain customer personal identities, ensure storage and handling comply with Indonesian Law No. 27 of 2022 on Personal Data Protection; check the official documentation for current figures and terms.',
       },
       {
         type: 'h2',
@@ -330,9 +330,9 @@ export const BLOG_POSTS_13_14_EN_RAW: RawBlogPostInput[] = [
       },
       {
         question:
-          'Could my internal company documents leak to the public if I use RAG?',
+          'Could my confidential company documents leak to the public if I use RAG?',
         answer:
-          'Document security depends on storage architecture. As long as internal document indexes are physically separated from public chatbots and every query enforces user role permissions, internal documents remain accessible only to authorized staff.',
+          'Document security depends on storage architecture. As long as company document indexes are physically separated from public chatbots and every query enforces user role permissions, company documents remain accessible only to authorized staff.',
       },
     ],
     relatedSlugs: [
@@ -568,11 +568,11 @@ export const BLOG_POSTS_13_14_EN_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'paragraph',
-        text: 'In our internal project, the [WA Concierge clinic booking case study](/en/case-studies/wa-concierge-klinik), every agent action from checking therapist slots to escalating a chat to staff is recorded in an inspectable activity log. Transparent action logging makes it straightforward for operations teams to trace why a conversation succeeded or failed.',
+        text: 'In our sample project, the [WA Concierge clinic booking case study](/en/case-studies/wa-concierge-klinik), every agent action from checking therapist slots to escalating a chat to staff is recorded in an inspectable activity log. Transparent action logging makes it straightforward for operations teams to trace why a conversation succeeded or failed.',
       },
       {
         type: 'paragraph',
-        text: '**Example scenario (aesthetic clinic and fitness studio in BSD City):** Imagine you manage a clinic or pilates studio in the [BSD City service area](/en/areas) that recently activated a scheduling assistant through our [business AI agent development service](/en/services/ai-agents). During the first week, you set aside twenty minutes every Friday afternoon to inspect the conversation logs.',
+        text: '**Example scenario (aesthetic clinic and fitness studio in BSD City):** Imagine you manage a clinic or pilates studio in the [BSD City service area](/en/services/website-development/bsd-city) that recently activated a scheduling assistant through our [business AI agent development service](/en/services/ai-agents). During the first week, you set aside twenty minutes every Friday afternoon to inspect the conversation logs.',
       },
       {
         type: 'paragraph',

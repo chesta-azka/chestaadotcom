@@ -1,4 +1,5 @@
 import React from 'react';
+import { sanitizeFaqEntries } from '../../lib/seo/faqSchema';
 
 interface FAQItem {
   question: string;
@@ -10,12 +11,13 @@ interface FAQSchemaProps {
 }
 
 export default function FAQSchema({ items }: FAQSchemaProps) {
-  if (!items || items.length === 0) return null;
+  const cleanItems = sanitizeFaqEntries(items || []);
+  if (cleanItems.length === 0) return null;
 
   const schema = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    "mainEntity": items.map((item) => ({
+    "mainEntity": cleanItems.map((item) => ({
       "@type": "Question",
       "name": item.question,
       "acceptedAnswer": {

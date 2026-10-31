@@ -23,7 +23,7 @@ Dalam lanskap bisnis modern, aspek ini tidak dapat lagi dipandang sebagai sekada
 #### 1.1.1 Arsitektur Pengiriman Data Sub-Detik
 Implementasi sistem pengiriman konten cerdas untuk meminimalisir beban di sisi pengguna, mempercepat waktu muat secara instan, serta memastikan website terbuka dalam hitungan milidetik. Integrasi dengan jaringan global untuk akses tanpa jeda.
 
-Implementasi teknis ini bukan sekadar estetika, melainkan sebuah kewajiban arsitektural. Dengan menempatkan teknologi ini pada pusat infrastruktur Anda, sistem mampu mengurangi redundansi beban kerja hingga rasio yang sangat signifikan. Hal ini memungkinkan tim internal Anda untuk mengalihkan fokus dari pemeliharaan teknis menuju inisiatif strategis yang mendorong pertumbuhan bisnis secara keseluruhan.
+Implementasi teknis ini bukan sekadar estetika, melainkan sebuah kewajiban arsitektural. Dengan menempatkan teknologi ini pada pusat infrastruktur Anda, sistem mampu mengurangi redundansi beban kerja hingga rasio yang sangat signifikan. Hal ini memungkinkan tim operasional Anda untuk mengalihkan fokus dari pemeliharaan teknis menuju inisiatif strategis yang mendorong pertumbuhan bisnis secara keseluruhan.
 
 #### 1.1.2 Sistem Komponen UI Berbasis Performa
 Penggunaan struktur komponen modular cerdas untuk memastikan setiap elemen UI dapat digunakan kembali secara efisien, menjaga konsistensi brand di seluruh ekosistem digital Anda tanpa mengorbankan kecepatan.
@@ -80,7 +80,7 @@ AI Agents & Intelligent Automation adalah inti dari bagaimana kami memastikan ba
 Kemampuan untuk menganalisis sentimen pelanggan, mengekstraksi data terstruktur dari percakapan acak, dan menulis laporan bisnis otomatis tanpa campur tangan admin manusia.
 
 #### 2.1.2 Sistem Pengetahuan Korporat Terpadu (RAG)
-Menghubungkan asisten cerdas dengan database internal perusahaan (seperti dokumen produk, database pesanan, atau arsip klien) agar asisten dapat menjawab pertanyaan secara faktual sesuai standar perusahaan Anda.
+Menghubungkan asisten cerdas dengan database operasional perusahaan (seperti dokumen produk, database pesanan, atau arsip klien) agar asisten dapat menjawab pertanyaan secara faktual sesuai standar perusahaan Anda.
 
 #### 2.1.3 Rekayasa Instruksi & Fine-Tuning Persona
 Konfigurasi khusus agar asisten cerdas merespon dengan persona, gaya bahasa, dan batasan operasional spesifik milik brand Anda, memastikan layanan pelanggan yang konsisten dan profesional.
@@ -143,7 +143,7 @@ Menyelaraskan data stok barang antara berbagai saluran penjualan secara real-tim
 #### 4.1.3 Rekomendasi Produk Berbasis Perilaku Cerdas
 Mesin rekomendasi cerdas yang menganalisis pola klik pengguna untuk menampilkan produk yang relevan secara akurat, meningkatkan nilai rata-rata setiap transaksi yang masuk.
 
-### 4.2 Dashboard Manajemen Internal & ERP Kustom
+### 4.2 Dashboard Manajemen Operasional & ERP Kustom
 
 #### 4.2.1 Kontrol Akses Berbasis Peran (RBAC)
 Sistem otorisasi multi-level (Owner, Manager, Staff) yang sangat presisi, membatasi akses data sensitif berdasarkan hierarki organisasi untuk keamanan maksimal.

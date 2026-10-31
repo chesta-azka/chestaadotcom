@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { ShieldCheck, ArrowUpRight } from 'lucide-react';
+import { ShieldCheck, ArrowUpRight, Mail } from 'lucide-react';
 import { SEO } from '../components/SEO';
 import {
   PageShell,
@@ -16,6 +16,13 @@ import { trackWaClick } from '../lib/analytics';
 export default function PrivacyPage() {
   const { locale, t, localizePath } = useLocale();
   const isEn = locale === 'en';
+  const [revealedEmail, setRevealedEmail] = useState<string | null>(null);
+
+  const handleRevealEmail = () => {
+    const user = ['chestaa', 'dotcom'].join('');
+    const domain = ['gmail', 'com'].join('.');
+    setRevealedEmail(`${user}\u0040${domain}`);
+  };
 
   const defaultWaLink = buildWhatsAppLink(
     {
@@ -60,8 +67,8 @@ export default function PrivacyPage() {
           id: 'analitik-tanpa-cookie',
           title: '4. Cookieless Website Analytics',
           paragraphs: [
-            'To understand which articles and service pages are genuinely useful to visitors, we use lightweight, privacy-friendly, cookieless analytics (Plausible Analytics).',
-            'This measurement does not set cookies on your device, does not collect personal identifiers, and does not track you across other websites. All visitor statistics are aggregated and anonymous.',
+            'To understand which articles and service pages are genuinely useful to visitors, we use lightweight, privacy-friendly, cookieless analytics (Plausible Analytics, loaded deferred on idle).',
+            'There are no cookies from this site: this measurement does not set any cookies on your device, does not collect personal identifiers, and does not track you across other websites. All visitor statistics are aggregated and anonymous.',
           ],
         },
         {
@@ -69,7 +76,7 @@ export default function PrivacyPage() {
           title: '5. Data Storage & Third-Party Services',
           paragraphs: [
             'Conversations conducted via WhatsApp or email are governed by the encryption and security infrastructure of those communication providers (WhatsApp / Meta and Google Workspace).',
-            'When you share sample workflows or sample business spreadsheets for an audit, we recommend redacting sensitive customer details beforehand. Internal notes from our consultation are restricted strictly to the CHESTAADOTCOM founding team.',
+            'When you share sample workflows or sample business spreadsheets for an audit, we recommend redacting sensitive customer details beforehand. Consultation notes are restricted strictly to the CHESTAADOTCOM founding team.',
           ],
         },
         {
@@ -77,7 +84,7 @@ export default function PrivacyPage() {
           title: '6. Your Rights Under Indonesian Data Protection Law (UU PDP)',
           paragraphs: [
             'In accordance with Law No. 27 of 2022 on Personal Data Protection (Undang-Undang Pelindungan Data Pribadi / UU PDP) of the Republic of Indonesia, you have the full right to ask what information of yours we hold, request corrections, or ask us to delete your consultation records and chat history at any time.',
-            'To exercise these rights, simply message us directly via WhatsApp or email hello@chestaa.com and we will process your request promptly.',
+            'To exercise these rights, simply message us directly via our official WhatsApp or reveal our email contact below and we will process your request promptly.',
           ],
         },
       ]
@@ -87,7 +94,7 @@ export default function PrivacyPage() {
           title: '1. Ringkasan Singkat',
           items: [
             'Kami tidak pernah menjual, menyewakan, atau memperdagangkan data pribadimu kepada pihak mana pun.',
-            'Kami tidak memasang pelacak iklan (retargeting pixel) atau cookie pelacakan pihak ketiga di situs ini.',
+            'Tidak ada cookie dari situs ini: kami tidak memasang pelacak iklan (retargeting pixel), Google Tag Manager, atau cookie pelacakan pihak ketiga.',
             'Formulir penyusun pesan di halaman Audit Gratis bekerja sepenuhnya di browser perangkatmu dan langsung membuka aplikasi WhatsApp tanpa menyimpan draf ke database kami.',
           ],
         },
@@ -113,8 +120,8 @@ export default function PrivacyPage() {
           id: 'analitik-tanpa-cookie',
           title: '4. Analitik Website Tanpa Cookie',
           paragraphs: [
-            'Untuk mengetahui halaman layanan dan artikel blog mana yang paling bermanfaat bagi pembaca, kami menggunakan analitik ringan yang ramah privasi dan bebas cookie (Plausible Analytics).',
-            'Pengukuran ini tidak menyimpan cookie di perangkatmu, tidak mengambil identitas pribadi, dan tidak melacak aktivitasmu di situs lain. Seluruh data kunjungan bersifat agregat dan anonim.',
+            'Untuk mengetahui halaman layanan dan artikel blog mana yang paling bermanfaat bagi pembaca, kami menggunakan satu analitik ringan yang ramah privasi dan bebas cookie (Plausible Analytics, dimuat saat browser idle).',
+            'Tidak ada cookie dari situs: pengukuran ini tidak menyimpan cookie apa pun di perangkatmu, tidak mengambil identitas pribadi, dan tidak melacak aktivitasmu di situs lain. Seluruh data kunjungan bersifat agregat dan anonim.',
           ],
         },
         {
@@ -130,7 +137,7 @@ export default function PrivacyPage() {
           title: '6. Hak Kamu Sesuai UU Pelindungan Data Pribadi (UU PDP)',
           paragraphs: [
             'Sesuai dengan Undang-Undang Nomor 27 Tahun 2022 tentang Pelindungan Data Pribadi (UU PDP) Republik Indonesia, kamu memiliki hak penuh untuk menanyakan data apa saja yang pernah kamu bagikan kepada kami, meminta pembaruan data, atau meminta penghapusan riwayat catatan konsultasimu kapan saja.',
-            'Untuk menggunakan hak tersebut, kamu cukup menghubungi kami melalui WhatsApp resmi atau email ke hello@chestaa.com dan kami akan segera menindaklanjutinya.',
+            'Untuk menggunakan hak tersebut, kamu cukup menghubungi kami melalui WhatsApp resmi atau tombol email di bawah ini dan kami akan segera menindaklanjutinya.',
           ],
         },
       ];
@@ -221,8 +228,8 @@ export default function PrivacyPage() {
               </h2>
               <p className="text-[15px] text-[var(--ink-muted)] leading-relaxed">
                 {t(
-                  'Kamu bisa menghubungi co-founder kami secara langsung lewat email hello@chestaa.com atau melalui WhatsApp di bawah ini.',
-                  'You can reach our co-founders directly via email at hello@chestaa.com or on WhatsApp below.'
+                  'Kamu bisa menghubungi co-founder kami secara langsung lewat WhatsApp di bawah ini atau menampilkan alamat email resmi kami.',
+                  'You can reach our co-founders directly via WhatsApp below or reveal our official email address.'
                 )}
               </p>
               <div className="flex flex-wrap items-center gap-4 pt-1">
@@ -236,6 +243,21 @@ export default function PrivacyPage() {
                   <span>{getWhatsAppCtaLabel(locale)}</span>
                   <ArrowUpRight className="w-4 h-4" />
                 </a>
+                {revealedEmail ? (
+                  <span className="inline-flex items-center gap-2 rounded-full bg-[#FFFFFF] border border-[var(--line-strong)] px-4 py-2 text-[13.5px] font-mono text-[var(--ink)] select-all">
+                    <Mail className="w-4 h-4 text-[#6A3FD0]" />
+                    <span>{revealedEmail}</span>
+                  </span>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={handleRevealEmail}
+                    className="inline-flex items-center gap-1.5 text-[14px] font-medium text-[#6A3FD0] hover:underline cursor-pointer"
+                  >
+                    <Mail className="w-4 h-4" />
+                    <span>{t('Tampilkan alamat email', 'Show email address')}</span>
+                  </button>
+                )}
                 <Link
                   to={localizePath('/about')}
                   className="text-[14px] font-medium text-[#6A3FD0] hover:underline"

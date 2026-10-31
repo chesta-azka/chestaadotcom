@@ -14,9 +14,9 @@ export const BLOG_POSTS_21_22_ID_RAW: RawBlogPostInput[] = [
     title: 'Panduan Lengkap: Cara Kerja Agentic AI untuk Pemula',
     seoTitle: 'Panduan Lengkap Cara Kerja Agentic AI Pemula | CHESTA',
     excerpt:
-      'Pelajari cara kerja agentic AI dari konsep dasar hingga implementasi: perbedaan dengan chatbot biasa, anatomi 4 pilar, siklus kerja, batasan teknis, dan skenario nyata klinik BSD.',
+      'Pelajari cara kerja agentic AI dari konsep dasar hingga implementasi: perbedaan dengan chatbot biasa, anatomi 4 pilar, siklus kerja, batasan teknis, dan contoh skenario klinik BSD.',
     metaDescription:
-      'Pelajari cara kerja agentic AI untuk pemula di Tangerang Selatan: 4 pilar anatomi, siklus observe-act, batas token, dan skenario nyata klinik BSD.',
+      'Pelajari cara kerja agentic AI untuk pemula di Tangerang Selatan: 4 pilar anatomi, siklus observe-act, batas token, dan contoh skenario klinik BSD.',
     category: 'Otomasi AI & Workflow',
     categorySlug: 'otomasi-ai',
     tags: [
@@ -28,8 +28,8 @@ export const BLOG_POSTS_21_22_ID_RAW: RawBlogPostInput[] = [
       'Panduan Pemula',
     ],
     author: 'chesta',
-    date: '2026-11-03',
-    updatedAt: '2026-11-03',
+    date: '2026-10-29',
+    updatedAt: '2026-10-29',
     featured: true,
     draft: false,
     coverImageKey: 'clusterAgenticAi',
@@ -62,7 +62,7 @@ export const BLOG_POSTS_21_22_ID_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'paragraph',
-        text: 'Memahami bagaimana teknologi ini bekerja dari dalam sangat penting bagi pemilik usaha dan pengembang aplikasi. Melalui panduan pilar ini, kita akan membongkar arsitektur internal agentic AI secara transparan dan menghubungkan seluruh topik inti dalam klaster ini—mulai dari [tool use dan function calling](/id/blog/tool-use-function-calling-ai-agent-bisnis), [arsitektur memori dan privasi data](/id/blog/memori-ai-agent-bisnis-retensi-dan-privasi), [perbandingan multi-agent vs single-agent](/id/blog/multi-agent-vs-single-agent-arsitektur-bisnis), [merancang alur percakapan WhatsApp](/id/blog/merancang-alur-percakapan-whatsapp-ai-agent), [keamanan prompt injection](/id/blog/keamanan-ai-agent-prompt-injection), [Model Context Protocol (MCP)](/id/blog/mcp-model-context-protocol-bisnis), [kepatuhan UU PDP di WhatsApp](/id/blog/uu-pdp-whatsapp-ai-bisnis), hingga [penerapan AI agent untuk bisnis kecil](/id/blog/cara-kerja-ai-agent-untuk-bisnis-kecil).',
+        text: 'Memahami bagaimana teknologi ini bekerja dari dalam sangat penting bagi pemilik usaha dan pengembang aplikasi. Melalui panduan pilar ini, kita akan membongkar arsitektur inti agentic AI secara transparan dan menghubungkan topik inti dalam klaster ini—mulai dari [tool use dan function calling](/id/blog/tool-use-function-calling-ai-agent-bisnis), [arsitektur memori dan retensi data](/id/blog/memori-ai-agent-bisnis-retensi-dan-privasi), hingga [arsitektur multi-agent vs single-agent](/id/blog/multi-agent-vs-single-agent-arsitektur-bisnis).',
       },
       {
         type: 'h2',
@@ -133,11 +133,11 @@ export const BLOG_POSTS_21_22_ID_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'paragraph',
-        text: 'Arsitektur internal agentic AI modern ditopang oleh empat modul inti yang bekerja secara sinkron: persepsi untuk menafsirkan sinyal masukan, perencanaan untuk memecah masalah besar menjadi urutan instruksi kecil, tool use untuk berinteraksi dengan API eksternal, dan memori untuk menjaga kontinuitas konteks operasional.',
+        text: 'Arsitektur inti agentic AI modern ditopang oleh empat modul inti yang bekerja secara sinkron: persepsi untuk menafsirkan sinyal masukan, perencanaan untuk memecah masalah besar menjadi urutan instruksi kecil, tool use untuk berinteraksi dengan API eksternal, dan memori untuk menjaga kontinuitas konteks operasional.',
       },
       {
         type: 'paragraph',
-        text: 'Mari kita telusuri peran masing-masing komponen internal ini secara mendalam agar kamu memahami bagaimana instruksi teks di layar ponsel dapat bertransformasi menjadi tindakan digital yang akurat:',
+        text: 'Mari kita telusuri peran masing-masing komponen inti ini secara mendalam agar kamu memahami bagaimana instruksi teks di layar ponsel dapat bertransformasi menjadi tindakan digital yang akurat:',
       },
       {
         type: 'ol',
@@ -157,7 +157,7 @@ export const BLOG_POSTS_21_22_ID_RAW: RawBlogPostInput[] = [
         type: 'callout',
         variant: 'info',
         title: 'Pemisahan Konteks Menurut Standar Arsitektur Software',
-        text: 'Modul perencanaan tidak boleh memiliki akses langsung ke kredensial database master. Seluruh pemanggilan fungsi wajib melewati lapisan proxy API internal yang memvalidasi otorisasi dan parameter sebelum menyentuh data produksi.',
+        text: 'Modul perencanaan tidak boleh memiliki akses langsung ke kredensial database master. Seluruh pemanggilan fungsi wajib melewati lapisan proxy API operasional yang memvalidasi otorisasi dan parameter sebelum menyentuh data produksi.',
       },
       {
         type: 'h2',
@@ -174,7 +174,7 @@ export const BLOG_POSTS_21_22_ID_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'paragraph',
-        text: 'Fase kedua adalah Think (Berpikir). Di sini, model bahasa besar mencerna observasi dan menentukan langkah logis berikutnya. Jika informasi sudah lengkap, model merumuskan keputusan: "Saya perlu memanggil fungsi cek_jadwal_dokter dengan parameter tanggal=2026-11-04 dan spesialisasi=gigi". Jika informasi masih kurang, model memutuskan untuk bertanya kembali secara sopan kepada pasien.',
+        text: 'Fase kedua adalah Think (Berpikir). Di sini, model bahasa besar mencerna observasi dan menentukan langkah logis berikutnya. Jika informasi sudah lengkap, model merumuskan keputusan: "Saya perlu memanggil fungsi cek_jadwal_dokter dengan parameter tanggal=2026-10-29 dan spesialisasi=gigi". Jika informasi masih kurang, model memutuskan untuk bertanya kembali secara sopan kepada pasien.',
       },
       {
         type: 'paragraph',
@@ -197,31 +197,31 @@ export const BLOG_POSTS_21_22_ID_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'paragraph',
-        text: 'Sebagai contoh skenario nyata di lapangan, sebuah klinik gigi dan estetika di kawasan BSD, Tangerang Selatan menerapkan agentic AI pada saluran WhatsApp bisnis mereka untuk mengotomatiskan reservasi pasien baru tanpa menambah beban giliran kerja staf resepsionis malam.',
+        text: 'Sebagai contoh skenario, bayangkan sebuah klinik gigi dan estetika di kawasan BSD, Tangerang Selatan yang menerapkan agentic AI pada saluran WhatsApp bisnis mereka untuk mengotomatiskan reservasi pasien baru tanpa menambah beban giliran kerja staf resepsionis malam.',
       },
       {
         type: 'paragraph',
-        text: 'Sebelum sistem diterapkan, klinik sering kehilangan pasien potensial yang menghubungi di atas pukul 21.00 WIB. Resepsionis baru merespons pesan tersebut pada pukul 08.30 keesokan harinya. Dalam rentang sebelas jam tersebut, sebagian besar pasien sudah mencari alternatif klinik lain di seputaran Serpong atau Bintaro yang merespons lebih tanggap.',
+        text: 'Misalkan sebelum sistem diterapkan, klinik sering kehilangan calon pasien yang menghubungi di atas pukul 21.00 WIB karena resepsionis baru merespons pada pukul 08.30 keesokan harinya. Dalam rentang sebelas jam tersebut, sebagian besar calon pasien berisiko mencari alternatif klinik lain di seputaran Serpong atau Bintaro yang merespons lebih cepat.',
       },
       {
         type: 'paragraph',
-        text: 'Klinik kemudian membangun alur agentic AI terintegrasi dengan arsitektur berikut:',
+        text: 'Dalam skenario ini, klinik dapat membangun alur agentic AI terintegrasi dengan arsitektur berikut:',
       },
       {
         type: 'ol',
-        title: 'Alur kerja agent pendaftaran klinik gigi BSD',
+        title: 'Contoh alur kerja agent pendaftaran klinik gigi BSD',
         items: [
-          'Pasien mengirim keluhan via WhatsApp: "Halo, saya mau periksa gigi berlubang besok siang sekitar jam dua. Apakah drg. Anita praktek?"',
+          'Calon pasien mengirim keluhan via WhatsApp: "Halo, saya mau periksa gigi berlubang besok siang sekitar jam dua. Apakah dokter gigi spesialis konservasi praktek?"',
           'Agent mengeksekusi tool `get_doctor_schedule` untuk memeriksa jam dinas dokter yang bersangkutan pada tanggal yang diminta.',
-          'Sistem mengembalikan data bahwa drg. Anita baru memulai jadwal praktik pukul 15.00 WIB, namun terdapat dokter rekanan lain yang bertugas pukul 14.00 WIB.',
-          'Agent merespons dengan pilihan jelas: menjelaskan bahwa drg. Anita tersedia di jam 15.00 atau menawarkan drg. Budi yang siap di jam 14.00.',
-          'Pasien memilih jam 15.00 bersama drg. Anita. Agent meminta nama lengkap, tanggal lahir untuk rekam medis, dan nomor identitas kependudukan.',
+          'Sistem mengembalikan data bahwa dokter gigi spesialis konservasi baru memulai jadwal praktik pukul 15.00 WIB, namun terdapat dokter gigi rekanan lain yang bertugas pukul 14.00 WIB.',
+          'Agent merespons dengan pilihan jelas: menjelaskan bahwa jadwal spesialis tersedia di jam 15.00 atau menawarkan dokter gigi rekanan yang siap di jam 14.00.',
+          'Calon pasien memilih jam 15.00. Agent meminta nama lengkap dan tanggal lahir untuk pencatatan jadwal.',
           'Agent memvalidasi format data, mengeksekusi tool `create_appointment`, dan mencatatkan data ke software klinik sekaligus memicu pengingat kalender otomatis.',
         ],
       },
       {
         type: 'paragraph',
-        text: 'Kamu dapat melihat rincian arsitektur implementasi serupa pada layanan [jasa AI agent](/id/jasa/ai-agent) dan telaah teknis lengkap di [studi kasus pendaftaran klinik estetika](/id/studi-kasus/wa-concierge-klinik) yang telah kami uji coba di lingkungan kerja nyata.',
+        text: 'Kamu dapat melihat rincian arsitektur implementasi serupa pada layanan [jasa AI agent](/id/jasa/ai-agent) dan telaah teknis lengkap di [proyek demo operasional WA Concierge Klinik](/id/studi-kasus/wa-concierge-klinik).',
       },
       {
         type: 'h2',
@@ -234,7 +234,7 @@ export const BLOG_POSTS_21_22_ID_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'paragraph',
-        text: 'Risiko pertama adalah loop eksekusi tak berujung. Ketika agent menerima respons gagal dari sebuah API (misalnya server database timeout), model yang tidak dirancang dengan batas toleransi ketat bisa terus-menerus mencoba memanggil fungsi yang sama puluhan kali dalam hitungan detik. Ini tidak hanya menghabiskan saldo token API kamu, tetapi juga dapat membebani server database internal.',
+        text: 'Risiko pertama adalah loop eksekusi tak berujung. Ketika agent menerima respons gagal dari sebuah API (misalnya server database timeout), model yang tidak dirancang dengan batas toleransi ketat bisa terus-menerus mencoba memanggil fungsi yang sama puluhan kali dalam hitungan detik. Ini tidak hanya menghabiskan saldo token API kamu, tetapi juga dapat membebani server database operasional.',
       },
       {
         type: 'paragraph',
@@ -257,7 +257,7 @@ export const BLOG_POSTS_21_22_ID_RAW: RawBlogPostInput[] = [
           [
             'Action Hallucination',
             'Data reservasi atau pesanan ganda di database',
-            'Validasi skema ketat menggunakan Zod/JSON Schema di backend',
+            'Validasi skema ketat menggunakan JSON Schema di backend',
           ],
           [
             'Context Window Bloat',
@@ -278,7 +278,7 @@ export const BLOG_POSTS_21_22_ID_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'paragraph',
-        text: 'Untuk mempelajari strategi pengamanan sistem terhadap manipulasi perintah dari luar, kamu dapat membaca ulasan teknis kami mengenai [keamanan AI agent dan mitigasi prompt injection](/id/blog/keamanan-ai-agent-prompt-injection).',
+        text: 'Untuk mempelajari strategi pengamanan sistem terhadap manipulasi perintah dari luar, kamu dapat membaca ulasan teknis kami mengenai [keamanan AI agent dan mitigasi prompt injection](/id/blog/keamanan-ai-agent-prompt-injection-data-pelanggan).',
       },
       {
         type: 'h2',
@@ -309,7 +309,7 @@ export const BLOG_POSTS_21_22_ID_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'paragraph',
-        text: 'Jika kamu menjalankan usaha rintisan atau jasa profesional di wilayah [layanan BSD](/area/bsd) dan ingin memetakan arsitektur yang tepat, kamu dapat berkonsultasi mengenai batasan teknis ini melalui tim rekayasa kami.',
+        text: 'Jika kamu menjalankan usaha rintisan atau jasa profesional di wilayah [layanan BSD](/id/area/bsd-city) dan ingin memetakan arsitektur yang tepat, kamu dapat berkonsultasi mengenai batasan teknis ini melalui tim rekayasa kami.',
       },
       {
         type: 'h2',
@@ -318,16 +318,15 @@ export const BLOG_POSTS_21_22_ID_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'paragraph',
-        text: 'Dokumentasi teknis dan standar industri berikut menjadi rujukan ilmiah dalam perancangan arsitektur agentic AI; cek dokumentasi resmi untuk angka dan ketentuan terbaru mengenai batas kuota, harga model, dan spesifikasi protokol:',
+        text: 'Dokumentasi teknis dan standar industri berikut menjadi rujukan resmi dalam perancangan arsitektur agentic AI; cek dokumentasi resmi masing-masing penyedia untuk angka kuota, harga model, dan spesifikasi protokol terbaru:',
       },
       {
         type: 'ul',
         items: [
-          '[Dokumentasi Model Context Protocol dari Anthropic](https://modelcontextprotocol.io/) memuat spesifikasi standar terbuka untuk menghubungkan model bahasa dengan sumber data dan antarmuka tool eksternal; cek dokumentasi resmi untuk angka dan ketentuan terbaru.',
-          '[Google AI for Developers Function Calling Guide](https://ai.google.dev/gemini-api/docs/function-calling) menyajikan panduan implementasi tool use dan deklarasi skema JSON pada Gemini API; cek dokumentasi resmi untuk angka dan ketentuan terbaru.',
-          '[OWASP Top 10 for Large Language Model Applications](https://owasp.org/www-project-top-10-for-large-language-model-applications/) merinci risiko keamanan arsitektur agent termasuk excessive agency dan insecure output handling; cek dokumentasi resmi untuk angka dan ketentuan terbaru.',
-          '[Peraturan Perundang-undangan JDIH BPK RI terkait UU PDP No. 27 Tahun 2022](https://peraturan.bpk.go.id/Details/229798/uu-no-27-tahun-2022) menjadi pedoman wajib kepatuhan pemrosesan data identitas pasien dan pelanggan di Indonesia; cek dokumentasi resmi untuk angka dan ketentuan terbaru.',
-          '[W3C Semantic Web and Agent Standards](https://www.w3.org/standards/) memuat prinsip dasar interoperabilitas data mesin yang menjadi dasar arsitektur web cerdas; cek dokumentasi resmi untuk angka dan ketentuan terbaru.',
+          '[Dokumentasi Model Context Protocol dari Anthropic](https://modelcontextprotocol.io/) memuat spesifikasi standar terbuka untuk menghubungkan model bahasa dengan sumber data dan antarmuka tool eksternal.',
+          '[Google AI for Developers Function Calling Guide](https://ai.google.dev/gemini-api/docs/function-calling) menyajikan panduan implementasi tool use dan deklarasi skema JSON pada Gemini API.',
+          '[OWASP Top 10 for Large Language Model Applications](https://owasp.org/www-project-top-10-for-large-language-model-applications/) merinci risiko keamanan arsitektur agent termasuk excessive agency dan insecure output handling.',
+          '[Peraturan Perundang-undangan JDIH BPK RI terkait UU PDP No. 27 Tahun 2022](https://peraturan.bpk.go.id/Details/229798/uu-no-27-tahun-2022) menjadi pedoman wajib kepatuhan pemrosesan data identitas pasien dan pelanggan di Indonesia.',
         ],
       },
     ],
@@ -339,7 +338,7 @@ export const BLOG_POSTS_21_22_ID_RAW: RawBlogPostInput[] = [
       slug: 'ai-agent',
       title: 'Rancang Arsitektur AI Agent Aman untuk Alur Kerja Bisnis Kamu',
       description:
-        'Kami membangun agent cerdas WhatsApp dan sistem internal dengan kontrol validasi ketat, integrasi API langsung ke database tokomu, serta pengawasan manusia.',
+        'Kami membangun agent cerdas WhatsApp dan sistem operasional dengan kontrol validasi ketat, integrasi API langsung ke database tokomu, serta pengawasan manusia.',
       href: '/id/jasa/ai-agent',
       label: 'Konsultasi Implementasi AI Agent',
     },
@@ -376,9 +375,9 @@ export const BLOG_POSTS_21_22_ID_RAW: RawBlogPostInput[] = [
       },
     ],
     relatedSlugs: [
-      'keamanan-ai-agent-prompt-injection',
-      'mcp-model-context-protocol-bisnis',
-      'otomasi-workflow-bisnis-n8n-make-tanpa-ganti-sistem',
+      'tool-use-function-calling-ai-agent-bisnis',
+      'memori-ai-agent-bisnis-retensi-dan-privasi',
+      'multi-agent-vs-single-agent-arsitektur-bisnis',
     ],
   },
 
@@ -408,8 +407,8 @@ export const BLOG_POSTS_21_22_ID_RAW: RawBlogPostInput[] = [
       'Kafe Pamulang',
     ],
     author: 'chesta',
-    date: '2026-11-03',
-    updatedAt: '2026-11-03',
+    date: '2026-10-29',
+    updatedAt: '2026-10-29',
     featured: false,
     draft: false,
     coverImageKey: 'clusterAgenticAi',
@@ -486,7 +485,7 @@ export const BLOG_POSTS_21_22_ID_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'paragraph',
-        text: 'Server aplikasi milikmu memegang kendali penuh. Server membaca permintaan JSON dari model, memvalidasi apakah pengguna memiliki hak akses, mengeksekusi kode lokal di server (misalnya perintah `SELECT` ke database PostgreSQL), dan kemudian memberikan data jawaban mentah kembali ke model bahasa.',
+        text: 'Server aplikasi milikmu memegang kendali penuh. Server membaca permintaan JSON dari model, memvalidasi apakah pengguna memiliki hak akses, mengeksekusi kode lokal di server (misalnya perintah `SELECT` ke database relasional), dan kemudian memberikan data jawaban mentah kembali ke model bahasa.',
       },
       {
         type: 'h2',
@@ -531,7 +530,7 @@ export const BLOG_POSTS_21_22_ID_RAW: RawBlogPostInput[] = [
           [
             '"Berapa total omzet kafe kemarin malam?"',
             '`hitung_rekap_penjualan`',
-            '{"tanggal": "2026-11-02", "shift": "malam"}',
+            '{"tanggal": "2026-10-28", "shift": "malam"}',
             'Mengagregasi nilai transaksi dari server',
           ],
           [
@@ -563,10 +562,10 @@ export const BLOG_POSTS_21_22_ID_RAW: RawBlogPostInput[] = [
         type: 'ol',
         title: 'Kronologi siklus orkestrasi function calling',
         items: [
-          'Pengguna mengirim pesan teks melalui antarmuka (misalnya WhatsApp Webhook atau aplikasi kasir internal).',
+          'Pengguna mengirim pesan teks melalui antarmuka (misalnya WhatsApp Webhook atau aplikasi kasir operasional).',
           'Server aplikasi kamu membungkus pesan tersebut bersama daftar tool yang tersedia, lalu meneruskannya ke API model bahasa.',
           'Model bahasa menganalisis teks, menyimpulkan bahwa tool diperlukan, dan mengembalikan respon berstatus `tool_calls` berisi nama fungsi dan argumen JSON.',
-          'Server aplikasi kamu mencegat respon tersebut, membaca nama fungsinya, lalu menjalankan kode fungsi di sistem internal (misalnya query SQL ke PostgreSQL).',
+          'Server aplikasi kamu mencegat respon tersebut, membaca nama fungsinya, lalu menjalankan kode fungsi di sistem operasional (misalnya query SQL ke database relasional).',
           'Server aplikasi menerima hasil dari database, membungkus hasil tersebut ke dalam pesan baru dengan peran `tool`, dan mengirimkannya kembali ke model bahasa.',
           'Model bahasa membaca data nyata tersebut dan menyusun kalimat akhir yang ramah dan mudah dipahami untuk dikirimkan kembali ke ponsel pengguna.',
         ],
@@ -575,7 +574,7 @@ export const BLOG_POSTS_21_22_ID_RAW: RawBlogPostInput[] = [
         type: 'callout',
         variant: 'warning',
         title: 'Waspada Waktu Tunggu Jaringan (Latency Stacking)',
-        text: 'Karena melibatkan dua kali pemanggilan API model bahasa dan satu kali query database internal, pastikan query database kamu dioptimalkan dengan indeks yang tepat agar total waktu tunggu tidak melampaui 3 detik.',
+        text: 'Karena melibatkan dua kali pemanggilan API model bahasa dan satu kali query database operasional, pastikan query database kamu dioptimalkan dengan indeks yang tepat agar total waktu tunggu tidak melampaui 3 detik.',
       },
       {
         type: 'h2',
@@ -584,29 +583,29 @@ export const BLOG_POSTS_21_22_ID_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'paragraph',
-        text: 'Sebagai gambaran penerapan nyata di lapangan, sebuah kedai kopi independen di kawasan Pamulang, Tangerang Selatan memanfaatkan function calling untuk membantu barista dan manajer mengelola stok bahan baku langsung melalui grup WhatsApp operasional mereka.',
+        text: 'Sebagai contoh skenario, bayangkan sebuah kedai kopi independen di kawasan Pamulang, Tangerang Selatan yang memanfaatkan function calling untuk membantu barista dan manajer mengelola stok bahan baku langsung melalui grup WhatsApp operasional mereka.',
       },
       {
         type: 'paragraph',
-        text: 'Pada jam sibuk sore hari, barista sering tidak sempat membuka aplikasi laptop di ruang belakang hanya untuk memeriksa apakah pasokan susu UHT di gudang cadangan masih mencukupi untuk akhir pekan. Mereka cukup mengirim pesan suara atau teks singkat ke nomor asisten kafe.',
+        text: 'Misalkan pada jam sibuk sore hari, barista tidak sempat membuka aplikasi laptop di ruang belakang hanya untuk memeriksa apakah pasokan susu UHT di gudang cadangan masih mencukupi untuk akhir pekan. Mereka cukup mengirim pesan singkat ke nomor asisten kafe.',
       },
       {
         type: 'paragraph',
-        text: 'Ketika barista mengirim chat: "Min, tolong cek susu segar di gudang tinggal berapa krat ya?", sistem menjalankan langkah terstruktur:',
+        text: 'Ketika barista mengirim chat: "Min, tolong cek susu segar di gudang tinggal berapa krat ya?", sistem dapat menjalankan langkah terstruktur:',
       },
       {
         type: 'ol',
-        title: 'Langkah eksekusi stok di kafe Pamulang',
+        title: 'Contoh langkah eksekusi stok di kafe Pamulang',
         items: [
           'Model memetakan istilah "susu segar" menjadi identifier barang `SKU-MILK-FRESH-1L` melalui parameter fungsi `cek_inventaris`.',
           'Server menjalankan query ke database sistem stok dan mendapati hasil: sisa 4 krat (48 liter), dengan catatan tanggal kedaluwarsa terdekat 5 hari lagi.',
-          'Hasil tersebut dibaca oleh model dan dirangkum menjadi pesan WhatsApp: "Stok susu segar di gudang cadangan tersisa 4 krat (48 liter). Catatan: 1 krat mendekati masa kedaluwarsa tanggal 8 November."',
+          'Hasil tersebut dibaca oleh model dan dirangkum menjadi pesan WhatsApp: "Stok susu segar di gudang cadangan tersisa 4 krat (48 liter). Catatan: 1 krat mendekati masa kedaluwarsa dalam 5 hari."',
           'Jika barista melanjutkan dengan perintah: "Tolong buatkan draft purchase order 5 krat ke pemasok biasa", model memicu fungsi `buat_draft_po` yang memerlukan konfirmasi tombol persetujuan dari manajer kafe.',
         ],
       },
       {
         type: 'paragraph',
-        text: 'Penerapan ini selaras dengan arsitektur yang kami dokumentasikan di [studi kasus dashboard operasional kafe](/studi-kasus/dashboard-operasional-kafe) dan pengembangan [software custom](/id/jasa/software-custom) untuk efisiensi bisnis lokal di kawasan [Pamulang dan sekitarnya](/area/pamulang).',
+        text: 'Penerapan ini selaras dengan arsitektur yang kami dokumentasikan di [studi kasus dashboard operasional kafe](/id/studi-kasus/dashboard-operasional-kafe) dan pengembangan [software custom](/id/jasa/software-custom) untuk efisiensi bisnis lokal di kawasan [Pamulang dan sekitarnya](/id/area/pamulang).',
       },
       {
         type: 'h2',
@@ -627,7 +626,7 @@ export const BLOG_POSTS_21_22_ID_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'paragraph',
-        text: 'Prinsip ketiga adalah validasi skema masukan di sisi server backend (server-side validation). Jangan pernah mempercayai parameter JSON yang dihasilkan model bahasa begitu saja. Gunakan pustaka validator seperti Zod atau Pydantic untuk memastikan bahwa nomor telepon memiliki format yang benar dan nilai kuantitas pesanan bukanlah angka negatif.',
+        text: 'Prinsip ketiga adalah validasi skema masukan di sisi server backend (server-side validation). Jangan pernah mempercayai parameter JSON yang dihasilkan model bahasa begitu saja. Gunakan validator skema JSON di sisi server untuk memastikan bahwa nomor telepon memiliki format yang benar dan nilai kuantitas pesanan bukanlah angka negatif.',
       },
       {
         type: 'callout',
@@ -637,7 +636,7 @@ export const BLOG_POSTS_21_22_ID_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'paragraph',
-        text: 'Untuk pemahaman lebih mendalam tentang protokol koneksi tool standar industri terbuka, kamu dapat membaca panduan kami tentang [Model Context Protocol (MCP) untuk integrasi bisnis](/id/blog/mcp-model-context-protocol-bisnis) serta ulasan pengamanan sistem di [mitigasi serangan prompt injection pada AI agent](/id/blog/keamanan-ai-agent-prompt-injection).',
+        text: 'Untuk pemahaman lebih mendalam tentang protokol koneksi tool standar industri terbuka, kamu dapat membaca panduan kami tentang [Model Context Protocol (MCP) untuk integrasi bisnis](/id/blog/mcp-model-context-protocol-untuk-pemilik-bisnis) serta ulasan pengamanan sistem di [mitigasi serangan prompt injection pada AI agent](/id/blog/keamanan-ai-agent-prompt-injection-data-pelanggan).',
       },
       {
         type: 'h2',
@@ -690,12 +689,12 @@ export const BLOG_POSTS_21_22_ID_RAW: RawBlogPostInput[] = [
       {
         question: 'Apakah saya bisa menggunakan function calling dengan database lokal tanpa koneksi internet luar?',
         answer:
-          'Bisa, asalkan server aplikasi lokal kamu dapat menjangkau endpoint API model bahasa, atau jika kamu menjalankan model open-source secara lokal di infrastruktur internal bisnismu.',
+          'Bisa, asalkan server aplikasi lokal kamu dapat menjangkau endpoint API model bahasa, atau jika kamu menjalankan model open-source secara lokal di infrastruktur operasional bisnismu.',
       },
       {
         question: 'Apa perbedaan antara function calling biasa dan protokol MCP (Model Context Protocol)?',
         answer:
-          'Function calling adalah mekanisme internal antar-API satu penyedia model, sedangkan MCP adalah protokol standar terbuka lintas platform yang memungkinkan satu tool digunakan oleh berbagai model AI tanpa menulis ulang kode integrasi.',
+          'Function calling adalah mekanisme bawaan antar-API satu penyedia model, sedangkan MCP adalah protokol standar terbuka lintas platform yang memungkinkan satu tool digunakan oleh berbagai model AI tanpa menulis ulang kode integrasi.',
       },
       {
         question: 'Di mana saya dapat membaca glosarium istilah teknis terkait API dan integrasi software?',
@@ -705,8 +704,8 @@ export const BLOG_POSTS_21_22_ID_RAW: RawBlogPostInput[] = [
     ],
     relatedSlugs: [
       'panduan-lengkap-cara-kerja-agentic-ai-untuk-pemula',
-      'mcp-model-context-protocol-bisnis',
-      'keamanan-ai-agent-prompt-injection',
+      'mcp-model-context-protocol-untuk-pemilik-bisnis',
+      'keamanan-ai-agent-prompt-injection-data-pelanggan',
     ],
   },
 ];

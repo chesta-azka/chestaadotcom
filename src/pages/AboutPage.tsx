@@ -18,6 +18,9 @@ import {
   REAL_PROJECTS_EXPERIENCE,
   EXPERIENCE_FOOTER_NOTE,
   EXPERIENCE_DISCLOSURE_NOTE,
+  REAL_PROJECT_BADGE_ID,
+  REAL_PROJECT_BADGE_EN,
+  getRealProjectHref,
 } from '../data/experience';
 import {
   Container,
@@ -114,7 +117,7 @@ export default function AboutPage() {
   const caseStudiesHref = toLocalizedHref('/studi-kasus', locale, prefixMode);
   const areasHubHref = locale === 'en' ? '/en/areas' : '/id/area';
 
-  const indexableAreas = useMemo(() => getIndexableAreas(locale), [locale]);
+  const indexableAreas = useMemo(() => getIndexableAreas(), []);
 
   const pageTitle = isEn
     ? 'About CHESTAADOTCOM: Software & AI Partner in Tangsel'
@@ -145,9 +148,8 @@ export default function AboutPage() {
           '@id': 'https://chestaa.com/#org',
           name: 'CHESTAADOTCOM',
           url: 'https://chestaa.com',
-          email: 'chestaadotcom@gmail.com',
           telephone: '+62-821-2544-7232',
-          sameAs: ['https://instagram.com/chestaadotcom'],
+          sameAs: ['https://instagram.com/softwaredev.aiagentic.agency'],
           address: {
             '@type': 'PostalAddress',
             addressLocality: 'BSD, Tangerang Selatan',
@@ -361,23 +363,51 @@ export default function AboutPage() {
 
           {/* 3 Experience cards from data/experience */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-stretch">
-            {REAL_PROJECTS_EXPERIENCE.map((proj, idx) => (
-              <Reveal key={proj.id} delay={0.08 * idx}>
-                <Card variant="soft" className="h-full flex flex-col justify-between p-6">
-                  <div>
-                    <span className="font-mono text-[11px] uppercase tracking-[0.06em] text-[#5B5675] bg-[#FFFFFF] border border-[rgba(91,60,196,0.14)] px-2.5 py-1 rounded-full inline-block mb-3 font-medium">
-                      {isEn ? proj.tagEn : proj.tagId}
-                    </span>
-                    <h3 className="font-display text-[18px] font-semibold text-[#17122B] leading-snug">
-                      {isEn ? proj.titleEn : proj.titleId}
-                    </h3>
-                    <p className="mt-2.5 text-[15px] text-[#5B5675] leading-[1.6]">
-                      {isEn ? proj.descriptionEn : proj.descriptionId}
-                    </p>
-                  </div>
-                </Card>
-              </Reveal>
-            ))}
+            {REAL_PROJECTS_EXPERIENCE.map((proj, idx) => {
+              const detailHref = getRealProjectHref(proj, locale);
+              const badgeLabel = isEn
+                ? REAL_PROJECT_BADGE_EN
+                : REAL_PROJECT_BADGE_ID;
+              const valueNote = isEn ? proj.valueNoteEn : proj.valueNoteId;
+
+              return (
+                <Reveal key={proj.id} delay={0.08 * idx}>
+                  <Card variant="soft" className="h-full flex flex-col justify-between p-6">
+                    <div>
+                      <div className="flex flex-wrap items-center gap-2 mb-3">
+                        <Badge variant="tint">{badgeLabel}</Badge>
+                      </div>
+                      <h3 className="font-display text-[18px] font-semibold text-[#17122B] leading-snug">
+                        {isEn ? proj.titleEn : proj.titleId}
+                      </h3>
+                      <p className="mt-2.5 text-[15px] text-[#5B5675] leading-[1.6]">
+                        {isEn ? proj.descriptionEn : proj.descriptionId}
+                      </p>
+                      {valueNote && (
+                        <p className="mt-3 font-mono text-[12px] font-semibold text-[#6A3FD0]">
+                          {valueNote}
+                        </p>
+                      )}
+                    </div>
+
+                    <div className="mt-5 pt-4 border-t border-[rgba(91,60,196,0.14)] flex items-center justify-between">
+                      <span className="font-mono text-[11px] text-[#5B5675]">
+                        {isEn
+                          ? proj.confidentialLabelEn
+                          : proj.confidentialLabelId}
+                      </span>
+                      <Link
+                        to={detailHref}
+                        className="inline-flex items-center gap-1.5 text-[13.5px] font-semibold text-[#6A3FD0] hover:underline"
+                      >
+                        <span>{isEn ? 'View details' : 'Lihat detail'}</span>
+                        <ArrowRight size={14} />
+                      </Link>
+                    </div>
+                  </Card>
+                </Reveal>
+              );
+            })}
           </div>
 
           {/* Disclaimers in --ink-muted */}
@@ -461,8 +491,8 @@ export default function AboutPage() {
 
                   <p className="mt-4 text-[14.5px] text-[#5B5675] leading-[1.65]">
                     {isEn
-                      ? 'Writing code since 2021. Built temperature/inventory logging, internal systems, and warehouse operations for real businesses and institutions. Writes about AI agents, software, and web performance.'
-                      : 'Menulis kode sejak 2021. Mengerjakan sistem pencatatan, sistem internal, dan sistem gudang untuk bisnis dan lembaga nyata. Menulis tentang AI agent, software, dan performa web.'}
+                      ? 'Writing code since 2021. Built temperature/inventory logging, operational systems, and warehouse operations for real businesses and institutions. Writes about AI agents, software, and web performance.'
+                      : 'Menulis kode sejak 2021. Mengerjakan sistem pencatatan, sistem operasional, dan sistem gudang untuk bisnis dan lembaga nyata. Menulis tentang AI agent, software, dan performa web.'}
                   </p>
                 </div>
 
@@ -539,8 +569,8 @@ export default function AboutPage() {
               </h2>
               <p className="text-[15px] sm:text-[16px] text-[#17122B] leading-[1.7] max-w-3xl">
                 {isEn
-                  ? 'Client names are not displayed without written permission, so the experience above is written without names. Named case studies are added once clients grant permission. Meanwhile, you can view our internal projects, which we built ourselves to test the workflows.'
-                  : 'Nama klien tidak kami tampilkan tanpa izin tertulis, jadi pengalaman di atas ditulis tanpa nama. Studi kasus bernama kami tambahkan setelah klien mengizinkan. Sementara itu, kamu bisa melihat proyek internal kami, yang kami bangun sendiri untuk menguji alurnya.'}
+                  ? 'Client names are not displayed without written permission, so the experience above is written without names. Named case studies are added once clients grant permission. Meanwhile, you can view our sample projects, which we built ourselves to show our workflows.'
+                  : 'Nama klien tidak kami tampilkan tanpa izin tertulis, jadi pengalaman di atas ditulis tanpa nama. Studi kasus bernama kami tambahkan setelah klien mengizinkan. Sementara itu, kamu bisa melihat contoh proyek kami, yang kami rancang untuk memperlihatkan alur kerja kami.'}
               </p>
 
               <div className="pt-2 flex flex-wrap items-center gap-4">
@@ -556,7 +586,7 @@ export default function AboutPage() {
                   to={portfolioHref}
                   className="inline-flex items-center gap-1.5 font-semibold text-[14.5px] text-[#6A3FD0] hover:underline"
                 >
-                  <span>{isEn ? 'View internal projects' : 'Lihat proyek'}</span>
+                  <span>{isEn ? 'View projects' : 'Lihat proyek'}</span>
                   <ArrowUpRight size={15} />
                 </Link>
               </div>
@@ -595,11 +625,11 @@ export default function AboutPage() {
                 </Link>
                 {indexableAreas.map((area) => (
                   <Link
-                    key={area.areaSlug}
-                    to={getServiceAreaPath('pembuatan-website', area.areaSlug, locale)}
+                    key={area.slug}
+                    to={getServiceAreaPath('pembuatan-website', area.slug, locale)}
                     className="px-3 py-1.5 rounded-full bg-[#F8F6FE] text-[#5B5675] font-medium border border-[rgba(91,60,196,0.12)] hover:text-[#6A3FD0] hover:border-[#6A3FD0]/30 transition-colors"
                   >
-                    {area.areaName}
+                    {area.name}
                   </Link>
                 ))}
               </div>

@@ -235,7 +235,7 @@ export default function ProgrammaticServicePage() {
               },
               {
                 q: `Apakah solusi ini membantu meningkatkan omzet dan closing klien di wilayah ${pseo.city}?`,
-                a: `Ya. Berdasarkan data klien kami, perpaduan website sub-detik dan respon AI 24/7 menghasilkan lonjakan konversi closing rata-rata di atas 180% pada bulan pertama.`
+                a: `Ya. Dalam contoh skenario operasional, perpaduan website sub-detik dan respon AI 24/7 membantu mempercepat kualifikasi prospek yang masuk di luar jam kerja.`
               },
               {
                 q: 'Apakah source code dan aset sistem menjadi hak milik penuh perusahaan kami?',
@@ -261,7 +261,7 @@ export default function ProgrammaticServicePage() {
               },
               {
                 q: `Apakah solusi ini membantu meningkatkan omzet dan closing klien di wilayah ${pseo.city}?`,
-                a: `Ya. Berdasarkan data klien kami, perpaduan website sub-detik dan respon AI 24/7 menghasilkan lonjakan konversi closing rata-rata di atas 180% pada bulan pertama.`
+                a: `Ya. Dalam contoh skenario operasional, perpaduan website sub-detik dan respon AI 24/7 membantu mempercepat kualifikasi prospek yang masuk di luar jam kerja.`
               },
               {
                 q: 'Apakah source code dan aset sistem menjadi hak milik penuh perusahaan kami?',

@@ -28,8 +28,8 @@ export const BLOG_POSTS_23_24_ID_RAW: RawBlogPostInput[] = [
       'Bimbel Pamulang',
     ],
     author: 'chesta',
-    date: '2026-11-03',
-    updatedAt: '2026-11-03',
+    date: '2026-10-29',
+    updatedAt: '2026-10-29',
     featured: false,
     draft: false,
     coverImageKey: 'clusterAgenticAi',
@@ -361,8 +361,8 @@ export const BLOG_POSTS_23_24_ID_RAW: RawBlogPostInput[] = [
       'Orkestrasi AI',
     ],
     author: 'chesta',
-    date: '2026-11-03',
-    updatedAt: '2026-11-03',
+    date: '2026-10-29',
+    updatedAt: '2026-10-29',
     featured: false,
     draft: false,
     coverImageKey: 'clusterAgenticAi',
@@ -473,7 +473,7 @@ export const BLOG_POSTS_23_24_ID_RAW: RawBlogPostInput[] = [
         items: [
           'Agent Pengarah (Router / Triage Agent): Bertugas menyapa pelanggan, mendeteksi maksud utama pesan, mengekstrak data penting, lalu mengoperkan tiket tugas ke sub-agent yang paling berwenang tanpa menjalankan kalkulasi berat sendiri.',
           'Agent Pekerja Domain (Domain Specialist Agent): Fokus mengeksekusi logika spesifik bidangnya. Contoh: Agent Inventaris yang hanya memiliki tool database stok, atau Agent Penjadwalan yang hanya memiliki akses ke kalender ketersediaan staf.',
-          'Agent Pemeriksa & Kepatuhan (Critic / Validator Agent): Bertindak layaknya auditor internal. Agent ini tidak berbicara ke pelanggan luar, melainkan memeriksa draf rencana dari agent lain untuk memastikan tidak ada pelanggaran aturan harga, hukum privasi, atau batas diskon promosi.',
+          'Agent Pemeriksa & Kepatuhan (Critic / Validator Agent): Bertindak layaknya auditor kepatuhan. Agent ini tidak berbicara ke pelanggan luar, melainkan memeriksa draf rencana dari agent lain untuk memastikan tidak ada pelanggaran aturan harga, hukum privasi, atau batas diskon promosi.',
         ],
       },
       {
@@ -529,7 +529,7 @@ export const BLOG_POSTS_23_24_ID_RAW: RawBlogPostInput[] = [
           'Agent Resepsionis: Menjawab sapaan awal calon pemilik rumah di WhatsApp, menanyakan luas bangunan, jenis pekerjaan (renovasi dapur atau bangun baru), serta lokasi klaster perumahan di BSD.',
           'Agent Estimator Material: Mengambil data luas ruangan dari Agent Resepsionis, memanggil tool `hitung_volume_rab` yang terhubung ke daftar harga bahan material terkini, dan menyusun kisaran anggaran kasar transparan.',
           'Agent Penjadwalan Survei: Menawarkan opsi kunjungan ukur lokasi gratis oleh mandor, mengecek ketersediaan jam kerja tim survei di wilayah Serpong, dan mengunci jadwal ke Google Calendar tim lapangan.',
-          'Notifikasi Ringkasan ke Manajer: Begitu janji survei terkunci, sistem mengirimkan berkas profil kebutuhan klien dan estimasi volume awal ke grup internal staf kontraktor.',
+          'Notifikasi Ringkasan ke Manajer: Begitu janji survei terkunci, sistem mengirimkan berkas profil kebutuhan klien dan estimasi volume awal ke grup tim staf kontraktor.',
         ],
       },
       {
@@ -596,7 +596,7 @@ export const BLOG_POSTS_23_24_ID_RAW: RawBlogPostInput[] = [
         items: [
           '[Dokumentasi Konsep Multi-Agent LangGraph dari LangChain](https://langchain-ai.github.io/langgraph/concepts/multi_agent/) memuat pola arsitektur kolaborasi supervisor, network, dan hierarchical agent; cek dokumentasi resmi untuk angka dan ketentuan terbaru.',
           '[AutoGen Multi-Agent Framework Documentation dari Microsoft Research](https://microsoft.github.io/autogen/) menyajikan kerangka kerja percakapan multi-agent yang dapat diperluas; cek dokumentasi resmi untuk angka dan ketentuan terbaru.',
-          '[OWASP API Security Top 10 Guidelines](https://owasp.org/www-project-api-security/) menjadi standar keamanan dalam mengamankan lalu lintas webhook dan API antar-layanan internal; cek dokumentasi resmi untuk angka dan ketentuan terbaru.',
+          '[OWASP API Security Top 10 Guidelines](https://owasp.org/www-project-api-security/) menjadi standar keamanan dalam mengamankan lalu lintas webhook dan API antar-layanan operasional; cek dokumentasi resmi untuk angka dan ketentuan terbaru.',
           '[Google Cloud Architecture Center: Generative AI Agents](https://cloud.google.com/architecture) menguraikan pola desain penanganan latensi dan ketahanan sistem produksi komersial; cek dokumentasi resmi untuk angka dan ketentuan terbaru.',
           '[W3C Architecture of the World Wide Web](https://www.w3.org/TR/webarch/) memuat prinsip dasar pemisahan antarmuka sistem dan modularitas komputasi terdistribusi; cek dokumentasi resmi untuk angka dan ketentuan terbaru.',
         ],

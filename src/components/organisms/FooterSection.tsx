@@ -1,9 +1,13 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { MessageCircle, Mail, MapPin, Camera } from 'lucide-react';
-import { getPublishedBlogPosts } from '../../data/blog-posts';
-import { getServiceAreasByServiceSlug } from '../../data/service-areas';
-import { getServicePath, getServiceAreaPath } from '../../data/services';
+import {
+  FOOTER_TOP_10_AREAS,
+  FOOTER_LIVE_SERVICE_AREAS,
+  FOOTER_BLOG_POSTS,
+} from '../../data/footer-links';
+import { getUnifiedAreaPath } from '../../data/area-slugs';
+import { getServicePath, getServiceAreaPath } from '../../data/service-slugs';
 import { Container, Button } from '../ui/DesignSystem';
 import { staggerElements } from '../../lib/motion';
 import {
@@ -29,8 +33,15 @@ export default function FooterSection() {
   const location = useLocation();
   const navigate = useNavigate();
   const footerGridRef = useRef<HTMLDivElement>(null);
+  const [revealedEmail, setRevealedEmail] = useState<string | null>(null);
   const { locale, prefixMode } = parseLocalizedPath(location.pathname);
   const langLinks = getLanguageSwitchLinks(location.pathname);
+
+  const handleRevealEmail = () => {
+    const user = ['chestaa', 'dotcom'].join('');
+    const domain = ['gmail', 'com'].join('.');
+    setRevealedEmail(`${user}\u0040${domain}`);
+  };
 
   useEffect(() => {
     return staggerElements(footerGridRef.current, '.footer-stagger-col', {
@@ -68,9 +79,10 @@ export default function FooterSection() {
   const whatsappUrl = buildWhatsAppLink(waContext, locale);
   const whatsappCtaLabel = getWhatsAppCtaLabel(locale);
 
-  const webAreaPages = getServiceAreasByServiceSlug('pembuatan-website', true, locale);
-  const aiAreaPages = getServiceAreasByServiceSlug('ai-agent', true, locale);
-  const footerBlogPosts = getPublishedBlogPosts(locale).slice(0, 5);
+  const webAreaPages = FOOTER_LIVE_SERVICE_AREAS;
+  const aiAreaPages = FOOTER_LIVE_SERVICE_AREAS;
+  const top10FooterAreas = FOOTER_TOP_10_AREAS;
+  const footerBlogPosts = FOOTER_BLOG_POSTS[locale] || FOOTER_BLOG_POSTS.id;
   const areasHubHref = locale === 'en' ? '/en/areas' : '/id/area';
 
   return (
@@ -107,12 +119,12 @@ export default function FooterSection() {
                 <span>{whatsappCtaLabel}</span>
               </Button>
               <Button
-                href="https://instagram.com/chestaadotcom"
+                href="https://instagram.com/softwaredev.aiagentic.agency"
                 variant="secondary"
                 className="min-h-[40px] px-4 py-2"
               >
                 <Camera size={15} className="text-[#6A3FD0]" />
-                <span>@chestaadotcom</span>
+                <span>@softwaredev.aiagentic.agency</span>
               </Button>
             </div>
           </div>
@@ -186,43 +198,74 @@ export default function FooterSection() {
           </div>
         </div>
 
-        {/* Grouped Indexable Area Service Links (10 pages grouped cleanly per service) */}
-        <div className="py-8 border-b border-[rgba(91,60,196,0.14)] grid grid-cols-1 md:grid-cols-2 gap-6">
+        {/* Top 10 Priority Service Areas + Grouped Service x Area Links */}
+        <div className="py-8 border-b border-[rgba(91,60,196,0.14)] space-y-6">
           <div className="space-y-2.5">
-            <h3 className="font-mono text-[11px] uppercase tracking-[0.08em] font-semibold text-[#17122B]">
-              {getTranslation(locale, 'footer.webByArea')}
-            </h3>
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <h3 className="font-mono text-[11px] uppercase tracking-[0.08em] font-semibold text-[#17122B]">
+                {locale === 'en'
+                  ? 'TOP SERVICE AREAS (JABODETABEK)'
+                  : 'AREA LAYANAN UTAMA (JABODETABEK)'}
+              </h3>
+              <Link
+                to={areasHubHref}
+                className="link-underline text-[12px] font-semibold text-[#6A3FD0] hover:text-[#5630B0]"
+              >
+                {locale === 'en'
+                  ? 'View all service areas →'
+                  : 'Lihat semua area layanan →'}
+              </Link>
+            </div>
             <div className="flex flex-wrap gap-x-4 gap-y-1.5 text-[13px]">
-              {webAreaPages.map((p) => (
+              {top10FooterAreas.map((area) => (
                 <Link
-                  key={`${p.serviceSlug}-${p.areaSlug}`}
-                  to={getServiceAreaPath('pembuatan-website', p.areaSlug, locale)}
+                  key={area.slug}
+                  to={getUnifiedAreaPath(area.slug, locale)}
                   className="link-underline py-0.5 hover:text-[#6A3FD0] transition-colors"
                 >
-                  {locale === 'en'
-                    ? `Website development in ${p.areaName}`
-                    : `Jasa pembuatan website ${p.areaName}`}
+                  {area.name}
                 </Link>
               ))}
             </div>
           </div>
 
-          <div className="space-y-2.5">
-            <h3 className="font-mono text-[11px] uppercase tracking-[0.08em] font-semibold text-[#17122B]">
-              {getTranslation(locale, 'footer.aiByArea')}
-            </h3>
-            <div className="flex flex-wrap gap-x-4 gap-y-1.5 text-[13px]">
-              {aiAreaPages.map((p) => (
-                <Link
-                  key={`${p.serviceSlug}-${p.areaSlug}`}
-                  to={getServiceAreaPath('ai-agent', p.areaSlug, locale)}
-                  className="link-underline py-0.5 hover:text-[#6A3FD0] transition-colors"
-                >
-                  {locale === 'en'
-                    ? `AI agent development in ${p.areaName}`
-                    : `Jasa AI agent ${p.areaName}`}
-                </Link>
-              ))}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4 border-t border-[rgba(91,60,196,0.10)]">
+            <div className="space-y-2.5">
+              <h3 className="font-mono text-[11px] uppercase tracking-[0.08em] font-semibold text-[#17122B]">
+                {getTranslation(locale, 'footer.webByArea')}
+              </h3>
+              <div className="flex flex-wrap gap-x-4 gap-y-1.5 text-[13px]">
+                {webAreaPages.map((p) => (
+                  <Link
+                    key={`pembuatan-website-${p.slug}`}
+                    to={getServiceAreaPath('pembuatan-website', p.slug, locale)}
+                    className="link-underline py-0.5 hover:text-[#6A3FD0] transition-colors"
+                  >
+                    {locale === 'en'
+                      ? `Website development in ${p.name}`
+                      : `Jasa pembuatan website ${p.name}`}
+                  </Link>
+                ))}
+              </div>
+            </div>
+
+            <div className="space-y-2.5">
+              <h3 className="font-mono text-[11px] uppercase tracking-[0.08em] font-semibold text-[#17122B]">
+                {getTranslation(locale, 'footer.aiByArea')}
+              </h3>
+              <div className="flex flex-wrap gap-x-4 gap-y-1.5 text-[13px]">
+                {aiAreaPages.map((p) => (
+                  <Link
+                    key={`ai-agent-${p.slug}`}
+                    to={getServiceAreaPath('ai-agent', p.slug, locale)}
+                    className="link-underline py-0.5 hover:text-[#6A3FD0] transition-colors"
+                  >
+                    {locale === 'en'
+                      ? `AI agent development in ${p.name}`
+                      : `Jasa AI agent ${p.name}`}
+                  </Link>
+                ))}
+              </div>
             </div>
           </div>
         </div>
@@ -258,7 +301,20 @@ export default function FooterSection() {
                 {getTranslation(locale, 'footer.emailAndIndex')}
               </p>
               <p className="mt-1">
-                chestaadotcom@gmail.com ·{' '}
+                {revealedEmail ? (
+                  <span className="font-mono text-[#17122B] select-all">
+                    {revealedEmail}
+                  </span>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={handleRevealEmail}
+                    className="link-underline text-[#6A3FD0] font-medium hover:text-[#5630B0] cursor-pointer"
+                  >
+                    {locale === 'en' ? 'Show email address' : 'Tampilkan alamat email'}
+                  </button>
+                )}{' '}
+                ·{' '}
                 <a href="/sitemap.xml" className="link-underline hover:text-[#6A3FD0]">
                   Sitemap
                 </a>{' '}

@@ -28,8 +28,8 @@ export const BLOG_POSTS_27_28_ID_RAW: RawBlogPostInput[] = [
       'Optimasi Iklan',
     ],
     author: 'zeeshan',
-    date: '2026-11-03',
-    updatedAt: '2026-11-03',
+    date: '2026-10-29',
+    updatedAt: '2026-10-29',
     featured: false,
     draft: false,
     coverImageKey: 'clusterWebsitePerforma',
@@ -163,7 +163,7 @@ export const BLOG_POSTS_27_28_ID_RAW: RawBlogPostInput[] = [
         items: [
           'Layar Pertama (Above the Fold / Hero Section): Memuat label kategori singkat, judul utama (H1) yang menjanjikan manfaat terukur, subjudul penjelas satu kalimat, foto atau ilustrasi alur kerja asli (bukan foto stok generik), serta satu tombol CTA yang langsung terlihat tanpa perlu menggulir layar.',
           'Validasi Masalah & Solusi Spesifik: Menyebutkan 3 kendala nyata yang sering dialami calon pelanggan dan bagaimana pendekatan layananmu menyelesaikan kendala tersebut secara berbeda dan lebih rapi.',
-          'Bukti Operasional & Transparansi Proses: Menampilkan dokumentasi pengerjaan nyata, standar prosedur (SOP) yang diterapkan, profil penanggung jawab, atau studi kasus internal yang dapat diverifikasi.',
+          'Bukti Operasional & Transparansi Proses: Menampilkan dokumentasi pengerjaan nyata, standar prosedur (SOP) yang diterapkan, profil penanggung jawab, atau studi kasus contoh yang dapat diverifikasi.',
           'Kisaran Biaya & Cakupan Layanan: Menyajikan tabel atau kartu paket harga mulai dari angka yang jujur beserta daftar apa saja yang sudah termasuk, sehingga menyaring prospek yang sesuai anggaran.',
           'Penanganan Keraguan (FAQ) & Pengingat Tindakan Akhir: Menjawab 4 sampai 6 pertanyaan yang paling sering menahan orang untuk menghubungi admin (seperti garansi, lama pengerjaan, dan cara pembayaran), ditutup dengan blok tombol WhatsApp.',
         ],
@@ -259,11 +259,10 @@ export const BLOG_POSTS_27_28_ID_RAW: RawBlogPostInput[] = [
       {
         type: 'ul',
         items: [
-          '[Google Ads Help: About Landing Page Experience](https://support.google.com/google-ads/answer/2404197) menjelaskan bagaimana relevansi konten, kemudahan navigasi, dan transparansi bisnis memengaruhi Quality Score iklan; cek dokumentasi resmi untuk angka dan ketentuan terbaru.',
-          '[Meta Business Help Center: Best Practices for Landing Pages](https://www.facebook.com/business/help) menguraikan panduan keselarasan materi kreatif iklan dengan halaman tujuan di perangkat seluler; cek dokumentasi resmi untuk angka dan ketentuan terbaru.',
-          '[web.dev: Fast Load Times and Conversion Optimization](https://web.dev/articles/fast) merangkum dampak langsung waktu muat halaman terhadap tingkat pentalan pengunjung kampanye berbayar; cek dokumentasi resmi untuk angka dan ketentuan terbaru.',
-          '[Google Analytics Campaign URL Builder & UTM Parameters Guide](https://support.google.com/analytics/answer/10917952) menetapkan standar baku penamaan parameter atribusi kampanye pemasaran; cek dokumentasi resmi untuk angka dan ketentuan terbaru.',
-          '[W3C Mobile Web Best Practices](https://www.w3.org/TR/mobile-bp/) memuat pedoman ergonomi ukuran tombol sentuh dan keterbacaan teks pada layar perangkat bergerak; cek dokumentasi resmi untuk angka dan ketentuan terbaru.',
+          '[Google Ads Help: About Landing Page Experience](https://support.google.com/google-ads/answer/2404197) menjelaskan bagaimana relevansi konten, kemudahan navigasi, dan transparansi bisnis memengaruhi Quality Score iklan.',
+          '[Meta Business Help Center: Best Practices for Landing Pages](https://www.facebook.com/business/help) menguraikan panduan keselarasan materi kreatif iklan dengan halaman tujuan di perangkat seluler.',
+          '[web.dev: Fast Load Times and Conversion Optimization](https://web.dev/articles/fast) merangkum dampak langsung waktu muat halaman terhadap tingkat pentalan pengunjung kampanye berbayar.',
+          '[Google Analytics Campaign URL Builder & UTM Parameters Guide](https://support.google.com/analytics/answer/10917952) menetapkan standar baku penamaan parameter atribusi kampanye pemasaran.',
         ],
       },
     ],
@@ -344,8 +343,8 @@ export const BLOG_POSTS_27_28_ID_RAW: RawBlogPostInput[] = [
       'Tangerang Selatan',
     ],
     author: 'chesta',
-    date: '2026-11-03',
-    updatedAt: '2026-11-03',
+    date: '2026-10-29',
+    updatedAt: '2026-10-29',
     featured: false,
     draft: false,
     coverImageKey: 'clusterWebsitePerforma',
@@ -356,7 +355,7 @@ export const BLOG_POSTS_27_28_ID_RAW: RawBlogPostInput[] = [
     founderNote: {
       author: 'chesta',
       title: 'Catatan Arsitektur · Kecepatan Adalah Bagian dari Keramahan Layanan',
-      text: 'Di proyek internal kami untuk perombakan chestaa.com v2, kami memangkas skrip pihak ketiga dan mengunci ukuran gambar sejak awal kode HTML. Hasilnya bukan sekadar nilai rapor hijau di alat penguji, melainkan halaman yang langsung merespons sentuhan jari di ponsel kelas menengah tanpa jeda.',
+      text: 'Di contoh proyek kami untuk perombakan chestaa.com v2, kami memangkas skrip pihak ketiga dan mengunci ukuran gambar sejak awal kode HTML. Hasilnya bukan sekadar nilai rapor hijau di alat penguji, melainkan halaman yang langsung merespons sentuhan jari di ponsel kelas menengah tanpa jeda.',
     },
     content: [
       {
@@ -525,7 +524,7 @@ export const BLOG_POSTS_27_28_ID_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'paragraph',
-        text: 'Pendekatan rekayasa yang mengutamakan kecepatan nyata seperti ini juga menjadi standar baku pada proyek internal kami, yang dapat kamu pelajari di [studi kasus perombakan arsitektur chestaa.com v2](/id/studi-kasus/chestaa-v2-architecture) serta layanan [jasa pembuatan website di Tangerang Selatan](/id/jasa/pembuatan-website/tangerang-selatan).',
+        text: 'Pendekatan rekayasa yang mengutamakan kecepatan nyata seperti ini juga menjadi standar baku pada contoh proyek kami, yang dapat kamu pelajari di [studi kasus perombakan arsitektur chestaa.com v2](/id/studi-kasus/chestaa-v2-architecture) serta layanan [jasa pembuatan website di Tangerang Selatan](/id/jasa/pembuatan-website/tangerang-selatan).',
       },
       {
         type: 'h2',
@@ -566,11 +565,11 @@ export const BLOG_POSTS_27_28_ID_RAW: RawBlogPostInput[] = [
       {
         type: 'ul',
         items: [
-          '[Google Search Central: Understanding Core Web Vitals and Google Search Results](https://developers.google.com/search/docs/appearance/core-web-vitals) menjelaskan peran metrik pengalaman halaman dalam sistem peringkat pencarian Google; cek dokumentasi resmi untuk angka dan ketentuan terbaru.',
-          '[web.dev: Web Vitals Official Overview (LCP, INP, CLS)](https://web.dev/articles/vitals) merinci definisi matematis, ambang batas persentil ke-75, dan panduan perbaikan untuk masing-masing metrik; cek dokumentasi resmi untuk angka dan ketentuan terbaru.',
-          '[web.dev: Optimize Interaction to Next Paint (INP)](https://web.dev/articles/optimize-inp) menguraikan teknik pemecahan tugas panjang JavaScript agar tombol halaman merespons sentuhan di bawah 200 milidetik; cek dokumentasi resmi untuk angka dan ketentuan terbaru.',
-          '[Google PageSpeed Insights & Chrome UX Report Documentation](https://developers.google.com/speed/docs/insights/v5/about) menjelaskan perbedaan antara data pengalaman pengguna nyata (CrUX) dan simulasi laboratorium Lighthouse; cek dokumentasi resmi untuk angka dan ketentuan terbaru.',
-          '[MDN Web Docs: HTML Image Element & Fetch Priority](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img) memuat spesifikasi standar atribut dimensi gambar, lazy loading, dan prioritas pemuatan sumber daya; cek dokumentasi resmi untuk angka dan ketentuan terbaru.',
+          '[Google Search Central: Understanding Core Web Vitals and Google Search Results](https://developers.google.com/search/docs/appearance/core-web-vitals) menjelaskan peran metrik pengalaman halaman dalam sistem peringkat pencarian Google.',
+          '[web.dev: Web Vitals Official Overview (LCP, INP, CLS)](https://web.dev/articles/vitals) merinci definisi matematis, ambang batas persentil ke-75, dan panduan perbaikan untuk masing-masing metrik.',
+          '[web.dev: Optimize Interaction to Next Paint (INP)](https://web.dev/articles/optimize-inp) menguraikan teknik pemecahan tugas panjang JavaScript agar tombol halaman merespons sentuhan di bawah 200 milidetik.',
+          '[Google PageSpeed Insights & Chrome UX Report Documentation](https://developers.google.com/speed/docs/insights/v5/about) menjelaskan perbedaan antara data pengalaman pengguna nyata (CrUX) dan simulasi laboratorium Lighthouse.',
+          '[MDN Web Docs: HTML Image Element & Fetch Priority](https://developer.mozilla.org/en-US/docs/Web/HTML/Element/img) memuat spesifikasi standar atribut dimensi gambar, lazy loading, dan prioritas pemuatan sumber daya.',
         ],
       },
     ],

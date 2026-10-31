@@ -5,9 +5,13 @@
   "type": "module",
   "scripts": {
     "dev": "tsx server.ts",
-    "build": "npm run covers:check && vite build && esbuild server.ts --bundle --platform=node --format=cjs --packages=external --sourcemap --outfile=dist/server.cjs && tsx src/utils/sitemap.ts",
+    "build": "npm run labels:check && npm run covers:check && NODE_ENV=production vite build && esbuild server.ts --bundle --platform=node --format=cjs --packages=external --sourcemap --outfile=dist/server.cjs && tsx src/utils/sitemap.ts && npm run host:check",
     "start": "node dist/server.cjs",
-    "lint": "tsc --noEmit",
+    "lint": "tsc --noEmit && npm run labels:check && npm run host:check",
+    "labels:check": "tsx scripts/verify-portfolio-labels.ts",
+    "host:check": "tsx scripts/check-canonical-host.ts",
+    "discovery:check": "tsx scripts/verify-discovery.ts",
+    "cls:check": "tsx scripts/check-cls.ts",
     "covers:generate": "tsx scripts/generate-covers.ts",
     "covers:check": "tsx scripts/check-covers.ts",
     "pricing:check": "tsx scripts/pricing-check.ts",
@@ -16,6 +20,7 @@
     "seo:parity": "tsx scripts/parity.mjs",
     "seo:indexability": "tsx scripts/indexability.mjs",
     "lint:legacy": "node scripts/check-legacy-strings.mjs",
+    "ssr:check": "tsx scripts/ssr-check.mjs",
     "postinstall": "npm dedupe"
   },
   "dependencies": {
@@ -67,6 +72,7 @@
     "react-router-dom": "^7.16.0",
     "react-syntax-highlighter": "^16.1.1",
     "recharts": "^3.10.1",
+    "sharp": "^0.35.5",
     "shiki": "^4.4.3",
     "tailwind-merge": "^3.7.0",
     "vite": "^6.2.3",

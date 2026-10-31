@@ -28,8 +28,8 @@ export const BLOG_POSTS_25_26_ID_RAW: RawBlogPostInput[] = [
       'Toko Online',
     ],
     author: 'zeeshan',
-    date: '2026-11-03',
-    updatedAt: '2026-11-03',
+    date: '2026-10-29',
+    updatedAt: '2026-10-29',
     featured: false,
     draft: false,
     coverImageKey: 'clusterCostVendor',
@@ -62,7 +62,7 @@ export const BLOG_POSTS_25_26_ID_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'paragraph',
-        text: 'Agar kamu dapat menyusun anggaran bisnis yang realistis dan terukur sebagaimana dibahas dalam [panduan berapa biaya bikin website untuk bisnis](/id/blog/berapa-biaya-bikin-website-bisnis-panduan-harga), artikel ini menyajikan rincian pos biaya secara transparan, membedah formula perhitungan token, serta memberikan contoh simulasi kasus nyata untuk bisnis retail lokal.',
+        text: 'Agar kamu dapat menyusun anggaran bisnis yang realistis dan terukur sebagaimana dibahas dalam [panduan berapa biaya bikin website untuk bisnis](/id/blog/berapa-biaya-bikin-website-bisnis-panduan-harga), artikel ini menyajikan rincian pos biaya secara transparan, membedah formula perhitungan token, serta memberikan contoh skenario simulasi untuk bisnis retail lokal.',
       },
       {
         type: 'h2',
@@ -192,7 +192,7 @@ export const BLOG_POSTS_25_26_ID_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'paragraph',
-        text: 'Database PostgreSQL terkelola skala kecil biasanya memakan biaya sewa antara Rp150.000 hingga Rp350.000 per bulan, sementara penyimpanan vektor menggunakan modul pgvector di database yang sama dapat meniadakan kebutuhan membeli database vektor pihak ketiga yang terpisah.',
+        text: 'Database relasional terkelola skala kecil biasanya memakan biaya sewa antara Rp150.000 hingga Rp350.000 per bulan, sementara penyimpanan vektor terindeks di database yang sama dapat meniadakan kebutuhan membeli database vektor pihak ketiga yang terpisah.',
       },
       {
         type: 'paragraph',
@@ -236,7 +236,7 @@ export const BLOG_POSTS_25_26_ID_RAW: RawBlogPostInput[] = [
             'Rp85.000 - Rp150.000',
           ],
           [
-            'Database PostgreSQL & pgvector',
+            'Database Relasional & Vektor',
             'Catatan order, stok, dan memori sesi',
             'Rp220.000 - Rp350.000',
           ],
@@ -379,8 +379,8 @@ export const BLOG_POSTS_25_26_ID_RAW: RawBlogPostInput[] = [
       'Pengalaman Pelanggan',
     ],
     author: 'zeeshan',
-    date: '2026-11-03',
-    updatedAt: '2026-11-03',
+    date: '2026-10-27',
+    updatedAt: '2026-10-29',
     featured: false,
     draft: false,
     coverImageKey: 'clusterAgenticAi',
@@ -457,7 +457,7 @@ export const BLOG_POSTS_25_26_ID_RAW: RawBlogPostInput[] = [
         items: [
           'Fase Sapaan Awal (Greeting & Context Setting): Menyapa dengan ramah, menyebutkan nama asisten atau nama bisnis, dan langsung menanyakan inti kebutuhan tanpa basa-basi berlebihan.',
           'Fase Identifikasi (Intent Discovery & Clarification): Mengajukan pertanyaan klarifikasi jika informasi dari pelanggan masih kurang, menawarkan pilihan opsi ringkas jika terdapat beberapa cabang layanan.',
-          'Fase Tindakan (Action Execution): Memanggil tool internal di latar belakang untuk mengecek database atau mengunci slot waktu, lalu menyampaikan hasilnya dengan data faktual.',
+          'Fase Tindakan (Action Execution): Memanggil tool belakang layar di latar belakang untuk mengecek database atau mengunci slot waktu, lalu menyampaikan hasilnya dengan data faktual.',
           'Fase Penutup (Wrap-up & Confirmation): Memberikan rangkuman konfirmasi pemesanan, menjelaskan langkah berikutnya bagi pelanggan, dan menyampaikan salam penutup profesional.',
         ],
       },
@@ -473,8 +473,8 @@ export const BLOG_POSTS_25_26_ID_RAW: RawBlogPostInput[] = [
           ],
           [
             'Pengecekan Waktu',
-            '"Untuk dokter spesialis ada dr. Santi praktek Selasa dan Kamis, lalu ada dr. Rian hari Rabu, lalu jadwal akhir pekan berbeda..."',
-            '"dr. Santi tersedia besok Kamis di jam 16.00 dan 18.30. Jam berapa yang Kakak pilih?"',
+            '"Untuk dokter spesialis ada dokter kulit sesi Selasa dan Kamis, lalu ada dokter estetika hari Rabu, lalu jadwal akhir pekan berbeda..."',
+            '"Dokter spesialis kulit tersedia besok Kamis di jam 16.00 dan 18.30. Jam berapa yang Kakak pilih?"',
           ],
           [
             'Pengumpulan Data',
@@ -553,7 +553,7 @@ export const BLOG_POSTS_25_26_ID_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'paragraph',
-        text: 'Sebagai contoh skenario nyata, sebuah klinik dermatologi dan perawatan estetika di kawasan Lebak Bulus, Jakarta Selatan merancang alur percakapan WhatsApp asisten otomatis untuk mengelola janji temu dokter kulit.',
+        text: 'Sebagai contoh skenario: bayangkan sebuah klinik dermatologi dan perawatan estetika di kawasan Lebak Bulus, Jakarta Selatan yang merancang alur percakapan WhatsApp asisten otomatis untuk mengelola janji temu dokter kulit.',
       },
       {
         type: 'paragraph',
@@ -570,7 +570,7 @@ export const BLOG_POSTS_25_26_ID_RAW: RawBlogPostInput[] = [
           'Pasien mengirim chat: "Siang, kalau mau treatment jerawat biayanya berapa ya?"',
           'Agent menjawab ringkas: "Selamat siang! Untuk keluhan jerawat, dokter kami merekomendasikan konsultasi awal mulai Rp200.000 atau paket Acne Care lengkap Rp450.000. Mau kami bantu cek jadwal dokter kulit terdekat?"',
           'Pasien menjawab: "Boleh, untuk besok Sabtu siang ada jam berapa?"',
-          'Agent mengeksekusi tool database jadwal dan memberikan 2 opsi spesifik: "Besok Sabtu, dr. Maya tersedia di jam 11.30 atau jam 14.00. Mana yang paling pas untuk Kakak?"',
+          'Agent mengeksekusi tool database jadwal dan memberikan 2 opsi spesifik: "Besok Sabtu, dokter spesialis kulit tersedia di jam 11.30 atau jam 14.00. Mana yang paling pas untuk Kakak?"',
           'Pasien memilih: "Jam 14.00 saja."',
           'Agent mengonfirmasi reservasi: "Siap Kak, slot jam 14.00 sudah kami tahan. Boleh sebutkan nama lengkap Kakak untuk pendaftaran kartu rekam medis?"',
         ],

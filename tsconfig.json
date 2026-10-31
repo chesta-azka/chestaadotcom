@@ -16,6 +16,9 @@
     "allowJs": true,
     "jsx": "react-jsx",
     "paths": {
+      "firebase/*": [
+        "./src/lib/firebase-stub.ts"
+      ],
       "@/*": [
         "./src/*",
         "./*"

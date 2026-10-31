@@ -101,15 +101,15 @@ export function buildSearchIndex(performanceMode?: boolean): SearchDocument[] {
     {
       id: 'page-portfolio',
       slug: 'portfolio',
-      title: 'Showcase Portofolio & Studi Kasus',
-      subtitle: 'Koleksi studi kasus nyata, arsitektur sistem, dan ROI bisnis klien kami',
+      title: 'Showcase Proyek & Studi Kasus',
+      subtitle: 'Koleksi proyek nyata, contoh proyek, dan studi kasus contoh CHESTAADOTCOM',
       category: 'Halaman',
       categoryKey: 'pages',
       path: '/portfolio',
       shortcut: 'p',
-      tags: ['Portofolio', 'Case Studies', 'Studi Kasus', 'Karya', 'Hasil Nyata'],
+      tags: ['Portofolio', 'Case Studies', 'Studi Kasus', 'Karya', 'Proyek Nyata', 'Contoh Proyek'],
       audienceKeywords: 'Studi Kasus Portofolio Web App B2B Fintech Logistics Company Profile',
-      fullContent: 'Eksplorasi portofolio proyek digital live dengan metrik performa terukur.'
+      fullContent: 'Eksplorasi proyek nyata dan contoh proyek digital CHESTAADOTCOM.'
     },
     {
       id: 'page-workflow',
@@ -212,13 +212,13 @@ export function buildSearchIndex(performanceMode?: boolean): SearchDocument[] {
       id: `proj-${proj.id}`,
       slug: proj.id,
       title: proj.title,
-      subtitle: `${proj.category} ${proj.client ? `• Klien: ${proj.client}` : ''} — ${proj.description.substring(0, 85)}...`,
-      client: proj.client || 'Client Enterprise',
+      subtitle: `${proj.category} • ${proj.badgeLabel} — ${proj.description.substring(0, 85)}...`,
+      client: proj.badgeLabel,
       category: 'Studi Kasus & Portofolio',
       categoryKey: 'portfolio',
       path: `/portfolio/${proj.id}`,
       badge: proj.category,
-      tags: [...proj.techStack, ...(proj.features || []), proj.category, proj.client || ''],
+      tags: [...proj.techStack, ...(proj.features || []), proj.category, proj.badgeLabel],
       techStack: proj.techStack.join(', '),
       audienceKeywords: `Portofolio ${proj.title} ${proj.category} Nextjs B2B Case Study`,
       fullContent: `${proj.description} ${combinedText} Fitur unggulan: ${(proj.features || []).join(', ')}. Tech stack: ${proj.techStack.join(', ')}.`

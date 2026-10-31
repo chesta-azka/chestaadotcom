@@ -92,61 +92,87 @@ export function trackEvent(
   }
 }
 
-export function trackWaClick(params: {
-  page?: string;
-  locale: SupportedLocale;
-  context: string;
-}): void {
-  trackEvent('wa_click', {
-    page: getCleanPathname(params.page),
-    locale: params.locale,
-    context: params.context,
-  });
+export function trackWaClick(...args: any[]): void {
+  const [first, second, third] = args;
+  if (typeof first === 'object' && first !== null) {
+    trackEvent('wa_click', {
+      page: getCleanPathname(first.page),
+      locale: first.locale || 'id',
+      context: first.context || 'general',
+    });
+  } else {
+    trackEvent('wa_click', {
+      page: getCleanPathname(first),
+      locale: third || 'id',
+      context: second || 'general',
+    });
+  }
 }
 
-export function trackAuditFormCompose(params: {
-  locale: SupportedLocale;
-  need?: string;
-}): void {
-  trackEvent('audit_form_compose', {
-    page: params.locale === 'en' ? '/en/free-audit' : '/id/audit-gratis',
-    locale: params.locale,
-    ...(params.need ? { context: params.need } : {}),
-  });
+export function trackAuditFormCompose(...args: any[]): void {
+  const [first, second] = args;
+  if (typeof first === 'object' && first !== null) {
+    trackEvent('audit_form_compose', {
+      page: first.locale === 'en' ? '/en/free-audit' : '/id/audit-gratis',
+      locale: first.locale || 'id',
+      ...(first.need ? { context: first.need } : {}),
+    });
+  } else {
+    trackEvent('audit_form_compose', {
+      page: second === 'en' ? '/en/free-audit' : '/id/audit-gratis',
+      locale: second || 'id',
+      ...(first ? { context: first } : {}),
+    });
+  }
 }
 
-export function trackServiceCardClick(params: {
-  slug: string;
-  locale: SupportedLocale;
-  page?: string;
-}): void {
-  trackEvent('service_card_click', {
-    slug: params.slug,
-    locale: params.locale,
-    page: getCleanPathname(params.page),
-  });
+export function trackServiceCardClick(...args: any[]): void {
+  const [first, second, third] = args;
+  if (typeof first === 'object' && first !== null) {
+    trackEvent('service_card_click', {
+      slug: first.slug,
+      locale: first.locale || 'id',
+      page: getCleanPathname(first.page),
+    });
+  } else {
+    trackEvent('service_card_click', {
+      slug: first,
+      locale: second || 'id',
+      page: getCleanPathname(third),
+    });
+  }
 }
 
-export function trackCaseStudyOpen(params: {
-  slug: string;
-  locale: SupportedLocale;
-  page?: string;
-}): void {
-  trackEvent('case_study_open', {
-    slug: params.slug,
-    locale: params.locale,
-    page: getCleanPathname(params.page),
-  });
+export function trackCaseStudyOpen(...args: any[]): void {
+  const [first, second, third] = args;
+  if (typeof first === 'object' && first !== null) {
+    trackEvent('case_study_open', {
+      slug: first.slug,
+      locale: first.locale || 'id',
+      page: getCleanPathname(first.page),
+    });
+  } else {
+    trackEvent('case_study_open', {
+      slug: first,
+      locale: second || 'id',
+      page: getCleanPathname(third),
+    });
+  }
 }
 
-export function trackLanguageSwitch(params: {
-  from: SupportedLocale;
-  to: SupportedLocale;
-  page?: string;
-}): void {
-  trackEvent('language_switch', {
-    from: params.from,
-    to: params.to,
-    page: getCleanPathname(params.page),
-  });
+export function trackLanguageSwitch(...args: any[]): void {
+  const [first, second, third] = args;
+  if (typeof first === 'object' && first !== null) {
+    trackEvent('language_switch', {
+      from: first.from,
+      to: first.to,
+      page: getCleanPathname(first.page),
+    });
+  } else {
+    trackEvent('language_switch', {
+      from: first,
+      to: second,
+      page: getCleanPathname(third),
+    });
+  }
 }

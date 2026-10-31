@@ -24,7 +24,7 @@ import {
   parseLocalizedPath,
   toLocalizedHref,
 } from '../../lib/i18n';
-import { getServicePath } from '../../data/services';
+import { getServicePath } from '../../data/service-slugs';
 import {
   getWhatsAppCtaLabel,
   resolveWhatsAppContextFromPathname,
@@ -636,14 +636,14 @@ export default function MenuOverlayPanel({
                     </a>
 
                     <a
-                      href="https://instagram.com/chestaadotcom"
+                      href="https://instagram.com/softwaredev.aiagentic.agency"
                       target="_blank"
                       rel="noopener noreferrer"
                       onClick={handleRequestClose}
                       className="inline-flex items-center gap-1.5 font-medium text-[#17122B] hover:text-[#6A3FD0] transition-colors whitespace-nowrap cursor-pointer"
                     >
                       <Camera size={15} className="text-[#6A3FD0] shrink-0" />
-                      <span>@chestaadotcom</span>
+                      <span>@softwaredev.aiagentic.agency</span>
                     </a>
                   </div>
                 </m.div>
@@ -859,12 +859,12 @@ export default function MenuOverlayPanel({
                       </div>
 
                       <a
-                        href="https://instagram.com/chestaadotcom"
+                        href="https://instagram.com/softwaredev.aiagentic.agency"
                         target="_blank"
                         rel="noopener noreferrer"
                         className="font-medium text-[#6A3FD0] whitespace-nowrap cursor-pointer"
                       >
-                        @chestaadotcom
+                        @softwaredev.aiagentic.agency
                       </a>
                     </div>
                   </div>
