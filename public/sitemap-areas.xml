@@ -1,157 +1,443 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://chestaa.com/id/area</loc>
-    <lastmod>2026-10-25</lastmod>
+    <lastmod>2026-10-29</lastmod>
     <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/area" />
     <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/areas" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/area" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/id/area.png</image:loc>
+    </image:image>
   </url>
   <url>
     <loc>https://chestaa.com/en/areas</loc>
-    <lastmod>2026-10-25</lastmod>
+    <lastmod>2026-10-29</lastmod>
     <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/area" />
     <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/areas" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/area" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/en/areas.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://chestaa.com/id/area/tangerang-selatan</loc>
+    <lastmod>2026-10-22</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/area/tangerang-selatan" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/areas/tangerang-selatan" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/area/tangerang-selatan" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/id/area/tangerang-selatan.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://chestaa.com/en/areas/tangerang-selatan</loc>
+    <lastmod>2026-10-22</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/area/tangerang-selatan" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/areas/tangerang-selatan" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/area/tangerang-selatan" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/en/areas/tangerang-selatan.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://chestaa.com/id/area/bsd-city</loc>
+    <lastmod>2026-10-22</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/area/bsd-city" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/areas/bsd-city" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/area/bsd-city" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/id/area/bsd-city.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://chestaa.com/en/areas/bsd-city</loc>
+    <lastmod>2026-10-22</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/area/bsd-city" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/areas/bsd-city" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/area/bsd-city" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/en/areas/bsd-city.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://chestaa.com/id/area/pamulang</loc>
+    <lastmod>2026-10-22</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/area/pamulang" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/areas/pamulang" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/area/pamulang" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/id/area/pamulang.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://chestaa.com/en/areas/pamulang</loc>
+    <lastmod>2026-10-22</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/area/pamulang" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/areas/pamulang" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/area/pamulang" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/en/areas/pamulang.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://chestaa.com/id/area/jurang-mangu</loc>
+    <lastmod>2026-10-22</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/area/jurang-mangu" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/areas/jurang-mangu" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/area/jurang-mangu" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/id/area/jurang-mangu.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://chestaa.com/en/areas/jurang-mangu</loc>
+    <lastmod>2026-10-22</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/area/jurang-mangu" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/areas/jurang-mangu" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/area/jurang-mangu" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/en/areas/jurang-mangu.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://chestaa.com/id/area/serpong</loc>
+    <lastmod>2026-10-29</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/area/serpong" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/areas/serpong" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/area/serpong" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/id/area/serpong.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://chestaa.com/en/areas/serpong</loc>
+    <lastmod>2026-10-29</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/area/serpong" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/areas/serpong" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/area/serpong" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/en/areas/serpong.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://chestaa.com/id/area/ciputat</loc>
+    <lastmod>2026-10-29</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/area/ciputat" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/areas/ciputat" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/area/ciputat" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/id/area/ciputat.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://chestaa.com/en/areas/ciputat</loc>
+    <lastmod>2026-10-29</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/area/ciputat" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/areas/ciputat" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/area/ciputat" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/en/areas/ciputat.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://chestaa.com/id/area/pondok-aren</loc>
+    <lastmod>2026-10-29</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/area/pondok-aren" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/areas/pondok-aren" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/area/pondok-aren" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/id/area/pondok-aren.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://chestaa.com/en/areas/pondok-aren</loc>
+    <lastmod>2026-10-29</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/area/pondok-aren" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/areas/pondok-aren" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/area/pondok-aren" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/en/areas/pondok-aren.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://chestaa.com/id/area/alam-sutera</loc>
+    <lastmod>2026-10-29</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/area/alam-sutera" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/areas/alam-sutera" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/area/alam-sutera" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/id/area/alam-sutera.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://chestaa.com/en/areas/alam-sutera</loc>
+    <lastmod>2026-10-29</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/area/alam-sutera" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/areas/alam-sutera" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/area/alam-sutera" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/en/areas/alam-sutera.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://chestaa.com/id/area/bintaro</loc>
+    <lastmod>2026-10-29</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/area/bintaro" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/areas/bintaro" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/area/bintaro" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/id/area/bintaro.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://chestaa.com/en/areas/bintaro</loc>
+    <lastmod>2026-10-29</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/area/bintaro" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/areas/bintaro" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/area/bintaro" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/en/areas/bintaro.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://chestaa.com/id/area/gading-serpong</loc>
+    <lastmod>2026-10-29</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/area/gading-serpong" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/areas/gading-serpong" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/area/gading-serpong" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/id/area/gading-serpong.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://chestaa.com/en/areas/gading-serpong</loc>
+    <lastmod>2026-10-29</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/area/gading-serpong" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/areas/gading-serpong" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/area/gading-serpong" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/en/areas/gading-serpong.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://chestaa.com/id/area/lebak-bulus</loc>
+    <lastmod>2026-10-22</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/area/lebak-bulus" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/areas/lebak-bulus" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/area/lebak-bulus" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/id/area/lebak-bulus.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://chestaa.com/en/areas/lebak-bulus</loc>
+    <lastmod>2026-10-22</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/area/lebak-bulus" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/areas/lebak-bulus" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/area/lebak-bulus" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/en/areas/lebak-bulus.png</image:loc>
+    </image:image>
   </url>
   <url>
     <loc>https://chestaa.com/id/jasa/pembuatan-website/tangerang-selatan</loc>
-    <lastmod>2026-10-25</lastmod>
+    <lastmod>2026-03-20</lastmod>
     <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/jasa/pembuatan-website/tangerang-selatan" />
     <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/services/website-development/tangerang-selatan" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/jasa/pembuatan-website/tangerang-selatan" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/id/jasa/pembuatan-website/tangerang-selatan.png</image:loc>
+    </image:image>
   </url>
   <url>
     <loc>https://chestaa.com/en/services/website-development/tangerang-selatan</loc>
-    <lastmod>2026-10-25</lastmod>
+    <lastmod>2026-03-20</lastmod>
     <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/jasa/pembuatan-website/tangerang-selatan" />
     <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/services/website-development/tangerang-selatan" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/jasa/pembuatan-website/tangerang-selatan" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/en/services/website-development/tangerang-selatan.png</image:loc>
+    </image:image>
   </url>
   <url>
     <loc>https://chestaa.com/id/jasa/ai-agent/tangerang-selatan</loc>
-    <lastmod>2026-10-25</lastmod>
+    <lastmod>2026-03-20</lastmod>
     <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/jasa/ai-agent/tangerang-selatan" />
     <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/services/ai-agents/tangerang-selatan" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/jasa/ai-agent/tangerang-selatan" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/id/jasa/ai-agent/tangerang-selatan.png</image:loc>
+    </image:image>
   </url>
   <url>
     <loc>https://chestaa.com/en/services/ai-agents/tangerang-selatan</loc>
-    <lastmod>2026-10-25</lastmod>
+    <lastmod>2026-03-20</lastmod>
     <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/jasa/ai-agent/tangerang-selatan" />
     <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/services/ai-agents/tangerang-selatan" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/jasa/ai-agent/tangerang-selatan" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/en/services/ai-agents/tangerang-selatan.png</image:loc>
+    </image:image>
   </url>
   <url>
     <loc>https://chestaa.com/id/jasa/pembuatan-website/bsd-city</loc>
-    <lastmod>2026-10-25</lastmod>
+    <lastmod>2026-03-20</lastmod>
     <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/jasa/pembuatan-website/bsd-city" />
     <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/services/website-development/bsd-city" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/jasa/pembuatan-website/bsd-city" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/id/jasa/pembuatan-website/bsd-city.png</image:loc>
+    </image:image>
   </url>
   <url>
     <loc>https://chestaa.com/en/services/website-development/bsd-city</loc>
-    <lastmod>2026-10-25</lastmod>
+    <lastmod>2026-03-20</lastmod>
     <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/jasa/pembuatan-website/bsd-city" />
     <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/services/website-development/bsd-city" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/jasa/pembuatan-website/bsd-city" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/en/services/website-development/bsd-city.png</image:loc>
+    </image:image>
   </url>
   <url>
     <loc>https://chestaa.com/id/jasa/ai-agent/bsd-city</loc>
-    <lastmod>2026-10-25</lastmod>
+    <lastmod>2026-03-20</lastmod>
     <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/jasa/ai-agent/bsd-city" />
     <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/services/ai-agents/bsd-city" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/jasa/ai-agent/bsd-city" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/id/jasa/ai-agent/bsd-city.png</image:loc>
+    </image:image>
   </url>
   <url>
     <loc>https://chestaa.com/en/services/ai-agents/bsd-city</loc>
-    <lastmod>2026-10-25</lastmod>
+    <lastmod>2026-03-20</lastmod>
     <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/jasa/ai-agent/bsd-city" />
     <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/services/ai-agents/bsd-city" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/jasa/ai-agent/bsd-city" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/en/services/ai-agents/bsd-city.png</image:loc>
+    </image:image>
   </url>
   <url>
     <loc>https://chestaa.com/id/jasa/pembuatan-website/pamulang</loc>
-    <lastmod>2026-10-25</lastmod>
+    <lastmod>2026-03-20</lastmod>
     <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/jasa/pembuatan-website/pamulang" />
     <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/services/website-development/pamulang" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/jasa/pembuatan-website/pamulang" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/id/jasa/pembuatan-website/pamulang.png</image:loc>
+    </image:image>
   </url>
   <url>
     <loc>https://chestaa.com/en/services/website-development/pamulang</loc>
-    <lastmod>2026-10-25</lastmod>
+    <lastmod>2026-03-20</lastmod>
     <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/jasa/pembuatan-website/pamulang" />
     <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/services/website-development/pamulang" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/jasa/pembuatan-website/pamulang" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/en/services/website-development/pamulang.png</image:loc>
+    </image:image>
   </url>
   <url>
     <loc>https://chestaa.com/id/jasa/ai-agent/pamulang</loc>
-    <lastmod>2026-10-25</lastmod>
+    <lastmod>2026-03-20</lastmod>
     <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/jasa/ai-agent/pamulang" />
     <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/services/ai-agents/pamulang" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/jasa/ai-agent/pamulang" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/id/jasa/ai-agent/pamulang.png</image:loc>
+    </image:image>
   </url>
   <url>
     <loc>https://chestaa.com/en/services/ai-agents/pamulang</loc>
-    <lastmod>2026-10-25</lastmod>
+    <lastmod>2026-03-20</lastmod>
     <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/jasa/ai-agent/pamulang" />
     <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/services/ai-agents/pamulang" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/jasa/ai-agent/pamulang" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/en/services/ai-agents/pamulang.png</image:loc>
+    </image:image>
   </url>
   <url>
     <loc>https://chestaa.com/id/jasa/pembuatan-website/jurang-mangu</loc>
-    <lastmod>2026-10-25</lastmod>
+    <lastmod>2026-03-20</lastmod>
     <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/jasa/pembuatan-website/jurang-mangu" />
     <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/services/website-development/jurang-mangu" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/jasa/pembuatan-website/jurang-mangu" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/id/jasa/pembuatan-website/jurang-mangu.png</image:loc>
+    </image:image>
   </url>
   <url>
     <loc>https://chestaa.com/en/services/website-development/jurang-mangu</loc>
-    <lastmod>2026-10-25</lastmod>
+    <lastmod>2026-03-20</lastmod>
     <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/jasa/pembuatan-website/jurang-mangu" />
     <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/services/website-development/jurang-mangu" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/jasa/pembuatan-website/jurang-mangu" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/en/services/website-development/jurang-mangu.png</image:loc>
+    </image:image>
   </url>
   <url>
     <loc>https://chestaa.com/id/jasa/ai-agent/jurang-mangu</loc>
-    <lastmod>2026-10-25</lastmod>
+    <lastmod>2026-03-20</lastmod>
     <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/jasa/ai-agent/jurang-mangu" />
     <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/services/ai-agents/jurang-mangu" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/jasa/ai-agent/jurang-mangu" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/id/jasa/ai-agent/jurang-mangu.png</image:loc>
+    </image:image>
   </url>
   <url>
     <loc>https://chestaa.com/en/services/ai-agents/jurang-mangu</loc>
-    <lastmod>2026-10-25</lastmod>
+    <lastmod>2026-03-20</lastmod>
     <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/jasa/ai-agent/jurang-mangu" />
     <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/services/ai-agents/jurang-mangu" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/jasa/ai-agent/jurang-mangu" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/en/services/ai-agents/jurang-mangu.png</image:loc>
+    </image:image>
   </url>
   <url>
     <loc>https://chestaa.com/id/jasa/pembuatan-website/lebak-bulus</loc>
-    <lastmod>2026-10-25</lastmod>
+    <lastmod>2026-03-20</lastmod>
     <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/jasa/pembuatan-website/lebak-bulus" />
     <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/services/website-development/lebak-bulus" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/jasa/pembuatan-website/lebak-bulus" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/id/jasa/pembuatan-website/lebak-bulus.png</image:loc>
+    </image:image>
   </url>
   <url>
     <loc>https://chestaa.com/en/services/website-development/lebak-bulus</loc>
-    <lastmod>2026-10-25</lastmod>
+    <lastmod>2026-03-20</lastmod>
     <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/jasa/pembuatan-website/lebak-bulus" />
     <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/services/website-development/lebak-bulus" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/jasa/pembuatan-website/lebak-bulus" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/en/services/website-development/lebak-bulus.png</image:loc>
+    </image:image>
   </url>
   <url>
     <loc>https://chestaa.com/id/jasa/ai-agent/lebak-bulus</loc>
-    <lastmod>2026-10-25</lastmod>
+    <lastmod>2026-03-20</lastmod>
     <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/jasa/ai-agent/lebak-bulus" />
     <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/services/ai-agents/lebak-bulus" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/jasa/ai-agent/lebak-bulus" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/id/jasa/ai-agent/lebak-bulus.png</image:loc>
+    </image:image>
   </url>
   <url>
     <loc>https://chestaa.com/en/services/ai-agents/lebak-bulus</loc>
-    <lastmod>2026-10-25</lastmod>
+    <lastmod>2026-03-20</lastmod>
     <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/jasa/ai-agent/lebak-bulus" />
     <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/services/ai-agents/lebak-bulus" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/jasa/ai-agent/lebak-bulus" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/en/services/ai-agents/lebak-bulus.png</image:loc>
+    </image:image>
   </url>
 </urlset>

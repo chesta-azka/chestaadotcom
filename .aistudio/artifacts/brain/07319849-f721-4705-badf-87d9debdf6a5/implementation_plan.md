@@ -1,17 +1,38 @@
-# Rencana Implementasi: Sticky Header Permanen, Cepat, dan Responsif
+# Rencana Perbaikan: Mengatasi ERR_TOO_MANY_REDIRECTS (chestaa.com Non-WWW)
 
-Sesuai preferensi yang Anda pilih, kami akan memperbarui perilaku navbar header agar **selalu menempel di bagian atas layar (always sticky)** dengan transisi yang instan, ringan, dan sangat responsif:
+Berdasarkan hasil diagnosa live `curl` yang membuktikan adanya loop pengalihan antara Vercel Edge (`chestaa.com` ➔ `www`) dan konfigurasi aplikasi (`www` ➔ `chestaa.com`), berikut adalah langkah perbaikan terpadu:
 
-1. **Menghilangkan Perilaku Sembunyi / Auto-Hide**
-   - Menghapus logika pergeseran `-translate-y-24` yang sebelumnya membuat header menghilang saat scroll ke bawah dan lambat muncul kembali.
-   - Header akan selalu terlihat (`translate-y-0`) di posisi atas layar sepanjang pengguna membaca atau menjelajahi halaman.
+---
 
-2. **Transisi Instan dan Ringan (Ultra-Fast & Snappy)**
-   - Menggunakan ambang batas scroll yang lebih cepat dan responsif (deteksi instan pada `scrollY > 12px`).
-   - Mempersingkat durasi transisi visual (dari 300ms menjadi 150ms dengan kurva `cubic-bezier(0.16, 1, 0.3, 1)`) untuk adaptasi padding, skala glass-pill (`scale-[0.99]`), dan bayangan halus.
-   - Mengoptimalkan eksekusi rendering agar 100% menggunakan properti terakselerasi GPU (`transform`, `opacity`) tanpa memicu reflow atau layout recalculation.
+### 1. Langkah Wajib di Dashboard Vercel (Memutus Loop)
+Loop terjadi karena di Vercel Dashboard, domain `chestaa.com` saat ini di-set untuk me-*redirect* ke `www.chestaa.com`. Lakukan langkah berikut di dashboard Vercel Anda:
 
-3. **Verifikasi Kinerja & Core Web Vitals**
-   - Menjalankan `npm run lint` untuk verifikasi TypeScript dan validasi kode.
-   - Menjalankan `npm run cls:check` untuk memastikan Cumulative Layout Shift (CLS) tetap `0.0000`.
-   - Menguji kompilasi produksi via `compile_applet`.
+1. Buka [Dashboard Vercel](https://vercel.com) dan pilih project Anda.
+2. Masuk ke **Settings** ➔ **Domains**.
+3. Di daftar domain:
+   - Cari **`chestaa.com`** ➔ Klik **Edit**.
+   - Hapus / nonaktifkan pengalihan (jadikan `chestaa.com` sebagai **Production Domain / Primary**, tanpa panah redirect).
+   - Cari **`www.chestaa.com`** ➔ Klik **Edit**.
+   - Centang / pilih **Redirect to:** `chestaa.com` dengan status **308 Permanent** (atau 301).
+4. Klik **Save**.
+
+---
+
+### 2. Penyesuaian Kode pada `vercel.json`
+Untuk mencegah tabrakan aturan di masa mendatang dan memastikan arsitektur cloud mengikuti standar resmi Vercel:
+- Menyerahkan pengalihan domain (`www.chestaa.com` ➔ `chestaa.com`) ke Vercel Edge Domain Router yang jauh lebih cepat di layer DNS/CDN.
+- Membersihkan aturan manual `has: host: www.chestaa.com` di `vercel.json` agar tidak bentrok dengan Edge Router.
+- Memastikan aturan root `/` mengarah langsung ke canonical `/id`:
+  ```json
+  {
+    "source": "/",
+    "destination": "/id",
+    "permanent": true
+  }
+  ```
+
+---
+
+### 3. Verifikasi Akhir
+- Menjalankan `npm run lint` dan `npm run discovery:check` untuk memastikan seluruh rute sitemap, robots.txt, dan canonical link tetap 100% konsisten.
+- Menguji via `curl -ILs https://chestaa.com` dan `curl -ILs https://www.chestaa.com` untuk memvalidasi bahwa loop hilang dan halaman terbuka normal.

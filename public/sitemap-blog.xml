@@ -1,116 +1,324 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://chestaa.com/id/blog</loc>
-    <lastmod>2026-10-25</lastmod>
+    <lastmod>2026-10-29</lastmod>
     <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog" />
     <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/id/blog.png</image:loc>
+    </image:image>
   </url>
   <url>
     <loc>https://chestaa.com/en/blog</loc>
-    <lastmod>2026-10-25</lastmod>
+    <lastmod>2026-10-29</lastmod>
     <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog" />
     <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/en/blog.png</image:loc>
+    </image:image>
   </url>
   <url>
-    <loc>https://chestaa.com/id/blog/kategori/performa-web</loc>
-    <lastmod>2026-10-25</lastmod>
-    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/kategori/performa-web" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/kategori/performa-web" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/kategori/performa-web" />
+    <loc>https://chestaa.com/id/blog/topik/agentic-ai</loc>
+    <lastmod>2026-10-29</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/topik/agentic-ai" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/topic/agentic-ai" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/topik/agentic-ai" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/id/blog/topik/agentic-ai.png</image:loc>
+    </image:image>
   </url>
   <url>
-    <loc>https://chestaa.com/en/blog/kategori/performa-web</loc>
-    <lastmod>2026-10-25</lastmod>
-    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/kategori/performa-web" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/kategori/performa-web" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/kategori/performa-web" />
+    <loc>https://chestaa.com/en/blog/topic/agentic-ai</loc>
+    <lastmod>2026-10-29</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/topik/agentic-ai" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/topic/agentic-ai" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/topik/agentic-ai" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/en/blog/topic/agentic-ai.png</image:loc>
+    </image:image>
   </url>
   <url>
-    <loc>https://chestaa.com/id/blog/kategori/investasi-web</loc>
-    <lastmod>2026-10-25</lastmod>
-    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/kategori/investasi-web" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/kategori/investasi-web" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/kategori/investasi-web" />
+    <loc>https://chestaa.com/id/blog/topik/website-dan-performa</loc>
+    <lastmod>2026-10-29</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/topik/website-dan-performa" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/topic/website-dan-performa" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/topik/website-dan-performa" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/id/blog/topik/website-dan-performa.png</image:loc>
+    </image:image>
   </url>
   <url>
-    <loc>https://chestaa.com/en/blog/kategori/investasi-web</loc>
-    <lastmod>2026-10-25</lastmod>
-    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/kategori/investasi-web" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/kategori/investasi-web" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/kategori/investasi-web" />
+    <loc>https://chestaa.com/en/blog/topic/website-dan-performa</loc>
+    <lastmod>2026-10-29</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/topik/website-dan-performa" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/topic/website-dan-performa" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/topik/website-dan-performa" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/en/blog/topic/website-dan-performa.png</image:loc>
+    </image:image>
   </url>
   <url>
-    <loc>https://chestaa.com/id/blog/kategori/otomasi-ai</loc>
-    <lastmod>2026-10-25</lastmod>
-    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/kategori/otomasi-ai" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/kategori/otomasi-ai" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/kategori/otomasi-ai" />
+    <loc>https://chestaa.com/id/blog/topik/seo-lokal-dan-geo</loc>
+    <lastmod>2026-10-29</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/topik/seo-lokal-dan-geo" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/topic/seo-lokal-dan-geo" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/topik/seo-lokal-dan-geo" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/id/blog/topik/seo-lokal-dan-geo.png</image:loc>
+    </image:image>
   </url>
   <url>
-    <loc>https://chestaa.com/en/blog/kategori/otomasi-ai</loc>
-    <lastmod>2026-10-25</lastmod>
-    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/kategori/otomasi-ai" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/kategori/otomasi-ai" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/kategori/otomasi-ai" />
+    <loc>https://chestaa.com/en/blog/topic/seo-lokal-dan-geo</loc>
+    <lastmod>2026-10-29</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/topik/seo-lokal-dan-geo" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/topic/seo-lokal-dan-geo" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/topik/seo-lokal-dan-geo" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/en/blog/topic/seo-lokal-dan-geo.png</image:loc>
+    </image:image>
   </url>
   <url>
-    <loc>https://chestaa.com/id/blog/kategori/konversi-ux</loc>
-    <lastmod>2026-10-25</lastmod>
-    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/kategori/konversi-ux" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/kategori/konversi-ux" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/kategori/konversi-ux" />
+    <loc>https://chestaa.com/id/blog/topik/otomasi-dan-software</loc>
+    <lastmod>2026-10-29</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/topik/otomasi-dan-software" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/topic/otomasi-dan-software" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/topik/otomasi-dan-software" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/id/blog/topik/otomasi-dan-software.png</image:loc>
+    </image:image>
   </url>
   <url>
-    <loc>https://chestaa.com/en/blog/kategori/konversi-ux</loc>
-    <lastmod>2026-10-25</lastmod>
-    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/kategori/konversi-ux" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/kategori/konversi-ux" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/kategori/konversi-ux" />
+    <loc>https://chestaa.com/en/blog/topic/otomasi-dan-software</loc>
+    <lastmod>2026-10-29</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/topik/otomasi-dan-software" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/topic/otomasi-dan-software" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/topik/otomasi-dan-software" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/en/blog/topic/otomasi-dan-software.png</image:loc>
+    </image:image>
   </url>
   <url>
-    <loc>https://chestaa.com/id/blog/kategori/seo-lokal</loc>
-    <lastmod>2026-10-25</lastmod>
-    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/kategori/seo-lokal" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/kategori/seo-lokal" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/kategori/seo-lokal" />
+    <loc>https://chestaa.com/id/blog/topik/biaya-dan-memilih-vendor</loc>
+    <lastmod>2026-10-29</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/topik/biaya-dan-memilih-vendor" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/topic/biaya-dan-memilih-vendor" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/topik/biaya-dan-memilih-vendor" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/id/blog/topik/biaya-dan-memilih-vendor.png</image:loc>
+    </image:image>
   </url>
   <url>
-    <loc>https://chestaa.com/en/blog/kategori/seo-lokal</loc>
-    <lastmod>2026-10-25</lastmod>
-    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/kategori/seo-lokal" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/kategori/seo-lokal" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/kategori/seo-lokal" />
+    <loc>https://chestaa.com/en/blog/topic/biaya-dan-memilih-vendor</loc>
+    <lastmod>2026-10-29</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/topik/biaya-dan-memilih-vendor" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/topic/biaya-dan-memilih-vendor" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/topik/biaya-dan-memilih-vendor" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/en/blog/topic/biaya-dan-memilih-vendor.png</image:loc>
+    </image:image>
   </url>
   <url>
-    <loc>https://chestaa.com/id/blog/whatsapp-business-app-vs-api-untuk-bisnis</loc>
-    <lastmod>2026-10-25</lastmod>
-    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/whatsapp-business-app-vs-api-untuk-bisnis" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/whatsapp-business-app-vs-api-for-business" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/whatsapp-business-app-vs-api-untuk-bisnis" />
+    <loc>https://chestaa.com/id/blog/panduan-lengkap-cara-kerja-agentic-ai-untuk-pemula</loc>
+    <lastmod>2026-10-29</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/panduan-lengkap-cara-kerja-agentic-ai-untuk-pemula" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/a-complete-guide-to-how-agentic-ai-works-for-beginners" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/panduan-lengkap-cara-kerja-agentic-ai-untuk-pemula" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/id/blog/panduan-lengkap-cara-kerja-agentic-ai-untuk-pemula.png</image:loc>
+    </image:image>
   </url>
   <url>
-    <loc>https://chestaa.com/id/blog/keamanan-ai-agent-prompt-injection-data-pelanggan</loc>
-    <lastmod>2026-10-25</lastmod>
-    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/keamanan-ai-agent-prompt-injection-data-pelanggan" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/ai-agent-security-prompt-injection-customer-data" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/keamanan-ai-agent-prompt-injection-data-pelanggan" />
+    <loc>https://chestaa.com/id/blog/tool-use-function-calling-ai-agent-bisnis</loc>
+    <lastmod>2026-10-29</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/tool-use-function-calling-ai-agent-bisnis" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/tool-use-function-calling-ai-agents-business" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/tool-use-function-calling-ai-agent-bisnis" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/id/blog/tool-use-function-calling-ai-agent-bisnis.png</image:loc>
+    </image:image>
   </url>
   <url>
-    <loc>https://chestaa.com/id/blog/uu-pdp-bisnis-whatsapp-ai-panduan-praktis</loc>
-    <lastmod>2026-10-25</lastmod>
-    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/uu-pdp-bisnis-whatsapp-ai-panduan-praktis" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/pdp-law-indonesia-business-whatsapp-ai" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/uu-pdp-bisnis-whatsapp-ai-panduan-praktis" />
+    <loc>https://chestaa.com/id/blog/memori-ai-agent-bisnis-retensi-dan-privasi</loc>
+    <lastmod>2026-10-29</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/memori-ai-agent-bisnis-retensi-dan-privasi" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/ai-agent-memory-retention-privacy-business" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/memori-ai-agent-bisnis-retensi-dan-privasi" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/id/blog/memori-ai-agent-bisnis-retensi-dan-privasi.png</image:loc>
+    </image:image>
   </url>
   <url>
-    <loc>https://chestaa.com/id/blog/n8n-make-zapier-kode-custom-pilih-otomasi</loc>
-    <lastmod>2026-10-25</lastmod>
-    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/n8n-make-zapier-kode-custom-pilih-otomasi" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/n8n-make-zapier-custom-code-automation-guide" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/n8n-make-zapier-kode-custom-pilih-otomasi" />
+    <loc>https://chestaa.com/id/blog/multi-agent-vs-single-agent-arsitektur-bisnis</loc>
+    <lastmod>2026-10-29</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/multi-agent-vs-single-agent-arsitektur-bisnis" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/multi-agent-vs-single-agent-business-architecture" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/multi-agent-vs-single-agent-arsitektur-bisnis" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/id/blog/multi-agent-vs-single-agent-arsitektur-bisnis.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://chestaa.com/id/blog/biaya-operasional-bulanan-ai-agent-bisnis</loc>
+    <lastmod>2026-10-29</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/biaya-operasional-bulanan-ai-agent-bisnis" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/monthly-operating-costs-ai-agents-business" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/biaya-operasional-bulanan-ai-agent-bisnis" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/id/blog/biaya-operasional-bulanan-ai-agent-bisnis.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://chestaa.com/id/blog/landing-page-iklan-meta-google-konversi-tinggi</loc>
+    <lastmod>2026-10-29</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/landing-page-iklan-meta-google-konversi-tinggi" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/landing-pages-meta-google-ads-high-conversion" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/landing-page-iklan-meta-google-konversi-tinggi" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/id/blog/landing-page-iklan-meta-google-konversi-tinggi.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://chestaa.com/id/blog/core-web-vitals-pemilik-bisnis-lcp-inp-cls</loc>
+    <lastmod>2026-10-29</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/core-web-vitals-pemilik-bisnis-lcp-inp-cls" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/core-web-vitals-business-owners-lcp-inp-cls" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/core-web-vitals-pemilik-bisnis-lcp-inp-cls" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/id/blog/core-web-vitals-pemilik-bisnis-lcp-inp-cls.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://chestaa.com/id/blog/webhook-dan-api-otomasi-antar-aplikasi-bisnis</loc>
+    <lastmod>2026-10-29</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/webhook-dan-api-otomasi-antar-aplikasi-bisnis" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/webhooks-and-apis-cross-app-automation-business" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/webhook-dan-api-otomasi-antar-aplikasi-bisnis" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/id/blog/webhook-dan-api-otomasi-antar-aplikasi-bisnis.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://chestaa.com/id/blog/keamanan-website-bisnis-lokal-12-langkah</loc>
+    <lastmod>2026-10-29</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/keamanan-website-bisnis-lokal-12-langkah" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/local-business-website-security-12-essential-steps" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/keamanan-website-bisnis-lokal-12-langkah" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/id/blog/keamanan-website-bisnis-lokal-12-langkah.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://chestaa.com/id/blog/nextjs-vs-wordpress-untuk-bisnis-lokal-cara-memilih</loc>
+    <lastmod>2026-10-29</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/nextjs-vs-wordpress-untuk-bisnis-lokal-cara-memilih" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/nextjs-vs-wordpress-for-local-business-how-to-choose" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/nextjs-vs-wordpress-untuk-bisnis-lokal-cara-memilih" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/id/blog/nextjs-vs-wordpress-untuk-bisnis-lokal-cara-memilih.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://chestaa.com/id/blog/dashboard-untuk-pemilik-kafe-metrik-operasional</loc>
+    <lastmod>2026-10-29</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/dashboard-untuk-pemilik-kafe-metrik-operasional" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/dashboards-for-cafe-owners-operational-metrics" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/dashboard-untuk-pemilik-kafe-metrik-operasional" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/id/blog/dashboard-untuk-pemilik-kafe-metrik-operasional.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://chestaa.com/id/blog/evaluasi-ai-agent-cara-mengukur-kinerja-agent-bisnis</loc>
+    <lastmod>2026-10-28</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/evaluasi-ai-agent-cara-mengukur-kinerja-agent-bisnis" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/evaluating-ai-agents-how-to-measure-business-agent-performance" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/evaluasi-ai-agent-cara-mengukur-kinerja-agent-bisnis" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/id/blog/evaluasi-ai-agent-cara-mengukur-kinerja-agent-bisnis.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://chestaa.com/id/blog/biaya-rawat-website-dan-sistem-setelah-rilis</loc>
+    <lastmod>2026-10-29</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/biaya-rawat-website-dan-sistem-setelah-rilis" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/website-and-system-maintenance-costs-after-launch" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/biaya-rawat-website-dan-sistem-setelah-rilis" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/id/blog/biaya-rawat-website-dan-sistem-setelah-rilis.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://chestaa.com/id/blog/schema-markup-untuk-bisnis-lokal-panduan-praktis</loc>
+    <lastmod>2026-10-29</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/schema-markup-untuk-bisnis-lokal-panduan-praktis" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/schema-markup-for-local-businesses-practical-guide" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/schema-markup-untuk-bisnis-lokal-panduan-praktis" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/id/blog/schema-markup-untuk-bisnis-lokal-panduan-praktis.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://chestaa.com/id/blog/ai-untuk-kos-kosan-dan-properti-sewa</loc>
+    <lastmod>2026-10-28</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/ai-untuk-kos-kosan-dan-properti-sewa" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/ai-for-boarding-houses-and-rental-properties" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/ai-untuk-kos-kosan-dan-properti-sewa" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/id/blog/ai-untuk-kos-kosan-dan-properti-sewa.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://chestaa.com/id/blog/merancang-alur-percakapan-whatsapp-ai-agent</loc>
+    <lastmod>2026-10-29</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/merancang-alur-percakapan-whatsapp-ai-agent" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/designing-whatsapp-conversation-flows-ai-agents" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/merancang-alur-percakapan-whatsapp-ai-agent" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/id/blog/merancang-alur-percakapan-whatsapp-ai-agent.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://chestaa.com/id/blog/rag-untuk-pemilik-bisnis-ai-menjawab-dari-dokumen</loc>
+    <lastmod>2026-10-27</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/rag-untuk-pemilik-bisnis-ai-menjawab-dari-dokumen" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/rag-for-business-owners-ai-answers-from-documents" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/rag-untuk-pemilik-bisnis-ai-menjawab-dari-dokumen" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/id/blog/rag-untuk-pemilik-bisnis-ai-menjawab-dari-dokumen.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://chestaa.com/id/blog/otomasi-invoice-dan-penagihan-jasa-profesional</loc>
+    <lastmod>2026-10-27</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/otomasi-invoice-dan-penagihan-jasa-profesional" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/invoice-and-billing-automation-for-professional-services" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/otomasi-invoice-dan-penagihan-jasa-profesional" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/id/blog/otomasi-invoice-dan-penagihan-jasa-profesional.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://chestaa.com/id/blog/cara-memilih-jasa-pembuatan-website-tangerang-selatan</loc>
+    <lastmod>2026-10-26</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/cara-memilih-jasa-pembuatan-website-tangerang-selatan" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/how-to-choose-web-development-service-south-tangerang" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/cara-memilih-jasa-pembuatan-website-tangerang-selatan" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/id/blog/cara-memilih-jasa-pembuatan-website-tangerang-selatan.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://chestaa.com/id/blog/human-handoff-ai-agent-kapan-serahkan-ke-manusia</loc>
+    <lastmod>2026-10-26</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/human-handoff-ai-agent-kapan-serahkan-ke-manusia" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/human-handoff-ai-agent-when-to-escalate-to-humans" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/human-handoff-ai-agent-kapan-serahkan-ke-manusia" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/id/blog/human-handoff-ai-agent-kapan-serahkan-ke-manusia.png</image:loc>
+    </image:image>
   </url>
   <url>
     <loc>https://chestaa.com/id/blog/chatbot-ai-website-gagal-7-penyebab-solusi</loc>
@@ -118,104 +326,349 @@
     <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/chatbot-ai-website-gagal-7-penyebab-solusi" />
     <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/why-website-ai-chatbots-fail-7-causes-fixes" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/chatbot-ai-website-gagal-7-penyebab-solusi" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/id/blog/chatbot-ai-website-gagal-7-penyebab-solusi.png</image:loc>
+    </image:image>
   </url>
   <url>
-    <loc>https://chestaa.com/id/blog/ai-agent-vs-chatbot-perbedaan-untuk-bisnis</loc>
-    <lastmod>2026-10-25</lastmod>
-    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/ai-agent-vs-chatbot-perbedaan-untuk-bisnis" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/ai-agent-vs-chatbot-difference-for-business" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/ai-agent-vs-chatbot-perbedaan-untuk-bisnis" />
-  </url>
-  <url>
-    <loc>https://chestaa.com/id/blog/mcp-model-context-protocol-untuk-pemilik-bisnis</loc>
-    <lastmod>2026-10-25</lastmod>
-    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/mcp-model-context-protocol-untuk-pemilik-bisnis" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/mcp-model-context-protocol-for-business-owners" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/mcp-model-context-protocol-untuk-pemilik-bisnis" />
-  </url>
-  <url>
-    <loc>https://chestaa.com/id/blog/vibe-coding-untuk-bisnis-kapan-cukup-kapan-berbahaya</loc>
-    <lastmod>2026-10-25</lastmod>
-    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/vibe-coding-untuk-bisnis-kapan-cukup-kapan-berbahaya" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/vibe-coding-for-business-when-enough-when-dangerous" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/vibe-coding-untuk-bisnis-kapan-cukup-kapan-berbahaya" />
-  </url>
-  <url>
-    <loc>https://chestaa.com/id/blog/geo-dan-aeo-cara-bisnis-lokal-muncul-di-ai</loc>
-    <lastmod>2026-10-25</lastmod>
-    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/geo-dan-aeo-cara-bisnis-lokal-muncul-di-ai" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/geo-and-aeo-how-local-businesses-rank-in-ai-answers" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/geo-dan-aeo-cara-bisnis-lokal-muncul-di-ai" />
-  </url>
-  <url>
-    <loc>https://chestaa.com/id/blog/otomasi-workflow-bisnis-n8n-make-pekerjaan-repetitif</loc>
-    <lastmod>2026-10-25</lastmod>
-    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/otomasi-workflow-bisnis-n8n-make-pekerjaan-repetitif" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/business-workflow-automation-n8n-make-repetitive-tasks" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/otomasi-workflow-bisnis-n8n-make-pekerjaan-repetitif" />
-  </url>
-  <url>
-    <loc>https://chestaa.com/id/blog/kenapa-landing-page-lambat-bikin-iklan-boncos</loc>
-    <lastmod>2026-10-25</lastmod>
-    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/kenapa-landing-page-lambat-bikin-iklan-boncos" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/why-slow-landing-pages-waste-ad-spend" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/kenapa-landing-page-lambat-bikin-iklan-boncos" />
-  </url>
-  <url>
-    <loc>https://chestaa.com/id/blog/berapa-biaya-bikin-website-bisnis-panduan-harga</loc>
-    <lastmod>2026-10-25</lastmod>
-    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/berapa-biaya-bikin-website-bisnis-panduan-harga" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/how-much-does-a-business-website-cost-pricing-guide" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/berapa-biaya-bikin-website-bisnis-panduan-harga" />
-  </url>
-  <url>
-    <loc>https://chestaa.com/id/blog/otomasi-whatsapp-ai-klinik-fnb-alur-kerja</loc>
-    <lastmod>2026-10-25</lastmod>
-    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/otomasi-whatsapp-ai-klinik-fnb-alur-kerja" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/whatsapp-ai-automation-for-clinics-and-fnb-workflows" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/otomasi-whatsapp-ai-klinik-fnb-alur-kerja" />
-  </url>
-  <url>
-    <loc>https://chestaa.com/id/blog/checklist-landing-page-konversi-tinggi-bisnis-jasa</loc>
-    <lastmod>2026-10-25</lastmod>
-    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/checklist-landing-page-konversi-tinggi-bisnis-jasa" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/high-converting-landing-page-checklist-for-service-businesses" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/checklist-landing-page-konversi-tinggi-bisnis-jasa" />
-  </url>
-  <url>
-    <loc>https://chestaa.com/id/blog/seo-lokal-bisnis-bsd-tangerang-selatan-google-maps</loc>
-    <lastmod>2026-10-25</lastmod>
-    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/seo-lokal-bisnis-bsd-tangerang-selatan-google-maps" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/local-seo-guide-for-bsd-and-south-tangerang-businesses" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/seo-lokal-bisnis-bsd-tangerang-selatan-google-maps" />
-  </url>
-  <url>
-    <loc>https://chestaa.com/en/blog/whatsapp-business-app-vs-api-for-business</loc>
-    <lastmod>2026-10-25</lastmod>
-    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/whatsapp-business-app-vs-api-untuk-bisnis" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/whatsapp-business-app-vs-api-for-business" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/whatsapp-business-app-vs-api-untuk-bisnis" />
-  </url>
-  <url>
-    <loc>https://chestaa.com/en/blog/ai-agent-security-prompt-injection-customer-data</loc>
-    <lastmod>2026-10-25</lastmod>
-    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/keamanan-ai-agent-prompt-injection-data-pelanggan" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/ai-agent-security-prompt-injection-customer-data" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/keamanan-ai-agent-prompt-injection-data-pelanggan" />
-  </url>
-  <url>
-    <loc>https://chestaa.com/en/blog/pdp-law-indonesia-business-whatsapp-ai</loc>
-    <lastmod>2026-10-25</lastmod>
-    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/uu-pdp-bisnis-whatsapp-ai-panduan-praktis" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/pdp-law-indonesia-business-whatsapp-ai" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/uu-pdp-bisnis-whatsapp-ai-panduan-praktis" />
-  </url>
-  <url>
-    <loc>https://chestaa.com/en/blog/n8n-make-zapier-custom-code-automation-guide</loc>
+    <loc>https://chestaa.com/id/blog/n8n-make-zapier-kode-custom-pilih-otomasi</loc>
     <lastmod>2026-10-25</lastmod>
     <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/n8n-make-zapier-kode-custom-pilih-otomasi" />
     <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/n8n-make-zapier-custom-code-automation-guide" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/n8n-make-zapier-kode-custom-pilih-otomasi" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/id/blog/n8n-make-zapier-kode-custom-pilih-otomasi.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://chestaa.com/id/blog/otomasi-workflow-bisnis-n8n-make-pekerjaan-repetitif</loc>
+    <lastmod>2026-10-24</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/otomasi-workflow-bisnis-n8n-make-pekerjaan-repetitif" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/business-workflow-automation-n8n-make-repetitive-tasks" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/otomasi-workflow-bisnis-n8n-make-pekerjaan-repetitif" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/id/blog/otomasi-workflow-bisnis-n8n-make-pekerjaan-repetitif.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://chestaa.com/id/blog/uu-pdp-bisnis-whatsapp-ai-panduan-praktis</loc>
+    <lastmod>2026-10-25</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/uu-pdp-bisnis-whatsapp-ai-panduan-praktis" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/pdp-law-indonesia-business-whatsapp-ai" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/uu-pdp-bisnis-whatsapp-ai-panduan-praktis" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/id/blog/uu-pdp-bisnis-whatsapp-ai-panduan-praktis.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://chestaa.com/id/blog/geo-dan-aeo-cara-bisnis-lokal-muncul-di-ai</loc>
+    <lastmod>2026-10-24</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/geo-dan-aeo-cara-bisnis-lokal-muncul-di-ai" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/geo-and-aeo-how-local-businesses-rank-in-ai-answers" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/geo-dan-aeo-cara-bisnis-lokal-muncul-di-ai" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/id/blog/geo-dan-aeo-cara-bisnis-lokal-muncul-di-ai.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://chestaa.com/id/blog/keamanan-ai-agent-prompt-injection-data-pelanggan</loc>
+    <lastmod>2026-10-25</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/keamanan-ai-agent-prompt-injection-data-pelanggan" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/ai-agent-security-prompt-injection-customer-data" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/keamanan-ai-agent-prompt-injection-data-pelanggan" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/id/blog/keamanan-ai-agent-prompt-injection-data-pelanggan.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://chestaa.com/id/blog/vibe-coding-untuk-bisnis-kapan-cukup-kapan-berbahaya</loc>
+    <lastmod>2026-10-24</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/vibe-coding-untuk-bisnis-kapan-cukup-kapan-berbahaya" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/vibe-coding-for-business-when-enough-when-dangerous" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/vibe-coding-untuk-bisnis-kapan-cukup-kapan-berbahaya" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/id/blog/vibe-coding-untuk-bisnis-kapan-cukup-kapan-berbahaya.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://chestaa.com/id/blog/whatsapp-business-app-vs-api-untuk-bisnis</loc>
+    <lastmod>2026-10-25</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/whatsapp-business-app-vs-api-untuk-bisnis" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/whatsapp-business-app-vs-api-for-business" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/whatsapp-business-app-vs-api-untuk-bisnis" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/id/blog/whatsapp-business-app-vs-api-untuk-bisnis.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://chestaa.com/id/blog/mcp-model-context-protocol-untuk-pemilik-bisnis</loc>
+    <lastmod>2026-10-24</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/mcp-model-context-protocol-untuk-pemilik-bisnis" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/mcp-model-context-protocol-for-business-owners" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/mcp-model-context-protocol-untuk-pemilik-bisnis" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/id/blog/mcp-model-context-protocol-untuk-pemilik-bisnis.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://chestaa.com/id/blog/ai-agent-vs-chatbot-perbedaan-untuk-bisnis</loc>
+    <lastmod>2026-10-24</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/ai-agent-vs-chatbot-perbedaan-untuk-bisnis" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/ai-agent-vs-chatbot-difference-for-business" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/ai-agent-vs-chatbot-perbedaan-untuk-bisnis" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/id/blog/ai-agent-vs-chatbot-perbedaan-untuk-bisnis.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://chestaa.com/id/blog/seo-lokal-bisnis-bsd-tangerang-selatan-google-maps</loc>
+    <lastmod>2026-10-23</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/seo-lokal-bisnis-bsd-tangerang-selatan-google-maps" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/local-seo-guide-for-bsd-and-south-tangerang-businesses" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/seo-lokal-bisnis-bsd-tangerang-selatan-google-maps" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/id/blog/seo-lokal-bisnis-bsd-tangerang-selatan-google-maps.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://chestaa.com/id/blog/checklist-landing-page-konversi-tinggi-bisnis-jasa</loc>
+    <lastmod>2026-10-23</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/checklist-landing-page-konversi-tinggi-bisnis-jasa" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/high-converting-landing-page-checklist-for-service-businesses" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/checklist-landing-page-konversi-tinggi-bisnis-jasa" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/id/blog/checklist-landing-page-konversi-tinggi-bisnis-jasa.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://chestaa.com/id/blog/otomasi-whatsapp-ai-klinik-fnb-alur-kerja</loc>
+    <lastmod>2026-10-23</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/otomasi-whatsapp-ai-klinik-fnb-alur-kerja" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/whatsapp-ai-automation-for-clinics-and-fnb-workflows" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/otomasi-whatsapp-ai-klinik-fnb-alur-kerja" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/id/blog/otomasi-whatsapp-ai-klinik-fnb-alur-kerja.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://chestaa.com/id/blog/berapa-biaya-bikin-website-bisnis-panduan-harga</loc>
+    <lastmod>2026-10-23</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/berapa-biaya-bikin-website-bisnis-panduan-harga" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/how-much-does-a-business-website-cost-pricing-guide" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/berapa-biaya-bikin-website-bisnis-panduan-harga" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/id/blog/berapa-biaya-bikin-website-bisnis-panduan-harga.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://chestaa.com/id/blog/kenapa-landing-page-lambat-bikin-iklan-boncos</loc>
+    <lastmod>2026-10-23</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/kenapa-landing-page-lambat-bikin-iklan-boncos" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/why-slow-landing-pages-waste-ad-spend" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/kenapa-landing-page-lambat-bikin-iklan-boncos" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/id/blog/kenapa-landing-page-lambat-bikin-iklan-boncos.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://chestaa.com/en/blog/a-complete-guide-to-how-agentic-ai-works-for-beginners</loc>
+    <lastmod>2026-10-29</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/panduan-lengkap-cara-kerja-agentic-ai-untuk-pemula" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/a-complete-guide-to-how-agentic-ai-works-for-beginners" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/panduan-lengkap-cara-kerja-agentic-ai-untuk-pemula" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/en/blog/a-complete-guide-to-how-agentic-ai-works-for-beginners.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://chestaa.com/en/blog/tool-use-function-calling-ai-agents-business</loc>
+    <lastmod>2026-10-29</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/tool-use-function-calling-ai-agent-bisnis" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/tool-use-function-calling-ai-agents-business" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/tool-use-function-calling-ai-agent-bisnis" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/en/blog/tool-use-function-calling-ai-agents-business.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://chestaa.com/en/blog/ai-agent-memory-retention-privacy-business</loc>
+    <lastmod>2026-10-29</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/memori-ai-agent-bisnis-retensi-dan-privasi" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/ai-agent-memory-retention-privacy-business" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/memori-ai-agent-bisnis-retensi-dan-privasi" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/en/blog/ai-agent-memory-retention-privacy-business.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://chestaa.com/en/blog/multi-agent-vs-single-agent-business-architecture</loc>
+    <lastmod>2026-10-29</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/multi-agent-vs-single-agent-arsitektur-bisnis" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/multi-agent-vs-single-agent-business-architecture" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/multi-agent-vs-single-agent-arsitektur-bisnis" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/en/blog/multi-agent-vs-single-agent-business-architecture.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://chestaa.com/en/blog/monthly-operating-costs-ai-agents-business</loc>
+    <lastmod>2026-10-29</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/biaya-operasional-bulanan-ai-agent-bisnis" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/monthly-operating-costs-ai-agents-business" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/biaya-operasional-bulanan-ai-agent-bisnis" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/en/blog/monthly-operating-costs-ai-agents-business.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://chestaa.com/en/blog/designing-whatsapp-conversation-flows-ai-agents</loc>
+    <lastmod>2026-10-29</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/merancang-alur-percakapan-whatsapp-ai-agent" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/designing-whatsapp-conversation-flows-ai-agents" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/merancang-alur-percakapan-whatsapp-ai-agent" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/en/blog/designing-whatsapp-conversation-flows-ai-agents.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://chestaa.com/en/blog/landing-pages-meta-google-ads-high-conversion</loc>
+    <lastmod>2026-10-29</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/landing-page-iklan-meta-google-konversi-tinggi" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/landing-pages-meta-google-ads-high-conversion" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/landing-page-iklan-meta-google-konversi-tinggi" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/en/blog/landing-pages-meta-google-ads-high-conversion.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://chestaa.com/en/blog/core-web-vitals-business-owners-lcp-inp-cls</loc>
+    <lastmod>2026-10-29</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/core-web-vitals-pemilik-bisnis-lcp-inp-cls" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/core-web-vitals-business-owners-lcp-inp-cls" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/core-web-vitals-pemilik-bisnis-lcp-inp-cls" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/en/blog/core-web-vitals-business-owners-lcp-inp-cls.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://chestaa.com/en/blog/webhooks-and-apis-cross-app-automation-business</loc>
+    <lastmod>2026-10-29</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/webhook-dan-api-otomasi-antar-aplikasi-bisnis" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/webhooks-and-apis-cross-app-automation-business" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/webhook-dan-api-otomasi-antar-aplikasi-bisnis" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/en/blog/webhooks-and-apis-cross-app-automation-business.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://chestaa.com/en/blog/local-business-website-security-12-essential-steps</loc>
+    <lastmod>2026-10-29</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/keamanan-website-bisnis-lokal-12-langkah" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/local-business-website-security-12-essential-steps" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/keamanan-website-bisnis-lokal-12-langkah" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/en/blog/local-business-website-security-12-essential-steps.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://chestaa.com/en/blog/nextjs-vs-wordpress-for-local-business-how-to-choose</loc>
+    <lastmod>2026-10-29</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/nextjs-vs-wordpress-untuk-bisnis-lokal-cara-memilih" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/nextjs-vs-wordpress-for-local-business-how-to-choose" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/nextjs-vs-wordpress-untuk-bisnis-lokal-cara-memilih" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/en/blog/nextjs-vs-wordpress-for-local-business-how-to-choose.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://chestaa.com/en/blog/dashboards-for-cafe-owners-operational-metrics</loc>
+    <lastmod>2026-10-29</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/dashboard-untuk-pemilik-kafe-metrik-operasional" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/dashboards-for-cafe-owners-operational-metrics" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/dashboard-untuk-pemilik-kafe-metrik-operasional" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/en/blog/dashboards-for-cafe-owners-operational-metrics.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://chestaa.com/en/blog/evaluating-ai-agents-how-to-measure-business-agent-performance</loc>
+    <lastmod>2026-10-28</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/evaluasi-ai-agent-cara-mengukur-kinerja-agent-bisnis" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/evaluating-ai-agents-how-to-measure-business-agent-performance" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/evaluasi-ai-agent-cara-mengukur-kinerja-agent-bisnis" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/en/blog/evaluating-ai-agents-how-to-measure-business-agent-performance.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://chestaa.com/en/blog/website-and-system-maintenance-costs-after-launch</loc>
+    <lastmod>2026-10-29</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/biaya-rawat-website-dan-sistem-setelah-rilis" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/website-and-system-maintenance-costs-after-launch" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/biaya-rawat-website-dan-sistem-setelah-rilis" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/en/blog/website-and-system-maintenance-costs-after-launch.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://chestaa.com/en/blog/schema-markup-for-local-businesses-practical-guide</loc>
+    <lastmod>2026-10-29</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/schema-markup-untuk-bisnis-lokal-panduan-praktis" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/schema-markup-for-local-businesses-practical-guide" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/schema-markup-untuk-bisnis-lokal-panduan-praktis" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/en/blog/schema-markup-for-local-businesses-practical-guide.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://chestaa.com/en/blog/ai-for-boarding-houses-and-rental-properties</loc>
+    <lastmod>2026-10-28</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/ai-untuk-kos-kosan-dan-properti-sewa" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/ai-for-boarding-houses-and-rental-properties" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/ai-untuk-kos-kosan-dan-properti-sewa" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/en/blog/ai-for-boarding-houses-and-rental-properties.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://chestaa.com/en/blog/rag-for-business-owners-ai-answers-from-documents</loc>
+    <lastmod>2026-10-27</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/rag-untuk-pemilik-bisnis-ai-menjawab-dari-dokumen" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/rag-for-business-owners-ai-answers-from-documents" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/rag-untuk-pemilik-bisnis-ai-menjawab-dari-dokumen" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/en/blog/rag-for-business-owners-ai-answers-from-documents.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://chestaa.com/en/blog/invoice-and-billing-automation-for-professional-services</loc>
+    <lastmod>2026-10-27</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/otomasi-invoice-dan-penagihan-jasa-profesional" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/invoice-and-billing-automation-for-professional-services" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/otomasi-invoice-dan-penagihan-jasa-profesional" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/en/blog/invoice-and-billing-automation-for-professional-services.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://chestaa.com/en/blog/how-to-choose-web-development-service-south-tangerang</loc>
+    <lastmod>2026-10-26</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/cara-memilih-jasa-pembuatan-website-tangerang-selatan" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/how-to-choose-web-development-service-south-tangerang" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/cara-memilih-jasa-pembuatan-website-tangerang-selatan" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/en/blog/how-to-choose-web-development-service-south-tangerang.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://chestaa.com/en/blog/human-handoff-ai-agent-when-to-escalate-to-humans</loc>
+    <lastmod>2026-10-26</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/human-handoff-ai-agent-kapan-serahkan-ke-manusia" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/human-handoff-ai-agent-when-to-escalate-to-humans" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/human-handoff-ai-agent-kapan-serahkan-ke-manusia" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/en/blog/human-handoff-ai-agent-when-to-escalate-to-humans.png</image:loc>
+    </image:image>
   </url>
   <url>
     <loc>https://chestaa.com/en/blog/why-website-ai-chatbots-fail-7-causes-fixes</loc>
@@ -223,75 +676,148 @@
     <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/chatbot-ai-website-gagal-7-penyebab-solusi" />
     <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/why-website-ai-chatbots-fail-7-causes-fixes" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/chatbot-ai-website-gagal-7-penyebab-solusi" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/en/blog/why-website-ai-chatbots-fail-7-causes-fixes.png</image:loc>
+    </image:image>
   </url>
   <url>
-    <loc>https://chestaa.com/en/blog/ai-agent-vs-chatbot-difference-for-business</loc>
+    <loc>https://chestaa.com/en/blog/n8n-make-zapier-custom-code-automation-guide</loc>
     <lastmod>2026-10-25</lastmod>
-    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/ai-agent-vs-chatbot-perbedaan-untuk-bisnis" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/ai-agent-vs-chatbot-difference-for-business" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/ai-agent-vs-chatbot-perbedaan-untuk-bisnis" />
-  </url>
-  <url>
-    <loc>https://chestaa.com/en/blog/mcp-model-context-protocol-for-business-owners</loc>
-    <lastmod>2026-10-25</lastmod>
-    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/mcp-model-context-protocol-untuk-pemilik-bisnis" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/mcp-model-context-protocol-for-business-owners" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/mcp-model-context-protocol-untuk-pemilik-bisnis" />
-  </url>
-  <url>
-    <loc>https://chestaa.com/en/blog/vibe-coding-for-business-when-enough-when-dangerous</loc>
-    <lastmod>2026-10-25</lastmod>
-    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/vibe-coding-untuk-bisnis-kapan-cukup-kapan-berbahaya" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/vibe-coding-for-business-when-enough-when-dangerous" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/vibe-coding-untuk-bisnis-kapan-cukup-kapan-berbahaya" />
-  </url>
-  <url>
-    <loc>https://chestaa.com/en/blog/geo-and-aeo-how-local-businesses-rank-in-ai-answers</loc>
-    <lastmod>2026-10-25</lastmod>
-    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/geo-dan-aeo-cara-bisnis-lokal-muncul-di-ai" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/geo-and-aeo-how-local-businesses-rank-in-ai-answers" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/geo-dan-aeo-cara-bisnis-lokal-muncul-di-ai" />
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/n8n-make-zapier-kode-custom-pilih-otomasi" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/n8n-make-zapier-custom-code-automation-guide" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/n8n-make-zapier-kode-custom-pilih-otomasi" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/en/blog/n8n-make-zapier-custom-code-automation-guide.png</image:loc>
+    </image:image>
   </url>
   <url>
     <loc>https://chestaa.com/en/blog/business-workflow-automation-n8n-make-repetitive-tasks</loc>
-    <lastmod>2026-10-25</lastmod>
+    <lastmod>2026-10-24</lastmod>
     <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/otomasi-workflow-bisnis-n8n-make-pekerjaan-repetitif" />
     <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/business-workflow-automation-n8n-make-repetitive-tasks" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/otomasi-workflow-bisnis-n8n-make-pekerjaan-repetitif" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/en/blog/business-workflow-automation-n8n-make-repetitive-tasks.png</image:loc>
+    </image:image>
   </url>
   <url>
-    <loc>https://chestaa.com/en/blog/why-slow-landing-pages-waste-ad-spend</loc>
+    <loc>https://chestaa.com/en/blog/pdp-law-indonesia-business-whatsapp-ai</loc>
     <lastmod>2026-10-25</lastmod>
-    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/kenapa-landing-page-lambat-bikin-iklan-boncos" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/why-slow-landing-pages-waste-ad-spend" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/kenapa-landing-page-lambat-bikin-iklan-boncos" />
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/uu-pdp-bisnis-whatsapp-ai-panduan-praktis" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/pdp-law-indonesia-business-whatsapp-ai" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/uu-pdp-bisnis-whatsapp-ai-panduan-praktis" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/en/blog/pdp-law-indonesia-business-whatsapp-ai.png</image:loc>
+    </image:image>
   </url>
   <url>
-    <loc>https://chestaa.com/en/blog/how-much-does-a-business-website-cost-pricing-guide</loc>
-    <lastmod>2026-10-25</lastmod>
-    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/berapa-biaya-bikin-website-bisnis-panduan-harga" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/how-much-does-a-business-website-cost-pricing-guide" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/berapa-biaya-bikin-website-bisnis-panduan-harga" />
+    <loc>https://chestaa.com/en/blog/geo-and-aeo-how-local-businesses-rank-in-ai-answers</loc>
+    <lastmod>2026-10-24</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/geo-dan-aeo-cara-bisnis-lokal-muncul-di-ai" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/geo-and-aeo-how-local-businesses-rank-in-ai-answers" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/geo-dan-aeo-cara-bisnis-lokal-muncul-di-ai" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/en/blog/geo-and-aeo-how-local-businesses-rank-in-ai-answers.png</image:loc>
+    </image:image>
   </url>
   <url>
-    <loc>https://chestaa.com/en/blog/whatsapp-ai-automation-for-clinics-and-fnb-workflows</loc>
+    <loc>https://chestaa.com/en/blog/ai-agent-security-prompt-injection-customer-data</loc>
     <lastmod>2026-10-25</lastmod>
-    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/otomasi-whatsapp-ai-klinik-fnb-alur-kerja" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/whatsapp-ai-automation-for-clinics-and-fnb-workflows" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/otomasi-whatsapp-ai-klinik-fnb-alur-kerja" />
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/keamanan-ai-agent-prompt-injection-data-pelanggan" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/ai-agent-security-prompt-injection-customer-data" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/keamanan-ai-agent-prompt-injection-data-pelanggan" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/en/blog/ai-agent-security-prompt-injection-customer-data.png</image:loc>
+    </image:image>
   </url>
   <url>
-    <loc>https://chestaa.com/en/blog/high-converting-landing-page-checklist-for-service-businesses</loc>
+    <loc>https://chestaa.com/en/blog/vibe-coding-for-business-when-enough-when-dangerous</loc>
+    <lastmod>2026-10-24</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/vibe-coding-untuk-bisnis-kapan-cukup-kapan-berbahaya" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/vibe-coding-for-business-when-enough-when-dangerous" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/vibe-coding-untuk-bisnis-kapan-cukup-kapan-berbahaya" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/en/blog/vibe-coding-for-business-when-enough-when-dangerous.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://chestaa.com/en/blog/whatsapp-business-app-vs-api-for-business</loc>
     <lastmod>2026-10-25</lastmod>
-    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/checklist-landing-page-konversi-tinggi-bisnis-jasa" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/high-converting-landing-page-checklist-for-service-businesses" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/checklist-landing-page-konversi-tinggi-bisnis-jasa" />
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/whatsapp-business-app-vs-api-untuk-bisnis" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/whatsapp-business-app-vs-api-for-business" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/whatsapp-business-app-vs-api-untuk-bisnis" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/en/blog/whatsapp-business-app-vs-api-for-business.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://chestaa.com/en/blog/mcp-model-context-protocol-for-business-owners</loc>
+    <lastmod>2026-10-24</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/mcp-model-context-protocol-untuk-pemilik-bisnis" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/mcp-model-context-protocol-for-business-owners" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/mcp-model-context-protocol-untuk-pemilik-bisnis" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/en/blog/mcp-model-context-protocol-for-business-owners.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://chestaa.com/en/blog/ai-agent-vs-chatbot-difference-for-business</loc>
+    <lastmod>2026-10-24</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/ai-agent-vs-chatbot-perbedaan-untuk-bisnis" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/ai-agent-vs-chatbot-difference-for-business" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/ai-agent-vs-chatbot-perbedaan-untuk-bisnis" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/en/blog/ai-agent-vs-chatbot-difference-for-business.png</image:loc>
+    </image:image>
   </url>
   <url>
     <loc>https://chestaa.com/en/blog/local-seo-guide-for-bsd-and-south-tangerang-businesses</loc>
-    <lastmod>2026-10-25</lastmod>
+    <lastmod>2026-10-23</lastmod>
     <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/seo-lokal-bisnis-bsd-tangerang-selatan-google-maps" />
     <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/local-seo-guide-for-bsd-and-south-tangerang-businesses" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/seo-lokal-bisnis-bsd-tangerang-selatan-google-maps" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/en/blog/local-seo-guide-for-bsd-and-south-tangerang-businesses.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://chestaa.com/en/blog/high-converting-landing-page-checklist-for-service-businesses</loc>
+    <lastmod>2026-10-23</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/checklist-landing-page-konversi-tinggi-bisnis-jasa" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/high-converting-landing-page-checklist-for-service-businesses" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/checklist-landing-page-konversi-tinggi-bisnis-jasa" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/en/blog/high-converting-landing-page-checklist-for-service-businesses.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://chestaa.com/en/blog/whatsapp-ai-automation-for-clinics-and-fnb-workflows</loc>
+    <lastmod>2026-10-23</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/otomasi-whatsapp-ai-klinik-fnb-alur-kerja" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/whatsapp-ai-automation-for-clinics-and-fnb-workflows" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/otomasi-whatsapp-ai-klinik-fnb-alur-kerja" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/en/blog/whatsapp-ai-automation-for-clinics-and-fnb-workflows.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://chestaa.com/en/blog/how-much-does-a-business-website-cost-pricing-guide</loc>
+    <lastmod>2026-10-23</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/berapa-biaya-bikin-website-bisnis-panduan-harga" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/how-much-does-a-business-website-cost-pricing-guide" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/berapa-biaya-bikin-website-bisnis-panduan-harga" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/en/blog/how-much-does-a-business-website-cost-pricing-guide.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://chestaa.com/en/blog/why-slow-landing-pages-waste-ad-spend</loc>
+    <lastmod>2026-10-23</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/blog/kenapa-landing-page-lambat-bikin-iklan-boncos" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/blog/why-slow-landing-pages-waste-ad-spend" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/blog/kenapa-landing-page-lambat-bikin-iklan-boncos" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/en/blog/why-slow-landing-pages-waste-ad-spend.png</image:loc>
+    </image:image>
   </url>
 </urlset>

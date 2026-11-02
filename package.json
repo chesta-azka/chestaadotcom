@@ -20,8 +20,7 @@
     "seo:parity": "tsx scripts/parity.mjs",
     "seo:indexability": "tsx scripts/indexability.mjs",
     "lint:legacy": "node scripts/check-legacy-strings.mjs",
-    "ssr:check": "tsx scripts/ssr-check.mjs",
-    "postinstall": "npm dedupe"
+    "ssr:check": "tsx scripts/ssr-check.mjs"
   },
   "dependencies": {
     "@ai-sdk/google": "^4.0.87",
@@ -88,8 +87,7 @@
     "esbuild": "^0.25.0",
     "tailwindcss": "^4.1.14",
     "tsx": "^4.21.0",
-    "typescript": "~5.8.2",
-    "vite": "^6.2.3"
+    "typescript": "~5.8.2"
   },
   "overrides": {
     "react": "19.2.6",

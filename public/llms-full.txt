@@ -1,6 +1,6 @@
 # CHESTAADOTCOM — Full Documentation Export (llms-full.txt)
 
-> Export lengkap halaman layanan, proyek internal, dan studi kasus internal CHESTAADOTCOM (https://chestaa.com) berdasarkan fakta resmi Section 1.
+> Export lengkap halaman layanan, proyek nyata, contoh proyek, dan studi kasus contoh CHESTAADOTCOM (https://chestaa.com) berdasarkan fakta resmi Section 1.
 
 ## 1. Fact Sheet Resmi
 - **Nama**: CHESTAADOTCOM (chestaa.com)
@@ -8,20 +8,19 @@
 - **Basis**: Berbasis di BSD, Tangerang Selatan, melayani klien di Tangerang Selatan dan Jabodetabek. Kerja sehari-hari dilakukan secara online (WhatsApp, video call); pertemuan tatap muka di area Tangerang Selatan bisa dijadwalkan sesuai kesepakatan.
 - **Kontak**:
   - WhatsApp: +62 821-2544-7232 (https://wa.me/6282125447232)
-  - Kontak Web: https://chestaa.com/id (WhatsApp CTA & interaksi kontak)
   - Instagram: @softwaredev.aiagentic.agency (https://instagram.com/softwaredev.aiagentic.agency)
 - **Layanan (4)**:
   1. Pembuatan website dan landing page — mulai dari Rp1.200.000 (IDR 1,200,000), tergantung kompleksitas.
   2. AI agent untuk bisnis (WhatsApp, operasional, customer support, kualifikasi leads) — harga dihitung setelah audit gratis.
-  3. Pengembangan software custom (aplikasi web internal, portal klien, dashboard) — harga dihitung setelah audit gratis.
+  3. Pengembangan software custom (aplikasi web operasional, portal klien, dashboard) — harga dihitung setelah audit gratis.
   4. Otomasi workflow bisnis (integrasi antar aplikasi, form ke sheet ke notifikasi, laporan otomatis) — harga dihitung setelah audit gratis.
 - **Proses Kerja (4 Langkah)**:
   1. Audit gratis (30 menit) — melihat masalah, alur sekarang, dan apa yang masuk akal dibangun.
   2. Rancang dan prototipe — kamu lihat bentuk dan alurnya dulu sebelum dibangun penuh.
-  3. Bangun dan uji — sistem dibangun, diuji di skenario nyata, dan dirapikan.
+  3. Bangun dan uji — sistem dibangun, diuji di skenario operasional, dan dirapikan.
   4. Rilis dan rawat — sistem jalan di operasional kamu, dipantau, dan disesuaikan kalau ada kebutuhan baru.
 - **Kepemilikan Data & Kode**: Data tetap milikmu (Google Sheets, database, atau server milikmu sendiri). Domain dan hosting terdaftar atas namamu.
-- **Catatan Proyek Internal**: Semua proyek dan studi kasus di situs ini adalah proyek internal CHESTAADOTCOM ("Proyek internal" / "Internal project"), bukan proyek klien. Semua metrik adalah "Target desain, bukan hasil klien" / "Design target, not client results".
+- **Catatan Proyek & Studi Kasus**: Tiga proyek nyata memiliki label "Proyek nyata · klien dirahasiakan" ("Real project · client kept confidential"). Enam contoh proyek ("Contoh proyek" / "Sample project") dan lima studi kasus contoh ("Studi kasus contoh" / "Sample case study") menampilkan catatan: "Contoh proyek dirancang untuk memperlihatkan alur kerja kami. Bukan proyek klien." / "Sample project designed to show our workflow. Not a client project." Semua target adalah "Target desain" / "Design target".
 
 ---
 
@@ -84,7 +83,7 @@ Mulai Rp1.200.000 untuk landing page. Biaya naik kalau jumlah halaman, fitur (mi
 
 
 #### Prinsip Teknis Kami
-Agent diberi akses seminimal mungkin ke tool yang dibutuhkan. Tindakan berisiko meminta persetujuan manusia. Setiap versi diuji dengan percakapan nyata sebelum rilis. Pengalaman kami mencakup sistem chat berbasis AI, API gateway pintar, dan pemroses dokumen berbasis AI.
+Agent diberi akses seminimal mungkin ke tool yang dibutuhkan. Tindakan berisiko meminta persetujuan manusia. Setiap versi diuji dengan percakapan nyata sebelum rilis. Pengalaman kami mencakup sistem chat berbasis AI, API gateway pintar, pemroses dokumen berbasis AI, dan sistem operasional untuk brand minuman, pondok pesantren, dan gudang logistik.
 
 #### Harga dan Ruang Lingkup
 Biaya AI agent dihitung setelah audit gratis, karena bergantung pada jumlah tool yang terhubung, banyaknya aturan bisnis, dan volume pesan. Kamu tahu angkanya sebelum membayar apa pun.
@@ -101,11 +100,11 @@ Biaya AI agent dihitung setelah audit gratis, karena bergantung pada jumlah tool
 - **Q: Apakah bisa lewat WhatsApp?**
   A: Bisa. Agent berjalan lewat WhatsApp Business Platform resmi dari Meta, yang punya ketentuan akun dan nomor sendiri. Kami jelaskan opsinya dan membantu pendaftaran saat audit.
 
-### Jasa pembuatan software custom: aplikasi web, dashboard, dan sistem internal
+### Jasa pembuatan software custom: aplikasi web, dashboard, dan sistem operasional
 - **URL**: https://chestaa.com/id/jasa/software-custom
 - **Eyebrow**: Software custom
-- **Ringkasan / Summary**: Software custom dari CHESTAADOTCOM mencakup aplikasi web, dashboard, dan sistem internal untuk bisnis di Tangerang Selatan dan Jabodetabek. Dibangun mengikuti alur kerja yang sudah berjalan di timmu, dimulai dari versi kecil yang bisa dipakai cepat lalu dikembangkan bertahap. Biaya dihitung setelah audit gratis.
-- **Cocok Kalau**: Aplikasi web, dashboard laporan, dan sistem internal
+- **Ringkasan / Summary**: Software custom dari CHESTAADOTCOM mencakup aplikasi web, dashboard, dan sistem operasional untuk bisnis di Tangerang Selatan dan Jabodetabek. Dibangun mengikuti alur kerja yang sudah berjalan di timmu, dimulai dari versi kecil yang bisa dipakai cepat lalu dikembangkan bertahap. Biaya dihitung setelah audit gratis.
+- **Cocok Kalau**: Aplikasi web, dashboard laporan, dan sistem operasional
 - **Mulai Dari**: Audit gratis 30 menit via WhatsApp atau video call
 - **Harga**: Dihitung setelah audit gratis
 
@@ -253,11 +252,11 @@ AI agent pricing is calculated after the free audit, because it depends on the n
 - **Q: Can it run on WhatsApp?**
   A: Yes. The agent runs via the official WhatsApp Business Platform from Meta, which has its own account and number requirements. We explain the options and assist with registration during the audit.
 
-### Custom software development: web applications, dashboards, and internal systems
+### Custom software development: web applications, dashboards, and operational systems
 - **URL**: https://chestaa.com/en/services/custom-software
 - **Eyebrow**: Custom software
-- **Ringkasan / Summary**: Custom software from CHESTAADOTCOM covers web applications, dashboards, and internal systems for businesses in South Tangerang and Greater Jakarta. Built around the workflows already running in your team, starting from a small version you can use quickly and expanded step by step. Pricing is calculated after a free audit.
-- **Cocok Kalau**: Web applications, reporting dashboards, and internal systems
+- **Ringkasan / Summary**: Custom software from CHESTAADOTCOM covers web applications, dashboards, and operational systems for businesses in South Tangerang and Greater Jakarta. Built around the workflows already running in your team, starting from a small version you can use quickly and expanded step by step. Pricing is calculated after a free audit.
+- **Cocok Kalau**: Web applications, reporting dashboards, and operational systems
 - **Mulai Dari**: Free 30-minute audit via WhatsApp or video call
 - **Harga**: Calculated after free audit
 
@@ -329,15 +328,74 @@ Calculated after the free audit, based on the number of workflows, connected too
 
 ---
 
-## 4. 6 Proyek Internal CHESTAADOTCOM — Bahasa Indonesia
+## 4. 3 Proyek Nyata CHESTAADOTCOM (Klien Dirahasiakan) — Bahasa Indonesia & English
 
-### WA Concierge: agen booking WhatsApp untuk klinik [Proyek internal]
+### Sistem pencatatan untuk brand minuman [Proyek nyata · klien dirahasiakan]
+- **URL**: https://chestaa.com/id/portfolio/sistem-pencatatan-brand-minuman
+- **Label**: Proyek nyata · klien dirahasiakan
+- **Deskripsi**: Sistem yang mencatat dan menghitung suhu, membukukan barang, dan melacak barang yang gagal untuk sebuah brand minuman. Nilai proyek di atas Rp100 juta.
+- **Catatan Nilai**: Nilai proyek di atas Rp100 juta
+- **Yang kami kerjakan**:
+  - Pencatatan dan perhitungan suhu
+  - Pembukuan barang
+  - Pelacakan barang gagal
+- **Klien**: Klien dirahasiakan
+
+### Sistem operasional pondok pesantren [Proyek nyata · klien dirahasiakan]
+- **URL**: https://chestaa.com/id/portfolio/sistem-pondok-pesantren
+- **Label**: Proyek nyata · klien dirahasiakan
+- **Deskripsi**: Sistem untuk menunjang operasional sebuah pondok pesantren.
+- **Yang kami kerjakan**:
+  - Sistem untuk operasional pondok pesantren
+- **Klien**: Klien dirahasiakan
+
+### Sistem gudang logistik [Proyek nyata · klien dirahasiakan]
+- **URL**: https://chestaa.com/id/portfolio/sistem-gudang-logistik
+- **Label**: Proyek nyata · klien dirahasiakan
+- **Deskripsi**: Sistem untuk mengelola operasional sebuah gudang logistik.
+- **Yang kami kerjakan**:
+  - Sistem untuk operasional gudang
+- **Klien**: Klien dirahasiakan
+
+### Recording system for a beverage brand [Real project · client kept confidential]
+- **URL**: https://chestaa.com/en/portfolio/beverage-brand-recording-system
+- **Label**: Real project · client kept confidential
+- **Deskripsi**: A system that records and calculates temperature, logs inventory, and tracks defective items for a beverage brand. Project value above IDR 100 million.
+- **Catatan Nilai**: Project value above IDR 100 million
+- **What we worked on**:
+  - Temperature recording and calculation
+  - Inventory bookkeeping
+  - Defective item tracking
+- **Client**: Client kept confidential
+
+### Operational system for an Islamic boarding school (pesantren) [Real project · client kept confidential]
+- **URL**: https://chestaa.com/en/portfolio/islamic-boarding-school-system
+- **Label**: Real project · client kept confidential
+- **Deskripsi**: A system to support operations for an Islamic boarding school (pesantren).
+- **What we worked on**:
+  - System for boarding school operations
+- **Client**: Client kept confidential
+
+### Logistics warehouse management system [Real project · client kept confidential]
+- **URL**: https://chestaa.com/en/portfolio/logistics-warehouse-system
+- **Label**: Real project · client kept confidential
+- **Deskripsi**: A system to manage operations for a logistics warehouse.
+- **What we worked on**:
+  - System for warehouse operations
+- **Client**: Client kept confidential
+
+---
+
+## 5. 6 Contoh Proyek CHESTAADOTCOM — Bahasa Indonesia
+
+### WA Concierge: agen booking WhatsApp untuk klinik [Contoh proyek]
 - **URL**: https://chestaa.com/id/portfolio/wa-concierge-klinik
-- **Status**: Proyek internal CHESTAADOTCOM (internal: true, year: 2026)
+- **Label**: Contoh proyek (year: 2026)
+- **Catatan**: Contoh proyek dirancang untuk memperlihatkan alur kerja kami. Bukan proyek klien.
 - **Peran / Role**: Desain, pengembangan, dan pengujian
 - **Kategori / Category**: AI Agent (Klinik)
 - **Ringkasan 1 Kalimat**: Menjawab pertanyaan perawatan, mengecek slot terapis, dan membuat booking dari percakapan WhatsApp.
-- **Masalah**: WA Concierge adalah proyek internal CHESTAADOTCOM yang dirancang untuk menunjukkan cara AI agent membaca maksud calon pasien di WhatsApp, mengecek slot kalender terapis, membuat booking, mencatat data ke CRM, dan mengirim pengingat sehari sebelumnya.
+- **Masalah**: WA Concierge adalah contoh proyek CHESTAADOTCOM yang dirancang untuk memperlihatkan cara AI agent membaca maksud calon pasien di WhatsApp, mengecek slot kalender terapis, membuat booking, mencatat data ke CRM, dan mengirim pengingat sehari sebelumnya.
 - **Solusi**: Sistem ini dilengkapi batas tindakan dan aturan serah ke manusia: pertanyaan di luar aturan atau keluhan khusus diteruskan ke staf klinik beserta ringkasan percakapan, dan setiap tindakan agent punya log yang bisa diperiksa.
 - **Alur Kerja**:
   1. Pemahaman Maksud & Katalog Perawatan — Membaca pertanyaan bahasa sehari-hari dari calon pasien dan mencocokkannya dengan daftar perawatan, durasi sesi, serta kisaran harga yang berlaku.
@@ -353,13 +411,14 @@ Calculated after the free audit, based on the number of workflows, connected too
   - Log Semua Tindakan: Setiap pemanggilan tool dan balasan tercatat dalam log sehingga pemilik maupun admin klinik dapat memeriksanya kapan saja.
 - **Stack**: WhatsApp Business Platform, Kalender Terapis, Database CRM, Log Tindakan
 
-### Dashboard Operasional Kafe [Proyek internal]
+### Dashboard Operasional Kafe [Contoh proyek]
 - **URL**: https://chestaa.com/id/portfolio/dashboard-kafe
-- **Status**: Proyek internal CHESTAADOTCOM (internal: true, year: 2026)
+- **Label**: Contoh proyek (year: 2026)
+- **Catatan**: Contoh proyek dirancang untuk memperlihatkan alur kerja kami. Bukan proyek klien.
 - **Peran / Role**: Desain, pengembangan, dan pengujian
 - **Kategori / Category**: Software Custom (F&B)
 - **Ringkasan 1 Kalimat**: Stok bahan, penjualan harian, dan laporan beberapa cabang dalam satu dashboard.
-- **Masalah**: Dashboard Operasional Kafe adalah proyek internal CHESTAADOTCOM yang menunjukkan bagaimana aplikasi web custom menggantikan spreadsheet yang makin berat untuk usaha F&B dengan beberapa cabang.
+- **Masalah**: Dashboard Operasional Kafe adalah contoh proyek CHESTAADOTCOM yang memperlihatkan bagaimana aplikasi web custom menggantikan spreadsheet yang makin berat untuk usaha F&B dengan beberapa cabang.
 - **Solusi**: Staf tiap cabang mencatat stok bahan dan penjualan harian dari HP atau desktop sesuai hak akses perannya, sementara pemilik melihat laporan gabungan yang diperbarui dari data yang sama.
 - **Alur Kerja**:
   1. Stok Bahan & Penjualan Beberapa Cabang — Menyatukan catatan stok bahan baku dan rekap penjualan harian dari tiap cabang ke dalam satu dashboard.
@@ -375,13 +434,14 @@ Calculated after the free audit, based on the number of workflows, connected too
   - Riwayat Perubahan & Ekspor Laporan: Mencatat siapa yang memperbarui angka stok harian dan menyediakan unduhan rekap bulanan.
 - **Stack**: Aplikasi Web, Hak Akses Per Peran, Database Terpusat, Dashboard Laporan
 
-### Alur Lead Properti [Proyek internal]
+### Alur Lead Properti [Contoh proyek]
 - **URL**: https://chestaa.com/id/portfolio/lead-properti
-- **Status**: Proyek internal CHESTAADOTCOM (internal: true, year: 2026)
+- **Label**: Contoh proyek (year: 2026)
+- **Catatan**: Contoh proyek dirancang untuk memperlihatkan alur kerja kami. Bukan proyek klien.
 - **Peran / Role**: Desain, pengembangan, dan pengujian
 - **Kategori / Category**: Otomasi Workflow (Properti)
 - **Ringkasan 1 Kalimat**: Lead dari formulir iklan masuk ke CRM, agen diberi tahu, dan follow-up terjadwal otomatis.
-- **Masalah**: Alur Lead Properti adalah proyek internal CHESTAADOTCOM untuk memperlihatkan otomasi workflow yang menyambungkan formulir iklan properti langsung ke CRM, Google Sheets, dan notifikasi WhatsApp agen.
+- **Masalah**: Alur Lead Properti adalah contoh proyek CHESTAADOTCOM untuk memperlihatkan otomasi workflow yang menyambungkan formulir iklan properti langsung ke CRM, Google Sheets, dan notifikasi WhatsApp agen.
 - **Solusi**: Tanpa perlu menyalin data calon pembeli secara manual antar aplikasi, setiap formulir yang masuk tercatat otomatis, agen yang bertugas langsung diberi tahu, jadwal follow-up dibuat, dan kegagalan langkah apa pun memicu notifikasi beserta log eksekusi.
 - **Alur Kerja**:
   1. Formulir Iklan Langsung ke CRM — Mencatat nama, kontak, dan tipe unit yang diminati calon pembeli dari formulir iklan langsung ke CRM tanpa salin manual.
@@ -395,13 +455,14 @@ Calculated after the free audit, based on the number of workflows, connected too
   - Penanganan Kegagalan & Log Eksekusi: Dilengkapi notifikasi kalau ada langkah yang gagal dan log eksekusi yang bisa diperiksa kapan saja.
 - **Stack**: Formulir Iklan, CRM & Sheets, Notifikasi WhatsApp, Log Eksekusi
 
-### Landing Page Klinik Estetika [Proyek internal]
+### Landing Page Klinik Estetika [Contoh proyek]
 - **URL**: https://chestaa.com/id/portfolio/landing-klinik-estetika
-- **Status**: Proyek internal CHESTAADOTCOM (internal: true, year: 2026)
+- **Label**: Contoh proyek (year: 2026)
+- **Catatan**: Contoh proyek dirancang untuk memperlihatkan alur kerja kami. Bukan proyek klien.
 - **Peran / Role**: Desain, pengembangan, dan pengujian
 - **Kategori / Category**: Web & Landing Page (Klinik)
 - **Ringkasan 1 Kalimat**: Halaman per perawatan dengan harga mulai dari, jadwal, dan booking via WhatsApp.
-- **Masalah**: Landing Page Klinik Estetika adalah proyek internal CHESTAADOTCOM yang mendemonstrasikan struktur halaman tujuan iklan dan pencarian lokal untuk klinik perawatan.
+- **Masalah**: Landing Page Klinik Estetika adalah contoh proyek CHESTAADOTCOM yang mendemonstrasikan struktur halaman tujuan iklan dan pencarian lokal untuk klinik perawatan.
 - **Solusi**: Setiap halaman perawatan disusun untuk menjawab pertanyaan calon pasien sebelum mereka bertanya—mulai dari penjelasan tindakan, harga mulai dari, hingga jadwal praktik—lengkap dengan tombol booking via WhatsApp tanpa banyak langkah.
 - **Alur Kerja**:
   1. Halaman Khusus per Perawatan — Menampilkan informasi perawatan, harga mulai dari, dan jadwal praktik dengan satu tujuan jelas.
@@ -415,33 +476,35 @@ Calculated after the free audit, based on the number of workflows, connected too
   - Tombol Booking WhatsApp Terisi Otomatis: Menyertakan pesan awal di tombol WhatsApp sesuai halaman perawatan yang sedang dibuka pengunjung.
 - **Stack**: Halaman Statis, Optimasi Gambar, Data Terstruktur, Tombol WhatsApp
 
-### Membangun ulang chestaa.com [Proyek internal]
+### Membangun ulang chestaa.com [Contoh proyek]
 - **URL**: https://chestaa.com/id/portfolio/chestaa-v2
-- **Status**: Proyek internal CHESTAADOTCOM (internal: true, year: 2026)
+- **Label**: Contoh proyek (year: 2026)
+- **Catatan**: Contoh proyek dirancang untuk memperlihatkan alur kerja kami. Bukan proyek klien.
 - **Peran / Role**: Desain, pengembangan, dan pengujian
 - **Kategori / Category**: Web & Landing Page (Agensi (situs sendiri))
 - **Ringkasan 1 Kalimat**: Situs dua bahasa yang statis dan cepat, dibangun ulang dengan fokus software dan AI agent.
-- **Masalah**: Membangun ulang chestaa.com adalah proyek internal situs kami sendiri di CHESTAADOTCOM, dirancang sebagai situs dua bahasa (/id dan /en) yang statis, cepat dibuka di HP, dan berfokus pada layanan pembuatan website, AI agent, software custom, serta otomasi workflow.
+- **Masalah**: Membangun ulang chestaa.com adalah contoh proyek situs kami sendiri di CHESTAADOTCOM, dirancang sebagai situs dua bahasa (/id dan /en) yang statis, cepat dibuka di HP, dan berfokus pada layanan pembuatan website, AI agent, software custom, serta otomasi workflow.
 - **Solusi**: Setiap halaman layanan dan area lokal diawali dengan ringkasan singkat yang langsung menjawab pertanyaan pembaca, dilengkapi struktur heading yang rapi, data terstruktur JSON-LD @graph, serta berkas sitemap dan llms.txt.
 - **Alur Kerja**:
-  1. Situs Dua Bahasa (/id dan /en) — Seluruh halaman layanan, area lokal, studi kasus, dan proyek internal tersedia dalam bahasa Indonesia dan Inggris secara 1:1.
+  1. Situs Dua Bahasa (/id dan /en) — Seluruh halaman layanan, area lokal, studi kasus contoh, dan daftar proyek tersedia dalam bahasa Indonesia dan Inggris secara 1:1.
   2. Ringkasan Singkat & Data Terstruktur — Menempatkan ringkasan 40–60 kata tepat setelah hero dan menyertakan satu grafik JSON-LD lengkap di setiap halaman.
   3. Konten Terbaca Tanpa JavaScript — Teks utama, tab contoh penggunaan, dan FAQ tetap utuh di HTML dan diuji untuk kecepatan muat di HP.
   4. Sistem Gerak yang Tenang & Hemat Perangkat — Animasi dibatasi pada properti ringan, menghormati pengaturan pengurangan gerak pengguna, dan menyesuaikan kemampuan perangkat.
 - **Target Desain (Target desain)**:
-  - Situs Dua Bahasa (/id dan /en): Seluruh halaman layanan, area lokal, studi kasus, dan proyek internal tersedia dalam bahasa Indonesia dan Inggris secara 1:1.
+  - Situs Dua Bahasa (/id dan /en): Seluruh halaman layanan, area lokal, studi kasus contoh, dan daftar proyek tersedia dalam bahasa Indonesia dan Inggris secara 1:1.
   - Ringkasan Singkat & Data Terstruktur: Menempatkan ringkasan 40–60 kata tepat setelah hero dan menyertakan satu grafik JSON-LD lengkap di setiap halaman.
   - Konten Terbaca Tanpa JavaScript: Teks utama, tab contoh penggunaan, dan FAQ tetap utuh di HTML dan diuji untuk kecepatan muat di HP.
   - Sistem Gerak yang Tenang & Hemat Perangkat: Animasi dibatasi pada properti ringan, menghormati pengaturan pengurangan gerak pengguna, dan menyesuaikan kemampuan perangkat.
 - **Stack**: Arsitektur Dua Bahasa, JSON-LD @graph, Sitemap & llms.txt, Core Web Vitals
 
-### Pemroses Dokumen AI [Proyek internal]
+### Pemroses Dokumen AI [Contoh proyek]
 - **URL**: https://chestaa.com/id/portfolio/pemroses-dokumen
-- **Status**: Proyek internal CHESTAADOTCOM (internal: true, year: 2026)
+- **Label**: Contoh proyek (year: 2026)
+- **Catatan**: Contoh proyek dirancang untuk memperlihatkan alur kerja kami. Bukan proyek klien.
 - **Peran / Role**: Desain, pengembangan, dan pengujian
 - **Kategori / Category**: AI Agent & Software Custom (Jasa profesional)
 - **Ringkasan 1 Kalimat**: Mengekstrak data dari dokumen ke tabel, dengan tinjauan manusia sebelum data dipakai.
-- **Masalah**: Pemroses Dokumen AI adalah proyek internal CHESTAADOTCOM yang menggabungkan pemroses dokumen berbasis AI dengan antarmuka tabel web custom untuk tim jasa profesional yang setiap hari menyalin isi dokumen ke tabel.
+- **Masalah**: Pemroses Dokumen AI adalah contoh proyek CHESTAADOTCOM yang menggabungkan pemroses dokumen berbasis AI dengan antarmuka tabel web custom untuk tim jasa profesional yang setiap hari menyalin isi dokumen ke tabel.
 - **Solusi**: Alih-alih langsung memakai hasil bacaan AI tanpa pemeriksaan, sistem menempatkan data hasil ekstraksi ke layar tinjauan supaya staf manusia bisa memeriksa, mengoreksi bila perlu, dan menyetujui baris data sebelum dipakai.
 - **Alur Kerja**:
   1. Ekstraksi Isi Dokumen ke Baris Tabel — Membaca kolom penting dari dokumen yang diunggah dan menyusunnya ke dalam struktur tabel yang seragam.
@@ -457,15 +520,16 @@ Calculated after the free audit, based on the number of workflows, connected too
 
 ---
 
-## 5. 6 Internal CHESTAADOTCOM Projects — English
+## 6. 6 Sample CHESTAADOTCOM Projects — English
 
-### WA Concierge: WhatsApp booking agent for clinics [Internal project]
+### WA Concierge: WhatsApp booking agent for clinics [Sample project]
 - **URL**: https://chestaa.com/en/portfolio/wa-concierge-klinik
-- **Status**: CHESTAADOTCOM internal project (internal: true, year: 2026)
+- **Label**: Sample project (year: 2026)
+- **Catatan**: Sample project designed to show our workflow. Not a client project.
 - **Peran / Role**: Design, development, and testing
 - **Kategori / Category**: AI Agent (Clinic)
 - **Ringkasan 1 Kalimat**: Answers treatment questions, checks therapist slots, and creates bookings from WhatsApp conversations.
-- **Masalah**: WA Concierge is a CHESTAADOTCOM internal project built to demonstrate how an AI agent handles incoming treatment inquiries on WhatsApp, checks therapist calendar availability, creates bookings, logs patient details into a CRM, and sends day-before reminders.
+- **Masalah**: WA Concierge is a CHESTAADOTCOM sample project designed to show how an AI agent handles incoming treatment inquiries on WhatsApp, checks therapist calendar availability, creates bookings, logs patient details into a CRM, and sends day-before reminders.
 - **Solusi**: The system includes clear action boundaries and human handover: sensitive questions or special requests outside standard rules are forwarded to clinic staff together with a concise conversation summary, and every action is recorded in an inspectable log.
 - **Alur Kerja**:
   1. Intent Reading & Treatment Catalog Matching — Reads everyday WhatsApp inquiries from prospective patients and matches them against treatment durations, preparation rules, and starting prices.
@@ -481,13 +545,14 @@ Calculated after the free audit, based on the number of workflows, connected too
   - Complete Action Log: Every tool call and message step is logged so clinic owners and admins can inspect what happened at any time.
 - **Stack**: WhatsApp Business Platform, Calendar Tool, CRM Database, Action Log
 
-### Cafe Operations Dashboard [Internal project]
+### Cafe Operations Dashboard [Sample project]
 - **URL**: https://chestaa.com/en/portfolio/dashboard-kafe
-- **Status**: CHESTAADOTCOM internal project (internal: true, year: 2026)
+- **Label**: Sample project (year: 2026)
+- **Catatan**: Sample project designed to show our workflow. Not a client project.
 - **Peran / Role**: Design, development, and testing
 - **Kategori / Category**: Custom Software (F&B)
 - **Ringkasan 1 Kalimat**: Ingredient stock, daily sales, and multi-branch reports in a single dashboard.
-- **Masalah**: Cafe Operations Dashboard is a CHESTAADOTCOM internal project showing how custom web software replaces heavy, error-prone spreadsheets for F&B businesses managing multiple branches.
+- **Masalah**: Cafe Operations Dashboard is a CHESTAADOTCOM sample project showing how custom web software replaces heavy, error-prone spreadsheets for F&B businesses managing multiple branches.
 - **Solusi**: Branch staff record daily stock counts and sales from mobile or desktop screens with role-based permissions, while the owner views consolidated daily reports and low-ingredient alerts from the same data source.
 - **Alur Kerja**:
   1. Multi-Branch Stock & Sales View — Combines ingredient stock levels and daily sales across branches into one web dashboard.
@@ -503,13 +568,14 @@ Calculated after the free audit, based on the number of workflows, connected too
   - Input Audit Trail & Report Export: Records who updated daily stock figures and provides downloadable monthly summaries.
 - **Stack**: Web Application, Role-Based Access, Database, Reporting Dashboard
 
-### Property Lead Flow [Internal project]
+### Property Lead Flow [Sample project]
 - **URL**: https://chestaa.com/en/portfolio/lead-properti
-- **Status**: CHESTAADOTCOM internal project (internal: true, year: 2026)
+- **Label**: Sample project (year: 2026)
+- **Catatan**: Sample project designed to show our workflow. Not a client project.
 - **Peran / Role**: Design, development, and testing
 - **Kategori / Category**: Workflow Automation (Property)
 - **Ringkasan 1 Kalimat**: Leads from ad forms enter the CRM, agents are notified, and follow-ups are scheduled automatically.
-- **Masalah**: Property Lead Flow is a CHESTAADOTCOM internal project built to demonstrate workflow automation connecting property inquiry forms directly to a CRM, Google Sheets, and WhatsApp notifications for sales agents.
+- **Masalah**: Property Lead Flow is a CHESTAADOTCOM sample project built to demonstrate workflow automation connecting property inquiry forms directly to a CRM, Google Sheets, and WhatsApp notifications for sales agents.
 - **Solusi**: Instead of copying buyer data manually between apps, every incoming inquiry is logged, the assigned agent is notified immediately, follow-up reminders are scheduled, and any failed step triggers an alert with an inspectable execution log.
 - **Alur Kerja**:
   1. Direct Ad Form to CRM Entry — Captures prospective buyer details and unit interest from forms and writes them directly to the CRM.
@@ -523,13 +589,14 @@ Calculated after the free audit, based on the number of workflows, connected too
   - Error Handling & Failure Alerts: Includes failure notifications and execution logs so any third-party tool issue is caught early.
 - **Stack**: Ad Form Webhook, CRM & Sheets, WhatsApp Notification, Execution Log
 
-### Aesthetic Clinic Landing Page [Internal project]
+### Aesthetic Clinic Landing Page [Sample project]
 - **URL**: https://chestaa.com/en/portfolio/landing-klinik-estetika
-- **Status**: CHESTAADOTCOM internal project (internal: true, year: 2026)
+- **Label**: Sample project (year: 2026)
+- **Catatan**: Sample project designed to show our workflow. Not a client project.
 - **Peran / Role**: Design, development, and testing
 - **Kategori / Category**: Web & Landing Page (Clinic)
 - **Ringkasan 1 Kalimat**: Dedicated page per treatment with starting prices, practice hours, and booking via WhatsApp.
-- **Masalah**: Aesthetic Clinic Landing Page is a CHESTAADOTCOM internal project demonstrating a fast, mobile-friendly landing page structure for clinics running ads or local search campaigns.
+- **Masalah**: Aesthetic Clinic Landing Page is a CHESTAADOTCOM sample project demonstrating a fast, mobile-friendly landing page structure for clinics running ads or local search campaigns.
 - **Solusi**: Each treatment page answers common prospective patient questions upfront—what the treatment is, starting prices, practice hours, and location—paired with a direct WhatsApp booking button so visitors can book without extra steps.
 - **Alur Kerja**:
   1. Dedicated Page per Treatment — Presents clear treatment details, starting price notes, and practice hours so visitors understand the offer immediately.
@@ -543,13 +610,14 @@ Calculated after the free audit, based on the number of workflows, connected too
   - Pre-Filled WhatsApp Booking Buttons: Attaches a context-specific opening message to each WhatsApp CTA based on the treatment page viewed.
 - **Stack**: Static HTML/CSS, Image Optimization, Structured Data, WhatsApp CTA
 
-### Rebuilding chestaa.com [Internal project]
+### Rebuilding chestaa.com [Sample project]
 - **URL**: https://chestaa.com/en/portfolio/chestaa-v2
-- **Status**: CHESTAADOTCOM internal project (internal: true, year: 2026)
+- **Label**: Sample project (year: 2026)
+- **Catatan**: Sample project designed to show our workflow. Not a client project.
 - **Peran / Role**: Design, development, and testing
 - **Kategori / Category**: Web & Landing Page (Agency (own site))
 - **Ringkasan 1 Kalimat**: A fast, static bilingual site rebuilt with a focus on custom software and AI agents.
-- **Masalah**: Rebuilding chestaa.com is our own internal website project at CHESTAADOTCOM, engineered as a fast, static bilingual (/id and /en) site focused on website development, AI agents, custom software, and workflow automation.
+- **Masalah**: Rebuilding chestaa.com is our own sample website project at CHESTAADOTCOM, engineered as a fast, static bilingual (/id and /en) site focused on website development, AI agents, custom software, and workflow automation.
 - **Solusi**: Every service and local area page leads with a direct 40–60 word summary, complete structured data (@graph JSON-LD), reciprocal hreflang links, and restrained motion that respects reduced-motion and low-spec devices.
 - **Alur Kerja**:
   1. Bilingual /id and /en Architecture — 1:1 Indonesian and English pages with reciprocal hreflang tags, localized slugs, and clean sitemap generation.
@@ -563,33 +631,35 @@ Calculated after the free audit, based on the number of workflows, connected too
   - Calm & Device-Aware Motion System: Animations are limited to lightweight properties, honor reduced-motion preferences, and adapt to device capability.
 - **Stack**: Bilingual Static Architecture, JSON-LD @graph, Sitemap & llms.txt, Core Web Vitals
 
-### AI Document Processor [Internal project]
+### AI Document Processor [Sample project]
 - **URL**: https://chestaa.com/en/portfolio/pemroses-dokumen
-- **Status**: CHESTAADOTCOM internal project (internal: true, year: 2026)
+- **Label**: Sample project (year: 2026)
+- **Catatan**: Sample project designed to show our workflow. Not a client project.
 - **Peran / Role**: Design, development, and testing
 - **Kategori / Category**: AI Agent & Custom Software (Professional services)
 - **Ringkasan 1 Kalimat**: Extracts data from documents into tables, with human review before the data is used.
-- **Masalah**: AI Document Processor is a CHESTAADOTCOM internal project combining an AI extraction pipeline with a custom web review table for professional service teams that process incoming invoices, forms, or supporting documents.
+- **Masalah**: AI Document Processor is a CHESTAADOTCOM sample project combining an AI extraction pipeline with a custom web review table for professional service teams that process incoming invoices, forms, or supporting documents.
 - **Solusi**: Instead of writing extracted fields straight into production records, the system places extracted values into a staging table where a staff member reviews, edits if needed, and approves the row before the data is used.
 - **Alur Kerja**:
   1. Structured Field Extraction to Tables — Reads uploaded documents and maps key fields (names, dates, line items, totals) into structured table rows.
   2. Mandatory Human Review Before Use — Staff inspect extracted rows side-by-side with the source document and approve before data enters the main system.
   3. Uncertain Field Highlighting — Flags low-clarity fields so reviewers can focus immediately on items that need verification.
-  4. Revision & Approval Log — Records who reviewed, edited, and approved each document row for clear internal accountability.
+  4. Revision & Approval Log — Records who reviewed, edited, and approved each document row for clear team accountability.
 - **Target Desain (Design target)**:
   - Structured Field Extraction to Tables: Reads uploaded documents and maps key fields (names, dates, line items, totals) into structured table rows.
   - Mandatory Human Review Before Use: Staff inspect extracted rows side-by-side with the source document and approve before data enters the main system.
   - Uncertain Field Highlighting: Flags low-clarity fields so reviewers can focus immediately on items that need verification.
-  - Revision & Approval Log: Records who reviewed, edited, and approved each document row for clear internal accountability.
+  - Revision & Approval Log: Records who reviewed, edited, and approved each document row for clear team accountability.
 - **Stack**: AI Document Extraction, Human Review Table, Role Access, Audit Log
 
 ---
 
-## 6. 5 Studi Kasus Proyek Internal CHESTAADOTCOM — Bahasa Indonesia (/id/studi-kasus/*)
+## 7. 5 Studi Kasus Contoh CHESTAADOTCOM — Bahasa Indonesia (/id/studi-kasus/*)
 
-### WA Concierge: merancang agen booking untuk klinik [Proyek internal]
+### WA Concierge: merancang agen booking untuk klinik [Studi kasus contoh]
 - **URL**: https://chestaa.com/id/studi-kasus/wa-concierge-klinik
-- **Status**: Proyek internal CHESTAADOTCOM (internal: true, year: 2026)
+- **Label**: Studi kasus contoh (year: 2026)
+- **Catatan**: Contoh proyek dirancang untuk memperlihatkan alur kerja kami. Bukan proyek klien.
 - **Penulis / Author**: Chesta Azka (Co-founder (arsitektur, produk, teknologi))
 - **Industri / Industry**: Klinik (AI Agent)
 - **Masalah / Problem**: Klinik kecil menerima pesan WhatsApp sepanjang hari, termasuk malam, dan satu admin harus menjawab pertanyaan yang sama sambil mengurus jadwal.
@@ -599,9 +669,10 @@ Calculated after the free audit, based on the number of workflows, connected too
   - **Serah ke manusia**: Otomatis dengan ringkasan (Saat pertanyaan di luar aturan)
   - **Pengingat jadwal**: H-1 via WhatsApp (Mengurangi jadwal terlewat)
 
-### Membangun ulang chestaa.com sebagai situs statis dua bahasa [Proyek internal]
+### Membangun ulang chestaa.com sebagai situs statis dua bahasa [Studi kasus contoh]
 - **URL**: https://chestaa.com/id/studi-kasus/chestaa-v2
-- **Status**: Proyek internal CHESTAADOTCOM (internal: true, year: 2026)
+- **Label**: Studi kasus contoh (year: 2026)
+- **Catatan**: Contoh proyek dirancang untuk memperlihatkan alur kerja kami. Bukan proyek klien.
 - **Penulis / Author**: Chesta Azka (Co-founder (arsitektur, produk, teknologi))
 - **Industri / Industry**: Agensi (situs sendiri) (Web & Landing Page)
 - **Masalah / Problem**: Versi awal situs terlalu berat di animasi dan kurang jelas menjelaskan layanan baru kami di AI agent dan software custom.
@@ -611,9 +682,10 @@ Calculated after the free audit, based on the number of workflows, connected too
   - **CLS**: < 0,02 (Tanpa pergeseran layout)
   - **Bahasa**: 2 (/id dan /en) (Hreflang timbal balik)
 
-### Alur lead properti: dari formulir iklan ke follow-up agen [Proyek internal]
+### Alur lead properti: dari formulir iklan ke follow-up agen [Studi kasus contoh]
 - **URL**: https://chestaa.com/id/studi-kasus/lead-properti
-- **Status**: Proyek internal CHESTAADOTCOM (internal: true, year: 2026)
+- **Label**: Studi kasus contoh (year: 2026)
+- **Catatan**: Contoh proyek dirancang untuk memperlihatkan alur kerja kami. Bukan proyek klien.
 - **Penulis / Author**: Zeeshan (Co-founder (operasional dan client success))
 - **Industri / Industry**: Properti (Otomasi Workflow)
 - **Masalah / Problem**: Lead dari iklan masuk ke spreadsheet lalu disalin manual ke WhatsApp agen; banyak yang terlambat dihubungi.
@@ -623,9 +695,10 @@ Calculated after the free audit, based on the number of workflows, connected too
   - **Jadwal follow-up**: H+1 dan H+3 (Pengingat otomatis jika belum direspons)
   - **Pencatatan manual**: 0 langkah (Langsung dari formulir ke CRM)
 
-### Dashboard operasional kafe: dari spreadsheet harian ke satu tampilan [Proyek internal]
+### Dashboard operasional kafe: dari spreadsheet harian ke satu tampilan [Studi kasus contoh]
 - **URL**: https://chestaa.com/id/studi-kasus/dashboard-kafe
-- **Status**: Proyek internal CHESTAADOTCOM (internal: true, year: 2026)
+- **Label**: Studi kasus contoh (year: 2026)
+- **Catatan**: Contoh proyek dirancang untuk memperlihatkan alur kerja kami. Bukan proyek klien.
 - **Penulis / Author**: Chesta Azka (Co-founder (arsitektur, produk, teknologi))
 - **Industri / Industry**: F&B (Software Custom)
 - **Masalah / Problem**: Pemilik kafe dengan beberapa cabang merekap penjualan dan stok dari beberapa spreadsheet, sehingga laporan terlambat dan angkanya sering tidak cocok.
@@ -635,11 +708,12 @@ Calculated after the free audit, based on the number of workflows, connected too
   - **Peringatan stok menipis**: Sebelum bahan habis (Memicu peringatan saat stok di bawah batas aman)
   - **Konsolidasi multi-cabang**: 1 sumber data terpusat (Menghapus konflik versi antar spreadsheet cabang)
 
-### Pemroses Dokumen AI: ekstraksi data dengan tinjauan manusia [Proyek internal]
+### Pemroses Dokumen AI: ekstraksi data dengan tinjauan manusia [Studi kasus contoh]
 - **URL**: https://chestaa.com/id/studi-kasus/pemroses-dokumen
-- **Status**: Proyek internal CHESTAADOTCOM (internal: true, year: 2026)
+- **Label**: Studi kasus contoh (year: 2026)
+- **Catatan**: Contoh proyek dirancang untuk memperlihatkan alur kerja kami. Bukan proyek klien.
 - **Penulis / Author**: Chesta Azka (Co-founder (arsitektur, produk, teknologi))
-- **Industri / Industry**: Jasa profesional (AI Agent & Software Custom)
+- **Industri / Industry**: Jasa profesional (AI Agent, Software Custom)
 - **Masalah / Problem**: Firma jasa profesional menerima puluhan format invoice, bukti potong pajak, dan kontrak per minggu, lalu menyalin angka secara manual dengan risiko salah ketik tinggi.
 - **Yang Dibangun / What We Built**: Sistem ekstraksi dokumen berbasis AI dengan antarmuka web layar terbagi, di mana manusia memeriksa dan menyetujui data sebelum masuk ke database.
 - **Target desain, bukan hasil klien**:
@@ -649,11 +723,12 @@ Calculated after the free audit, based on the number of workflows, connected too
 
 ---
 
-## 7. 5 Internal CHESTAADOTCOM Case Studies — English (/en/case-studies/*)
+## 8. 5 Sample CHESTAADOTCOM Case Studies — English (/en/case-studies/*)
 
-### WA Concierge: designing a booking agent for clinics [Internal project]
+### WA Concierge: designing a booking agent for clinics [Sample case study]
 - **URL**: https://chestaa.com/en/case-studies/wa-concierge-klinik
-- **Status**: CHESTAADOTCOM internal project (internal: true, year: 2026)
+- **Label**: Sample case study (year: 2026)
+- **Catatan**: Sample project designed to show our workflow. Not a client project.
 - **Penulis / Author**: Chesta Azka (Co-founder (architecture, product, technology))
 - **Industri / Industry**: Clinic (AI Agent)
 - **Masalah / Problem**: Small clinics receive WhatsApp messages all day, including at night, and a single admin has to answer the same questions while managing the schedule.
@@ -663,9 +738,10 @@ Calculated after the free audit, based on the number of workflows, connected too
   - **Human handover**: Automatic with summary (When a question falls outside defined rules)
   - **Schedule reminder**: H-1 via WhatsApp (Reduces missed appointments)
 
-### Rebuilding chestaa.com as a static bilingual site [Internal project]
+### Rebuilding chestaa.com as a static bilingual site [Sample case study]
 - **URL**: https://chestaa.com/en/case-studies/chestaa-v2
-- **Status**: CHESTAADOTCOM internal project (internal: true, year: 2026)
+- **Label**: Sample case study (year: 2026)
+- **Catatan**: Sample project designed to show our workflow. Not a client project.
 - **Penulis / Author**: Chesta Azka (Co-founder (architecture, product, technology))
 - **Industri / Industry**: Agency (own site) (Web & Landing Page)
 - **Masalah / Problem**: The early version of our site was too heavy on animations and did not clearly explain our newer services in AI agents and custom software.
@@ -675,9 +751,10 @@ Calculated after the free audit, based on the number of workflows, connected too
   - **CLS**: < 0.02 (Zero layout shift)
   - **Languages**: 2 (/id and /en) (Reciprocal hreflang)
 
-### Property lead flow: from ad form to agent follow-up [Internal project]
+### Property lead flow: from ad form to agent follow-up [Sample case study]
 - **URL**: https://chestaa.com/en/case-studies/lead-properti
-- **Status**: CHESTAADOTCOM internal project (internal: true, year: 2026)
+- **Label**: Sample case study (year: 2026)
+- **Catatan**: Sample project designed to show our workflow. Not a client project.
 - **Penulis / Author**: Zeeshan (Co-founder (operations and client success))
 - **Industri / Industry**: Property (Workflow Automation)
 - **Masalah / Problem**: Leads from ads land in a spreadsheet and are copied manually to agents on WhatsApp; many are contacted too late.
@@ -687,9 +764,10 @@ Calculated after the free audit, based on the number of workflows, connected too
   - **Follow-up schedule**: H+1 and H+3 (Automatic reminder if not yet contacted)
   - **Manual logging**: 0 steps (Directly from form to CRM)
 
-### Cafe operational dashboard: from daily spreadsheets to a single view [Internal project]
+### Cafe operational dashboard: from daily spreadsheets to a single view [Sample case study]
 - **URL**: https://chestaa.com/en/case-studies/dashboard-kafe
-- **Status**: CHESTAADOTCOM internal project (internal: true, year: 2026)
+- **Label**: Sample case study (year: 2026)
+- **Catatan**: Sample project designed to show our workflow. Not a client project.
 - **Penulis / Author**: Chesta Azka (Co-founder (architecture, product, technology))
 - **Industri / Industry**: F&B (Custom Software)
 - **Masalah / Problem**: A multi-branch cafe owner reconciled sales and stock across multiple spreadsheets, causing delayed reports and frequent figure mismatches.
@@ -699,11 +777,12 @@ Calculated after the free audit, based on the number of workflows, connected too
   - **Low inventory alerts**: Before ingredients run out (Triggers alerts when stock falls below safety buffer)
   - **Multi-branch consolidation**: 1 centralized data source (Eliminates version conflicts across branch sheets)
 
-### AI Document Processor: data extraction with human review [Internal project]
+### AI Document Processor: data extraction with human review [Sample case study]
 - **URL**: https://chestaa.com/en/case-studies/pemroses-dokumen
-- **Status**: CHESTAADOTCOM internal project (internal: true, year: 2026)
+- **Label**: Sample case study (year: 2026)
+- **Catatan**: Sample project designed to show our workflow. Not a client project.
 - **Penulis / Author**: Chesta Azka (Co-founder (architecture, product, technology))
-- **Industri / Industry**: Professional services (AI Agent & Custom Software)
+- **Industri / Industry**: Professional services (AI Agent, Custom Software)
 - **Masalah / Problem**: A professional services firm receives dozens of invoice formats, tax withholdings, and contracts weekly, copying figures manually with high typo risks.
 - **Yang Dibangun / What We Built**: An AI-driven document extraction system with a split-screen web interface where humans inspect and approve data before it enters the database.
 - **Design target, not client results**:
@@ -713,29 +792,65 @@ Calculated after the free audit, based on the number of workflows, connected too
 
 ---
 
-## 8. 5 Area Layanan Indexable (/id/area & /en/areas)
+## 9. Area Layanan Terpadu & Layanan x Area Indexable (/id/area & /en/areas)
 
-- **Tangerang Selatan (South Tangerang)**: Kota di Provinsi Banten yang berbatasan dengan Jakarta Selatan, Depok, Kota Tangerang, dan Kabupaten Tangerang, terdiri dari tujuh kecamatan dengan campuran kawasan perumahan, kampus, dan pusat komersial.
+### Halaman Area Terpadu (/id/area/{slug} & /en/areas/{slug})
+- **Tangerang Selatan (South Tangerang) — Kota Tangerang Selatan**: Kota di Provinsi Banten yang terdiri dari tujuh kecamatan dengan kawasan permukiman, kawasan kampus, dan koridor komersial.
+  - ID Area Page: https://chestaa.com/id/area/tangerang-selatan
+  - EN Area Page: https://chestaa.com/en/areas/tangerang-selatan
+- **BSD City (BSD City) — BSD City, Tangerang Selatan**: Kawasan di Serpong, Tangerang Selatan dengan AEON Mall BSD City, The Breeze, dan ICE BSD serta koridor komersial dan kawasan perkantoran.
+  - ID Area Page: https://chestaa.com/id/area/bsd-city
+  - EN Area Page: https://chestaa.com/en/areas/bsd-city
+- **Pamulang (Pamulang) — Kecamatan Pamulang, Tangerang Selatan**: Kecamatan di Kota Tangerang Selatan tempat Universitas Pamulang berada, dengan kawasan permukiman, kawasan kampus, dan koridor komersial.
+  - ID Area Page: https://chestaa.com/id/area/pamulang
+  - EN Area Page: https://chestaa.com/en/areas/pamulang
+- **Jurang Mangu (Jurang Mangu) — Kelurahan Jurang Mangu, Pondok Aren, Tangerang Selatan**: Kelurahan di Kecamatan Pondok Aren, Kota Tangerang Selatan dengan kawasan permukiman dan usaha harian warga.
+  - ID Area Page: https://chestaa.com/id/area/jurang-mangu
+  - EN Area Page: https://chestaa.com/en/areas/jurang-mangu
+- **Serpong (Serpong) — Kecamatan Serpong, Tangerang Selatan**: Kecamatan di Kota Tangerang Selatan yang mencakup kawasan permukiman dan koridor komersial.
+  - ID Area Page: https://chestaa.com/id/area/serpong
+  - EN Area Page: https://chestaa.com/en/areas/serpong
+- **Ciputat (Ciputat) — Kecamatan Ciputat, Tangerang Selatan**: Kecamatan di Kota Tangerang Selatan dengan kawasan permukiman dan usaha harian warga.
+  - ID Area Page: https://chestaa.com/id/area/ciputat
+  - EN Area Page: https://chestaa.com/en/areas/ciputat
+- **Pondok Aren (Pondok Aren) — Kecamatan Pondok Aren, Tangerang Selatan**: Kecamatan di Kota Tangerang Selatan yang mencakup kawasan permukiman dan koridor komersial.
+  - ID Area Page: https://chestaa.com/id/area/pondok-aren
+  - EN Area Page: https://chestaa.com/en/areas/pondok-aren
+- **Alam Sutera (Alam Sutera) — Kawasan di perbatasan Tangerang Selatan dan Kota Tangerang**: Kawasan di perbatasan Tangerang Selatan dan Kota Tangerang dengan koridor komersial dan kawasan permukiman.
+  - ID Area Page: https://chestaa.com/id/area/alam-sutera
+  - EN Area Page: https://chestaa.com/en/areas/alam-sutera
+- **Bintaro (Bintaro) — Kawasan di perbatasan Tangerang Selatan dan Jakarta Selatan**: Kawasan di perbatasan Tangerang Selatan dan Jakarta Selatan dengan kawasan permukiman dan koridor komersial.
+  - ID Area Page: https://chestaa.com/id/area/bintaro
+  - EN Area Page: https://chestaa.com/en/areas/bintaro
+- **Gading Serpong (Gading Serpong) — Gading Serpong, Kabupaten Tangerang**: Kawasan di Kabupaten Tangerang yang berdekatan dengan Serpong dan BSD City, mencakup koridor komersial dan kawasan permukiman.
+  - ID Area Page: https://chestaa.com/id/area/gading-serpong
+  - EN Area Page: https://chestaa.com/en/areas/gading-serpong
+- **Lebak Bulus (Lebak Bulus) — Lebak Bulus, Jakarta Selatan**: Kawasan di Jakarta Selatan tempat beroperasinya Stasiun MRT Lebak Bulus yang menghubungkan koridor komersial dan kawasan permukiman sekitar.
+  - ID Area Page: https://chestaa.com/id/area/lebak-bulus
+  - EN Area Page: https://chestaa.com/en/areas/lebak-bulus
+
+### Halaman Layanan x Area (/id/jasa/{service}/{area} & /en/services/{service}/{area})
+- **Tangerang Selatan (South Tangerang)**: Kota di Provinsi Banten yang terdiri dari tujuh kecamatan dengan kawasan permukiman, kawasan kampus, dan koridor komersial.
   - ID Website: https://chestaa.com/id/jasa/pembuatan-website/tangerang-selatan
   - ID AI Agent: https://chestaa.com/id/jasa/ai-agent/tangerang-selatan
   - EN Website: https://chestaa.com/en/services/website-development/tangerang-selatan
   - EN AI Agent: https://chestaa.com/en/services/ai-agents/tangerang-selatan
-- **BSD City (BSD City)**: Kawasan kota mandiri di Serpong, Tangerang Selatan dengan pusat belanja seperti AEON Mall BSD City dan The Breeze, kawasan perkantoran, serta ICE BSD sebagai pusat pameran.
+- **BSD City (BSD City)**: Kawasan di Serpong, Tangerang Selatan dengan AEON Mall BSD City, The Breeze, dan ICE BSD serta koridor komersial dan kawasan perkantoran.
   - ID Website: https://chestaa.com/id/jasa/pembuatan-website/bsd-city
   - ID AI Agent: https://chestaa.com/id/jasa/ai-agent/bsd-city
   - EN Website: https://chestaa.com/en/services/website-development/bsd-city
   - EN AI Agent: https://chestaa.com/en/services/ai-agents/bsd-city
-- **Pamulang (Pamulang)**: Kecamatan padat penduduk di Tangerang Selatan tempat Universitas Pamulang berada, dengan banyak usaha kos-kosan, tempat makan, bimbel dan kursus, toko online, bengkel, dan laundry.
+- **Pamulang (Pamulang)**: Kecamatan di Kota Tangerang Selatan tempat Universitas Pamulang berada, dengan kawasan permukiman, kawasan kampus, dan koridor komersial.
   - ID Website: https://chestaa.com/id/jasa/pembuatan-website/pamulang
   - ID AI Agent: https://chestaa.com/id/jasa/ai-agent/pamulang
   - EN Website: https://chestaa.com/en/services/website-development/pamulang
   - EN AI Agent: https://chestaa.com/en/services/ai-agents/pamulang
-- **Jurang Mangu (Jurang Mangu)**: Kelurahan di Kecamatan Pondok Aren, Tangerang Selatan di sekitar kawasan Bintaro, berupa permukiman padat dengan praktik dokter, kuliner, jasa renovasi, dan kursus.
+- **Jurang Mangu (Jurang Mangu)**: Kelurahan di Kecamatan Pondok Aren, Kota Tangerang Selatan dengan kawasan permukiman dan usaha harian warga.
   - ID Website: https://chestaa.com/id/jasa/pembuatan-website/jurang-mangu
   - ID AI Agent: https://chestaa.com/id/jasa/ai-agent/jurang-mangu
   - EN Website: https://chestaa.com/en/services/website-development/jurang-mangu
   - EN AI Agent: https://chestaa.com/en/services/ai-agents/jurang-mangu
-- **Lebak Bulus (Lebak Bulus)**: Kelurahan di Kecamatan Cilandak, Jakarta Selatan di sisi barat daya Jakarta dekat perbatasan Tangerang Selatan; lokasi Stasiun MRT Jakarta Lebak Bulus dengan banyak komuter, kafe, jasa profesional, dan bisnis online.
+- **Lebak Bulus (Lebak Bulus)**: Kelurahan di Jakarta Selatan tempat Stasiun MRT Lebak Bulus berada, berbatasan dekat dengan Tangerang Selatan.
   - ID Website: https://chestaa.com/id/jasa/pembuatan-website/lebak-bulus
   - ID AI Agent: https://chestaa.com/id/jasa/ai-agent/lebak-bulus
   - EN Website: https://chestaa.com/en/services/website-development/lebak-bulus

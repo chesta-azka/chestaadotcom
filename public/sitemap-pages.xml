@@ -1,199 +1,243 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
     <loc>https://chestaa.com/id</loc>
-    <lastmod>2026-10-25</lastmod>
+    <lastmod>2026-03-20</lastmod>
     <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id" />
     <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/id/index.png</image:loc>
+    </image:image>
   </url>
   <url>
     <loc>https://chestaa.com/en</loc>
-    <lastmod>2026-10-25</lastmod>
+    <lastmod>2026-03-20</lastmod>
     <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id" />
     <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/en/index.png</image:loc>
+    </image:image>
   </url>
   <url>
-    <loc>https://chestaa.com/id/portfolio</loc>
-    <lastmod>2026-10-25</lastmod>
-    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/portfolio" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/portfolio" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/portfolio" />
+    <loc>https://chestaa.com/id/audit-gratis</loc>
+    <lastmod>2026-03-20</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/audit-gratis" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/free-audit" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/audit-gratis" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/id/audit-gratis.png</image:loc>
+    </image:image>
   </url>
   <url>
-    <loc>https://chestaa.com/en/portfolio</loc>
-    <lastmod>2026-10-25</lastmod>
-    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/portfolio" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/portfolio" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/portfolio" />
+    <loc>https://chestaa.com/en/free-audit</loc>
+    <lastmod>2026-03-20</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/audit-gratis" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/free-audit" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/audit-gratis" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/en/free-audit.png</image:loc>
+    </image:image>
   </url>
   <url>
-    <loc>https://chestaa.com/id/studi-kasus</loc>
-    <lastmod>2026-10-25</lastmod>
-    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/studi-kasus" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/case-studies" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/studi-kasus" />
-  </url>
-  <url>
-    <loc>https://chestaa.com/en/case-studies</loc>
-    <lastmod>2026-10-25</lastmod>
-    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/studi-kasus" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/case-studies" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/studi-kasus" />
-  </url>
-  <url>
-    <loc>https://chestaa.com/id/about</loc>
-    <lastmod>2026-10-25</lastmod>
-    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/about" />
+    <loc>https://chestaa.com/id/tentang</loc>
+    <lastmod>2026-03-20</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/tentang" />
     <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/about" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/about" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/tentang" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/id/tentang.png</image:loc>
+    </image:image>
   </url>
   <url>
     <loc>https://chestaa.com/en/about</loc>
-    <lastmod>2026-10-25</lastmod>
-    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/about" />
+    <lastmod>2026-03-20</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/tentang" />
     <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/about" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/about" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/tentang" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/en/about.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://chestaa.com/id/harga</loc>
+    <lastmod>2026-03-20</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/harga" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/pricing" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/harga" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/id/harga.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://chestaa.com/en/pricing</loc>
+    <lastmod>2026-03-20</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/harga" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/pricing" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/harga" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/en/pricing.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://chestaa.com/id/cara-kerja</loc>
+    <lastmod>2026-03-20</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/cara-kerja" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/how-it-works" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/cara-kerja" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/id/cara-kerja.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://chestaa.com/en/how-it-works</loc>
+    <lastmod>2026-03-20</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/cara-kerja" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/how-it-works" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/cara-kerja" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/en/how-it-works.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://chestaa.com/id/faq</loc>
+    <lastmod>2026-03-20</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/faq" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/faq" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/faq" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/id/faq.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://chestaa.com/en/faq</loc>
+    <lastmod>2026-03-20</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/faq" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/faq" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/faq" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/en/faq.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://chestaa.com/id/privasi</loc>
+    <lastmod>2026-03-20</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/privasi" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/privacy" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/privasi" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/id/privasi.png</image:loc>
+    </image:image>
+  </url>
+  <url>
+    <loc>https://chestaa.com/en/privacy</loc>
+    <lastmod>2026-03-20</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/privasi" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/privacy" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/privasi" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/en/privacy.png</image:loc>
+    </image:image>
   </url>
   <url>
     <loc>https://chestaa.com/id/workflow</loc>
-    <lastmod>2026-10-25</lastmod>
+    <lastmod>2026-03-20</lastmod>
     <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/workflow" />
     <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/workflow" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/workflow" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/id/workflow.png</image:loc>
+    </image:image>
   </url>
   <url>
     <loc>https://chestaa.com/en/workflow</loc>
-    <lastmod>2026-10-25</lastmod>
+    <lastmod>2026-03-20</lastmod>
     <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/workflow" />
     <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/workflow" />
     <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/workflow" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/en/workflow.png</image:loc>
+    </image:image>
   </url>
   <url>
-    <loc>https://chestaa.com/id/portfolio/wa-concierge-klinik</loc>
-    <lastmod>2026-10-25</lastmod>
-    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/portfolio/wa-concierge-klinik" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/portfolio/wa-concierge-klinik" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/portfolio/wa-concierge-klinik" />
+    <loc>https://chestaa.com/id/jasa/pembuatan-website</loc>
+    <lastmod>2026-03-20</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/jasa/pembuatan-website" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/services/website-development" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/jasa/pembuatan-website" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/id/jasa/pembuatan-website.png</image:loc>
+    </image:image>
   </url>
   <url>
-    <loc>https://chestaa.com/en/portfolio/wa-concierge-klinik</loc>
-    <lastmod>2026-10-25</lastmod>
-    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/portfolio/wa-concierge-klinik" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/portfolio/wa-concierge-klinik" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/portfolio/wa-concierge-klinik" />
+    <loc>https://chestaa.com/en/services/website-development</loc>
+    <lastmod>2026-03-20</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/jasa/pembuatan-website" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/services/website-development" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/jasa/pembuatan-website" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/en/services/website-development.png</image:loc>
+    </image:image>
   </url>
   <url>
-    <loc>https://chestaa.com/id/portfolio/dashboard-kafe</loc>
-    <lastmod>2026-10-25</lastmod>
-    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/portfolio/dashboard-kafe" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/portfolio/dashboard-kafe" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/portfolio/dashboard-kafe" />
+    <loc>https://chestaa.com/id/jasa/ai-agent</loc>
+    <lastmod>2026-03-20</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/jasa/ai-agent" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/services/ai-agents" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/jasa/ai-agent" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/id/jasa/ai-agent.png</image:loc>
+    </image:image>
   </url>
   <url>
-    <loc>https://chestaa.com/en/portfolio/dashboard-kafe</loc>
-    <lastmod>2026-10-25</lastmod>
-    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/portfolio/dashboard-kafe" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/portfolio/dashboard-kafe" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/portfolio/dashboard-kafe" />
+    <loc>https://chestaa.com/en/services/ai-agents</loc>
+    <lastmod>2026-03-20</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/jasa/ai-agent" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/services/ai-agents" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/jasa/ai-agent" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/en/services/ai-agents.png</image:loc>
+    </image:image>
   </url>
   <url>
-    <loc>https://chestaa.com/id/portfolio/lead-properti</loc>
-    <lastmod>2026-10-25</lastmod>
-    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/portfolio/lead-properti" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/portfolio/lead-properti" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/portfolio/lead-properti" />
+    <loc>https://chestaa.com/id/jasa/software-custom</loc>
+    <lastmod>2026-03-20</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/jasa/software-custom" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/services/custom-software" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/jasa/software-custom" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/id/jasa/software-custom.png</image:loc>
+    </image:image>
   </url>
   <url>
-    <loc>https://chestaa.com/en/portfolio/lead-properti</loc>
-    <lastmod>2026-10-25</lastmod>
-    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/portfolio/lead-properti" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/portfolio/lead-properti" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/portfolio/lead-properti" />
+    <loc>https://chestaa.com/en/services/custom-software</loc>
+    <lastmod>2026-03-20</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/jasa/software-custom" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/services/custom-software" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/jasa/software-custom" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/en/services/custom-software.png</image:loc>
+    </image:image>
   </url>
   <url>
-    <loc>https://chestaa.com/id/portfolio/landing-klinik-estetika</loc>
-    <lastmod>2026-10-25</lastmod>
-    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/portfolio/landing-klinik-estetika" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/portfolio/landing-klinik-estetika" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/portfolio/landing-klinik-estetika" />
+    <loc>https://chestaa.com/id/jasa/otomasi-workflow</loc>
+    <lastmod>2026-03-20</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/jasa/otomasi-workflow" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/services/workflow-automation" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/jasa/otomasi-workflow" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/id/jasa/otomasi-workflow.png</image:loc>
+    </image:image>
   </url>
   <url>
-    <loc>https://chestaa.com/en/portfolio/landing-klinik-estetika</loc>
-    <lastmod>2026-10-25</lastmod>
-    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/portfolio/landing-klinik-estetika" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/portfolio/landing-klinik-estetika" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/portfolio/landing-klinik-estetika" />
-  </url>
-  <url>
-    <loc>https://chestaa.com/id/portfolio/chestaa-v2</loc>
-    <lastmod>2026-10-25</lastmod>
-    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/portfolio/chestaa-v2" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/portfolio/chestaa-v2" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/portfolio/chestaa-v2" />
-  </url>
-  <url>
-    <loc>https://chestaa.com/en/portfolio/chestaa-v2</loc>
-    <lastmod>2026-10-25</lastmod>
-    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/portfolio/chestaa-v2" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/portfolio/chestaa-v2" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/portfolio/chestaa-v2" />
-  </url>
-  <url>
-    <loc>https://chestaa.com/id/portfolio/pemroses-dokumen</loc>
-    <lastmod>2026-10-25</lastmod>
-    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/portfolio/pemroses-dokumen" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/portfolio/pemroses-dokumen" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/portfolio/pemroses-dokumen" />
-  </url>
-  <url>
-    <loc>https://chestaa.com/en/portfolio/pemroses-dokumen</loc>
-    <lastmod>2026-10-25</lastmod>
-    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/portfolio/pemroses-dokumen" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/portfolio/pemroses-dokumen" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/portfolio/pemroses-dokumen" />
-  </url>
-  <url>
-    <loc>https://chestaa.com/id/studi-kasus/wa-concierge-klinik</loc>
-    <lastmod>2026-10-25</lastmod>
-    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/studi-kasus/wa-concierge-klinik" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/case-studies/wa-concierge-klinik" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/studi-kasus/wa-concierge-klinik" />
-  </url>
-  <url>
-    <loc>https://chestaa.com/en/case-studies/wa-concierge-klinik</loc>
-    <lastmod>2026-10-25</lastmod>
-    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/studi-kasus/wa-concierge-klinik" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/case-studies/wa-concierge-klinik" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/studi-kasus/wa-concierge-klinik" />
-  </url>
-  <url>
-    <loc>https://chestaa.com/id/studi-kasus/chestaa-v2</loc>
-    <lastmod>2026-10-25</lastmod>
-    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/studi-kasus/chestaa-v2" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/case-studies/chestaa-v2" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/studi-kasus/chestaa-v2" />
-  </url>
-  <url>
-    <loc>https://chestaa.com/en/case-studies/chestaa-v2</loc>
-    <lastmod>2026-10-25</lastmod>
-    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/studi-kasus/chestaa-v2" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/case-studies/chestaa-v2" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/studi-kasus/chestaa-v2" />
-  </url>
-  <url>
-    <loc>https://chestaa.com/id/studi-kasus/lead-properti</loc>
-    <lastmod>2026-10-25</lastmod>
-    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/studi-kasus/lead-properti" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/case-studies/lead-properti" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/studi-kasus/lead-properti" />
-  </url>
-  <url>
-    <loc>https://chestaa.com/en/case-studies/lead-properti</loc>
-    <lastmod>2026-10-25</lastmod>
-    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/studi-kasus/lead-properti" />
-    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/case-studies/lead-properti" />
-    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/studi-kasus/lead-properti" />
+    <loc>https://chestaa.com/en/services/workflow-automation</loc>
+    <lastmod>2026-03-20</lastmod>
+    <xhtml:link rel="alternate" hreflang="id" href="https://chestaa.com/id/jasa/otomasi-workflow" />
+    <xhtml:link rel="alternate" hreflang="en" href="https://chestaa.com/en/services/workflow-automation" />
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://chestaa.com/id/jasa/otomasi-workflow" />
+    <image:image>
+      <image:loc>https://chestaa.com/images/og/en/services/workflow-automation.png</image:loc>
+    </image:image>
   </url>
 </urlset>

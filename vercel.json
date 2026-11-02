@@ -4,28 +4,6 @@
   "redirects": [
     {
       "source": "/",
-      "has": [
-        {
-          "type": "host",
-          "value": "www.chestaa.com"
-        }
-      ],
-      "destination": "https://chestaa.com/id",
-      "permanent": true
-    },
-    {
-      "source": "/:path*",
-      "has": [
-        {
-          "type": "host",
-          "value": "www.chestaa.com"
-        }
-      ],
-      "destination": "https://chestaa.com/:path*",
-      "permanent": true
-    },
-    {
-      "source": "/",
       "destination": "/id",
       "permanent": true
     },
