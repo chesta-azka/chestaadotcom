@@ -607,6 +607,7 @@ const RAW_COVER_ENTRIES: RawCoverEntry[] = [
     coverId: 'cover-31-website-cost-price-tiers',
     canonicalSlug: 'berapa-biaya-bikin-website-bisnis-panduan-harga',
     enSlug: 'how-much-does-a-business-website-cost-pricing-guide',
+    aliases: ['biaya-pembuatan-website-bisnis', 'business-website-development-cost-guide'],
     cluster: 'pricing-vendor',
     hero: 'price-tiers',
     variant: 'A',

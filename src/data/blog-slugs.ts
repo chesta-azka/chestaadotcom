@@ -112,6 +112,7 @@ export const BLOG_SLUG_ID_TO_EN: Record<string, string> = {
   "otomasi-workflow-bisnis-n8n-make-pekerjaan-repetitif": "business-workflow-automation-n8n-make-repetitive-tasks",
   "kenapa-landing-page-lambat-bikin-iklan-boncos": "why-slow-landing-pages-waste-ad-spend",
   "berapa-biaya-bikin-website-bisnis-panduan-harga": "how-much-does-a-business-website-cost-pricing-guide",
+  "biaya-pembuatan-website-bisnis": "business-website-development-cost-guide",
   "otomasi-whatsapp-ai-klinik-fnb-alur-kerja": "whatsapp-ai-automation-for-clinics-and-fnb-workflows",
   "checklist-landing-page-konversi-tinggi-bisnis-jasa": "high-converting-landing-page-checklist-for-service-businesses",
   "seo-lokal-bisnis-bsd-tangerang-selatan-google-maps": "local-seo-guide-for-bsd-and-south-tangerang-businesses"
@@ -150,6 +151,7 @@ export const BLOG_SLUG_EN_TO_ID: Record<string, string> = {
   "business-workflow-automation-n8n-make-repetitive-tasks": "otomasi-workflow-bisnis-n8n-make-pekerjaan-repetitif",
   "why-slow-landing-pages-waste-ad-spend": "kenapa-landing-page-lambat-bikin-iklan-boncos",
   "how-much-does-a-business-website-cost-pricing-guide": "berapa-biaya-bikin-website-bisnis-panduan-harga",
+  "business-website-development-cost-guide": "biaya-pembuatan-website-bisnis",
   "whatsapp-ai-automation-for-clinics-and-fnb-workflows": "otomasi-whatsapp-ai-klinik-fnb-alur-kerja",
   "high-converting-landing-page-checklist-for-service-businesses": "checklist-landing-page-konversi-tinggi-bisnis-jasa",
   "local-seo-guide-for-bsd-and-south-tangerang-businesses": "seo-lokal-bisnis-bsd-tangerang-selatan-google-maps"

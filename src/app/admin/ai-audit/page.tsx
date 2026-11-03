@@ -194,6 +194,11 @@ function scoreLead(company: string): { isHighTicket: boolean; estimatedValue: st
 }
 
 const FAST_TRANSITION = { duration: 0.16, ease: [0.16, 1, 0.3, 1] as const };
+const DRAWER_SLIDE_TRANSITION = {
+  type: 'tween' as const,
+  duration: 0.2,
+  ease: [0.22, 1, 0.36, 1] as const,
+};
 
 export default function AiAuditAdminPage() {
   const [leads, setLeads] = useState<ScoredLead[]>([]);
@@ -1217,32 +1222,39 @@ export default function AiAuditAdminPage() {
         </div>
       </div>
 
-      {/* Individual Lead Management Slide-Over Drawer — Fast 160ms GPU Animation */}
-      <AnimatePresence>
+      {/* Individual Lead Management Slide-Over Drawer — Smooth 200ms AnimatePresence Transition */}
+      <AnimatePresence mode="sync">
         {selectedLead && (
-          <div
-            className="fixed inset-0 z-50 flex justify-end"
+          <motion.div
+            key="lead-management-drawer-modal"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2, ease: 'easeOut' }}
+            className="fixed inset-0 z-50 flex justify-end overflow-hidden"
             role="dialog"
             aria-modal="true"
             aria-labelledby="lead-drawer-title"
           >
             {/* Backdrop */}
             <motion.div
+              key="lead-drawer-backdrop"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
-              transition={{ duration: 0.15 }}
+              transition={{ duration: 0.2, ease: 'easeOut' }}
               onClick={closeLeadDrawer}
               className="fixed inset-0 bg-black/75 backdrop-blur-xs cursor-pointer"
             />
 
-            {/* Drawer Panel */}
+            {/* Slide-Over Drawer Panel (200ms) */}
             <motion.aside
-              initial={{ x: '100%' }}
-              animate={{ x: 0 }}
-              exit={{ x: '100%' }}
-              transition={FAST_TRANSITION}
-              className="relative z-10 w-full max-w-lg bg-slate-950 border-l border-slate-800 h-full overflow-y-auto p-6 sm:p-8 flex flex-col justify-between gap-6 shadow-2xl font-sans text-slate-100"
+              key="lead-drawer-panel"
+              initial={{ x: '100%', opacity: 0.85 }}
+              animate={{ x: 0, opacity: 1 }}
+              exit={{ x: '100%', opacity: 0.85 }}
+              transition={DRAWER_SLIDE_TRANSITION}
+              className="relative z-10 w-full max-w-lg bg-slate-950 border-l border-slate-800 h-full overflow-y-auto p-6 sm:p-8 flex flex-col justify-between gap-6 shadow-2xl font-sans text-slate-100 will-change-transform"
             >
               <div className="space-y-6">
                 {/* Drawer Header — Editorial Kicker without Static Pills */}
@@ -1413,7 +1425,7 @@ export default function AiAuditAdminPage() {
                 </button>
               </div>
             </motion.aside>
-          </div>
+          </motion.div>
         )}
       </AnimatePresence>
     </div>

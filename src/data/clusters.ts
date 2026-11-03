@@ -273,6 +273,8 @@ export const POST_CLUSTER_ASSIGNMENT: Record<string, TopicClusterId> = {
   // ============================================================================
   'berapa-biaya-bikin-website-bisnis-panduan-harga': 'biaya-dan-memilih-vendor',
   'how-much-does-a-business-website-cost-pricing-guide': 'biaya-dan-memilih-vendor',
+  'biaya-pembuatan-website-bisnis': 'biaya-dan-memilih-vendor',
+  'business-website-development-cost-guide': 'biaya-dan-memilih-vendor',
 
   'vibe-coding-untuk-bisnis-kapan-cukup-kapan-berbahaya': 'biaya-dan-memilih-vendor',
   'vibe-coding-for-business-when-enough-when-dangerous': 'biaya-dan-memilih-vendor',
