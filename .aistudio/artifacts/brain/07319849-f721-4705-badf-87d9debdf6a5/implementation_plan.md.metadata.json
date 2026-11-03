@@ -1,6 +1,6 @@
 {
-  "summary":  "Rencana perbaikan menyeluruh masalah ERR_TOO_MANY_REDIRECTS pada www.chestaa.com dengan menyelaraskan pengaturan domain Vercel ke chestaa.com (non-www) dan membersihkan aturan redirect di vercel.json.",
-  "updatedAt":  "2026-11-01T14:09:55.896658418Z",
-  "requestFeedback":  true,
-  "userFacing":  true
+  "summary": "Rencana implementasi: (1) Menghapus tombol WA dari top bar MenuOverlayPanel dan mempertegas tombol Hamburger/X di Header & MenuOverlayPanel, (2) Menambahkan garis referensi vertikal otomatis pada LineChart saat kecepatan lead melampaui 7-day moving average > 20%, dan (3) Menambahkan fitur Brush/Zoom interaktif pada LineChart yang memfilter tabel lead di bawahnya secara dinamis.",
+  "updatedAt": "2026-11-03T02:30:29.306970230Z",
+  "requestFeedback": true,
+  "userFacing": true
 }

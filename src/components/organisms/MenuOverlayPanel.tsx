@@ -344,8 +344,8 @@ export default function MenuOverlayPanel({
       };
 
   const hamburgerLineTransition = prefersReducedMotion
-    ? { duration: 0.15 }
-    : { duration: 0.25, ease: EASE_OUT_EXPO };
+    ? { duration: 0.08 }
+    : { duration: 0.12, ease: [0.16, 1, 0.3, 1] as const };
 
   const activeLabel = getTranslation(locale, 'nav.activePage');
 
@@ -389,26 +389,12 @@ export default function MenuOverlayPanel({
               </span>
             </Link>
 
-            <div className="flex items-center gap-2 sm:gap-2.5 shrink-0">
-              <a
-                href={whatsappUrl}
-                target="_blank"
-                rel="noopener"
-                onClick={() => {
-                  trackWaClick(waContext.type || 'default', 'menu_header_cta', locale);
-                  handleRequestClose();
-                }}
-                className="hidden min-[380px]:inline-flex items-center gap-1.5 min-h-[38px] px-3.5 sm:px-4 py-1.5 rounded-full bg-[#6A3FD0] hover:bg-[#5230B0] text-[#FFFFFF] text-[12.5px] sm:text-[13px] font-semibold whitespace-nowrap shrink-0 transition-colors cursor-pointer"
-              >
-                <MessageCircle size={14} className="shrink-0" />
-                <span>{whatsappCtaLabel}</span>
-              </a>
-
+            <div className="flex items-center shrink-0">
               <button
                 ref={closeButtonRef}
                 type="button"
                 onClick={handleRequestClose}
-                className="inline-flex items-center justify-center w-11 h-11 text-[#17122B] hover:text-[#6A3FD0] transition-colors cursor-pointer bg-transparent border-0 p-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#6A3FD0]/40 rounded-full shrink-0"
+                className="inline-flex items-center justify-center w-11 h-11 rounded-full bg-[#F6F3FF]/90 hover:bg-[#EDE6FF] border border-[rgba(106,63,208,0.22)] text-[#17122B] hover:text-[#6A3FD0] shadow-xs transition-all duration-100 cursor-pointer p-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#6A3FD0]/40 shrink-0 active:scale-[0.94]"
                 aria-label={getTranslation(locale, 'nav.closeMenu')}
                 aria-expanded={isOpen}
                 aria-controls="site-menu-panel"
@@ -426,7 +412,7 @@ export default function MenuOverlayPanel({
                         : { y: -3.5, rotate: 0 }
                     }
                     transition={hamburgerLineTransition}
-                    className="block absolute w-[18px] h-[1.5px] bg-current rounded-full origin-center"
+                    className="block absolute w-[18px] h-[2px] bg-current rounded-full origin-center"
                   />
                   <m.span
                     initial={false}
@@ -436,7 +422,7 @@ export default function MenuOverlayPanel({
                         : { y: 3.5, rotate: 0 }
                     }
                     transition={hamburgerLineTransition}
-                    className="block absolute w-[18px] h-[1.5px] bg-current rounded-full origin-center"
+                    className="block absolute w-[18px] h-[2px] bg-current rounded-full origin-center"
                   />
                 </span>
               </button>

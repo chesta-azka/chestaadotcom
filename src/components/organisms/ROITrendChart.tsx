@@ -24,9 +24,9 @@ export default function ROITrendChart() {
 
   return (
     <motion.div 
-      initial={{ opacity: 0, y: 15 }}
+      initial={{ opacity: 0, y: 16 }}
       animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: 0.4, duration: 0.6 }}
+      transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
       className="w-full h-48 mt-6 font-sans"
     >
       <ResponsiveContainer width="100%" height="100%">

@@ -1,12 +1,10 @@
 import React, { useState, useEffect, useRef } from 'react';
-import { MessageCircle } from 'lucide-react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import {
   buildWhatsAppLink,
-  getWhatsAppCtaLabel,
   resolveWhatsAppContextFromPathname,
 } from '../../lib/whatsapp';
-import { trackLanguageSwitch, trackWaClick } from '../../lib/analytics';
+import { trackLanguageSwitch } from '../../lib/analytics';
 import { getActiveLenis, prefersReducedMotion } from '../../lib/motion';
 
 const MenuOverlayPanel = React.lazy(() => import('./MenuOverlayPanel'));
@@ -166,7 +164,6 @@ export default function Header() {
 
   const waContext = resolveWhatsAppContextFromPathname(location.pathname, locale);
   const whatsappUrl = buildWhatsAppLink(waContext, locale);
-  const whatsappCtaLabel = getWhatsAppCtaLabel(locale);
 
   const triggerViewTransitionNavigate = (targetUrl: string, isLangSwitch = false) => {
     const doc = document as Document & {
@@ -222,8 +219,8 @@ export default function Header() {
   };
 
   const hamburgerLineTransition = prefersReducedMotion
-    ? { duration: 0.15 }
-    : { duration: 0.25, ease: EASE_OUT_EXPO };
+    ? { duration: 0.08 }
+    : { duration: 0.12, ease: [0.16, 1, 0.3, 1] as const };
 
   const buttonLabel = menuOpen
     ? getTranslation(locale, 'nav.closeMenu')
@@ -307,22 +304,8 @@ export default function Header() {
             })}
           </div>
 
-          {/* Right: "Konsultasi gratis" / "Free consultation" button + 44x44px 2-line hamburger button */}
-          <div className="flex items-center gap-2 sm:gap-2.5 shrink-0">
-            <a
-              href={whatsappUrl}
-              target="_blank"
-              rel="noopener"
-              onClick={() => {
-                trackWaClick(waContext.type || 'default', 'header_cta', locale);
-                setMenuOpen(false);
-              }}
-              className="hidden md:inline-flex items-center gap-1.5 min-h-[38px] px-3.5 sm:px-4 py-1.5 rounded-full bg-[#6A3FD0] hover:bg-[#5230B0] text-[#FFFFFF] text-[12.5px] sm:text-[13px] font-semibold whitespace-nowrap shrink-0 transition-colors active:scale-[0.98]"
-            >
-              <MessageCircle size={14} className="shrink-0" />
-              <span>{whatsappCtaLabel}</span>
-            </a>
-
+          {/* Right: Prominent 44x44px Hamburger / Close (X) button */}
+          <div className="flex items-center shrink-0">
             <button
               ref={hamburgerButtonRef}
               type="button"
@@ -332,13 +315,13 @@ export default function Header() {
                 setHasOpenedMenu(true);
                 setMenuOpen((prev) => !prev);
               }}
-              className="inline-flex items-center justify-center w-11 h-11 text-[#17122B] hover:text-[#6A3FD0] transition-colors cursor-pointer bg-transparent border-0 p-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#6A3FD0]/40 rounded-full shrink-0"
+              className="inline-flex items-center justify-center w-11 h-11 rounded-full bg-[#F6F3FF]/90 hover:bg-[#EDE6FF] border border-[rgba(106,63,208,0.22)] text-[#17122B] hover:text-[#6A3FD0] shadow-xs transition-all duration-100 cursor-pointer p-0 focus:outline-none focus-visible:ring-2 focus-visible:ring-[#6A3FD0]/40 shrink-0 active:scale-[0.94]"
               aria-label={buttonLabel}
               aria-expanded={menuOpen}
               aria-controls="site-menu-panel"
             >
               <span className="sr-only">{buttonLabel}</span>
-              {/* Two 18x1.5px lines that morph into an X via smooth CSS transitions */}
+              {/* Two 18x2px lines that morph into an X with snappy 120ms transition */}
               <span
                 className="relative w-5 h-5 flex items-center justify-center"
                 aria-hidden="true"
@@ -346,16 +329,16 @@ export default function Header() {
                 <span
                   style={{
                     transform: menuOpen ? 'translateY(0) rotate(45deg)' : 'translateY(-3.5px) rotate(0deg)',
-                    transition: isReducedMotion ? 'none' : 'transform 240ms cubic-bezier(0.22, 1, 0.36, 1)',
+                    transition: isReducedMotion ? 'none' : 'transform 120ms cubic-bezier(0.16, 1, 0.3, 1)',
                   }}
-                  className="block absolute w-[18px] h-[1.5px] bg-current rounded-full origin-center"
+                  className="block absolute w-[18px] h-[2px] bg-current rounded-full origin-center"
                 />
                 <span
                   style={{
                     transform: menuOpen ? 'translateY(0) rotate(-45deg)' : 'translateY(3.5px) rotate(0deg)',
-                    transition: isReducedMotion ? 'none' : 'transform 240ms cubic-bezier(0.22, 1, 0.36, 1)',
+                    transition: isReducedMotion ? 'none' : 'transform 120ms cubic-bezier(0.16, 1, 0.3, 1)',
                   }}
-                  className="block absolute w-[18px] h-[1.5px] bg-current rounded-full origin-center"
+                  className="block absolute w-[18px] h-[2px] bg-current rounded-full origin-center"
                 />
               </span>
             </button>
