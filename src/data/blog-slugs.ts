@@ -111,9 +111,13 @@ export const BLOG_SLUG_ID_TO_EN: Record<string, string> = {
   "geo-dan-aeo-cara-bisnis-lokal-muncul-di-ai": "geo-and-aeo-how-local-businesses-rank-in-ai-answers",
   "otomasi-workflow-bisnis-n8n-make-pekerjaan-repetitif": "business-workflow-automation-n8n-make-repetitive-tasks",
   "kenapa-landing-page-lambat-bikin-iklan-boncos": "why-slow-landing-pages-waste-ad-spend",
+  "landing-page-untuk-iklan-bisnis": "landing-pages-for-business-ads",
   "berapa-biaya-bikin-website-bisnis-panduan-harga": "how-much-does-a-business-website-cost-pricing-guide",
   "biaya-pembuatan-website-bisnis": "business-website-development-cost-guide",
+  "biaya-pembuatan-website-bisnis-tangerang-selatan": "business-website-development-cost-south-tangerang",
   "otomasi-whatsapp-ai-klinik-fnb-alur-kerja": "whatsapp-ai-automation-for-clinics-and-fnb-workflows",
+  "kapan-bisnis-butuh-ai-agent-whatsapp": "when-your-business-needs-a-whatsapp-ai-agent",
+  "pindah-dari-spreadsheet-ke-software-custom": "moving-from-spreadsheets-to-custom-software",
   "checklist-landing-page-konversi-tinggi-bisnis-jasa": "high-converting-landing-page-checklist-for-service-businesses",
   "seo-lokal-bisnis-bsd-tangerang-selatan-google-maps": "local-seo-guide-for-bsd-and-south-tangerang-businesses"
 };
@@ -150,9 +154,13 @@ export const BLOG_SLUG_EN_TO_ID: Record<string, string> = {
   "geo-and-aeo-how-local-businesses-rank-in-ai-answers": "geo-dan-aeo-cara-bisnis-lokal-muncul-di-ai",
   "business-workflow-automation-n8n-make-repetitive-tasks": "otomasi-workflow-bisnis-n8n-make-pekerjaan-repetitif",
   "why-slow-landing-pages-waste-ad-spend": "kenapa-landing-page-lambat-bikin-iklan-boncos",
+  "landing-pages-for-business-ads": "landing-page-untuk-iklan-bisnis",
   "how-much-does-a-business-website-cost-pricing-guide": "berapa-biaya-bikin-website-bisnis-panduan-harga",
   "business-website-development-cost-guide": "biaya-pembuatan-website-bisnis",
+  "business-website-development-cost-south-tangerang": "biaya-pembuatan-website-bisnis-tangerang-selatan",
   "whatsapp-ai-automation-for-clinics-and-fnb-workflows": "otomasi-whatsapp-ai-klinik-fnb-alur-kerja",
+  "when-your-business-needs-a-whatsapp-ai-agent": "kapan-bisnis-butuh-ai-agent-whatsapp",
+  "moving-from-spreadsheets-to-custom-software": "pindah-dari-spreadsheet-ke-software-custom",
   "high-converting-landing-page-checklist-for-service-businesses": "checklist-landing-page-konversi-tinggi-bisnis-jasa",
   "local-seo-guide-for-bsd-and-south-tangerang-businesses": "seo-lokal-bisnis-bsd-tangerang-selatan-google-maps"
 };
