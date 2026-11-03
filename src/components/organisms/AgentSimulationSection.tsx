@@ -28,9 +28,9 @@ export default function AgentSimulationSection() {
   const isLiteOrReduced = motionMode === 'lite' || motionMode === 'reduced';
 
   const sectionRef = useRef<HTMLElement>(null);
-  const [currentStep, setCurrentStep] = useState<number>(isLiteOrReduced ? 6 : 1);
+  const [currentStep, setCurrentStep] = useState<number>(6);
   const [isRunning, setIsRunning] = useState<boolean>(false);
-  const [hasStarted, setHasStarted] = useState<boolean>(isLiteOrReduced);
+  const [hasStarted, setHasStarted] = useState<boolean>(true);
 
   // Meter counter targets
   const targetCounts = {
@@ -61,7 +61,7 @@ export default function AgentSimulationSection() {
 
   const currentMetrics = isLiteOrReduced ? targetCounts : getStepMetrics(currentStep);
 
-  // Step advancement timer loop
+  // Step advancement timer loop (when user clicks Replay)
   useEffect(() => {
     if (isLiteOrReduced) {
       setCurrentStep(6);
@@ -75,7 +75,7 @@ export default function AgentSimulationSection() {
     const advance = () => {
       setCurrentStep((prev) => {
         if (prev < 6) {
-          timerId = window.setTimeout(advance, 1150);
+          timerId = window.setTimeout(advance, 700);
           return prev + 1;
         } else {
           setIsRunning(false);
@@ -84,34 +84,12 @@ export default function AgentSimulationSection() {
       });
     };
 
-    timerId = window.setTimeout(advance, 1150);
+    timerId = window.setTimeout(advance, 700);
 
     return () => {
       if (timerId !== null) window.clearTimeout(timerId);
     };
   }, [isRunning, isLiteOrReduced]);
-
-  // Viewport trigger (starts once when 40% visible)
-  useEffect(() => {
-    if (isLiteOrReduced || hasStarted) return;
-
-    const el = sectionRef.current;
-    if (!el) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && entry.intersectionRatio >= 0.38) {
-          setHasStarted(true);
-          setIsRunning(true);
-          observer.disconnect();
-        }
-      },
-      { threshold: [0.2, 0.4, 0.6] }
-    );
-
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, [hasStarted, isLiteOrReduced]);
 
   // Tab visibility pause/resume handler
   useEffect(() => {
@@ -208,12 +186,18 @@ export default function AgentSimulationSection() {
             </div>
 
             {/* H2 Headline */}
-            <h2 className="mt-3 text-[clamp(1.6rem,2.8vw,2.25rem)] font-bold tracking-[-0.02em] text-[#FFFFFF] leading-[1.25]">
+            <h2
+              style={{ color: '#FFFFFF' }}
+              className="mt-3 text-[clamp(1.6rem,2.8vw,2.25rem)] font-bold tracking-[-0.02em] text-[#FFFFFF] leading-[1.25]"
+            >
               {t('sim.title')}
             </h2>
 
             {/* Subheadline (max 56ch) - Crisp light violet-white text for maximum readability */}
-            <p className="mt-3.5 text-[15px] md:text-[16px] text-[#EDE9FE] leading-[1.7] max-w-[56ch] font-normal">
+            <p
+              style={{ color: '#F5F3FF' }}
+              className="mt-3.5 text-[15px] md:text-[16px] text-[#F5F3FF] leading-[1.7] max-w-[56ch] font-normal"
+            >
               {t('sim.sub')}
             </p>
 
@@ -489,7 +473,10 @@ export default function AgentSimulationSection() {
             </div>
 
             {/* Footer Note */}
-            <p className="mt-3 text-[12px] text-[#DDD6FE] text-center sm:text-left select-none font-medium">
+            <p
+              style={{ color: '#E9D5FF' }}
+              className="mt-3 text-[12px] text-[#E9D5FF] text-center sm:text-left select-none font-medium"
+            >
               {t('sim.footer.note')}
             </p>
           </div>
@@ -515,15 +502,15 @@ function EventRow({ isVisible, time, chatNodes, actionNodes }: EventRowProps) {
     <div
       style={{
         transform: isVisible ? 'translate3d(0, 0, 0)' : 'translate3d(0, 6px, 0)',
-        opacity: isVisible ? 1 : 0.22,
-        transition: 'transform 320ms cubic-bezier(0.16, 1, 0.3, 1), opacity 320ms ease-out',
+        opacity: isVisible ? 1 : 0.55,
+        transition: 'transform 260ms cubic-bezier(0.16, 1, 0.3, 1), opacity 260ms ease-out',
       }}
-      className="p-3.5 sm:p-4 rounded-2xl bg-[#160E36] border border-[rgba(167,139,250,0.22)] space-y-3 sm:space-y-0 sm:grid sm:grid-cols-12 sm:gap-4 sm:items-start"
+      className="p-3.5 sm:p-4 rounded-2xl bg-[#19113B] border border-[rgba(167,139,250,0.3)] space-y-3 sm:space-y-0 sm:grid sm:grid-cols-12 sm:gap-4 sm:items-start"
     >
       {/* Left Chat Area */}
       <div className="sm:col-span-7 space-y-2.5">
         <div className="flex items-center gap-2 mb-1">
-          <span className="font-mono text-[10px] uppercase tracking-[0.08em] font-bold text-[#DDD6FE] bg-[#241752] border border-[rgba(167,139,250,0.25)] px-2 py-0.5 rounded">
+          <span className="font-mono text-[10px] uppercase tracking-[0.08em] font-bold text-[#F5F3FF] bg-[#291B5C] border border-[rgba(167,139,250,0.35)] px-2 py-0.5 rounded">
             {time}
           </span>
         </div>
@@ -531,8 +518,8 @@ function EventRow({ isVisible, time, chatNodes, actionNodes }: EventRowProps) {
       </div>
 
       {/* Right Action Log */}
-      <div className="sm:col-span-5 pt-2 sm:pt-0 border-t sm:border-t-0 sm:border-l border-[rgba(167,139,250,0.2)] sm:pl-4 space-y-2">
-        <span className="sm:hidden font-mono text-[10px] uppercase tracking-[0.08em] text-[#C4B5FD] font-bold block mb-1">
+      <div className="sm:col-span-5 pt-2 sm:pt-0 border-t sm:border-t-0 sm:border-l border-[rgba(167,139,250,0.25)] sm:pl-4 space-y-2">
+        <span className="sm:hidden font-mono text-[10px] uppercase tracking-[0.08em] text-[#DDD6FE] font-bold block mb-1">
           Tindakan
         </span>
         {actionNodes}
@@ -544,11 +531,14 @@ function EventRow({ isVisible, time, chatNodes, actionNodes }: EventRowProps) {
 function UserBubble({ text, time }: { text: string; time: string }) {
   return (
     <div className="flex justify-start">
-      <div className="max-w-[90%] sm:max-w-[85%] rounded-2xl rounded-tl-sm px-3.5 py-2.5 bg-[#211842] border border-[rgba(167,139,250,0.32)] text-[#FFFFFF] shadow-md">
-        <p className="text-[13px] sm:text-[14px] leading-[1.5] text-[#FFFFFF] font-normal">
+      <div className="max-w-[90%] sm:max-w-[85%] rounded-2xl rounded-tl-sm px-3.5 py-2.5 bg-[#261B4D] border border-[rgba(167,139,250,0.4)] text-[#FFFFFF] shadow-md">
+        <p
+          style={{ color: '#FFFFFF' }}
+          className="text-[13px] sm:text-[14px] leading-[1.5] text-[#FFFFFF] font-medium"
+        >
           {text}
         </p>
-        <span className="text-[10px] font-mono text-[#DDD6FE] mt-1 block text-right font-medium">
+        <span className="text-[10px] font-mono text-[#E9D5FF] mt-1 block text-right font-semibold">
           {time}
         </span>
       </div>
@@ -559,15 +549,18 @@ function UserBubble({ text, time }: { text: string; time: string }) {
 function AgentBubble({ text, time }: { text: string; time: string }) {
   return (
     <div className="flex justify-end">
-      <div className="max-w-[90%] sm:max-w-[85%] rounded-2xl rounded-tr-sm px-3.5 py-2.5 bg-gradient-to-br from-[#7C3AED] to-[#6D28D9] border border-[rgba(255,255,255,0.25)] text-[#FFFFFF] shadow-lg">
-        <div className="flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.08em] text-[#EDE9FE] mb-1 font-bold">
-          <Bot size={11} className="text-[#EDE9FE]" />
+      <div className="max-w-[90%] sm:max-w-[85%] rounded-2xl rounded-tr-sm px-3.5 py-2.5 bg-gradient-to-br from-[#7C3AED] to-[#5B21B6] border border-[rgba(255,255,255,0.32)] text-[#FFFFFF] shadow-lg">
+        <div className="flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.08em] text-[#FFFFFF] mb-1 font-bold">
+          <Bot size={11} className="text-[#FFFFFF]" />
           <span>Agent</span>
         </div>
-        <p className="text-[13px] sm:text-[14px] leading-[1.5] text-[#FFFFFF] font-normal">
+        <p
+          style={{ color: '#FFFFFF' }}
+          className="text-[13px] sm:text-[14px] leading-[1.5] text-[#FFFFFF] font-medium"
+        >
           {text}
         </p>
-        <span className="text-[10px] font-mono text-[#EDE9FE] mt-1 block text-right font-medium">
+        <span className="text-[10px] font-mono text-[#F5F3FF] mt-1 block text-right font-semibold">
           {time}
         </span>
       </div>
@@ -577,12 +570,14 @@ function AgentBubble({ text, time }: { text: string; time: string }) {
 
 function StaffHandoffCard({ text }: { text: string }) {
   return (
-    <div className="p-3 rounded-xl bg-[#28184C] border border-[rgba(245,158,11,0.4)] text-[#EDE9FE] text-[12px] leading-relaxed shadow-sm">
-      <div className="flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.08em] font-bold text-[#FCD34D] mb-1">
-        <Shield size={12} className="text-[#FCD34D]" />
+    <div className="p-3 rounded-xl bg-[#2D1B54] border border-[rgba(251,191,36,0.5)] text-[#FFFFFF] text-[12px] leading-relaxed shadow-sm">
+      <div className="flex items-center gap-1.5 font-mono text-[10px] uppercase tracking-[0.08em] font-bold text-[#FDE68A] mb-1">
+        <Shield size={12} className="text-[#FDE68A]" />
         <span>Ringkasan untuk staf</span>
       </div>
-      <p className="text-[#EDE9FE] font-medium">{text}</p>
+      <p style={{ color: '#FFFFFF' }} className="text-[#FFFFFF] font-medium">
+        {text}
+      </p>
     </div>
   );
 }

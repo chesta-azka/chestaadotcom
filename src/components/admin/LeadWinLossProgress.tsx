@@ -55,53 +55,57 @@ export default function LeadWinLossProgress() {
   const lostPercentage = total > 0 ? Math.round((lostCount / total) * 100) : 30;
 
   return (
-    <div className="p-8 rounded-3xl bg-white/[0.02] border border-white/10 backdrop-blur-xl space-y-6 shadow-2xl font-sans">
-      <div className="flex items-center justify-between">
-        <div className="flex items-center gap-2 text-emerald-400 font-mono text-xs uppercase tracking-wider">
+    <div className="p-6 sm:p-8 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-6 font-sans">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
+        <div className="flex items-center gap-2 text-emerald-400 font-mono text-xs uppercase tracking-wider font-bold">
           <TrendingUp size={16} />
-          <span>Win vs Lost Lead Conversion (30 Hari Terakhir)</span>
+          <span>Win vs Lost Lead Conversion · 30 Hari Terakhir</span>
         </div>
-        <span className="text-xs font-mono text-emerald-400 bg-emerald-950/80 px-3 py-1 rounded-full border border-emerald-500/30">
-          CONVERSION RATIO
+        <span className="text-xs font-mono text-slate-400 uppercase tracking-widest">
+          Rasio Konversi Aktif
         </span>
       </div>
 
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-        <div className="p-4 rounded-2xl bg-black/40 border border-emerald-500/30 flex items-center gap-4">
-          <div className="p-3 rounded-xl bg-emerald-500/20 text-emerald-400">
+        <div className="p-4 rounded-xl bg-slate-950/80 border border-slate-800 flex items-center gap-4">
+          <div className="p-3 rounded-lg bg-emerald-500/15 text-emerald-400">
             <Trophy size={20} />
           </div>
           <div>
             <div className="text-xs font-mono text-slate-400 uppercase">Won Leads</div>
-            <div className="text-xl font-extrabold text-emerald-400 font-mono">{wonCount} ({wonPercentage}%)</div>
+            <div className="text-xl font-extrabold text-emerald-400 font-mono tabular-nums">
+              {wonCount} ({wonPercentage}%)
+            </div>
           </div>
         </div>
 
-        <div className="p-4 rounded-2xl bg-black/40 border border-rose-500/30 flex items-center gap-4">
-          <div className="p-3 rounded-xl bg-rose-500/20 text-rose-400">
+        <div className="p-4 rounded-xl bg-slate-950/80 border border-slate-800 flex items-center gap-4">
+          <div className="p-3 rounded-lg bg-rose-500/15 text-rose-400">
             <XCircle size={20} />
           </div>
           <div>
             <div className="text-xs font-mono text-slate-400 uppercase">Lost Leads</div>
-            <div className="text-xl font-extrabold text-rose-400 font-mono">{lostCount} ({lostPercentage}%)</div>
+            <div className="text-xl font-extrabold text-rose-400 font-mono tabular-nums">
+              {lostCount} ({lostPercentage}%)
+            </div>
           </div>
         </div>
       </div>
 
       {/* Visual Progress Bar */}
       <div className="space-y-2">
-        <div className="flex justify-between text-xs font-mono text-slate-400">
+        <div className="flex justify-between text-xs font-mono text-slate-400 tabular-nums">
           <span>Won Ratio ({wonPercentage}%)</span>
           <span>Lost Ratio ({lostPercentage}%)</span>
         </div>
-        <div className="w-full bg-slate-900 rounded-full h-4 overflow-hidden flex border border-white/10 p-0.5">
-          <div 
-            className="bg-emerald-500 h-full rounded-l-full transition-all duration-500"
+        <div className="w-full bg-slate-950 rounded-full h-3 overflow-hidden flex border border-slate-800">
+          <div
+            className="bg-emerald-500 h-full transition-all duration-150"
             style={{ width: `${wonPercentage}%` }}
             title={`Won: ${wonCount}`}
           />
-          <div 
-            className="bg-rose-500 h-full rounded-r-full transition-all duration-500"
+          <div
+            className="bg-rose-500 h-full transition-all duration-150"
             style={{ width: `${lostPercentage}%` }}
             title={`Lost: ${lostCount}`}
           />

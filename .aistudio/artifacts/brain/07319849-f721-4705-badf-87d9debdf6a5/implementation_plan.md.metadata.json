@@ -1,6 +1,6 @@
 {
-  "summary": "Rencana implementasi: (1) Menghapus tombol WA dari top bar MenuOverlayPanel dan mempertegas tombol Hamburger/X di Header & MenuOverlayPanel, (2) Menambahkan garis referensi vertikal otomatis pada LineChart saat kecepatan lead melampaui 7-day moving average > 20%, dan (3) Menambahkan fitur Brush/Zoom interaktif pada LineChart yang memfilter tabel lead di bawahnya secara dinamis.",
-  "updatedAt": "2026-11-03T02:30:29.306970230Z",
+  "summary": "Rencana implementasi: (1) Menambahkan tombol toggle Linear Regression Trend Line pada LineChart di AiAuditAdminPage lengkap dengan kalkulasi slope pertumbuhan harian dan R-squared, (2) Merombak UI ke standar Anti-AI Slop (menghapus jargon terminal palsu, mengganti pill statis menjadi tipografi editorial dengan pemisah '·', menghapus ikon Sparkles), serta (3) Mengoptimalkan animasi GPU 150ms dan performa pemuatan halaman.",
+  "updatedAt": "2026-11-03T03:07:23.669964335Z",
   "requestFeedback": true,
   "userFacing": true
 }

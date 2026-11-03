@@ -54,46 +54,58 @@ export default function LLMCostTracker() {
   const percentage = Math.min(100, Math.round((tokenUsage / dailyLimit) * 100));
 
   return (
-    <div className="p-6 rounded-2xl bg-emerald-950/20 border border-emerald-500/30 space-y-5 font-mono">
+    <div className="p-6 rounded-2xl bg-slate-900/60 border border-slate-800 space-y-5 font-mono">
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-2 text-emerald-400 font-bold text-xs uppercase tracking-wider">
           <Cpu size={16} />
           <span>LLM API Cost &amp; Token Governor</span>
         </div>
-        <div className="flex items-center gap-2">
-          <span className={`text-[10px] font-bold px-2.5 py-1 rounded ${isAIActive ? 'bg-emerald-500 text-black' : 'bg-rose-500 text-white'}`}>
-            {isAIActive ? 'AI STATUS: ACTIVE' : 'AI STATUS: KILLED'}
+        <div className="flex items-center gap-2 text-xs font-mono">
+          <span
+            className={`w-2 h-2 rounded-full ${
+              isAIActive ? 'bg-emerald-400' : 'bg-rose-500'
+            }`}
+          />
+          <span className={isAIActive ? 'text-emerald-400 font-bold' : 'text-rose-400 font-bold'}>
+            {isAIActive ? 'Status AI: Aktif' : 'Status AI: Dihentikan'}
           </span>
         </div>
       </div>
 
       <div className="space-y-2">
-        <div className="flex justify-between text-xs text-emerald-300">
+        <div className="flex justify-between text-xs text-slate-300 tabular-nums">
           <span>Daily LLM API Limit</span>
-          <span>{tokenUsage.toLocaleString()} / {dailyLimit.toLocaleString()} Tokens ({percentage}%)</span>
+          <span>
+            {tokenUsage.toLocaleString()} / {dailyLimit.toLocaleString()} Tokens ({percentage}%)
+          </span>
         </div>
-        <div className="w-full bg-black rounded-full h-3 border border-emerald-500/40 overflow-hidden p-0.5">
-          <div 
-            className={`h-full rounded-full transition-all duration-500 ${percentage > 85 ? 'bg-rose-500' : 'bg-emerald-400'}`}
+        <div className="w-full bg-slate-950 rounded-full h-2.5 border border-slate-800 overflow-hidden">
+          <div
+            className={`h-full rounded-full transition-all duration-150 ${
+              percentage > 85 ? 'bg-rose-500' : 'bg-emerald-400'
+            }`}
             style={{ width: `${percentage}%` }}
           />
         </div>
       </div>
 
-      <div className="flex items-center justify-between pt-2 border-t border-emerald-500/20">
-        <div className="text-[11px] text-emerald-500">
-          {isAIActive ? 'Sistem beroperasi normal dengan pengamanan dual-engine.' : 'Kill-Switch aktif. Concierge beralih ke contact form.'}
+      <div className="flex items-center justify-between pt-3 border-t border-slate-800/80 gap-4">
+        <div className="text-[11px] text-slate-400">
+          {isAIActive
+            ? 'Sistem beroperasi normal dengan pengamanan dual-engine.'
+            : 'Kill-Switch aktif. Concierge beralih ke contact form.'}
         </div>
         <button
+          type="button"
           onClick={toggleKillSwitch}
-          className={`px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center gap-2 transition-all cursor-pointer ${
-            isAIActive 
-              ? 'bg-rose-600 hover:bg-rose-500 text-white shadow-lg shadow-rose-600/30' 
-              : 'bg-emerald-600 hover:bg-emerald-500 text-white shadow-lg shadow-emerald-600/30'
+          className={`px-4 py-2 rounded-xl text-xs font-bold uppercase tracking-wider flex items-center gap-2 transition-all duration-150 active:scale-[0.98] cursor-pointer shrink-0 ${
+            isAIActive
+              ? 'bg-rose-600 hover:bg-rose-500 text-white'
+              : 'bg-emerald-600 hover:bg-emerald-500 text-white'
           }`}
         >
           <Power size={14} />
-          <span><b>{isAIActive ? 'ENGAGE KILL-SWITCH' : 'REACTIVATE AI'}</b></span>
+          <span>{isAIActive ? 'Engage Kill-Switch' : 'Reactivate AI'}</span>
         </button>
       </div>
     </div>
