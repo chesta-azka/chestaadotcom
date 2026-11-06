@@ -2672,6 +2672,12 @@ export function normalizeInternalLinkHref(rawHref: string, locale: 'id' | 'en'):
   if (clean === '/en/blog/moving-from-spreadsheets-to-custom-software' || clean === '/en/blog/when-a-business-needs-custom-software-instead-of-spreadsheets') {
     return '/en/blog/dashboards-for-cafe-owners-operational-metrics';
   }
+  if (clean === '/id/blog/seo-lokal-untuk-bisnis-di-tangerang-selatan') {
+    return '/id/blog/seo-lokal-bisnis-bsd-tangerang-selatan-google-maps';
+  }
+  if (clean === '/en/blog/local-seo-for-businesses-in-south-tangerang') {
+    return '/en/blog/local-seo-guide-for-bsd-and-south-tangerang-businesses';
+  }
   if (clean === '/en/blog/high-converting-landing-page-checklist-service-business') {
     return '/en/blog/high-converting-landing-page-checklist-for-service-businesses';
   }

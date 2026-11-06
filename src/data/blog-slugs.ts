@@ -119,7 +119,8 @@ export const BLOG_SLUG_ID_TO_EN: Record<string, string> = {
   "kapan-bisnis-butuh-ai-agent-whatsapp": "when-your-business-needs-a-whatsapp-ai-agent",
   "pindah-dari-spreadsheet-ke-software-custom": "moving-from-spreadsheets-to-custom-software",
   "checklist-landing-page-konversi-tinggi-bisnis-jasa": "high-converting-landing-page-checklist-for-service-businesses",
-  "seo-lokal-bisnis-bsd-tangerang-selatan-google-maps": "local-seo-guide-for-bsd-and-south-tangerang-businesses"
+  "seo-lokal-bisnis-bsd-tangerang-selatan-google-maps": "local-seo-guide-for-bsd-and-south-tangerang-businesses",
+  "seo-lokal-untuk-bisnis-di-tangerang-selatan": "local-seo-for-businesses-in-south-tangerang"
 };
 
 export const BLOG_SLUG_EN_TO_ID: Record<string, string> = {
@@ -162,7 +163,8 @@ export const BLOG_SLUG_EN_TO_ID: Record<string, string> = {
   "when-your-business-needs-a-whatsapp-ai-agent": "kapan-bisnis-butuh-ai-agent-whatsapp",
   "moving-from-spreadsheets-to-custom-software": "pindah-dari-spreadsheet-ke-software-custom",
   "high-converting-landing-page-checklist-for-service-businesses": "checklist-landing-page-konversi-tinggi-bisnis-jasa",
-  "local-seo-guide-for-bsd-and-south-tangerang-businesses": "seo-lokal-bisnis-bsd-tangerang-selatan-google-maps"
+  "local-seo-guide-for-bsd-and-south-tangerang-businesses": "seo-lokal-bisnis-bsd-tangerang-selatan-google-maps",
+  "local-seo-for-businesses-in-south-tangerang": "seo-lokal-untuk-bisnis-di-tangerang-selatan"
 };
 
 export function isValidBlogSlug(slug: string): boolean {
