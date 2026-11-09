@@ -216,6 +216,9 @@ export const POST_CLUSTER_ASSIGNMENT: Record<string, TopicClusterId> = {
   'cara-balas-chat-whatsapp-pelanggan-otomatis': 'agentic-ai',
   'how-to-automate-customer-whatsapp-replies': 'agentic-ai',
 
+  'sistem-ai-internal-untuk-operasional-bisnis': 'agentic-ai',
+  'internal-ai-system-for-business-operations': 'agentic-ai',
+
   // ============================================================================
   // CLUSTER 2: website-dan-performa
   // ============================================================================
@@ -240,6 +243,15 @@ export const POST_CLUSTER_ASSIGNMENT: Record<string, TopicClusterId> = {
   'landing-page-untuk-iklan-bisnis': 'website-dan-performa',
   'landing-pages-for-business-ads': 'website-dan-performa',
 
+  'manfaat-punya-website-sendiri-untuk-bisnis': 'website-dan-performa',
+  'benefits-of-having-your-own-business-website': 'website-dan-performa',
+
+  'website-dan-alur-booking-untuk-klinik': 'website-dan-performa',
+  'clinic-website-and-booking-flow-guide': 'website-dan-performa',
+
+  'kenapa-landing-page-iklan-lambat-di-hp': 'website-dan-performa',
+  'why-ad-landing-pages-load-slowly-on-mobile': 'website-dan-performa',
+
   // ============================================================================
   // CLUSTER 3: seo-lokal-dan-geo
   // ============================================================================
@@ -259,6 +271,9 @@ export const POST_CLUSTER_ASSIGNMENT: Record<string, TopicClusterId> = {
 
   'cara-agar-bisnis-muncul-di-chatgpt-dan-google': 'seo-lokal-dan-geo',
   'how-to-get-your-business-found-on-chatgpt-and-google': 'seo-lokal-dan-geo',
+
+  'website-portofolio-untuk-kontraktor-dan-arsitek': 'seo-lokal-dan-geo',
+  'portfolio-website-for-contractors-and-architects': 'seo-lokal-dan-geo',
 
   // ============================================================================
   // CLUSTER 4: otomasi-dan-software
@@ -286,6 +301,12 @@ export const POST_CLUSTER_ASSIGNMENT: Record<string, TopicClusterId> = {
   'software-custom-untuk-operasional-bisnis': 'otomasi-dan-software',
   'custom-software-for-business-operations': 'otomasi-dan-software',
 
+  'otomasi-workflow-untuk-admin-bisnis': 'otomasi-dan-software',
+  'workflow-automation-for-business-admins': 'otomasi-dan-software',
+
+  'sistem-pencatatan-stok-dan-barang-rusak': 'otomasi-dan-software',
+  'mobile-inventory-temperature-and-defect-tracking': 'otomasi-dan-software',
+
   // ============================================================================
   // CLUSTER 5: biaya-dan-memilih-vendor
   // ============================================================================
@@ -308,6 +329,9 @@ export const POST_CLUSTER_ASSIGNMENT: Record<string, TopicClusterId> = {
 
   'biaya-pembuatan-website-bisnis-tangerang-selatan': 'biaya-dan-memilih-vendor',
   'business-website-development-cost-south-tangerang': 'biaya-dan-memilih-vendor',
+
+  'kenapa-website-bisnis-sepi-pembeli': 'biaya-dan-memilih-vendor',
+  'why-your-business-website-gets-no-leads': 'biaya-dan-memilih-vendor',
 };
 
 export function getTopicClusterById(clusterId: string): TopicCluster | undefined {

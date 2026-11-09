@@ -1,101 +1,67 @@
-# Bilingual Pillar Article: Software Custom untuk Operasional Bisnis (ID & EN)
+# Rencana Implementasi Artikel Pilar Dwibahasa: Kenapa Landing Page Iklan Lambat di Browser Instagram (HP)
 
-This plan outlines the editorial architecture, AEO structure, and catalog publication for the bilingual pillar article pair on **when daily operational logging via WhatsApp groups and spreadsheets starts hurting a business—and how to transition incrementally to custom software or workflow automation starting from the most urgent module without disrupting field staff**.
+## 1. Tujuan & Cakupan Tugas
+Menyusun dan menerbitkan artikel pilar dwibahasa (**Indonesia minimal 1.600 kata** & **Inggris minimal 1.500 kata**, terjemahan setia 1:1) untuk **CHESTAADOTCOM (`chestaa.com`)** yang membedah mengapa halaman landing page yang terlihat lancar saat dibuka di laptop kantor justru sering macet atau tampil layar putih saat diklik calon pelanggan dari dalam aplikasi Instagram atau TikTok (*in-app browser*), serta cara menyusun halaman ringan yang langsung mengarahkan prospek ke WhatsApp.
 
-## User Review & Critical Decisions
-
-> [!IMPORTANT]
-> Both interactive clarifications from Phase 1 have been confirmed and locked into this specification.
-
-- **Confirmed Decision 1 (Delivery & Catalog Publication)**: Output the complete bilingual Markdown files (`id/blog/software-custom-untuk-operasional-bisnis.md` and `en/blog/custom-software-for-business-operations.md`) plus `=== LAPORAN QA ===` directly in chat **and** publish the article pair to the live application blog catalog.
-- **Confirmed Decision 2 (Canonical Slug Pair)**: Use `software-custom-untuk-operasional-bisnis` (ID) and `custom-software-for-business-operations` (EN) within the `otomasi-dan-software` topic cluster (`datePublished` / `dateModified`: `2026-11-09`, author: `chesta`).
+Artikel ini akan:
+1. **Diterbitkan langsung ke katalog blog aplikasi** (terintegrasi penuh dengan rute dwibahasa `/blog/kenapa-landing-page-iklan-lambat-di-hp` dan `/en/blog/why-ad-landing-pages-load-slowly-on-mobile`, klaster `website-dan-performa`, serta ilustrasi sampul skematik unik).
+2. **Ditampilkan secara utuh di ruang chat** dalam format `=== FILE: id/blog/kenapa-landing-page-iklan-lambat-di-hp.md ===` dan `=== FILE: en/blog/why-ad-landing-pages-load-slowly-on-mobile.md ===` beserta `=== LAPORAN QA ===`.
 
 ---
 
-## 1. Overview & Core Concept
-
-- **What It Does**: Delivers a 1,600+ word (ID) and 1,500+ word (EN) 1:1 bilingual practitioner guide explaining how multi-branch F&B businesses, production kitchens, distribution warehouses, and educational institutions can replace fragile WhatsApp + spreadsheet logging with modular custom software and workflow automation.
-- **Target Audience / Persona**: Business owners and operations managers in South Tangerang (Pamulang, BSD, Bintaro, Alam Sutera) and Greater Jakarta whose daily shift reports get buried under WhatsApp photos, whose mobile spreadsheets suffer broken formulas or accidental deletions, and who only discover defective or missing inventory at the end of the month.
-- **Key Value**:
-  1. Explains why free spreadsheets break down when a dozen field workers input numbers on smartphone screens without data validation locks or immutable timestamps.
-  2. Shows why custom software should start with a single high-pain module (such as daily stock, cooler temperature, or defective goods logging) rather than an overwhelming all-at-once overhaul.
-  3. Emphasizes fast, ultra-simple mobile input screens for kitchen and warehouse staff so the system is actually used on the floor.
-
----
-
-## 2. User Experience & Editorial Architecture
-
-- **Key Reader Flow**:
-  1. **Opening Lead**: Opens directly with the operational reality of a shift report getting buried in a WhatsApp group while a shared spreadsheet breaks on a mobile phone, naturally linking to `/layanan/software-custom` and `/area/pamulang`.
-  2. **Key Takeaways (`## Poin utama` / `## Key takeaways`)**: 3 full-sentence bullet points identical to YAML `keyPoints`.
-  3. **9 Sequential H2 Sections with Mandatory AEO Opening**: Every H2 begins with a 40–60 word standalone direct answer paragraph before deeper operational analysis:
-     - *H2 #1*: Kapan kombinasi grup WhatsApp dan spreadsheet mulai menjadi beban bagi operasional bisnismu? *(Includes the **Contoh skenario:** / **Scenario example:** for a beverage and frozen food central production kitchen in Pamulang, South Tangerang).*
-     - *H2 #2*: Titik kebocoran apa saja yang paling sering terjadi di gudang, dapur produksi, dan administrasi internal? *(Ties honestly to the 3 real anonymized projects: temperature/inventory/defective-goods logging for a beverage brand, internal system for an Islamic boarding school / pondok pesantren, and operational system for a logistics warehouse).*
-     - *H2 #3*: Kapan bisnis cukup memakai spreadsheet, kapan pilih aplikasi langganan siap pakai, dan kapan butuh software custom? *(Includes 3-column Comparison Table comparing workflow flexibility, ease of use for field staff, and data ownership).*
-     - *H2 #4*: Mengapa sistem yang terlihat canggih di layar direktur sering gagal dipakai oleh staf lapangan? *(Includes mandatory `> **Peringatan:**` / `> **Warning:**` callout box on the risk of system adoption failure when mobile input forms are too long and slow for field workers, grounded in web.dev Core Web Vitals).*
-     - *H2 #5*: Bagaimana cara memulai pembuatan software custom dari satu modul kecil tanpa menghentikan operasional harian?
-     - *H2 #6*: Bagaimana otomasi workflow membantu menyambungkan laporan staf lapangan langsung ke ringkasan pemilik bisnis? *(Includes natural link to `/blog/cara-balas-chat-whatsapp-pelanggan-otomatis`).*
-     - *H2 #7*: Apa saja langkah memetakan alur kerja internal sebelum kamu berbicara dengan vendor software? *(Includes mandatory 6-step Numbered List to audit current logging workflows).*
-     - *H2 #8*: Bagaimana cara menyesuaikan ruang lingkup fitur apabila anggaran proyek masih terbatas? *(Includes natural link to `/blog/biaya-pembuatan-website-bisnis-tangerang-selatan`, explains starting-from pricing, 30-minute free audit with Chesta Azka & Zeeshan, 50% DP / 50% handover payment, and no upfront discounts).*
-     - *H2 #9*: Mengapa kepemilikan penuh atas data operasional dan akses server tidak boleh diserahkan ke vendor? *(Grounded in OWASP Top 10 web application security risks and 100% client ownership of domain, hosting, and data).*
-  4. **Actionable Zero-Cost Conclusion (`## Kesimpulan` / `## Conclusion`)**: 3–5 direct sentences guiding the reader to audit their operational WhatsApp group and main spreadsheet today without spending money.
-  5. **5 Factual FAQs (`## FAQ`)**: Identical to frontmatter `faq`, each answered in 2–3 direct sentences.
-
-- **Visual Identity & Theme**:
-  - *Aesthetic Direction*: High-contrast technical editorial layout with structured 3-column comparison tables, amber/red operational warning callouts, and scannable 6-step audit checklists.
-  - *Color Palette & Mood*: Crisp editorial surfaces using semantic tokens (`--background`, `--foreground`, `--primary`, `--muted`) with emerald accents for the `otomasi-dan-software` cluster.
-  - *Typography & Hierarchy*: Clear H1 display heading, 9 structured H2 questions, bolded 40–60 word AEO lead-ins, and short paragraphs (maximum 4 lines per paragraph).
+## 2. Spesifikasi Metadata & Frontmatter Presisi
+- **Pasangan Slug**:
+  - ID: `kenapa-landing-page-iklan-lambat-di-hp`
+  - EN: `why-ad-landing-pages-load-slowly-on-mobile`
+- **Presisi Karakter Judul (`title`, wajib 50–62 karakter)**:
+  - ID (`53 karakter`): `"Kenapa Landing Page Iklan Lambat di Browser Instagram"`
+  - EN (`55 karakter`): `"Why Ad Landing Pages Load Slowly in Social App Browsers"`
+- **Presisi Karakter Deskripsi (`description`, wajib 150–160 karakter, diakhiri titik)**:
+  - ID (`153 karakter`): `"Penyebab halaman tujuan iklan media sosial gagal terbuka cepat di layar HP calon pelanggan serta cara merancang landing page ringan di Tangerang Selatan."`
+  - EN (`153 karakter`): `"Learn why social media ad landing pages stall inside mobile in-app browsers and how businesses in South Tangerang can keep pages fast for WhatsApp leads."`
+- **Klaster & Kata Kunci**:
+  - `cluster`: `website-dan-performa`
+  - `primaryKeyword`:
+    - ID: `"kenapa landing page iklan lambat di hp"`
+    - EN: `"why ad landing pages load slowly on mobile"`
+  - `author`: `"chesta"`
+  - `datePublished` & `dateModified`: `"2026-11-09"`
+- **Tautan Internal (`links`)**:
+  - `service`: `/layanan/pembuatan-website` (ID) | `/en/services/web-development` (EN)
+  - `area`: `/area/bsd` (ID) | `/en/areas/bsd` (EN)
+  - `posts`:
+    - ID: `/blog/landing-page-untuk-iklan-bisnis` & `/blog/biaya-pembuatan-website-bisnis-tangerang-selatan`
+    - EN: `/en/blog/landing-pages-for-business-ads` & `/en/blog/business-website-development-cost-south-tangerang`
+  - `caseStudy`: Dihilangkan karena dikosongkan pada input.
+- **Sumber Resmi (`sources`)**:
+  1. `https://web.dev/articles/vitals` — Dokumentasi resmi web.dev tentang metrik Core Web Vitals dan pengalaman pengguna di perangkat nyata.
+  2. `https://developers.google.com/search/docs/fundamentals/seo-starter-guide` — Panduan dasar SEO Google Search Central tentang cara mesin pencari memahami halaman web.
+  3. `https://developers.facebook.com/docs/whatsapp/` — Dokumentasi resmi Meta for Developers mengenai integrasi dan aturan platform bisnis WhatsApp.
 
 ---
 
-## 3. Key Product Decisions & Trade-Offs
-
-- **Decision 1: Exact Frontmatter Character Engineering**
-  - *Chosen Approach*:
-    - ID `title`: `"Software Custom untuk Operasional Bisnis: Ganti Spreadsheet"` (**59 characters**, within 50–62).
-    - ID `description`: `"Panduan beralih dari grup WhatsApp dan spreadsheet ke software custom untuk operasional bisnis di Pamulang dan Tangerang Selatan mulai dari satu modul inti."` (**157 characters**, ends with period, within 150–160).
-    - EN `title`: `"Custom Software for Business Operations: Beyond Spreadsheets"` (**60 characters**, within 50–62).
-    - EN `description`: `"Practical guide to moving from WhatsApp groups and spreadsheets to custom software for business operations in South Tangerang, starting from one core module."` (**158 characters**, ends with period, within 150–160).
-  - *Why*: Ensures strict compliance with SEO/AEO character gates in both languages.
-
-- **Decision 2: Strict 1:1 Bilingual Parity & Verification Gate Compliance**
-  - *Chosen Approach*: Mirror all 9 H2s, the 3-column comparison table (Spreadsheets vs. Ready-Made SaaS vs. Custom Software), the Pamulang central kitchen scenario, the field-staff adoption warning callout, the 6-step workflow audit checklist, natural internal links (`/layanan/software-custom`, `/area/pamulang`, `/blog/biaya-pembuatan-website-bisnis-tangerang-selatan`, `/blog/cara-balas-chat-whatsapp-pelanggan-otomatis`), and the 2 official sources (`https://owasp.org/www-project-top-ten/` and `https://web.dev/articles/vitals`) across ID and EN with zero banned phrases, zero emojis, and at most 2 em-dashes per language.
-  - *Why*: Preserves factual accuracy, practitioner tone, and automated verification compliance across the application.
+## 3. Struktur Konten & Kepatuhan Aturan Penulisan
+1. **Judul H1 & Paragraf Pembuka (Lead)**:
+   - Membuka langsung dengan situasi nyata pemilik usaha yang melihat ratusan klik di laporan iklan tetapi chat WhatsApp tetap sepi karena layar putih di browser dalam aplikasi, disertai maksimal 3 tautan internal alami.
+2. **Poin Utama (`## Poin utama` / `## Key takeaways`)**:
+   - 3 kalimat utuh yang identik 100% dengan `keyPoints` di frontmatter.
+3. **9 Bagian H2 dengan Paragraf AEO Mandiri (40–60 Kata Tepat di Bawah Setiap H2)**:
+   - **H2 1**: Mengapa jumlah klik di laporan iklan jauh berbeda dengan jumlah chat yang masuk? (Dilengkapi simulasi angka ilustrasi menggunakan kata *"misalnya"*).
+   - **H2 2**: Apa yang sebenarnya terjadi saat pelanggan mengeklik link iklan dari dalam aplikasi medsos? (Membedah cara kerja *in-app browser* di ponsel dengan sinyal seluler nyata).
+   - **H2 3**: Mengapa halaman yang terasa cepat di laptop kantor bisa macet di ponsel pelanggan? (Merujuk dokumentasi resmi `web.dev/articles/vitals` dengan catatan cek dokumentasi resmi untuk angka dan ketentuan terbaru).
+   - **H2 4**: Apa bedanya halaman penuh hiasan animasi dengan halaman yang dirancang untuk konversi HP? (Memuat **Tabel Perbandingan Markdown 5 baris** antara Halaman Brosur Berat vs Halaman Konversi Ringan).
+   - **H2 5**: Mengapa menempel poster gambar utuh sebagai pengganti teks halaman merugikan iklanmu? (Memuat **Kotak Peringatan** `> **Peringatan:**` / `> **Warning:**` tentang risiko layar putih saat memuat gambar besar di sinyal seluler dan kegagalan mesin pencari membaca isi penawaran mengacu pada `developers.google.com/search/docs/fundamentals/seo-starter-guide`, ditambah **Contoh skenario:** / **Scenario example:** klinik perawatan kulit dan kecantikan di BSD, Tangerang Selatan).
+   - **H2 6**: Elemen apa saja yang boleh dan tidak boleh dipasang di layar pertama halaman iklan?
+   - **H2 7**: Bagaimana cara memastikan tombol WhatsApp tetap nyaman diklik dengan satu jempol? (Merujuk dokumentasi resmi `developers.facebook.com/docs/whatsapp/` dengan catatan cek dokumentasi resmi).
+   - **H2 8**: Bagaimana langkah menguji kecepatan halaman iklanmu sendiri lewat ponsel hari ini? (Memuat **Daftar 6 Langkah Bernomor** praktis).
+   - **H2 9**: Bagaimana membangun atau merapikan landing page iklan mulai dari Rp1.200.000? (Menjelaskan pengujian di kondisi ponsel nyata lewat sesi audit gratis 30 menit bersama Chesta Azka — menulis kode sejak 2021 — dan Zeeshan, pembuatan website mulai Rp1.200.000, DP 50% di awal dan pelunasan 50% sebelum serah terima, kebijakan tanpa diskon di depan dengan penyesuaian ruang lingkup halaman, serta kepemilikan penuh domain dan hosting atas nama klien).
+4. **Kesimpulan (`## Kesimpulan` / `## Conclusion`) & `## FAQ`**:
+   - Kesimpulan 3–5 kalimat lugas berisi langkah pertama hari ini tanpa keluar biaya.
+   - 5 tanya-jawab konkret yang identik dengan frontmatter `faq`.
 
 ---
 
-## 4. Technical Architecture & Data Strategy *(Technical Reference)*
-
-```
-┌─────────────────────────────────────────────────────────────────────────┐
-│                    Bilingual Pillar Content Pipeline                    │
-└───────────────────────────────────┬─────────────────────────────────────┘
-                                    │
-        ┌───────────────────────────┴───────────────────────────┐
-        ▼                                                       ▼
-┌───────────────────────────────┐               ┌───────────────────────────────┐
-│   Indonesian Pillar Article   │               │    English Pillar Article     │
-│ software-custom-untuk-oper... │◄─────────────►│ custom-software-for-busine... │
-│ - 9 H2s + 40-60w AEO Answers  │  1:1 Parity   │ - 9 H2s + 40-60w AEO Answers  │
-│ - 3-Col Tool Comparison Table │               │ - 3-Col Tool Comparison Table │
-│ - Pamulang Kitchen Scenario   │               │ - Pamulang Kitchen Scenario   │
-│ - Field UX Adoption Warning   │               │ - Field UX Adoption Warning   │
-│ - 6-Step Workflow Audit List  │               │ - 6-Step Workflow Audit List  │
-└───────────────┬───────────────┘               └───────────────┬───────────────┘
-                │                                               │
-                └───────────────────────┬───────────────────────┘
-                                        ▼
-┌─────────────────────────────────────────────────────────────────────────┐
-│              Application Blog Catalog & Verification Gates              │
-│  ┌─────────────────────┐  ┌─────────────────────┐  ┌─────────────────┐  │
-│  │ Cluster & Slug Map  │  │  Bilingual Reader   │  │ Build & Lint QA │  │
-│  │ otomasi-dan-software│  │  Table / Callout /  │  │ Banned-Word &   │  │
-│  │ Cover Spec Registry │  │  FAQ / Schema JSON  │  │ Canonical Check │  │
-│  └─────────────────────┘  └─────────────────────┘  └─────────────────┘  │
-└─────────────────────────────────────────────────────────────────────────┘
-```
-
-- **Data Model & State**:
-  - Registers the new bilingual post pair `software-custom-untuk-operasional-bisnis` (ID) and `custom-software-for-business-operations` (EN) in the `otomasi-dan-software` topic cluster with deterministic cover specifications, slug mappings, and full structured content blocks.
-- **Verification**:
-  - Run build and lint verification (`labels:check`, `covers:check`, `host:check`, `tsc --noEmit`) to confirm zero errors before rendering the complete Markdown files and `=== LAPORAN QA ===` in chat.
+## 4. Integrasi ke Aplikasi & Verifikasi Kualitas
+1. Menambahkan data artikel ke `/src/data/blog-posts-45-id.ts` dan `/src/data/blog-posts-45-en.ts`.
+2. Mendaftarkan pasangan slug di `/src/data/blog-slugs.ts`, klaster `website-dan-performa` di `/src/data/clusters.ts`, spesifikasi sampul unik (`three-gauges` varian `B`) di `/src/data/blog-cover-specs.ts`, dan menggabungkannya di `/src/data/blog-posts.ts`.
+3. Menjalankan `compile_applet` dan `lint_applet` untuk memastikan seluruh validasi lulus 100%, lalu menampilkan seluruh naskah Markdown dwibahasa dan `=== LAPORAN QA ===` di chat.

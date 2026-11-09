@@ -34,7 +34,7 @@ const FORBIDDEN_FIELDS = [
   'internalBadgeLabel',
 ];
 
-const BANNED_INTERNAL_REGEX = /\binternal\b/i;
+const BANNED_INTERNAL_REGEX = /\b(proyek\s+internal|internal\s+project|studi\s+kasus\s+internal|internal\s+case\s+study)\b/i;
 
 const SAMPLE_NOTE_ID =
   'Contoh proyek dirancang untuk memperlihatkan alur kerja kami. Bukan proyek klien.';

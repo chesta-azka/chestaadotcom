@@ -45,7 +45,15 @@ export const BLOG_SLUGS_ID: readonly string[] = [
   "seo-lokal-untuk-bisnis-di-tangerang-selatan",
   "cara-agar-bisnis-muncul-di-chatgpt-dan-google",
   "cara-balas-chat-whatsapp-pelanggan-otomatis",
-  "software-custom-untuk-operasional-bisnis"
+  "software-custom-untuk-operasional-bisnis",
+  "manfaat-punya-website-sendiri-untuk-bisnis",
+  "otomasi-workflow-untuk-admin-bisnis",
+  "sistem-ai-internal-untuk-operasional-bisnis",
+  "website-dan-alur-booking-untuk-klinik",
+  "website-portofolio-untuk-kontraktor-dan-arsitek",
+  "kenapa-website-bisnis-sepi-pembeli",
+  "sistem-pencatatan-stok-dan-barang-rusak",
+  "kenapa-landing-page-iklan-lambat-di-hp"
 ] as const;
 
 export const BLOG_SLUGS_EN: readonly string[] = [
@@ -90,7 +98,15 @@ export const BLOG_SLUGS_EN: readonly string[] = [
   "local-seo-for-businesses-in-south-tangerang",
   "how-to-get-your-business-found-on-chatgpt-and-google",
   "how-to-automate-customer-whatsapp-replies",
-  "custom-software-for-business-operations"
+  "custom-software-for-business-operations",
+  "benefits-of-having-your-own-business-website",
+  "workflow-automation-for-business-admins",
+  "internal-ai-system-for-business-operations",
+  "clinic-website-and-booking-flow-guide",
+  "portfolio-website-for-contractors-and-architects",
+  "why-your-business-website-gets-no-leads",
+  "mobile-inventory-temperature-and-defect-tracking",
+  "why-ad-landing-pages-load-slowly-on-mobile"
 ] as const;
 
 export const BLOG_SLUG_ID_TO_EN: Record<string, string> = {
@@ -137,7 +153,15 @@ export const BLOG_SLUG_ID_TO_EN: Record<string, string> = {
   "seo-lokal-untuk-bisnis-di-tangerang-selatan": "local-seo-for-businesses-in-south-tangerang",
   "cara-agar-bisnis-muncul-di-chatgpt-dan-google": "how-to-get-your-business-found-on-chatgpt-and-google",
   "cara-balas-chat-whatsapp-pelanggan-otomatis": "how-to-automate-customer-whatsapp-replies",
-  "software-custom-untuk-operasional-bisnis": "custom-software-for-business-operations"
+  "software-custom-untuk-operasional-bisnis": "custom-software-for-business-operations",
+  "manfaat-punya-website-sendiri-untuk-bisnis": "benefits-of-having-your-own-business-website",
+  "otomasi-workflow-untuk-admin-bisnis": "workflow-automation-for-business-admins",
+  "sistem-ai-internal-untuk-operasional-bisnis": "internal-ai-system-for-business-operations",
+  "website-dan-alur-booking-untuk-klinik": "clinic-website-and-booking-flow-guide",
+  "website-portofolio-untuk-kontraktor-dan-arsitek": "portfolio-website-for-contractors-and-architects",
+  "kenapa-website-bisnis-sepi-pembeli": "why-your-business-website-gets-no-leads",
+  "sistem-pencatatan-stok-dan-barang-rusak": "mobile-inventory-temperature-and-defect-tracking",
+  "kenapa-landing-page-iklan-lambat-di-hp": "why-ad-landing-pages-load-slowly-on-mobile"
 };
 
 export const BLOG_SLUG_EN_TO_ID: Record<string, string> = {
@@ -184,7 +208,15 @@ export const BLOG_SLUG_EN_TO_ID: Record<string, string> = {
   "local-seo-for-businesses-in-south-tangerang": "seo-lokal-untuk-bisnis-di-tangerang-selatan",
   "how-to-get-your-business-found-on-chatgpt-and-google": "cara-agar-bisnis-muncul-di-chatgpt-dan-google",
   "how-to-automate-customer-whatsapp-replies": "cara-balas-chat-whatsapp-pelanggan-otomatis",
-  "custom-software-for-business-operations": "software-custom-untuk-operasional-bisnis"
+  "custom-software-for-business-operations": "software-custom-untuk-operasional-bisnis",
+  "benefits-of-having-your-own-business-website": "manfaat-punya-website-sendiri-untuk-bisnis",
+  "workflow-automation-for-business-admins": "otomasi-workflow-untuk-admin-bisnis",
+  "internal-ai-system-for-business-operations": "sistem-ai-internal-untuk-operasional-bisnis",
+  "clinic-website-and-booking-flow-guide": "website-dan-alur-booking-untuk-klinik",
+  "portfolio-website-for-contractors-and-architects": "website-portofolio-untuk-kontraktor-dan-arsitek",
+  "why-your-business-website-gets-no-leads": "kenapa-website-bisnis-sepi-pembeli",
+  "mobile-inventory-temperature-and-defect-tracking": "sistem-pencatatan-stok-dan-barang-rusak",
+  "why-ad-landing-pages-load-slowly-on-mobile": "kenapa-landing-page-iklan-lambat-di-hp"
 };
 
 export function isValidBlogSlug(slug: string): boolean {

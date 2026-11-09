@@ -43,6 +43,22 @@ import { BLOG_POSTS_36_ID_RAW } from './blog-posts-36-id';
 import { BLOG_POSTS_36_EN_RAW } from './blog-posts-36-en';
 import { BLOG_POSTS_37_ID_RAW } from './blog-posts-37-id';
 import { BLOG_POSTS_37_EN_RAW } from './blog-posts-37-en';
+import { BLOG_POSTS_38_ID_RAW } from './blog-posts-38-id';
+import { BLOG_POSTS_38_EN_RAW } from './blog-posts-38-en';
+import { BLOG_POSTS_39_ID_RAW } from './blog-posts-39-id';
+import { BLOG_POSTS_39_EN_RAW } from './blog-posts-39-en';
+import { BLOG_POSTS_40_ID_RAW } from './blog-posts-40-id';
+import { BLOG_POSTS_40_EN_RAW } from './blog-posts-40-en';
+import { BLOG_POSTS_41_ID_RAW } from './blog-posts-41-id';
+import { BLOG_POSTS_41_EN_RAW } from './blog-posts-41-en';
+import { BLOG_POSTS_42_ID_RAW } from './blog-posts-42-id';
+import { BLOG_POSTS_42_EN_RAW } from './blog-posts-42-en';
+import { BLOG_POSTS_43_ID_RAW } from './blog-posts-43-id';
+import { BLOG_POSTS_43_EN_RAW } from './blog-posts-43-en';
+import { BLOG_POSTS_44_ID_RAW } from './blog-posts-44-id';
+import { BLOG_POSTS_44_EN_RAW } from './blog-posts-44-en';
+import { BLOG_POSTS_45_ID_RAW } from './blog-posts-45-id';
+import { BLOG_POSTS_45_EN_RAW } from './blog-posts-45-en';
 
 export type BlogAuthorId = 'chesta' | 'zeeshan';
 
@@ -2897,6 +2913,14 @@ function enrichClusterAndInternalLinks(
 }
 
 const RAW_INDONESIAN_BLOG_POSTS: BlogPost[] = [
+  ...BLOG_POSTS_45_ID_RAW.map(defineBlogPost),
+  ...BLOG_POSTS_44_ID_RAW.map(defineBlogPost),
+  ...BLOG_POSTS_43_ID_RAW.map(defineBlogPost),
+  ...BLOG_POSTS_42_ID_RAW.map(defineBlogPost),
+  ...BLOG_POSTS_41_ID_RAW.map(defineBlogPost),
+  ...BLOG_POSTS_40_ID_RAW.map(defineBlogPost),
+  ...BLOG_POSTS_39_ID_RAW.map(defineBlogPost),
+  ...BLOG_POSTS_38_ID_RAW.map(defineBlogPost),
   ...BLOG_POSTS_37_ID_RAW.map(defineBlogPost),
   ...BLOG_POSTS_36_ID_RAW.map(defineBlogPost),
   ...BLOG_POSTS_35_ID_RAW.map(defineBlogPost),
@@ -2918,6 +2942,14 @@ const RAW_INDONESIAN_BLOG_POSTS: BlogPost[] = [
 ];
 
 const RAW_ENGLISH_BLOG_POSTS: BlogPost[] = [
+  ...BLOG_POSTS_45_EN_RAW.map(defineBlogPost),
+  ...BLOG_POSTS_44_EN_RAW.map(defineBlogPost),
+  ...BLOG_POSTS_43_EN_RAW.map(defineBlogPost),
+  ...BLOG_POSTS_42_EN_RAW.map(defineBlogPost),
+  ...BLOG_POSTS_41_EN_RAW.map(defineBlogPost),
+  ...BLOG_POSTS_40_EN_RAW.map(defineBlogPost),
+  ...BLOG_POSTS_39_EN_RAW.map(defineBlogPost),
+  ...BLOG_POSTS_38_EN_RAW.map(defineBlogPost),
   ...BLOG_POSTS_37_EN_RAW.map(defineBlogPost),
   ...BLOG_POSTS_36_EN_RAW.map(defineBlogPost),
   ...BLOG_POSTS_35_EN_RAW.map(defineBlogPost),
