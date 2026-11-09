@@ -38,7 +38,14 @@ export const BLOG_SLUGS_ID: readonly string[] = [
   "berapa-biaya-bikin-website-bisnis-panduan-harga",
   "otomasi-whatsapp-ai-klinik-fnb-alur-kerja",
   "checklist-landing-page-konversi-tinggi-bisnis-jasa",
-  "seo-lokal-bisnis-bsd-tangerang-selatan-google-maps"
+  "seo-lokal-bisnis-bsd-tangerang-selatan-google-maps",
+  "landing-page-untuk-iklan-bisnis",
+  "biaya-pembuatan-website-bisnis-tangerang-selatan",
+  "kapan-bisnis-butuh-ai-agent-whatsapp",
+  "seo-lokal-untuk-bisnis-di-tangerang-selatan",
+  "cara-agar-bisnis-muncul-di-chatgpt-dan-google",
+  "cara-balas-chat-whatsapp-pelanggan-otomatis",
+  "software-custom-untuk-operasional-bisnis"
 ] as const;
 
 export const BLOG_SLUGS_EN: readonly string[] = [
@@ -76,7 +83,14 @@ export const BLOG_SLUGS_EN: readonly string[] = [
   "how-much-does-a-business-website-cost-pricing-guide",
   "whatsapp-ai-automation-for-clinics-and-fnb-workflows",
   "high-converting-landing-page-checklist-for-service-businesses",
-  "local-seo-guide-for-bsd-and-south-tangerang-businesses"
+  "local-seo-guide-for-bsd-and-south-tangerang-businesses",
+  "landing-pages-for-business-ads",
+  "business-website-development-cost-south-tangerang",
+  "when-your-business-needs-a-whatsapp-ai-agent",
+  "local-seo-for-businesses-in-south-tangerang",
+  "how-to-get-your-business-found-on-chatgpt-and-google",
+  "how-to-automate-customer-whatsapp-replies",
+  "custom-software-for-business-operations"
 ] as const;
 
 export const BLOG_SLUG_ID_TO_EN: Record<string, string> = {
@@ -120,7 +134,10 @@ export const BLOG_SLUG_ID_TO_EN: Record<string, string> = {
   "pindah-dari-spreadsheet-ke-software-custom": "moving-from-spreadsheets-to-custom-software",
   "checklist-landing-page-konversi-tinggi-bisnis-jasa": "high-converting-landing-page-checklist-for-service-businesses",
   "seo-lokal-bisnis-bsd-tangerang-selatan-google-maps": "local-seo-guide-for-bsd-and-south-tangerang-businesses",
-  "seo-lokal-untuk-bisnis-di-tangerang-selatan": "local-seo-for-businesses-in-south-tangerang"
+  "seo-lokal-untuk-bisnis-di-tangerang-selatan": "local-seo-for-businesses-in-south-tangerang",
+  "cara-agar-bisnis-muncul-di-chatgpt-dan-google": "how-to-get-your-business-found-on-chatgpt-and-google",
+  "cara-balas-chat-whatsapp-pelanggan-otomatis": "how-to-automate-customer-whatsapp-replies",
+  "software-custom-untuk-operasional-bisnis": "custom-software-for-business-operations"
 };
 
 export const BLOG_SLUG_EN_TO_ID: Record<string, string> = {
@@ -164,7 +181,10 @@ export const BLOG_SLUG_EN_TO_ID: Record<string, string> = {
   "moving-from-spreadsheets-to-custom-software": "pindah-dari-spreadsheet-ke-software-custom",
   "high-converting-landing-page-checklist-for-service-businesses": "checklist-landing-page-konversi-tinggi-bisnis-jasa",
   "local-seo-guide-for-bsd-and-south-tangerang-businesses": "seo-lokal-bisnis-bsd-tangerang-selatan-google-maps",
-  "local-seo-for-businesses-in-south-tangerang": "seo-lokal-untuk-bisnis-di-tangerang-selatan"
+  "local-seo-for-businesses-in-south-tangerang": "seo-lokal-untuk-bisnis-di-tangerang-selatan",
+  "how-to-get-your-business-found-on-chatgpt-and-google": "cara-agar-bisnis-muncul-di-chatgpt-dan-google",
+  "how-to-automate-customer-whatsapp-replies": "cara-balas-chat-whatsapp-pelanggan-otomatis",
+  "custom-software-for-business-operations": "software-custom-untuk-operasional-bisnis"
 };
 
 export function isValidBlogSlug(slug: string): boolean {

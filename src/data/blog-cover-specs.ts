@@ -193,6 +193,10 @@ const RAW_COVER_ENTRIES: RawCoverEntry[] = [
     coverId: 'cover-05-wa-conversation-flow',
     canonicalSlug: 'merancang-alur-percakapan-whatsapp-ai-agent',
     enSlug: 'designing-whatsapp-conversation-flows-ai-agents',
+    aliases: [
+      'cara-balas-chat-whatsapp-pelanggan-otomatis',
+      'how-to-automate-customer-whatsapp-replies',
+    ],
     cluster: 'agentic-ai',
     hero: 'form-to-wa',
     variant: 'A',
@@ -463,6 +467,8 @@ const RAW_COVER_ENTRIES: RawCoverEntry[] = [
     aliases: [
       'seo-lokal-bisnis-bsd-tangerang-selatan',
       'local-seo-for-businesses-in-bsd-and-south-tangerang',
+      'seo-lokal-untuk-bisnis-di-tangerang-selatan',
+      'local-seo-for-businesses-in-south-tangerang',
     ],
     cluster: 'local-seo',
     hero: 'area-network',
@@ -479,6 +485,10 @@ const RAW_COVER_ENTRIES: RawCoverEntry[] = [
     coverId: 'cover-23-geo-aeo-answer-box',
     canonicalSlug: 'geo-dan-aeo-cara-bisnis-lokal-muncul-di-ai',
     enSlug: 'geo-and-aeo-how-local-businesses-rank-in-ai-answers',
+    aliases: [
+      'cara-agar-bisnis-muncul-di-chatgpt-dan-google',
+      'how-to-get-your-business-found-on-chatgpt-and-google',
+    ],
     cluster: 'local-seo',
     hero: 'answer-box',
     variant: 'A',
@@ -693,6 +703,21 @@ const RAW_COVER_ENTRIES: RawCoverEntry[] = [
     alt: 'Meteran pemakaian bulanan operasional AI agent yang merinci kuota token model bahasa, biaya percakapan WA, dan cloud',
     altEn: 'Monthly AI agent operating usage meter detailing language model token quotas, WhatsApp session fees, and cloud hosting',
     legacyImagePath: '/images/blog/cluster-cost-vendor.svg',
+  },
+  {
+    coverId: 'cover-37-custom-software-sheet-to-app',
+    canonicalSlug: 'software-custom-untuk-operasional-bisnis',
+    enSlug: 'custom-software-for-business-operations',
+    cluster: 'automation',
+    hero: 'sheet-to-app',
+    variant: 'B',
+    motif: 'pipeline-flow',
+    layoutVariant: 'D',
+    accentToken: 'emerald',
+    labels: ['FIELD INPUT', 'VALIDATION', 'SUMMARY'],
+    alt: 'Diagram peralihan pencatatan operasional dari grup WhatsApp dan spreadsheet menuju modul software custom seluler',
+    altEn: 'Diagram of operational logging transitioning from WhatsApp groups and spreadsheets to a mobile custom software module',
+    legacyImagePath: '/images/blog/cluster-workflow-software.svg',
   },
 ];
 

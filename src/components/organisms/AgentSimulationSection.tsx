@@ -10,16 +10,16 @@ import {
   Shield,
   Clock,
   Sparkles,
+  Zap,
 } from 'lucide-react';
 import { parseLocalizedPath, getTranslation } from '../../lib/i18n';
 import { useMotionMode } from '../../lib/motion';
 
 /**
  * AgentSimulationSection
- * Fully redesigned "SIMULASI KINERJA AGENT" section with strict section-scoped tokens,
- * high-contrast color hierarchy (body >= 7:1, muted/labels >= 4.5:1), single purple accent,
- * static composite background with 120px edge blending, deterministic 6-event timeline,
- * accessible screen-reader feed, and zero layout shift.
+ * Fully redesigned "SIMULASI KINERJA AGENT" with two distinct side-by-side divs:
+ * - DIV KIRI: Panel Percakapan Chat WhatsApp (Customer chat simulator)
+ * - DIV KANAN: Panel Tindakan & Log Sistem Otomasi (System action logs & tool calls)
  */
 export default function AgentSimulationSection() {
   const location = useLocation();
@@ -167,68 +167,71 @@ export default function AgentSimulationSection() {
       />
 
       {/* =========================================================================
-          MAIN LAYOUT CONTAINER (12 Columns Desktop, Stacked Mobile)
+          MAIN LAYOUT CONTAINER (div:nth-of-type(3))
           ========================================================================= */}
       <div className="relative z-20 max-w-[1240px] mx-auto px-4 sm:px-6">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-12 items-start">
-          {/* =====================================================================
-              LEFT 5 COLUMNS: Eyebrow, H2, Subheadline, Legend, Replay Button
-              ===================================================================== */}
-          <div className="lg:col-span-5 lg:sticky lg:top-28">
-            {/* Eyebrow & Chip */}
-            <div className="flex items-center gap-2.5 flex-wrap">
-              <span className="font-mono text-[12px] md:text-[13px] uppercase tracking-[0.1em] font-bold text-[#C4B5FD] drop-shadow-[0_1px_4px_rgba(139,92,246,0.35)]">
-                {t('sim.eyebrow')}
-              </span>
-              <span className="px-2.5 py-0.5 rounded-full font-mono text-[10px] uppercase tracking-[0.08em] font-semibold border border-[rgba(167,139,250,0.35)] bg-[#1F1744] text-[#DDD6FE] select-none">
-                {t('sim.chip')}
-              </span>
+        {/* =====================================================================
+            HEADER & CONTROLS BLOCK
+            ===================================================================== */}
+        <div className="mb-10 lg:mb-12">
+          <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 pb-6 border-b border-[rgba(167,139,250,0.2)]">
+            <div className="max-w-[760px]">
+              {/* Eyebrow & Chip */}
+              <div className="flex items-center gap-2.5 flex-wrap">
+                <span className="font-mono text-[12px] md:text-[13px] uppercase tracking-[0.1em] font-bold text-[#C4B5FD] drop-shadow-[0_1px_4px_rgba(139,92,246,0.35)]">
+                  {t('sim.eyebrow')}
+                </span>
+                <span className="px-2.5 py-0.5 rounded-full font-mono text-[10px] uppercase tracking-[0.08em] font-semibold border border-[rgba(167,139,250,0.35)] bg-[#1F1744] text-[#DDD6FE] select-none">
+                  {t('sim.chip')}
+                </span>
+              </div>
+
+              {/* H2 Headline */}
+              <h2
+                style={{ color: '#FFFFFF' }}
+                className="mt-3 text-[clamp(1.75rem,3.2vw,2.5rem)] font-bold tracking-[-0.02em] text-[#FFFFFF] leading-[1.25]"
+              >
+                {t('sim.title')}
+              </h2>
+
+              {/* Subheadline */}
+              <p
+                style={{ color: '#F5F3FF' }}
+                className="mt-3 text-[15px] md:text-[16px] text-[#F5F3FF] leading-[1.7] max-w-[64ch] font-normal"
+              >
+                {t('sim.sub')}
+              </p>
             </div>
 
-            {/* H2 Headline */}
-            <h2
-              style={{ color: '#FFFFFF' }}
-              className="mt-3 text-[clamp(1.6rem,2.8vw,2.25rem)] font-bold tracking-[-0.02em] text-[#FFFFFF] leading-[1.25]"
-            >
-              {t('sim.title')}
-            </h2>
-
-            {/* Subheadline (max 56ch) - Crisp light violet-white text for maximum readability */}
-            <p
-              style={{ color: '#F5F3FF' }}
-              className="mt-3.5 text-[15px] md:text-[16px] text-[#F5F3FF] leading-[1.7] max-w-[56ch] font-normal"
-            >
-              {t('sim.sub')}
-            </p>
-
-            {/* 3-Item Legend */}
-            <div className="mt-7 pt-6 border-t border-[rgba(167,139,250,0.22)] space-y-3 text-[13px]">
-              <div className="flex items-center gap-2.5 text-[#EDE9FE] font-medium">
-                <div className="w-5 h-5 rounded-md bg-[#251A4D] border border-[rgba(167,139,250,0.3)] flex items-center justify-center shrink-0">
-                  <User size={12} className="text-[#DDD6FE]" />
+            {/* Controls, Legend, and Replay Button */}
+            <div className="flex flex-col sm:flex-row lg:flex-col sm:items-center lg:items-end gap-3.5 shrink-0">
+              {/* 3-Item Legend */}
+              <div className="flex items-center gap-3 text-[12px] flex-wrap">
+                <div className="flex items-center gap-1.5 text-[#EDE9FE] font-medium">
+                  <div className="w-4 h-4 rounded-md bg-[#251A4D] border border-[rgba(167,139,250,0.3)] flex items-center justify-center shrink-0">
+                    <User size={10} className="text-[#DDD6FE]" />
+                  </div>
+                  <span>{t('sim.legend.user')}</span>
                 </div>
-                <span>{t('sim.legend.user')}</span>
-              </div>
-              <div className="flex items-center gap-2.5 text-[#EDE9FE] font-medium">
-                <div className="w-5 h-5 rounded-md bg-gradient-to-br from-[#7C3AED] to-[#6D28D9] flex items-center justify-center shrink-0 shadow-xs">
-                  <Bot size={12} className="text-[#FFFFFF]" />
+                <div className="flex items-center gap-1.5 text-[#EDE9FE] font-medium">
+                  <div className="w-4 h-4 rounded-md bg-gradient-to-br from-[#7C3AED] to-[#6D28D9] flex items-center justify-center shrink-0 shadow-xs">
+                    <Bot size={10} className="text-[#FFFFFF]" />
+                  </div>
+                  <span>{t('sim.legend.agent')}</span>
                 </div>
-                <span>{t('sim.legend.agent')}</span>
-              </div>
-              <div className="flex items-center gap-2.5 text-[#EDE9FE] font-medium">
-                <div className="w-5 h-5 rounded-md bg-[#251A4D] border border-[rgba(167,139,250,0.3)] flex items-center justify-center shrink-0">
-                  <Shield size={12} className="text-[#C4B5FD]" />
+                <div className="flex items-center gap-1.5 text-[#EDE9FE] font-medium">
+                  <div className="w-4 h-4 rounded-md bg-[#251A4D] border border-[rgba(251,191,36,0.4)] flex items-center justify-center shrink-0">
+                    <Shield size={10} className="text-[#FDE68A]" />
+                  </div>
+                  <span>{t('sim.legend.handoff')}</span>
                 </div>
-                <span>{t('sim.legend.handoff')}</span>
               </div>
-            </div>
 
-            {/* Ghost Replay Button */}
-            <div className="mt-7">
+              {/* Ghost Replay Button */}
               <button
                 type="button"
                 onClick={handleReplay}
-                className="inline-flex items-center gap-2 px-4 py-2.5 rounded-full border border-[rgba(167,139,250,0.35)] bg-[#1A1238] text-[#FFFFFF] hover:bg-[#251A4D] hover:border-[#C4B5FD] focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-[#C4B5FD] transition-colors font-sans text-[13px] font-semibold cursor-pointer shadow-sm"
+                className="inline-flex items-center gap-2 px-4 py-2 rounded-full border border-[rgba(167,139,250,0.35)] bg-[#1A1238] text-[#FFFFFF] hover:bg-[#251A4D] hover:border-[#C4B5FD] focus-visible:outline-hidden focus-visible:ring-2 focus-visible:ring-[#C4B5FD] transition-colors font-sans text-[13px] font-semibold cursor-pointer shadow-sm"
                 title={t('sim.button.replay')}
               >
                 <RotateCcw size={14} className="text-[#C4B5FD]" />
@@ -236,294 +239,326 @@ export default function AgentSimulationSection() {
               </button>
             </div>
           </div>
+        </div>
 
+        {/* =========================================================================
+            TWO SEPARATE DIVS (KIRI: CHAT | KANAN: ACTIONS & SYSTEM LOG)
+            ========================================================================= */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 lg:gap-8 items-start">
           {/* =====================================================================
-              RIGHT 7 COLUMNS: The High-Contrast Simulation Console
+              DIV KIRI: Panel Percakapan Chat (WhatsApp Simulator)
               ===================================================================== */}
-          <div className="lg:col-span-7">
-            <div
-              className="rounded-[28px] border border-[rgba(167,139,250,0.28)] bg-[#100B26] shadow-[inset_0_1px_0_rgba(255,255,255,0.12),0_24px_60px_rgba(5,2,18,0.7)] overflow-hidden"
-            >
-              {/* Console Header Row */}
-              <div className="px-5 sm:px-6 py-4 border-b border-[rgba(167,139,250,0.2)] flex items-center justify-between gap-3 bg-[#160E36]">
-                <div className="flex items-center gap-2.5">
-                  <MessageSquare size={16} className="text-[#C4B5FD]" />
-                  <span className="font-mono text-[12px] uppercase tracking-[0.08em] font-bold text-[#FFFFFF]">
+          <div className="rounded-[28px] border border-[rgba(167,139,250,0.28)] bg-[#100B26] shadow-[inset_0_1px_0_rgba(255,255,255,0.1),0_24px_50px_rgba(5,2,18,0.7)] overflow-hidden flex flex-col">
+            {/* Header Div Kiri */}
+            <div className="px-5 sm:px-6 py-4 border-b border-[rgba(167,139,250,0.2)] flex items-center justify-between gap-3 bg-[#160E36]">
+              <div className="flex items-center gap-2.5">
+                <div className="w-8 h-8 rounded-xl bg-[#251A4D] border border-[rgba(167,139,250,0.3)] flex items-center justify-center text-[#C4B5FD] shadow-xs">
+                  <MessageSquare size={16} />
+                </div>
+                <div>
+                  <span className="font-mono text-[12px] uppercase tracking-[0.08em] font-bold text-[#FFFFFF] block leading-tight">
+                    {t('sim.col.chat')}
+                  </span>
+                  <span className="text-[11px] text-[#DDD6FE] block leading-tight">
                     {t('sim.console.header')}
                   </span>
                 </div>
-                <div className="flex items-center gap-2">
-                  <span className="w-2.5 h-2.5 rounded-full bg-[#10B981] animate-pulse" />
-                  <span className="font-mono text-[11px] uppercase tracking-[0.08em] font-semibold text-[#A7F3D0]">
-                    {t('sim.console.status')}
-                  </span>
-                </div>
               </div>
-
-              {/* Console Body: Two Columns (Percakapan | Tindakan agent) */}
-              <div className="p-5 sm:p-6 space-y-5 bg-[#100B26]">
-                {/* Columns Header Bar */}
-                <div className="hidden sm:grid grid-cols-12 gap-4 pb-2 border-b border-[rgba(167,139,250,0.18)] font-mono text-[11px] uppercase tracking-[0.08em] text-[#C4B5FD] font-bold">
-                  <div className="col-span-7">{t('sim.col.chat')}</div>
-                  <div className="col-span-5">{t('sim.col.actions')}</div>
-                </div>
-
-                {/* Event Feed Container */}
-                <div className="space-y-4">
-                  {/* EVENT 1 (08:02) */}
-                  <EventRow
-                    isVisible={currentStep >= 1}
-                    time="08:02"
-                    chatNodes={
-                      <>
-                        <UserBubble text={t('sim.e1.user')} time="08:02" />
-                        <AgentBubble text={t('sim.e1.agent')} time="08:02" />
-                      </>
-                    }
-                    actionNodes={
-                      <ToolCallItem
-                        name={t('sim.e1.action1')}
-                        status={t('sim.status.completed')}
-                        isCompleted={currentStep >= 1}
-                      />
-                    }
-                  />
-
-                  {/* EVENT 2 (08:03) */}
-                  <EventRow
-                    isVisible={currentStep >= 2}
-                    time="08:03"
-                    chatNodes={
-                      <>
-                        <UserBubble text={t('sim.e2.user')} time="08:03" />
-                        <AgentBubble text={t('sim.e2.agent')} time="08:03" />
-                      </>
-                    }
-                    actionNodes={
-                      <div className="space-y-2">
-                        <ToolCallItem
-                          name={t('sim.e2.action1')}
-                          status={t('sim.status.completed')}
-                          isCompleted={currentStep >= 2}
-                        />
-                        <ToolCallItem
-                          name={t('sim.e2.action2')}
-                          status={t('sim.status.completed')}
-                          isCompleted={currentStep >= 2}
-                        />
-                        <ToolCallItem
-                          name={t('sim.e2.action3')}
-                          status={t('sim.status.completed')}
-                          isCompleted={currentStep >= 2}
-                        />
-                      </div>
-                    }
-                  />
-
-                  {/* EVENT 3 (09:15) */}
-                  <EventRow
-                    isVisible={currentStep >= 3}
-                    time="09:15"
-                    chatNodes={
-                      <>
-                        <UserBubble text={t('sim.e3.user')} time="09:15" />
-                        <AgentBubble text={t('sim.e3.agent')} time="09:15" />
-                      </>
-                    }
-                    actionNodes={
-                      <ToolCallItem
-                        name={t('sim.e3.action1')}
-                        status={t('sim.status.completed')}
-                        isCompleted={currentStep >= 3}
-                      />
-                    }
-                  />
-
-                  {/* EVENT 4 (10:40) - Handoff to staff */}
-                  <EventRow
-                    isVisible={currentStep >= 4}
-                    time="10:40"
-                    chatNodes={
-                      <>
-                        <UserBubble text={t('sim.e4.user')} time="10:40" />
-                        <StaffHandoffCard text={t('sim.e4.staffCard')} />
-                        <AgentBubble text={t('sim.e4.agent')} time="10:40" />
-                      </>
-                    }
-                    actionNodes={
-                      <div className="space-y-2">
-                        <ToolCallItem
-                          name={t('sim.e4.action1')}
-                          status={t('sim.status.completed')}
-                          isCompleted={currentStep >= 4}
-                        />
-                        <ToolCallItem
-                          name={t('sim.e4.action2')}
-                          status={t('sim.status.handedOff')}
-                          isCompleted={currentStep >= 4}
-                          isHandoff
-                        />
-                      </div>
-                    }
-                  />
-
-                  {/* EVENT 5 (13:00) - Action only, background reminder dispatch */}
-                  <EventRow
-                    isVisible={currentStep >= 5}
-                    time="13:00"
-                    chatNodes={
-                      <div className="p-3 rounded-xl bg-[#211648] border border-[rgba(167,139,250,0.25)] text-[12px] text-[#EDE9FE] flex items-center gap-2">
-                        <Clock size={13} className="text-[#C4B5FD] shrink-0" />
-                        <span className="font-medium">
-                          {locale === 'en'
-                            ? 'Background schedule task · 6 appointment reminders dispatched.'
-                            : 'Tugas latar kalender · 6 pengingat janji temu dikirim otomatis.'}
-                        </span>
-                      </div>
-                    }
-                    actionNodes={
-                      <ToolCallItem
-                        name={t('sim.e5.action1')}
-                        status={t('sim.status.completed')}
-                        detail={t('sim.e5.result')}
-                        isCompleted={currentStep >= 5}
-                      />
-                    }
-                  />
-
-                  {/* EVENT 6 (21:30) - Night booking with small note */}
-                  <EventRow
-                    isVisible={currentStep >= 6}
-                    time="21:30"
-                    chatNodes={
-                      <>
-                        <UserBubble text={t('sim.e6.user')} time="21:30" />
-                        <AgentBubble text={t('sim.e6.agent')} time="21:30" />
-                        <div className="text-[11px] font-mono text-[#DDD6FE] italic pl-1 flex items-center gap-1.5 font-medium">
-                          <Sparkles size={12} className="text-[#C4B5FD] shrink-0" />
-                          <span>{t('sim.e6.note')}</span>
-                        </div>
-                      </>
-                    }
-                    actionNodes={
-                      <div className="space-y-2">
-                        <ToolCallItem
-                          name={t('sim.e6.action1')}
-                          status={t('sim.status.completed')}
-                          isCompleted={currentStep >= 6}
-                        />
-                        <ToolCallItem
-                          name={t('sim.e6.action2')}
-                          status={t('sim.status.completed')}
-                          isCompleted={currentStep >= 6}
-                        />
-                      </div>
-                    }
-                  />
-                </div>
-              </div>
-
-              {/* Bottom Strip: "Ringkasan contoh satu hari" (Four Meters) */}
-              <div className="px-5 sm:px-6 py-5 border-t border-[rgba(167,139,250,0.22)] bg-[#160E36]">
-                <div className="font-mono text-[11px] uppercase tracking-[0.08em] font-bold text-[#C4B5FD] mb-3">
-                  {t('sim.summary.title')}
-                </div>
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-                  {/* Meter 1: Messages processed */}
-                  <div className="p-3 rounded-xl bg-[#1C133E] border border-[rgba(167,139,250,0.25)]">
-                    <span className="font-mono text-[28px] md:text-[32px] font-bold text-[#FFFFFF] tabular-nums leading-none block">
-                      {currentMetrics.messages}
-                    </span>
-                    <span className="text-[12px] text-[#DDD6FE] font-medium mt-1.5 block">
-                      {t('sim.metric.messages')}
-                    </span>
-                  </div>
-
-                  {/* Meter 2: Bookings created */}
-                  <div className="p-3 rounded-xl bg-[#1C133E] border border-[rgba(167,139,250,0.25)]">
-                    <span className="font-mono text-[28px] md:text-[32px] font-bold text-[#FFFFFF] tabular-nums leading-none block">
-                      {currentMetrics.bookings}
-                    </span>
-                    <span className="text-[12px] text-[#DDD6FE] font-medium mt-1.5 block">
-                      {t('sim.metric.bookings')}
-                    </span>
-                  </div>
-
-                  {/* Meter 3: Handed off to staff */}
-                  <div className="p-3 rounded-xl bg-[#1C133E] border border-[rgba(167,139,250,0.25)]">
-                    <span className="font-mono text-[28px] md:text-[32px] font-bold text-[#FFFFFF] tabular-nums leading-none block">
-                      {currentMetrics.handoffs}
-                    </span>
-                    <span className="text-[12px] text-[#DDD6FE] font-medium mt-1.5 block">
-                      {t('sim.metric.handoffs')}
-                    </span>
-                  </div>
-
-                  {/* Meter 4: Reminders sent */}
-                  <div className="p-3 rounded-xl bg-[#1C133E] border border-[rgba(167,139,250,0.25)]">
-                    <span className="font-mono text-[28px] md:text-[32px] font-bold text-[#FFFFFF] tabular-nums leading-none block">
-                      {currentMetrics.reminders}
-                    </span>
-                    <span className="text-[12px] text-[#DDD6FE] font-medium mt-1.5 block">
-                      {t('sim.metric.reminders')}
-                    </span>
-                  </div>
-                </div>
+              <div className="flex items-center gap-2 bg-[#0B0819] px-3 py-1.5 rounded-full border border-[rgba(167,139,250,0.2)]">
+                <span className="w-2.5 h-2.5 rounded-full bg-[#10B981] animate-pulse" />
+                <span className="font-mono text-[11px] uppercase tracking-[0.08em] font-semibold text-[#A7F3D0]">
+                  {t('sim.console.status')}
+                </span>
               </div>
             </div>
 
-            {/* Footer Note */}
-            <p
-              style={{ color: '#E9D5FF' }}
-              className="mt-3 text-[12px] text-[#E9D5FF] text-center sm:text-left select-none font-medium"
-            >
-              {t('sim.footer.note')}
-            </p>
+            {/* Feed Div Kiri */}
+            <div className="p-5 sm:p-6 space-y-4 bg-[#100B26]">
+              {/* Event 1 (08:02) */}
+              <ChatEventBox isVisible={currentStep >= 1} time="08:02">
+                <UserBubble text={t('sim.e1.user')} time="08:02" />
+                <AgentBubble text={t('sim.e1.agent')} time="08:02" />
+              </ChatEventBox>
+
+              {/* Event 2 (08:03) */}
+              <ChatEventBox isVisible={currentStep >= 2} time="08:03">
+                <UserBubble text={t('sim.e2.user')} time="08:03" />
+                <AgentBubble text={t('sim.e2.agent')} time="08:03" />
+              </ChatEventBox>
+
+              {/* Event 3 (09:15) */}
+              <ChatEventBox isVisible={currentStep >= 3} time="09:15">
+                <UserBubble text={t('sim.e3.user')} time="09:15" />
+                <AgentBubble text={t('sim.e3.agent')} time="09:15" />
+              </ChatEventBox>
+
+              {/* Event 4 (10:40) - Handoff */}
+              <ChatEventBox isVisible={currentStep >= 4} time="10:40">
+                <UserBubble text={t('sim.e4.user')} time="10:40" />
+                <StaffHandoffCard text={t('sim.e4.staffCard')} />
+                <AgentBubble text={t('sim.e4.agent')} time="10:40" />
+              </ChatEventBox>
+
+              {/* Event 5 (13:00) - Background Reminder */}
+              <ChatEventBox isVisible={currentStep >= 5} time="13:00">
+                <div className="p-3 rounded-xl bg-[#211648] border border-[rgba(167,139,250,0.25)] text-[12px] text-[#EDE9FE] flex items-center gap-2">
+                  <Clock size={13} className="text-[#C4B5FD] shrink-0" />
+                  <span className="font-medium">
+                    {locale === 'en'
+                      ? 'Background schedule task · 6 appointment reminders dispatched.'
+                      : 'Tugas latar kalender · 6 pengingat janji temu dikirim otomatis.'}
+                  </span>
+                </div>
+              </ChatEventBox>
+
+              {/* Event 6 (21:30) - Night booking */}
+              <ChatEventBox isVisible={currentStep >= 6} time="21:30">
+                <UserBubble text={t('sim.e6.user')} time="21:30" />
+                <AgentBubble text={t('sim.e6.agent')} time="21:30" />
+                <div className="text-[11px] font-mono text-[#DDD6FE] italic pl-1 flex items-center gap-1.5 font-medium">
+                  <Sparkles size={12} className="text-[#C4B5FD] shrink-0" />
+                  <span>{t('sim.e6.note')}</span>
+                </div>
+              </ChatEventBox>
+            </div>
+          </div>
+
+          {/* =====================================================================
+              DIV KANAN: Panel Tindakan & Log Sistem Otomasi (System Action Terminal)
+              ===================================================================== */}
+          <div className="rounded-[28px] border border-[rgba(167,139,250,0.28)] bg-[#100B26] shadow-[inset_0_1px_0_rgba(255,255,255,0.1),0_24px_50px_rgba(5,2,18,0.7)] overflow-hidden flex flex-col">
+            {/* Header Div Kanan */}
+            <div className="px-5 sm:px-6 py-4 border-b border-[rgba(167,139,250,0.2)] flex items-center justify-between gap-3 bg-[#160E36]">
+              <div className="flex items-center gap-2.5">
+                <div className="w-8 h-8 rounded-xl bg-[#251A4D] border border-[rgba(167,139,250,0.3)] flex items-center justify-center text-[#C4B5FD] shadow-xs">
+                  <Zap size={16} />
+                </div>
+                <div>
+                  <span className="font-mono text-[12px] uppercase tracking-[0.08em] font-bold text-[#FFFFFF] block leading-tight">
+                    {t('sim.col.actions')}
+                  </span>
+                  <span className="text-[11px] text-[#DDD6FE] block leading-tight">
+                    {locale === 'en' ? 'Automated System Execution' : 'Log Eksekusi Sistem & API'}
+                  </span>
+                </div>
+              </div>
+              <div className="flex items-center gap-2 bg-[#0B0819] px-3 py-1.5 rounded-full border border-[rgba(167,139,250,0.2)]">
+                <span className="w-2.5 h-2.5 rounded-full bg-[#8B5CF6] animate-pulse" />
+                <span className="font-mono text-[11px] uppercase tracking-[0.08em] font-semibold text-[#DDD6FE]">
+                  {locale === 'en' ? 'Auto-Execute' : 'Otomasi Aktif'}
+                </span>
+              </div>
+            </div>
+
+            {/* Actions Feed Div Kanan */}
+            <div className="p-5 sm:p-6 space-y-4 bg-[#100B26]">
+              {/* Event 1 (08:02) */}
+              <ActionEventBox isVisible={currentStep >= 1} time="08:02" label="Calendar API">
+                <ToolCallItem
+                  name={t('sim.e1.action1')}
+                  status={t('sim.status.completed')}
+                  isCompleted={currentStep >= 1}
+                />
+              </ActionEventBox>
+
+              {/* Event 2 (08:03) */}
+              <ActionEventBox isVisible={currentStep >= 2} time="08:03" label="Booking & CRM">
+                <div className="space-y-2">
+                  <ToolCallItem
+                    name={t('sim.e2.action1')}
+                    status={t('sim.status.completed')}
+                    isCompleted={currentStep >= 2}
+                  />
+                  <ToolCallItem
+                    name={t('sim.e2.action2')}
+                    status={t('sim.status.completed')}
+                    isCompleted={currentStep >= 2}
+                  />
+                  <ToolCallItem
+                    name={t('sim.e2.action3')}
+                    status={t('sim.status.completed')}
+                    isCompleted={currentStep >= 2}
+                  />
+                </div>
+              </ActionEventBox>
+
+              {/* Event 3 (09:15) */}
+              <ActionEventBox isVisible={currentStep >= 3} time="09:15" label="Knowledge Base">
+                <ToolCallItem
+                  name={t('sim.e3.action1')}
+                  status={t('sim.status.completed')}
+                  isCompleted={currentStep >= 3}
+                />
+              </ActionEventBox>
+
+              {/* Event 4 (10:40) - Handoff */}
+              <ActionEventBox isVisible={currentStep >= 4} time="10:40" label="Staff Escalation">
+                <div className="space-y-2">
+                  <ToolCallItem
+                    name={t('sim.e4.action1')}
+                    status={t('sim.status.completed')}
+                    isCompleted={currentStep >= 4}
+                  />
+                  <ToolCallItem
+                    name={t('sim.e4.action2')}
+                    status={t('sim.status.handedOff')}
+                    isCompleted={currentStep >= 4}
+                    isHandoff
+                  />
+                </div>
+              </ActionEventBox>
+
+              {/* Event 5 (13:00) - Background Reminder */}
+              <ActionEventBox isVisible={currentStep >= 5} time="13:00" label="Cron Schedule">
+                <ToolCallItem
+                  name={t('sim.e5.action1')}
+                  status={t('sim.status.completed')}
+                  detail={t('sim.e5.result')}
+                  isCompleted={currentStep >= 5}
+                />
+              </ActionEventBox>
+
+              {/* Event 6 (21:30) - Night booking */}
+              <ActionEventBox isVisible={currentStep >= 6} time="21:30" label="After-Hours API">
+                <div className="space-y-2">
+                  <ToolCallItem
+                    name={t('sim.e6.action1')}
+                    status={t('sim.status.completed')}
+                    isCompleted={currentStep >= 6}
+                  />
+                  <ToolCallItem
+                    name={t('sim.e6.action2')}
+                    status={t('sim.status.completed')}
+                    isCompleted={currentStep >= 6}
+                  />
+                </div>
+              </ActionEventBox>
+            </div>
+
+            {/* Bottom Summary Strip (Four Meters) in Div Kanan */}
+            <div className="px-5 sm:px-6 py-5 border-t border-[rgba(167,139,250,0.22)] bg-[#160E36]">
+              <div className="font-mono text-[11px] uppercase tracking-[0.08em] font-bold text-[#C4B5FD] mb-3">
+                {t('sim.summary.title')}
+              </div>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                {/* Meter 1: Messages processed */}
+                <div className="p-3 rounded-xl bg-[#1C133E] border border-[rgba(167,139,250,0.25)]">
+                  <span className="font-mono text-[24px] sm:text-[28px] font-bold text-[#FFFFFF] tabular-nums leading-none block">
+                    {currentMetrics.messages}
+                  </span>
+                  <span className="text-[11px] text-[#DDD6FE] font-medium mt-1.5 block">
+                    {t('sim.metric.messages')}
+                  </span>
+                </div>
+
+                {/* Meter 2: Bookings created */}
+                <div className="p-3 rounded-xl bg-[#1C133E] border border-[rgba(167,139,250,0.25)]">
+                  <span className="font-mono text-[24px] sm:text-[28px] font-bold text-[#FFFFFF] tabular-nums leading-none block">
+                    {currentMetrics.bookings}
+                  </span>
+                  <span className="text-[11px] text-[#DDD6FE] font-medium mt-1.5 block">
+                    {t('sim.metric.bookings')}
+                  </span>
+                </div>
+
+                {/* Meter 3: Handed off to staff */}
+                <div className="p-3 rounded-xl bg-[#1C133E] border border-[rgba(167,139,250,0.25)]">
+                  <span className="font-mono text-[24px] sm:text-[28px] font-bold text-[#FFFFFF] tabular-nums leading-none block">
+                    {currentMetrics.handoffs}
+                  </span>
+                  <span className="text-[11px] text-[#DDD6FE] font-medium mt-1.5 block">
+                    {t('sim.metric.handoffs')}
+                  </span>
+                </div>
+
+                {/* Meter 4: Reminders sent */}
+                <div className="p-3 rounded-xl bg-[#1C133E] border border-[rgba(167,139,250,0.25)]">
+                  <span className="font-mono text-[24px] sm:text-[28px] font-bold text-[#FFFFFF] tabular-nums leading-none block">
+                    {currentMetrics.reminders}
+                  </span>
+                  <span className="text-[11px] text-[#DDD6FE] font-medium mt-1.5 block">
+                    {t('sim.metric.reminders')}
+                  </span>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
+
+        {/* Footer Note */}
+        <p
+          style={{ color: '#E9D5FF' }}
+          className="mt-4 text-[12px] text-[#E9D5FF] text-center select-none font-medium"
+        >
+          {t('sim.footer.note')}
+        </p>
       </div>
     </section>
   );
 }
 
 /* =============================================================================
-   HELPER ATOMS FOR THE SIMULATION CONSOLE
+   HELPER ATOMS FOR SEPARATE DIV KIRI & DIV KANAN
    ============================================================================= */
 
-interface EventRowProps {
+function ChatEventBox({
+  isVisible,
+  time,
+  children,
+}: {
   isVisible: boolean;
   time: string;
-  chatNodes: React.ReactNode;
-  actionNodes: React.ReactNode;
-}
-
-function EventRow({ isVisible, time, chatNodes, actionNodes }: EventRowProps) {
+  children: React.ReactNode;
+}) {
   return (
     <div
       style={{
         transform: isVisible ? 'translate3d(0, 0, 0)' : 'translate3d(0, 6px, 0)',
-        opacity: isVisible ? 1 : 0.55,
+        opacity: isVisible ? 1 : 0.45,
         transition: 'transform 260ms cubic-bezier(0.16, 1, 0.3, 1), opacity 260ms ease-out',
       }}
-      className="p-3.5 sm:p-4 rounded-2xl bg-[#19113B] border border-[rgba(167,139,250,0.3)] space-y-3 sm:space-y-0 sm:grid sm:grid-cols-12 sm:gap-4 sm:items-start"
+      className="p-3.5 sm:p-4 rounded-2xl bg-[#19113B] border border-[rgba(167,139,250,0.28)] space-y-2.5"
     >
-      {/* Left Chat Area */}
-      <div className="sm:col-span-7 space-y-2.5">
-        <div className="flex items-center gap-2 mb-1">
-          <span className="font-mono text-[10px] uppercase tracking-[0.08em] font-bold text-[#F5F3FF] bg-[#291B5C] border border-[rgba(167,139,250,0.35)] px-2 py-0.5 rounded">
-            {time}
-          </span>
-        </div>
-        {chatNodes}
-      </div>
-
-      {/* Right Action Log */}
-      <div className="sm:col-span-5 pt-2 sm:pt-0 border-t sm:border-t-0 sm:border-l border-[rgba(167,139,250,0.25)] sm:pl-4 space-y-2">
-        <span className="sm:hidden font-mono text-[10px] uppercase tracking-[0.08em] text-[#DDD6FE] font-bold block mb-1">
-          Tindakan
+      <div className="flex items-center justify-between gap-2 mb-1">
+        <span className="font-mono text-[10px] uppercase tracking-[0.08em] font-bold text-[#F5F3FF] bg-[#291B5C] border border-[rgba(167,139,250,0.35)] px-2 py-0.5 rounded">
+          {time}
         </span>
-        {actionNodes}
+        <span className="text-[10px] font-mono text-[#C4B5FD] font-semibold">WhatsApp</span>
       </div>
+      {children}
+    </div>
+  );
+}
+
+function ActionEventBox({
+  isVisible,
+  time,
+  label,
+  children,
+}: {
+  isVisible: boolean;
+  time: string;
+  label?: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div
+      style={{
+        transform: isVisible ? 'translate3d(0, 0, 0)' : 'translate3d(0, 6px, 0)',
+        opacity: isVisible ? 1 : 0.45,
+        transition: 'transform 260ms cubic-bezier(0.16, 1, 0.3, 1), opacity 260ms ease-out',
+      }}
+      className="p-3.5 sm:p-4 rounded-2xl bg-[#19113B] border border-[rgba(167,139,250,0.28)] space-y-2.5"
+    >
+      <div className="flex items-center justify-between gap-2 mb-1">
+        <span className="font-mono text-[10px] uppercase tracking-[0.08em] font-bold text-[#F5F3FF] bg-[#291B5C] border border-[rgba(167,139,250,0.35)] px-2 py-0.5 rounded">
+          {time}
+        </span>
+        <span className="text-[10px] font-mono text-[#A7F3D0] font-semibold">
+          {label || 'Execution'}
+        </span>
+      </div>
+      {children}
     </div>
   );
 }

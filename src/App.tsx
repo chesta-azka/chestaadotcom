@@ -171,7 +171,7 @@ function AppContent() {
   const isHomeRoute = barePath === '/' || barePath === '';
 
   return (
-    <div className="relative w-full flex flex-col overflow-x-hidden min-h-screen bg-[#FFFFFF] text-[#17122B]">
+    <div className="relative w-full flex flex-col overflow-x-clip min-h-screen bg-[#FFFFFF] text-[#17122B]">
       {isHomeRoute && <SEOMetadata />}
       <ViewTransitionLinkInterceptor />
 
@@ -291,7 +291,7 @@ export default function App() {
   return (
     <Router>
       <ScrollToTop />
-      <main className="bg-[#FFFFFF] text-[#17122B] relative min-h-screen w-full overflow-x-hidden">
+      <main className="bg-[#FFFFFF] text-[#17122B] relative min-h-screen w-full overflow-x-clip">
         {loadShortcuts && (
           <React.Suspense fallback={null}>
             <CommandPalette />

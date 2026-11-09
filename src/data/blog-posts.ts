@@ -29,6 +29,20 @@ import { BLOG_POSTS_23_24_EN_RAW } from './blog-posts-23-24-en';
 import { BLOG_POSTS_25_26_EN_RAW } from './blog-posts-25-26-en';
 import { BLOG_POSTS_27_28_EN_RAW } from './blog-posts-27-28-en';
 import { BLOG_POSTS_29_30_EN_RAW } from './blog-posts-29-30-en';
+import { BLOG_POSTS_31_ID_RAW } from './blog-posts-31-id';
+import { BLOG_POSTS_31_EN_RAW } from './blog-posts-31-en';
+import { BLOG_POSTS_32_ID_RAW } from './blog-posts-32-id';
+import { BLOG_POSTS_32_EN_RAW } from './blog-posts-32-en';
+import { BLOG_POSTS_33_ID_RAW } from './blog-posts-33-id';
+import { BLOG_POSTS_33_EN_RAW } from './blog-posts-33-en';
+import { BLOG_POSTS_34_ID_RAW } from './blog-posts-34-id';
+import { BLOG_POSTS_34_EN_RAW } from './blog-posts-34-en';
+import { BLOG_POSTS_35_ID_RAW } from './blog-posts-35-id';
+import { BLOG_POSTS_35_EN_RAW } from './blog-posts-35-en';
+import { BLOG_POSTS_36_ID_RAW } from './blog-posts-36-id';
+import { BLOG_POSTS_36_EN_RAW } from './blog-posts-36-en';
+import { BLOG_POSTS_37_ID_RAW } from './blog-posts-37-id';
+import { BLOG_POSTS_37_EN_RAW } from './blog-posts-37-en';
 
 export type BlogAuthorId = 'chesta' | 'zeeshan';
 
@@ -2648,35 +2662,17 @@ export function normalizeInternalLinkHref(rawHref: string, locale: 'id' | 'en'):
   if (clean === '/en/blog/what-is-mcp-model-context-protocol-business-guide') {
     return '/en/blog/mcp-model-context-protocol-for-business-owners';
   }
-  if (clean === '/id/blog/otomasi-whatsapp-ai-agent-untuk-klinik-dan-fnb' || clean === '/id/blog/kapan-bisnis-butuh-ai-agent-whatsapp') {
+  if (clean === '/id/blog/otomasi-whatsapp-ai-agent-untuk-klinik-dan-fnb') {
     return '/id/blog/otomasi-whatsapp-ai-klinik-fnb-alur-kerja';
   }
-  if (clean === '/en/blog/whatsapp-ai-agent-automation-for-clinics-and-fnb' || clean === '/en/blog/when-your-business-needs-a-whatsapp-ai-agent') {
+  if (clean === '/en/blog/whatsapp-ai-agent-automation-for-clinics-and-fnb') {
     return '/en/blog/whatsapp-ai-automation-for-clinics-and-fnb-workflows';
-  }
-  if (clean === '/id/blog/landing-page-untuk-iklan-bisnis') {
-    return '/id/blog/checklist-landing-page-konversi-tinggi-jasa';
-  }
-  if (clean === '/en/blog/landing-pages-for-business-ads') {
-    return '/en/blog/high-converting-landing-page-checklist-for-service-businesses';
-  }
-  if (clean === '/id/blog/biaya-pembuatan-website-bisnis-tangerang-selatan') {
-    return '/id/blog/harga-website-tangerang-selatan-komponen-biaya';
-  }
-  if (clean === '/en/blog/business-website-development-cost-south-tangerang') {
-    return '/en/blog/website-pricing-south-tangerang-cost-breakdown';
   }
   if (clean === '/id/blog/pindah-dari-spreadsheet-ke-software-custom' || clean === '/id/blog/kapan-usaha-butuh-software-custom-bukan-spreadsheet') {
     return '/id/blog/dashboard-untuk-pemilik-kafe-metrik-operasional';
   }
   if (clean === '/en/blog/moving-from-spreadsheets-to-custom-software' || clean === '/en/blog/when-a-business-needs-custom-software-instead-of-spreadsheets') {
     return '/en/blog/dashboards-for-cafe-owners-operational-metrics';
-  }
-  if (clean === '/id/blog/seo-lokal-untuk-bisnis-di-tangerang-selatan') {
-    return '/id/blog/seo-lokal-bisnis-bsd-tangerang-selatan-google-maps';
-  }
-  if (clean === '/en/blog/local-seo-for-businesses-in-south-tangerang') {
-    return '/en/blog/local-seo-guide-for-bsd-and-south-tangerang-businesses';
   }
   if (clean === '/en/blog/high-converting-landing-page-checklist-service-business') {
     return '/en/blog/high-converting-landing-page-checklist-for-service-businesses';
@@ -2901,6 +2897,13 @@ function enrichClusterAndInternalLinks(
 }
 
 const RAW_INDONESIAN_BLOG_POSTS: BlogPost[] = [
+  ...BLOG_POSTS_37_ID_RAW.map(defineBlogPost),
+  ...BLOG_POSTS_36_ID_RAW.map(defineBlogPost),
+  ...BLOG_POSTS_35_ID_RAW.map(defineBlogPost),
+  ...BLOG_POSTS_34_ID_RAW.map(defineBlogPost),
+  ...BLOG_POSTS_33_ID_RAW.map(defineBlogPost),
+  ...BLOG_POSTS_32_ID_RAW.map(defineBlogPost),
+  ...BLOG_POSTS_31_ID_RAW.map(defineBlogPost),
   ...BLOG_POSTS_21_22_ID_RAW.map(defineBlogPost),
   ...BLOG_POSTS_23_24_ID_RAW.map(defineBlogPost),
   ...BLOG_POSTS_25_26_ID_RAW.map(defineBlogPost),
@@ -2915,6 +2918,13 @@ const RAW_INDONESIAN_BLOG_POSTS: BlogPost[] = [
 ];
 
 const RAW_ENGLISH_BLOG_POSTS: BlogPost[] = [
+  ...BLOG_POSTS_37_EN_RAW.map(defineBlogPost),
+  ...BLOG_POSTS_36_EN_RAW.map(defineBlogPost),
+  ...BLOG_POSTS_35_EN_RAW.map(defineBlogPost),
+  ...BLOG_POSTS_34_EN_RAW.map(defineBlogPost),
+  ...BLOG_POSTS_33_EN_RAW.map(defineBlogPost),
+  ...BLOG_POSTS_32_EN_RAW.map(defineBlogPost),
+  ...BLOG_POSTS_31_EN_RAW.map(defineBlogPost),
   ...BLOG_POSTS_21_22_EN_RAW.map(defineBlogPost),
   ...BLOG_POSTS_23_24_EN_RAW.map(defineBlogPost),
   ...BLOG_POSTS_25_26_EN_RAW.map(defineBlogPost),
