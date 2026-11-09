@@ -33,12 +33,14 @@ export default function FooterSection() {
   const location = useLocation();
   const navigate = useNavigate();
   const footerGridRef = useRef<HTMLDivElement>(null);
-  const [revealedEmail, setRevealedEmail] = useState<string | null>(null);
+  const [revealedEmail, setRevealedEmail] = useState<string | null>(
+    ['chesta', 'code', '\u0040', 'gmail.com'].join('')
+  );
   const { locale, prefixMode } = parseLocalizedPath(location.pathname);
   const langLinks = getLanguageSwitchLinks(location.pathname);
 
   const handleRevealEmail = () => {
-    const user = ['chestaa', 'dotcom'].join('');
+    const user = ['chesta', 'code'].join('');
     const domain = ['gmail', 'com'].join('.');
     setRevealedEmail(`${user}\u0040${domain}`);
   };

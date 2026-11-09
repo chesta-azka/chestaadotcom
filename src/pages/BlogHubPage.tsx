@@ -470,13 +470,13 @@ export default function BlogHubPage() {
             <button
               type="button"
               onClick={(e) => {
-                const user = ['chestaa', 'dotcom'].join('');
+                const user = ['chesta', 'code'].join('');
                 const domain = ['gmail', 'com'].join('.');
                 e.currentTarget.textContent = `${user}\u0040${domain}`;
               }}
-              className="text-[14px] text-[var(--ink-muted)] hover:text-[var(--ink)] transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--purple-600)] rounded-sm cursor-pointer"
+              className="text-[14px] font-mono text-[var(--ink-muted)] hover:text-[var(--ink)] transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-[var(--purple-600)] rounded-sm cursor-pointer"
             >
-              {isEn ? 'or show email address →' : 'atau tampilkan email →'}
+              {['chesta', 'code', '\u0040', 'gmail.com'].join('')}
             </button>
           </div>
         </section>

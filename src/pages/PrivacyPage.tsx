@@ -16,10 +16,12 @@ import { trackWaClick } from '../lib/analytics';
 export default function PrivacyPage() {
   const { locale, t, localizePath } = useLocale();
   const isEn = locale === 'en';
-  const [revealedEmail, setRevealedEmail] = useState<string | null>(null);
+  const [revealedEmail, setRevealedEmail] = useState<string | null>(
+    ['chesta', 'code', '\u0040', 'gmail.com'].join('')
+  );
 
   const handleRevealEmail = () => {
-    const user = ['chestaa', 'dotcom'].join('');
+    const user = ['chesta', 'code'].join('');
     const domain = ['gmail', 'com'].join('.');
     setRevealedEmail(`${user}\u0040${domain}`);
   };

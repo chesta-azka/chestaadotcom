@@ -15,6 +15,7 @@ import {
 } from 'lucide-react';
 import SEOMetadata from '../components/atoms/SEOMetadata';
 import FlowIllustration from '../components/atoms/FlowIllustration';
+import MobileDefectStockSimulator from '../components/blog/MobileDefectStockSimulator';
 import {
   getAdjacentServices,
   getServicePath,
@@ -938,6 +939,10 @@ export default function ServiceDetailPage() {
               </Card>
             </div>
           </Reveal>
+
+          {service.slug === 'software-custom' && (
+            <MobileDefectStockSimulator isEn={isEn} />
+          )}
         </Container>
       </section>
 

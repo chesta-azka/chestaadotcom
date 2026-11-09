@@ -1,67 +1,69 @@
-# Rencana Implementasi Artikel Pilar Dwibahasa: Kenapa Landing Page Iklan Lambat di Browser Instagram (HP)
+# Bilingual Pillar Article: How to Choose a Web and Software Vendor Without Lock-In
 
-## 1. Tujuan & Cakupan Tugas
-Menyusun dan menerbitkan artikel pilar dwibahasa (**Indonesia minimal 1.600 kata** & **Inggris minimal 1.500 kata**, terjemahan setia 1:1) untuk **CHESTAADOTCOM (`chestaa.com`)** yang membedah mengapa halaman landing page yang terlihat lancar saat dibuka di laptop kantor justru sering macet atau tampil layar putih saat diklik calon pelanggan dari dalam aplikasi Instagram atau TikTok (*in-app browser*), serta cara menyusun halaman ringan yang langsung mengarahkan prospek ke WhatsApp.
+This plan outlines the authoring, publication, and quality verification of a bilingual (Indonesian & English) pillar blog article for CHESTAADOTCOM addressing how business owners in South Tangerang (BSD, Bintaro, Alam Sutera, Pamulang, Lebak Bulus) and Greater Jakarta can evaluate and hire a website, AI agent, or custom software partner without losing control of their domain, hosting, and business data or facing mid-project scope surprises.
 
-Artikel ini akan:
-1. **Diterbitkan langsung ke katalog blog aplikasi** (terintegrasi penuh dengan rute dwibahasa `/blog/kenapa-landing-page-iklan-lambat-di-hp` dan `/en/blog/why-ad-landing-pages-load-slowly-on-mobile`, klaster `website-dan-performa`, serta ilustrasi sampul skematik unik).
-2. **Ditampilkan secara utuh di ruang chat** dalam format `=== FILE: id/blog/kenapa-landing-page-iklan-lambat-di-hp.md ===` dan `=== FILE: en/blog/why-ad-landing-pages-load-slowly-on-mobile.md ===` beserta `=== LAPORAN QA ===`.
+## User Review & Critical Decisions
 
----
+> [!IMPORTANT]
+> Both key decisions were confirmed during Phase 1 clarification:
 
-## 2. Spesifikasi Metadata & Frontmatter Presisi
-- **Pasangan Slug**:
-  - ID: `kenapa-landing-page-iklan-lambat-di-hp`
-  - EN: `why-ad-landing-pages-load-slowly-on-mobile`
-- **Presisi Karakter Judul (`title`, wajib 50–62 karakter)**:
-  - ID (`53 karakter`): `"Kenapa Landing Page Iklan Lambat di Browser Instagram"`
-  - EN (`55 karakter`): `"Why Ad Landing Pages Load Slowly in Social App Browsers"`
-- **Presisi Karakter Deskripsi (`description`, wajib 150–160 karakter, diakhiri titik)**:
-  - ID (`153 karakter`): `"Penyebab halaman tujuan iklan media sosial gagal terbuka cepat di layar HP calon pelanggan serta cara merancang landing page ringan di Tangerang Selatan."`
-  - EN (`153 karakter`): `"Learn why social media ad landing pages stall inside mobile in-app browsers and how businesses in South Tangerang can keep pages fast for WhatsApp leads."`
-- **Klaster & Kata Kunci**:
-  - `cluster`: `website-dan-performa`
-  - `primaryKeyword`:
-    - ID: `"kenapa landing page iklan lambat di hp"`
-    - EN: `"why ad landing pages load slowly on mobile"`
-  - `author`: `"chesta"`
-  - `datePublished` & `dateModified`: `"2026-11-09"`
-- **Tautan Internal (`links`)**:
-  - `service`: `/layanan/pembuatan-website` (ID) | `/en/services/web-development` (EN)
-  - `area`: `/area/bsd` (ID) | `/en/areas/bsd` (EN)
-  - `posts`:
-    - ID: `/blog/landing-page-untuk-iklan-bisnis` & `/blog/biaya-pembuatan-website-bisnis-tangerang-selatan`
-    - EN: `/en/blog/landing-pages-for-business-ads` & `/en/blog/business-website-development-cost-south-tangerang`
-  - `caseStudy`: Dihilangkan karena dikosongkan pada input.
-- **Sumber Resmi (`sources`)**:
-  1. `https://web.dev/articles/vitals` — Dokumentasi resmi web.dev tentang metrik Core Web Vitals dan pengalaman pengguna di perangkat nyata.
-  2. `https://developers.google.com/search/docs/fundamentals/seo-starter-guide` — Panduan dasar SEO Google Search Central tentang cara mesin pencari memahami halaman web.
-  3. `https://developers.facebook.com/docs/whatsapp/` — Dokumentasi resmi Meta for Developers mengenai integrasi dan aturan platform bisnis WhatsApp.
+- **Confirmed Decision 1 (Dual Delivery Scope)**: The bilingual pillar article will be published directly into the live CHESTAADOTCOM blog catalog (complete with topic cluster routing, schematic SVG cover specification, and internal link graph) AND printed in full (`id/blog/cara-memilih-vendor-pembuatan-website-dan-software.md` and `en/blog/how-to-choose-a-web-and-software-vendor.md` plus `=== LAPORAN QA ===`) in chat.
+- **Confirmed Decision 2 (Locked Slug Pair & Exact Metadata)**: We will lock the canonical slug pair `cara-memilih-vendor-pembuatan-website-dan-software` (ID) and `how-to-choose-a-web-and-software-vendor` (EN), along with the exact character-counted `title` (57 chars ID / 55 chars EN) and `description` (154 chars ID / 154 chars EN) specified in the prompt.
 
----
+## 1. Overview & Core Concept
 
-## 3. Struktur Konten & Kepatuhan Aturan Penulisan
-1. **Judul H1 & Paragraf Pembuka (Lead)**:
-   - Membuka langsung dengan situasi nyata pemilik usaha yang melihat ratusan klik di laporan iklan tetapi chat WhatsApp tetap sepi karena layar putih di browser dalam aplikasi, disertai maksimal 3 tautan internal alami.
-2. **Poin Utama (`## Poin utama` / `## Key takeaways`)**:
-   - 3 kalimat utuh yang identik 100% dengan `keyPoints` di frontmatter.
-3. **9 Bagian H2 dengan Paragraf AEO Mandiri (40–60 Kata Tepat di Bawah Setiap H2)**:
-   - **H2 1**: Mengapa jumlah klik di laporan iklan jauh berbeda dengan jumlah chat yang masuk? (Dilengkapi simulasi angka ilustrasi menggunakan kata *"misalnya"*).
-   - **H2 2**: Apa yang sebenarnya terjadi saat pelanggan mengeklik link iklan dari dalam aplikasi medsos? (Membedah cara kerja *in-app browser* di ponsel dengan sinyal seluler nyata).
-   - **H2 3**: Mengapa halaman yang terasa cepat di laptop kantor bisa macet di ponsel pelanggan? (Merujuk dokumentasi resmi `web.dev/articles/vitals` dengan catatan cek dokumentasi resmi untuk angka dan ketentuan terbaru).
-   - **H2 4**: Apa bedanya halaman penuh hiasan animasi dengan halaman yang dirancang untuk konversi HP? (Memuat **Tabel Perbandingan Markdown 5 baris** antara Halaman Brosur Berat vs Halaman Konversi Ringan).
-   - **H2 5**: Mengapa menempel poster gambar utuh sebagai pengganti teks halaman merugikan iklanmu? (Memuat **Kotak Peringatan** `> **Peringatan:**` / `> **Warning:**` tentang risiko layar putih saat memuat gambar besar di sinyal seluler dan kegagalan mesin pencari membaca isi penawaran mengacu pada `developers.google.com/search/docs/fundamentals/seo-starter-guide`, ditambah **Contoh skenario:** / **Scenario example:** klinik perawatan kulit dan kecantikan di BSD, Tangerang Selatan).
-   - **H2 6**: Elemen apa saja yang boleh dan tidak boleh dipasang di layar pertama halaman iklan?
-   - **H2 7**: Bagaimana cara memastikan tombol WhatsApp tetap nyaman diklik dengan satu jempol? (Merujuk dokumentasi resmi `developers.facebook.com/docs/whatsapp/` dengan catatan cek dokumentasi resmi).
-   - **H2 8**: Bagaimana langkah menguji kecepatan halaman iklanmu sendiri lewat ponsel hari ini? (Memuat **Daftar 6 Langkah Bernomor** praktis).
-   - **H2 9**: Bagaimana membangun atau merapikan landing page iklan mulai dari Rp1.200.000? (Menjelaskan pengujian di kondisi ponsel nyata lewat sesi audit gratis 30 menit bersama Chesta Azka — menulis kode sejak 2021 — dan Zeeshan, pembuatan website mulai Rp1.200.000, DP 50% di awal dan pelunasan 50% sebelum serah terima, kebijakan tanpa diskon di depan dengan penyesuaian ruang lingkup halaman, serta kepemilikan penuh domain dan hosting atas nama klien).
-4. **Kesimpulan (`## Kesimpulan` / `## Conclusion`) & `## FAQ`**:
-   - Kesimpulan 3–5 kalimat lugas berisi langkah pertama hari ini tanpa keluar biaya.
-   - 5 tanya-jawab konkret yang identik dengan frontmatter `faq`.
+- **What It Does**: Delivers a comprehensive, zero-fluff bilingual pillar guide (1,600+ words ID / 1,500+ words EN, 1:1 structural parity) explaining how business owners can protect their domain, hosting, and database ownership, lock down clear feature scopes during a free 30-minute audit, and understand the trade-offs between unstructured freelancers, layered intermediary agencies, and direct practitioner partners.
+- **Target Audience / Persona**: Business owners across BSD, Bintaro, Alam Sutera, Lebak Bulus, South Tangerang, and Greater Jakarta who want to build or upgrade a business website, AI agent, or custom internal system without getting held hostage by vendor lock-in or surprise renewal markups.
+- **Key Value**:
+  - Explains why the first question to ask any vendor is not about discounts, but who holds the official domain registrar, hosting, and database accounts after handover.
+  - Compares unstructured solo freelancers, large intermediary agencies, and direct practitioner partners across technical communication, scope clarity, and asset ownership.
+  - Details how direct collaboration with CHESTAADOTCOM's two equal co-founders — Chesta Azka (architecture, product, technology; writing code since 2021) and Zeeshan (operations and client success) — prevents miscommunication across real projects (a temperature, inventory, and defective goods system for a beverage brand, an internal system for an Islamic boarding school, and an operational system for a logistics warehouse).
 
----
+## 2. User Experience & Visual Design
 
-## 4. Integrasi ke Aplikasi & Verifikasi Kualitas
-1. Menambahkan data artikel ke `/src/data/blog-posts-45-id.ts` dan `/src/data/blog-posts-45-en.ts`.
-2. Mendaftarkan pasangan slug di `/src/data/blog-slugs.ts`, klaster `website-dan-performa` di `/src/data/clusters.ts`, spesifikasi sampul unik (`three-gauges` varian `B`) di `/src/data/blog-cover-specs.ts`, dan menggabungkannya di `/src/data/blog-posts.ts`.
-3. Menjalankan `compile_applet` dan `lint_applet` untuk memastikan seluruh validasi lulus 100%, lalu menampilkan seluruh naskah Markdown dwibahasa dan `=== LAPORAN QA ===` di chat.
+- **Key User Flows**:
+  1. Readers land on `/blog/cara-memilih-vendor-pembuatan-website-dan-software` (or `/en/blog/how-to-choose-a-web-and-software-vendor`) from search, the `biaya-dan-memilih-vendor` topic cluster hub, or `/area/tangerang-selatan` and `/layanan/pembuatan-website`.
+  2. Above the fold, readers see the schematic SVG cover (`hero: 'vendor-matrix'`, `variant: 'B'`, `accentToken: 'emerald'`), author profile (`Zeeshan`), reading time, and the 3-bullet `Poin utama` / `Key takeaways` box.
+  3. Each of the 9 H2 sections opens with a 40–60 word direct AEO answer capsule, followed by concrete operational trade-offs, an explicit `> **Peringatan:**` / `> **Warning:**` callout on losing domain ownership printed on packaging and business cards, a 3-column vendor comparison table, a local `**Contoh skenario:**` / `**Scenario example:**` set in BSD and Gading Serpong, and a 6-step numbered checklist before paying the first 50% down payment.
+  4. Readers finish at a zero-cost actionable first step in the conclusion, an interactive 5-item FAQ accordion, and a direct CTA to `/layanan/pembuatan-website` (`/en/services/web-development`).
+- **Visual Identity & Theme**:
+  - *Aesthetic Direction*: Utilitarian editorial clarity with high-contrast typography (`Plus Jakarta Sans` display, readable body prose, `JetBrains Mono` tabular metadata) and zero decorative pill clutter.
+  - *Color Palette & Mood*: Crisp light/dark adaptive surfaces with an `emerald` schematic cover accent representing verified ownership, transparent commercial terms, and structured vendor due diligence.
+
+## 3. Key Product Decisions & Trade-Offs
+
+- **Decision 1: Strict AEO 40–60 Word Lead Paragraphs Under All 9 H2s**
+  - *Chosen Approach*: Every H2 heading is immediately followed by a self-contained 40–60 word paragraph that directly answers the heading before expanding into practical examples and decision rules.
+  - *Why*: Satisfies Answer Engine Optimization (AEO) and busy business owners scanning on mobile phones.
+- **Decision 2: Scope Adjustment Over Upfront Discounting**
+  - *Chosen Approach*: Highlight why cutting upfront prices without reducing work scope leads to abandoned projects or security shortcuts, whereas adjusting feature scope to fit a smaller initial budget (starting from Rp1,200,000 for websites, with 50% DP and 50% before handover) preserves core quality.
+  - *Why*: Reflects CHESTAADOTCOM's real commercial policy and builds lasting trust with local business owners.
+
+## 4. Technical Architecture & Data Strategy *(Technical Reference)*
+
+```
+┌──────────────────────────────────────────────────────────────────────────┐
+│                     CHESTAADOTCOM BLOG CONTENT ENGINE                    │
+├──────────────────────────────────────────────────────────────────────────┤
+│  Bilingual Raw Post Modules (ID & EN 1:1 Parity)                         │
+│  ├── ID: cara-memilih-vendor-pembuatan-website-dan-software              │
+│  └── EN: how-to-choose-a-web-and-software-vendor                         │
+│                         │                                                │
+│                         ▼                                                │
+│  Slug & Cluster Registry                                                 │
+│  ├── Bidirectional ID <-> EN Slug Mapping                                │
+│  ├── Topic Cluster Assignment: biaya-dan-memilih-vendor                  │
+│  └── Unique Schematic Cover Spec: vendor-matrix (Variant B, Emerald)     │
+│                         │                                                │
+│                         ▼                                                │
+│  Article Reader & SEO / AEO Output                                       │
+│  ├── 9 H2 Sections + 40-60w AEO Capsules + 3-Provider Comparison Table   │
+│  ├── Domain Ownership Warning Callout + BSD/Gading Serpong Scenario      │
+│  └── Natural Internal Links (/layanan/pembuatan-website, /area/...)      │
+└──────────────────────────────────────────────────────────────────────────┘
+```
+
+- **Data Model & State**:
+  - Registers the bilingual post pair in the static blog corpus, linking `author: 'zeeshan'`, `clusterId: 'biaya-dan-memilih-vendor'`, `date: '2026-11-09'`, and `relatedSlugs: ['biaya-pembuatan-website-bisnis-tangerang-selatan', 'kenapa-website-bisnis-sepi-pembeli', 'pindah-dari-spreadsheet-ke-software-custom']`.
+- **Verification**:
+  - Validate TypeScript compilation, portfolio/case-study label integrity (`labels:check`), canonical host & email rules (`host:check`), exact frontmatter character counts, em-dash limits ($\le 2$), and zero forbidden phrases.

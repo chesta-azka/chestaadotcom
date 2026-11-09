@@ -183,7 +183,7 @@ export const BLOG_POSTS_44_ID_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'paragraph',
-        text: 'Prinsip responsivitas dan kestabilan tata letak tersebut sangat krusial di lantai produksi: jangan sampai tombol "Simpan Laporan Shift" bergeser mendadak saat staf hendak menekan layar sehingga mereka salah memilih kategori barang rusak. Oleh karena itu, halaman aplikasi internal untuk gudang dan dapur sebaiknya dibuat bebas dari gambar dekoratif berat atau animasi yang memperlambat kerja ponsel kelas menengah.',
+        text: 'Prinsip responsivitas dan kestabilan tata letak tersebut sangat krusial di lantai produksi: jangan sampai tombol "Simpan Laporan Shift" bergeser mendadak saat staf hendak menekan layar sehingga mereka salah memilih kategori barang rusak. Selain itu, tambahkan animasi sukses seperti tanda centang hijau (checkmark hijau) yang muncul setelah 200 milidetik (200ms) begitu staf berhasil menginput data stok barang gagal, agar mereka yakin laporan telah resmi terkirim ke server dan tidak menekan tombol simpan berulang kali.',
       },
       {
         type: 'paragraph',
@@ -219,7 +219,7 @@ export const BLOG_POSTS_44_ID_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'paragraph',
-        text: 'Otomasi workflow bekerja dengan memeriksa setiap angka yang baru diinput staf terhadap ambang batas aman yang telah ditetapkan pemilik bisnis di dalam sistem. Begitu angka suhu chiller terlalu tinggi atau jumlah barang gagal melampaui batas toleransi shift, sistem otomatis mengirimkan pesan peringatan ke WhatsApp kepala gudang atau pemilik usaha.',
+        text: 'Otomasi workflow bekerja dengan memeriksa setiap angka yang baru diinput staf terhadap ambang batas aman yang telah ditetapkan pemilik bisnis di dalam sistem. Begitu angka suhu chiller terlalu tinggi atau jumlah barang gagal melampaui batas toleransi shift, sistem otomatis mengirimkan pesan peringatan ke WhatsApp atau email kepala gudang serta pemilik usaha.',
       },
       {
         type: 'paragraph',
@@ -227,7 +227,7 @@ export const BLOG_POSTS_44_ID_RAW: RawBlogPostInput[] = [
       },
       {
         type: 'paragraph',
-        text: 'Di sinilah penggabungan modul software custom dan otomasi workflow menghemat banyak biaya kerusakan bahan baku. Saat semua input suhu dari shift pagi, siang, dan malam berada di kisaran normal, data cukup tersimpan rapi di dalam basis data untuk laporan mingguan tanpa membunyikan notifikasi apa pun di ponselmu.',
+        text: 'Di sinilah penggabungan modul software custom dan otomasi workflow menghemat banyak biaya kerusakan bahan baku. Saat semua input suhu dari shift pagi, siang, dan malam berada di kisaran normal, data cukup tersimpan rapi di dalam basis data untuk laporan mingguan dan rekap email (misalnya dikirim ke alamat email operasional atau konsultasi teknis di `chestacode@gmail.com`) tanpa membunyikan notifikasi darurat di ponselmu.',
       },
       {
         type: 'paragraph',

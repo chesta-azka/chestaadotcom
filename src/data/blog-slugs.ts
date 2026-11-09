@@ -53,7 +53,10 @@ export const BLOG_SLUGS_ID: readonly string[] = [
   "website-portofolio-untuk-kontraktor-dan-arsitek",
   "kenapa-website-bisnis-sepi-pembeli",
   "sistem-pencatatan-stok-dan-barang-rusak",
-  "kenapa-landing-page-iklan-lambat-di-hp"
+  "kenapa-landing-page-iklan-lambat-di-hp",
+  "website-katalog-dan-pesanan-usaha-kuliner",
+  "sistem-internal-dan-website-pesantren-sekolah",
+  "cara-memilih-vendor-pembuatan-website-dan-software"
 ] as const;
 
 export const BLOG_SLUGS_EN: readonly string[] = [
@@ -106,7 +109,10 @@ export const BLOG_SLUGS_EN: readonly string[] = [
   "portfolio-website-for-contractors-and-architects",
   "why-your-business-website-gets-no-leads",
   "mobile-inventory-temperature-and-defect-tracking",
-  "why-ad-landing-pages-load-slowly-on-mobile"
+  "why-ad-landing-pages-load-slowly-on-mobile",
+  "direct-catalog-and-order-website-for-food-business",
+  "internal-systems-and-websites-for-schools",
+  "how-to-choose-a-web-and-software-vendor"
 ] as const;
 
 export const BLOG_SLUG_ID_TO_EN: Record<string, string> = {
@@ -138,7 +144,7 @@ export const BLOG_SLUG_ID_TO_EN: Record<string, string> = {
   "ai-agent-vs-chatbot-perbedaan-untuk-bisnis": "ai-agent-vs-chatbot-difference-for-business",
   "mcp-model-context-protocol-untuk-pemilik-bisnis": "mcp-model-context-protocol-for-business-owners",
   "vibe-coding-untuk-bisnis-kapan-cukup-kapan-berbahaya": "vibe-coding-for-business-when-enough-when-dangerous",
-  "geo-dan-aeo-cara-bisnis-lokal-muncul-di-ai": "geo-and-aeo-how-local-businesses-rank-in-ai-answers",
+  "geo-and-aeo-cara-bisnis-lokal-muncul-di-ai": "geo-and-aeo-how-local-businesses-rank-in-ai-answers",
   "otomasi-workflow-bisnis-n8n-make-pekerjaan-repetitif": "business-workflow-automation-n8n-make-repetitive-tasks",
   "kenapa-landing-page-lambat-bikin-iklan-boncos": "why-slow-landing-pages-waste-ad-spend",
   "landing-page-untuk-iklan-bisnis": "landing-pages-for-business-ads",
@@ -161,7 +167,10 @@ export const BLOG_SLUG_ID_TO_EN: Record<string, string> = {
   "website-portofolio-untuk-kontraktor-dan-arsitek": "portfolio-website-for-contractors-and-architects",
   "kenapa-website-bisnis-sepi-pembeli": "why-your-business-website-gets-no-leads",
   "sistem-pencatatan-stok-dan-barang-rusak": "mobile-inventory-temperature-and-defect-tracking",
-  "kenapa-landing-page-iklan-lambat-di-hp": "why-ad-landing-pages-load-slowly-on-mobile"
+  "kenapa-landing-page-iklan-lambat-di-hp": "why-ad-landing-pages-load-slowly-on-mobile",
+  "website-katalog-dan-pesanan-usaha-kuliner": "direct-catalog-and-order-website-for-food-business",
+  "sistem-internal-dan-website-pesantren-sekolah": "internal-systems-and-websites-for-schools",
+  "cara-memilih-vendor-pembuatan-website-dan-software": "how-to-choose-a-web-and-software-vendor"
 };
 
 export const BLOG_SLUG_EN_TO_ID: Record<string, string> = {
@@ -216,7 +225,10 @@ export const BLOG_SLUG_EN_TO_ID: Record<string, string> = {
   "portfolio-website-for-contractors-and-architects": "website-portofolio-untuk-kontraktor-dan-arsitek",
   "why-your-business-website-gets-no-leads": "kenapa-website-bisnis-sepi-pembeli",
   "mobile-inventory-temperature-and-defect-tracking": "sistem-pencatatan-stok-dan-barang-rusak",
-  "why-ad-landing-pages-load-slowly-on-mobile": "kenapa-landing-page-iklan-lambat-di-hp"
+  "why-ad-landing-pages-load-slowly-on-mobile": "kenapa-landing-page-iklan-lambat-di-hp",
+  "direct-catalog-and-order-website-for-food-business": "website-katalog-dan-pesanan-usaha-kuliner",
+  "internal-systems-and-websites-for-schools": "sistem-internal-dan-website-pesantren-sekolah",
+  "how-to-choose-a-web-and-software-vendor": "cara-memilih-vendor-pembuatan-website-dan-software"
 };
 
 export function isValidBlogSlug(slug: string): boolean {

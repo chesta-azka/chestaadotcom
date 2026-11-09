@@ -59,6 +59,12 @@ import { BLOG_POSTS_44_ID_RAW } from './blog-posts-44-id';
 import { BLOG_POSTS_44_EN_RAW } from './blog-posts-44-en';
 import { BLOG_POSTS_45_ID_RAW } from './blog-posts-45-id';
 import { BLOG_POSTS_45_EN_RAW } from './blog-posts-45-en';
+import { BLOG_POSTS_46_ID_RAW } from './blog-posts-46-id';
+import { BLOG_POSTS_46_EN_RAW } from './blog-posts-46-en';
+import { BLOG_POSTS_47_ID_RAW } from './blog-posts-47-id';
+import { BLOG_POSTS_47_EN_RAW } from './blog-posts-47-en';
+import { BLOG_POSTS_48_ID_RAW } from './blog-posts-48-id';
+import { BLOG_POSTS_48_EN_RAW } from './blog-posts-48-en';
 
 export type BlogAuthorId = 'chesta' | 'zeeshan';
 
@@ -2913,6 +2919,9 @@ function enrichClusterAndInternalLinks(
 }
 
 const RAW_INDONESIAN_BLOG_POSTS: BlogPost[] = [
+  ...BLOG_POSTS_48_ID_RAW.map(defineBlogPost),
+  ...BLOG_POSTS_47_ID_RAW.map(defineBlogPost),
+  ...BLOG_POSTS_46_ID_RAW.map(defineBlogPost),
   ...BLOG_POSTS_45_ID_RAW.map(defineBlogPost),
   ...BLOG_POSTS_44_ID_RAW.map(defineBlogPost),
   ...BLOG_POSTS_43_ID_RAW.map(defineBlogPost),
@@ -2942,6 +2951,9 @@ const RAW_INDONESIAN_BLOG_POSTS: BlogPost[] = [
 ];
 
 const RAW_ENGLISH_BLOG_POSTS: BlogPost[] = [
+  ...BLOG_POSTS_48_EN_RAW.map(defineBlogPost),
+  ...BLOG_POSTS_47_EN_RAW.map(defineBlogPost),
+  ...BLOG_POSTS_46_EN_RAW.map(defineBlogPost),
   ...BLOG_POSTS_45_EN_RAW.map(defineBlogPost),
   ...BLOG_POSTS_44_EN_RAW.map(defineBlogPost),
   ...BLOG_POSTS_43_EN_RAW.map(defineBlogPost),

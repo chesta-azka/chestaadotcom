@@ -19,8 +19,10 @@ import {
   Hash,
   Sparkles,
   Globe,
+  Mail,
 } from 'lucide-react';
 import SEOMetadata from '../components/atoms/SEOMetadata';
+import MobileDefectStockSimulator from '../components/blog/MobileDefectStockSimulator';
 import {
   getBlogPostBySlug,
   getAuthorProfile,
@@ -1079,6 +1081,11 @@ export default function BlogPostPage() {
               })}
             </div>
 
+            {(post.slug === 'sistem-pencatatan-stok-dan-barang-rusak' ||
+              post.slug === 'mobile-inventory-temperature-and-defect-tracking') && (
+              <MobileDefectStockSimulator isEn={isEn} />
+            )}
+
             {/* 6. KESIMPULAN / CONCLUSION */}
             <section
               id="kesimpulan"
@@ -1220,6 +1227,10 @@ export default function BlogPostPage() {
                 </p>
                 <p className="text-[14px] text-[#5B5675] leading-[1.65]">
                   {authorProfile.bio}
+                </p>
+                <p className="pt-1 font-mono text-[12px] text-[#6A3FD0] inline-flex items-center gap-1.5 select-all">
+                  <Mail size={13} />
+                  <span>{['chesta', 'code', '@', 'gmail.com'].join('')}</span>
                 </p>
               </div>
             </Card>
@@ -1374,6 +1385,10 @@ export default function BlogPostPage() {
                 <MessageCircle size={15} />
                 <span>{waCtaLabel}</span>
               </Button>
+              <div className="pt-1 flex items-center justify-center gap-1.5 font-mono text-[12px] text-[#5B5675] select-all">
+                <Mail size={13} className="text-[#6A3FD0]" />
+                <span>{['chesta', 'code', '@', 'gmail.com'].join('')}</span>
+              </div>
             </Card>
           </aside>
         </div>

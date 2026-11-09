@@ -307,6 +307,12 @@ export const POST_CLUSTER_ASSIGNMENT: Record<string, TopicClusterId> = {
   'sistem-pencatatan-stok-dan-barang-rusak': 'otomasi-dan-software',
   'mobile-inventory-temperature-and-defect-tracking': 'otomasi-dan-software',
 
+  'website-katalog-dan-pesanan-usaha-kuliner': 'otomasi-dan-software',
+  'direct-catalog-and-order-website-for-food-business': 'otomasi-dan-software',
+
+  'sistem-internal-dan-website-pesantren-sekolah': 'otomasi-dan-software',
+  'internal-systems-and-websites-for-schools': 'otomasi-dan-software',
+
   // ============================================================================
   // CLUSTER 5: biaya-dan-memilih-vendor
   // ============================================================================
@@ -332,6 +338,9 @@ export const POST_CLUSTER_ASSIGNMENT: Record<string, TopicClusterId> = {
 
   'kenapa-website-bisnis-sepi-pembeli': 'biaya-dan-memilih-vendor',
   'why-your-business-website-gets-no-leads': 'biaya-dan-memilih-vendor',
+
+  'cara-memilih-vendor-pembuatan-website-dan-software': 'biaya-dan-memilih-vendor',
+  'how-to-choose-a-web-and-software-vendor': 'biaya-dan-memilih-vendor',
 };
 
 export function getTopicClusterById(clusterId: string): TopicCluster | undefined {
