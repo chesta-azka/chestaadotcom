@@ -485,7 +485,15 @@
   ],
   "rewrites": [
     {
-      "source": "/((?!robots\\.txt|sitemap.*\\.xml|llms.*\\.txt|rss\\.xml|favicon\\..*|apple-touch-icon\\.png|icon-.*\\.png|site\\.webmanifest|fonts/|images/|covers/|assets/).*)",
+      "source": "/api/(.*)",
+      "destination": "/api/$1"
+    },
+    {
+      "source": "/admin",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/((?!api/|robots\\.txt|sitemap.*\\.xml|llms.*\\.txt|rss\\.xml|favicon\\..*|apple-touch-icon\\.png|icon-.*\\.png|site\\.webmanifest|fonts/|images/|covers/|assets/).*)",
       "destination": "/index.html"
     }
   ],

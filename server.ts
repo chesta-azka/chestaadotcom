@@ -38,6 +38,7 @@ import {
 import { z } from "zod";
 import { resolveRedirectTarget } from "./src/config/redirects";
 import { registerIndexNowRoutes } from "./src/server/indexNow";
+import botAdminHandler from "./api/bot-admin";
 
 const app = express();
 app.use(compression());
@@ -116,6 +117,11 @@ app.get("/api/admin/verify", verifyFirebaseToken, (req: any, res: any) => {
   }
 });
 
+
+// API: Bot WhatsApp Admin Proxy (Pterodactyl Client API)
+app.all("/api/bot-admin", async (req, res) => {
+  return botAdminHandler(req, res);
+});
 
 app.use(express.json());
 

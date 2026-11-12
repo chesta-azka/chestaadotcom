@@ -57,6 +57,7 @@ const QuizIndexPage = React.lazy(() => import('./pages/QuizIndexPage.tsx'));
 const AcademyQuizPage = React.lazy(() => import('./pages/AcademyQuizPage.tsx'));
 const OmniAdminDashboard = React.lazy(() => import('./app/admin/page.tsx'));
 const AiAuditAdminPage = React.lazy(() => import('./app/admin/ai-audit/page.tsx'));
+const BotAdminDashboard = React.lazy(() => import('./components/BotAdminDashboard.tsx'));
 const ClientPortalPage = React.lazy(() => import('./pages/ClientPortalPage.tsx'));
 const DevCoversPage = React.lazy(() => import('./pages/DevCoversPage.tsx'));
 
@@ -167,15 +168,28 @@ function AppContent() {
   }
 
   const { cleanPath, barePath } = parseLocalizedPath(location.pathname);
-  const hideChrome = /^\/academy\/.+/.test(cleanPath);
+  const isAdminRoute =
+    location.pathname === '/admin' ||
+    location.pathname.startsWith('/admin/') ||
+    cleanPath === '/admin' ||
+    cleanPath.startsWith('/admin/');
+  const hideChrome = /^\/academy\/.+/.test(cleanPath) || isAdminRoute;
   const isHomeRoute = barePath === '/' || barePath === '';
 
   return (
-    <div className="relative w-full flex flex-col overflow-x-clip min-h-screen bg-[#FFFFFF] text-[#17122B]">
+    <div
+      className={`relative w-full flex flex-col overflow-x-clip min-h-screen ${
+        isAdminRoute ? 'bg-slate-950 text-slate-100' : 'bg-[#FFFFFF] text-[#17122B]'
+      }`}
+    >
       {isHomeRoute && <SEOMetadata />}
       <ViewTransitionLinkInterceptor />
 
-      <div className="relative z-10 flex flex-col flex-1 bg-[#FFFFFF]">
+      <div
+        className={`relative z-10 flex flex-col flex-1 ${
+          isAdminRoute ? 'bg-slate-950' : 'bg-[#FFFFFF]'
+        }`}
+      >
         {!hideChrome && <Header />}
 
         <div id="app-page-content" className="flex flex-col flex-1">
@@ -234,7 +248,10 @@ function AppContent() {
               </React.Fragment>
             ))}
 
-            <Route path="/admin" element={<PageWrapper><OmniAdminDashboard /></PageWrapper>} />
+            <Route path="/admin" element={<PageWrapper><BotAdminDashboard /></PageWrapper>} />
+            <Route path="/id/admin" element={<PageWrapper><BotAdminDashboard /></PageWrapper>} />
+            <Route path="/en/admin" element={<PageWrapper><BotAdminDashboard /></PageWrapper>} />
+            <Route path="/admin/omni" element={<PageWrapper><OmniAdminDashboard /></PageWrapper>} />
             <Route path="/admin/ai-audit" element={<PageWrapper><AiAuditAdminPage /></PageWrapper>} />
             <Route path="/portal" element={<PageWrapper><ClientPortalPage /></PageWrapper>} />
             <Route path="/workspace/:slug" element={<PageWrapper><ClientPortalPage /></PageWrapper>} />
@@ -247,7 +264,7 @@ function AppContent() {
         </div>
       </div>
 
-      <StickyMobileWhatsApp />
+      {!isAdminRoute && <StickyMobileWhatsApp />}
     </div>
   );
 }
